@@ -20,7 +20,7 @@ string cc_combatHandler(int round, string opp, string text)
 		print("cc_combatHandler: " + round, "brown");
 		set_property("cc_combatHandler", "");
 		set_property("cc_funCombatHandler", "");
-		set_property("cc_funPrefix");
+		set_property("cc_funPrefix", "");
 		set_property("cc_combatHandlerThunderBird", "0");
 		set_property("cc_combatHandlerFingernailClippers", "0");
 	}
