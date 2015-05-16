@@ -1146,7 +1146,18 @@ int handlePulls(int day)
 		}
 
 		pullXWhenHaveY($item[over-the-shoulder folder holder], 1, 0);
-		pullXWhenHaveY($item[numberwang], 1, 0);
+		if((my_primestat() == $stat[Muscle]) && (my_path() != "Heavy Rains"))
+		{
+			pullXWhenHaveY($item[Fake Washboard], 1, 0);
+			if(item_amount($item[Fake Washboard]) == 0)
+			{
+				pullXWhenHaveY($item[numberwang], 1, 0);
+			}
+		}
+		else
+		{
+			pullXWhenHaveY($item[numberwang], 1, 0);
+		}
 #		pullXWhenHaveY($item[milk of magnesium], 1, 0);
 		pullXWhenHaveY($item[stuffed shoulder parrot], 1, 0);
 		pullXWhenHaveY($item[eyepatch], 1, 0);
@@ -5465,7 +5476,7 @@ boolean LX_handleSpookyravenFirstFloor()
 		}
 		else
 		{
-			print("Looking for the Billards Room key: Progress " + get_property("manorDrawerCount") + "/24", "blue");
+			print("Looking for the Billards Room key (Hot/Stench:" + elemental_resist($element[hot]) + "/" + elemental_resist($element[stench]) + "): Progress " + get_property("manorDrawerCount") + "/24", "blue");
 			handleFamiliar($familiar[Exotic Parrot]);
 			if(get_property("manorDrawerCount").to_int() >= 24)
 			{
