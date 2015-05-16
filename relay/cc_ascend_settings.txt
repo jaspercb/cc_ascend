@@ -1,0 +1,19 @@
+1	spookyAirportAlways	boolean	ANY	Do you have access to Conspiracy Island?
+2	sleazeAirportAlways	boolean	ANY	Do you have access to Spring Break Beach?
+3	stenchAirportAlways	boolean	ANY	Do you have access to DinseyLandfill?
+4	cc_newbieOverride	boolean	ANY	Did you fight a crate? Ugh... Report it please, but if you want the script to try again, set this to true and it'll override it. Once.
+5	cc_edDelayHauntedKitchen	boolean	ANY	Should we delay the Haunted Kitchen until Ed has Even More Elemental Wards?
+6	cc_dickstab	boolean	ANY	Do you want to let the script potentially spend lots of meat just to shave off a few adventures? You probably don't.
+7	cc_getBeehive	boolean	POST	Go for the beehive?
+8	cc_getStarKey	boolean	POST	Get Richard's Star Key?
+9	cc_holeinthesky	boolean	POST	Do we need to open the Hole in the Sky?
+10	cc_pvpEnable	boolean	PRE	Automatically participate in PvP?
+11	cc_getDinseyGarbageMoney	boolean	ANY	Spend a few turns getting the easy FunBucks during a run?
+12	cc_hippyInstead	boolean	POST	Fight on the side of the hippies instead of the Frat Warriors?
+13	cc_ignoreFlyer	boolean	POST	Do not do the flyer quest, recommended to set true if fighting for the hippies.
+14	cc_haveoven	boolean	POST	If you have an oven, this should be true. But we can't always check the campground.
+15	cc_wandOfNagamar	boolean	POST	Do we need to get a Wand of Nagamar?
+16	cc_borrowedTimeOnLiberation	boolean	ANY	Automatically use Borrowed Time when liberating the King? This assumes that you are going to bother to ascend again the same day.
+17	cc_clearCombatScripts	boolean	ANY	Clear out the postAdventure, preAdventure and kingLiberated settings upon kingLiberation. These will return upon running the script in a new ascension.
+18	cc_interrupt	boolean	ACTION	Cause script to stop before starting next turn action (instead of trying to abort midturn).
+19	cc_edDelayTimer	integer	ANY	Sets the delay before each Ed action, default is 4 seconds. It is not recommended to reduce this below 2.
