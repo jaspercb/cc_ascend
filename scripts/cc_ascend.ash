@@ -1181,7 +1181,7 @@ boolean fortuneCookieEvent()
 			cli_execute("counters clear");
 			print("We don't care about the semirares anymore, we are past the orchard. Cancelling.");
 		}
-		return;
+		return false;
 	}
 	if((my_class() == $class[Ed]) && ((get_property("cc_orchard") == "finished") || (get_property("cc_semirare").to_int() >= 2)))
 	{
@@ -1190,7 +1190,7 @@ boolean fortuneCookieEvent()
 			cli_execute("counters clear");
 			print("We don't care about the semirares anymore, we are past the orchard. Cancelling.");
 		}
-		return;
+		return false;
 	}
 
 	if(get_counters("Fortune Cookie", 0, 0) == "Fortune Cookie")
@@ -1236,8 +1236,8 @@ boolean fortuneCookieEvent()
 		if(get_counters("Semirare window begin", 0, 200) == "Semirare window begin")
 		{
 			print("Semirare window not rebuilt due to 'fun' monster names. Attempting to workaround.", "red");
-	        cli_execute("counters add 160 Semirare window begin lparen.gif");
-	        cli_execute("counters add 200 Semirare window end rparen.gif");
+			cli_execute("counters add 160 Semirare window begin lparen.gif");
+			cli_execute("counters add 200 Semirare window end rparen.gif");
 		}
 		return true;
 	}
