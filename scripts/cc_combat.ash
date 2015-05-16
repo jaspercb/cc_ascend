@@ -28,7 +28,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 /*	Translation Info:
 abcdefghijklmnopqrstuvwxyz
-4bc 3fgh1 k1mn0pqr57u wxy
+4bcd3fgh1jk1mn0pqr57u wxyz
 	1337 Knob Goblin Barbecue team
          Kn0b G0b11n B4rb3cu3 734m
     1337 g14n7 5w4rm 0f ghu01 wh31p5
@@ -1077,6 +1077,35 @@ string ccsJunkyard(int round, string opp, string text)
 	{
 		return "attack with weapon";
 	}
+
+
+	string fun = "";
+	monster enemy = to_monster(opp);
+	if(enemy.base_hp == 0)
+	{
+		while((length(opp) > 0) && (enemy.base_hp == 0))
+		{
+			int space = index_of(opp, " ");
+			if(space == -1)
+			{
+				print("Could not determine non-fun monster.", "red");
+				break;
+			}
+			else
+			{
+				fun = fun + substring(opp, 0, space+1);
+				opp = substring(opp, space+1);
+				enemy = to_monster(opp);
+
+
+				if(enemy.base_hp != 0)
+				{
+					print("Determined non-fun monster: (" + enemy + ") with fun: " + fun, "blue");
+				}
+			}
+		}
+	}
+
 
 	if(round == 0)
 	{

@@ -734,6 +734,12 @@ void warAdventure()
 	{
 		ccAdv(1, $location[The Battlefield (Hippy Uniform)]);
 	}
+
+	if(my_path() == "One Crazy Random Summer")
+	{
+		print("Manually visiting battlefield for tracking purposes, please remove this eventually.", "red");
+		visit_url("bigisland.php");
+	}
 }
 
 //Return false if you should continue, true if it did something
@@ -990,7 +996,7 @@ boolean doThemtharHills(boolean trickMode)
 	{
 		if(trickMode)
 		{
-			if(get_property("_cameraUsed").to_boolean() != true)
+			if((get_property("_cameraUsed").to_boolean() != true) && (item_amount($item[shaking 4-d camera]) == 0))
 			{
 				pullXWhenHaveY($item[4-d camera], 1, 0);
 			}
@@ -1006,6 +1012,7 @@ boolean doThemtharHills(boolean trickMode)
 		}
 
 		int lastMeat = get_property("currentNunneryMeat").to_int();
+		int myLastMeat = my_meat();
 		print("Meat drop to start: " + meat_drop_modifier(), "blue");
 		ccAdv(1, $location[The Themthar Hills]);
 		if(last_monster() != $monster[dirty thieving brigand])
@@ -1013,6 +1020,11 @@ boolean doThemtharHills(boolean trickMode)
 			return true;
 		}
 		int curMeat = get_property("currentNunneryMeat").to_int();
+		if(lastMeat == curMeat)
+		{
+			int diffMeat = my_meat() - myLastMeat;
+			set_property("currentNunneryMeat", diffMeat);
+		}
 
 		int advs = get_property("cc_nunsTrickCount").to_int() + 1;
 		set_property("cc_nunsTrickCount", advs);
@@ -3025,6 +3037,10 @@ boolean tryCookies()
 	while((fullness_limit() - my_fullness()) > 0)
 	{
 		buyUpTo(1, $item[Fortune Cookie]);
+		if(item_amount($item[Mayoflex]) > 0)
+		{
+			use(1, $item[Mayoflex]);
+		}
 		eatsilent(1, $item[Fortune Cookie]);
 		cookie = get_counters("Fortune Cookie", 0, 200);
 		if(cookie == "Fortune Cookie")
@@ -3039,6 +3055,10 @@ boolean tryPantsEat()
 {
 	if((fullness_limit() - my_fullness()) > 0)
 	{
+		if(item_amount($item[Mayoflex]) > 0)
+		{
+			use(1, $item[Mayoflex]);
+		}
 		if(item_amount($item[tasty tart]) > 0)
 		{
 			eatsilent(1, $item[tasty tart]);
@@ -3335,7 +3355,21 @@ void consumeStuff()
 
 			if(towerKeyCount() == 3)
 			{
-				eat(3, whatHiMein());
+				if(item_amount($item[Mayoflex]) > 0)
+				{
+					use(1, $item[Mayoflex]);
+				}
+				eat(1, whatHiMein());
+				if(item_amount($item[Mayoflex]) > 0)
+				{
+					use(1, $item[Mayoflex]);
+				}
+				eat(1, whatHiMein());
+				if(item_amount($item[Mayoflex]) > 0)
+				{
+					use(1, $item[Mayoflex]);
+				}
+				eat(1, whatHiMein());
 			}
 			if(get_property("cc_useCubeling").to_boolean())
 			{
@@ -3348,12 +3382,29 @@ void consumeStuff()
 				{
 					if(item_amount($item[Spaghetti Breakfast]) > 0)
 					{
+						if(item_amount($item[Mayoflex]) > 0)
+						{
+							use(1, $item[Mayoflex]);
+						}
 						eat(1, $item[Spaghetti Breakfast]);
 					}
 					pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
+					if(item_amount($item[Mayoflex]) > 0)
+					{
+						use(1, $item[Mayoflex]);
+					}
 					eat(1, $item[Boris\'s Key Lime Pie]);
 					pullXWhenHaveY(whatHiMein(), 2, 0);
-					eat(2, whatHiMein());
+					if(item_amount($item[Mayoflex]) > 0)
+					{
+						use(1, $item[Mayoflex]);
+					}
+					eat(1, whatHiMein());
+					if(item_amount($item[Mayoflex]) > 0)
+					{
+						use(1, $item[Mayoflex]);
+					}
+					eat(1, whatHiMein());
 				}
 			}
 			else if(!get_property("cc_useCubeling").to_boolean())
