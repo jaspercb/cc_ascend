@@ -3,6 +3,8 @@ import <zlib.ash>
 import <chateaumantegna.ash>
 
 // Public Prototypes
+string[int] getMonsterFun(string opp);
+string[int] findMonsterFun(string page);
 float elemental_resist_value(int resistance);
 float elemental_resist_value(element resistance);
 int elemental_resist(element goal);
@@ -71,10 +73,86 @@ boolean buffMaintain(item source, effect buff, int uses, int turns);
 boolean buffMaintain(skill source, effect buff, int mp_min, int casts, int turns);
 string beerPong(string page);
 
-
-
-
 // Function Definitions
+
+
+
+string[int] findMonsterFun(string page)
+{
+	string[int] retval;
+	retval[0] = page;
+	retval[1] = page;
+	matcher my_element = create_matcher("<span id='monname'>(.*?)</span>", page);
+	if(my_element.find())
+	{
+		retval = getMonsterFun(my_element.group(1));
+	}
+	return retval;
+}
+string[int] getMonsterFun(string opp)
+{
+	string[int] retval;
+	retval[0] = opp;
+	retval[1] = opp;
+	static string[string] translation;
+	if(contains_text(opp, "1337"))
+	{
+		if(count(translation) == 0)
+		{
+			print("Building 1337 translation table: ", "blue");
+			foreach x in $monsters[]
+			{
+				string temp = leetify(to_string(x));
+				translation[temp] = to_string(x);
+			}
+		}
+	}
+
+	if(my_path() == "One Crazy Random Summer")
+	{
+		string fun = "";
+		monster enemy = to_monster(opp);
+		if(enemy.base_hp == 0)
+		{
+			while((length(opp) > 0) && (enemy.base_hp == 0))
+			{
+				int space = index_of(opp, " ");
+				if(space == -1)
+				{
+					print("Could not determine non-fun monster.", "red");
+					break;
+				}
+				else
+				{
+					fun = fun + substring(opp, 0, space+1);
+					opp = substring(opp, space+1);
+					enemy = to_monster(opp);
+
+					if(contains_text(fun, "1337"))
+					{
+						enemy = to_monster(translation[opp]);
+					}
+					//Also, try the transliteration of the monster
+					//	Either from:	1)	location monster list
+					//					2)	wandering tracking
+					//					3)	from copy source
+					//					4)	as hinted (when using bypass, and not-implemented)
+
+					if(enemy.base_hp != 0)
+					{
+						print("1337 encounted and in translation:", "blue");
+						print("Determined non-fun monster: (" + enemy + ") with fun: " + fun, "blue");
+						set_property("cc_funPrefix", fun);
+						retval[0] = fun;
+						retval[1] = to_string(enemy);
+					}
+				}
+			}
+		}
+	}
+	return retval;
+}
+
 
 float elemental_resist_value(int resistance)
 {

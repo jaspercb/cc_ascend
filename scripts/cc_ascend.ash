@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r15831;
+since r15833;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -5827,7 +5827,7 @@ boolean L9_aBooPeak()
 				return false;
 			}
 		}
-		maximize("spooky res, cold res -equip lihc face", 0, 0, false);
+		maximize("spooky res, cold res -equip lihc face -equip snow suit", 0, 0, false);
 		adjustEdHat("ml");
 		int coldResist = elemental_resist($element[cold]);
 		int spookyResist = elemental_resist($element[spooky]);

@@ -26,59 +26,24 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 	set_property("cc_diag_round", round);
 
-/*	Translation Info:
-abcdefghijklmnopqrstuvwxyz
-4bcd3fgh1jk1mn0pqr57u wxyz
-	1337 Knob Goblin Barbecue team
-         Kn0b G0b11n B4rb3cu3 734m
-    1337 g14n7 5w4rm 0f ghu01 wh31p5
-         giant swarm of ghuol whelps
-    1337 m4y0nn4153 w45p
-         mayonnaise wasp
-*/
-
-	string fun = "";
-	monster enemy = to_monster(opp);
-	if(enemy.base_hp == 0)
+	monster enemy = to_monster(text);
+	if(my_path() == "One Crazy Random Summer")
 	{
-		while((length(opp) > 0) && (enemy.base_hp == 0))
+		string[int] monsterFun = findMonsterFun(text);
+		string fun = monsterFun[0];
+		enemy = to_monster(monsterFun[1]);
+
+		if(contains_text(fun, "annoying"))
 		{
-			int space = index_of(opp, " ");
-			if(space == -1)
+			if(contains_text(text, "makes the most annoying noise you've ever heard, stopping you in your tracks."))
 			{
-				print("Could not determine non-fun monster.", "red");
-				break;
+				print("Last action failed, uh oh! Trying to undo!", "olive");
+				set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
 			}
-			else
-			{
-				fun = fun + substring(opp, 0, space+1);
-				opp = substring(opp, space+1);
-				enemy = to_monster(opp);
-
-				//Also, try the transliteration of the monster
-				//	Either from:	1)	location monster list
-				//					2)	wandering tracking
-				//					3)	from copy source
-				//					4)	as hinted (when using bypass, and not-implemented)
-
-				if(enemy.base_hp != 0)
-				{
-					print("Determined non-fun monster: (" + enemy + ") with fun: " + fun, "blue");
-					set_property("cc_funPrefix", fun);
-				}
-			}
+			set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
 		}
 	}
 
-	if(contains_text(fun, "annoying"))
-	{
-		if(contains_text(text, "makes the most annoying noise you've ever heard, stopping you in your tracks."))
-		{
-			print("Last action failed, uh oh! Trying to undo!", "olive");
-			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
-		}
-		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
-	}
 
 	phylum type = monster_phylum(enemy);
 
