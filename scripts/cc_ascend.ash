@@ -9384,11 +9384,11 @@ boolean doTasks()
 			{
 				equip($slot[acc2], $item[world\'s best adventurer sash]);
 			}
-			if(item_amount($item[old-school calculator watch]) > 0)
-			{
-				equip($slot[acc3], $item[old-school calculator watch]);
-			}
-			else if((equipped_item($slot[acc3]) != $item[badass belt]) && (item_amount($item[badass belt]) > 0))
+#			if(item_amount($item[old-school calculator watch]) > 0)
+#			{
+#				equip($slot[acc3], $item[old-school calculator watch]);
+#			}
+			if((equipped_item($slot[acc3]) != $item[badass belt]) && (item_amount($item[badass belt]) > 0))
 			{
 				equip($slot[acc3], $item[badass belt]);
 			}

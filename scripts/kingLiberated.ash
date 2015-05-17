@@ -31,11 +31,6 @@ void handleKingLiberation()
 		print(get_property("cc_yellowRay_day2"), "blue");
 		print(get_property("cc_yellowRay_day3"), "blue");
 
-		if(item_amount($item[wand of nagamar]) > 0)
-		{
-			cli_execute("untinker wand of nagamar");
-		}
-
 		pullAll($item[30669 scroll]);
 		pullAll($item[33398 scroll]);
 		pullAll($item[334 scroll]);
