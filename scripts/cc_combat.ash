@@ -10,6 +10,59 @@ void handleYellowRay(monster enemy, item yellowRay);
 void handleSniffs(monster enemy, skill sniffer);
 void handleLashes(monster enemy);
 void handleRenenutet(monster enemy);
+monster ocrs_helper(string page);
+
+monster ocrs_helper(string page)
+{
+	if(my_path() != "One Crazy Random Summer")
+	{
+		abort("Should not be in ocrs_helper if not on the path!");
+	}
+	string[int] monsterFun = findMonsterFun(page);
+	string fun = monsterFun[0];
+	monster enemy = to_monster(monsterFun[1]);
+	string combatState = get_property("cc_combatHandler");
+
+	//	cart-wheeling		blocks attacks
+	//	ghostly				physical resistance
+	//	phase-shifting		blocks stuff.
+	//	restless			blocks skills, combat items too?
+	//	unstoppable			no staggers
+	//	untouchable			damage reduced to 1, instant kills still good.
+
+	/*
+		For no staggers, don\'t use staggers
+		For blocks skills/combat items, we can probably set them all to used as well.
+
+	*/
+
+	if(contains_text(fun, "annoying"))
+	{
+		if(contains_text(page, "makes the most annoying noise you've ever heard, stopping you in your tracks."))
+		{
+			print("Last action failed, uh oh! Trying to undo!", "olive");
+			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
+		}
+		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
+	}
+
+	set_property("cc_useCleesh", false);
+	if(contains_text(fun, "ticking"))
+	{
+		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
+		{
+			set_property("cc_useCleesh", true);
+		}
+	}
+	if(contains_text(fun, "untouchable"))
+	{
+		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
+		{
+			set_property("cc_useCleesh", true);
+		}
+	}
+	return enemy;
+}
 
 string cc_combatHandler(int round, string opp, string text)
 {
@@ -26,22 +79,10 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 	set_property("cc_diag_round", round);
 
-	monster enemy = to_monster(text);
+	monster enemy = to_monster(opp);
 	if(my_path() == "One Crazy Random Summer")
 	{
-		string[int] monsterFun = findMonsterFun(text);
-		string fun = monsterFun[0];
-		enemy = to_monster(monsterFun[1]);
-
-		if(contains_text(fun, "annoying"))
-		{
-			if(contains_text(text, "makes the most annoying noise you've ever heard, stopping you in your tracks."))
-			{
-				print("Last action failed, uh oh! Trying to undo!", "olive");
-				set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
-			}
-			set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
-		}
+		enemy = ocrs_helper(text);
 	}
 
 
@@ -186,11 +227,11 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(get_property("cc_useCleesh") == "yes")
+	if(get_property("cc_useCleesh").to_boolean())
 	{
 		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
 		{
-			set_property("cc_useCleesh", "no");
+			set_property("cc_useCleesh", false);
 			set_property("cc_combatHandler", combatState + "(cleesh)");
 			return "skill cleesh";
 		}
@@ -755,13 +796,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 		if((!contains_text(combatState, "love mosquito")) && have_skill($skill[Summon Love Mosquito]))
 		{
-			set_property("cc_combatHandler", combatState + "(love mosquito1)");
-			return "skill summon love mosquito";
-		}
-
-		if((!contains_text(combatState, "love mosquito")) && get_property("lovebugsUnlocked").to_boolean())
-		{
-			set_property("cc_combatHandler", combatState + "(love mosquito2)");
+			set_property("cc_combatHandler", combatState + "(love mosquito)");
 			return "skill summon love mosquito";
 		}
 	}
@@ -777,13 +812,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 		if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
 		{
-			set_property("cc_combatHandler", combatState + "(love gnats1)");
-			return "skill summon love gnats";
-		}
-
-		if((!contains_text(combatState, "love gnats")) && get_property("lovebugsUnlocked").to_boolean())
-		{
-			set_property("cc_combatHandler", combatState + "(love gnats2)");
+			set_property("cc_combatHandler", combatState + "(love gnats)");
 			return "skill summon love gnats";
 		}
 	}
@@ -822,17 +851,6 @@ string cc_combatHandler(int round, string opp, string text)
 			stunner = "skill club foot";
 		}
 		break;
-	case $class[Sauceror]:
-		if((my_mp() >= 30) && (have_skill($skill[Saucegeyser])))
-		{
-			attackMinor = "skill saucegeyser";
-			attackMajor = "skill saucegeyser";
-		}
-		if(my_soulsauce() >= 5)
-		{
-			stunner = "skill soul bubble";
-		}
-		break;
 	case $class[Turtle Tamer]:
 		attackMinor = "attack with weapon";
 		if((my_mp() > 150) && (have_skill($skill[shieldbutt])) && hasShieldEquipped())
@@ -853,6 +871,32 @@ string cc_combatHandler(int round, string opp, string text)
 			stunner = "skill shell up";
 		}
 		break;
+	case $class[Pastamancer]:
+		if((my_mp() >= mp_cost($skill[Cannelloni Cannon])) && (have_skill($skill[Cannelloni Cannon])))
+		{
+			attackMinor = "skill Cannelloni Cannon";
+		}
+		if((my_mp() >= mp_cost($skill[Weapon of the Pastalord])) && (have_skill($skill[Weapon of the Pastalord])))
+		{
+			attackMajor = "skill Weapon of the Pastalord";
+		}
+		if((my_mp() >= 1) && (have_skill($skill[Utensil Twist])))
+		{
+			attackMinor = "skill Utensil Twist";
+		}
+		break;
+	case $class[Sauceror]:
+		if((my_mp() >= 30) && (have_skill($skill[Saucegeyser])))
+		{
+			attackMinor = "skill saucegeyser";
+			attackMajor = "skill saucegeyser";
+		}
+		if(my_soulsauce() >= 5)
+		{
+			stunner = "skill soul bubble";
+		}
+		break;
+
 	}
 
 	if(round <= 25)
@@ -1164,22 +1208,12 @@ string ccsJunkyard(int round, string opp, string text)
 	}
 	if((!contains_text(combatState, "love scarab")) && have_skill($skill[Summon Love Scarabs]))
 	{
-		set_property("cc_combatHandler", combatState + "(love scarab1)");
-		return "skill summon love scarabs";
-	}
-	if((!contains_text(combatState, "love scarab")) && get_property("lovebugsUnlocked").to_boolean())
-	{
-		set_property("cc_combatHandler", combatState + "(love scarab2)");
+		set_property("cc_combatHandler", combatState + "(love scarab)");
 		return "skill summon love scarabs";
 	}
 	if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
 	{
-		set_property("cc_combatHandler", combatState + "(love gnats1)");
-		return "skill summon love gnats";
-	}
-	if((!contains_text(combatState, "love gnats")) && get_property("lovebugsUnlocked").to_boolean())
-	{
-		set_property("cc_combatHandler", combatState + "(love gnats2)");
+		set_property("cc_combatHandler", combatState + "(love gnats)");
 		return "skill summon love gnats";
 	}
 
@@ -1383,28 +1417,17 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 	if((!contains_text(combatState, "love scarab")) && have_skill($skill[Summon Love Scarabs]))
 	{
-		set_property("cc_combatHandler", combatState + "(love scarab1)");
+		set_property("cc_combatHandler", combatState + "(love scarab)");
 		return "skill summon love scarabs";
 	}
 
-	if((!contains_text(combatState, "love scarab")) && get_property("lovebugsUnlocked").to_boolean())
-	{
-		set_property("cc_combatHandler", combatState + "(love scarab2)");
-		return "skill summon love scarabs";
-	}
 
 
 	if(get_property("cc_edStatus") == "UNDYING!")
 	{
 		if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
 		{
-			set_property("cc_combatHandler", combatState + "(love gnats1)");
-			return "skill summon love gnats";
-		}
-
-		if((!contains_text(combatState, "love gnats")) && get_property("lovebugsUnlocked").to_boolean())
-		{
-			set_property("cc_combatHandler", combatState + "(love gnats2)");
+			set_property("cc_combatHandler", combatState + "(love gnats)");
 			return "skill summon love gnats";
 		}
 	}
@@ -1421,13 +1444,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		{
 			if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
 			{
-				set_property("cc_combatHandler", combatState + "(love gnats1)");
-				return "skill summon love gnats";
-			}
-
-			if((!contains_text(combatState, "love gnats")) && get_property("lovebugsUnlocked").to_boolean())
-			{
-				set_property("cc_combatHandler", combatState + "(love gnats2)");
+				set_property("cc_combatHandler", combatState + "(love gnats)");
 				return "skill summon love gnats";
 			}
 		}

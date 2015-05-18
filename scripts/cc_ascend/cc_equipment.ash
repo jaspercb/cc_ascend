@@ -216,6 +216,18 @@ void handleOffHand()
 		poss = $items[Wicker Shield, Operation Patriot Shield, Fake Washboard];
 	}
 
+	if(my_class() == $class[Pastamancer])
+	{
+		if((have_skill($skill[Double-Fisted Skull Smashing])) && (weapon_type(equipped_item($slot[weapon])) != $stat[Moxie]))
+		{
+			poss = $items[Turtle Totem, Knob Goblin Scimitar, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Spiked Femur, Wicker Shield, Operation Patriot Shield, Jarlsberg\'s Pan];
+		}
+		else
+		{
+			poss = $items[Hot Plate, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Wicker Shield, Whatsian Ionic Pliers, Little Black Book, Astral Shield, Astral Statuette, Operation Patriot Shield, Jarlsberg\'s Pan];
+		}
+	}
+
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))

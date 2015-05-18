@@ -18,6 +18,12 @@ void handlePreAdventure()
 		return;
 	}
 
+	if(contains_text(get_property("cc_funPrefix"), "clingy"))
+	{
+		return;
+	}
+
+
 	if((get_property("_bittycar") == "") && (item_amount($item[Bittycar Meatcar]) > 0))
 	{
 		use(1, $item[bittycar meatcar]);

@@ -2,6 +2,20 @@ script "postadventure.ash";
 import <zlib.ash>
 import <cc_util.ash>
 
+boolean ocrs_postHelper();
+
+boolean ocrs_postHelper()
+{
+	if(my_path() != "One Crazy Random Summer")
+	{
+		return false;
+	}
+	string prefix = get_property("cc_funPrefix");
+	set_property("cc_useCleesh", false);
+	return true;
+}
+
+
 void handlePostAdventure()
 {
 	if(get_property("cc_bedroomHandler1") == "yes")
@@ -17,6 +31,14 @@ void handlePostAdventure()
 	{
 		return;
 	}
+
+
+	ocrs_postHelper();
+	if(contains_text(get_property("cc_funPrefix"), "clingy"))
+	{
+		return;
+	}
+
 
 	if(my_path() == "Actually Ed the Undying")
 	{

@@ -131,16 +131,14 @@ string[int] getMonsterFun(string opp)
 					if(contains_text(fun, "1337"))
 					{
 						enemy = to_monster(translation[opp]);
+						if(enemy.base_hp != 0)
+						{
+							print("1337 encounted and in translation:", "blue");
+						}
 					}
-					//Also, try the transliteration of the monster
-					//	Either from:	1)	location monster list
-					//					2)	wandering tracking
-					//					3)	from copy source
-					//					4)	as hinted (when using bypass, and not-implemented)
 
 					if(enemy.base_hp != 0)
 					{
-						print("1337 encounted and in translation:", "blue");
 						print("Determined non-fun monster: (" + enemy + ") with fun: " + fun, "blue");
 						set_property("cc_funPrefix", fun);
 						retval[0] = fun;

@@ -402,11 +402,15 @@ boolean ccAdv(int num, location loc, string option)
 		return ed_ccAdv(num, loc, option);
 	}
 
-	//	Check cc_funPrefix after adv1,
-	//		1)	if clingy, must disable postadventure within the combat.
-	//		2)	must disable preadventure for successive combat
-	//		3)	can possibly repeat.
-	return adv1(loc, num, option);
+	boolean retval = adv1(loc, num, option);
+	if(my_path() == "One Crazy Random Summer")
+	{
+		if(contains_text(get_property("cc_funPrefix"), "clingy"))
+		{
+			retval = ccAdv(num, loc, option);
+		}
+	}
+	return retval;
 }
 
 boolean ccAdv(int num, location loc)
@@ -733,12 +737,6 @@ void warAdventure()
 	else
 	{
 		ccAdv(1, $location[The Battlefield (Hippy Uniform)]);
-	}
-
-	if(my_path() == "One Crazy Random Summer")
-	{
-		print("Manually visiting battlefield for tracking purposes, please remove this eventually.", "red");
-		visit_url("bigisland.php");
 	}
 }
 
@@ -2959,6 +2957,10 @@ boolean L12_filthworms()
 	{
 		return false;
 	}
+	if(item_amount($item[Heart of the Filthworm Queen]) > 0)
+	{
+		set_property("cc_orchard", "done");
+	}
 	if(get_property("cc_orchard") != "start")
 	{
 		return false;
@@ -4515,13 +4517,6 @@ boolean L7_crypt()
 	}
 	oldPeoplePlantStuff();
 
-	if(my_path() == "One Crazy Random Summer")
-	{
-		print("Server hit to handle tracking in crypt, temporary, please remove this at some point.", "red");
-		visit_url("crypt.php");
-	}
-
-
 	if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
 	{
 		handleBjornify($familiar[grimstone golem]);
@@ -5224,10 +5219,14 @@ boolean LX_islandAccess()
 		return false;
 	}
 
-	cli_execute("make dinghy plans");
-	buyUpTo(1, $item[dingy planks]);
-	use(1, $item[dinghy plans]);
-	return true;
+	if(my_meat() >= 400)
+	{
+		cli_execute("make dinghy plans");
+		buyUpTo(1, $item[dingy planks]);
+		use(1, $item[dinghy plans]);
+		return true;
+	}
+	return false;
 }
 
 boolean LX_phatLootToken()
@@ -8929,6 +8928,13 @@ boolean doTasks()
 		return true;
 	}
 
+	if((get_property("cc_nuns") == "finished") && ((get_property("hippiesDefeated").to_int() < 1000) && (get_property("fratboysDefeated").to_int() < 1000)) && (my_level() >= 12))
+	{
+		print("Doing the wars.", "blue");
+		warOutfit();
+		warAdventure();
+		return true;
+	}
 
 
 	if(get_property("cc_sorceress") == "")

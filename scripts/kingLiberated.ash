@@ -77,7 +77,7 @@ void handleKingLiberation()
 		pullAll($item[claw of the infernal seal]);
 		pullAll($item[cloak of dire shadows]);
 
-		pullAll($item[The Cocktail Shaker]);
+		pullAndUse($item[The Cocktail Shaker],1);
 		pullAll($item[coinspiracy]);
 		pullAll($item[cold stone of hatred]);
 		pullAll($item[cold wad]);
