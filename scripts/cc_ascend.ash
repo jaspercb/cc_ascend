@@ -1632,9 +1632,14 @@ void doBedtime()
 	{
 		cli_execute("friars familiar");
 	}
-	if((my_hp() < my_maxhp()) && (get_property("_hotTubSoaks").to_int() < 5))
+	if((my_hp() < (0.9 * my_maxhp())) && (get_property("_hotTubSoaks").to_int() < 5))
 	{
 		cli_execute("hottub");
+	}
+
+	if(!get_property("_mayoTankSoaked").to_boolean())
+	{
+		visit_url("shop.php?action=bacta&whichshop=mayoclinic");
 	}
 
 	//	Also use "nunsVisits", as long as they were won by the Frat (sidequestNunsCompleted="fratboy").
@@ -7511,6 +7516,27 @@ boolean doTasks()
 		return true;
 	}
 	handleJar();
+
+	if((have_effect($effect[beaten up]) > 0) && (my_path() == "One Crazy Random Summer"))
+	{
+		if(contains_text(get_property("cc_funPrefix"), "annoying") ||
+			contains_text(get_property("cc_funPrefix"), "phase-shifting") ||
+			contains_text(get_property("cc_funPrefix"), "restless") ||
+			contains_text(get_property("cc_funPrefix"), "ticking"))
+		{
+			print("Probably beaten up by FUN! Trying to recover instead of aborting", "red");
+			if(have_skill($skill[Tongue of the Walrus]) && have_skill($skill[Cannelloni Cocoon]) && (my_mp() >= 30))
+			{
+				use_skill(1, $skill[Tongue of the Walrus]);
+				useCocoon();
+			}
+			else
+			{
+				cli_execute("hottub");
+			}
+		}
+	}
+
 
 	if(have_effect($effect[beaten up]) > 0)
 	{

@@ -23,10 +23,7 @@ monster ocrs_helper(string page)
 	monster enemy = to_monster(monsterFun[1]);
 	string combatState = get_property("cc_combatHandler");
 
-	//	cart-wheeling		blocks attacks
 	//	ghostly				physical resistance
-	//	phase-shifting		blocks stuff.
-	//	restless			blocks skills, combat items too?
 	//	unstoppable			no staggers
 	//	untouchable			damage reduced to 1, instant kills still good.
 
@@ -39,6 +36,47 @@ monster ocrs_helper(string page)
 	if(contains_text(fun, "annoying"))
 	{
 		if(contains_text(page, "makes the most annoying noise you've ever heard, stopping you in your tracks."))
+		{
+			print("Last action failed, uh oh! Trying to undo!", "olive");
+			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
+		}
+		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
+	}
+
+	if(contains_text(fun, "restless"))
+	{
+		if(contains_text(page, "moves out of the way"))
+		{
+			print("Last action failed, uh oh! Trying to undo!", "olive");
+			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
+		}
+		if(contains_text(page, "quickly moves out of the way"))
+		{
+			print("Last action failed, uh oh! Trying to undo!", "olive");
+			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
+		}
+		if(contains_text(page, "will have moved by the time"))
+		{
+			print("Last action failed, uh oh! Trying to undo!", "olive");
+			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
+		}
+
+		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
+	}
+
+	if(contains_text(fun, "phase-shifting"))
+	{
+		if(contains_text(page, "blinks out of existence before"))
+		{
+			print("Last action failed, uh oh! Trying to undo!", "olive");
+			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
+		}
+		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
+	}
+
+	if(contains_text(fun, "cartwheeling"))
+	{
+		if(contains_text(page, "cartwheels out of the way"))
 		{
 			print("Last action failed, uh oh! Trying to undo!", "olive");
 			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
@@ -326,7 +364,7 @@ string cc_combatHandler(int round, string opp, string text)
 			(enemy == $monster[Writing desk]))
 		{
 			set_property("cc_combatHandler", combatState + "(winkat)");
-			if((get_property("_badlyRomanticArrows") == "1") && (round <= 1))
+			if((get_property("_badlyRomanticArrows") == "1") && (round <= 1) && (get_property("romanticTarget") != enemy))
 			{
 				abort("Have animator out but can not arrow");
 			}

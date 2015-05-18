@@ -140,13 +140,13 @@ string[int] getMonsterFun(string opp)
 					if(enemy.base_hp != 0)
 					{
 						print("Determined non-fun monster: (" + enemy + ") with fun: " + fun, "blue");
-						set_property("cc_funPrefix", fun);
 						retval[0] = fun;
 						retval[1] = to_string(enemy);
 					}
 				}
 			}
 		}
+		set_property("cc_funPrefix", fun);
 	}
 	return retval;
 }
