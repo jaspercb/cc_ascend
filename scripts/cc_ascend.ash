@@ -1019,6 +1019,10 @@ boolean doThemtharHills(boolean trickMode)
 		{
 			return true;
 		}
+		if(get_property("lastEncounter") == "Don't Be Alarmed, Now")
+		{
+			return true;
+		}
 		int curMeat = get_property("currentNunneryMeat").to_int();
 		if(lastMeat == curMeat)
 		{
@@ -7255,7 +7259,7 @@ boolean L3_tavern()
 	}
 	else if((have_effect($effect[In A Lather]) == 0) || (my_mp() < mpNeed))
 	{
-		if(my_daycount() <= 2)
+		if((my_daycount() <= 2) && (my_level() <= 11))
 		{
 			return false;
 		}
@@ -8747,6 +8751,12 @@ boolean doTasks()
 			set_property("cc_mcmuffin", "finished");
 			return true;
 		}
+
+		if(get_property("cc_tavern") != "finished")
+		{
+			print("Uh oh, didn\'t do the tavern and we are at the pyramid....", "red");
+		}
+
 		if(get_property("cc_nunsTrick") == "got")
 		{
 			set_property("cc_nunsTrickActive", "yes");
