@@ -17,6 +17,10 @@ void ovenHandle();
 void handleRainDoh();
 void handleSpookyPutty();
 int towerKeyCount();
+void handleTracker(monster enemy, string tracker);
+void handleTracker(monster enemy, skill toTrack, string tracker);
+void handleTracker(monster enemy, string toTrack, string tracker);
+void handleTracker(monster enemy, item toTrack, string tracker);
 string runChoice(string page_text);
 int turkeyBooze();
 int amountTurkeyBooze();
@@ -75,7 +79,49 @@ string beerPong(string page);
 
 // Function Definitions
 
+void handleTracker(monster enemy, skill toTrack, string tracker)
+{
+	string cur = get_property(tracker);
+	if(cur != "")
+	{
+		cur = cur + ", ";
+	}
+	cur = cur + "(" + my_daycount() + ":" + enemy + ":" + toTrack + ":" + my_turncount() + ")";
+	set_property(tracker, cur);
+}
 
+void handleTracker(monster enemy, string toTrack, string tracker)
+{
+	string cur = get_property(tracker);
+	if(cur != "")
+	{
+		cur = cur + ", ";
+	}
+	cur = cur + "(" + my_daycount() + ":" + enemy + ":" + toTrack + ":" + my_turncount() + ")";
+	set_property(tracker, cur);
+}
+
+void handleTracker(monster enemy, item toTrack, string tracker)
+{
+	string cur = get_property(tracker);
+	if(cur != "")
+	{
+		cur = cur + ", ";
+	}
+	cur = cur + "(" + my_daycount() + ":" + enemy + ":" + toTrack + ":" + my_turncount() + ")";
+	set_property(tracker, cur);
+}
+
+void handleTracker(monster enemy, string tracker)
+{
+	string cur = get_property(tracker);
+	if(cur != "")
+	{
+		cur = cur + ", ";
+	}
+	cur = cur + "(" + my_daycount() + ":" + enemy + ":" + my_turncount() + ")";
+	set_property(tracker, cur);
+}
 
 string[int] findMonsterFun(string page)
 {

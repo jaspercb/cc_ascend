@@ -233,6 +233,12 @@ void main()
 		generateTrackingData("cc_renenutet", false);
 	}
 
+	if(my_path() == "One Crazy Random Summer")
+	{
+		writeln("<h2>One Crazy Random Summer Fun-o-meter!</h2>");
+		generateTrackingData("cc_funTracker", false);
+	}
+
 	writeln("<h2>Info</h2>");
 	writeln("Ascension: " + my_ascensions() + "<br>");
 	writeln("Day: " + my_daycount() + "<br>");

@@ -259,10 +259,6 @@ void initializeSettings()
 	set_property("cc_ballroomflat", "");
 	set_property("cc_ballroomopen", "");
 	set_property("cc_ballroomsong", "");
-	set_property("cc_banishes_day1", "");
-	set_property("cc_banishes_day2", "");
-	set_property("cc_banishes_day3", "");
-	set_property("cc_banishes_day4", "");
 	set_property("cc_banishes", "");
 	set_property("cc_bat", "");
 	set_property("cc_bean", "");
@@ -289,6 +285,7 @@ void initializeSettings()
 	set_property("cc_doCombatCopy", "no");
 	set_property("cc_fcle", "");
 	set_property("cc_friars", "");
+	set_property("cc_funTracker", "");
 	set_property("cc_gaudy", "");
 	set_property("cc_gaudypiratecount", "");
 	set_property("cc_getStarKey", false);
@@ -407,7 +404,12 @@ boolean ccAdv(int num, location loc, string option)
 	{
 		if(contains_text(get_property("cc_funPrefix"), "clingy"))
 		{
+			int oldDesert = get_property("desertExploration").to_int();
 			retval = ccAdv(num, loc, option);
+			if(my_location() == $location[The Arid\, Extra-Dry Desert])
+			{
+				set_property("desertExploration", oldDesert);
+			}
 		}
 	}
 	return retval;
@@ -7525,6 +7527,7 @@ boolean doTasks()
 			contains_text(get_property("cc_funPrefix"), "ticking"))
 		{
 			print("Probably beaten up by FUN! Trying to recover instead of aborting", "red");
+			handleTracker(last_monster(), get_property("cc_funPrefix"), "cc_funTracker");
 			if(have_skill($skill[Tongue of the Walrus]) && have_skill($skill[Cannelloni Cocoon]) && (my_mp() >= 30))
 			{
 				use_skill(1, $skill[Tongue of the Walrus]);
@@ -8467,11 +8470,11 @@ boolean doTasks()
 				set_property("cc_autoCraft", "");
 			}
 
-			if(item_amount($item[McClusky File (Complete)]) == 1)
-			{
-				print("If we abort saying that a boring binder clip doesn't make anything interesting.", "red");
-				print("Just run me again, we are trying to work with that...", "red");
-			}
+#			if(item_amount($item[McClusky File (Complete)]) == 1)
+#			{
+#				print("If we abort saying that a boring binder clip doesn't make anything interesting.", "red");
+#				print("Just run me again, we are trying to work with that...", "red");
+#			}
 
 			return true;
 		}
@@ -8647,24 +8650,28 @@ boolean doTasks()
 				return true;
 			}
 
-			use(1, $item[&quot;2 Love Me\, Vol. 2&quot;]);
-			cli_execute("hottub");
-			visit_url("place.php?whichplace=palindome&action=pal_mrlabel");
-			if((item_amount($item[wet stew]) == 0) && (item_amount($item[Mega Gem]) == 0))
+			if(get_property("questL11Palindome") != "step5")
 			{
-				pullXWhenHaveY($item[Wet Stew], 1, 0);
-			}
-			if((item_amount($item[stunt nuts]) == 0) && (item_amount($item[Mega Gem]) == 0))
-			{
-				pullXWhenHaveY($item[Stunt Nuts], 1, 0);
-			}
-			craft("cook", 1, $item[wet stew], $item[stunt nuts]);
-			if(item_amount($item[Wet Stunt Nut Stew]) == 0)
-			{
-				abort("Could not make Wet Stunt Nut Stew");
+				use(1, $item[&quot;2 Love Me\, Vol. 2&quot;]);
+				cli_execute("hottub");
+				visit_url("place.php?whichplace=palindome&action=pal_mrlabel");
+				if((item_amount($item[wet stew]) == 0) && (item_amount($item[Mega Gem]) == 0))
+				{
+					pullXWhenHaveY($item[Wet Stew], 1, 0);
+				}
+				if((item_amount($item[stunt nuts]) == 0) && (item_amount($item[Mega Gem]) == 0))
+				{
+					pullXWhenHaveY($item[Stunt Nuts], 1, 0);
+				}
+				craft("cook", 1, $item[wet stew], $item[stunt nuts]);
+				if(item_amount($item[Wet Stunt Nut Stew]) == 0)
+				{
+					abort("Could not make Wet Stunt Nut Stew");
+				}
 			}
 			visit_url("place.php?whichplace=palindome&action=pal_mrlabel");
 			equip($slot[acc2], $item[Mega Gem]);
+			print("War sir is raw!!", "blue");
 			visit_url("place.php?whichplace=palindome&action=pal_drlabel");
 			visit_url("choice.php?pwd&whichchoice=131&option=1&choiceform1=War%2C+sir%2C+is+raw%21");
 			ccAdv(1, $location[Noob Cave]);
@@ -8700,6 +8707,12 @@ boolean doTasks()
 	{
 		print("Reveal the pyramid", "blue");
 
+		if(get_property("questL11Pyramid") == "started")
+		{
+			set_property("cc_mcmuffin", "pyramid");
+			return true;
+		}
+
 #		if(item_amount($item[Staff of Ed]) == 0)
 		if(item_amount($item[2325]) == 0)
 		{
@@ -8710,6 +8723,12 @@ boolean doTasks()
 		{
 			abort("Failed making Staff of Ed (2325) via CLI. Please do it manually and rerun.");
 		}
+		if(get_property("questL11Pyramid") == "unstarted")
+		{
+			print("No burning Ed's model now!", "blue");
+			abort("Tried to open the Pyramid but could not. Something went wrong :(");
+		}
+
 		set_property("cc_hiddencity", "finished");
 		set_property("cc_ballroom", "finished");
 		set_property("cc_palindome", "finished");
@@ -8718,6 +8737,7 @@ boolean doTasks()
 		visit_url("place.php?whichplace=desertbeach&action=db_pyramid1");
 		buffMaintain($effect[Snow Shoes], 0, 1, 1);
 		ccAdv(1, $location[The Upper Chamber]);
+		return true;
 	}
 
 	if(get_property("cc_mcmuffin") == "pyramid")

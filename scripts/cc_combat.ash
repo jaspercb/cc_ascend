@@ -3,13 +3,13 @@ import <cc_util.ash>
 import <cc_equipment.ash>
 import <cc_edTheUndying.ash>
 
-void handleBanish(monster enemy, skill banisher);
-void handleBanish(monster enemy, item banisher);
-void handleYellowRay(monster enemy, skill yellowRay);
-void handleYellowRay(monster enemy, item yellowRay);
-void handleSniffs(monster enemy, skill sniffer);
-void handleLashes(monster enemy);
-void handleRenenutet(monster enemy);
+#void handleBanish(monster enemy, skill banisher);
+#void handleBanish(monster enemy, item banisher);
+#void handleYellowRay(monster enemy, skill yellowRay);
+#void handleYellowRay(monster enemy, item yellowRay);
+#void handleSniffs(monster enemy, skill sniffer);
+#void handleLashes(monster enemy);
+#void handleRenenutet(monster enemy);
 monster ocrs_helper(string page);
 
 monster ocrs_helper(string page)
@@ -310,7 +310,7 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		if((item_amount($item[louder than bomb]) > 0) && (get_property("cc_gremlins") == "finished"))
 		{
-			handleBanish(enemy, $item[louder than bomb]);
+			handleTracker(enemy, $item[louder than bomb], "cc_banishes");
 			return "item louder than bomb";
 		}
 	}
@@ -450,13 +450,13 @@ string cc_combatHandler(int round, string opp, string text)
 		if((enemy == $monster[pygmy shaman]) && (my_location() == $location[The Hidden Apartment Building]) && (item_amount($item[soft green echo eyedrop antidote]) > 3))
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
-			handleSniffs(enemy, $skill[Transcendent Olfaction]);
+			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
 			return "skill transcendent olfaction";
 		}
 		if((enemy == $monster[Gladiator]) && (my_location() == $location[The Roman Forum]))
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
-			handleSniffs(enemy, $skill[Transcendent Olfaction]);
+			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
 			return "skill transcendent olfaction";
 		}
 	}
@@ -466,7 +466,7 @@ string cc_combatHandler(int round, string opp, string text)
 		if(enemy == $monster[Gurgle the Turgle])
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
-			handleSniffs(enemy, $skill[Transcendent Olfaction]);
+			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
 			return "skill transcendent olfaction";
 		}
 	}
@@ -478,7 +478,7 @@ string cc_combatHandler(int round, string opp, string text)
 		if((enemy == $monster[writing desk]) && (my_location() == $location[The Haunted Library]))
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
-			handleSniffs(enemy, $skill[Transcendent Olfaction]);
+			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
 			return "skill transcendent olfaction";
 		}
 	}
@@ -486,7 +486,7 @@ string cc_combatHandler(int round, string opp, string text)
 	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= 40) && (enemy == $monster[Smoke Monster]) && (item_amount($item[Pack Of Smokes]) > 0))
 	{
 		set_property("cc_combatHandler", combatState + "(olfaction)");
-		handleSniffs(enemy, $skill[Transcendent Olfaction]);
+		handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
 		return "skill transcendent olfaction";
 	}
 
@@ -503,7 +503,7 @@ string cc_combatHandler(int round, string opp, string text)
 			(enemy == $monster[morbid skull]))
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
-			handleSniffs(enemy, $skill[Transcendent Olfaction]);
+			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
 			return "skill transcendent olfaction";
 		}
 	}
@@ -512,14 +512,14 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		if(enemy == $monster[shady pirate])
 		{
-			handleBanish(enemy, $skill[thunder clap]);
+			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
 			return "skill thunder clap";
 		}
 		if(enemy == $monster[shifty pirate])
 		{
 			if(get_property("_pantsgivingBanish").to_int() < 5)
 			{
-				handleBanish(enemy, $skill[talk about politics]);
+				handleTracker(enemy, $skill[talk about politics], "cc_banishes");
 				return "skill talk about poltiics";
 			}
 		}
@@ -590,15 +590,15 @@ string cc_combatHandler(int round, string opp, string text)
 				if(my_familiar() == $familiar[Crimbo Shrub])
 				{
 					print("Trying to Open a Big Yellow Present", "red");
-					handleYellowRay(enemy, $skill[Open a Big Yellow Present]);
+					handleTracker(enemy, $skill[Open a Big Yellow Present], "cc_yellowRays");
 					return "skill Open a Big Yellow Present";
 				}
 				if(my_lightning() >= 5)
 				{
-					handleYellowRay(enemy, $skill[Ball Lightning]);
+					handleTracker(enemy, $skill[Ball Lightning], "cc_yellowRays");
 					return "skill ball lightning";
 				}
-				handleYellowRay(enemy, $item[Golden Light]);
+				handleTracker(enemy, $item[Golden Light], "cc_yellowRays");
 				return "item golden light";
 			}
 		}
@@ -642,19 +642,19 @@ string cc_combatHandler(int round, string opp, string text)
 			(enemy == $monster[crusty pirate]))
 		{
 			set_property("cc_combatHandler", combatState + "(thunder clap)");
-			handleBanish(enemy, $skill[thunder clap]);
+			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
 			return "skill thunder clap";
 		}
 		if((enemy == $monster[burly sidekick]) && (item_amount($item[mohawk wig]) > 0))
 		{
 			set_property("cc_combatHandler", combatState + "(thunder clap)");
-			handleBanish(enemy, $skill[thunder clap]);
+			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
 			return "skill thunder clap";
 		}
 		if((enemy == $monster[knob goblin madam]) && (item_amount($item[knob goblin perfume]) > 0))
 		{
 			set_property("cc_combatHandler", combatState + "(thunder clap)");
-			handleBanish(enemy, $skill[thunder clap]);
+			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
 			return "skill thunder clap";
 		}
 	}
@@ -672,7 +672,7 @@ string cc_combatHandler(int round, string opp, string text)
 			(enemy == $monster[taco cat]))
 		{
 			set_property("cc_combatHandler", combatState + "(politics)");
-			handleBanish(enemy, $skill[talk about politics]);
+			handleTracker(enemy, $skill[talk about politics], "cc_banishes");
 			return "skill talk about politics";
 		}
 	}
@@ -716,7 +716,7 @@ string cc_combatHandler(int round, string opp, string text)
 			(enemy == $monster[bubblemint twins]))
 		{
 			set_property("cc_combatHandler", combatState + "(batter up!)");
-			handleBanish(enemy, $skill[batter up!]);
+			handleTracker(enemy, $skill[batter up!], "cc_banishes");
 			return "skill batter up!";
 		}
 	}
@@ -732,7 +732,7 @@ string cc_combatHandler(int round, string opp, string text)
 			(enemy == $monster[steam elemental]))
 		{
 			set_property("cc_combatHandler", combatState + "(thunder clap)");
-			handleBanish(enemy, $skill[thunder clap]);
+			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
 			return "skill thunder clap";
 		}
 	}
@@ -745,7 +745,7 @@ string cc_combatHandler(int round, string opp, string text)
 			(enemy == $monster[clingy pirate]))
 		{
 			set_property("cc_combatHandler", combatState + "(politics)");
-			handleBanish(enemy, $skill[talk about politics]);
+			handleTracker(enemy, $skill[talk about politics], "cc_banishes");
 			return "skill talk about politics";
 		}
 	}
@@ -1013,7 +1013,7 @@ string cc_combatHandler(int round, string opp, string text)
 #	return get_ccs_action(round);
 }
 
-
+/*
 void handleBanish(monster enemy, skill banisher)
 {
 	string banishes = get_property("cc_banishes");
@@ -1058,7 +1058,7 @@ void handleYellowRay(monster enemy, item yellowRay)
 	yellow = yellow + "(" + my_daycount() + ":" + enemy + ":" + yellowRay + ":" + my_turncount() + ")";
 	set_property("cc_yellowRays", yellow);
 }
-
+*/
 string findBanisher(string opp)
 {
 	print("In findBanisher for: " + opp, "green");
@@ -1068,7 +1068,7 @@ string findBanisher(string opp)
 		set_property("cc_gremlinlouder", "used");
 		if(item_amount($item[louder than bomb]) > 0)
 		{
-			handleBanish(enemy, $item[louder than bomb]);
+			handleTracker(enemy, $item[louder than bomb], "cc_banishes");
 			return "item louder than bomb";
 		}
 	}
@@ -1077,7 +1077,7 @@ string findBanisher(string opp)
 		set_property("cc_gremlinpants", "used");
 		if(have_skill($skill[talk about politics]))
 		{
-			handleBanish(enemy, $skill[talk about politics]);
+			handleTracker(enemy, $skill[talk about politics], "cc_banishes");
 			return "skill talk about politics";
 		}
 	}
@@ -1086,7 +1086,7 @@ string findBanisher(string opp)
 		set_property("cc_gremlinbatter", "used");
 		if((have_skill($skill[batter up!])) && (my_fury() >= 5))
 		{
-			handleBanish(enemy, $skill[batter up!]);
+			handleTracker(enemy, $skill[batter up!], "cc_banishes");
 			return "skill batter up!";
 		}
 	}
@@ -1095,7 +1095,7 @@ string findBanisher(string opp)
 		set_property("cc_gremlinclap", "used");
 		if(have_skill($skill[thunder clap]))
 		{
-			handleBanish(enemy, $skill[thunder clap]);
+			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
 			return "skill thunder clap";
 		}
 	}
@@ -1111,7 +1111,7 @@ string findBanisher(string opp)
 
 	if((my_class() == $class[Ed]) && have_skill($skill[Curse of Vacation]) && (my_mp() >= 35))
 	{
-		handleBanish(enemy, $skill[Curse of Vacation]);
+		handleTracker(enemy, $skill[Curse of Vacation], "cc_banishes");
 		return "skill curse of vacation";
 	}
 
@@ -1341,7 +1341,7 @@ string ccsJunkyard(int round, string opp, string text)
 	}
 	return "attack with weapon";
 }
-
+/*
 void handleSniffs(monster enemy, skill sniffer)
 {
 	if(my_daycount() <= 5)
@@ -1390,7 +1390,7 @@ void handleRenenutet(monster enemy)
 		set_property("cc_renenutet", renenutet);
 	}
 }
-
+*/
 string cc_edCombatHandler(int round, string opp, string text)
 {
 	if(my_path() != "Actually Ed the Undying")
@@ -1555,7 +1555,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 			(enemy == $monster[Writing Desk]))
 		{
 			set_property("cc_edCombatHandler", combatState + "(curseofstench)");
-			handleSniffs(enemy, $skill[Curse of Stench]);
+			handleTracker(enemy, $skill[Curse of Stench], "cc_sniffs");
 			return "skill Curse of Stench";
 		}
 	}
@@ -1588,7 +1588,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 			if(doStench)
 			{
 				set_property("cc_edCombatHandler", combatState + "(curseofstench)");
-				handleSniffs(enemy, $skill[Curse of Stench]);
+				handleTracker(enemy, $skill[Curse of Stench], "cc_sniffs");
 				return "skill Curse of Stench";
 			}
 		}
@@ -1622,7 +1622,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 			if(doStench)
 			{
 				set_property("cc_edCombatHandler", combatState + "(curseofstench)");
-				handleSniffs(enemy, $skill[Curse of Stench]);
+				handleTracker(enemy, $skill[Curse of Stench], "cc_sniffs");
 				return "skill Curse of Stench";
 			}
 		}
@@ -1632,12 +1632,12 @@ string cc_edCombatHandler(int round, string opp, string text)
 	{
 		if((enemy == $monster[shady pirate]) && have_skill($skill[Curse of Vacation]) && (my_mp() >= 30))
 		{
-			handleBanish(enemy, $skill[Curse of Vacation]);
+			handleTracker(enemy, $skill[Curse of Vacation], "cc_banishes");
 			return "skill curse of vacation";
 		}
 		if((enemy == $monster[shifty pirate]) && (get_property("_pantsgivingBanish").to_int() < 5))
 		{
-			handleBanish(enemy, $skill[talk about politics]);
+			handleTracker(enemy, $skill[talk about politics], "cc_banishes");
 			return "skill talk about poltiics";
 		}
 	}
@@ -1678,7 +1678,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		if(doWrath)
 		{
 			set_property("cc_combatHandler", combatState + "(yellowray)");
-			handleYellowRay(enemy, $skill[Wrath of Ra]);
+			handleTracker(enemy, $skill[Wrath of Ra], , "cc_yellowRays");
 			return "skill wrath of ra";
 		}
 	}
@@ -1688,7 +1688,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		if((enemy == $monster[pygmy orderlies]) && (my_location() == $location[The Hidden Bowling Alley]))
 		{
 			set_property("cc_combatHandler", combatState + "(curse of vacation)");
-			handleBanish(enemy, $skill[Curse of Vacation]);
+			handleTracker(enemy, $skill[Curse of Vacation], "cc_banishes");
 			return "skill curse of vacation";
 		}
 	}
@@ -1698,7 +1698,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		if((enemy == $monster[fallen archfiend]) && (my_location() == $location[The Dark Heart of the Woods]) && (get_property("cc_pirateoutfit") != "almost") && (get_property("cc_pirateoutfit") != "finished"))
 		{
 			set_property("cc_combatHandler", combatState + "(curse of vacation)");
-			handleBanish(enemy, $skill[Curse of Vacation]);
+			handleTracker(enemy, $skill[Curse of Vacation], "cc_banishes");
 			return "skill curse of vacation";
 		}
 	}
@@ -1723,7 +1723,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 			(enemy == $monster[crusty pirate]))
 		{
 			set_property("cc_combatHandler", combatState + "(curse of vacation)");
-			handleBanish(enemy, $skill[Curse of Vacation]);
+			handleTracker(enemy, $skill[Curse of Vacation], "cc_banishes");
 			return "skill curse of vacation";
 		}
 	}
@@ -1936,7 +1936,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 		if(doLash)
 		{
-			handleLashes(enemy);
+			handleTracker(enemy, "cc_lashes");
 			return "skill lash of the cobra";
 		}
 	}
@@ -2021,7 +2021,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		if(doRenenutet)
 		{
 			set_property("cc_edCombatHandler", edCombatState + "(talismanofrenenutet)");
-			handleRenenutet(enemy);
+			handleTracker(enemy, "cc_renenutet");
 			set_property("cc_edStatus", "dying");
 			return "item Talisman of Renenutet";
 		}
