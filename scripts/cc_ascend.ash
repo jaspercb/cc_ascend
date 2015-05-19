@@ -385,6 +385,14 @@ void initializeSettings()
 	florist_initializeSettings();
 	chateaumantegna_initializeSettings();
 	ed_initializeSettings();
+
+	if(my_path() == "One Crazy Random Summer")
+	{
+		set_property("cc_getStarKey", true);
+		set_property("cc_holeinthesky", true);
+		set_property("cc_wandOfNagamar", true);
+	}
+
 }
 
 
