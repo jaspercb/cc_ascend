@@ -236,7 +236,7 @@ void main()
 	if(my_path() == "One Crazy Random Summer")
 	{
 		writeln("<h2>One Crazy Random Summer Fun-o-meter!</h2>");
-		generateTrackingData("cc_funTracker", false);
+		generateTrackingData("cc_funTracker", true);
 	}
 
 	writeln("<h2>Info</h2>");
@@ -250,7 +250,7 @@ void main()
 		writeln("Combat Rounds: " + get_property("cc_edCombatRoundCount") + "<br>");
 	}
 	writeln("Version (790e8b93-0ac5-4690-9eeb-5e64edcd6dc): " + svn_info("790e8b93-0ac5-4690-9eeb-5e64edcd6dc").last_changed_rev + "<br>");
-	writeln("Version (ccascend): " + svn_info("ccascend").last_changed_rev + "<br>");
+	writeln("Version (ccascend): " + svn_info("ccascend-cc_ascend").last_changed_rev + "<br>");
 	writeln("Version (cheeseascend): " + svn_info("cheeseascend").last_changed_rev + "<br>");
 
 	writeln("</body></html>");

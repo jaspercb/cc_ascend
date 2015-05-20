@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r15833;
+since r15852;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -9787,9 +9787,9 @@ void cc_begin()
 	cli_execute("spookyraven off");
 
 	print("Hello " + my_name() + ", time to explode!");
-	print("This is version: " + svn_info("790e8b93-0ac5-4690-9eeb-5e64edcd6dc").last_changed_rev);
-	print("This is version: " + svn_info("ccascend").last_changed_rev);
-	print("This is version: " + svn_info("cheeseascend").last_changed_rev);
+#	print("This is version: " + svn_info("790e8b93-0ac5-4690-9eeb-5e64edcd6dc").last_changed_rev);
+	print("This is version: " + svn_info("ccascend-cc_ascend").last_changed_rev);
+#	print("This is version: " + svn_info("cheeseascend").last_changed_rev);
 	print("This is day " + my_daycount() + ".");
 	print("Turns played: " + my_turncount() + " current adventures: " + my_adventures());
 	print("Current Ascension: " + my_path());
