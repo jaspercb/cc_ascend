@@ -3908,14 +3908,13 @@ boolean LX_getDigitalKey()
 	{
 		return false;
 	}
-	if(have_effect($effect[consumed by fear]) > 0)
-	{
-		uneffect($effect[Consumed By Fear]);
-		council();
-		return false;
-	}
 	if((item_amount($item[white pixel]) >= 30) || (item_amount($item[Richard\'s Star Key]) > 0))
 	{
+		if(have_effect($effect[consumed by fear]) > 0)
+		{
+			uneffect($effect[Consumed By Fear]);
+			council();
+		}
 		return false;
 	}
 
