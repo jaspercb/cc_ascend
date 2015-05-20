@@ -2083,6 +2083,22 @@ boolean questOverride()
 		set_property("cc_hiddencity", "finished");
 	}
 
+
+	if(get_property("sidequestOrchardCompleted") != "none")
+	{
+		if(get_property("cc_nunsTrickGland") != "done")
+		{
+			print("Found completed Orchard (Nuns Trick - Gland) (12)");
+			set_property("cc_nunsTrickGland", "done");
+		}
+		if(get_property("cc_orchard") != "finished")
+		{
+			print("Found completed Orchard (12)");
+			set_property("cc_orchard", "finished");
+		}
+		return false;
+	}
+
 	if((get_property("sidequestLighthouseCompleted") != "none") && (get_property("cc_sonata") != "finished"))
 	{
 		print("Found completed Lighthouse (12)");
@@ -3725,6 +3741,10 @@ void handleJar()
 
 boolean L12_nunsTrickGlandGet()
 {
+	if(get_property("sidequestOrchardCompleted") != "none")
+	{
+		return false;
+	}
 	if(get_property("cc_nunsTrickGland") != "start")
 	{
 		return false;
@@ -8518,6 +8538,10 @@ boolean doTasks()
 			if(item_amount($item[Bowl Of Scorpions]) == 0)
 			{
 				buyUpTo(1, $item[Bowl Of Scorpions]);
+				if(my_path() == "One Crazy Random Summer")
+				{
+					buyUpTo(3, $item[Bowl Of Scorpions]);
+				}
 			}
 			set_property("choiceAdventure788", "1");
 
