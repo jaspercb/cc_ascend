@@ -8735,18 +8735,21 @@ boolean doTasks()
 		{
 			abort("Failed making Staff of Ed (2325) via CLI. Please do it manually and rerun.");
 		}
+
+		visit_url("place.php?whichplace=desertbeach&action=db_pyramid1");
+
 		if(get_property("questL11Pyramid") == "unstarted")
 		{
 			print("No burning Ed's model now!", "blue");
 			abort("Tried to open the Pyramid but could not. Something went wrong :(");
 		}
 
+
 		set_property("cc_hiddencity", "finished");
 		set_property("cc_ballroom", "finished");
 		set_property("cc_palindome", "finished");
 
 		set_property("cc_mcmuffin", "pyramid");
-		visit_url("place.php?whichplace=desertbeach&action=db_pyramid1");
 		buffMaintain($effect[Snow Shoes], 0, 1, 1);
 		ccAdv(1, $location[The Upper Chamber]);
 		return true;
