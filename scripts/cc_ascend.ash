@@ -104,6 +104,7 @@ boolean L12_orchardFinalize();
 boolean L12_orchardStart();
 boolean L12_finalizeWar();
 boolean L12_nunsTrickGlandGet();
+boolean L13_sorceressDoor();
 boolean questOverride();
 
 boolean trackingSplitterFixer(string oldSetting, int day, string newSetting)
@@ -2695,6 +2696,123 @@ boolean LX_dinseylandfillFunbucks()
 	return true;
 }
 
+boolean L13_sorceressDoor()
+{
+	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_05_monster1"))
+	{
+		set_property("cc_sorceress", "tower");
+		return false;
+	}
+	if(get_property("cc_sorceress") != "door")
+	{
+		return false;
+	}
+
+	if((item_amount($item[Richard\'s Star Key]) == 0) && (item_amount($item[Star Chart]) == 0))
+	{
+		if(my_rain() < 50)
+		{
+			pullXWhenHaveY($item[Star Chart], 1, 0);
+		}
+	}
+
+	if((item_amount($item[Richard\'s Star Key]) == 0) && (item_amount($item[Star Chart]) > 0) && (item_amount($item[star]) >= 8) && (item_amount($item[line]) >= 7))
+	{
+		visit_url("shop.php?pwd&whichshop=starchart&action=buyitem&quantity=1&whichrow=141");
+		if(item_amount($item[Richard\'s Star Key]) == 0)
+		{
+			cli_execute("make richard's star key");
+		}
+	}
+
+	if(item_amount($item[white pixel]) >= 30)
+	{
+		cli_execute("make digital key");
+		set_property("cc_crackpotjar", "finished");
+	}
+
+	string page = visit_url("place.php?whichplace=nstower_door");
+	if(contains_text(page, "ns_lock1"))
+	{
+		if(item_amount($item[Boris\'s Key]) == 0)
+		{
+			cli_execute("make Boris's Key");
+		}
+		if(item_amount($item[Boris\'s Key]) == 0)
+		{
+			abort("Need Boris's Key for the Sorceress door :(");
+		}
+		visit_url("place.php?whichplace=nstower_door&action=ns_lock1");
+	}
+	if(contains_text(page, "ns_lock2"))
+	{
+		if(item_amount($item[Jarlsberg\'s Key]) == 0)
+		{
+			cli_execute("make Jarlsberg's Key");
+		}
+		if(item_amount($item[Jarlsberg\'s Key]) == 0)
+		{
+			abort("Need Jarlsberg's Key for the Sorceress door :(");
+		}
+		visit_url("place.php?whichplace=nstower_door&action=ns_lock2");
+	}
+	if(contains_text(page, "ns_lock3"))
+	{
+		if(item_amount($item[Sneaky Pete\'s Key]) == 0)
+		{
+			cli_execute("make Sneaky Pete's Key");
+		}
+		if(item_amount($item[Sneaky Pete\'s Key]) == 0)
+		{
+			abort("Need Sneaky Pete's Key for the Sorceress door :(");
+		}
+		visit_url("place.php?whichplace=nstower_door&action=ns_lock3");
+	}
+
+	if(contains_text(page, "ns_lock4"))
+	{
+		if(item_amount($item[Richard\'s Star Key]) == 0)
+		{
+			cli_execute("make richard's star key");
+		}
+		if(item_amount($item[Richard\'s Star Key]) == 0)
+		{
+			abort("Need Richard's Star Key for the Sorceress door :(");
+		}
+		visit_url("place.php?whichplace=nstower_door&action=ns_lock4");
+	}
+
+	if(contains_text(page, "ns_lock5"))
+	{
+		if(item_amount($item[Digital Key]) == 0)
+		{
+			cli_execute("make digital key");
+		}
+		if(item_amount($item[Digital Key]) == 0)
+		{
+			abort("Need Digital Key for the Sorceress door :(");
+		}
+		visit_url("place.php?whichplace=nstower_door&action=ns_lock5");
+	}
+
+	if(contains_text(page, "ns_lock6"))
+	{
+		if(item_amount($item[Skeleton Key]) == 0)
+		{
+			cli_execute("make skeleton key");
+		}
+		if(item_amount($item[Skeleton Key]) == 0)
+		{
+			abort("Need Skeleton Key for the Sorceress door :(");
+		}
+		visit_url("place.php?whichplace=nstower_door&action=ns_lock6");
+	}
+
+
+	visit_url("place.php?whichplace=nstower_door&action=ns_doorknob");
+	return true;
+}
+
 boolean L11_defeatEd()
 {
 	if(get_property("cc_mcmuffin") != "ed")
@@ -3942,6 +4060,7 @@ boolean LX_getDigitalKey()
 	#}
 	if(get_property("cc_crackpotjar") == "done")
 	{
+		set_property("choiceAdventure644", 3);
 		ccAdv(1, $location[Fear Man\'s Level]);
 		if(have_effect($effect[consumed by fear]) == 0)
 		{
@@ -7798,9 +7917,6 @@ boolean doTasks()
 			}
 		}
 
-
-
-
 		if(L10_plantThatBean() || L10_airship() || L10_basement() || L10_ground() || L10_topFloor())
 		{
 			return true;
@@ -9332,64 +9448,8 @@ boolean doTasks()
 		return true;
 	}
 
-
-	if(get_property("cc_sorceress") == "door")
+	if(L13_sorceressDoor())
 	{
-		if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_05_monster1"))
-		{
-			set_property("cc_sorceress", "tower");
-			return true;
-		}
-		if((item_amount($item[Richard\'s Star Key]) == 0) && (item_amount($item[Star Chart]) == 0))
-		{
-			if(my_rain() < 50)
-			{
-				pullXWhenHaveY($item[Star Chart], 1, 0);
-			}
-		}
-
-		if((item_amount($item[Richard\'s Star Key]) == 0) && (item_amount($item[Star Chart]) > 0) && (item_amount($item[star]) >= 8) && (item_amount($item[line]) >= 7))
-		{
-			visit_url("shop.php?pwd&whichshop=starchart&action=buyitem&quantity=1&whichrow=141");
-			# the cli command has been failing on 14900 for some raisin.
-#			Fixed in 14903?
-			if(item_amount($item[Richard\'s Star Key]) == 0)
-			{
-				cli_execute("make richard's star key");
-			}
-		}
-
-		if(item_amount($item[white pixel]) >= 30)
-		{
-			cli_execute("make digital key");
-			set_property("cc_crackpotjar", "finished");
-		}
-
-		# make the keys, but make sure you need them first... otherwise this is bad on repeated runs.
-		if(towerKeyCount() < 3)
-		{
-			abort("We do not have enough tower keys or fat loot tokens");
-		}
-		if(item_amount($item[Boris\'s Key]) == 0)
-		{
-			cli_execute("make Boris's Key");
-		}
-		if(item_amount($item[Jarlsberg\'s Key]) == 0)
-		{
-			cli_execute("make Jarlsberg's Key");
-		}
-		if(item_amount($item[Sneaky Pete\'s Key]) == 0)
-		{
-			cli_execute("make Sneaky Pete's Key");
-		}
-		visit_url("place.php?whichplace=nstower_door");
-		visit_url("place.php?whichplace=nstower_door&action=ns_lock1");
-		visit_url("place.php?whichplace=nstower_door&action=ns_lock2");
-		visit_url("place.php?whichplace=nstower_door&action=ns_lock3");
-		visit_url("place.php?whichplace=nstower_door&action=ns_lock4");
-		visit_url("place.php?whichplace=nstower_door&action=ns_lock5");
-		visit_url("place.php?whichplace=nstower_door&action=ns_lock6");
-		visit_url("place.php?whichplace=nstower_door&action=ns_doorknob");
 		return true;
 	}
 
@@ -9715,6 +9775,7 @@ boolean doTasks()
 
 	if((get_property("cc_sorceress") == "final") && !get_property("cc_wandOfNagamar").to_boolean())
 	{
+		//We should probably not do the buffing if we are fighting the actual sorceress.
 		cli_execute("scripts/postadventure.ash");
 		if(item_amount($item[Ouija Board\, Ouija Board]) > 0)
 		{

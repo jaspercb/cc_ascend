@@ -122,7 +122,7 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		enemy = ocrs_helper(text);
 	}
-
+	//	Since mafia is handling monster names at this point, can we just extract fun and default to mafia's last_monster()?
 
 	phylum type = monster_phylum(enemy);
 
