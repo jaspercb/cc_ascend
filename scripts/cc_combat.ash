@@ -510,7 +510,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if(contains_text(combatState, "insults"))
 	{
-		if(enemy == $monster[shady pirate])
+		if((enemy == $monster[shady pirate]) && have_skill($skill[Thunder Clap]) && (my_thunder() >= 40))
 		{
 			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
 			return "skill thunder clap";

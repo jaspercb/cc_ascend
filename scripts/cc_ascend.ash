@@ -389,6 +389,7 @@ void initializeSettings()
 
 	if(my_path() == "One Crazy Random Summer")
 	{
+		set_property("cc_spookyfertilizer", "");
 		set_property("cc_getStarKey", true);
 		set_property("cc_holeinthesky", true);
 		set_property("cc_wandOfNagamar", true);
@@ -7834,7 +7835,12 @@ boolean doTasks()
 	}
 
 	consumeStuff();
-	if((my_level() >= 8) && (chateaumantegna_havePainting()) && (my_class() == $class[Ed]) && (my_daycount() <= 3))
+	int paintingLevel = 8;
+	if(my_path() == "One Crazy Random Summer")
+	{
+		paintingLevel = 9;
+	}
+	if((my_level() >= paintingLevel) && (chateaumantegna_havePainting()) && (my_class() == $class[Ed]) && (my_daycount() <= 3))
 	{
 		if((have_effect($effect[Everything Looks Yellow]) == 0) && have_skill($skill[Wrath of Ra]) && (my_mp() >= 40))
 		{

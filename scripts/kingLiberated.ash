@@ -15,6 +15,7 @@ void handleKingLiberation()
 		put_display(item_amount($item[instant karma]), $item[instant karma]);
 		put_display(item_amount($item[thwaitgold spider statuette]), $item[thwaitgold spider statuette]);
 		put_display(item_amount($item[thwaitgold nit statuette]), $item[thwaitgold nit statuette]);
+		put_display(item_amount($item[thwaitgold caterpillar statuette]), $item[thwaitgold caterpillar statuette]);
 		put_display(item_amount($item[thwaitgold scarab beetle statuette]), $item[thwaitgold scarab beetle statuette]);
 
 		if(my_familiar() != $familiar[Black Cat])
@@ -84,6 +85,7 @@ void handleKingLiberation()
 		pullAll($item[confusing led clock]);
 		pullAll($item[corroded breeches]);
 		pullAll($item[corrosive cowl]);
+		pullAll($item[The Crown of Ed the Undying]);
 		pullAll($item[crumpled felt fedora]);
 		pullAll($item[csa fire-starting kit]);
 

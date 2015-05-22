@@ -614,7 +614,10 @@ void handlePostAdventure()
 		buffMaintain($effect[Springy Fusilli], 80, 1, 10);
 		buffMaintain($effect[Flimsy Shield of the Pastalord], 80, 1, 10);
 		buffMaintain($effect[Blubbered Up], 80, 1, 10);
-		buffMaintain($effect[Aloysius\' Antiphon of Aptitude], 80, 1, 10);
+		if(my_level() < 13)
+		{
+			buffMaintain($effect[Aloysius\' Antiphon of Aptitude], 80, 1, 10);
+		}
 		buffMaintain($effect[Tenacity of the Snapper], 80, 1, 10);
 		buffMaintain($effect[Reptilian Fortitude], 80, 1, 10);
 		buffMaintain($effect[Antibiotic Saucesphere], 140, 1, 10);
