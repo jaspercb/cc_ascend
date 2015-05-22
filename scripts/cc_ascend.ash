@@ -2,7 +2,7 @@ script "cc_ascend.ash";
 notify cheesecookie;
 since r15852;
 
-/***	svn checkout https://svn.code.sf.net/p/ccascend/code/
+/***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
 ***/
 
@@ -17,6 +17,7 @@ import <cc_ascend/chateaumantegna.ash>
 import <cc_ascend/cc_equipment.ash>
 import <cc_ascend/cc_edTheUndying.ash>
 import <cc_ascend/cc_eudora.ash>
+import <cc_ascend/cc_summerfun.ash>
 import <cc_ascend/cc_elementalPlanes.ash>
 
 
@@ -234,9 +235,6 @@ void initializeSettings()
 	}
 	set_property("cc_doneInitialize", my_ascensions());
 
-	set_property("kingLiberatedScript", "scripts/kingLiberated.ash");
-	set_property("afterAdventureScript", "scripts/postadventure.ash");
-	set_property("betweenAdventureScript", "scripts/preadventure.ash");
 #	cli_execute("ccs cc_default");
 
 	if(my_familiar() != $familiar[none])
@@ -385,15 +383,8 @@ void initializeSettings()
 	standard_initializeSettings();
 	florist_initializeSettings();
 	chateaumantegna_initializeSettings();
+	ocrs_initializeSettings();
 	ed_initializeSettings();
-
-	if(my_path() == "One Crazy Random Summer")
-	{
-		set_property("cc_spookyfertilizer", "");
-		set_property("cc_getStarKey", true);
-		set_property("cc_holeinthesky", true);
-		set_property("cc_wandOfNagamar", true);
-	}
 
 }
 
@@ -1558,6 +1549,12 @@ void doBedtime()
 	if(my_spleen_use() < spleenlimit)
 	{
 		return;
+	}
+
+	if(get_property("cc_priorCoinmasters").to_boolean())
+	{
+		set_property("cc_priorCoinmasters", false);
+		set_property("autoSatisfyWithCoinmasters", false);
 	}
 
 	if(get_property("cc_priorCharpaneMode").to_int() == 1)
@@ -8541,7 +8538,7 @@ boolean doTasks()
 					{
 						pullXWhenHaveY($item[Book of Matches], 1, 0);
 					}
-					if((item_amount($item[Book of Matches]) > 0) && (my_ascensions() < get_property("hiddenTavernUnlock").to_int()))
+					if((item_amount($item[Book of Matches]) > 0) && (my_ascensions() > get_property("hiddenTavernUnlock").to_int()))
 					{
 						use(1, $item[Book of Matches]);
 					}
@@ -8652,7 +8649,7 @@ boolean doTasks()
 			{
 				pullXWhenHaveY($item[Book of Matches], 1, 0);
 			}
-			if((item_amount($item[Book of Matches]) > 0) && (my_ascensions() < get_property("hiddenTavernUnlock").to_int()))
+			if((item_amount($item[Book of Matches]) > 0) && (my_ascensions() > get_property("hiddenTavernUnlock").to_int()))
 			{
 				use(1, $item[Book of Matches]);
 			}
@@ -9880,9 +9877,7 @@ void cc_begin()
 	cli_execute("spookyraven off");
 
 	print("Hello " + my_name() + ", time to explode!");
-#	print("This is version: " + svn_info("790e8b93-0ac5-4690-9eeb-5e64edcd6dc").last_changed_rev);
 	print("This is version: " + svn_info("ccascend-cc_ascend").last_changed_rev);
-#	print("This is version: " + svn_info("cheeseascend").last_changed_rev);
 	print("This is day " + my_daycount() + ".");
 	print("Turns played: " + my_turncount() + " current adventures: " + my_adventures());
 	print("Current Ascension: " + my_path());
@@ -9892,6 +9887,18 @@ void cc_begin()
 	uneffect($effect[Ode To Booze]);
 	handlePulls(my_daycount());
 	initializeDay(my_daycount());
+
+
+	if(!get_property("autoSatisfyWithCoinmasters").to_boolean())
+	{
+		set_property("cc_priorCoinmasters", true);
+		set_property("autoSatisfyWithCoinmasters", true);
+	}
+
+	set_property("kingLiberatedScript", "scripts/kingLiberated.ash");
+	set_property("afterAdventureScript", "scripts/postadventure.ash");
+	set_property("betweenAdventureScript", "scripts/preadventure.ash");
+
 
 	string charpane = visit_url("charpane.php");
 	if(contains_text(charpane, "<hr width=50%>"))

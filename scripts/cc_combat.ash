@@ -115,7 +115,13 @@ string cc_combatHandler(int round, string opp, string text)
 		set_property("cc_combatHandlerThunderBird", "0");
 		set_property("cc_combatHandlerFingernailClippers", "0");
 	}
+
 	set_property("cc_diag_round", round);
+
+	if(get_property("cc_diag_round").to_int() > 60)
+	{
+		abort("Somehow got to 60 rounds.... aborting");
+	}
 
 	monster enemy = to_monster(opp);
 	if(my_path() == "One Crazy Random Summer")
@@ -1100,7 +1106,7 @@ string findBanisher(string opp)
 		}
 	}
 
-	if(my_thunder() >= 40)
+	if((my_thunder() >= 40) && have_skill($skill[thunder clap]))
 	{
 		return "skill thunder clap";
 	}
