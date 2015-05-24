@@ -3173,6 +3173,8 @@ boolean L12_filthworms()
 		equip($item[A Light That Never Goes Out]);
 	}
 
+	handleFamiliar($familiar[Adventurous Spelunker]);
+
 	if(have_effect($effect[Filthworm Drone Stench]) > 0)
 	{
 		ccAdv(1, $location[The Royal Guard Chamber]);
@@ -4005,7 +4007,7 @@ boolean L12_finalizeWar()
 		useCocoon();
 	}
 	print("Let's fight the boss!", "blue");
-	visit_url("bigisland.php?place=camp&whichcamp=1&confirm7=on");
+	visit_url("bigisland.php?place=camp&whichcamp=1");
 	visit_url("bigisland.php?place=camp&whichcamp=2");
 	visit_url("bigisland.php?action=bossfight&pwd");
 	ccAdv(1, $location[Noob Cave]);
@@ -5794,6 +5796,9 @@ boolean L12_getOutfit()
 			pullXWhenHaveY($item[Distressed Denim Pants], 1, 0);
 			return true;
 		}
+
+		//We should probably have some kind of backup solution here
+
 		return false;
 	}
 	else
@@ -9634,7 +9639,7 @@ boolean doTasks()
 			# 1000 stats, immune to stuns, maybe if you prep a big mien or greasy.
 			# Tried +65/+460% at 541 Myst: (6831, 6845, 6815 damage)
 
-			if(my_class() == $class[Sauceror])
+			if((my_class() == $class[Sauceror]) || have_skill($skill[Garbage Nova]))
 			{
 				uneffect($effect[Scarysauce]);
 				uneffect($effect[Jalape&ntilde;o Saucesphere]);

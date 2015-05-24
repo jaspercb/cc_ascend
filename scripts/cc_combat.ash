@@ -232,7 +232,13 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			return "skill unleash the greash";
 		}
-		if(my_mp() >= 24)
+
+		if((my_mp() >= 50) && have_skill($skill[Garbage Nova]))
+		{
+			return "skill garbage nova";
+		}
+
+		if((my_mp() >= 24) && have_skill($skill[Saucegeyser]))
 		{
 			return "skill saucegeyser";
 		}
