@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r15852;
+since r15897;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -818,15 +818,14 @@ boolean doThemtharHills(boolean trickMode)
 		buyUpTo(1, $item[Loose Purse Strings]);
 		craft("smith", 1, $item[Lump of Brituminous Coal], $item[Loose purse strings]);
 	}
-#	if(!possessEquipment($item[Half a Purse]))
-#	{
-#		print("Smithness for nuns unavailable and we probably can't do it. Sadness.", "red");
-#		set_property("cc_nuns", "done");
-#		return false;
-#	}
+
 	if(possessEquipment($item[Half a Purse]))
 	{
 		equip($item[Half a Purse]);
+	}
+	if(possessEquipment($item[Miracle Whip]))
+	{
+		equip($item[Miracle Whip]);
 	}
 	if((my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) > 0))
 	{
@@ -7851,6 +7850,15 @@ boolean doTasks()
 				ccAdv(1, $location[Noob Cave]);
 				return true;
 			}
+		}
+	}
+
+
+	if((my_level() >= 9) && !get_property("_photocopyUsed").to_boolean() && (my_class() == $class[Ed]) && (my_daycount() < 3))
+	{
+		if(handleFaxMonster("lobsterfrogman"))
+		{
+			return true;
 		}
 	}
 

@@ -128,7 +128,7 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		enemy = ocrs_helper(text);
 	}
-	//	Since mafia is handling monster names at this point, can we just extract fun and default to mafia's last_monster()?
+	//	Since mafia is handling monster names at this point, can we just extract fun and default to mafia\'s last_monster()?
 
 	phylum type = monster_phylum(enemy);
 
@@ -879,6 +879,12 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill spirit snap";
 	}
 
+	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_class() == $class[Sauceror]) && (my_mp() >= 32))
+	{
+		set_property("cc_combatHandler", combatState + "(weaksauce)");
+		return "skill curse of weaksauce";
+	}
+
 	string attackBasic = "attack with weapon";
 	string attackMinor = "attack with weapon";
 	string attackMajor = "attack with weapon";
@@ -959,7 +965,7 @@ string cc_combatHandler(int round, string opp, string text)
 				return "skill thunderstrike";
 			}
 
-			if((!contains_text(combatState, "stunner")) && (stunner != "") && (monster_level_adjustment() <= 150) && (my_mp() > 10))
+			if((!contains_text(combatState, "stunner")) && (stunner != "") && (monster_level_adjustment() <= 50) && (my_mp() > 10))
 			{
 				set_property("cc_combatHandler", combatState + "(stunner)");
 				return stunner;

@@ -396,9 +396,9 @@ void handlePostAdventure()
 		{
 			buffMaintain($effect[Spiky Shell], 40, 1, 10);
 			buffMaintain($effect[Scarysauce], 40, 1, 10);
+			buffMaintain($effect[Jalape&ntilde;o Saucesphere], 50, 1, 10);
 		}
 		buffMaintain($effect[Ghostly Shell], 45, 1, 10);
-		buffMaintain($effect[Jalape&ntilde;o Saucesphere], 50, 1, 10);
 		buffMaintain($effect[Disdain of the War Snapper], 60, 1, 10);
 		buffMaintain($effect[Walberg\'s Dim Bulb], 50, 1, 10);
 		buffMaintain($effect[Springy Fusilli], 60, 1, 10);
@@ -469,9 +469,9 @@ void handlePostAdventure()
 		{
 			buffMaintain($effect[Spiky Shell], 80, 1, 10);
 			buffMaintain($effect[Scarysauce], 80, 1, 10);
+			buffMaintain($effect[Jalape&ntilde;o Saucesphere], 60, 1, 10);
 		}
 		buffMaintain($effect[Ghostly Shell], 80, 1, 10);
-		buffMaintain($effect[Jalape&ntilde;o Saucesphere], 60, 1, 10);
 		buffMaintain($effect[Disdain of the War Snapper], 80, 1, 10);
 		buffMaintain($effect[Walberg\'s Dim Bulb], 80, 1, 10);
 		buffMaintain($effect[Springy Fusilli], 80, 1, 10);
@@ -606,9 +606,9 @@ void handlePostAdventure()
 		{
 			buffMaintain($effect[Spiky Shell], 80, 1, 10);
 			buffMaintain($effect[Scarysauce], 80, 1, 10);
+			buffMaintain($effect[Jalape&ntilde;o Saucesphere], 60, 1, 10);
 		}
 		buffMaintain($effect[Ghostly Shell], 80, 1, 10);
-		buffMaintain($effect[Jalape&ntilde;o Saucesphere], 60, 1, 10);
 		buffMaintain($effect[Disdain of the War Snapper], 80, 1, 10);
 		buffMaintain($effect[Walberg\'s Dim Bulb], 80, 1, 10);
 		buffMaintain($effect[Springy Fusilli], 80, 1, 10);

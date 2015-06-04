@@ -14,6 +14,7 @@ item whatHiMein();
 effect whatStatSmile();
 void tootGetMeat();
 void ovenHandle();
+boolean handleFaxMonster(string enemy);
 void handleRainDoh();
 void handleSpookyPutty();
 int towerKeyCount();
@@ -605,6 +606,41 @@ effect effectNeededFirstGate(string data)
 	}
 	return $effect[none];
 }
+
+boolean handleFaxMonster(string enemy)
+{
+	if(get_property("_photocopyUsed").to_boolean())
+	{
+		return false;
+	}
+
+	if(enemy == "ninja snowman assassin")
+	{
+		enemy = "ninja_assassin";
+	}
+	if(enemy == "mountain man")
+	{
+		enemy = "mountain_man";
+	}
+
+	print("If you don't have chat open, this could take well over a minute. Beep boop.", "green");
+	cli_execute("faxbot " + enemy);
+	if(item_amount($item[photocopied monster]) == 0)
+	{
+		print("Trying to acquire photocopy manually", "red");
+		visit_url("clan_viplounge.php?preaction=receivefax&whichfloor=2", true);
+	}
+	if(item_amount($item[photocopied monster]) == 0)
+	{
+		print("Could not acquire fax monster", "red");
+		return false;
+	}
+
+	visit_url("inv_use.php?pwd&which=3&whichitem=4873");
+	adv1($location[Noob Cave], 1, "cc_combatHandler");
+	return true;
+}
+
 
 void handleRainDoh()
 {

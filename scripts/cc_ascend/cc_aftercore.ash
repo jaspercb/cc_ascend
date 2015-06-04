@@ -22,6 +22,7 @@ item cc_guildEpicWeapon();
 boolean cc_guildUnlock();
 boolean cc_guildClown();
 boolean cc_nemesisCave();
+boolean cc_nemesisIsland();
 
 #Definitons here
 void cc_combatTest()
@@ -377,7 +378,7 @@ item cc_guildEpicWeapon()
 	{
 	case $class[Turtle Tamer]:			toMake = $item[Chelonian Morningstar];					break;
 	case $class[Seal Clubber]:			toMake = $item[Hammer of Smiting];			break;
-	case $class[Pastamancer]:			toMake = $item[Greek Pasta Of Peril];			break;
+	case $class[Pastamancer]:			toMake = $item[Greek Pasta Spoon Of Peril];			break;
 	case $class[Sauceror]:				toMake = $item[17-Alarm Saucepan];			break;
 	case $class[Accordion Thief]:		toMake = $item[Squeezebox Of The Ages];					break;
 	case $class[Disco Bandit]:			toMake = $item[Shagadelic Disco Banjo];					break;
@@ -499,6 +500,14 @@ boolean cc_nemesisCave()
 		visit_url("cave.php?pwd=&action=dodoor3&whichitem=" + to_int($item[Clownskin Buckler]), true);
 		break;
 	case $class[Seal Clubber]:
+		pullXWhenHaveY($item[Viking Helmet], 1, 0);
+		pullXWhenHaveY($item[Insanely Spicy Bean Burrito], 1, 0);
+		pullXWhenHaveY($item[Clown Whip], 1, 0);
+#		abort("The door handling does not work so don't do it.");
+		visit_url("cave.php?pwd=&action=dodoor1&whichitem=" + to_int($item[Viking Helmet]), true);
+		visit_url("cave.php?pwd=&action=dodoor2&whichitem=" + to_int($item[Insanely Spicy Bean Burrito]), true);
+		visit_url("cave.php?pwd=&action=dodoor3&whichitem=" + to_int($item[Clown Whip]), true);
+		break;
 	case $class[Pastamancer]:
 		pullXWhenHaveY($item[Stalk of Asparagus], 1, 0);
 		pullXWhenHaveY($item[Insanely Spicy Enchanted Bean Burrito], 1, 0);
@@ -541,5 +550,56 @@ boolean cc_nemesisCave()
 
 	visit_url("guild.php?place=scg");
 	equipBaseline();
+	return true;
+}
+
+
+boolean cc_nemesisIsland()
+{
+	if(get_property("lastGuildStoreOpen").to_int() < my_ascensions())
+	{
+		return false;
+	}
+	if(get_property("questG04Nemesis") != "step14")
+	{
+		return false;
+	}
+	if(!possessEquipment(cc_guildEpicWeapon()))
+	{
+		return false;
+	}
+//	equipBaseline();
+
+	location nemesisArea = $location[none];
+
+	switch(my_class())
+	{
+	case $class[Turtle Tamer]:
+		return false;
+	case $class[Seal Clubber]:
+		nemesisArea = $location[The Broodling Grounds];
+		break;
+	case $class[Pastamancer]:
+	case $class[Sauceror]:
+	case $class[Accordion Thief]:
+	case $class[Disco Bandit]:
+		return false;
+	}
+
+	while(my_adventures() > 0)
+	{
+		int count = 0;
+		count = count + min(item_amount($item[Hellseal Hide]),6);
+		count = count + min(item_amount($item[Hellseal Brain]),6);
+		count = count + min(item_amount($item[Hellseal Sinew]),6);
+		if(count >= 18)
+		{
+			break;
+		}
+		if(!ccAdv(1, nemesisArea))
+		{
+			abort("Can not access area, aborting.");
+		}
+	}
 	return true;
 }
