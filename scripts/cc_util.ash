@@ -613,6 +613,10 @@ boolean handleFaxMonster(string enemy)
 	{
 		return false;
 	}
+	if(item_amount($item[Clan VIP Lounge Key]) == 0)
+	{
+		return false;
+	}
 
 	if(enemy == "ninja snowman assassin")
 	{
