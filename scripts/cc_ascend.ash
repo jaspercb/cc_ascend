@@ -10029,12 +10029,6 @@ void cc_begin()
 
 void main()
 {
-	if(!get_property("cc_updateConfirm").to_boolean())
-	{
-		user_confirm("This script will be moving location on May 16th ( http://alliancefromhell.com/viewtopic.php?f=21&t=6363 ). It is highly suggested that you purge the script and get it again at that point. Beep boop. This message will not appear again. Your response to this message is ignored. Beep boop.");
-		set_property("cc_updateConfirm", true);
-	}
-
 	cc_begin();
 }
 
