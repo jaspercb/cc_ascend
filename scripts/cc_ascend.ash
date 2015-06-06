@@ -5469,15 +5469,19 @@ boolean L2_spookyMap()
 
 boolean L2_spookyFertilizer()
 {
+    if(item_amount($item[Spooky-Gro Fertilizer]) > 0)
+    {
+        set_property("cc_spookyfertilizer", "finished");
+    }
 	if(get_property("cc_spookyfertilizer") == "finished")
 	{
 		return false;
 	}
-	print("Need a some poop, I mean fertilizer now", "blue");
+	print("Need some poop, I mean fertilizer now", "blue");
 	set_property("choiceAdventure502", "3");
 	set_property("choiceAdventure506", "2");
-	ccAdv(1, $location[the spooky forest]);
-	if(item_amount($item[Spooky-Gro Fertilizer]) == 1)
+	ccAdv(1, $location[The Spooky Forest]);
+	if(item_amount($item[Spooky-Gro Fertilizer]) > 0)
 	{
 		set_property("cc_spookyfertilizer", "finished");
 	}
