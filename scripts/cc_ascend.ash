@@ -1321,7 +1321,7 @@ void initializeDay(int day)
 				use_skill(1, $skill[Spirit of Peppermint]);
 			}
 
-			if(have_skill($skill[Iron Palm Technique]) && (have_effect($effect[Iron Palms]) == 0))
+			if(have_skill($skill[Iron Palm Technique]) && (have_effect($effect[Iron Palms]) == 0) && (my_class() == $class[Seal Clubber]))
 			{
 				use_skill(1, $skill[Iron Palm Technique]);
 			}
