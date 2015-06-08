@@ -2040,8 +2040,36 @@ boolean questOverride()
 		set_property("cc_castleground", "finished");
 		set_property("cc_castlebasement", "finished");
 		set_property("cc_airship", "finished");
+		set_property("cc_bean", "plant");
+	}
+	if((internalQuestStatus("questL10Garbage") >= 9) && (get_property("cc_castleground") != "finished"))
+	{
+		print("Found completed Castle Ground Floor (10)");
+		set_property("cc_castleground", "finished");		
+	}
+	if((internalQuestStatus("questL10Garbage") >= 8) && (get_property("cc_castlebasement") != "finished"))
+	{
+		print("Found completed Castle Basement (10)");
+		set_property("cc_castlebasement", "finished");		
+	}
+	if((internalQuestStatus("questL10Garbage") >= 7) && (get_property("cc_airship") != "finished"))
+	{
+		print("Found completed Airship (10)");
+		set_property("cc_airship", "finished");		
+	}
+	if((internalQuestStatus("questL10Garbage") >= 2) && (get_property("cc_bean") != "plant"))
+	{
+		print("Found completed Planted Beanstalk (10)");
+		set_property("cc_bean", "plant");		
 	}
 
+
+	if((internalQuestStatus("questL11Manor") >= 11) && (get_property("cc_ballroom") != "finished"))
+	{
+		print("Found completed Spookyraven Manor (11)");
+		set_property("cc_ballroom", "finished");
+		set_property("cc_winebomb", "finished");
+	}
 
 	if((get_property("questL11Black") == "finished") && (get_property("cc_blackmap") != "finished"))
 	{

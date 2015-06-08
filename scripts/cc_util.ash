@@ -22,6 +22,7 @@ void handleTracker(monster enemy, string tracker);
 void handleTracker(monster enemy, skill toTrack, string tracker);
 void handleTracker(monster enemy, string toTrack, string tracker);
 void handleTracker(monster enemy, item toTrack, string tracker);
+int internalQuestStatus(string prop);
 string runChoice(string page_text);
 int turkeyBooze();
 int amountTurkeyBooze();
@@ -198,6 +199,29 @@ string[int] getMonsterFun(string opp)
 	return retval;
 }
 
+int internalQuestStatus(string prop)
+{
+	string status = get_property(prop);
+	if(status == "unstarted")
+	{
+		return -1;
+	}
+	if(status == "started")
+	{
+		return 0;
+	}
+	if(status == "finished")
+	{
+		//Does not handle quests with over 9998 steps. That's the Gnome letter quest, yes?
+		return 9999;
+	}
+	matcher my_element = create_matcher("step(\\d+)", status);
+	if(my_element.find())
+	{
+		return to_int(my_element.group(1));
+	}
+	return -1;
+}
 
 float elemental_resist_value(int resistance)
 {
