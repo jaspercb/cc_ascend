@@ -580,7 +580,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = $items[Chrome Sword, Sword Behind Inappropriate Prepositions, Time Sword];
+	poss = $items[Chrome Sword, Sword Behind Inappropriate Prepositions, Time Sword, The Nuge\'s Favorite Crossbow];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))

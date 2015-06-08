@@ -746,7 +746,7 @@ void warAdventure()
 //Return false if you should continue, true if it did something
 boolean doThemtharHills(boolean trickMode)
 {
-	if(get_property("currentNunneryMeat").to_int() >= 100000)
+	if((get_property("currentNunneryMeat").to_int() >= 100000) || (get_property("sidequestNunsCompleted") != "none"))
 	{
 		handleBjornify($familiar[el vibrato megadrone]);
 		set_property("cc_nunsTrickReady", "done");
@@ -1321,7 +1321,7 @@ void initializeDay(int day)
 				use_skill(1, $skill[Spirit of Peppermint]);
 			}
 
-			if(have_skill($skill[Iron Palm Technique]) && (have_effect($effect[Iron Palms]) == 0) && (my_class() == $class[Seal Clubber]))
+			if(have_skill($skill[Iron Palm Technique]) && (have_effect($effect[Iron Palms]) == 0))
 			{
 				use_skill(1, $skill[Iron Palm Technique]);
 			}
