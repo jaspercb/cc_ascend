@@ -189,6 +189,7 @@ void handleKingLiberation()
 		pullAll($item[nasty rat mask]);
 		pullAll($item[Ninjammies]);
 		pullAll($item[novelty belt buckle of violence]);
+		pullAll($item[The Nuge\'s Favorite Crossbow]);
 
 		pullAll($item[numberwang]);
 		pullAll($item[odd silver coin]);
