@@ -1321,7 +1321,7 @@ void initializeDay(int day)
 				use_skill(1, $skill[Spirit of Peppermint]);
 			}
 
-			if(have_skill($skill[Iron Palm Technique]) && (have_effect($effect[Iron Palms]) == 0))
+			if(have_skill($skill[Iron Palm Technique]) && (have_effect($effect[Iron Palms]) == 0) && (my_class() == $class[Seal Clubber]))
 			{
 				use_skill(1, $skill[Iron Palm Technique]);
 			}
@@ -2045,22 +2045,22 @@ boolean questOverride()
 	if((internalQuestStatus("questL10Garbage") >= 9) && (get_property("cc_castleground") != "finished"))
 	{
 		print("Found completed Castle Ground Floor (10)");
-		set_property("cc_castleground", "finished");		
+		set_property("cc_castleground", "finished");
 	}
 	if((internalQuestStatus("questL10Garbage") >= 8) && (get_property("cc_castlebasement") != "finished"))
 	{
 		print("Found completed Castle Basement (10)");
-		set_property("cc_castlebasement", "finished");		
+		set_property("cc_castlebasement", "finished");
 	}
 	if((internalQuestStatus("questL10Garbage") >= 7) && (get_property("cc_airship") != "finished"))
 	{
 		print("Found completed Airship (10)");
-		set_property("cc_airship", "finished");		
+		set_property("cc_airship", "finished");
 	}
 	if((internalQuestStatus("questL10Garbage") >= 2) && (get_property("cc_bean") != "plant"))
 	{
 		print("Found completed Planted Beanstalk (10)");
-		set_property("cc_bean", "plant");		
+		set_property("cc_bean", "plant");
 	}
 
 
@@ -5102,6 +5102,10 @@ boolean L9_leafletQuest()
 		return false;
 	}
 	if(my_class() == $class[Ed])
+	{
+		return false;
+	}
+	if(get_campground() contains $item[Frobozz Real-Estate Company Instant House (TM)])
 	{
 		return false;
 	}
@@ -8928,6 +8932,10 @@ boolean doTasks()
 		if(get_property("questL11Pyramid") == "unstarted")
 		{
 			print("No burning Ed's model now!", "blue");
+			if((my_path() == "One Crazy Random Summer") && (get_property("desertExploration").to_int() == 100))
+			{
+				print("We might have had an issue due to OCRS and the Desert, please finish it manually and run again.", "red");
+			}
 			abort("Tried to open the Pyramid but could not. Something went wrong :(");
 		}
 
@@ -9563,7 +9571,12 @@ boolean doTasks()
 				buffMaintain($effect[Mayeaugh], 0, 1, 1);
 				sources = sources + 1;
 			}
-			if(item_amount($item[hot plate]) > 0)
+			if(item_amount($item[smirking shrunken head]) > 0)
+			{
+				equip($item[smirking shrunken head]);
+				sources = sources + 1;
+			}
+			else if(item_amount($item[hot plate]) > 0)
 			{
 				equip($item[hot plate]);
 				sources = sources + 1;

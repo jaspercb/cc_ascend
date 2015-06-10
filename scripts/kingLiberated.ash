@@ -290,6 +290,7 @@ void handleKingLiberation()
 		pullAll($item[unbearable light]);
 		pullAll($item[Uncle Buck]);
 		pullAll($item[unconscious collective dream jar]);
+		pullAll($item[V for Vivala Mask]);
 		pullAll($item[villainous scythe]);
 		pullAll($item[Wand of Oscus]);
 		pullAndUse($item[warbear breakfast machine], 1);
