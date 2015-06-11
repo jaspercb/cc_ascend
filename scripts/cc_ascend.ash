@@ -8474,7 +8474,11 @@ boolean doTasks()
 				}
 				else
 				{
-					ccAdv(1, $location[The Oasis]);
+					if(!ccAdv(1, $location[The Oasis]))
+					{
+						print("Could not visit the Oasis for some reason, assuming desertExploration is incorrect.", "red");
+						set_property("desertExploration", 0);
+					}
 				}
 
 				return true;
