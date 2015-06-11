@@ -3582,22 +3582,31 @@ void consumeStuff()
 						eat(1, $item[Spaghetti Breakfast]);
 					}
 					pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
-					if(item_amount($item[Mayoflex]) > 0)
+					if(item_amount($item[Boris\'s Key Lime Pie]) > 0)
 					{
-						use(1, $item[Mayoflex]);
+						if(item_amount($item[Mayoflex]) > 0)
+						{
+							use(1, $item[Mayoflex]);
+						}
+						eat(1, $item[Boris\'s Key Lime Pie]);
 					}
-					eat(1, $item[Boris\'s Key Lime Pie]);
 					pullXWhenHaveY(whatHiMein(), 2, 0);
-					if(item_amount($item[Mayoflex]) > 0)
+					if(item_amount(whatHiMein()) > 0)
 					{
-						use(1, $item[Mayoflex]);
+						if(item_amount($item[Mayoflex]) > 0)
+						{
+							use(1, $item[Mayoflex]);
+						}
+						eat(1, whatHiMein());
 					}
-					eat(1, whatHiMein());
-					if(item_amount($item[Mayoflex]) > 0)
+					if(item_amount(whatHiMein()) > 0)
 					{
-						use(1, $item[Mayoflex]);
+						if(item_amount($item[Mayoflex]) > 0)
+						{
+							use(1, $item[Mayoflex]);
+						}
+						eat(1, whatHiMein());
 					}
-					eat(1, whatHiMein());
 				}
 			}
 			else if(!get_property("cc_useCubeling").to_boolean())
@@ -9550,7 +9559,10 @@ boolean doTasks()
 			{
 				sources = sources + 2;
 				handleFamiliar($familiar[Warbear Drone]);
-				pullXWhenHaveY($item[warbear drone codes], 1, 0);
+				if(!possessEquipment($item[Warbear Drone Codes]))
+				{
+					pullXWhenHaveY($item[warbear drone codes], 1, 0);
+				}
 				if((item_amount($item[warbear drone codes]) > 0) || (equipped_item($slot[familiar]) == $item[warbear drone codes]))
 				{
 					equip($item[warbear drone codes]);
@@ -9605,9 +9617,9 @@ boolean doTasks()
 #			{
 #				equip($slot[acc3], $item[old-school calculator watch]);
 #			}
-			if((equipped_item($slot[acc3]) != $item[badass belt]) && (item_amount($item[badass belt]) > 0))
+			if((equipped_item($slot[acc3]) != $item[acid-squirting flower]) && (item_amount($item[acid-squirting flower]) > 0))
 			{
-				equip($slot[acc3], $item[badass belt]);
+				equip($slot[acc3], $item[acid-squirting flower]);
 			}
 			if(have_skill($skill[Frigidalmatian]) && (my_mp() > 300))
 			{

@@ -212,7 +212,7 @@ int internalQuestStatus(string prop)
 	}
 	if(status == "finished")
 	{
-		//Does not handle quests with over 9998 steps. That's the Gnome letter quest, yes?
+		//Does not handle quests with over 9998 steps. That\'s the Gnome letter quest, yes?
 		return 9999;
 	}
 	matcher my_element = create_matcher("step(\\d+)", status);

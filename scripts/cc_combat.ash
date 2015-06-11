@@ -358,7 +358,6 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill toss";
 	}
 
-#	if((!contains_text(combatState, "nanotoss")) && (my_familiar() == $familiar[Nanorhino]) && (have_effect($effect[Nanobrawny]) >= 40))
 	if((!contains_text(combatState, "nanotoss")) && (have_effect($effect[Nanobrawny]) >= 40))
 	{
 		#if appropriate enemy, then banish
@@ -402,6 +401,11 @@ string cc_combatHandler(int round, string opp, string text)
 	if(get_property("cc_doCombatCopy") == "yes")
 	{
 		set_property("cc_doCombatCopy", "no");
+	}
+
+	if((enemy == $monster[plaid ghost]) && (item_amount($item[T.U.R.D.S. Key]) > 0))
+	{
+		return "item t.u.r.d.s. key";
 	}
 
 	if((enemy == $monster[tomb rat]) && (item_amount($item[tangle of rat tails]) > 0))
