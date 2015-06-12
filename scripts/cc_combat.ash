@@ -24,14 +24,31 @@ monster ocrs_helper(string page)
 	string combatState = get_property("cc_combatHandler");
 
 	//	ghostly				physical resistance
-	//	unstoppable			no staggers
-	//	untouchable			damage reduced to 1, instant kills still good.
+	//	untouchable			damage reduced to 5, instant kills still good (much less of an issue now
 
 	/*
 		For no staggers, don\'t use staggers
 		For blocks skills/combat items, we can probably set them all to used as well.
-
 	*/
+
+	boolean[monster] infernalSeals = $monsters[Broodling Seal, Centurion of Sparky, Hermetic Seal, Spawn of Wally, Heat Seal, Navy Seal, Servant of Grodstank, Shadow of Black Bubbles, Watertight Seal, Wet Seal, Black Crayon Beast, Black Crayon Beetle, Black Crayon Constellation, Black Crayon Golem, Black Crayon Demon, Black Crayon Man, Black Crayon Elemental, Black Crayon Crimbo Elf, Black Crayon Fish, Black Crayon Goblin, Black Crayon Hippy, Black Crayon Hobo, Black Crayon Shambling Monstrosity, Black Crayon Manloid, Black Crayon Mer-kin, Black Crayon Frat Orc, Black Crayon Penguin, Black Crayon Pirate, Black Crayon Flower, Black Crayon Slime, Black Crayon Undead Thing, Black Crayon Spiraling Shape];
+	if(infernalSeals contains last_monster())
+	{
+		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
+		{
+			set_property("cc_useCleesh", false);
+			set_property("cc_combatHandler", combatState + "(cleesh)");
+		}
+	}
+
+	if(contains_text(fun, "unstoppable"))
+	{
+		if(!contains_text(combatState, "unstoppable"))
+		{
+			set_property("cc_combatHandler", combatState + "(DNA)(air dirty laundry)(ply reality)(indigo cup)(love mosquito)(blue balls)(love gnats)(unstoppable)");
+			#Block weaksauce and pocket crumbs?
+		}
+	}
 
 	if(contains_text(fun, "annoying"))
 	{

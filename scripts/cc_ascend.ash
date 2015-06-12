@@ -108,6 +108,16 @@ boolean L12_nunsTrickGlandGet();
 boolean L13_sorceressDoor();
 boolean questOverride();
 
+boolean ccEat(int howMany, item toEat)
+{
+	if((get_campground() contains $item[Portable Mayo Clinic]) && (my_meat() > (10000 + (1000 * howMany))))
+	{
+		buy(howMany, $item[Mayoflex]);
+		use(howMany, $item[Mayoflex]);
+	}
+	return eat(howMany, toEat);
+}
+
 boolean trackingSplitterFixer(string oldSetting, int day, string newSetting)
 {
 	/***
@@ -3458,13 +3468,13 @@ void consumeStuff()
 			buffMaintain($effect[Got Milk], 0, 1, 1);
 			if(item_amount($item[Spaghetti Breakfast]) > 0)
 			{
-				eat(1, $item[Spaghetti Breakfast]);
+				ccEat(1, $item[Spaghetti Breakfast]);
 			}
 			pullXWhenHaveY(whatHiMein(), 2, 0);
-			eat(2, whatHiMein());
+			ccEat(2, whatHiMein());
 			if(item_amount($item[digital key lime pie]) > 0)
 			{
-				eat(1, $item[digital key lime pie]);
+				ccEat(1, $item[digital key lime pie]);
 				tryPantsEat();
 			}
 			else
@@ -3472,12 +3482,12 @@ void consumeStuff()
 				if(my_fullness() == 10)
 				{
 					pullXWhenHaveY(whatHiMein(), 1, 0);
-					eat(1, whatHiMein());
+					ccEat(1, whatHiMein());
 				}
 				else
 				{
 					pullXWhenHaveY($item[Digital Key Lime Pie], 1, 0);
-					eat(1, $item[Digital Key Lime Pie]);
+					ccEat(1, $item[Digital Key Lime Pie]);
 				}
 			}
 		}
@@ -3486,9 +3496,9 @@ void consumeStuff()
 		{
 			dealWithMilkOfMagnesium(true);
 			buffMaintain($effect[Got Milk], 0, 1, 1);
-			eat(1, $item[Boris\'s Key Lime Pie]);
-			eat(1, $item[Jarlsberg\'s Key Lime Pie]);
-			eat(1, $item[Sneaky Pete\'s Key Lime Pie]);
+			ccEat(1, $item[Boris\'s Key Lime Pie]);
+			ccEat(1, $item[Jarlsberg\'s Key Lime Pie]);
+			ccEat(1, $item[Sneaky Pete\'s Key Lime Pie]);
 			tryPantsEat();
 			tryPantsEat();
 			tryPantsEat();
@@ -3560,21 +3570,7 @@ void consumeStuff()
 
 			if(towerKeyCount() == 3)
 			{
-				if(item_amount($item[Mayoflex]) > 0)
-				{
-					use(1, $item[Mayoflex]);
-				}
-				eat(1, whatHiMein());
-				if(item_amount($item[Mayoflex]) > 0)
-				{
-					use(1, $item[Mayoflex]);
-				}
-				eat(1, whatHiMein());
-				if(item_amount($item[Mayoflex]) > 0)
-				{
-					use(1, $item[Mayoflex]);
-				}
-				eat(1, whatHiMein());
+				ccEat(3, whatHiMein());
 			}
 			if(get_property("cc_useCubeling").to_boolean())
 			{
@@ -3591,7 +3587,7 @@ void consumeStuff()
 						{
 							use(1, $item[Mayoflex]);
 						}
-						eat(1, $item[Spaghetti Breakfast]);
+						ccEat(1, $item[Spaghetti Breakfast]);
 					}
 					pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
 					if(item_amount($item[Boris\'s Key Lime Pie]) > 0)
@@ -3600,7 +3596,7 @@ void consumeStuff()
 						{
 							use(1, $item[Mayoflex]);
 						}
-						eat(1, $item[Boris\'s Key Lime Pie]);
+						ccEat(1, $item[Boris\'s Key Lime Pie]);
 					}
 					pullXWhenHaveY(whatHiMein(), 2, 0);
 					if(item_amount(whatHiMein()) > 0)
@@ -3609,7 +3605,7 @@ void consumeStuff()
 						{
 							use(1, $item[Mayoflex]);
 						}
-						eat(1, whatHiMein());
+						ccEat(1, whatHiMein());
 					}
 					if(item_amount(whatHiMein()) > 0)
 					{
@@ -3617,15 +3613,15 @@ void consumeStuff()
 						{
 							use(1, $item[Mayoflex]);
 						}
-						eat(1, whatHiMein());
+						ccEat(1, whatHiMein());
 					}
 				}
 			}
 			else if(!get_property("cc_useCubeling").to_boolean())
 			{
-				eat(1, $item[Boris\'s Key Lime Pie]);
-				eat(1, $item[Jarlsberg\'s Key Lime Pie]);
-				eat(1, $item[Sneaky Pete\'s Key Lime Pie]);
+				ccEat(1, $item[Boris\'s Key Lime Pie]);
+				ccEat(1, $item[Jarlsberg\'s Key Lime Pie]);
+				ccEat(1, $item[Sneaky Pete\'s Key Lime Pie]);
 				#cli_execute("eat 1 video games hot dog");
 				if(my_fullness() != 15)
 				{
@@ -3822,7 +3818,7 @@ void consumeStuff()
 			if(item_amount($item[Star Key Lime Pie]) >= 3)
 			{
 				buffMaintain($effect[Got Milk], 0, 1, 1);
-				eat(3, $item[Star Key Lime Pie]);
+				ccEat(3, $item[Star Key Lime Pie]);
 				tryPantsEat();
 				tryPantsEat();
 				tryPantsEat();
