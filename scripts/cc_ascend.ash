@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r15897;
+since r15930;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -2158,6 +2158,21 @@ boolean questOverride()
 		print("Found completed Island War (12)");
 		set_property("cc_war", "finished");
 	}
+
+
+	if(possessEquipment($item[Pirate Fledges]))
+	{
+		if(get_property("cc_pirateoutfit") != "finished")
+		{
+			print("Found Pirate Fledges and incomplete pirate outfit, fixing...");
+			set_property("cc_pirateoutfit", "finished");
+		}
+		if(get_property("cc_fcle") != "finished")
+		{
+			print("Found Pirate Fledges and incomplete F\'C\'le, fixing...");
+			set_property("cc_fcle", "finished");
+		}
+	}
 	return false;
 }
 
@@ -2343,14 +2358,6 @@ boolean L11_unlockHiddenCity()
 		pullXWhenHaveY($item[Stone Wool], 1, 0);
 	}
 	buffMaintain($effect[Stone-Faced], 0, 1, 1);
-
-#	string page = visit_url("adventure.php?snarfblat=280");
-#	if(contains_text(page, "Combat"))
-#	{
-#		print("Wandering monster interrupted our attempt at the Hidden City", "red");
-#		ccAdv(1, $location[Noob Cave]);
-#		return true;
-#	}
 
 	if(ccAdvBypass(280))
 	{
@@ -4067,6 +4074,10 @@ boolean LX_getDigitalKey()
 	{
 		return false;
 	}
+	while((item_amount($item[Red Pixel]) > 0) && (item_amount($item[Blue Pixel]) > 0) && (item_amount($item[Green Pixel]) > 0) && (item_amount($item[White Pixel]) < 30))
+	{
+		cli_execute("make white pixel");
+	}
 	if((item_amount($item[white pixel]) >= 30) || (item_amount($item[Richard\'s Star Key]) > 0))
 	{
 		if(have_effect($effect[consumed by fear]) > 0)
@@ -4076,6 +4087,7 @@ boolean LX_getDigitalKey()
 		}
 		return false;
 	}
+
 
 	if(get_property("cc_crackpotjar") == "")
 	{
@@ -4114,7 +4126,6 @@ boolean LX_getDigitalKey()
 		woods_questStart();
 		equip($slot[acc2], $item[Continuum Transfunctioner]);
 		ccAdv(1, $location[8-bit Realm]);
-		# FIXME: We don't actually consider making white pixels, we should.
 	}
 	return true;
 }
@@ -5357,17 +5368,6 @@ boolean L4_batCave()
 			return true;
 		}
 		use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
-
-#		string page = visit_url("adventure.php?snarfblat=31&confirm=on");
-#		if(contains_text(page, "Combat"))
-#		{
-#			print("Wandering monster interrupt at Guano Junction", "red");
-#			ccAdv(1, $location[Guano Junction]);
-#		}
-#		else
-#		{
-#			use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
-#		}
 		return true;
 	}
 
@@ -6191,7 +6191,7 @@ boolean L9_aBooPeak()
 
 boolean L9_twinPeak()
 {
-	if(get_property("twinPeakProgress").to_int() == 15)
+	if(get_property("twinPeakProgress").to_int() >= 15)
 	{
 		return false;
 	}
@@ -6199,12 +6199,6 @@ boolean L9_twinPeak()
 	{
 		return false;
 	}
-
-#	if(contains_text(visit_url("place.php?whichplace=highlands"), "fire2.gif"))
-#	{
-#		set_property("cc_twinpeak", "finished");
-#		return true;
-#	}
 
 	buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
 	if(get_property("cc_twinpeakprogress") == "")
@@ -6567,17 +6561,6 @@ boolean L9_chasmStart()
 		string page = visit_url("place.php?whichplace=orc_chasm&action=bridge_done");
 		ccAdvBypass("place.php?whichplace=orc_chasm&action=bridge_done", $location[The Smut Orc Logging Camp]);
 
-#		string page = visit_url("place.php?whichplace=orc_chasm&action=bridge_done");
-#		page = visit_url("place.php?whichplace=orc_chasm&action=bridge_done");
-#		if(contains_text(page, "Combat"))
-#		{
-#			ccAdv(1, $location[The Smut Orc Logging Camp]);
-#		}
-#		else
-#		{
-#			set_property("cc_chasmBusted", true);
-#			abort("Please find the Hulking Bridge Troll manually");
-#		}
 		set_property("cc_chasmBusted", true);
 		set_property("chasmBridgeProgress", 0);
 		return true;
@@ -7037,8 +7020,6 @@ boolean LX_nastyBooty()
 	string page = "inv_use.php?pwd=&which=3&whichitem=2950";
 	ccAdvBypass(page, $location[Noob Cave]);
 
-#	visit_url("inv_use.php?pwd=&which=3&whichitem=2950");
-#	ccAdv(1, $location[Noob Cave]);
 	return true;
 }
 
@@ -9258,11 +9239,6 @@ boolean doTasks()
 				string page = "place.php?whichplace=nstower&action=ns_10_sorcfight";
 				ccAdvBypass(page, $location[Noob Cave]);
 
-#				string page = visit_url("place.php?whichplace=nstower&action=ns_10_sorcfight");
-#				if(contains_text(page, "Combat"))
-#				{
-#					ccAdv(1, $location[Noob Cave]);
-#				}
 				if(item_amount($item[Thwaitgold Scarab Beetle Statuette]) > 0)
 				{
 					set_property("cc_sorceress", "finished");
