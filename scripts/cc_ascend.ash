@@ -8147,6 +8147,16 @@ boolean doTasks()
 		}
 	}
 
+	if((my_class() != $class[Ed]) && (my_level() >= 9) && (my_daycount() == 1))
+	{
+		if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+		{
+			doRest();
+			cli_execute("scripts/postadventure.ash");
+			return true;
+		}
+	}
+
 	if(LX_dinseylandfillFunbucks())
 	{
 		return true;
