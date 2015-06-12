@@ -72,7 +72,10 @@ element ns_hedge2(string data);
 element ns_hedge3(string data);
 void woods_questStart();			//From Bale\'s woods.ash relay mod.
 int howLongBeforeHoloWristDrop();
-
+string safeString(string input);
+string safeString(skill input);
+string safeString(item input);
+string safeString(monster input);
 
 // Private Prototypes
 boolean buffMaintain(item source, effect buff, int uses, int turns);
@@ -81,6 +84,27 @@ string beerPong(string page);
 
 // Function Definitions
 
+string safeString(string input)
+{
+	matcher comma = create_matcher("[,]", input);
+	input = replace_all(comma, ".");
+	return input;
+}
+
+string safeString(skill input)
+{
+	return safeString("" + input);
+}
+
+string safeString(item input)
+{
+	return safeString("" + input);
+}
+string safeString(monster input)
+{
+	return safeString("" + input);
+}
+
 void handleTracker(monster enemy, skill toTrack, string tracker)
 {
 	string cur = get_property(tracker);
@@ -88,7 +112,7 @@ void handleTracker(monster enemy, skill toTrack, string tracker)
 	{
 		cur = cur + ", ";
 	}
-	cur = cur + "(" + my_daycount() + ":" + enemy + ":" + toTrack + ":" + my_turncount() + ")";
+	cur = cur + "(" + my_daycount() + ":" + safeString(enemy) + ":" + safeString(toTrack) + ":" + my_turncount() + ")";
 	set_property(tracker, cur);
 }
 
@@ -99,7 +123,7 @@ void handleTracker(monster enemy, string toTrack, string tracker)
 	{
 		cur = cur + ", ";
 	}
-	cur = cur + "(" + my_daycount() + ":" + enemy + ":" + toTrack + ":" + my_turncount() + ")";
+	cur = cur + "(" + my_daycount() + ":" + safeString(enemy) + ":" + safeString(toTrack) + ":" + my_turncount() + ")";
 	set_property(tracker, cur);
 }
 
@@ -110,7 +134,7 @@ void handleTracker(monster enemy, item toTrack, string tracker)
 	{
 		cur = cur + ", ";
 	}
-	cur = cur + "(" + my_daycount() + ":" + enemy + ":" + toTrack + ":" + my_turncount() + ")";
+	cur = cur + "(" + my_daycount() + ":" + safeString(enemy) + ":" + safeString(toTrack) + ":" + my_turncount() + ")";
 	set_property(tracker, cur);
 }
 
@@ -121,7 +145,7 @@ void handleTracker(monster enemy, string tracker)
 	{
 		cur = cur + ", ";
 	}
-	cur = cur + "(" + my_daycount() + ":" + enemy + ":" + my_turncount() + ")";
+	cur = cur + "(" + my_daycount() + ":" + safeString(enemy) + ":" + my_turncount() + ")";
 	set_property(tracker, cur);
 }
 

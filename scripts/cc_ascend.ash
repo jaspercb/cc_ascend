@@ -171,9 +171,9 @@ boolean settingFixer()
 	trackingSplitterFixer("cc_renenutet_day3", 3, "cc_renenutet");
 	trackingSplitterFixer("cc_renenutet_day4", 4, "cc_renenutet");
 
-	if(get_property("cc_edDelayTimer") == "")
+	if(get_property("cc_delayTimer") == "")
 	{
-		set_property("cc_edDelayTimer", 4);
+		set_property("cc_delayTimer", 1);
 	}
 	if(get_property("cc_100familiar") == "yes")
 	{
@@ -206,6 +206,11 @@ boolean settingFixer()
 	if(get_property("cc_chasmBusted") == "no")
 	{
 		set_property("cc_chasmBusted", false);
+	}
+	if(get_property("cc_edDelayTimer") != "")
+	{
+		set_property("cc_delayTimer", get_property("cc_edDelayTimer"));
+		set_property("cc_edDelayTimer", "");
 	}
 	if(get_property("cc_grimstoneFancyOilPainting") == "need")
 	{
@@ -5615,12 +5620,26 @@ boolean LX_handleSpookyravenFirstFloor()
 		set_property("cc_spookyravennecklace", "done");
 		return false;
 	}
-	if((my_class() == $class[Ed]) && !have_skill($skill[Even More Elemental Wards]) && get_property("cc_edDelayHauntedKitchen").to_boolean())
+
+	boolean delayKitchen = false;
+	if(get_property("cc_delayHauntedKitchen").to_boolean())
 	{
 		if((elemental_resist($element[hot]) < 9) || (elemental_resist($element[stench]) < 9))
 		{
-			return false;
+			if(my_class() == $class[Ed])
+			{
+				delayKitchen = have_skill($skill[Even More Elemental Wards]);
+			}
+			else
+			{
+				delayKitchen = false;
+			}
 		}
+	}
+
+	if(delayKitchen)
+	{
+		return false;
 	}
 
 	if(get_property("writingDesksDefeated").to_int() >= 5)
@@ -7592,14 +7611,12 @@ boolean doTasks()
 		set_property("cc_interrupt", false);
 		abort("cc_interrupt detected and aborting, cc_interrupt disabled.");
 	}
-	if(my_class() == $class[Ed])
+
+	int delay = get_property("cc_delayTimer").to_int();
+	if(delay != 0)
 	{
-		int delay = get_property("cc_edDelayTimer").to_int();
-		if(delay != 0)
-		{
-			print("Delayed wait for Ed reviewing", "blue");
-			wait(delay);
-		}
+		print("Delay between adventures... beep boop... ", "blue");
+		wait(delay);
 	}
 
 	if((monster_level_adjustment() > 150) && (monster_level_adjustment() < 160))

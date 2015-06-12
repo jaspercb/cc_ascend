@@ -2,7 +2,7 @@
 2	sleazeAirportAlways	boolean	ANY	Do you have access to Spring Break Beach?
 3	stenchAirportAlways	boolean	ANY	Do you have access to DinseyLandfill?
 4	cc_newbieOverride	boolean	ANY	Did you fight a crate? Ugh... Report it please, but if you want the script to try again, set this to true and it'll override it. Once.
-5	cc_edDelayHauntedKitchen	boolean	ANY	Should we delay the Haunted Kitchen until Ed has Even More Elemental Wards?
+5	cc_delayHauntedKitchen	boolean	ANY	Should we delay the Haunted Kitchen until we have 9 resist? (Or in Ed, Even More Elemental Wards)?
 6	cc_dickstab	boolean	ANY	Do you want to let the script potentially spend lots of meat just to shave off a few adventures? You probably don't.
 7	cc_getBeehive	boolean	POST	Go for the beehive?
 8	cc_getStarKey	boolean	POST	Get Richard's Star Key?
@@ -16,4 +16,4 @@
 16	cc_borrowedTimeOnLiberation	boolean	ANY	Automatically use Borrowed Time when liberating the King? This assumes that you are going to bother to ascend again the same day.
 17	cc_clearCombatScripts	boolean	ANY	Clear out the postAdventure, preAdventure and kingLiberated settings upon kingLiberation. These will return upon running the script in a new ascension.
 18	cc_interrupt	boolean	ACTION	Cause script to stop before starting next turn action (instead of trying to abort midturn).
-19	cc_edDelayTimer	integer	ANY	Sets the delay before each Ed action, default is 4 seconds. It is not recommended to reduce this below 2.
+19	cc_delayTimer	integer	ANY	Sets the delay before each action, default is 1 second(s). It is not recommended to reduce this below 1.

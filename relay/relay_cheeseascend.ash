@@ -50,6 +50,10 @@ void generateTrackingData(string tracked, boolean hasSkill)
 {
 	int day = 0;
 	string[int] tracking = split_string(get_property(tracked), ",");
+	if(get_property(tracked) == "")
+	{
+		return;
+	}
 	foreach x in tracking
 	{
 		if(tracking[x] == "")
@@ -163,10 +167,10 @@ void main()
 			set_property("cc_ignoreFlyer", false);
 			writeln("Disabled cc_ignoreFlyer.<br>");
 		}
-		if(!get_property("cc_edDelayHauntedKitchen").to_boolean())
+		if(!get_property("cc_delayHauntedKitchen").to_boolean())
 		{
-			set_property("cc_edDelayHauntedKitchen", true);
-			writeln("Enabled cc_edDelayHauntedKitchen.<br>");
+			set_property("cc_delayHauntedKitchen", true);
+			writeln("Enabled cc_delayHauntedKitchen.<br>");
 		}
 	}
 
