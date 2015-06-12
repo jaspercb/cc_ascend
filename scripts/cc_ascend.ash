@@ -8143,6 +8143,13 @@ boolean doTasks()
 		return true;
 	}
 
+	#Can we have some other way to check that we have AT skills?
+	if((item_amount($item[antique accordion]) == 0) && (my_meat() > 12500) && (have_skill($skill[The Ode to Booze])))
+	{
+		buyUpTo(1, $item[antique accordion]);
+	}
+
+
 	if(L12_flyerFinish())
 	{
 		return true;
