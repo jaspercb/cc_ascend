@@ -90,6 +90,8 @@ boolean L11_hiddenCityZones();
 boolean L11_talismanOfNam();
 boolean L11_mauriceSpookyraven();
 boolean L11_nostrilOfTheSerpent();
+boolean L11_unlockPyramid();
+boolean L11_unlockEd();
 boolean L11_defeatEd();
 boolean L11_getBeehive();
 boolean L12_flyerFinish();
@@ -2860,6 +2862,160 @@ boolean L13_sorceressDoor()
 	return true;
 }
 
+
+boolean L11_unlockEd()
+{
+	if(get_property("cc_mcmuffin") != "pyramid")
+	{
+		return false;
+	}
+
+	if(my_class() == $class[Ed])
+	{
+		set_property("cc_mcmuffin", "finished");
+		return true;
+	}
+
+	if(get_property("cc_tavern") != "finished")
+	{
+		print("Uh oh, didn\'t do the tavern and we are at the pyramid....", "red");
+	}
+
+	if(get_property("cc_nunsTrick") == "got")
+	{
+		set_property("cc_nunsTrickActive", "yes");
+	}
+
+	print("In the pyramid (W:" + item_amount($item[crumbling wooden wheel]) + ") (R:" + item_amount($item[tomb ratchet]) + ") (U:" + get_property("controlRoomUnlock") + ")", "blue");
+
+	if(!get_property("middleChamberUnlock").to_boolean())
+	{
+		ccAdv(1, $location[The Upper Chamber]);
+		return true;
+	}
+
+	int total = item_amount($item[Crumbling Wooden Wheel]);
+	total = total + item_amount($item[Tomb Ratchet]);
+
+	if((total >= 10) && (my_adventures() >= 4) && get_property("controlRoomUnlock").to_boolean())
+	{
+		visit_url("place.php?whichplace=pyramid&action=pyramid_control");
+		int x = 0;
+		while(x < 10)
+		{
+			if(item_amount($item[crumbling wooden wheel]) > 0)
+			{
+				visit_url("choice.php?pwd&whichchoice=929&option=1&choiceform1=Use+a+wheel+on+the+peg&pwd="+my_hash());
+			}
+			else
+			{
+				visit_url("choice.php?whichchoice=929&option=2&pwd");
+			}
+			x = x + 1;
+			if((x == 3) || (x == 7) || (x == 10))
+			{
+				visit_url("choice.php?pwd&whichchoice=929&option=5&choiceform5=Head+down+to+the+Lower+Chambers+%281%29&pwd="+my_hash());
+			}
+			if((x == 3) || (x == 7))
+			{
+				visit_url("place.php?whichplace=pyramid&action=pyramid_control");
+			}
+		}
+		set_property("cc_mcmuffin", "ed");
+		return true;
+	}
+	if(total < 10)
+	{
+		buffMaintain($effect[Joyful Resolve], 0, 1, 1);
+		buffMaintain($effect[One Very Clear Eye], 0, 1, 1);
+		buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
+		buffMaintain($effect[Human-Fish Hybrid], 0, 1, 1);
+		buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
+		if(get_property("cc_dickstab").to_boolean())
+		{
+			buffMaintain($effect[Wet and Greedy], 0, 1, 1);
+			buffMaintain($effect[Frosty], 0, 1, 1);
+		}
+		if(item_amount($item[possessed sugar cube]) > 0)
+		{
+			cli_execute("make sugar fairy");
+			buffMaintain($effect[Dance of the Sugar Fairy], 0, 1, 1);
+		}
+	}
+	ccAdv(1, $location[The Middle Chamber]);
+	return true;
+}
+
+
+boolean L11_unlockPyramid()
+{
+#	if((my_level() >= 12) && (my_class() != $class[Ed]) && (((item_amount($item[ancient amulet]) > 0) && (item_amount($item[Eye of Ed]) > 0) && (item_amount($item[Staff of Fats]) > 0)) || (item_amount($item[Staff of Ed]) > 0)) && (get_property("cc_mcmuffin") == "start"))
+	int pyramidLevel = 11;
+	if(get_property("cc_dickStab").to_boolean())
+	{
+		pyramidLevel = 12;
+	}
+
+	if(my_level() < pyramidLevel)
+	{
+		return false;
+	}
+	if(my_class() == $class[Ed])
+	{
+		return false;
+	}
+	if(get_property("cc_mcmuffin") != "start")
+	{
+		return false;
+	}
+
+	if(get_property("questL11Pyramid") == "started")
+	{
+		set_property("cc_mcmuffin", "pyramid");
+		return true;
+	}
+
+
+	if((((item_amount($item[2180]) > 0) && (item_amount($item[2286]) > 0) && (item_amount($item[2268]) > 0)) || (item_amount($item[2325]) > 0)))
+	{
+		print("Reveal the pyramid", "blue");
+#		if(item_amount($item[Staff of Ed]) == 0)
+		if(item_amount($item[2325]) == 0)
+		{
+			craft("combine", 1, $item[2180], $item[2286]);
+			craft("combine", 1, $item[headpiece of the staff of ed], $item[2268]);
+		}
+		if(item_amount($item[2325]) == 0)
+		{
+			abort("Failed making Staff of Ed (2325) via CLI. Please do it manually and rerun.");
+		}
+
+		visit_url("place.php?whichplace=desertbeach&action=db_pyramid1");
+
+		if(get_property("questL11Pyramid") == "unstarted")
+		{
+			print("No burning Ed's model now!", "blue");
+			if((my_path() == "One Crazy Random Summer") && (get_property("desertExploration").to_int() == 100))
+			{
+				print("We might have had an issue due to OCRS and the Desert, please finish the desert (and only the desert) manually and run again.", "red");
+			}
+			abort("Tried to open the Pyramid but could not. Something went wrong :(");
+		}
+
+		set_property("cc_hiddencity", "finished");
+		set_property("cc_ballroom", "finished");
+		set_property("cc_palindome", "finished");
+		set_property("cc_mcmuffin", "pyramid");
+		buffMaintain($effect[Snow Shoes], 0, 1, 1);
+		ccAdv(1, $location[The Upper Chamber]);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 boolean L11_defeatEd()
 {
 	if(get_property("cc_mcmuffin") != "ed")
@@ -2894,6 +3050,7 @@ boolean L11_defeatEd()
 			equip($item[beer helmet]);
 		}
 	}
+	print("Time to waste all of Ed's Ka Coins :(", "blue");
 
 	set_property("choiceAdventure976", "1");
 	cli_execute("ccs cc_default");
@@ -8923,141 +9080,7 @@ boolean doTasks()
 		return true;
 	}
 
-
-#	if((my_level() >= 12) && (my_class() != $class[Ed]) && (((item_amount($item[ancient amulet]) > 0) && (item_amount($item[Eye of Ed]) > 0) && (item_amount($item[Staff of Fats]) > 0)) || (item_amount($item[Staff of Ed]) > 0)) && (get_property("cc_mcmuffin") == "start"))
-	int pyramidLevel = 11;
-	if(get_property("cc_dickStab").to_boolean())
-	{
-		pyramidLevel = 12;
-	}
-	if((my_level() >= pyramidLevel) && (my_class() != $class[Ed]) && (((item_amount($item[2180]) > 0) && (item_amount($item[2286]) > 0) && (item_amount($item[2268]) > 0)) || (item_amount($item[2325]) > 0)) && (get_property("cc_mcmuffin") == "start"))
-	{
-		print("Reveal the pyramid", "blue");
-
-		if(get_property("questL11Pyramid") == "started")
-		{
-			set_property("cc_mcmuffin", "pyramid");
-			return true;
-		}
-
-#		if(item_amount($item[Staff of Ed]) == 0)
-		if(item_amount($item[2325]) == 0)
-		{
-			craft("combine", 1, $item[2180], $item[2286]);
-			craft("combine", 1, $item[headpiece of the staff of ed], $item[2268]);
-		}
-		if(item_amount($item[2325]) == 0)
-		{
-			abort("Failed making Staff of Ed (2325) via CLI. Please do it manually and rerun.");
-		}
-
-		visit_url("place.php?whichplace=desertbeach&action=db_pyramid1");
-
-		if(get_property("questL11Pyramid") == "unstarted")
-		{
-			print("No burning Ed's model now!", "blue");
-			if((my_path() == "One Crazy Random Summer") && (get_property("desertExploration").to_int() == 100))
-			{
-				print("We might have had an issue due to OCRS and the Desert, please finish it manually and run again.", "red");
-			}
-			abort("Tried to open the Pyramid but could not. Something went wrong :(");
-		}
-
-
-		set_property("cc_hiddencity", "finished");
-		set_property("cc_ballroom", "finished");
-		set_property("cc_palindome", "finished");
-
-		set_property("cc_mcmuffin", "pyramid");
-		buffMaintain($effect[Snow Shoes], 0, 1, 1);
-		ccAdv(1, $location[The Upper Chamber]);
-		return true;
-	}
-
-	if(get_property("cc_mcmuffin") == "pyramid")
-	{
-		if(my_class() == $class[Ed])
-		{
-			set_property("cc_mcmuffin", "finished");
-			return true;
-		}
-
-		if(get_property("cc_tavern") != "finished")
-		{
-			print("Uh oh, didn\'t do the tavern and we are at the pyramid....", "red");
-		}
-
-		if(get_property("cc_nunsTrick") == "got")
-		{
-			set_property("cc_nunsTrickActive", "yes");
-		}
-		print("In the pyramid (W:" + item_amount($item[crumbling wooden wheel]) + ") (R:" + item_amount($item[tomb ratchet]) + ") (U:" + get_property("controlRoomUnlock") + ")", "blue");
-
-		if(!get_property("middleChamberUnlock").to_boolean())
-		{
-			ccAdv(1, $location[The Upper Chamber]);
-
-			return true;
-		}
-
-		int total = item_amount($item[Crumbling Wooden Wheel]);
-		total = total + item_amount($item[Tomb Ratchet]);
-
-		if((total >= 10) && (my_adventures() >= 4) && get_property("controlRoomUnlock").to_boolean())
-		{
-			visit_url("place.php?whichplace=pyramid&action=pyramid_control");
-			int x = 0;
-			while(x < 10)
-			{
-				if(item_amount($item[crumbling wooden wheel]) > 0)
-				{
-					visit_url("choice.php?pwd&whichchoice=929&option=1&choiceform1=Use+a+wheel+on+the+peg&pwd="+my_hash());
-				}
-				else
-				{
-					visit_url("choice.php?whichchoice=929&option=2&pwd");
-				}
-				x = x + 1;
-				if((x == 3) || (x == 7) || (x == 10))
-				{
-					visit_url("choice.php?pwd&whichchoice=929&option=5&choiceform5=Head+down+to+the+Lower+Chambers+%281%29&pwd="+my_hash());
-				}
-				if((x == 3) || (x == 7))
-				{
-					visit_url("place.php?whichplace=pyramid&action=pyramid_control");
-				}
-			}
-			set_property("cc_mcmuffin", "ed");
-			return true;
-		}
-		if((total < 10) || !get_property("controlRoomUnlock").to_boolean())
-		{
-			if(total < 10)
-			{
-				buffMaintain($effect[Joyful Resolve], 0, 1, 1);
-				buffMaintain($effect[One Very Clear Eye], 0, 1, 1);
-				buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
-				buffMaintain($effect[Human-Fish Hybrid], 0, 1, 1);
-				buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
-
-				if(get_property("cc_dickstab").to_boolean())
-				{
-					buffMaintain($effect[Wet and Greedy], 0, 1, 1);
-					buffMaintain($effect[Frosty], 0, 1, 1);
-				}
-				if(item_amount($item[possessed sugar cube]) > 0)
-				{
-					cli_execute("make sugar fairy");
-					buffMaintain($effect[Dance of the Sugar Fairy], 0, 1, 1);
-				}
-			}
-
-			ccAdv(1, $location[The Middle Chamber]);
-			return true;
-		}
-	}
-
-	if(L11_defeatEd())
+	if(L11_unlockPyramid() || L11_unlockEd() || L11_defeatEd())
 	{
 		return true;
 	}
