@@ -32,6 +32,10 @@ void handlePostAdventure()
 		return;
 	}
 
+	if((my_location() == $location[The Lower Chambers]) && (item_amount($item[2334]) == 0))
+	{
+		return;
+	}
 
 	ocrs_postHelper();
 	if((contains_text(get_property("cc_funPrefix"), "clingy")) || last_monster().random_modifiers["clingy"])

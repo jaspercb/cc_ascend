@@ -23,6 +23,11 @@ void handlePreAdventure()
 		return;
 	}
 
+	if(my_location() == $location[The Lower Chambers])
+	{
+		return;
+	}
+
 
 	if((get_property("_bittycar") == "") && (item_amount($item[Bittycar Meatcar]) > 0))
 	{

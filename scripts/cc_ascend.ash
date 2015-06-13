@@ -3054,18 +3054,30 @@ boolean L11_defeatEd()
 
 	set_property("choiceAdventure976", "1");
 	cli_execute("ccs cc_default");
-	visit_url("place.php?whichplace=pyramid&action=pyramid_state1a");
-	visit_url("choice.php?pwd&whichchoice=976&option=1&choiceform1=If+you+say+so...&pwd="+my_hash());
-	visit_url("fight.php");
-	int x = 0;
-	while(x < 7)
+
+	#This seems to work but we just want to be a little careful with it.
+	if(true)
 	{
-		x = x + 1;
-		run_combat();
-		#ccAdv(1, $location[Noob Cave]);
-		if(x < 7)
+		while(item_amount($item[2334]) == 0)
 		{
-			visit_url("fight.php");
+			ccAdv(1, $location[The Lower Chambers]);
+		}
+	}
+	else
+	{
+		visit_url("place.php?whichplace=pyramid&action=pyramid_state1a");
+		visit_url("choice.php?pwd&whichchoice=976&option=1&choiceform1=If+you+say+so...&pwd="+my_hash());
+		visit_url("fight.php");
+		int x = 0;
+		while(x < 7)
+		{
+			x = x + 1;
+			run_combat();
+			#ccAdv(1, $location[Noob Cave]);
+			if(x < 7)
+			{
+				visit_url("fight.php");
+			}
 		}
 	}
 
