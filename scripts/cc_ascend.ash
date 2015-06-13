@@ -9931,9 +9931,25 @@ boolean doTasks()
 		set_property("cc_disableAdventureHandling", "yes");
 		visit_url("place.php?whichplace=nstower&action=ns_10_sorcfight");
 		ccAdv(1, $location[Noob Cave]);
+		if(have_effect($effect[Beaten Up]) > 0)
+		{
+			print("Sorceress beat us up. Wahhh.", "red");
+			return true;
+		}
 		if(last_monster() == $monster[Naughty Sorceress])
 		{
-			ccAdv(2, $location[Noob Cave]);
+			ccAdv(1, $location[Noob Cave]);
+			if(have_effect($effect[Beaten Up]) > 0)
+			{
+				print("Blobbers Sorceress beat us up. Wahhh.", "red");
+				return true;
+			}
+			ccAdv(1, $location[Noob Cave]);
+			if(have_effect($effect[Beaten Up]) > 0)
+			{
+				print("We got beat up by a sausage....", "red");
+				return true;
+			}
 			visit_url("place.php?whichplace=nstower&action=ns_11_prism");
 		}
 
