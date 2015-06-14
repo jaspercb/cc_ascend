@@ -112,12 +112,18 @@ boolean questOverride();
 
 boolean ccEat(int howMany, item toEat)
 {
-	if((get_campground() contains $item[Portable Mayo Clinic]) && (my_meat() > (10000 + (1000 * howMany))))
+	boolean retval = false;
+	while(howMany > 0)
 	{
-		buy(howMany, $item[Mayoflex]);
-		use(howMany, $item[Mayoflex]);
+		if((get_campground() contains $item[Portable Mayo Clinic]) && (my_meat() > 11000))
+		{
+			buy(1, $item[Mayoflex]);
+			use(1, $item[Mayoflex]);
+		}
+		retval = eat(1, toEat);
+		howMany = howMany - 1;
 	}
-	return eat(howMany, toEat);
+	return retval;
 }
 
 boolean trackingSplitterFixer(string oldSetting, int day, string newSetting)
@@ -420,7 +426,7 @@ boolean ccAdv(int num, location loc, string option)
 	boolean retval = adv1(loc, num, option);
 	if(my_path() == "One Crazy Random Summer")
 	{
-		if(contains_text(get_property("cc_funPrefix"), "clingy"))
+		if((contains_text(get_property("cc_funPrefix"), "clingy")) || last_monster().random_modifiers["clingy"])
 		{
 			int oldDesert = get_property("desertExploration").to_int();
 			retval = ccAdv(num, loc, option);
