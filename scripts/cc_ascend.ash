@@ -938,7 +938,7 @@ boolean doThemtharHills(boolean trickMode)
 		{
 			if(!user_confirm("About to cancel nuns trick (click yes to continue, no to abort), still need testing on the parameters here."))
 			{
-				abort("User aborted nuns trick. We do not turn off the nuns flags. Beep.");
+				abort("User aborted nuns trick. We do not turn off the nuns flags (cc_nunsTrick->finished to abort). Beep.");
 			}
 		}
 
@@ -3721,7 +3721,7 @@ void consumeStuff()
 			{
 				chew(1, $item[twinkly wad]);
 			}
-			else if(item_amount($item[twinkly nuggets]) >= 5)
+			else if((item_amount($item[twinkly nuggets]) >= 5) && ((my_class() == $class[Seal Clubber]) || (my_class() == $class[Turtle Tamer])))
 			{
 				cli_execute("make 1 twinkly wad");
 				chew(1, $item[twinkly wad]);
@@ -5363,15 +5363,14 @@ boolean L8_trapperGround()
 		print("Need Ore but not enough rain", "blue");
 		return false;
 	}
-	else
+	else if(!in_hardcore())
 	{
-
 		if(pulls_remaining() > 0)
 		{
 			pullXWhenHaveY(oreGoal, 3 - item_amount(oreGoal), item_amount(oreGoal));
 		}
-		return false;
 	}
+	return false;
 }
 
 boolean L8_trapperStart()
