@@ -8551,13 +8551,13 @@ boolean doTasks()
 	if(((my_level() >= 12) || (get_property("cc_palindome") == "finished")) && (get_property("cc_mcmuffin") == "start") && (get_property("desertExploration").to_int() < 100) && ((get_property("cc_hiddenapartment") == "finished") || (get_property("cc_hiddenapartment") == "0")))
 	{
 		item desertBuff = $item[none];
-		if(possessEquipment($item[Ornate Dowsing Rod]))
-		{
-			desertBuff = $item[Ornate Dowsing Rod];
-		}
 		if(possessEquipment($item[UV-resistant compass]))
 		{
 			desertBuff = $item[UV-resistant compass];
+		}
+		if(possessEquipment($item[Ornate Dowsing Rod]))
+		{
+			desertBuff = $item[Ornate Dowsing Rod];
 		}
 
 		if(possessEquipment(desertBuff))

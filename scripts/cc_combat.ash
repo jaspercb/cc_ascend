@@ -534,6 +534,7 @@ string cc_combatHandler(int round, string opp, string text)
 			(enemy == $monster[pygmy bowler]) ||
 			(enemy == $monster[pygmy witch surgeon]) ||
 			(enemy == $monster[quiet healer]) ||
+			(enemy == $monster[Tomb Rat]) ||
 			(enemy == $monster[morbid skull]))
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
