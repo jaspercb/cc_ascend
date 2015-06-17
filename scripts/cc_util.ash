@@ -9,6 +9,7 @@ float elemental_resist_value(int resistance);
 float elemental_resist_value(element resistance);
 int elemental_resist(element goal);
 boolean uneffect(effect toRemove);
+boolean organsFull();
 int doRest();
 item whatHiMein();
 effect whatStatSmile();
@@ -221,6 +222,23 @@ string[int] getMonsterFun(string opp)
 		set_property("cc_funPrefix", fun);
 	}
 	return retval;
+}
+
+boolean organsFull()
+{
+	if(my_fullness() < fullness_limit())
+	{
+		return false;
+	}
+	if(my_inebriety() < inebriety_limit())
+	{
+		return false;
+	}    
+	if(my_spleen_use() < spleen_limit())
+	{
+		return false;
+	}
+	return true;
 }
 
 int internalQuestStatus(string prop)

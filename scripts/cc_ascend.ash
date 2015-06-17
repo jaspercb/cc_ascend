@@ -8308,7 +8308,15 @@ boolean doTasks()
 		}
 	}
 
-	if((my_level() >= 8) && (chateaumantegna_havePainting()) && (my_daycount() <= 2) && (my_class() != $class[Ed]))
+	if(organsFull() && (my_adventures() < 10) && (chateaumantegna_havePainting()) && (my_daycount() == 1) && (my_class() != $class[Ed]))
+	{
+		if(chateaumantegna_usePainting())
+		{
+			ccAdv(1, $location[Noob Cave]);
+			return true;
+		}
+	}
+	if((my_level() >= 8) && (chateaumantegna_havePainting()) && (my_daycount() == 2) && (my_class() != $class[Ed]))
 	{
 		if(chateaumantegna_usePainting())
 		{
