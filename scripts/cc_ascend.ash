@@ -1809,8 +1809,12 @@ void doBedtime()
 		set_property("cc_clanstuff", ""+my_daycount());
 	}
 
+	if((get_property("sidequestOrchardCompleted") != "none") && !get_property("_hippyMeatCollected").to_boolean())
+	{
+		visit_url("shop.php?whichshop=hippy");
+	}
 
-	if((get_property("sidequestArenaCompleted") != "none") && (get_property("concertVisited") == "false"))
+	if((get_property("sidequestArenaCompleted") != "none") && !get_property("concertVisited").to_boolean())
 	{
 		cli_execute("concert 2");
 	}
@@ -3004,6 +3008,16 @@ boolean L11_unlockPyramid()
 			if((my_path() == "One Crazy Random Summer") && (get_property("desertExploration").to_int() == 100))
 			{
 				print("We might have had an issue due to OCRS and the Desert, please finish the desert (and only the desert) manually and run again.", "red");
+				visit_url("place.php?whichplace=desertbeach");
+				if(get_property("desertExploration").to_int() == 100)
+				{
+					abort("Tried to open the Pyramid but could not. Something went wrong :(");
+				}
+				else
+				{
+					print("Incorrectly had exploration value of 100 however, this was correctable. Trying to resume.", "blue");
+					return false;
+				}
 			}
 			abort("Tried to open the Pyramid but could not. Something went wrong :(");
 		}
@@ -4825,6 +4839,11 @@ boolean L0_handleRainDoh()
 
 boolean LX_ornateDowsingRod()
 {
+	if(possessEquipment($item[UV-resistant compass]))
+	{
+		print("You have a UV-resistant compass for some reason, I assume you don't want an Ornate Dowsing Rod.", "red");
+		set_property("cc_grimstoneOrnateDowsingRod", false);
+	}
 	if(!get_property("cc_grimstoneOrnateDowsingRod").to_boolean())
 	{
 		return false;
@@ -8526,16 +8545,28 @@ boolean doTasks()
 		set_property("cc_ignoreFlyer", true);
 	}
 
+
+
 	#Re add level 12 requirement so we can get the hippy outfit?
 	if(((my_level() >= 12) || (get_property("cc_palindome") == "finished")) && (get_property("cc_mcmuffin") == "start") && (get_property("desertExploration").to_int() < 100) && ((get_property("cc_hiddenapartment") == "finished") || (get_property("cc_hiddenapartment") == "0")))
 	{
-		if((item_amount($item[Ornate Dowsing Rod]) == 1) || (equipped_item($slot[off-hand]) == $item[ornate dowsing rod]))
+		item desertBuff = $item[none];
+		if(possessEquipment($item[Ornate Dowsing Rod]))
+		{
+			desertBuff = $item[Ornate Dowsing Rod];
+		}
+		if(possessEquipment($item[UV-resistant compass]))
+		{
+			desertBuff = $item[UV-resistant compass];
+		}
+
+		if(possessEquipment(desertBuff))
 		{
 			if((have_effect($effect[Ultrahydrated]) > 0) || (get_property("desertExploration").to_int() == 0))
 			{
 				print("Searching for the pyramid", "blue");
-				equip($item[Ornate Dowsing Rod]);
-				if(item_amount($item[Thor\'s Pliers]) > 0)
+				equip(desertBuff);
+				if((my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) > 0))
 				{
 					equip($item[Thor\'s Pliers]);
 				}
@@ -8671,12 +8702,12 @@ boolean doTasks()
 		}
 		else if(my_level() >= 12)
 		{
-			abort("I can't do the Oasis without an Ornate Dowsing Rod. I mean, I can, but I won't unless you change me.");
+			abort("I can't do the Oasis without an Ornate Dowsing Rod. You can manually get a UV-resistant compass and I'll use that if you really hate me that much.");
 			#print("Unable to currently do the Oasis and no longer aborting... yet", "red");
 		}
 		else
 		{
-			print("Skipping desert, don't have a rod.");
+			print("Skipping desert, don't have a rod or a compass.");
 		}
 	}
 

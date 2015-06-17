@@ -2,7 +2,7 @@ script "kingLiberated.ash";
 import <zlib.ash>
 import <cc_util.ash>
 
-void pullPVPJunk();
+boolean pullPVPJunk();
 
 void handleKingLiberation()
 {
@@ -12,341 +12,44 @@ void handleKingLiberation()
 		#visit_url("storage.php?action=pullall&pwd&");
 		visit_url("storage.php?action=takemeat&pwd&amt=" + my_storage_meat());
 		visit_url("storage.php?pwd&");
-		put_display(item_amount($item[instant karma]), $item[instant karma]);
-		put_display(item_amount($item[thwaitgold spider statuette]), $item[thwaitgold spider statuette]);
-		put_display(item_amount($item[thwaitgold nit statuette]), $item[thwaitgold nit statuette]);
-		put_display(item_amount($item[thwaitgold caterpillar statuette]), $item[thwaitgold caterpillar statuette]);
-		put_display(item_amount($item[thwaitgold scarab beetle statuette]), $item[thwaitgold scarab beetle statuette]);
 
 		if(my_familiar() != $familiar[Black Cat])
 		{
 			set_property("cc_100familiar", false);
 		}
 
-		print("Banishers: ", "green");
-		print(get_property("cc_banishes_day1"), "blue");
-		print(get_property("cc_banishes_day2"), "blue");
-		print(get_property("cc_banishes_day3"), "blue");
-		print("Yellow Rays: ", "green");
-		print(get_property("cc_yellowRay_day1"), "blue");
-		print(get_property("cc_yellowRay_day2"), "blue");
-		print(get_property("cc_yellowRay_day3"), "blue");
+		boolean[item] toDisplay = $items[Instant Karma, Thwaitgold Caterpillar Statuette, Thwaitgold Nit Statuette, Thwaitgold Scarab Beetle Statuette, Thwaitgold Spider Statuette];
+		foreach it in toDisplay
+		{
+			put_display(item_amount(it), it);
+		}
 
-		pullAll($item[30669 scroll]);
-		pullAll($item[33398 scroll]);
-		pullAll($item[334 scroll]);
-		pullAll($item[5-hour acrimony]);
-		pullAll($item[64067 scroll]);
-		pullAll($item[668 scroll]);
-		pullAll($item[7-Foot Dwarven Mattock]);
 
-		pullAll($item[angst burger]);
-		pullAll($item[antique accordion]);
-		pullAll($item[ass-stompers of violence]);
-		pullAll($item[auxiliary backbone]);
-		pullAll($item[backwoods banjo]);
-		pullAll($item[bag o\' tricks]);
-		pullAll($item[bag of park garbage]);
-		pullAll($item[ball-in-a-cup]);
-		pullAll($item[baneful bandolier]);
+		boolean[item] toPull = $items[30669 scroll, 33398 scroll, 334 scroll, 5-hour acrimony, 64067 scroll, 668 scroll, 7-foot dwarven mattock, angst burger, antique accordion, ass-stompers of violence, auxiliary backbone, backwoods banjo, bag o\' tricks, bag of park garbage, ball-in-a-cup, baneful bandolier, beach buck, beautiful rainbow, belt of loathing, Boris\'s Helm, Boris\'s Helm (askew), box of sunshine, Brand of Violence, Bricko Eye Brick, Bricko Brick, Buddy Bjorn, Camp Scout Backpack, can of rain-doh, carrot juice, carrot nose, caustic slime nodule, chamoisole, chibibuddy&trade; (on), chibibuddy&trade; (off), chroner, claw of the infernal seal, cloak of dire shadows, coinspiracy, cold stone of hatred, cold wad, confusing led clock, corroded breeches, corrosive cowl, The Crown of Ed the Undying, crumpled felt fedora, csa fire-starting kit, das boot, defective game grid token, diabolical crossbow, Dinsey\'s Brain, Dinsey\'s Glove, Dinsey\'s Oculus, Dinsey\'s Pants, Dinsey\'s Pizza Cutter, Dinsey\'s Radar Dish, dread tarragon, dreadful roast, drunkula\'s wineglass, electronic dulcimer pants, eleven-foot pole, empty agua de vida bottle, eternal car battery, Experimental Carbon Fiber Pasta Additive, Fake Washboard, Fat Loot Token, Filthy Lucre, Fishy Pipe, Flaskfull of Hollow, Fossilized Necklace, Freddy Kruegerand, Frying Brainpan, Fudgecycle, Funfunds&trade;, fuzzy slippers of hatred, game grid ticket, game grid token, garbage sticker, giant yellow hat, girdle of hatred, glass eye, goggles of loathing, Golden Mr. Accessory, grandfather watch, Gravyskin Belt of the Sauceblob, Great Wolf\'s Headband, Greatest American Pants, Grisly Shield, Hairpiece on Fire, Handmade Hobby Horse, Hardened Slime Belt, Hardened Slime Hat, Hardened Slime Pants, Hobo Nickel, Holiday Fun!, hot wad, instant karma, ittah bittah hookah, jarlsberg\'s pan, jarlsberg\'s pan (Cosmic Portal Mode), jeans of loathing, Jewel-Eyed Wizard Hat, jodhpurs of violence, juju mojo mask, LARP Membership Card, leathery bat skin, the legendary beat, lens of hatred, lens of violence, lime, little wooden mannequin, llama lama gong, Loathing Legion Helicopter, Loathing Legion Jackhammer, Loathing Legion Knife, Mace of the Tortoise, Map to Kokomo, Malevolent Medallion, mayor ghost\'s scissors, mayfly bait necklace, mer-kin digpick, mer-kin gladiator mask, mer-kin gladiator tailpiece, Mercenary Pistol, Mesmereyes&trade; Contact Lenses, milk of magnesium, miner\'s helmet, miner\'s pants, Mr. Accessory, Mr. Accessory Jr., mon tiki, moon-amber, nasty rat mask, ninjammies, novelty belt buckle of violence, The Nuge\'s Favorite Crossbow, numberwang, odd silver coin, operation patriot shield, opium grenade, order of the silver wossname, ornamental sextant, Oscus\'s dumpster waders, Oscus\'s Neverending Soda, Oscus\'s Pelt, outrageous sombrero, over-the-shoulder folder holder, pantaloons of hatred, pantsgiving, peppermint parasol, pernicious cudgel, Pick-O-Matic lockpicks, pigsticker of violence, pocket square of loathing, poppy, possessed sugar cube, psychoanalytic jar, puppet strings, Ratskin Pajama Pants, red and green rain stick, reflection of a map, Ring of Detect Boring Doors, rubber spider, sand dollar, sasq&trade; watch, scepter of loathing, sea lasso, sea cowbell, sewing kit, set of jacks, shirt kit, Shore Inc. Ship Trip Scrip, silver cow creamer, Sister Accessory, sleaze wad, slime-covered club, slime-covered compass, slime-covered greaves, slime-covered helmet, slime-covered lantern, slime-covered necklace, slime-covered shovel, slime-covered speargun, slime-covered staff, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped), snow suit, solid shifting time weirdness, Space Trip Safety Headphones, spooky putty sheet, spooky wad, staff of the scummy sink, staff of simmering hatred, stench wad, stinky cheese diaper, stinky cheese eye, stinky cheese sword, stinky cheese wheel, Stephen\'s Lab Coat, stick-knife of loathing, still-beating spleen, stinking agaricus, stinky fannypack, STYX Deodorant Body Spray, Tales of Spelunking, Talisman of Baio, Tenderizing Hammer, Thor\'s Pliers, Time Bandit Time Towel, Time Bandit Badge of Courage, Time Lord Badge of Honor, Time Shuriken, time sword, Time-twitching Toolbelt, tiny costume wardrobe, toy accordion, Travoltan Trousers, Transmission from Planet Xi, Treads of Loathing, twinkly wad, unbearable light, Uncle Buck, unconscious collective dream jar, V for Vivala Mask, villainous scythe, Wand of Oscus, water wings for babies, Work is a Four Letter Sword, woven baling wire bracelets, Xiblaxian 5D Printer, Xiblaxian Alloy, Xiblaxian Circuitry, Xiblaxian Holo-Wrist-Puter, Xiblaxian Polymer, Xiblaxian Stealth Cowl, Zombo\'s Empty Eye];
+		foreach it in toPull
+		{
+			pullAll(it);
+		}
 
-		pullAll($item[beach buck]);
-		pullAll($item[beautiful rainbow]);
-		pullAll($item[belt of loathing]);
-		pullAndUse($item[bittycar meatcar], 1);
-		pullAll($item[Boris\'s Helm]);
-		pullAll($item[Boris\'s Helm (askew)]);
-		pullAll($item[brand of violence]);
-		pullAll($item[bricko eye brick]);
-		pullAll($item[bricko brick]);
-		pullAll($item[buddy bjorn]);
-		pullAndUse($item[burrowgrub hive], 1);
+		toPull = $items[Bittycar meatcar, burrowgrub hive, chester\'s bag of candy, chroner cross, chroner trigger, the cocktail shaker, festive warbear bank, glass gnoll eye, picky tweezers, taco dan\'s taco stand flier, Trivial Avocations Board Game, warbear breakfast machine, warbear soda machine];
+		foreach it in toPull
+		{
+			pullAndUse(it, 1);
+		}
 
-		pullAll($item[camp scout backpack]);
-		pullAll($item[can of rain-doh]);
-		pullAll($item[carrot juice]);
-		pullAll($item[carrot nose]);
-		pullAll($item[caustic slime nodule]);
-		pullAll($item[chamoisole]);
 		pullAndUse($item[cheap toaster], 3);
-		pullAndUse($item[chester\'s bag of candy], 1);
-		pullAll($item[chibibuddy&trade; (on)]);
-		pullAll($item[chibibuddy&trade; (off)]);
-		pullAll($item[chroner]);
-		pullAndUse($item[chroner cross], 1);
-		pullAndUse($item[chroner trigger], 1);
-		pullAll($item[claw of the infernal seal]);
-		pullAll($item[cloak of dire shadows]);
-
-		pullAndUse($item[The Cocktail Shaker],1);
-		pullAll($item[coinspiracy]);
-		pullAll($item[cold stone of hatred]);
-		pullAll($item[cold wad]);
-		pullAll($item[confusing led clock]);
-		pullAll($item[corroded breeches]);
-		pullAll($item[corrosive cowl]);
-		pullAll($item[The Crown of Ed the Undying]);
-		pullAll($item[crumpled felt fedora]);
-		pullAll($item[csa fire-starting kit]);
-
-		pullAll($item[das boot]);
-		pullAll($item[diabolical crossbow]);
-		pullAll($item[Dinsey\'s Brain]);
-		pullAll($item[Dinsey\'s Glove]);
-		pullAll($item[Dinsey\'s Oculus]);
-		pullAll($item[Dinsey\'s Pants]);
-		pullAll($item[Dinsey\'s Pizza Cutter]);
-		pullAll($item[Dinsey\'s Radar Dish]);
-		pullAll($item[dread tarragon]);
-
-		pullAll($item[dreadful roast]);
-		pullAll($item[drunkula\'s wineglass]);
-
-		pullAll($item[electronic dulcimer pants]);
-		pullAll($item[eleven-foot pole]);
-		pullAll($item[empty agua de vida bottle]);
-		pullAll($item[eternal car battery]);
-		pullAll($item[Experimental Carbon Fiber Pasta Additive]);
-		pullAll($item[Fake Washboard]);
-		pullAll($item[fat loot token]);
-		pullAndUse($item[festive warbear bank], 1);
-		pullAll($item[filthy lucre]);
-
-		pullAll($item[fishy pipe]);
-		pullAll($item[Flaskfull of Hollow]);
-
-		pullAll($item[fossilized necklace]);
-		pullAll($item[Freddy Kruegerand]);
-		pullAll($item[frying brainpan]);
-		pullAll($item[fudgecycle]);
-		pullAll($item[Funfunds&trade;]);
-		pullAll($item[fuzzy slippers of hatred]);
-
-		pullAll($item[game grid ticket]);
-		pullAll($item[game grid token]);
-		pullAll($item[Garbage Sticker]);
-		pullAll($item[giant yellow hat]);
-		pullAll($item[girdle of hatred]);
-
-		pullAll($item[Glass Eye]);
-		pullAndUse($item[glass gnoll eye], 1);
-		pullAll($item[goggles of loathing]);
-		pullAll($item[Golden Mr. Accessory]);
-
-		pullAll($item[grandfather watch]);
-		pullAll($item[Gravyskin Belt of the Sauceblob]);
-		pullAll($item[great wolf\'s headband]);
-		pullAll($item[Greatest American Pants]);
-		pullAll($item[grisly shield]);
-		pullAll($item[hairpiece on fire]);
-		pullAll($item[handmade hobby horse]);
-		pullAll($item[hardened slime belt]);
-		pullAll($item[hardened slime hat]);
-		pullAll($item[hardened slime pants]);
-		pullAll($item[hobo nickel]);
-		pullAll($item[holiday fun!]);
-		pullAll($item[hot wad]);
-		pullAll($item[instant karma]);
-		pullAll($item[ittah bittah hookah]);
-		pullAll($item[jarlsberg\'s pan]);
-		pullAll($item[jarlsberg\'s pan (Cosmic Portal Mode)]);
-		pullAll($item[jeans of loathing]);
-		pullAll($item[Jewel-Eyed Wizard Hat]);
-		pullAll($item[jodhpurs of violence]);
-		pullAll($item[juju mojo mask]);
-		pullAll($item[LARP Membership Card]);
-		pullAll($item[leathery bat skin]);
-		pullAll($item[the legendary beat]);
-		pullAll($item[lens of hatred]);
-		pullAll($item[lens of violence]);
-		pullAll($item[lime]);
-		pullAll($item[little wooden mannequin]);
-		pullAll($item[llama lama gong]);
-		pullAll($item[Loathing Legion Helicopter]);
-		pullAll($item[Loathing Legion Jackhammer]);
-		pullAll($item[Loathing Legion Knife]);
-		pullAll($item[mace of the tortoise]);
-		pullAll($item[Map to Kokomo]);
-		pullAll($item[malevolent medallion]);
-		pullAll($item[mayor ghost\'s scissors]);
-		pullAll($item[mayfly bait necklace]);
-
-		pullAll($item[mer-kin digpick]);
-		pullAll($item[mer-kin gladiator mask]);
-		pullAll($item[mer-kin gladiator tailpiece]);
-
-		pullAll($item[Mercenary Pistol]);
-		pullAll($item[Mesmereyes&trade; Contact Lenses]);
-
-		pullAll($item[milk of magnesium]);
-		pullAll($item[miner\'s helmet]);
-		pullAll($item[miner\'s pants]);
-		pullAll($item[Mr. Accessory]);
-		pullAll($item[Mr. Accessory Jr.]);
-
-		pullAll($item[mon tiki]);
-		pullAll($item[moon-amber]);
-		pullAll($item[nasty rat mask]);
-		pullAll($item[Ninjammies]);
-		pullAll($item[novelty belt buckle of violence]);
-		pullAll($item[The Nuge\'s Favorite Crossbow]);
-
-		pullAll($item[numberwang]);
-		pullAll($item[odd silver coin]);
-		pullAll($item[operation patriot shield]);
-		pullAll($item[opium grenade]);
-		pullAll($item[order of the silver wossname]);
-		pullAll($item[ornamental sextant]);
-		pullAll($item[oscus\'s dumpster waders]);
-		pullAll($item[oscus\'s neverending soda]);
-		pullAll($item[oscus\'s pelt]);
-		pullAll($item[outrageous sombrero]);
-		pullAll($item[Over-the-shoulder Folder Holder]);
-		pullAll($item[pantaloons of hatred]);
-		pullAll($item[pantsgiving]);
-		pullAll($item[peppermint parasol]);
-		pullAll($item[pernicious cudgel]);
-		pullAll($item[Pick-O-Matic lockpicks]);
-		pullAndUse($item[picky tweezers], 1);
-		pullAll($item[pigsticker of violence]);
-		pullAll($item[pocket square of loathing]);
-		pullAll($item[poppy]);
-		pullAll($item[possessed sugar cube]);
-		pullAll($item[psychoanalytic jar]);
-		pullAll($item[puppet strings]);
-
-		pullAll($item[Ratskin Pajama Pants]);
-		pullAll($item[red and green rain stick]);
-		pullAll($item[reflection of a map]);
-		pullAll($item[Ring of Detect Boring Doors]);
-		pullAll($item[rubber spider]);
-
-		pullAll($item[sand dollar]);
-		pullAll($item[sasq&trade; watch]);
-		pullAll($item[scepter of loathing]);
-
-		pullAll($item[sea lasso]);
-		pullAll($item[sea cowbell]);
-		pullAll($item[sewing kit]);
-		pullAll($item[set of jacks]);
-
-		pullAll($item[shirt kit]);
-		pullAll($item[Shore Inc. Ship Trip Scrip]);
-
-		pullAll($item[silver cow creamer]);
-		pullAll($item[Sister Accessory]);
-		pullAll($item[sleaze wad]);
-		pullAll($item[slime-covered club]);
-		pullAll($item[slime-covered compass]);
-		pullAll($item[slime-covered greaves]);
-		pullAll($item[slime-covered helmet]);
-		pullAll($item[slime-covered lantern]);
-		pullAll($item[slime-covered necklace]);
-		pullAll($item[slime-covered shovel]);
-		pullAll($item[slime-covered speargun]);
-		pullAll($item[slime-covered staff]);
-
-		pullAll($item[Sneaky Pete\'s Leather Jacket]);
-		pullAll($item[Sneaky Pete\'s Leather Jacket (Collar Popped)]);
-		pullAll($item[snow suit]);
-
-		pullAll($item[solid shifting time weirdness]);
-		pullAll($item[Space Trip Safety Headphones]);
-		pullAll($item[spooky putty sheet]);
-		pullAll($item[spooky wad]);
-		pullAll($item[staff of the scummy sink]);
-		pullAll($item[staff of simmering hatred]);
-		pullAll($item[stench wad]);
-		pullAll($item[stinky cheese diaper]);
-		pullAll($item[stinky cheese eye]);
-		pullAll($item[stinky cheese sword]);
-		pullAll($item[stinky cheese wheel]);
-
-
-		pullAll($item[Stephen\'s Lab Coat]);
-		pullAll($item[stick-knife of loathing]);
-		pullAll($item[still-beating spleen]);
-		pullAll($item[stinking agaricus]);
-		pullAll($item[Stinky Fannypack]);
-		pullAll($item[STYX Deodorant Body Spray]);
-
-		pullAndUse($item[taco dan\'s taco stand flier], 1);
-		pullAll($item[Tales of Spelunking]);
-		pullAll($item[talisman of baio]);
-		pullAll($item[Tenderizing Hammer]);
-		pullAll($item[thor\'s pliers]);
-		pullAll($item[time bandit time towel]);
-		pullAll($item[time bandit badge of courage]);
-		pullAll($item[time lord badge of honor]);
-		pullAll($item[time shuriken]);
-		pullAll($item[time sword]);
-		pullAll($item[Time-twitching Toolbelt]);
-		pullAll($item[tiny costume wardrobe]);
-		pullAll($item[Toy Accordion]);
-		pullAll($item[Travoltan trousers]);
-		pullAll($item[Transmission from planet Xi]);
-		pullAll($item[treads of loathing]);
-		pullAndUse($item[Trivial Avocations Board Game], 1);
-		pullAll($item[twinkly wad]);
-		pullAll($item[unbearable light]);
-		pullAll($item[Uncle Buck]);
-		pullAll($item[unconscious collective dream jar]);
-		pullAll($item[V for Vivala Mask]);
-		pullAll($item[villainous scythe]);
-		pullAll($item[Wand of Oscus]);
-		pullAndUse($item[warbear breakfast machine], 1);
-		pullAndUse($item[warbear soda machine], 1);
-		pullAll($item[water wings for babies]);
-		pullAll($item[Work is a Four Letter Sword]);
-		pullAll($item[woven baling wire bracelets]);
-
-		pullAll($item[Xiblaxian 5D printer]);
-		pullAll($item[Xiblaxian Alloy]);
-		pullAll($item[Xiblaxian Circuitry]);
-		pullAll($item[xiblaxian holo-wrist-puter]);
-		pullAll($item[Xiblaxian Polymer]);
-		pullAll($item[Xiblaxian Stealth Cowl]);
-		pullAll($item[zombo\'s empty eye]);
 
 		if(item_amount($item[can of rain-doh]) > 0)
 		{
 			use(1, $item[can of rain-doh]);
 		}
 
-
 		pullPVPJunk();
-/*
-		if(item_amount($item[lime]) < 5)
-		{
-			buy(5 - item_amount($item[lime]), $item[lime]);
-		}
 
-
-		if(item_amount($item[boris\'s key]) > 0)
-		{
-			cli_execute("make boris's key lime");
-		}
-		if(item_amount($item[jarlsberg\'s key]) > 0)
-		{
-			cli_execute("make jarlsberg's key lime");
-		}
-		if(item_amount($item[sneaky pete\'s key]) > 0)
-		{
-			cli_execute("make sneaky pete's key lime");
-		}
-		if(item_amount($item[digital key]) > 0)
-		{
-			cli_execute("make digital key lime");
-		}
-		if(item_amount($item[Richard\'s Star Key]) > 0)
-		{
-			cli_execute("make star key lime");
-		}
-*/
 //		visit_url("lair2.php?preaction=key&whichkey=436");
 
 		visit_url("place.php?whichplace=desertbeach&action=db_nukehouse");
-		#/goto store.php?whichstore=h &&
+		visit_url("shop.php?whichshop=hippy");
 		visit_url("clan_rumpus.php?action=click&spot=3&furni=3");
 		visit_url("clan_rumpus.php?action=click&spot=3&furni=3");
 		visit_url("clan_rumpus.php?action=click&spot=3&furni=3");
@@ -354,37 +57,15 @@ void handleKingLiberation()
 		visit_url("clan_rumpus.php?action=click&spot=4&furni=2");
 		visit_url("clan_rumpus.php?action=click&spot=9&furni=3");
 
-		if(get_property("_clipartSummons").to_int() < 3)
-		{
-			cli_execute("make borrowed time");
-		}
-		if(get_property("_clipartSummons").to_int() < 3)
-		{
-			cli_execute("make " + (3 - get_property("_clipartSummons").to_int()) + " cold-filtered water");
-		}
-
 		if(get_property("cc_borrowedTimeOnLiberation").to_boolean() && (get_property("_borrowedTimeUsed") == "false"))
 		{
-			use(1, $item[borrowed time]);
-		}
-
-		if(item_amount($item[thor\'s pliers]) > 0)
-		{
-			int last = get_property("_thorsPliersCrafting").to_int();
-			while((get_property("_thorsPliersCrafting").to_int() < 10) && ((item_amount($item[leathery bat skin]) > 0) || (mall_price($item[leathery bat skin]) < 800)))
+			if(get_property("_clipartSummons").to_int() < 3)
 			{
-				if(item_amount($item[leathery bat skin]) == 0)
-				{
-					cli_execute("buy leathery bat skin");
-				}
-				cli_execute("buy shirt kit");
-				cli_execute("make bat-ass leather jacket");
-				int current = get_property("_thorsPliersCrafting").to_int();
-				if(last == current)
-				{
-					break;
-				}
-				last = current;
+				cli_execute("make borrowed time");
+			}
+			if(item_amount($item[Borrowed Time]) > 0)
+			{
+				use(1, $item[borrowed time]);
 			}
 		}
 
@@ -403,8 +84,10 @@ void handleKingLiberation()
 			set_property("cc_snapshot", "done");
 		}
 
+		int oldToken = item_amount($item[Defective Game Grid Token]);
 		visit_url("place.php?whichplace=arcade&action=arcade_plumber");
-		if(item_amount($item[defective game grid token]) > 0)
+		visit_url("place.php?whichplace=arcade&action=arcade_plumber");
+		if(item_amount($item[defective game grid token]) > oldToken)
 		{
 			abort("Woohoo!!! You got a game grid tokON!!");
 		}
@@ -419,8 +102,6 @@ void handleKingLiberation()
 		buy_item($item[drum machine], 1, 2500);
 		buy_item($item[killing jar], 1, 500);
 		buy_item($item[spooky-gro fertilizer], 1, 500);
-#		buy_item($item[large box], 1, 3500);
-#		buy_item($item[ring of teleportation], 1, 10000);
 		buy_item($item[stunt nuts], 1, 500);
 		buy_item($item[wet stew], 1, 3500);
 		buy_item($item[star chart], 1, 500);
@@ -454,10 +135,6 @@ void handleKingLiberation()
 		{
 			use_skill(1, $skill[Iron Palm Technique]);
 		}
-
-#		buy_item($item[Broberry Brogurt], 1, 50000);
-#		buy_item($item[dumb mud], 5, 8500);
-
 		set_property("cc_aftercore", "done");
 	}
 
@@ -475,9 +152,24 @@ void handleKingLiberation()
 }
 
 
-void pullPVPJunk()
+boolean pullPVPJunk()
 {
+	if(!get_property("cc_pullPVPJunk").to_boolean())
+	{
+		return false;
+	}
+	boolean[item] toPull = $items[artisanal hand-squeezed wheatgrass juice, ascii fu manchu, bangyomaman battle juice, black friar\'s tonsure, black magic powder, blob of acid, blue oyster badge, booby trap, brigand brittle, bubblin\' chemistry solution, bull blubber, button rouge, cheap clip-on ninja tie, clove-flavored lip balm, compressed air canister, cube of ectoplasm, dancing fan, ectoplasm <i>au jus</i>, eldritch dough, electric copperhead potion, enchanted flyswatter, enchanted muesli, enchanted plunger, filthy armor, fireclutch, fitspiration&trade; poster, flask of rainwater, flayed mind, frog lip-print, fu manchu wax, gearhead goo, giant neckbeard, giant tube of black lipstick, gilt perfume bottle, glass of gnat milk, glass of warm milk, gnollish crossdress, gold toothbrush, handyman &quot;hand soap&quot;, holistic headache remedy, iiti kitty gumdrop, illuminati earpiece, janglin\' bones, jazzy cigarette holder, knob goblin mutagen, kobold kibble, leather glove, leonard\'s glasses, lucky cat\'s paw, lynyrd skinner toothblack, missing eye simulation device, muscle oil, ninja eyeblack, ninja fear powder, oil-filled donut, page of the necrohobocon, perpendicular guano, pirate cream pie, plastic jefferson wings, punk patch, pygmy adder oil, pygmy dart, pygmy papers, pygmy witchhazel, ravenous eye, red army camouflage kit, redeye&trade; eyedrops, salt water taffy, scrunchie tourniquet, secret mummy herbs and spices, Shivering Ch&egrave;vre, short deposition, skelelton spine, skeletal banana, skullery maid\'s knee, smart bone dust, smut orc sunglasses, space marine flash grenade, spooky gravy fairy warlock hat, steampunk potion, stone golem pebbles, tears of the quiet healer, temporary tribal tattoo, tiny canopic jar, una poca de gracia, unholy water, vial of swamp vapors, voodoo glowskull, white chocolate golem seeds, zombie hollandaise];
+	foreach it in toPull
+	{
+		pullAll(it);
+	}
 
+	toPull = $items[all-purpose cleaner, awful poetry journal, batgut];
+	foreach it in toPull
+	{
+		pullAll(it);
+	}
+	return true;
 }
 
 void main(){
