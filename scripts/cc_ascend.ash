@@ -2969,6 +2969,14 @@ boolean L11_unlockEd()
 			buffMaintain($effect[Dance of the Sugar Fairy], 0, 1, 1);
 		}
 	}
+	if((have_effect($effect[On The Trail]) > 0) && (get_property("olfactedMonster") != "Tomb Rat"))
+	{
+		if(item_amount($item[soft green echo eyedrop antidote]) > 0)
+		{
+			uneffect($effect[On The Trail]);
+		}
+	}
+
 	ccAdv(1, $location[The Middle Chamber]);
 	return true;
 }
