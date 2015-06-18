@@ -1,4 +1,4 @@
-script "postadventure.ash";
+script "postcheese.ash";
 import <zlib.ash>
 import <cc_util.ash>
 

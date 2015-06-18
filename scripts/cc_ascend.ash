@@ -246,6 +246,23 @@ boolean settingFixer()
 	{
 		set_property("cc_grimstoneOrnateDowsingRod", false);
 	}
+
+	if(get_property("kingLiberatedScript") == "scripts/kingLiberated.ash")
+	{
+		set_property("kingLiberatedScript", "kingcheese.ash");
+	}
+	if(get_property("afterAdventureScript") == "scripts/postadventure.ash")
+	{
+		set_property("afterAdventureScript", "postcheese.ash");
+	}
+	if(get_property("betweenAdventureScript") == "scripts/preadventure.ash")
+	{
+		set_property("betweenAdventureScript", "precheese.ash");
+	}
+	if(get_property("betweenBattleScript") == "scripts/preadventure.ash")
+	{
+		set_property("betweenBattleScript", "precheese.ash");
+	}
 	return true;
 }
 
@@ -8160,7 +8177,7 @@ boolean doTasks()
 			if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
 				doRest();
-				cli_execute("scripts/postadventure.ash");
+				cli_execute("scripts/postcheese.ash");
 				return true;
 			}
 		}
@@ -8227,7 +8244,7 @@ boolean doTasks()
 				if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 				{
 					doRest();
-					cli_execute("scripts/postadventure.ash");
+					cli_execute("scripts/postcheese.ash");
 					return true;
 				}
 			}
@@ -8330,7 +8347,7 @@ boolean doTasks()
 		if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 		{
 			doRest();
-			cli_execute("scripts/postadventure.ash");
+			cli_execute("scripts/postcheese.ash");
 			return true;
 		}
 	}
@@ -9333,7 +9350,7 @@ boolean doTasks()
 				if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 				{
 					doRest();
-					cli_execute("scripts/postadventure.ash");
+					cli_execute("scripts/postcheese.ash");
 					return true;
 				}
 				print("Please check your quests, but you might just not be at level 13 yet in order to continue.", "red");
@@ -9400,7 +9417,7 @@ boolean doTasks()
 				if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 				{
 					doRest();
-					cli_execute("scripts/postadventure.ash");
+					cli_execute("scripts/postcheese.ash");
 					return true;
 				}
 
@@ -9886,7 +9903,7 @@ boolean doTasks()
 				buffMaintain($effect[Strong Grip], 0, 1, 1);
 				buffMaintain($effect[Spiky Hair], 0, 1, 1);
 			}
-			cli_execute("scripts/postadventure.ash");
+			cli_execute("scripts/postcheese.ash");
 			cli_execute("hottub");
 
 			visit_url("place.php?whichplace=nstower&action=ns_09_monster5");
@@ -9938,7 +9955,7 @@ boolean doTasks()
 	if((get_property("cc_sorceress") == "final") && !get_property("cc_wandOfNagamar").to_boolean())
 	{
 		//We should probably not do the buffing if we are fighting the actual sorceress.
-		cli_execute("scripts/postadventure.ash");
+		cli_execute("scripts/postcheese.ash");
 		if(item_amount($item[Ouija Board\, Ouija Board]) > 0)
 		{
 			equip($item[Ouija Board\, Ouija Board]);
@@ -10070,9 +10087,10 @@ void cc_begin()
 		set_property("autoSatisfyWithCoinmasters", true);
 	}
 
-	set_property("kingLiberatedScript", "scripts/kingLiberated.ash");
-	set_property("afterAdventureScript", "scripts/postadventure.ash");
-	set_property("betweenAdventureScript", "scripts/preadventure.ash");
+	set_property("kingLiberatedScript", "scripts/kingcheese.ash");
+	set_property("afterAdventureScript", "scripts/postcheese.ash");
+	set_property("betweenAdventureScript", "scripts/precheese.ash");
+	set_property("betweenBattleScript", "scripts/precheese.ash");
 
 
 	string charpane = visit_url("charpane.php");
@@ -10155,7 +10173,7 @@ void cc_begin()
 		if(get_property("cc_aftercore") != "done")
 		{
 			print("Failed to trigger kingLiberated script on liberation. Doing it manually", "green");
-			cli_execute("scripts/kingLiberated.ash");
+			cli_execute("scripts/kingcheese.ash");
 		}
 		equipBaseline();
 		handleFamiliar($familiar[Adventurous Spelunker]);

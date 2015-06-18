@@ -1224,7 +1224,7 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 				print("Monster defeated in initialization, aborting attempt.", "red");
 				set_property("cc_edCombatStage", 0);
 				set_property("cc_disableAdventureHandling", "no");
-				cli_execute("postadventure.ash");
+				cli_execute("postcheese.ash");
 				return true;
 			}
 
@@ -1257,7 +1257,7 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 					print("Monster defeated in initialization, aborting attempt.", "red");
 					set_property("cc_edCombatStage", 0);
 					set_property("cc_disableAdventureHandling", "no");
-					cli_execute("postadventure.ash");
+					cli_execute("postcheese.ash");
 					return true;
 				}
 
@@ -1270,7 +1270,7 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 		}
 		set_property("cc_edCombatStage", 0);
 		set_property("cc_disableAdventureHandling", "no");
-		cli_execute("postadventure.ash");
+		cli_execute("postcheese.ash");
 	}
 	return status;
 }

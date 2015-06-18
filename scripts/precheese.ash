@@ -1,4 +1,4 @@
-script "preadventure.ash";
+script "precheese.ash";
 import <zlib.ash>
 import <cc_util.ash>
 

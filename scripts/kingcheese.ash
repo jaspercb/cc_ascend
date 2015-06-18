@@ -1,4 +1,4 @@
-script "kingLiberated.ash";
+script "kingcheese.ash";
 import <zlib.ash>
 import <cc_util.ash>
 
@@ -148,6 +148,7 @@ void handleKingLiberation()
 		set_property("kingLiberatedScript", "");
 		set_property("afterAdventureScript", "");
 		set_property("betweenAdventureScript", "");
+		set_property("betweenBattleScript", "");
 	}
 }
 
