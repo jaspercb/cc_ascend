@@ -6927,6 +6927,15 @@ boolean L11_blackMarket()
 		set_property("cc_blackmap", "document");
 		return false;
 	}
+	if($location[The Black Forest].turns_spent > 12)
+	{
+		print("We have spent a bit many adventures in The Black Forest... manually checking", "red");
+		visit_url("place.php?whichplace=woods");
+		if($location[The Black Forest].turns_spent > 30)
+		{
+			abort("We have spent too many turns in The Black Forest and haven't found The Black Market. Something is wrong. (Find Black Forest, set cc_blackmap=document, do not buy Forged Identification Documents");
+		}
+	}
 
 	print("Must find the Black Market: " + get_property("blackForestProgress"), "blue");
 	if(get_property("cc_blackfam").to_boolean())
