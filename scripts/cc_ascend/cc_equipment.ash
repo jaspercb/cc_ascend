@@ -471,6 +471,39 @@ void equipBaseline()
 	{
 		handleBjornify($familiar[el vibrato megadrone]);
 	}
+
+	if(get_property("cc_diceMode").to_boolean())
+	{
+		if(item_amount($item[Dice Ring]) > 0)
+		{
+			equip($slot[acc1], $item[Dice Ring]);
+		}
+		if(item_amount($item[Dice Belt Buckle]) > 0)
+		{
+			equip($slot[acc2], $item[Dice Belt Buckle]);
+		}
+		if(item_amount($item[Dice Sunglasses]) > 0)
+		{
+			equip($slot[acc3], $item[Dice Sunglasses]);
+		}
+		if(item_amount($item[Dice-Print Do-Rag]) > 0)
+		{
+			equip($slot[hat], $item[Dice-Print Do-Rag]);
+		}
+		if(item_amount($item[Dice-Shaped Backpack]) > 0)
+		{
+			equip($slot[back], $item[Dice-Shaped Backpack]);
+		}
+		if(item_amount($item[Dice-Print Pajama Pants]) > 0)
+		{
+			equip($slot[pants], $item[Dice-Print Pajama Pants]);
+		}
+		if(item_amount($item[Kill Screen]) > 0)
+		{
+			equip($slot[familiar], $item[Kill Screen]);
+		}
+	}
+
 }
 
 void equipBaselineAcc1()

@@ -1,5 +1,4 @@
 script "postcheese.ash";
-import <zlib.ash>
 import <cc_util.ash>
 
 boolean ocrs_postHelper();

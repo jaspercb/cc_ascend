@@ -6,7 +6,6 @@ since r15930;
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
 ***/
 
-import <zlib.ash>
 import <cc_combat.ash>
 import <cc_util.ash>
 import <cc_ascend/heavyrains.ash>
@@ -3033,7 +3032,17 @@ boolean L11_unlockPyramid()
 			if((my_path() == "One Crazy Random Summer") && (get_property("desertExploration").to_int() == 100))
 			{
 				print("We might have had an issue due to OCRS and the Desert, please finish the desert (and only the desert) manually and run again.", "red");
-				visit_url("place.php?whichplace=desertbeach");
+				string page = visit_url("place.php?whichplace=desertbeach");
+				matcher desert_matcher = create_matcher("title=\"[(](\\d+)% explored[)]\"", page);
+				if(desert_matcher.find())
+				{
+					int found = to_int(desert_matcher.group(1));
+					if(found < 100)
+					{
+						set_property("desertExploration", found);
+					}
+				}
+
 				if(get_property("desertExploration").to_int() == 100)
 				{
 					abort("Tried to open the Pyramid but could not. Something went wrong :(");
@@ -4864,13 +4873,14 @@ boolean L0_handleRainDoh()
 
 boolean LX_ornateDowsingRod()
 {
+	if(!get_property("cc_grimstoneOrnateDowsingRod").to_boolean())
+	{
+		return false;
+	}
 	if(possessEquipment($item[UV-resistant compass]))
 	{
 		print("You have a UV-resistant compass for some reason, I assume you don't want an Ornate Dowsing Rod.", "red");
 		set_property("cc_grimstoneOrnateDowsingRod", false);
-	}
-	if(!get_property("cc_grimstoneOrnateDowsingRod").to_boolean())
-	{
 		return false;
 	}
 	if(my_adventures() <= 6)

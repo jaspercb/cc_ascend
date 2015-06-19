@@ -18,3 +18,4 @@
 18	cc_interrupt	boolean	ACTION	Cause script to stop before starting next turn action (instead of trying to abort midturn).
 19	cc_delayTimer	integer	ANY	Sets the delay before each action, default is 1 second(s). It is not recommended to reduce this below 1.
 20	cc_pullPVPJunk	boolean	ANY	Pull various PVP junk when liberating the King? Mostly avatar potions but other stuff might get added.
+21	cc_diceMode	boolean	ANY	Equip all available Dice (OCRS) gear. This is probably not FUN.
