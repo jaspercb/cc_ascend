@@ -1578,6 +1578,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Ur-Kel\'s Aria of Annoyance]:	useSkill = $skill[Ur-Kel\'s Aria of Annoyance];	break;
 	case $effect[Using Protection]:				useItem = $item[Orcish Rubber];					break;
 	case $effect[Walberg\'s Dim Bulb]:			useSkill = $skill[Walberg\'s Dim Bulb];			break;
+	case $effect[WAKKA WAKKA WAKKA]:			useItem = $item[Yellow Pixel Potion];			break;
 	case $effect[Wasabi Sinuses]:				useItem = $item[Knob Goblin Nasal Spray];		break;
 	case $effect[Well-Oiled]:					useItem = $item[Oil of Parrrlay];				break;
 	case $effect[Well-Swabbed Ear]:				useItem = $item[Swabbie&trade; Swab];			break;

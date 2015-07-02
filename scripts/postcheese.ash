@@ -45,7 +45,7 @@ void handlePostAdventure()
 
 	if(my_path() == "Actually Ed the Undying")
 	{
-		int maxBuff = min(10, 675 - my_turncount());
+		int maxBuff = min(5, 660 - my_turncount());
 		if(my_level() < 13)
 		{
 			buffMaintain($effect[Prayer of Seshat], 5, 1, maxBuff);
@@ -192,7 +192,7 @@ void handlePostAdventure()
 		}
 	}
 
-	if(monster_level_adjustment() > 140)
+	if((monster_level_adjustment() > 140) && !get_property("kingLiberated").to_boolean())
 	{
 		buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
 		buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
@@ -350,9 +350,9 @@ void handlePostAdventure()
 		}
 		buffMaintain($effect[Ghostly Shell], 25, 1, 10);
 		buffMaintain($effect[Walberg\'s Dim Bulb], 35, 1, 10);
-		buffMaintain($effect[Springy Fusilli], 40, 1, 10);
+#		buffMaintain($effect[Springy Fusilli], 40, 1, 10);
 		buffMaintain($effect[Blubbered Up], 30, 1, 10);
-		buffMaintain($effect[Tenacity of the Snapper], 30, 1, 10);
+#		buffMaintain($effect[Tenacity of the Snapper], 30, 1, 10);
 		buffMaintain($effect[Reptilian Fortitude], 30, 1, 10);
 		buffMaintain($effect[Disco Fever], 40, 1, 10);
 		buffMaintain($effect[Seal Clubbing Frenzy], 10, 3, 4);
@@ -404,10 +404,10 @@ void handlePostAdventure()
 		buffMaintain($effect[Ghostly Shell], 45, 1, 10);
 		buffMaintain($effect[Disdain of the War Snapper], 60, 1, 10);
 		buffMaintain($effect[Walberg\'s Dim Bulb], 50, 1, 10);
-		buffMaintain($effect[Springy Fusilli], 60, 1, 10);
-		buffMaintain($effect[Flimsy Shield of the Pastalord], 70, 1, 10);
+#		buffMaintain($effect[Springy Fusilli], 60, 1, 10);
+#		buffMaintain($effect[Flimsy Shield of the Pastalord], 70, 1, 10);
 		buffMaintain($effect[Blubbered Up], 60, 1, 10);
-		buffMaintain($effect[Tenacity of the Snapper], 50, 1, 10);
+#		buffMaintain($effect[Tenacity of the Snapper], 50, 1, 10);
 		buffMaintain($effect[Reptilian Fortitude], 50, 1, 10);
 		buffMaintain($effect[Disco Fever], 60, 1, 10);
 		buffMaintain($effect[Seal Clubbing Frenzy], 25, 3, 4);
@@ -478,9 +478,9 @@ void handlePostAdventure()
 		buffMaintain($effect[Disdain of the War Snapper], 80, 1, 10);
 		buffMaintain($effect[Walberg\'s Dim Bulb], 80, 1, 10);
 		buffMaintain($effect[Springy Fusilli], 80, 1, 10);
-		buffMaintain($effect[Flimsy Shield of the Pastalord], 80, 1, 10);
+#		buffMaintain($effect[Flimsy Shield of the Pastalord], 80, 1, 10);
 		buffMaintain($effect[Blubbered Up], 80, 1, 10);
-		buffMaintain($effect[Tenacity of the Snapper], 80, 1, 10);
+#		buffMaintain($effect[Tenacity of the Snapper], 80, 1, 10);
 		buffMaintain($effect[Reptilian Fortitude], 80, 1, 10);
 		buffMaintain($effect[Disco Fever], 80, 1, 10);
 		buffMaintain($effect[Seal Clubbing Frenzy], 50, 5, 4);
@@ -550,7 +550,6 @@ void handlePostAdventure()
 		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 50, 1, 10);
 
 		buffMaintain(whatStatSmile(), 40, 1, 10);
-#		buffMaintain($effect[Disco Leer], 40, 1, 10);
 
 		buffMaintain($effect[Empathy], 50, 1, 10);
 		buffMaintain($effect[Leash of Linguini], 35, 1, 10);
@@ -621,7 +620,7 @@ void handlePostAdventure()
 		{
 			buffMaintain($effect[Aloysius\' Antiphon of Aptitude], 80, 1, 10);
 		}
-		buffMaintain($effect[Tenacity of the Snapper], 80, 1, 10);
+		buffMaintain($effect[Tenacity of the Snapper], 120, 1, 10);
 		buffMaintain($effect[Reptilian Fortitude], 80, 1, 10);
 		buffMaintain($effect[Antibiotic Saucesphere], 140, 1, 10);
 		buffMaintain($effect[Disco Fever], 80, 1, 10);
@@ -724,14 +723,14 @@ void handlePostAdventure()
 			}
 			buffMaintain($effect[Takin\' It Greasy], 50, 1, 5);
 			buffMaintain($effect[Intimidating Mien], 50, 1, 5);
-			buffMaintain($effect[Takin\' It Greasy], 50, 1, 25);
-			buffMaintain($effect[Intimidating Mien], 50, 1, 25);
-			buffMaintain($effect[Takin\' It Greasy], 50, 1, 45);
-			buffMaintain($effect[Intimidating Mien], 50, 1, 45);
+			buffMaintain($effect[Takin\' It Greasy], 150, 1, 25);
+			buffMaintain($effect[Intimidating Mien], 150, 1, 25);
+			buffMaintain($effect[Takin\' It Greasy], 250, 1, 45);
+			buffMaintain($effect[Intimidating Mien], 250, 1, 45);
 		}
 		if(my_mp() > 150)
 		{
-			int casts = (my_mp() - 150) / 30;
+			int casts = (my_mp() - 150) / 60;
 			if(casts == 0)
 			{
 				casts = 1;

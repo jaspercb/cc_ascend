@@ -295,6 +295,15 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+	if(get_property("cc_useTatter").to_boolean())
+	{
+		if(item_amount($item[Tattered Scrap of Paper]) > 0)
+		{
+			return "item Tattered Scrap of Paper";
+		}
+	}
+
+
 	if(get_property("cc_useCleesh").to_boolean())
 	{
 		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
@@ -1044,10 +1053,9 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 		return attackBasic;
 	}
-
-	if(round > 100)
+	else
 	{
-		abort("Some sort of problem occured, maybe the fat stacks were nerfed again");
+		abort("Some sort of problem occurred, it is past round 25 but we are still in non-gremlin combat...");
 	}
 
 	return attackBasic;

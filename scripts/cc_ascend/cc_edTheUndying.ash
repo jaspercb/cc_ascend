@@ -255,7 +255,7 @@ boolean ed_doResting()
 {
 	if(my_class() == $class[Ed])
 	{
-		int maxBuff = 1000 - my_turncount();
+		int maxBuff = 675 - my_turncount();
 		while(get_property("timesRested").to_int() < total_free_rests())
 		{
 			doRest();
@@ -1195,7 +1195,8 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 		{
 			set_property("cc_edCombatStage", 0);
 			print("Starting Ed Battle at " + loc, "blue");
-			status = adv1(loc, 1, option);
+#			status = adv1(loc, 1, option);
+			status = adv1(loc, 0, option);
 			if(!status && (get_property("lastEncounter") == "Like a Bat Into Hell"))
 			{
 				set_property("cc_disableAdventureHandling", "no");
@@ -1234,7 +1235,8 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 #				loc = $location[Noob Cave];
 #			}
 
-			status = adv1(loc, 1, option);
+#			status = adv1(loc, 1, option);
+			status = adv1(loc, 0, option);
 			if(last_monster() == $monster[Crate])
 			{
 				abort("We went to the Noob Cave for reals... uh oh");
@@ -1261,7 +1263,8 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 					return true;
 				}
 
-				status = adv1(loc, 1, option);
+#				status = adv1(loc, 1, option);
+				status = adv1(loc, 0, option);
 				if(last_monster() == $monster[Crate])
 				{
 					abort("We went to the Noob Cave for reals... uh oh");

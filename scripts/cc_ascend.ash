@@ -274,8 +274,6 @@ void initializeSettings()
 	}
 	set_property("cc_doneInitialize", my_ascensions());
 
-#	cli_execute("ccs cc_default");
-
 	if(my_familiar() != $familiar[none])
 	{
 		set_property("cc_100familiar", true);
@@ -427,7 +425,7 @@ void initializeSettings()
 
 }
 
-
+# num is not handled properly anyway, so we'll just reject it.
 boolean ccAdv(int num, location loc, string option)
 {
 	if(option == "")
@@ -439,7 +437,8 @@ boolean ccAdv(int num, location loc, string option)
 		return ed_ccAdv(num, loc, option);
 	}
 
-	boolean retval = adv1(loc, num, option);
+#	boolean retval = adv1(loc, num, option);
+	boolean retval = adv1(loc, 0, option);
 	if(my_path() == "One Crazy Random Summer")
 	{
 		if((contains_text(get_property("cc_funPrefix"), "clingy")) || last_monster().random_modifiers["clingy"])
@@ -1318,7 +1317,7 @@ void initializeDay(int day)
 		return;
 	}
 
-	cli_execute("ccs null");
+	cli_execute("ccs cc_default");
 	if((item_amount($item[cursed microwave]) >= 1) && (get_property("_cursedMicrowaveUsed") == "false"))
 	{
 		use(1, $item[cursed microwave]);
@@ -1606,6 +1605,7 @@ void doBedtime()
 	{
 		set_property("cc_priorXiblaxianMode", 0);
 		setvar("chit.helpers.xiblaxian", true);
+		cli_execute("zlib chit.helpers.xiblaxian = true");
 	}
 
 	if(my_class() == $class[Ed])
@@ -2558,6 +2558,8 @@ boolean LX_spookyravenSecond()
 		}
 		if(item_amount($item[Lady Spookyraven\'s Dancing Shoes]) == 0)
 		{
+ 			set_property("louvreGoal", "7");
+ 			set_property("louvreDesiredGoal", "7");
 			print("Spookyraven: Gallery", "blue");
 			ccAdv(1, $location[The Haunted Gallery]);
 			return true;
@@ -3085,7 +3087,6 @@ boolean L11_defeatEd()
 	if(item_amount($item[2334]) == 1)
 	{
 		set_property("cc_mcmuffin", "finished");
-		cli_execute("ccs null");
 		council();
 		return true;
 	}
@@ -3107,7 +3108,6 @@ boolean L11_defeatEd()
 	print("Time to waste all of Ed's Ka Coins :(", "blue");
 
 	set_property("choiceAdventure976", "1");
-	cli_execute("ccs cc_default");
 
 	#This seems to work but we just want to be a little careful with it.
 	if(true)
@@ -3139,7 +3139,6 @@ boolean L11_defeatEd()
 	if(item_amount($item[2334]) != 0)
 	{
 		set_property("cc_mcmuffin", "finished");
-		cli_execute("ccs null");
 		council();
 	}
 	return true;
@@ -4082,44 +4081,13 @@ void handleJar()
 {
 	if(item_amount($item[psychoanalytic jar]) > 0)
 	{
-		if(contains_text(visit_url("showplayer.php?who=1"), "psychoanalytic"))
+		if(item_amount($item[jar of psychoses (The Crackpot Mystic)]) == 0)
 		{
-			if((my_daycount() == 1) && !have_familiar($familiar[Adventurous Spelunker]))
-			{
-				visit_url("showplayer.php?who=1&action=jung&whichperson=jick", true);
-				cli_execute("refresh inv");
-				if(item_amount($item[jar of psychoses (Jick)]) == 0)
-				{
-					abort("Tried to get a Jick Jar and failed (" + my_daycount() + ")");
-				}
-			}
-			else
-			{
-				if(item_amount($item[jar of psychoses (The Crackpot Mystic)]) == 0)
-				{
-					visit_url("shop.php?whichshop=mystic&action=jung&whichperson=mystic", true);
-				}
-				else
-				{
-					visit_url("showplayer.php?who=1&action=jung&whichperson=jick", true);
-					cli_execute("refresh inv");
-					if(item_amount($item[jar of psychoses (Jick)]) == 0)
-					{
-						abort("Tried to get a Jick Jar and failed (" + my_daycount() + ")");
-					}
-				}
-			}
+			visit_url("shop.php?whichshop=mystic&action=jung&whichperson=mystic", true);
 		}
 		else
 		{
-			if(item_amount($item[jar of psychoses (The Crackpot Mystic)]) == 0)
-			{
-				visit_url("shop.php?whichshop=mystic&action=jung&whichperson=mystic", true);
-			}
-			else
-			{
-				put_closet(1, $item[psychoanalytic jar]);
-			}
+			put_closet(1, $item[psychoanalytic jar]);
 		}
 	}
 }
@@ -7117,7 +7085,18 @@ boolean LX_getDictionary()
 	{
 		return false;
 	}
+	if(get_property("cc_war") != "")
+	{
+		if(get_property("cc_war") != "finished")
+		{
+			return false;
+		}
+	}
 	buyUpTo(1, $item[abridged dictionary]);
+	if(item_amount($item[abridged dictionary]) == 0)
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -7717,7 +7696,6 @@ boolean L3_tavern()
 	buffMaintain($effect[Litterbug], 0, 1, 1);
 	change_mcd(10);
 
-#	cli_execute("ccs cc_default");
 	while(cc_tavern())
 	{
 		if(my_adventures() <= 0)
@@ -7865,14 +7843,7 @@ boolean doTasks()
 	{
 		if((get_property("_jungDrops").to_int() == 1) || (my_daycount() > 1))
 		{
-			if((item_amount($item[jar of psychoses (Jick)]) == 1) && (my_daycount() == 2) && (get_property("_jungDrops").to_int() == 0))
-			{
-				handleFamiliar($familiar[Angry Jung Man]);
-			}
-			else
-			{
-				handleFamiliar($familiar[Adventurous Spelunker]);
-			}
+			handleFamiliar($familiar[Adventurous Spelunker]);
 		}
 		else
 		{
@@ -7988,6 +7959,11 @@ boolean doTasks()
 	else
 	{
 		set_property("cc_newbieOverride", false);
+	}
+
+	if(my_location().turns_spent > 50)
+	{
+		abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
 	}
 
 
@@ -9074,11 +9050,9 @@ boolean doTasks()
 				cli_execute("ccs cc_default");
 				if(ccAdv(1, $location[A Massive Ziggurat])) {}
 				handleFamiliar($familiar[Adventurous Spelunker]);
-				cli_execute("ccs null");
 			}
 			finally
 			{
-				cli_execute("ccs null");
 				print("If I stopped, just run me again, beep!", "red");
 			}
 
@@ -10101,6 +10075,8 @@ void cc_begin()
 	print("Turns played: " + my_turncount() + " current adventures: " + my_adventures());
 	print("Current Ascension: " + my_path());
 
+	set_property("cc_disableAdventureHandling", "no");
+
 	settingFixer();
 
 	uneffect($effect[Ode To Booze]);
@@ -10133,6 +10109,7 @@ void cc_begin()
 		print("Switching off CHiT Xiblaxian Counter, will resume during bedtime");
 		set_property("cc_priorXiblaxianMode", 1);
 		setvar("chit.helpers.xiblaxian", false);
+		cli_execute("zlib chit.helpers.xiblaxian = false");
 	}
 
 
