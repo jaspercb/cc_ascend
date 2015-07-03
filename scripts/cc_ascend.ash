@@ -7963,7 +7963,10 @@ boolean doTasks()
 
 	if(my_location().turns_spent > 50)
 	{
-		abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
+		if(my_location() != $location[The Secret Government Laboratory])
+		{
+			abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
+		}
 	}
 
 
