@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r15930;
+since r16010;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -18,6 +18,7 @@ import <cc_ascend/cc_edTheUndying.ash>
 import <cc_ascend/cc_eudora.ash>
 import <cc_ascend/cc_summerfun.ash>
 import <cc_ascend/cc_elementalPlanes.ash>
+import <cc_ascend/cc_deckofeverycard.ash>
 
 
 boolean LX_handleSpookyravenNecklace();
