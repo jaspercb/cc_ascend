@@ -7536,7 +7536,11 @@ boolean L8_trapperYeti()
 			{
 				adjustEdHat("myst");
 			}
-			ccAdv(1, $location[Lair of the Ninja Snowmen]);
+			if(!ccAdv(1, $location[Lair of the Ninja Snowmen]))
+			{
+				print("Seems like we failed the Ninja Snowmen unlock, reverting trapper setting", "red");
+				set_property("cc_trapper", "start");
+			}
 			return true;
 		}
 	}

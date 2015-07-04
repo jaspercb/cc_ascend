@@ -1,6 +1,6 @@
 script "cc_deckofeverycard.ash"
 
-#sed -r "s/<option value=([[:digit:]]+)>([[:alnum:][:space:]-]+)<\/option>/cards[\"\2\"] = \1;/g" temp >> cc_deckofeverycard.ash 
+#sed -r "s/<option value=([[:digit:]]+)>([[:alnum:][:space:]-]+)<\/option>/cards[\"\2\"] = \1;/g" temp >> cc_deckofeverycard.ash
 
 boolean deck_available()
 {
@@ -22,8 +22,9 @@ boolean deck_draw()
 	{
 		return false;
 	}
-	visit_url("inv_use.php?pwd=0&which=3&whichitem=8382");
-	return false;
+	string page = visit_url("inv_use.php?pwd=&which=3&whichitem=8382");
+	page = visit_url("choice.php?pwd=&whichchoice=1085&option=1", true);
+	return true;
 }
 
 boolean deck_cheat(string cheat)
@@ -119,6 +120,7 @@ boolean deck_cheat(string cheat)
 	if(card != 0)
 	{
 		string page = visit_url("choice.php?pwd=&option=1&whichchoice=1086&which=" + card, true);
+		page = visit_url("choice.php?pwd=&whichchoice=1085&option=1", true);
 		//	Check if a combat has been started and try to resolve it? Can we resolve it here?
 		//	If we had #includes, we probably could resolve it here... hmm...
 		#print(page, "red");
