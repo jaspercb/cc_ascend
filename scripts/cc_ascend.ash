@@ -7968,7 +7968,7 @@ boolean doTasks()
 
 	if(my_location().turns_spent > 50)
 	{
-		if(my_location() != $location[The Secret Government Laboratory])
+		if((my_location() != $location[The Secret Government Laboratory]) && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]))
 		{
 			abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
 		}
