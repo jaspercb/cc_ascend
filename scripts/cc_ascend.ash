@@ -8393,6 +8393,11 @@ boolean doTasks()
 		}
 	}
 
+	if(deck_useScheme("turns"))
+	{
+		return true;
+	}
+
 	if(L5_getEncryptionKey())
 	{
 		return true;

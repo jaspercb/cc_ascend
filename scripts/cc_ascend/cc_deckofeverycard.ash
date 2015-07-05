@@ -13,8 +13,9 @@ int deck_draws_left()
 	{
 		return 0;
 	}
-	return 15;
+	return 15 - get_property("_deckCardsDrawn").to_int();
 }
+
 
 boolean deck_draw()
 {
@@ -124,6 +125,31 @@ boolean deck_cheat(string cheat)
 		//	Check if a combat has been started and try to resolve it? Can we resolve it here?
 		//	If we had #includes, we probably could resolve it here... hmm...
 		#print(page, "red");
+		return true;
+	}
+	return false;
+}
+
+
+boolean deck_useScheme(string action)
+{
+	if(!deck_available())
+	{
+		return false;
+	}
+	if(deck_draws_left() < 15)
+	{
+		return false;
+	}
+	if(action == "turns")
+	{
+		deck_cheat("Ancestral Recall");
+		deck_cheat("Island");
+		deck_cheat("Mine");
+		while(item_amount($item[Blue Mana]) > 0)
+		{
+			use_skill(1, $skill[Ancestral Recall]);
+		}
 		return true;
 	}
 	return false;

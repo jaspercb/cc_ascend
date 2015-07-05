@@ -213,7 +213,7 @@ void handleOffHand()
 	}
 	if(my_class() == $class[Turtle Tamer])
 	{
-		poss = $items[Wicker Shield, Operation Patriot Shield, Fake Washboard];
+		poss = $items[Wicker Shield, Ouija Board\, Ouija Board, Operation Patriot Shield, Fake Washboard];
 	}
 
 	if(my_class() == $class[Pastamancer])
