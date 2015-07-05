@@ -145,10 +145,14 @@ boolean deck_useScheme(string action)
 	{
 		deck_cheat("Ancestral Recall");
 		deck_cheat("Island");
-		deck_cheat("Mine");
+		if((get_property("cc_trapper") == "") || (get_property("cc_trapper") == "start"))
+		{
+			deck_cheat("Mine");
+		}
 		while(item_amount($item[Blue Mana]) > 0)
 		{
 			use_skill(1, $skill[Ancestral Recall]);
+			cli_execute("refresh inv");
 		}
 		return true;
 	}
