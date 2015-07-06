@@ -23,6 +23,10 @@ boolean deck_draw()
 	{
 		return false;
 	}
+	if(deck_draws_left() <= 0)
+	{
+		return false;
+	}
 	string page = visit_url("inv_use.php?pwd=&which=3&whichitem=8382");
 	page = visit_url("choice.php?pwd=&whichchoice=1085&option=1", true);
 	return true;
@@ -31,6 +35,10 @@ boolean deck_draw()
 boolean deck_cheat(string cheat)
 {
 	if(!deck_available())
+	{
+		return false;
+	}
+	if(deck_draws_left() <= 0)
 	{
 		return false;
 	}
@@ -141,7 +149,7 @@ boolean deck_useScheme(string action)
 	{
 		return false;
 	}
-	if(action == "turns")
+	if((action == "turns") && (my_daycount() <= 2))
 	{
 		deck_cheat("Ancestral Recall");
 		deck_cheat("Island");

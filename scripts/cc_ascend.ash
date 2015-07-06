@@ -1318,7 +1318,7 @@ void initializeDay(int day)
 		return;
 	}
 
-	cli_execute("ccs cc_default");
+	cli_execute("ccs null");
 	if((item_amount($item[cursed microwave]) >= 1) && (get_property("_cursedMicrowaveUsed") == "false"))
 	{
 		use(1, $item[cursed microwave]);
@@ -5814,7 +5814,7 @@ boolean LX_handleSpookyravenFirstFloor()
 		return false;
 	}
 
-	boolean delayKitchen = false;
+	boolean delayKitchen = get_property("cc_delayHauntedKitchen").to_boolean();
 	if(get_property("cc_delayHauntedKitchen").to_boolean())
 	{
 		if((elemental_resist($element[hot]) < 9) || (elemental_resist($element[stench]) < 9))
@@ -5823,12 +5823,13 @@ boolean LX_handleSpookyravenFirstFloor()
 			{
 				delayKitchen = have_skill($skill[Even More Elemental Wards]);
 			}
-			else
-			{
-				delayKitchen = false;
-			}
+		}
+		else
+		{
+			delayKitchen = false;
 		}
 	}
+
 
 	if(delayKitchen)
 	{
@@ -9063,6 +9064,7 @@ boolean doTasks()
 				cli_execute("ccs cc_default");
 				if(ccAdv(1, $location[A Massive Ziggurat])) {}
 				handleFamiliar($familiar[Adventurous Spelunker]);
+				cli_execute("ccs null");
 			}
 			finally
 			{
