@@ -1301,7 +1301,7 @@ boolean fortuneCookieEvent()
 		}
 		if(get_counters("Semirare window begin", 0, 200) == "Semirare window begin")
 		{
-			print("Semirare window not rebuilt due to 'fun' monster names. Attempting to workaround.", "red");
+			print("Semirare window not rebuilt due to 'fun' monster names. Attempting to workaround. This error message is incorrect.", "red");
 			cli_execute("counters add 160 Semirare window begin lparen.gif");
 			cli_execute("counters add 200 Semirare window end rparen.gif");
 		}
@@ -3864,7 +3864,7 @@ void consumeStuff()
 			}
 		}
 
-		if((my_inebriety() == 0) && (my_mp() >= mpForOde) && (item_amount($item[handful of smithereens]) >= 2))
+		if((my_inebriety() == 0) && (my_mp() >= mpForOde) && (my_meat() > 300) && (item_amount($item[handful of smithereens]) >= 2))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 4);
@@ -3872,7 +3872,7 @@ void consumeStuff()
 			drink(2, $item[paint a vulgar pitcher]);
 		}
 
-		if((my_inebriety() == 4) && (my_mp() >= mpForOde) && (item_amount($item[handful of smithereens]) >= 1))
+		if((my_inebriety() == 4) && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[handful of smithereens]) >= 1))
 		{
 			shrugAT();
 			cli_execute("make 1 paint a vulgar pitcher");
@@ -3880,7 +3880,7 @@ void consumeStuff()
 			drink(1, $item[paint a vulgar pitcher]);
 		}
 
-		if((my_inebriety() <= 9) && (my_adventures() < 10) && (my_mp() >= mpForOde))
+		if((my_inebriety() <= 9) && (my_adventures() < 10) && (my_meat() > 150) && (my_mp() >= mpForOde))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 4);
@@ -3932,7 +3932,7 @@ void consumeStuff()
 			}
 		}
 
-		if((my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
+		if((my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -3940,7 +3940,7 @@ void consumeStuff()
 		}
 
 
-		if((my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()))
+		if((my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
@@ -3977,7 +3977,7 @@ void consumeStuff()
 		}
 
 /*****	This section needs to merge into a "Standard equivalent"		*****/
-		if((my_path() == "Standard") && (my_mp() >= mpForOde) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
+		if((my_path() == "Standard") && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -9832,7 +9832,7 @@ boolean doTasks()
 				uneffect($effect[Jalape&ntilde;o Saucesphere]);
 				uneffect($effect[Mayeaugh]);
 				uneffect($effect[Spiky Shell]);
-				use_familiar($familiar[none]);
+				handleFamiliar($familiar[none]);
 				buffMaintain($effect[Tomato Power], 0, 1, 1);
 				buffMaintain($effect[Seeing Colors], 0, 1, 1);
 				buffMaintain($effect[Glittering Eyelashes], 0, 1, 1);
