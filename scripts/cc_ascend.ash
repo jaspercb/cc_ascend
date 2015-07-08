@@ -1976,13 +1976,14 @@ void doBedtime()
 		{
 			print("You can drink a Ye Olde Meade as your nightcap! Yay!", "blue");
 		}
+		if(is_unrestricted("Deck of Every Card") && (item_amount($item[Deck of Every Card]) > 0) && (get_property("_deckCardsDrawn").to_int() < 15))
+		{
+			print("You have a Deck of Every Card and " + (15 - get_property("_deckCardsDrawn").to_int()) + " draws remaining!", "blue");
+		}
 		abort("You need to overdrink and then run me again. Beep.");
 	}
 	else
 	{
-
-
-
 		if(get_property("kingLiberated") == "false")
 		{
 			print(get_property("cc_banishes_day" + my_daycount()));
@@ -1997,6 +1998,7 @@ void doBedtime()
 				print("You still have pulls, consider: Wet Stew, Antique Machete, Blackberry Galoshes, Drum Machine, Killing Jar?", "red");
 			}
 		}
+ 
 		print("You are probably done for today, beep.", "blue");
 	}
 }
