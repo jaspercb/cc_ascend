@@ -414,6 +414,8 @@ void initializeSettings()
 		set_property("cc_spookyfertilizer", "");
 	}
 
+	set_property("autoSatisfyWithNPCs", true);
+
 	elementalPlanes_initializeSettings();
 	eudora_initializeSettings();
 	hr_initializeSettings();
