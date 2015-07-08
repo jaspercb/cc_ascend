@@ -2086,10 +2086,10 @@ boolean questOverride()
 		set_property("cc_airship", "finished");
 		set_property("cc_bean", "plant");
 	}
-	if((internalQuestStatus("questL10Garbage") >= 9) && (get_property("cc_castleground") != "finished"))
+	if((internalQuestStatus("questL10Garbage") >= 9) && (get_property("cc_castleground") != "finished") && (get_property("cc_castleground") != "done"))
 	{
 		print("Found completed Castle Ground Floor (10)");
-		set_property("cc_castleground", "finished");
+		set_property("cc_castleground", "done");
 	}
 	if((internalQuestStatus("questL10Garbage") >= 8) && (get_property("cc_castlebasement") != "finished"))
 	{
