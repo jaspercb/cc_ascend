@@ -6939,6 +6939,7 @@ boolean L11_blackMarket()
 	{
 		print("We have spent a bit many adventures in The Black Forest... manually checking", "red");
 		visit_url("place.php?whichplace=woods");
+		visit_url("woods.php");
 		if($location[The Black Forest].turns_spent > 30)
 		{
 			abort("We have spent too many turns in The Black Forest and haven't found The Black Market. Something is wrong. (Find Black Forest, set cc_blackmap=document, do not buy Forged Identification Documents");
