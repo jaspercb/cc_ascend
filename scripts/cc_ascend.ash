@@ -1995,7 +1995,23 @@ void doBedtime()
 			}
 			if((pulls_remaining() > 0) && (my_daycount() == 1))
 			{
-				print("You still have pulls, consider: Wet Stew, Antique Machete, Blackberry Galoshes, Drum Machine, Killing Jar?", "red");
+				string consider = "";
+				boolean[item] cList = $items[antique machete, wet stew, blackberry galoshes, drum machine, killing jar];
+				foreach it in cList
+				{
+					if(item_amount(it) == 0)
+					{
+						if(consider == "")
+						{
+							consider = "" + it;
+						}
+						else
+						{
+							consider = ", " + it;
+						}
+					}
+				}
+				print("You still have pulls, consider: " + consider + "?", "red");
 			}
 		}
  
@@ -3782,7 +3798,7 @@ void consumeStuff()
 
 		if((my_fullness() >= 15) && ((my_spleen_use() == 7) || (my_level() == 10)) && (my_inebriety() >= 14) && (my_adventures() < 5))
 		{
-			if(item_amount($item[astral energy drink]) > 0)
+			if((item_amount($item[astral energy drink]) > 0) && (my_spleen_use() <= 7))
 			{
 				chew(1, $item[astral energy drink]);
 			}

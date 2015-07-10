@@ -233,7 +233,7 @@ boolean organsFull()
 	if(my_inebriety() < inebriety_limit())
 	{
 		return false;
-	}    
+	}
 	if(my_spleen_use() < spleen_limit())
 	{
 		return false;
@@ -707,7 +707,14 @@ boolean handleFaxMonster(string enemy)
 	}
 
 	visit_url("inv_use.php?pwd&which=3&whichitem=4873");
-	adv1($location[Noob Cave], 1, "cc_combatHandler");
+	if(my_class() == $class[Ed])
+	{
+		adv1($location[Noob Cave], 1, "cc_edCombatHandler");
+	}
+	else
+	{
+		adv1($location[Noob Cave], 1, "cc_combatHandler");
+	}
 	return true;
 }
 
