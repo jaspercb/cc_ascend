@@ -160,7 +160,6 @@ boolean deck_useScheme(string action)
 		while(item_amount($item[Blue Mana]) > 0)
 		{
 			use_skill(1, $skill[Ancestral Recall]);
-			cli_execute("refresh inv");
 		}
 		return true;
 	}
@@ -172,7 +171,6 @@ boolean deck_useScheme(string action)
 		while(item_amount($item[Blue Mana]) > 0)
 		{
 			use_skill(1, $skill[Ancestral Recall]);
-			cli_execute("refresh inv");
 		}
 		return true;
 	}
