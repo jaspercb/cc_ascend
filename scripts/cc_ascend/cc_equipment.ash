@@ -241,6 +241,11 @@ void handleOffHand()
 		}
 	}
 
+	if(my_class() == $class[Avatar of Jarlsberg])
+	{
+		poss = $items[Jarlsberg\'s Pan, Jarlsberg\'s Pan (Cosmic Portal Mode)];
+	}
+
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -408,6 +413,9 @@ void equipBaselineWeapon()
 	case $class[Ed]:
 #		poss = $items[Titanium Assault Umbrella, Staff of Ed];
 		poss = $items[Spiked Femur, Grassy Cutlass, Oversized Pizza Cutter, Titanium Assault Umbrella, Ocarina of Space, 7961, sewage-clogged pistol];
+		break;
+	case $class[Avatar of Jarlsberg]:
+		poss = $items[Staff of the Standalone Cheese];
 		break;
 	default:
 		abort("You don't have a valid class for this equipper, must be an avatar path or something.");
