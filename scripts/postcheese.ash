@@ -485,7 +485,7 @@ void handlePostAdventure()
 		buffMaintain($effect[Disco Fever], 80, 1, 10);
 		buffMaintain($effect[Seal Clubbing Frenzy], 50, 5, 4);
 		buffMaintain($effect[Patience of the Tortoise], 50, 5, 4);
-		buffMaintain($effect[Rotten Memories], 80, 1, 10);
+		buffMaintain($effect[Rotten Memories], 100, 1, 10);
 
 		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 80))
 		{
@@ -500,10 +500,10 @@ void handlePostAdventure()
 			}
 			buffMaintain($effect[Takin\' It Greasy], 50, 1, 5);
 			buffMaintain($effect[Intimidating Mien], 50, 1, 5);
-			buffMaintain($effect[Takin\' It Greasy], 50, 1, 25);
-			buffMaintain($effect[Intimidating Mien], 50, 1, 25);
-			buffMaintain($effect[Takin\' It Greasy], 50, 1, 45);
-			buffMaintain($effect[Intimidating Mien], 50, 1, 45);
+#			buffMaintain($effect[Takin\' It Greasy], 50, 1, 25);
+#			buffMaintain($effect[Intimidating Mien], 50, 1, 25);
+#			buffMaintain($effect[Takin\' It Greasy], 50, 1, 45);
+#			buffMaintain($effect[Intimidating Mien], 50, 1, 45);
 		}
 	}
 	else
@@ -589,7 +589,14 @@ void handlePostAdventure()
 		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 20))
 		{
 			print("Mymp: " + my_mp() + " of " + my_maxmp() + " and cost: " + mp_cost(libram), "blue");
-			use_skill(1, libram);
+			try
+			{
+				if(use_skill(1, libram)) {}
+			}
+			finally
+			{
+				#This is only here because of the bug when changing outfits that mafia does not update any losses in MP that occurs.
+			}
 		}
 
 #		buffMaintain($effect[Prayer of Seshat], 5, 1, 10);
@@ -634,7 +641,7 @@ void handlePostAdventure()
 		{
 			buffMaintain($effect[Curiosity of Br\'er Tarrypin], 50, 1, 2);
 		}
-		buffMaintain($effect[Jingle Jangle Jingle], 50, 1, 2);
+		buffMaintain($effect[Jingle Jangle Jingle], 80, 1, 2);
 		buffMaintain($effect[A Few Extra Pounds], 150, 1, 2);
 		buffMaintain($effect[Boon of the War Snapper], 150, 1, 5);
 		buffMaintain($effect[Boon of She-Who-Was], 150, 1, 5);
@@ -642,7 +649,7 @@ void handlePostAdventure()
 
 		buffMaintain($effect[Ruthlessly Efficient], 50, 1, 5);
 		buffMaintain($effect[Mathematically Precise], 150, 1, 5);
-		buffMaintain($effect[Rotten Memories], 80, 1, 10);
+		buffMaintain($effect[Rotten Memories], 150, 1, 10);
 
 		if((have_skill($skill[Summon Holiday Fun!])) && (my_mp() > 11))
 		{
@@ -723,27 +730,29 @@ void handlePostAdventure()
 			}
 			buffMaintain($effect[Takin\' It Greasy], 50, 1, 5);
 			buffMaintain($effect[Intimidating Mien], 50, 1, 5);
-			buffMaintain($effect[Takin\' It Greasy], 150, 1, 25);
-			buffMaintain($effect[Intimidating Mien], 150, 1, 25);
-			buffMaintain($effect[Takin\' It Greasy], 250, 1, 45);
-			buffMaintain($effect[Intimidating Mien], 250, 1, 45);
+#			buffMaintain($effect[Takin\' It Greasy], 150, 1, 25);
+#			buffMaintain($effect[Intimidating Mien], 150, 1, 25);
+#			buffMaintain($effect[Takin\' It Greasy], 250, 1, 45);
+#			buffMaintain($effect[Intimidating Mien], 250, 1, 45);
 		}
-		if(my_mp() > 150)
-		{
-			int casts = (my_mp() - 150) / 60;
-			if(casts == 0)
-			{
-				casts = 1;
-			}
-			if(have_skill($skill[Grease Up]))
-			{
-				use_skill(casts, $skill[Grease Up]);
-			}
-			if(have_skill($skill[Intimidating Mien]))
-			{
-				use_skill(casts, $skill[Intimidating Mien]);
-			}
-		}
+
+#		if(my_mp() > 150)
+#		{
+#			int casts = (my_mp() - 150) / 60;
+#			if(casts == 0)
+#			{
+#				casts = 1;
+#			}
+#			if(have_skill($skill[Grease Up]))
+#			{
+#				use_skill(casts, $skill[Grease Up]);
+#			}
+#			if(have_skill($skill[Intimidating Mien]))
+#			{
+#				use_skill(casts, $skill[Intimidating Mien]);
+#			}
+#		}
+
 		if(didOutfit)
 		{
 			cli_execute("outfit Backup");

@@ -325,6 +325,7 @@ void initializeSettings()
 	set_property("cc_funTracker", "");
 	set_property("cc_gaudy", "");
 	set_property("cc_gaudypiratecount", "");
+	set_property("cc_getBoningKnife", false);
 	set_property("cc_getStarKey", false);
 	set_property("cc_goblinking", "");
 	set_property("cc_gremlins", "");
@@ -416,6 +417,8 @@ void initializeSettings()
 
 	set_property("autoSatisfyWithNPCs", true);
 
+	beehiveConsider();
+
 	elementalPlanes_initializeSettings();
 	eudora_initializeSettings();
 	hr_initializeSettings();
@@ -425,7 +428,6 @@ void initializeSettings()
 	chateaumantegna_initializeSettings();
 	ocrs_initializeSettings();
 	ed_initializeSettings();
-
 }
 
 # num is not handled properly anyway, so we'll just reject it.
@@ -3364,7 +3366,7 @@ boolean L12_sonofaBeach()
 	buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 0, 1, 10);
 	if(have_familiar($familiar[Grim Brother]))
 	{
-		bjornify_familiar($familiar[Grim Brother]);
+		handleBjornify($familiar[Grim Brother]);
 	}
 	if(equipped_item($slot[hat]) == $item[Xiblaxian stealth cowl])
 	{
@@ -6796,7 +6798,7 @@ boolean L11_talismanOfNam()
 	}
 	if(get_property("cc_swordfish") == "finished")
 	{
-		if(item_amount($item[Talisman O\' Namsilat]) == 0)
+		if(!possessEquipment($item[Talisman O\' Namsilat]))
 		{
 			print("We should have a talisman o' namsilat but we don't know about it, refreshing inventory", "red");
 			cli_execute("refresh inv");
@@ -6838,7 +6840,7 @@ boolean L11_talismanOfNam()
 		}
 		else
 		{
-			if((item_amount($item[gaudy key]) < 2) && (item_amount($item[Talisman O\' Namsilat]) < 1))
+			if((item_amount($item[gaudy key]) < 2) && !possessEquipment($item[Talisman O\' Namsilat]))
 			{
 				print("Well, need to farm gaudy keys I suppose... sigh.", "blue");
 				ccAdv(1, $location[Belowdecks]);
@@ -9085,10 +9087,10 @@ boolean doTasks()
 				cli_execute("ccs cc_default");
 				if(ccAdv(1, $location[A Massive Ziggurat])) {}
 				handleFamiliar($familiar[Adventurous Spelunker]);
-				cli_execute("ccs null");
 			}
 			finally
 			{
+				cli_execute("ccs null");
 				print("If I stopped, just run me again, beep!", "red");
 			}
 
@@ -9129,7 +9131,7 @@ boolean doTasks()
 		}
 
 		print("In the palindome", "blue");
-		if(((total == 4) || ((total == 0) && possessEquipment($item[Mega Gem]))) && loveMeDone)
+		if((((total == 4) && (item_amount($item[&quot;I Love Me\, Vol. I&quot;]) > 0)) || ((total == 0) && possessEquipment($item[Mega Gem]))) && loveMeDone)
 		{
 			if(item_amount($item[&quot;I Love Me\, Vol. I&quot;]) > 0)
 			{
@@ -9756,10 +9758,18 @@ boolean doTasks()
 			{
 				equip($slot[acc2], $item[world\'s best adventurer sash]);
 			}
-#			if(item_amount($item[old-school calculator watch]) > 0)
-#			{
-#				equip($slot[acc3], $item[old-school calculator watch]);
-#			}
+			if(item_amount($item[Groll Doll]) > 0)
+			{
+				equip($slot[acc3], $item[Groll Doll]);
+			}
+			if(item_amount($item[old-school calculator watch]) > 0)
+			{
+				equip($slot[acc3], $item[old-school calculator watch]);
+			}
+			if(item_amount($item[Bottle Opener Belt Buckle]) > 0)
+			{
+				equip($slot[acc3], $item[Bottle Opener Belt Buckle]);
+			}
 			if((equipped_item($slot[acc3]) != $item[acid-squirting flower]) && (item_amount($item[acid-squirting flower]) > 0))
 			{
 				equip($slot[acc3], $item[acid-squirting flower]);
@@ -9846,8 +9856,12 @@ boolean doTasks()
 			# is affected by -ML
 			# 1000 stats, immune to stuns, maybe if you prep a big mien or greasy.
 			# Tried +65/+460% at 541 Myst: (6831, 6845, 6815 damage)
+			if(item_amount($item[electric boning knife]) > 0)
+			{
+				set_property("cc_getBoningKnife", false);
+			}
 
-			if((my_class() == $class[Sauceror]) || have_skill($skill[Garbage Nova]))
+			if(!get_property("cc_getBoningKnife").to_boolean() && ((my_class() == $class[Sauceror]) || have_skill($skill[Garbage Nova])))
 			{
 				uneffect($effect[Scarysauce]);
 				uneffect($effect[Jalape&ntilde;o Saucesphere]);
@@ -9899,7 +9913,9 @@ boolean doTasks()
 				ccAdv(1, $location[Noob Cave]);
 				if(have_effect($effect[Beaten Up]) > 0)
 				{
-					abort("Could not towerkill Wall of Bones, must be handled manually");
+					print("Could not towerkill Wall of Bones, reverting to Boning Knife", "red");
+					cli_execute("hottub");
+					set_property("cc_getBoningKnife", true);
 				}
 				else
 				{

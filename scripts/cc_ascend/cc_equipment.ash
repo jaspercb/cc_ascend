@@ -16,8 +16,6 @@ boolean handleBjornify(familiar fam);
 void makeStartingSmiths();
 boolean possessEquipment(item equipment);
 
-
-
 void makeStartingSmiths()
 {
 	if(!have_skill($skill[Summon Smithsness]))
@@ -91,10 +89,13 @@ void makeStartingSmiths()
 	buffMaintain($effect[Merry Smithsness], 0, 1, 10);
 }
 
-
-
 boolean possessEquipment(item equipment)
 {
+	if(equipment == $item[none])
+	{
+		return false;
+	}
+
 	if(item_amount(equipment) > 0)
 	{
 		return true;
@@ -149,6 +150,11 @@ boolean possessEquipment(item equipment)
 
 boolean handleBjornify(familiar fam)
 {
+	if(in_hardcore())
+	{
+		return false;
+	}
+
 	if((equipped_item($slot[back]) != $item[buddy bjorn]) || (my_bjorned_familiar() == fam))
 	{
 		return false;
@@ -170,9 +176,9 @@ boolean handleBjornify(familiar fam)
 			{
 				bjornify_familiar($familiar[Grimstone Golem]);
 			}
-			else if(have_familiar($familiar[Fist Turkey]))
+			else if(have_familiar($familiar[Adorable Seal Larva]))
 			{
-				bjornify_familiar($familiar[Fist Turkey]);
+				bjornify_familiar($familiar[Adorable Seal Larva]);
 			}
 			else
 			{
@@ -199,6 +205,8 @@ void handleOffHand()
 	{
 		return;
 	}
+
+	# string item_type($item[]) returns "shield" for shields, yay!
 	#if weapon_type(equipped_item($slot[weapon]) == $stat[Moxie]) we can dual-wield other ranged weapons.
 	if(my_class() != $class[Turtle Tamer])
 	{
@@ -224,10 +232,14 @@ void handleOffHand()
 		}
 		else
 		{
-			poss = $items[Hot Plate, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Wicker Shield, Whatsian Ionic Pliers, Little Black Book, Astral Shield, Astral Statuette, Operation Patriot Shield, Jarlsberg\'s Pan];
+			poss = $items[Hot Plate, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Wicker Shield, Sticky Hand Whip, Whatsian Ionic Pliers, Little Black Book, Astral Shield, Astral Statuette, Operation Patriot Shield, Jarlsberg\'s Pan];
 		}
 	}
 
+	if(my_class() == $class[Sauceror])
+	{
+			poss = $items[Hot Plate, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Wicker Shield, Whatsian Ionic Pliers, Little Black Book, Astral Shield, Astral Statuette, Operation Patriot Shield, Jarlsberg\'s Pan, A Light that Never Goes Out];
+	}
 
 	if(my_class() == $class[Disco Bandit])
 	{
@@ -286,7 +298,7 @@ void equipBaselinePants()
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Old Sweatpants, Knob Goblin Pants, Filthy Corduroys, Leotarrrd, Swashbuckling Pants, Troll Britches, Distressed Denim Pants, Astral Shorts, Pantsgiving];
+	boolean[item] poss = $items[Old Sweatpants, Knob Goblin Pants, Filthy Corduroys, Leotarrrd, Swashbuckling Pants, Troll Britches, Distressed Denim Pants, Astral Shorts, Vicar\'s Tutu, Pantsgiving];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -332,7 +344,7 @@ void equipBaselineBack()
 	}
 	else
 	{
-		poss = $items[Giant Gym Membership Card, Misty Cloak, Misty Cape, Misty Robe, Buddy Bjorn, Camp Scout Backpack];
+		poss = $items[Giant Gym Membership Card, Misty Cloak, Misty Cape, Misty Robe, Makeshift Cape, Buddy Bjorn, Camp Scout Backpack];
 	}
 	foreach thing in poss
 	{

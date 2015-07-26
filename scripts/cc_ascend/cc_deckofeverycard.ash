@@ -95,6 +95,7 @@ boolean deck_cheat(string cheat)
 	cards["IV - The Emperor"] = 45;
 	cards["Green Card"] = 46;
 	cards["XVI - The Tower"] = 47;
+	cards["key"] = 47;
 	cards["The Race Card"] = 48;
 	cards["0 - The Fool"] = 49;
 	cards["I - The Magician"] = 50;
@@ -113,6 +114,7 @@ boolean deck_cheat(string cheat)
 	cards["Sheep"] = 61;
 	cards["Year of Plenty"] = 62;
 	cards["Mine"] = 63;
+	cards["ore"] = 63;
 	cards["Laboratory"] = 64;
 	cards["X of Kumquats"] = 65;
 	cards["Professor Plum"] = 66;
@@ -120,6 +122,30 @@ boolean deck_cheat(string cheat)
 	cards["XXI - The World"] = 68;
 	cards["VI - The Lovers"] = 69;
 	cards["III - The Empress"] = 70;
+
+
+
+
+	cards["PVP"] = 1;
+	cards["fites"] = 1;
+	cards["spade"] = 4;
+	cards["white mana"] = 31;
+	cards["black mana"] = 32;
+	cards["red mana"] = 33;
+	cards["green mana"] = 34;
+	cards["blue mana"] = 36;
+	cards["init"] = 48;
+	cards["moxie buff"] = 49;
+	cards["myst buff"] = 50;
+	cards["mysticality buff"] = 50;
+	cards["meat"] = 58;
+	cards["muscle buff"] = 51;
+	cards["stone wool"] = 61;
+	cards["items"] = 67;
+	cards["muscle stat"] = 68;
+	cards["moxie stat"] = 69;
+	cards["myst stat"] = 70;
+	cards["mysticality stat"] = 70;
 
 
 	string page = visit_url("inv_use.php?cheat=1&pwd=&whichitem=8382");

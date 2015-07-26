@@ -12,6 +12,8 @@ boolean uneffect(effect toRemove);
 boolean organsFull();
 int doRest();
 item whatHiMein();
+int dreamJarDrops();
+string statCard();
 effect whatStatSmile();
 void tootGetMeat();
 void ovenHandle();
@@ -82,6 +84,7 @@ string safeString(monster input);
 boolean buffMaintain(item source, effect buff, int uses, int turns);
 boolean buffMaintain(skill source, effect buff, int mp_min, int casts, int turns);
 string beerPong(string page);
+boolean beehiveConsider();
 
 // Function Definitions
 
@@ -264,6 +267,26 @@ int internalQuestStatus(string prop)
 	}
 	return -1;
 }
+
+int dreamJarDrops()
+{
+	return get_property("_dreamJarDrops").to_int();
+}
+
+string statCard()
+{
+	switch(my_primestat())
+	{
+	case $stat[Muscle]:
+		return "68";
+	case $stat[Mysticality]:
+		return "70";
+	case $stat[Moxie]:
+		return "69";
+	}
+	return "";
+}
+
 
 float elemental_resist_value(int resistance)
 {
@@ -1267,6 +1290,34 @@ boolean hasShieldEquipped()
 	## I couldn't find a "shield" parameter for type $item, so, this will have to do for now.
 	return contains_text(to_string(equipped_item($slot[off-hand])), "Shield") || (equipped_item($slot[off-hand]) == $item[Ouija Board\, Ouija Board]);
 }
+
+boolean beehiveConsider()
+{
+	if(in_hardcore())
+	{
+		if(have_skill($skill[Shell Up]) && have_skill($skill[Sauceshell]))
+		{
+			set_property("cc_getBeehive", false);
+		}
+		else
+		{
+			set_property("cc_getBeehive", true);
+		}
+	}
+	else
+	{
+		if(have_skill($skill[Shell Up]) || have_skill($skill[Sauceshell]))
+		{
+			set_property("cc_getBeehive", false);
+		}
+		else
+		{
+			set_property("cc_getBeehive", true);
+		}
+	}
+	return true;
+}
+
 
 void shrugAT()
 {

@@ -8,6 +8,11 @@ void handleKingLiberation()
 	if((get_property("kingLiberated") == "true") && (get_property("cc_snapshot") == ""))
 	{
 		print("Yay! The King is saved. I suppose you should do stuff.");
+		if(!get_property("cc_kingLiberation").to_boolean())
+		{
+			set_property("cc_snapshot", "aborted");
+			return;
+		}
 		#visit_url("storage.php?action=pullall&pwd&");
 		visit_url("storage.php?action=takemeat&pwd&amt=" + my_storage_meat());
 		visit_url("storage.php?pwd&");
