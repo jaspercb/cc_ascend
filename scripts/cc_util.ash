@@ -13,11 +13,13 @@ boolean organsFull();
 int doRest();
 item whatHiMein();
 int dreamJarDrops();
+int powderedGoldDrops();
 string statCard();
 effect whatStatSmile();
 void tootGetMeat();
 void ovenHandle();
 boolean handleFaxMonster(string enemy);
+boolean isGuildClass();
 void handleRainDoh();
 void handleSpookyPutty();
 int towerKeyCount();
@@ -273,6 +275,11 @@ int dreamJarDrops()
 	return get_property("_dreamJarDrops").to_int();
 }
 
+int powderedGoldDrops()
+{
+	return get_property("_powderedGoldDrops").to_int();
+}
+
 string statCard()
 {
 	switch(my_primestat())
@@ -287,6 +294,10 @@ string statCard()
 	return "";
 }
 
+boolean isGuildClass()
+{
+	return ($classes[Seal Clubber, Turtle Tamer, Sauceror, Pastamancer, Disco Bandit, Accordion Thief] contains my_class());
+}
 
 float elemental_resist_value(int resistance)
 {
@@ -770,6 +781,15 @@ void handle4dCamera()
 	}
 	visit_url("inv_use.php?pwd=&whichitem=4170");
 	adv1($location[Noob Cave], 1, "cc_combatHandler");
+}
+
+void handleIceSculpture()
+{
+	if(item_amount($item[Ice Sculpture]) > 0)
+	{
+		visit_url("inv_use.php?pwd=&whichitem=7080");
+		adv1($location[Noob Cave], 1, "cc_combatHandler");
+	}
 }
 
 void handleSealArmored()
