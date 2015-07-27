@@ -8576,6 +8576,31 @@ boolean doTasks()
 		}
 	}
 
+	if(in_hardcore() && isGuildClass())
+	{
+		switch(my_daycount())
+		{
+		case 1:
+			if(deck_useScheme("HC1stats"))
+			{
+				return true;
+			}
+			break;
+		case 2:
+			if(deck_useScheme("HC2"))
+			{
+				return true;
+			}
+			break;
+		case 3:
+			if(deck_useScheme("HC3"))
+			{
+				return true;
+			}
+			break;
+		}
+	}
+
 	if(deck_useScheme("turns"))
 	{
 		return true;

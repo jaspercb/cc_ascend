@@ -200,5 +200,25 @@ boolean deck_useScheme(string action)
 		}
 		return true;
 	}
+	if(action == "HC1stats")
+	{
+		deck_cheat("key");
+		deck_cheat("ore");
+		deck_cheat("" + my_primestat() + " stat");
+		return true;
+	}
+	if(action == "HC2")
+	{
+		deck_cheat("ore");
+		deck_cheat("key");
+		deck_cheat("stone wool");
+		return true;
+	}
+	if(action == "HC3")
+	{
+		deck_cheat("key");
+		return true;
+	}
+
 	return false;
 }
