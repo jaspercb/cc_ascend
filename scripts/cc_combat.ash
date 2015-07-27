@@ -2147,7 +2147,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 #	}
 
 	int fightStat = my_buffedstat(weapon_type(equipped_item($slot[weapon]))) - 20;
-	if((fightStat > monster_defense()) && (round < 20) && ((expected_damage() * 1.1) < my_hp()))
+	if((fightStat > monster_defense()) && (round < 20) && ((expected_damage() * 1.1) < my_hp()) && (get_property("cc_edStatus") == "UNDYING!"))
 	{
 		return "attack with weapon";
 	}
@@ -2178,6 +2178,12 @@ string cc_edCombatHandler(int round, string opp, string text)
 	if(round >= 29)
 	{
 		print("About to UNDYING too much but have no other combat resolution. Please report this.", "red");
+	}
+
+	if((fightStat > monster_defense()) && (round < 20) && ((expected_damage() * 1.1) < my_hp()) && (get_property("cc_edStatus") == "dying"))
+	{
+		print("Attacking with weapon because we don't have enough MP. Expected damage: " + expected_damage() + ", current hp: " + my_hp(), "red");
+		return "attack with weapon";
 	}
 
 	return "skill Mild Curse";
