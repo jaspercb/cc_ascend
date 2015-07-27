@@ -7859,7 +7859,7 @@ boolean autosellCrap()
 	}
 
 
-	if(!in_hardcore())
+	if(!in_hardcore() && !isGuildClass())
 	{
 		return false;
 	}
@@ -8201,7 +8201,7 @@ boolean doTasks()
 		visit_url("place.php?whichplace=orc_chasm");
 		if(get_property("chasmBridgeProgress").to_int() >= 30)
 		{
-			if(in_hardcore())
+			if(in_hardcore() && isGuildClass())
 			{
 				if((item_amount($item[Snow Berries]) >= 3) && (item_amount($item[Ice Harvest]) >=3))
 				{
@@ -8879,7 +8879,7 @@ boolean doTasks()
 						use(1, $item[Drum Machine]);
 					}
 				}
-				if(in_hardcore() && (item_amount($item[Worm-Riding Hooks]) > 0))
+				if(in_hardcore() && isGuildClass() && (item_amount($item[Worm-Riding Hooks]) > 0))
 				{
 					if(item_amount($item[Drum Machine]) > 0)
 					{
