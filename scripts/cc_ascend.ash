@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16041;
+since r16065;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -277,7 +277,7 @@ void initializeSettings()
 
 	if(my_familiar() != $familiar[none])
 	{
-		set_property("cc_100familiar", true);
+		set_property("cc_100familiar", user_confirm("Familiar already set, is this a 100% familiar run? Will default to 'No' in 15 seconds.", 15000, false));
 		set_property("cc_useCubeling", false);
 	}
 	else
@@ -531,6 +531,19 @@ boolean handleFamiliar(familiar fam)
 	{
 		boolean[familiar] poss = $familiars[Mosquito, Leprechaun, Baby Gravy Fairy, Hobo Monkey, Crimbo Shrub, Galloping Grill, Fist Turkey, Piano Cat, Angry Jung Man, Grimstone Golem, Adventurous Spelunker];
 
+		if(in_hardcore() && (dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))
+		{
+			toEquip = $familiar[Unconscious Collective];
+		}
+		else if(in_hardcore() && (item_amount($item[Yellow Pixel]) < 30) && have_familiar($familiar[Ms. Puck Man]))
+		{
+			toEquip = $familiar[Ms. Puck Man];
+		}
+		else if(in_hardcore() && (item_amount($item[Yellow Pixel]) < 30) && have_familiar($familiar[Puck Man]))
+		{
+			toEquip = $familiar[Puck Man];
+		}
+
 		foreach thing in poss
 		{
 			if((have_familiar(thing)) && (my_bjorned_familiar() != thing))
@@ -562,7 +575,7 @@ void maximize_hedge()
 	element third = ns_hedge3(data);
 	if((first == $element[none]) || (second == $element[none]) || (third == $element[none]))
 	{
-		maximize("all res", 2500, 0, false);
+		maximize("all res -equip snow suit", 2500, 0, false);
 	}
 	else
 	{
@@ -1303,12 +1316,12 @@ boolean fortuneCookieEvent()
 			ccAdv(1, $location[The Sleazy Back Alley]);
 			set_property("cc_semisub", "alley");
 		}
-		if(get_counters("Semirare window begin", 0, 200) == "Semirare window begin")
-		{
-			print("Semirare window not rebuilt due to 'fun' monster names. Attempting to workaround. This error message is incorrect.", "red");
-			cli_execute("counters add 160 Semirare window begin lparen.gif");
-			cli_execute("counters add 200 Semirare window end rparen.gif");
-		}
+#		if(get_counters("Semirare window begin", 0, 200) == "Semirare window begin")
+#		{
+#			print("Semirare window not rebuilt due to 'fun' monster names. Attempting to workaround. This error message is incorrect.", "red");
+#			cli_execute("counters add 160 Semirare window begin lparen.gif");
+#			cli_execute("counters add 200 Semirare window end rparen.gif");
+#		}
 		return true;
 	}
 	return false;
@@ -9565,25 +9578,34 @@ boolean doTasks()
 			case 1:
 				switch(ns_crowd1())
 				{
-				case 1:					maximize("initiative", 1500, 0, false);		break;
+				case 1:					maximize("initiative -equip snow suit", 1500, 0, false);
+					if(have_familiar($familiar[Xiblaxian Holo-Companion]))
+					{
+						handleFamiliar($familiar[Xiblaxian Holo-Companion]);
+					}
+					else if(have_familiar($familiar[Oily Woim]))
+					{
+						handleFamiliar($familiar[Oily Woim]);
+					}
+					break;
 				}
 				break;
 			case 2:
 				switch(ns_crowd2())
 				{
-				case $stat[moxie]:		maximize("moxie", 1500, 0, false);			break;
-				case $stat[muscle]:		maximize("muscle", 1500, 0, false);			break;
-				case $stat[mysticality]:maximize("myst", 1500, 0, false);			break;
+				case $stat[moxie]:		maximize("moxie -equip snow suit", 1500, 0, false);			break;
+				case $stat[muscle]:		maximize("muscle -equip snow suit", 1500, 0, false);			break;
+				case $stat[mysticality]:maximize("myst -equip snow suit", 1500, 0, false);			break;
 				}
 				break;
 			case 3:
 				switch(ns_crowd3())
 				{
-				case $element[cold]:	maximize("cold dmg", 1500, 0, false);			break;
-				case $element[hot]:		maximize("hot dmg", 1500, 0, false);			break;
-				case $element[sleaze]:	maximize("sleaze dmg", 1500, 0, false);			break;
-				case $element[stench]:	maximize("stench dmg", 1500, 0, false);			break;
-				case $element[spooky]:	maximize("spooky dmg", 1500, 0, false);			break;
+				case $element[cold]:	maximize("cold dmg -equip snow suit", 1500, 0, false);			break;
+				case $element[hot]:		maximize("hot dmg -equip snow suit", 1500, 0, false);			break;
+				case $element[sleaze]:	maximize("sleaze dmg -equip snow suit", 1500, 0, false);			break;
+				case $element[stench]:	maximize("stench dmg -equip snow suit", 1500, 0, false);			break;
+				case $element[spooky]:	maximize("spooky dmg -equip snow suit", 1500, 0, false);			break;
 				}
 				break;
 			}
@@ -9828,7 +9850,7 @@ boolean doTasks()
 			{
 				equip($item[Sneaky Pete\'s Leather Jacket]);
 			}
-			maximize("meat drop", 1500, 0, false);
+			maximize("meat drop -equip snow suit", 1500, 0, false);
 			if((my_class() == $class[Seal Clubber]) && (item_amount($item[Meat Tenderizer is Murder]) > 0))
 			{
 				equip($item[Meat Tenderizer is Murder]);
@@ -9894,7 +9916,7 @@ boolean doTasks()
 					}
 				}
 				buffMaintain($effect[Song of Sauce], 0, 1, 1);
-				maximize("myst", 1500, 0, false);
+				maximize("myst -equip snow suit", 1500, 0, false);
 				if(equipped_item($slot[acc1]) == $item[hand in glove])
 				{
 					equip($slot[acc1], $item[Pirate Fledges]);

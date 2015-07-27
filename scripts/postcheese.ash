@@ -770,9 +770,9 @@ void handlePostAdventure()
 		{
 			use_familiar($familiar[Fist Turkey]);
 		}
-		else
+		else if(have_familiar($familiar[Piano Cat]))
 		{
-			use_familiar($familiar[piano cat]);
+			use_familiar($familiar[Piano Cat]);
 		}
 	}
 
@@ -782,9 +782,9 @@ void handlePostAdventure()
 		{
 			use_familiar($familiar[Angry Jung Man]);
 		}
-		else
+		else if(have_familiar($familiar[Piano Cat]))
 		{
-			use_familiar($familiar[piano cat]);
+			use_familiar($familiar[Piano Cat]);
 		}
 	}
 

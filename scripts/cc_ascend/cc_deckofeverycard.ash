@@ -95,7 +95,6 @@ boolean deck_cheat(string cheat)
 	cards["IV - The Emperor"] = 45;
 	cards["Green Card"] = 46;
 	cards["XVI - The Tower"] = 47;
-	cards["key"] = 47;
 	cards["The Race Card"] = 48;
 	cards["0 - The Fool"] = 49;
 	cards["I - The Magician"] = 50;
@@ -114,7 +113,6 @@ boolean deck_cheat(string cheat)
 	cards["Sheep"] = 61;
 	cards["Year of Plenty"] = 62;
 	cards["Mine"] = 63;
-	cards["ore"] = 63;
 	cards["Laboratory"] = 64;
 	cards["X of Kumquats"] = 65;
 	cards["Professor Plum"] = 66;
@@ -134,6 +132,7 @@ boolean deck_cheat(string cheat)
 	cards["red mana"] = 33;
 	cards["green mana"] = 34;
 	cards["blue mana"] = 36;
+	cards["key"] = 47;
 	cards["init"] = 48;
 	cards["moxie buff"] = 49;
 	cards["myst buff"] = 50;
@@ -141,6 +140,7 @@ boolean deck_cheat(string cheat)
 	cards["meat"] = 58;
 	cards["muscle buff"] = 51;
 	cards["stone wool"] = 61;
+	cards["ore"] = 63;
 	cards["items"] = 67;
 	cards["muscle stat"] = 68;
 	cards["moxie stat"] = 69;
