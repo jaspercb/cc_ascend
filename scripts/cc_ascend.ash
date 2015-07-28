@@ -2809,6 +2809,18 @@ boolean L11_mauriceSpookyraven()
 			change_mcd(0);
 			equip($slot[acc2], $item[gumshoes]);
 		}
+
+		if(item_amount($item[wine bomb]) == 1)
+		{
+			set_property("cc_winebomb", "finished");
+			visit_url("place.php?whichplace=manor4&action=manor4_chamberwall");
+			return true;
+		}
+
+		if(equipped_item($slot[Off-hand]) != $item[Unstable Fulminate])
+		{
+			abort("Unstable Fulminate was not equipped. Please report this and include the following: Equipped items and if you have or don't have an Unstable Fulminate. For now, get the wine bomb manually, and run again.");
+		}
 		ccAdv(1, $location[The Haunted Boiler Room]);
 
 		if(item_amount($item[wine bomb]) == 1)
