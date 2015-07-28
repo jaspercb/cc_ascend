@@ -14,10 +14,11 @@ int doRest();
 item whatHiMein();
 int dreamJarDrops();
 int powderedGoldDrops();
+int grimTaleDrops();
 string statCard();
 effect whatStatSmile();
 void tootGetMeat();
-void ovenHandle();
+boolean ovenHandle();
 boolean handleFaxMonster(string enemy);
 boolean isGuildClass();
 void handleRainDoh();
@@ -278,6 +279,11 @@ int dreamJarDrops()
 int powderedGoldDrops()
 {
 	return get_property("_powderedGoldDrops").to_int();
+}
+
+int grimTaleDrops()
+{
+	return get_property("_grimFairyTaleDrops").to_int();
 }
 
 string statCard()
@@ -638,20 +644,13 @@ void tootGetMeat()
 }
 
 
-void ovenHandle()
+boolean ovenHandle()
 {
 	if(get_campground() contains $item[Dramatic&trade; range])
 	{
 		print("Oven found! We can cook!", "blue");
 		set_property("cc_haveoven", true);
 	}
-#	foreach campItem in get_campground()
-#	{
-#		if(campItem == $item[Dramatic&trade; range])
-#		{
-#			set_property("cc_haveoven", true);
-#		}
-#	}
 
 	if(!get_property("cc_haveoven").to_boolean() && (my_meat() > 4000))
 	{
@@ -659,6 +658,7 @@ void ovenHandle()
 		use(1, $item[Dramatic&trade; range]);
 		set_property("cc_haveoven", true);
 	}
+	return get_property("cc_haveoven").to_boolean();
 }
 
 boolean cc_deleteMail(kmessage msg)

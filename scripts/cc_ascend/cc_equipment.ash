@@ -212,7 +212,7 @@ void handleOffHand()
 	{
 		if((have_skill($skill[Double-Fisted Skull Smashing])) && (weapon_type(equipped_item($slot[weapon])) != $stat[Moxie]))
 		{
-			poss = $items[Turtle Totem, Knob Goblin Scimitar, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Spiked Femur, Wicker Shield, Operation Patriot Shield, Fake Washboard];
+			poss = $items[Turtle Totem, Knob Goblin Scimitar, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Hot Plate, Spiked Femur, Antique Shield, Wicker Shield, Operation Patriot Shield, Fake Washboard];
 		}
 		else
 		{
@@ -298,7 +298,7 @@ void equipBaselinePants()
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Old Sweatpants, Knob Goblin Pants, Filthy Corduroys, Leotarrrd, Swashbuckling Pants, Troll Britches, Distressed Denim Pants, Astral Shorts, Vicar\'s Tutu, Pantsgiving];
+	boolean[item] poss = $items[Old Sweatpants, Knob Goblin Harem Pants, Knob Goblin Pants, Filthy Corduroys, Leotarrrd, Swashbuckling Pants, Vicar\'s Tutu, Troll Britches, Distressed Denim Pants, Astral Shorts, Pantsgiving];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -529,7 +529,7 @@ void equipBaseline()
 void equipBaselineAcc1()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Astral Mask, Astral Belt, Astral Ring, Astral Bracer, Over-The-Shoulder Folder Holder];
+	boolean[item] poss = $items[Ghost of a Necklace, Astral Mask, Astral Belt, Astral Ring, Astral Bracer, Over-The-Shoulder Folder Holder];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -549,7 +549,7 @@ void equipBaselineAcc2()
 	boolean[item] poss;
 	if((my_level() >= 13) && (get_property("flyeredML").to_int() >= 10000))
 	{
-		poss = $items[Glowing Red Eye, Bonerdagon Necklace, Jangly Bracelet, Pirate Fledges, Iron Beta of Industry, World\'s Best Adventurer Sash];
+		poss = $items[Glowing Red Eye, Bonerdagon Necklace, Batskin Belt, Jangly Bracelet, Pirate Fledges, Iron Beta of Industry, World\'s Best Adventurer Sash];
 	}
 	else
 	{

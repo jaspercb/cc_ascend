@@ -532,9 +532,21 @@ boolean handleFamiliar(familiar fam)
 		boolean[familiar] poss = $familiars[Mosquito, Leprechaun, Baby Gravy Fairy, Hobo Monkey, Crimbo Shrub, Galloping Grill, Fist Turkey, Piano Cat, Angry Jung Man, Grimstone Golem, Adventurous Spelunker];
 
 		# Add provision for Golden Monkey here.
-		if(in_hardcore() && (dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))
+		#if(in_hardcore() && (dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))
+		if(in_hardcore() && ((my_spleen_use() + 4) <= spleen_limit()))
 		{
-			toEquip = $familiar[Unconscious Collective];
+			if((dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))
+			{
+				toEquip = $familiar[Unconscious Collective];
+			}
+			if((grimTaleDrops() < 1) && have_familiar($familiar[Grim Brother]))
+			{
+				toEquip = $familiar[Grim Brother];
+			}
+			if((powderedGoldDrops() < 1) && have_familiar($familiar[Golden Monkey]))
+			{
+				toEquip = $familiar[Golden Monkey];
+			}
 		}
 		else if(in_hardcore() && (item_amount($item[Yellow Pixel]) < 30) && have_familiar($familiar[Ms. Puck Man]))
 		{
@@ -1348,6 +1360,10 @@ void initializeDay(int day)
 	{
 		use(1, $item[cursed pony keg]);
 	}
+	if(storage_amount($item[Talking Spade]) > 0)
+	{
+		pullXWhenHaveY($item[Talking Spade], 1, 0);
+	}
 
 	if(item_amount($item[Mick\'s IcyVapoHotness Inhaler]) > 0)
 	{
@@ -1472,8 +1488,11 @@ void initializeDay(int day)
 
 			hr_initializeDay(day);
 
-			pulverizeThing($item[hairpiece on fire]);
-			pulverizeThing($item[vicar\'s tutu]);
+			if(!in_hardcore())
+			{
+				pulverizeThing($item[hairpiece on fire]);
+				pulverizeThing($item[vicar\'s tutu]);
+			}
 			hermit(10, $item[ten-leaf clover]);
 			if(item_amount($item[antique accordion]) == 0)
 			{
@@ -1605,7 +1624,7 @@ void doBedtime()
 	{
 		spleenlimit -= 3;
 	}
-	if(my_spleen_use() < spleenlimit)
+	if((my_spleen_use() < spleenlimit) && !in_hardcore())
 	{
 		return;
 	}
@@ -2606,7 +2625,7 @@ boolean LX_spookyravenSecond()
 		abort("We are currently in a choice and mafia won't automatically handle this. It's usually One Simple Nightstand that causes this but you might have a bonus. Woo.");
 	}
 
-	if(get_property("cc_ballroomopen") == "open")
+	if((get_property("cc_ballroomopen") == "open") || (get_property("questM21Dance") == "finished") || (get_property("questM21Dance") == "step3"))
 	{
 		if(item_amount($item[Lord Spookyraven\'s Spectacles]) == 1)
 		{
@@ -2639,7 +2658,7 @@ boolean LX_spookyravenSecond()
 		}
 		if(item_amount($item[Lady Spookyraven\'s Powder Puff]) == 0)
 		{
-			if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7))
+			if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]))
 			{
 				handleFamiliar($familiar[Artistic Goth Kid]);
 			}
@@ -3787,6 +3806,31 @@ void consumeStuff()
 			}
 		}
 
+		if(in_hardcore() && isGuildClass())
+		{
+			if(((my_fullness() + 6) <= fullness_limit()) && (my_level() >= 6) && ovenHandle())
+			{
+				if(item_amount($item[Hell Broth]) == 0)
+				{
+					while((item_amount($item[Hellion Cube]) > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Hell Broth]) < 2))
+					{
+						cli_execute("make Hell Broth");
+					}
+				}
+				while((item_amount($item[Hell Broth]) > 0) && (item_amount($item[Dry Noodles]) > 0) && (item_amount($item[Hell Ramen]) < 2))
+				{
+					cli_execute("make Hell Ramen");
+				}
+
+				while((item_amount($item[Hell Ramen]) > 0) && ((my_fullness() + 6) <= fullness_limit()))
+				{
+					dealWithMilkOfMagnesium(true);
+					ccEat(1, $item[Hell Ramen]);
+				}
+			}
+		}
+
+
 		if((my_adventures() < 4) && (my_fullness() == 0) && (my_level() >= 6) && (item_amount($item[Boris\'s Key Lime Pie]) > 0) && (item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) && (item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0))
 		{
 			dealWithMilkOfMagnesium(true);
@@ -3812,16 +3856,21 @@ void consumeStuff()
 		{
 			use(1, $item[carrot nose]);
 			chew(1, $item[carrot juice]);
-			if(in_hardcore())
+		}
+
+		if(in_hardcore())
+		{
+			while((my_spleen_use() <= 11) && (item_amount($item[Unconscious Collective Dream Jar]) > 0))
 			{
-				while((my_spleen_use() <= 12) && (item_amount($item[Unconscious Collective Dream Jar]) > 0))
-				{
-					chew(1, $item[Unconscious Collective Dream Jar]);
-				}
-				while((my_spleen_use() <= 12) && (item_amount($item[Powdered Gold]) > 0))
-				{
-					chew(1, $item[Powdered Gold]);
-				}
+				chew(1, $item[Unconscious Collective Dream Jar]);
+			}
+			while((my_spleen_use() <= 11) && (item_amount($item[Powdered Gold]) > 0))
+			{
+				chew(1, $item[Powdered Gold]);
+			}
+			while((my_spleen_use() <= 11) && (item_amount($item[Grim Fairy Tale]) > 0))
+			{
+				chew(1, $item[Grim Fairy Tale]);
 			}
 		}
 
@@ -4711,7 +4760,7 @@ boolean L10_airship()
 		set_property("choiceAdventure182", "1");
 	}
 
-	if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7))
+	if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]))
 	{
 		print("Hipster Adv: " + get_property("_hipsterAdv"), "blue");
 		handleFamiliar($familiar[Artistic Goth Kid]);
@@ -5066,7 +5115,7 @@ boolean L7_crypt()
 
 	if(get_property("cyrptNicheEvilness").to_int() > 0)
 	{
-		if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7))
+		if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]))
 		{
 			handleFamiliar($familiar[Artistic Goth Kid]);
 		}
@@ -5257,6 +5306,32 @@ boolean L1_edIslandFallback()
 	return ccAdv(1, $location[Hippy Camp]);
 }
 
+boolean L6_friarsRamen()
+{
+	if(!in_hardcore() || !isGuildClass())
+	{
+		return false;
+	}
+	if(my_fullness() >= 12)
+	{
+		return false;
+	}
+	if((my_fullness() >= 6) && (item_amount($item[Hellion Cube]) > 0))
+	{
+		return false;
+	}
+	if(item_amount($item[Hellion Cube]) > 1)
+	{
+		return false;
+	}
+	if((my_daycount() >= 3) && (my_adventures() > 15))
+	{
+		return false;
+	}
+	ccAdv(1, $location[The Dark Neck of the Woods]);
+	return true;
+}
+
 boolean L6_friarsGetParts()
 {
 	if((my_level() < 6) || (get_property("cc_friars") != ""))
@@ -5271,7 +5346,7 @@ boolean L6_friarsGetParts()
 	{
 		handleBjornify($familiar[grimstone golem]);
 	}
-	if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && (item_amount($item[hot wing]) >= 3))
+	if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && (item_amount($item[hot wing]) >= 3) && is_unrestricted($familiar[Artistic Goth Kid]))
 	{
 		handleFamiliar($familiar[Artistic Goth Kid]);
 	}
@@ -7989,6 +8064,53 @@ boolean doTasks()
 		handleFamiliar($familiar[Angry Jung Man]);
 	}
 
+	int spleen_hold = 4;
+	if(item_amount($item[Astral Energy Drink]) > 0)
+	{
+		spleen_hold = spleen_hold + 8;
+	}
+	if(in_hardcore() && ((my_spleen_use() + spleen_hold) <= spleen_limit()))
+	{
+		if((dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))
+		{
+			handleFamiliar($familiar[Unconscious Collective]);
+		}
+		else if((grimTaleDrops() < 1) && have_familiar($familiar[Grim Brother]))
+		{
+			handleFamiliar($familiar[Grim Brother]);
+		}
+		else if((powderedGoldDrops() < 1) && have_familiar($familiar[Golden Monkey]))
+		{
+			handleFamiliar($familiar[Golden Monkey]);
+		}
+	}
+	else if(in_hardcore() && (item_amount($item[Yellow Pixel]) < 20))
+	{
+		handleFamiliar($familiar[Puck Man]);
+	}
+
+	if((my_familiar() == $familiar[Unconscious Collective]) && (dreamJarDrops() >= 1))
+	{
+		handleFamiliar($familiar[Adventurous Spelunker]);
+	}
+	if((my_familiar() == $familiar[Golden Monkey]) && (powderedGoldDrops() >= 1))
+	{
+		handleFamiliar($familiar[Adventurous Spelunker]);
+	}
+	if((my_familiar() == $familiar[Grim Brother]) && (grimTaleDrops() >= 1))
+	{
+		handleFamiliar($familiar[Adventurous Spelunker]);
+	}
+	if((my_familiar() == $familiar[Puck Man]) && (item_amount($item[Yellow Pixel]) > 20))
+	{
+		handleFamiliar($familiar[Adventurous Spelunker]);
+	}
+	if(in_hardcore() && (my_familiar() == $familiar[Adventurous Spelunker]) && (my_mp() < 50) && ((my_mp() * 2) < my_maxmp()))
+	{
+		handleFamiliar($familiar[Galloping Grill]);
+	}
+
+
 	oldPeoplePlantStuff();
 	picky_buyskills();
 
@@ -8674,6 +8796,14 @@ boolean doTasks()
 		return true;
 	}
 
+	if(in_hardcore() && isGuildClass())
+	{
+		if(L6_friarsGetParts() || L6_friarsHotWing())
+		{
+			return true;
+		}
+	}
+
 	if(LX_spookyravenSecond() || LX_setBallroomSong())
 	{
 		return true;
@@ -8685,6 +8815,11 @@ boolean doTasks()
 	}
 
 	if(L6_friarsGetParts() || L6_friarsHotWing())
+	{
+		return true;
+	}
+
+	if(L6_friarsRamen())
 	{
 		return true;
 	}
@@ -10059,7 +10194,7 @@ boolean doTasks()
 			{
 				equip($item[Sneaky Pete\'s Leather Jacket]);
 			}
-			maximize("meat drop -equip snow suit switch Hobo Monkey, switch Grimstone Golem, switch Fist Turkey, switch Unconscious Collective, switch Angry Jung Man, switch Leprechaun", 1500, 0, false);
+			maximize("meat drop -equip snow suit switch Hobo Monkey, switch Grimstone Golem, switch Fist Turkey, switch Unconscious Collective, switch Golden Monkey, switch Angry Jung Man, switch Leprechaun", 1500, 0, false);
 			if((my_class() == $class[Seal Clubber]) && (item_amount($item[Meat Tenderizer is Murder]) > 0))
 			{
 				equip($item[Meat Tenderizer is Murder]);
