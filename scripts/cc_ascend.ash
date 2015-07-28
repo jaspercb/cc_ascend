@@ -3805,8 +3805,7 @@ void consumeStuff()
 			}
 		}
 
-
-		if((my_adventures() < 4) && (my_fullness() == 0) && (my_level() >= 6) && (item_amount($item[Boris\'s Key Lime Pie]) > 0) && (item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) && (item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0))
+		if((my_adventures() < 4) && (my_fullness() == 0) && (my_level() >= 6) && (item_amount($item[Boris\'s Key Lime Pie]) > 0) && (item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) && (item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0) && !in_hardcore())
 		{
 			dealWithMilkOfMagnesium(true);
 			buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -3893,7 +3892,7 @@ void consumeStuff()
 	}
 	else if(my_daycount() == 2)
 	{
-		if((my_level() >= 7) && (my_fullness() == 0) && ((my_adventures() < 10) || (get_counters("Fortune Cookie", 0, 5) == "Fortune Cookie") || (get_counters("Fortune Cookie", 0, 200) != "Fortune Cookie") || (get_property("middleChamberUnlock").to_boolean())))
+		if((my_level() >= 7) && (my_fullness() == 0) && ((my_adventures() < 10) || (get_counters("Fortune Cookie", 0, 5) == "Fortune Cookie") || (get_counters("Fortune Cookie", 0, 200) != "Fortune Cookie") || (get_property("middleChamberUnlock").to_boolean())) && !in_hardcore())
 		{
 			dealWithMilkOfMagnesium(true);
 			buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -3961,6 +3960,31 @@ void consumeStuff()
 				}
 			}
 		}
+
+		if(in_hardcore() && isGuildClass())
+		{
+			if(((my_fullness() + 6) <= fullness_limit()) && (my_level() >= 6) && ovenHandle())
+			{
+				if(item_amount($item[Hell Broth]) == 0)
+				{
+					while((item_amount($item[Hellion Cube]) > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Hell Broth]) < 2))
+					{
+						cli_execute("make Hell Broth");
+					}
+				}
+				while((item_amount($item[Hell Broth]) > 0) && (item_amount($item[Dry Noodles]) > 0) && (item_amount($item[Hell Ramen]) < 2))
+				{
+					cli_execute("make Hell Ramen");
+				}
+
+				while((item_amount($item[Hell Ramen]) > 0) && ((my_fullness() + 6) <= fullness_limit()))
+				{
+					dealWithMilkOfMagnesium(true);
+					ccEat(1, $item[Hell Ramen]);
+				}
+			}
+		}
+
 
 		if((fullness_limit() >= 15) && (my_fullness() < fullness_limit()))
 		{
