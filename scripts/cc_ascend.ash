@@ -299,11 +299,14 @@ boolean handleFamiliar(familiar fam)
 	}
 	else
 	{
-		boolean[familiar] poss = $familiars[Mosquito, Leprechaun, Baby Gravy Fairy, Hobo Monkey, Crimbo Shrub, Galloping Grill, Fist Turkey, Piano Cat, Angry Jung Man, Grimstone Golem, Adventurous Spelunker];
+		boolean[familiar] poss = $familiars[Mosquito, Leprechaun, Baby Gravy Fairy, Golden Monkey, Hobo Monkey, Crimbo Shrub, Galloping Grill, Fist Turkey, Piano Cat, Angry Jung Man, Grimstone Golem, Adventurous Spelunker];
 
-		# Add provision for Golden Monkey here.
-		#if(in_hardcore() && (dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))
-		if(in_hardcore() && ((my_spleen_use() + 4) <= spleen_limit()))
+		int spleen_hold = 4;
+		if(item_amount($item[Astral Energy Drink]) > 0)
+		{
+			spleen_hold = spleen_hold + 8;
+		}
+		if(in_hardcore() && ((my_spleen_use() + spleen_hold) <= spleen_limit()))
 		{
 			if((dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))
 			{
@@ -1934,12 +1937,17 @@ boolean questOverride()
 		set_property("cc_bean", "plant");
 	}
 
-
 	if((internalQuestStatus("questL11Manor") >= 11) && (get_property("cc_ballroom") != "finished"))
 	{
 		print("Found completed Spookyraven Manor (11)");
 		set_property("cc_ballroom", "finished");
 		set_property("cc_winebomb", "finished");
+	}
+
+	if((internalQuestStatus("questL11Worship") >= 3) && (get_property("cc_hiddenunlock") != "finished"))
+	{
+		print("Found unlocked Hidden City (11)");
+		set_property("cc_hiddenunlock", "finished");
 	}
 
 	if((get_property("questL11Black") == "finished") && (get_property("cc_blackmap") != "finished"))
@@ -2476,10 +2484,14 @@ boolean L11_unlockHiddenCity()
 
 boolean L11_nostrilOfTheSerpent()
 {
-	if(get_property("lastTempleUnlock").to_int() != my_ascensions())
+	if(get_property("questL11Worship") != "step1")
 	{
 		return false;
 	}
+#	if(get_property("lastTempleUnlock").to_int() != my_ascensions())
+#	{
+#		return false;
+#	}
 	if(get_property("cc_mcmuffin") != "start")
 	{
 		return false;
@@ -8096,6 +8108,8 @@ boolean doTasks()
 	{
 		print("Ka Coins: " + item_amount($item[Ka Coin]) + " Lashes used: " + get_property("_edLashCount"), "green");
 	}
+
+	questOverride();
 
 	if(get_property("cc_interrupt").to_boolean())
 	{
