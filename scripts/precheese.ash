@@ -160,7 +160,13 @@ void handlePreAdventure()
 	{
 		useCocoon();
 	}
-	print("Pre Adventure done, beep.", "orange");
+
+	if(in_hardcore() && (my_class() == $class[Sauceror]) && (my_mp() < 32))
+	{
+		print("Warning, we don't have a lot of MP but we are chugging along anyway", "red");
+	}
+
+	print("Pre Adventure done, beep.", "blue");
 }
 
 void main(){

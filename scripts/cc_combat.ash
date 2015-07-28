@@ -917,6 +917,12 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill spirit snap";
 	}
 
+	if((!contains_text(combatState, "stuffedmortarshell")) && (my_class() == $class[Sauceror]) && ((expected_damage() * 2) < my_hp()) && have_skill($skill[Stuffed Mortar Shell]))
+	{
+		set_property("cc_combatHandler", combatState + "(stuffedmortarshell)");
+		return "skill stuffed mortar shell";
+	}
+
 	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_class() == $class[Sauceror]) && (my_mp() >= 32))
 	{
 		set_property("cc_combatHandler", combatState + "(weaksauce)");
@@ -984,6 +990,7 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			attackMinor = "skill saucegeyser";
 			attackMajor = "skill saucegeyser";
+			attackBasic = "skill saucegeyser";
 		}
 		if(my_soulsauce() >= 5)
 		{
@@ -1387,12 +1394,9 @@ string ccsJunkyard(int round, string opp, string text)
 	{
 		return "item spectre scepter";
 	}
-	if(have_skill($skill[toss]))
+	if(have_skill($skill[toss]) && (my_mp() >= mp_cost($skill[Toss])))
 	{
-		if((my_mp() >= 1) || (my_class() == $class[Turtle Tamer]))
-		{
-			return "skill toss";
-		}
+		return "skill toss";
 	}
 	return "attack with weapon";
 }

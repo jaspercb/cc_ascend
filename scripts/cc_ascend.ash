@@ -6,6 +6,8 @@ since r16065;
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
 ***/
 
+import <cc_ascend/cc_ascend_header.ash>
+import <cc_ascend/cc_deprecation.ash>
 import <cc_combat.ash>
 import <cc_util.ash>
 import <cc_ascend/heavyrains.ash>
@@ -20,95 +22,6 @@ import <cc_ascend/cc_summerfun.ash>
 import <cc_ascend/cc_elementalPlanes.ash>
 import <cc_ascend/cc_deckofeverycard.ash>
 
-
-boolean LX_handleSpookyravenNecklace();
-boolean LX_handleSpookyravenFirstFloor();
-boolean LX_phatLootToken();
-boolean LX_islandAccess();
-boolean LX_fancyOilPainting();
-boolean LX_setBallroomSong();
-boolean LX_pirateOutfit();
-boolean LX_pirateInsults();
-boolean LX_pirateBlueprint();
-boolean LX_pirateBeerPong();
-boolean LX_fcle();
-boolean LX_ornateDowsingRod();
-boolean LX_getDictionary();
-boolean LX_dictionary();
-boolean LX_dinseylandfillFunbucks();
-boolean LX_nastyBooty();
-boolean LX_spookyravenSecond();
-boolean LX_spookyBedroomCombat();
-boolean LX_getDigitalKey();
-
-boolean Lsc_flyerSeals();
-
-boolean L0_handleRainDoh();
-
-boolean L1_edIsland();
-boolean L1_edDinsey();
-boolean L1_edIsland(int dickstabOverride);
-boolean L1_edIslandFallback();
-boolean L2_mosquito();
-boolean L2_treeCoin();
-boolean L2_spookyMap();
-boolean L2_spookyFertilizer();
-boolean L2_spookySapling();
-
-boolean L3_tavern();
-
-boolean L4_batCave();
-boolean L5_haremOutfit();
-boolean L5_goblinKing();
-boolean L5_getEncryptionKey();
-boolean L6_friarsGetParts();
-boolean L6_friarsHotWing();
-boolean L8_trapperStart();
-boolean L7_crypt();
-boolean L8_trapperGround();
-boolean L8_trapperYeti();
-boolean L9_chasmStart();
-boolean L9_chasmBuild();
-boolean L9_highLandlord();
-boolean L9_aBooPeak();
-boolean L9_twinPeak();
-boolean L9_oilPeak();
-boolean L9_leafletQuest();
-
-boolean L10_plantThatBean();
-boolean L10_airship();
-boolean L10_basement();
-boolean L10_ground();
-boolean L10_topFloor();
-boolean L10_holeInTheSky();
-boolean L11_holeInTheSky();
-boolean L11_blackMarket();
-boolean L11_forgedDocuments();
-boolean L11_mcmuffinDiary();
-boolean L11_unlockHiddenCity();
-boolean L11_hiddenCityZones();
-boolean L11_talismanOfNam();
-boolean L11_mauriceSpookyraven();
-boolean L11_nostrilOfTheSerpent();
-boolean L11_unlockPyramid();
-boolean L11_unlockEd();
-boolean L11_defeatEd();
-boolean L11_getBeehive();
-boolean L12_flyerFinish();
-boolean L12_preOutfit();
-boolean L12_getOutfit();
-boolean L12_startWar();
-boolean L12_filthworms();
-boolean L12_sonofaBeach();
-boolean L12_sonofaFinish();
-boolean L12_gremlins();
-boolean L12_gremlinStart();
-boolean L12_orchardFinalize();
-boolean L12_orchardStart();
-boolean L12_finalizeWar();
-boolean L12_nunsTrickGlandGet();
-boolean L13_sorceressDoor();
-boolean questOverride();
 
 boolean ccEat(int howMany, item toEat)
 {
@@ -125,147 +38,6 @@ boolean ccEat(int howMany, item toEat)
 	}
 	return retval;
 }
-
-boolean trackingSplitterFixer(string oldSetting, int day, string newSetting)
-{
-	/***
-		This will be removed at some point once a reasonable amount of time has
-		passed such that anyone who used the script before a conversion in here
-		should have had it fix them.
-	***/
-
-	string setting = get_property(oldSetting);
-	if(setting == "")
-	{
-		return false;
-	}
-
-	matcher cleanSpaces = create_matcher(", ", setting);
-	setting = replace_all(cleanSpaces, ",");
-	string[int] retval = split_string(setting, ",");
-	foreach x in retval
-	{
-		if(retval[x] == "")
-		{
-			continue;
-		}
-		matcher dayAdder = create_matcher("[(]", retval[x]);
-		retval[x] = replace_all(dayAdder, "(" + day + ":");
-		if(get_property(newSetting) != "")
-		{
-			set_property(newSetting, get_property(newSetting) + "," + retval[x]);
-		}
-		else
-		{
-			set_property(newSetting, retval[x]);
-		}
-	}
-	set_property(oldSetting, "");
-	return true;
-}
-
-
-boolean settingFixer()
-{
-	/***
-		This will be removed at some point once a reasonable amount of time has
-		passed such that anyone who used the script before a conversion in here
-		should have had it fix them.
-	***/
-	trackingSplitterFixer("cc_banishes_day1", 1, "cc_banishes");
-	trackingSplitterFixer("cc_banishes_day2", 2, "cc_banishes");
-	trackingSplitterFixer("cc_banishes_day3", 3, "cc_banishes");
-	trackingSplitterFixer("cc_banishes_day4", 4, "cc_banishes");
-	trackingSplitterFixer("cc_yellowRay_day1", 1, "cc_yellowRays");
-	trackingSplitterFixer("cc_yellowRay_day2", 2, "cc_yellowRays");
-	trackingSplitterFixer("cc_yellowRay_day3", 3, "cc_yellowRays");
-	trackingSplitterFixer("cc_yellowRay_day4", 4, "cc_yellowRays");
-	trackingSplitterFixer("cc_lashes_day1", 1, "cc_lashes");
-	trackingSplitterFixer("cc_lashes_day2", 2, "cc_lashes");
-	trackingSplitterFixer("cc_lashes_day3", 3, "cc_lashes");
-	trackingSplitterFixer("cc_lashes_day4", 4, "cc_lashes");
-	trackingSplitterFixer("cc_renenutet_day1", 1, "cc_renenutet");
-	trackingSplitterFixer("cc_renenutet_day2", 2, "cc_renenutet");
-	trackingSplitterFixer("cc_renenutet_day3", 3, "cc_renenutet");
-	trackingSplitterFixer("cc_renenutet_day4", 4, "cc_renenutet");
-
-	if(get_property("cc_delayTimer") == "")
-	{
-		set_property("cc_delayTimer", 1);
-	}
-	if(get_property("cc_100familiar") == "yes")
-	{
-		set_property("cc_100familiar", true);
-	}
-	if(get_property("cc_100familiar") == "no")
-	{
-		set_property("cc_100familiar", false);
-	}
-	if(get_property("cc_useCubeling") == "yes")
-	{
-		set_property("cc_useCubeling", true);
-	}
-	if(get_property("cc_useCubeling") == "no")
-	{
-		set_property("cc_useCubeling", false);
-	}
-	if(get_property("cc_wandOfNagamar") == "yes")
-	{
-		set_property("cc_wandOfNagamar", true);
-	}
-	if(get_property("cc_wandOfNagamar") == "no")
-	{
-		set_property("cc_wandOfNagamar", false);
-	}
-	if(get_property("cc_chasmBusted") == "yes")
-	{
-		set_property("cc_chasmBusted", true);
-	}
-	if(get_property("cc_chasmBusted") == "no")
-	{
-		set_property("cc_chasmBusted", false);
-	}
-	if(get_property("cc_edDelayTimer") != "")
-	{
-		set_property("cc_delayTimer", get_property("cc_edDelayTimer"));
-		set_property("cc_edDelayTimer", "");
-	}
-	if(get_property("cc_grimstoneFancyOilPainting") == "need")
-	{
-		set_property("cc_grimstoneFancyOilPainting", true);
-	}
-	if(get_property("cc_grimstoneFancyOilPainting") == "no")
-	{
-		set_property("cc_grimstoneFancyOilPainting", false);
-	}
-	if(get_property("cc_grimstoneOrnateDowsingRod") == "need")
-	{
-		set_property("cc_grimstoneOrnateDowsingRod", true);
-	}
-	if(get_property("cc_grimstoneOrnateDowsingRod") == "no")
-	{
-		set_property("cc_grimstoneOrnateDowsingRod", false);
-	}
-
-	if(get_property("kingLiberatedScript") == "scripts/kingLiberated.ash")
-	{
-		set_property("kingLiberatedScript", "kingcheese.ash");
-	}
-	if(get_property("afterAdventureScript") == "scripts/postadventure.ash")
-	{
-		set_property("afterAdventureScript", "postcheese.ash");
-	}
-	if(get_property("betweenAdventureScript") == "scripts/preadventure.ash")
-	{
-		set_property("betweenAdventureScript", "precheese.ash");
-	}
-	if(get_property("betweenBattleScript") == "scripts/preadventure.ash")
-	{
-		set_property("betweenBattleScript", "precheese.ash");
-	}
-	return true;
-}
-
 
 void initializeSettings()
 {
@@ -503,17 +275,6 @@ boolean ccAdvBypass(string url)
 {
 	return ccAdvBypass(url, $location[Noob Cave]);
 }
-#This is an override so we can add locations while they are not part of a daily mafia build.
-#This can now be merged into ccAdvBypass
-boolean tryAdventure(string loc, int snarfblat)
-{
-	if(contains_text(visit_url("adventure.php?snarfblat=" + snarfblat), "Combat"))
-	{
-		print("Overriding unknown location: " + loc + " + at: " + snarfblat, "red");
-		return ccAdv(1, $location[Noob Cave]);
-	}
-	return false;
-}
 
 boolean handleFamiliar(familiar fam)
 {
@@ -601,7 +362,7 @@ void maximize_hedge()
 	}
 	else
 	{
-		maximize(to_string(first) + " res, " + to_string(second) + " res, " + to_string(third) + " res", 2500, 0, false);
+		maximize(to_string(first) + " res, " + to_string(second) + " res, " + to_string(third) + " res -equip snow suit", 2500, 0, false);
 	}
 }
 
@@ -1164,7 +925,6 @@ boolean dealWithMilkOfMagnesium(boolean useAdv)
 	pullXWhenHaveY($item[Milk of Magnesium], 1, 0);
 	return true;
 }
-
 
 int handlePulls(int day)
 {
@@ -2282,7 +2042,201 @@ boolean questOverride()
 	return false;
 }
 
+boolean L11_aridDesert()
+{
+	if(my_level() < 12)
+	{
+		if(get_property("cc_palindome") != "finished")
+		{
+			return false;
+		}
+	}
+	if(get_property("desertExploration").to_int() >= 100)
+	{
+		return false;
+	}
+	if(get_property("cc_mcmuffin") != "start")
+	{
+		return false;
+	}
+	if((get_property("cc_hiddenapartment") != "finished") && (get_property("cc_hiddenapartment") != "0"))
+	{
+		return false;
+	}
 
+	item desertBuff = $item[none];
+	if(possessEquipment($item[UV-resistant compass]))
+	{
+		desertBuff = $item[UV-resistant compass];
+	}
+	if(possessEquipment($item[Ornate Dowsing Rod]))
+	{
+		desertBuff = $item[Ornate Dowsing Rod];
+	}
+
+	if(!possessEquipment(desertBuff))
+	{
+		if(my_level() >= 12)
+		{
+			abort("I can't do the Oasis without an Ornate Dowsing Rod. You can manually get a UV-resistant compass and I'll use that if you really hate me that much.");
+		}
+		else
+		{
+			print("Skipping desert, don't have a rod or a compass.");
+		}
+		return false;
+	}
+
+
+	if((have_effect($effect[Ultrahydrated]) > 0) || (get_property("desertExploration").to_int() == 0))
+	{
+		print("Searching for the pyramid", "blue");
+		equip(desertBuff);
+		if((my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) > 0))
+		{
+			equip($item[Thor\'s Pliers]);
+		}
+		handleFamiliar($familiar[Artistic Goth Kid]);
+
+		if(possessEquipment($item[reinforced beaded headband]) && possessEquipment($item[bullet-proof corduroys]) && possessEquipment($item[round purple sunglasses]))
+		{
+			if(get_property("cc_nunsTrick") == "true")
+			{
+				print("Had gotten War Hippy Fatigues during the Ferret rescue. Don't need to worry about them now.", "blue");
+				set_property("cc_nunsTrick", "got");
+				set_property("cc_nunsTrickGland", "start");
+			}
+		}
+		else
+		{
+#			print("Only have some of the War Hippy Fatigues, so I'm going to closet everything relevant to get them in the desert", "blue");
+			put_closet(item_amount($item[beer helmet]), $item[beer helmet]);
+			put_closet(item_amount($item[distressed denim pants]), $item[distressed denim pants]);
+			put_closet(item_amount($item[bejeweled pledge pin]), $item[bejeweled pledge pin]);
+			put_closet(item_amount($item[reinforced beaded headband]), $item[reinforced beaded headband]);
+			put_closet(item_amount($item[bullet-proof corduroys]), $item[bullet-proof corduroys]);
+			put_closet(item_amount($item[round purple sunglasses]), $item[round purple sunglasses]);
+		}
+
+		buyUpTo(1, $item[hair spray]);
+		buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
+		if(my_primestat() == $stat[Muscle])
+		{
+			buyUpTo(1, $item[Ben-Gal&trade; Balm]);
+			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
+			buyUpTo(1, $item[Blood of the Wereseal]);
+			buffMaintain($effect[Temporary Lycanthropy], 0, 1, 1);
+		}
+
+		if((my_mp() > 30) && ((my_hp()*2) < (my_maxhp()*1)))
+		{
+			useCocoon();
+		}
+
+		if(in_hardcore() && isGuildClass() && (item_amount($item[Worm-Riding Hooks]) > 0) && (get_property("desertExploration").to_int() < 85))
+		{
+			if(item_amount($item[Drum Machine]) > 0)
+			{
+				use(1, $item[Drum Machine]);
+			}
+			else
+			{
+				ccAdv(1, $location[The Oasis]);
+			}
+			return true;
+		}
+
+		handleInitFamiliar();
+		ccAdv(1, $location[The Arid\, Extra-Dry Desert]);
+		handleFamiliar($familiar[Adventurous Spelunker]);
+
+		if(contains_text(get_property("lastEncounter"), "He Got His Just Desserts"))
+		{
+			take_closet(1, $item[beer helmet]);
+			take_closet(1, $item[distressed denim pants]);
+			take_closet(1, $item[bejeweled pledge pin]);
+			set_property("cc_nunsTrick", "got");
+			set_property("cc_nunsTrickGland", "start");
+		}
+
+		int need = 100 - get_property("desertExploration").to_int();
+		print("Need for desert: " + need, "blue");
+		print("Worm riding: " + item_amount($item[worm-riding manual page]), "blue");
+		if((need < 85) && (item_amount($item[Can of Black Paint]) > 0))
+		{
+			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			visit_url("choice.php?whichchoice=805&option=2&pwd=");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			use(1, $item[desert sightseeing pamphlet]);
+		}
+		if((need < 85) && (item_amount($item[Killing Jar]) > 0) && (get_property("cc_killingjar") != "done"))
+		{
+			set_property("cc_killingjar", "done");
+			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			visit_url("choice.php?whichchoice=805&option=2&pwd=");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			use(1, $item[desert sightseeing pamphlet]);
+		}
+
+		need = 100 - get_property("desertExploration").to_int();
+		if((need >= 15) && (item_amount($item[Worm-Riding Manual Page]) >= 15))
+		{
+			pullXWhenHaveY($item[Drum Machine], 1, 0);
+			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			visit_url("choice.php?whichchoice=805&option=2&pwd=");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			set_property("cc_killingjar", "done");
+			if(item_amount($item[Drum Machine]) > 0)
+			{
+				use(1, $item[Drum Machine]);
+			}
+		}
+
+		need = 100 - get_property("desertExploration").to_int();
+		if((need <= 15) && (get_property("cc_killingjar") == "") && (get_property("cc_killingjar") != "done"))
+		{
+			pullXWhenHaveY($item[Killing Jar], 1, 0);
+			set_property("cc_killingjar", "done");
+			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			visit_url("choice.php?whichchoice=805&option=2&pwd=");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			use(1, $item[desert sightseeing pamphlet]);
+		}
+	}
+	else
+	{
+		int need = 100 - get_property("desertExploration").to_int();
+		print("Getting some ultrahydrated, I suppose. Desert left: " + need, "blue");
+
+		if((need > 15) && (item_amount($item[disassembled clover]) > 2) && !get_property("lovebugsUnlocked").to_boolean())
+		{
+			print("Gonna clover this, yeah, it only saves 2 adventures. So?", "green");
+			use(1, $item[disassembled clover]);
+			if(contains_text(visit_url("adventure.php?snarfblat=122&confirm=on"), "Combat"))
+			{
+				print("Wandering combat in The Oasis, boo. Gonna have to do this again.");
+				ccAdv(1, $location[The Oasis]);
+				if(item_amount($item[ten-leaf clover]) == 1)
+				{
+					use(1, $item[ten-leaf clover]);
+				}
+			}
+		}
+		else
+		{
+			if(!ccAdv(1, $location[The Oasis]))
+			{
+				print("Could not visit the Oasis for some reason, assuming desertExploration is incorrect.", "red");
+				set_property("desertExploration", 0);
+			}
+		}
+	}
+	return true;
+}
 
 boolean L11_hiddenCityZones()
 {
@@ -5575,6 +5529,60 @@ boolean L8_trapperGround()
 	return false;
 }
 
+boolean LX_guildUnlock()
+{
+	if(!in_hardcore() || !isGuildClass() || guild_store_available())
+	{
+		return false;
+	}
+	location loc = $location[None];
+	item goal = $item[none];
+	switch(my_primestat())
+	{
+		case $stat[Muscle] :
+			set_property("choiceAdventure111", "3");//Malice in Chains -> Plot a cunning escape
+			set_property("choiceAdventure113", "2");//Knob Goblin BBQ -> Kick the chef
+			set_property("choiceAdventure118", "2");//When Rocks Attack -> "Sorry, gotta run."
+			set_property("choiceAdventure120", "4");//Ennui is Wasted on the Young -> "Since you\'re bored, you\'re boring. I\'m outta here."
+			set_property("choiceAdventure543", "1");//Up In Their Grill -> Grab the sausage, so to speak. I mean... literally.
+			loc = $location[The Outskirts of Cobb\'s Knob];
+			goal = $item[11-Inch Knob Sausage];
+			break;
+		case $stat[Mysticality]:
+			set_property("choiceAdventure115", "1");//Oh No, Hobo -> Give him a beating
+			set_property("choiceAdventure116", "4");//The Singing Tree (Rustling) -> "No singing, thanks."
+			set_property("choiceAdventure117", "1");//Trespasser -> Tackle him
+			set_property("choiceAdventure114", "2");//The Baker\'s Dilemma -> "Sorry, I\'m busy right now."
+			set_property("choiceAdventure544", "1");//A Sandwich Appears! -> sudo exorcise me a sandwich
+			loc = $location[The Haunted Pantry];
+			goal = $item[Exorcised Sandwich];
+			break;
+		case $stat[Moxie]:
+			goal = equipped_item($slot[pants]);
+			set_property("choiceAdventure108", "4");//Aww, Craps -> Walk Away
+			set_property("choiceAdventure109", "1");//Dumpster Diving -> Punch the hobo
+			set_property("choiceAdventure110", "4");//The Entertainer -> Introduce them to avant-garde
+			set_property("choiceAdventure112", "2");//Please, Hammer -> "Sorry, no time."
+			set_property("choiceAdventure121", "2");//Under the Knife -> Umm, no thanks. Seriously.
+			set_property("choiceAdventure542", "1");//Now\'s Your Pants! I Mean... Your Chance! -> Yoink
+			if(goal != $item[none])
+			{
+				loc = $location[The Sleazy Back Alley];
+			}
+			break;
+	}
+	if(loc != $location[none])
+	{
+		ccAdv(1, loc);
+		if(item_amount(goal) > 0)
+		{
+			visit_url("guild.php?place=challenge");
+		}
+		return true;
+	}
+	return false;
+}
+
 boolean L8_trapperStart()
 {
 	if((my_level() < 8) || (get_property("cc_trapper") != ""))
@@ -8239,7 +8247,7 @@ my_maxmp()))
 
 	if(my_location().turns_spent > 50)
 	{
-		if((my_location() != $location[The Secret Government Laboratory]) && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]) && (my_location() != $location[Noob Cave]) && (my_location() != $location[Pirates of the Garbage Barges]))
+		if(($locations[The Secret Government Laboratory, The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), Noob Cave, Pirates of the Garbage Barges, Sloppy Seconds Diner] contains my_location()) == false)
 		{
 			abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
 		}
@@ -8675,53 +8683,9 @@ my_maxmp()))
 		}
 	}
 
-	if(in_hardcore() && isGuildClass() && !guild_store_available())
+	if(LX_guildUnlock())
 	{
-		location loc = $location[None];
-		item goal = $item[none];
-		switch(my_primestat())
-		{
-			case $stat[Muscle] :
-				set_property("choiceAdventure111", "3");//Malice in Chains -> Plot a cunning escape
-				set_property("choiceAdventure113", "2");//Knob Goblin BBQ -> Kick the chef
-				set_property("choiceAdventure118", "2");//When Rocks Attack -> "Sorry, gotta run."
-				set_property("choiceAdventure120", "4");//Ennui is Wasted on the Young -> "Since you\'re bored, you\'re boring. I\'m outta here."
-				set_property("choiceAdventure543", "1");//Up In Their Grill -> Grab the sausage, so to speak. I mean... literally.
-				loc = $location[The Outskirts of Cobb\'s Knob];
-				goal = $item[11-Inch Knob Sausage];
-				break;
-			case $stat[Mysticality]:
-				set_property("choiceAdventure115", "1");//Oh No, Hobo -> Give him a beating
-				set_property("choiceAdventure116", "4");//The Singing Tree (Rustling) -> "No singing, thanks."
-				set_property("choiceAdventure117", "1");//Trespasser -> Tackle him
-				set_property("choiceAdventure114", "2");//The Baker\'s Dilemma -> "Sorry, I\'m busy right now."
-				set_property("choiceAdventure544", "1");//A Sandwich Appears! -> sudo exorcise me a sandwich
-				loc = $location[The Haunted Pantry];
-				goal = $item[Exorcised Sandwich];
-				break;
-			case $stat[Moxie]:
-				goal = equipped_item($slot[pants]);
-				set_property("choiceAdventure108", "4");//Aww, Craps -> Walk Away
-				set_property("choiceAdventure109", "1");//Dumpster Diving -> Punch the hobo
-				set_property("choiceAdventure110", "4");//The Entertainer -> Introduce them to avant-garde
-				set_property("choiceAdventure112", "2");//Please, Hammer -> "Sorry, no time."
-				set_property("choiceAdventure121", "2");//Under the Knife -> Umm, no thanks. Seriously.
-				set_property("choiceAdventure542", "1");//Now\'s Your Pants! I Mean... Your Chance! -> Yoink
-				if(goal != $item[none])
-				{
-					loc = $location[The Sleazy Back Alley];
-				}
-				break;
-		}
-		if(loc != $location[none])
-		{
-			ccAdv(1, loc);
-			if(item_amount(goal) > 0)
-			{
-				visit_url("guild.php?place=challenge");
-			}
-			return true;
-		}
+		return true;
 	}
 
 	if(in_hardcore() && isGuildClass())
@@ -8955,185 +8919,11 @@ my_maxmp()))
 		set_property("cc_ignoreFlyer", true);
 	}
 
-
-
-	#Re add level 12 requirement so we can get the hippy outfit?
-	if(((my_level() >= 12) || (get_property("cc_palindome") == "finished")) && (get_property("cc_mcmuffin") == "start") && (get_property("desertExploration").to_int() < 100) && ((get_property("cc_hiddenapartment") == "finished") || (get_property("cc_hiddenapartment") == "0")))
+	if(L11_aridDesert())
 	{
-		item desertBuff = $item[none];
-		if(possessEquipment($item[UV-resistant compass]))
-		{
-			desertBuff = $item[UV-resistant compass];
-		}
-		if(possessEquipment($item[Ornate Dowsing Rod]))
-		{
-			desertBuff = $item[Ornate Dowsing Rod];
-		}
-
-		if(possessEquipment(desertBuff))
-		{
-			if((have_effect($effect[Ultrahydrated]) > 0) || (get_property("desertExploration").to_int() == 0))
-			{
-				print("Searching for the pyramid", "blue");
-				equip(desertBuff);
-				if((my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) > 0))
-				{
-					equip($item[Thor\'s Pliers]);
-				}
-				handleFamiliar($familiar[Artistic Goth Kid]);
-
-				if(possessEquipment($item[reinforced beaded headband]) && possessEquipment($item[bullet-proof corduroys]) && possessEquipment($item[round purple sunglasses]))
-				{
-					if(get_property("cc_nunsTrick") == "true")
-					{
-						print("Had gotten War Hippy Fatigues during the Ferret rescue. Don't need to worry about them now.", "blue");
-						set_property("cc_nunsTrick", "got");
-						set_property("cc_nunsTrickGland", "start");
-					}
-				}
-				else
-				{
-#					print("Only have some of the War Hippy Fatigues, so I'm going to closet everything relevant to get them in the desert", "blue");
-					put_closet(item_amount($item[beer helmet]), $item[beer helmet]);
-					put_closet(item_amount($item[distressed denim pants]), $item[distressed denim pants]);
-					put_closet(item_amount($item[bejeweled pledge pin]), $item[bejeweled pledge pin]);
-					put_closet(item_amount($item[reinforced beaded headband]), $item[reinforced beaded headband]);
-					put_closet(item_amount($item[bullet-proof corduroys]), $item[bullet-proof corduroys]);
-					put_closet(item_amount($item[round purple sunglasses]), $item[round purple sunglasses]);
-				}
-
-				buyUpTo(1, $item[hair spray]);
-				buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
-				if(my_primestat() == $stat[Muscle])
-				{
-					buyUpTo(1, $item[Ben-Gal&trade; Balm]);
-					buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
-					buyUpTo(1, $item[Blood of the Wereseal]);
-					buffMaintain($effect[Temporary Lycanthropy], 0, 1, 1);
-				}
-
-				if((my_mp() > 30) && ((my_hp()*2) < (my_maxhp()*1)))
-				{
-					useCocoon();
-				}
-
-				handleInitFamiliar();
-				ccAdv(1, $location[The Arid\, Extra-Dry Desert]);
-				handleFamiliar($familiar[Adventurous Spelunker]);
-
-				if(contains_text(get_property("lastEncounter"), "He Got His Just Desserts"))
-				{
-					take_closet(1, $item[beer helmet]);
-					take_closet(1, $item[distressed denim pants]);
-					take_closet(1, $item[bejeweled pledge pin]);
-					set_property("cc_nunsTrick", "got");
-					set_property("cc_nunsTrickGland", "start");
-				}
-
-				int need = 100 - get_property("desertExploration").to_int();
-				print("Need for desert: " + need, "blue");
-				print("Worm riding: " + item_amount($item[worm-riding manual page]), "blue");
-				if((need < 85) && (item_amount($item[Can of Black Paint]) > 0))
-				{
-					visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
-					visit_url("choice.php?whichchoice=805&option=1&pwd=");
-					visit_url("choice.php?whichchoice=805&option=2&pwd=");
-					visit_url("choice.php?whichchoice=805&option=1&pwd=");
-					use(1, $item[desert sightseeing pamphlet]);
-				}
-				if((need < 85) && (item_amount($item[Killing Jar]) > 0) && (get_property("cc_killingjar") != "done"))
-				{
-					set_property("cc_killingjar", "done");
-					visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
-					visit_url("choice.php?whichchoice=805&option=1&pwd=");
-					visit_url("choice.php?whichchoice=805&option=2&pwd=");
-					visit_url("choice.php?whichchoice=805&option=1&pwd=");
-					use(1, $item[desert sightseeing pamphlet]);
-				}
-
-				need = 100 - get_property("desertExploration").to_int();
-				if((need >= 15) && (item_amount($item[Worm-Riding Manual Page]) >= 15))
-				{
-					pullXWhenHaveY($item[Drum Machine], 1, 0);
-					visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
-					visit_url("choice.php?whichchoice=805&option=1&pwd=");
-					visit_url("choice.php?whichchoice=805&option=2&pwd=");
-					visit_url("choice.php?whichchoice=805&option=1&pwd=");
-					set_property("cc_killingjar", "done");
-					if(item_amount($item[Drum Machine]) > 0)
-					{
-						use(1, $item[Drum Machine]);
-					}
-				}
-				if(in_hardcore() && isGuildClass() && (item_amount($item[Worm-Riding Hooks]) > 0))
-				{
-					if(item_amount($item[Drum Machine]) > 0)
-					{
-						use(1, $item[Drum Machine]);
-					}
-					else
-					{
-						ccAdv(1, $location[The Oasis]);
-					}
-				}
-
-				need = 100 - get_property("desertExploration").to_int();
-				if((need <= 15) && (get_property("cc_killingjar") == "") && (get_property("cc_killingjar") != "done"))
-				{
-					pullXWhenHaveY($item[Killing Jar], 1, 0);
-					set_property("cc_killingjar", "done");
-					visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
-					visit_url("choice.php?whichchoice=805&option=1&pwd=");
-					visit_url("choice.php?whichchoice=805&option=2&pwd=");
-					visit_url("choice.php?whichchoice=805&option=1&pwd=");
-					use(1, $item[desert sightseeing pamphlet]);
-				}
-
-				handleFamiliar($familiar[Adventurous Spelunker]);
-				return true;
-			}
-			#else if((100 - get_property("desertExploration").to_int()) <= 15)
-			else
-			{
-				int need = 100 - get_property("desertExploration").to_int();
-				print("Getting some ultrahydrated, I suppose. Desert left: " + need, "blue");
-
-				if((need > 15) && (item_amount($item[disassembled clover]) > 2))
-				{
-					print("Gonna clover this, yeah, it only saves 2 adventures. So?", "green");
-					use(1, $item[disassembled clover]);
-					if(contains_text(visit_url("adventure.php?snarfblat=122&confirm=on"), "Combat"))
-					{
-						print("Wandering combat in The Oasis, boo. Gonna have to do this again.");
-						ccAdv(1, $location[The Oasis]);
-						if(item_amount($item[ten-leaf clover]) == 1)
-						{
-							use(1, $item[ten-leaf clover]);
-						}
-					}
-				}
-				else
-				{
-					if(!ccAdv(1, $location[The Oasis]))
-					{
-						print("Could not visit the Oasis for some reason, assuming desertExploration is incorrect.", "red");
-						set_property("desertExploration", 0);
-					}
-				}
-
-				return true;
-			}
-		}
-		else if(my_level() >= 12)
-		{
-			abort("I can't do the Oasis without an Ornate Dowsing Rod. You can manually get a UV-resistant compass and I'll use that if you really hate me that much.");
-			#print("Unable to currently do the Oasis and no longer aborting... yet", "red");
-		}
-		else
-		{
-			print("Skipping desert, don't have a rod or a compass.");
-		}
+		return true;
 	}
+
 
 	if((get_property("cc_nunsTrick") == "got") && (get_property("currentNunneryMeat").to_int() < 100000) && !get_property("cc_100familiar").to_boolean())
 	{
@@ -10004,7 +9794,6 @@ my_maxmp()))
 
 		# Set this so it aborts if not enough adventures. Otherwise, well, we end up in a loop.
 		set_property("choiceAdventure1004", "3");
-
 		set_property("choiceAdventure1005", "2");			# 'Allo
 		set_property("choiceAdventure1006", "2");			# One Small Step For Adventurer
 		set_property("choiceAdventure1007", "2");			# Twisty Little Passages, All Hedge
