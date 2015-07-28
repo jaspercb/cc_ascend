@@ -522,6 +522,15 @@ boolean handleFamiliar(familiar fam)
 		return true;
 	}
 
+	if((fam == $familiar[Ms. Puck Man]) && !have_familiar($familiar[Ms. Puck Man]) && have_familiar($familiar[Puck Man]))
+	{
+		fam = $familiar[Puck Man];
+	}
+	if((fam == $familiar[Puck Man]) && !have_familiar($familiar[Puck Man]) && have_familiar($familiar[Ms. Puck Man]))
+	{
+		fam = $familiar[Ms. Puck Man];
+	}
+
 	familiar toEquip = $familiar[none];
 	if(have_familiar(fam))
 	{
@@ -8086,7 +8095,7 @@ boolean doTasks()
 	}
 	else if(in_hardcore() && (item_amount($item[Yellow Pixel]) < 20))
 	{
-		handleFamiliar($familiar[Puck Man]);
+		handleFamiliar($familiar[Ms. Puck Man]);
 	}
 
 	if((my_familiar() == $familiar[Unconscious Collective]) && (dreamJarDrops() >= 1))
@@ -8105,7 +8114,12 @@ boolean doTasks()
 	{
 		handleFamiliar($familiar[Adventurous Spelunker]);
 	}
-	if(in_hardcore() && (my_familiar() == $familiar[Adventurous Spelunker]) && (my_mp() < 50) && ((my_mp() * 2) < my_maxmp()))
+	if((my_familiar() == $familiar[Ms. Puck Man]) && (item_amount($item[Yellow Pixel]) > 20))
+	{
+		handleFamiliar($familiar[Adventurous Spelunker]);
+	}
+	if(in_hardcore() && (my_familiar() == $familiar[Adventurous Spelunker]) && (my_mp() < 50) && ((my_mp() * 2) <
+my_maxmp()))
 	{
 		handleFamiliar($familiar[Galloping Grill]);
 	}
