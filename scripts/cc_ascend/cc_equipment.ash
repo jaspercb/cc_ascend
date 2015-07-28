@@ -221,7 +221,7 @@ void handleOffHand()
 	{
 		if((have_skill($skill[Double-Fisted Skull Smashing])) && (weapon_type(equipped_item($slot[weapon])) != $stat[Moxie]))
 		{
-			poss = $items[Turtle Totem, Knob Goblin Scimitar, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Hot Plate, Spiked Femur, Antique Shield, Wicker Shield, Operation Patriot Shield, Fake Washboard];
+			poss = $items[Turtle Totem, Knob Goblin Scimitar, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Hot Plate, Spiked Femur, Wicker Shield, Operation Patriot Shield, Fake Washboard];
 		}
 		else
 		{
