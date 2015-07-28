@@ -4559,7 +4559,7 @@ boolean L10_plantThatBean()
 	return true;
 }
 
-boolean L10_holeInTheSky()
+boolean L10_holeInTheSkyUnlock()
 {
 	if(my_level() < 10)
 	{
@@ -7178,6 +7178,11 @@ boolean L11_blackMarket()
 		set_property("choiceAdventure923", "1");
 	}
 
+	if(item_amount($item[beehive]) > 0)
+	{
+		set_property("cc_getBeehive", false);
+	}
+
 	if(get_property("cc_getBeehive").to_boolean())
 	{
 		set_property("choiceAdventure924", "3");
@@ -7186,7 +7191,15 @@ boolean L11_blackMarket()
 	}
 	else
 	{
-		set_property("choiceAdventure924", "1");
+		if(item_amount($item[Blackberry]) >= 3)
+		{
+			set_property("choiceAdventure924", "2");
+			set_property("choiceAdventure177", "4");
+		}
+		else
+		{
+			set_property("choiceAdventure924", "1");
+		}
 	}
 
 	if(item_amount($item[blackberry galoshes]) == 1)
@@ -7226,9 +7239,9 @@ boolean L11_blackMarket()
 	return true;
 }
 
-boolean L11_holeInTheSky()
+boolean L10_holeInTheSky()
 {
-	if(my_level() < 11)
+	if(my_level() < 10)
 	{
 		return false;
 	}
@@ -8909,12 +8922,7 @@ my_maxmp()))
 		return true;
 	}
 
-	if(L10_holeInTheSky())
-	{
-		return true;
-	}
-
-	if(L11_holeInTheSky())
+	if(L10_holeInTheSkyUnlock() || L10_holeInTheSky())
 	{
 		return true;
 	}
@@ -9689,7 +9697,15 @@ my_maxmp()))
 				}
 
 				handleFamiliar($familiar[Fist Turkey]);
-				if(elementalPlanes_access($element[sleaze]))
+				if(elementalPlanes_access($element[stench]))
+				{
+					ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]);
+				}
+				else if(elementalPlanes_access($element[spooky]))
+				{
+					ccAdv(1, $location[The Deep Dark Jungle]);
+				}
+				else if(elementalPlanes_access($element[sleaze]))
 				{
 					ccAdv(1, $location[Sloppy Seconds Diner]);
 				}
