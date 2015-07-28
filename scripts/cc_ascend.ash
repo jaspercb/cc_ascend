@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16065;
+since r16066;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -5303,7 +5303,14 @@ boolean L6_friarsRamen()
 	{
 		return false;
 	}
-	ccAdv(1, $location[The Dark Neck of the Woods]);
+	if(get_property("cc_friars") == "finished")
+	{
+		ccAdv(1, $location[Pandamonium Slums]);
+	}
+	else
+	{
+		ccAdv(1, $location[The Dark Neck of the Woods]);
+	}
 	return true;
 }
 
@@ -9708,22 +9715,47 @@ my_maxmp()))
 
 		if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_01_crowd1"))
 		{
-			visit_url("place.php?whichplace=nstower&action=ns_01_crowd1");
-			ccAdv(1, $location[Noob Cave]);
+			ccAdv(1, $location[Fastest Adventurer Contest]);
 			return true;
 		}
 
 		if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_01_crowd2"))
 		{
-			visit_url("place.php?whichplace=nstower&action=ns_01_crowd2");
-			ccAdv(1, $location[Noob Cave]);
+			switch(get_property("nsChallenge1"))
+			{
+			case "Mysticality":
+				ccAdv(1, $location[Smartest Adventurer Contest]);
+				break;
+			case "Moxie":
+				ccAdv(1, $location[Smoothest Adventurer Contest]);
+				break;
+			case "Muscle":
+				ccAdv(1, $location[Strongest Adventurer Contest]);
+				break;
+			}
 			return true;
 		}
 
 		if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_01_crowd3"))
 		{
-			visit_url("place.php?whichplace=nstower&action=ns_01_crowd3");
-			ccAdv(1, $location[Noob Cave]);
+			switch(get_property("nsChallenge2"))
+			{
+			case "cold":
+				ccAdv(1, $location[Coldest Adventurer Contest]);
+				break;
+			case "hot":
+				ccAdv(1, $location[Hottest Adventurer Contest]);
+				break;
+			case "sleaze":
+				ccAdv(1, $location[Sleaziest Adventurer Contest]);
+				break;
+			case "spooky":
+				ccAdv(1, $location[Spookiest Adventurer Contest]);
+				break;
+			case "stench":
+				ccAdv(1, $location[Stinkiest Adventurer Contest]);
+				break;
+			}
 			return true;
 		}
 
@@ -9738,7 +9770,7 @@ my_maxmp()))
 			case 1:
 				switch(ns_crowd1())
 				{
-				case 1:					maximize("initiative -equip snow suit switch Xiblaxian Holo-Companion, switch Oily Woim", 1500, 0, false);
+				case 1:					maximize("init, -equip snow suit, switch xiblaxian holo-companion, switch oily woim ", 1500, 0, false);
 					if(have_familiar($familiar[Xiblaxian Holo-Companion]))
 					{
 						handleFamiliar($familiar[Xiblaxian Holo-Companion]);
@@ -10009,7 +10041,7 @@ my_maxmp()))
 			{
 				equip($item[Sneaky Pete\'s Leather Jacket]);
 			}
-			maximize("meat drop -equip snow suit switch Hobo Monkey, switch Grimstone Golem, switch Fist Turkey, switch Unconscious Collective, switch Golden Monkey, switch Angry Jung Man, switch Leprechaun", 1500, 0, false);
+			maximize("meat drop, -equip snow suit, switch Hobo Monkey, switch Grimstone Golem, switch Fist Turkey, switch Unconscious Collective, switch Golden Monkey, switch Angry Jung Man, switch Leprechaun", 1500, 0, false);
 			if((my_class() == $class[Seal Clubber]) && (item_amount($item[Meat Tenderizer is Murder]) > 0))
 			{
 				equip($item[Meat Tenderizer is Murder]);

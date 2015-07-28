@@ -44,6 +44,11 @@ void makeStartingSmiths()
 		{
 			craft("smith", 1, $item[lump of Brituminous coal], $item[seal-clubbing club]);
 		}
+		if(!possessEquipment($item[Vicar\'s Tutu]) && (item_amount($item[Lump of Brituminous Coal]) > 0) && knoll_available())
+		{
+			buy(1, $item[Frilly Skirt]);
+			craft("smith", 1, $item[Lump of Brituminous Coal], $item[Frilly Skirt]);
+		}
 		break;
 	case $class[Turtle Tamer]:
 		if(!possessEquipment($item[Work is a Four Letter Sword]))
@@ -60,6 +65,10 @@ void makeStartingSmiths()
 		if(!possessEquipment($item[Saucepanic]))
 		{
 			craft("smith", 1, $item[lump of Brituminous coal], $item[Saucepan]);
+		}
+		if(!possessEquipment($item[A Light that Never Goes Out]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+		{
+			craft("smith", 1, $item[Lump of Brituminous Coal], $item[Third-hand Lantern]);
 		}
 		break;
 	case $class[Pastamancer]:
@@ -463,6 +472,10 @@ void equipBaseline()
 
 	if(my_familiar() != $familiar[none])
 	{
+		if((my_path() != "Heavy Rains") && (item_amount($item[Astral Pet Sweater]) > 0))
+		{
+			equip($item[Astral Pet Sweater]);
+		}
 		if((my_path() == "Heavy Rains") && (item_amount($item[miniature life preserver]) > 0))
 		{
 			equip($item[miniature life preserver]);
@@ -470,6 +483,10 @@ void equipBaseline()
 		if((my_path() != "Heavy Rains") && (item_amount($item[Snow Suit]) > 0))
 		{
 			equip($item[Snow Suit]);
+		}
+		if((equipped_item($slot[familiar]) != $item[none]) && !is_familiar_equipment_locked())
+		{
+			lock_familiar_equipment(true);
 		}
 	}
 

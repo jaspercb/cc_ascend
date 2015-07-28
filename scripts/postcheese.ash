@@ -205,7 +205,7 @@ void handlePostAdventure()
 
 	if(my_class() == $class[Sauceror])
 	{
-		if((my_level() >= 6) && (have_effect($effect[Blood Sugar Sauce Magic]) == 0) && have_skill($skill[Blood Sugar Sauce Magic]))
+		if((my_level() >= 6) && (have_effect($effect[Blood Sugar Sauce Magic]) == 0) && have_skill($skill[Blood Sugar Sauce Magic]) && !in_hardcore())
 		{
 			use_skill(1, $skill[Blood Sugar Sauce Magic]);
 		}
@@ -321,7 +321,7 @@ void handlePostAdventure()
 		buffMaintain($effect[Leash of Linguini], 20, 1, 10);
 		buffMaintain($effect[Empathy], 25, 1, 10);
 
-		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 15))
+		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 25))
 		{
 			use_skill(1, libram);
 		}
@@ -372,7 +372,7 @@ void handlePostAdventure()
 		buffMaintain($effect[Empathy], 35, 1, 10);
 
 
-		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 25))
+		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 32))
 		{
 			use_skill(1, libram);
 		}
@@ -586,7 +586,7 @@ void handlePostAdventure()
 			use_skill($skill[Spaghetti Breakfast]);
 		}
 
-		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 20))
+		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 32))
 		{
 			print("Mymp: " + my_mp() + " of " + my_maxmp() + " and cost: " + mp_cost(libram), "blue");
 			try

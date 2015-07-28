@@ -163,6 +163,23 @@ void handlePreAdventure()
 
 	if(in_hardcore() && (my_class() == $class[Sauceror]) && (my_mp() < 32))
 	{
+		while((my_meat() > 100) && (my_mp() < 32))
+		{
+			if(guild_store_available() && (my_level() >= 5))
+			{
+				buy(1, $item[Magical Mystery Juice]);
+				use(1, $item[Magical Mystery Juice]);
+			}
+			else
+			{
+				buy(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+				use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+			}
+		}
+	}
+
+	if(in_hardcore() && (my_class() == $class[Sauceror]) && (my_mp() < 32))
+	{
 		print("Warning, we don't have a lot of MP but we are chugging along anyway", "red");
 	}
 
