@@ -3221,6 +3221,10 @@ boolean L12_sonofaFinish()
 	{
 		return false;
 	}
+	if(my_level() < 12)
+	{
+		return false;
+	}
 	if(get_property("cc_hippyInstead").to_boolean() && (get_property("fratboysDefeated").to_int() < 64))
 	{
 		return false;
@@ -3293,6 +3297,10 @@ boolean L12_gremlinStart()
 boolean L12_gremlins()
 {
 	if(get_property("cc_gremlins") != "start")
+	{
+		return false;
+	}
+	if(my_level() < 12)
 	{
 		return false;
 	}
@@ -4043,6 +4051,14 @@ void consumeStuff()
 			}
 		}
 
+
+		if(in_hardcore() && (my_mp() > mpForOde) && (item_amount($item[Pixel Daiquiri]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
+		{
+			shrugAT();
+			buffMaintain($effect[Ode to Booze], 50, 1, 2);
+			drink(1, $item[Pixel Daiquiri]);
+		}
+
 		if((my_level() >= 11) && (my_mp() > mpForOde) && (item_amount($item[Cold One]) > 1) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
 			shrugAT();
@@ -4272,6 +4288,10 @@ boolean L12_nunsTrickGlandGet()
 boolean L12_finalizeWar()
 {
 	if(get_property("cc_war") != "done")
+	{
+		return false;
+	}
+	if(my_level() < 12)
 	{
 		return false;
 	}
@@ -6227,6 +6247,10 @@ boolean L12_getOutfit()
 	{
 		return false;
 	}
+	if(my_level() < 12)
+	{
+		return false;
+	}
 
 	set_property("choiceAdventure143", "3");
 	set_property("choiceAdventure144", "3");
@@ -7873,11 +7897,11 @@ boolean L3_tavern()
 	}
 
 	int mpNeed = 0;
-	if(have_skill($skill[The Sonata of Sneakiness]))
+	if(have_skill($skill[The Sonata of Sneakiness]) && (have_effect($effect[The Sonata of Sneakiness]) == 0))
 	{
 		mpNeed = mpNeed + 20;
 	}
-	if(have_skill($skill[Musk of the Moose]))
+	if(have_skill($skill[Smooth Movement]) && (have_effect($effect[Smooth Movements]) == 0))
 	{
 		mpNeed = mpNeed + 10;
 	}
