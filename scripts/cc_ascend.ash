@@ -3803,6 +3803,19 @@ void consumeStuff()
 
 		if(in_hardcore() && isGuildClass())
 		{
+			/***
+			On July 28th, Hell Ramen was reduced to Hello Ramen, or maybe Heck Ramen, who knows....
+			Possiblities:
+				crudles							5/awesome	Level 9		Bubblin\' Crude, easy to farm
+				spaghetti with ghost balls		5/awesome	Level 9		ectoplasmic orbs
+				suggestive strozzapreti			5/awesome	Level 7		salacious crumbs
+				agnolotti arboli				5/awesome	Level 9		pestopiary
+
+				fettucini inconnu				5/awesome	Level 6		goat cheese (reagent + noodle)
+				fleetwood mac \'n\' cheese		6/awesome	Level 8		eagle\' milk (reagent + noodle + out of path)
+
+			***/
+
 			if(((my_fullness() + 6) <= fullness_limit()) && (my_level() >= 6) && ovenHandle())
 			{
 				if(item_amount($item[Hell Broth]) == 0)
@@ -8508,6 +8521,13 @@ my_maxmp()))
 		return true;
 	}
 
+	if(!in_hardcore() || !isGuildClass())
+	{
+		if(deck_useScheme("turns"))
+		{
+			return true;
+		}
+	}
 
 	if(my_class() == $class[Ed])
 	{
@@ -8793,11 +8813,6 @@ my_maxmp()))
 			}
 			break;
 		}
-	}
-
-	if(deck_useScheme("turns"))
-	{
-		return true;
 	}
 
 	if(L5_getEncryptionKey())
