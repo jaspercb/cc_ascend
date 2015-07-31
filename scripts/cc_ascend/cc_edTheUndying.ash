@@ -676,6 +676,7 @@ boolean ed_needShop()
 	{
 		limiter = $skill[Healing Scarabs];
 	}
+
 #	else if(my_daycount() > 2)
 #	{
 #		limiter = $skill[Upgraded Spine];
@@ -857,6 +858,11 @@ boolean ed_shopping()
 			print("Buying Upgraded Legs", "green");
 			skillBuy = 36;
 		}
+	}
+	else if(!possessEquipment($item[The Crown of Ed the Undying]) && !have_skill($skill[Tougher Skin]) && (coins >= 10))
+	{
+		print("Buying Tougher Skin (10)", "green");
+		skillBuy = 39;
 	}
 	else if(!have_skill($skill[More Legs]))
 	{

@@ -4442,7 +4442,7 @@ boolean LX_getDigitalKey()
 	{
 		cli_execute("make white pixel");
 	}
-	if((item_amount($item[white pixel]) >= 30) || (item_amount($item[Richard\'s Star Key]) > 0))
+	if((item_amount($item[white pixel]) >= 30) || (item_amount($item[Digital Key]) > 0))
 	{
 		if(have_effect($effect[consumed by fear]) > 0)
 		{
@@ -5369,6 +5369,10 @@ boolean L6_friarsRamen()
 		return false;
 	}
 	if((my_daycount() >= 3) && (my_adventures() > 15))
+	{
+		return false;
+	}
+	if(my_daycount() >= 4)
 	{
 		return false;
 	}
@@ -7792,18 +7796,16 @@ boolean L8_trapperYeti()
 		{
 			set_property("questL08Trapper", "step2");
 		}
-		if((my_class() == $class[Ed]) && (item_amount($item[Talisman of Horus]) == 0))
+		if(item_amount($item[Talisman of Horus]) == 0)
 		{
 			return false;
 		}
 
-		if(my_class() == $class[Ed])
+		if((have_effect($effect[Taunt of Horus]) == 0) && (item_amount($item[Talisman of Horus]) == 0))
 		{
-			if((have_effect($effect[Taunt of Horus]) == 0) && (item_amount($item[Talisman of Horus]) == 0))
-			{
-				return false;
-			}
+			return false;
 		}
+
 		if((have_effect($effect[Thrice-Cursed]) > 0) || (have_effect($effect[Twice-Cursed]) > 0) || (have_effect($effect[Once-Cursed]) > 0))
 		{
 			return false;
@@ -7829,6 +7831,26 @@ boolean L8_trapperYeti()
 			}
 			return true;
 		}
+	}
+	else if(in_hardcore() && isGuildClass())
+	{
+		if((have_effect($effect[Thrice-Cursed]) > 0) || (have_effect($effect[Twice-Cursed]) > 0) || (have_effect($effect[Once-Cursed]) > 0))
+		{
+			return false;
+		}
+
+		uneffect($effect[The Sonata of Sneakiness]);
+		buffMaintain($effect[Hippy Stench], 0, 1, 1);
+		buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 10, 1, 1);
+		buffMaintain($effect[Musk of the Moose], 10, 1, 1);
+		handleFamiliar($familiar[Jumpsuited Hound Dog]);
+		if(!ccAdv(1, $location[Lair of the Ninja Snowmen]))
+		{
+			print("Seems like we failed the Ninja Snowmen unlock, reverting trapper setting", "red");
+			set_property("cc_trapper", "start");
+		}
+		handleFamiliar($familiar[Adventurous Spelunker]);
+		return true;
 	}
 	return false;
 }
@@ -9372,6 +9394,39 @@ my_maxmp()))
 		}
 
 		print("In the palindome", "blue");
+		#
+		#	In hardcore, guild-class, the right side of the or doesn't happen properly due us farming the
+		#	Mega Gem within the if, with pulls, it works fine. Need to fix this. This is bad.
+		#
+		if((item_amount($item[Bird Rib]) > 0) && (item_amount($item[Lion Oil]) > 0) && (item_amount($item[Wet Stunt Nut Stew]) == 0))
+		{
+			craft("cook", 1, $item[wet stew], $item[stunt nuts]);
+		}
+		if((total == 0) && !possessEquipment($item[Mega Gem]) && lovemeDone && in_hardcore() && isGuildClass() && (item_amount($item[Wet Stunt Nut Stew]) == 0))
+		{
+			if((item_amount($item[Bird Rib]) > 0) && (item_amount($item[Lion Oil]) > 0) && (item_amount($item[Wet Stunt Nut Stew]) == 0))
+			{
+				craft("cook", 1, $item[wet stew], $item[stunt nuts]);
+			}
+			if(item_amount($item[Wet Stunt Nut Stew]) == 0)
+			{
+				if((item_amount($item[Bird Rib]) == 0) || (item_amount($item[Lion Oil]) == 0))
+				{
+					print("Off to the grove for some doofy food!", "blue");
+					ccAdv(1, $location[Whitey\'s Grove]);
+				}
+				else if(item_amount($item[Stunt Nuts]) == 0)
+				{
+					print("We got no nuts!! :O", "Blue");
+					ccAdv(1, $location[Inside the Palindome]);
+				}
+				else
+				{
+					abort("Some sort of Wet Stunt Nut Stew error. Try making it yourself?");
+				}
+				return true;
+			}
+		}
 		if((((total == 4) && (item_amount($item[&quot;I Love Me\, Vol. I&quot;]) > 0)) || ((total == 0) && possessEquipment($item[Mega Gem]))) && loveMeDone)
 		{
 			if(item_amount($item[&quot;I Love Me\, Vol. I&quot;]) > 0)
@@ -9387,6 +9442,8 @@ my_maxmp()))
 				return true;
 			}
 
+
+			# is step 4 when we got the wet stunt nut stew?
 			if(get_property("questL11Palindome") != "step5")
 			{
 				if(item_amount($item[&quot;2 Love Me\, Vol. 2&quot;]) > 0)
@@ -9406,30 +9463,19 @@ my_maxmp()))
 						pullXWhenHaveY($item[Stunt Nuts], 1, 0);
 					}
 				}
-				craft("cook", 1, $item[wet stew], $item[stunt nuts]);
-				if(item_amount($item[Wet Stunt Nut Stew]) == 0)
+				if(in_hardcore() && isGuildClass())
 				{
-					if(in_hardcore())
-					{
-						if((item_amount($item[Bird Rib]) == 0) || (item_amount($item[Lion Oil]) == 0))
-						{
-							print("Off to the grove for some doofy food!", "blue");
-							ccAdv(1, $location[Whitey\'s Grove]);
-						}
-						else if(item_amount($item[Stunt Nuts]) == 0)
-						{
-							print("We got no nuts!! :O", "Blue");
-							ccAdv(1, $location[Inside the Palindome]);
-						}
-						else
-						{
-							abort("Some sort of Wet Stunt Nut Stew error. Try making it yourself?");
-						}
-						return true;
-					}
-					abort("Could not make Wet Stunt Nut Stew");
+					return true;
 				}
+
 			}
+
+			if((item_amount($item[Bird Rib]) > 0) && (item_amount($item[Lion Oil]) > 0) && (item_amount($item[Wet Stunt Nut Stew]) == 0))
+			{
+				craft("cook", 1, $item[wet stew], $item[stunt nuts]);
+			}
+			
+
 			visit_url("place.php?whichplace=palindome&action=pal_mrlabel");
 			equip($slot[acc2], $item[Mega Gem]);
 			print("War sir is raw!!", "blue");
@@ -9863,7 +9909,15 @@ my_maxmp()))
 			case 1:
 				switch(ns_crowd1())
 				{
-				case 1:					maximize("init, -equip snow suit, switch xiblaxian holo-companion, switch oily woim ", 1500, 0, false);
+				case 1:					
+					if(get_property("cc_100familiar").to_boolean())
+					{
+						maximize("init, -equip snow suit", 1500, 0, false);
+					}
+					else
+					{
+						maximize("init, -equip snow suit, switch xiblaxian holo-companion, switch oily woim ", 1500, 0, false);
+					}
 					if(have_familiar($familiar[Xiblaxian Holo-Companion]))
 					{
 						handleFamiliar($familiar[Xiblaxian Holo-Companion]);
@@ -10134,7 +10188,14 @@ my_maxmp()))
 			{
 				equip($item[Sneaky Pete\'s Leather Jacket]);
 			}
-			maximize("meat drop, -equip snow suit, switch Hobo Monkey, switch Grimstone Golem, switch Fist Turkey, switch Unconscious Collective, switch Golden Monkey, switch Angry Jung Man, switch Leprechaun", 1500, 0, false);
+			if(get_property("cc_100familiar").to_boolean())
+			{
+				maximize("meat drop, -equip snow suit", 1500, 0, false);
+			}
+			else
+			{
+				maximize("meat drop, -equip snow suit, switch Hobo Monkey, switch Grimstone Golem, switch Fist Turkey, switch Unconscious Collective, switch Golden Monkey, switch Angry Jung Man, switch Leprechaun", 1500, 0, false);
+			}
 			if((my_class() == $class[Seal Clubber]) && (item_amount($item[Meat Tenderizer is Murder]) > 0))
 			{
 				equip($item[Meat Tenderizer is Murder]);
