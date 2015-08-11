@@ -309,6 +309,14 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+	if((get_property("cc_usePowerPill").to_boolean()) && (get_property("_powerPillUses").to_int() < 20) && (!enemy.boss))
+	{
+		if(item_amount($item[Power Pill]) > 0)
+		{
+			return "item Power Pill";
+		}
+	}
+
 
 	if(get_property("cc_useCleesh").to_boolean())
 	{

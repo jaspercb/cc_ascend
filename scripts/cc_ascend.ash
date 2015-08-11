@@ -135,7 +135,7 @@ void initializeSettings()
 
 	if((my_name() == "Cheesecookie") && (my_path() != "Actually Ed the Undying"))
 	{
-		set_property("cc_nunsTrick", true);
+		set_property("cc_nunsTrick", "yes");
 	}
 	else
 	{
@@ -2163,8 +2163,11 @@ boolean L11_aridDesert()
 			take_closet(1, $item[beer helmet]);
 			take_closet(1, $item[distressed denim pants]);
 			take_closet(1, $item[bejeweled pledge pin]);
-			set_property("cc_nunsTrick", "got");
-			set_property("cc_nunsTrickGland", "start");
+			if(get_property("cc_nunsTrick") != "no")
+			{
+				set_property("cc_nunsTrick", "got");
+				set_property("cc_nunsTrickGland", "start");
+			}
 		}
 
 		int need = 100 - get_property("desertExploration").to_int();
@@ -3811,29 +3814,64 @@ void consumeStuff()
 				suggestive strozzapreti			5/awesome	Level 7		salacious crumbs
 				agnolotti arboli				5/awesome	Level 9		pestopiary
 
-				fettucini inconnu				5/awesome	Level 6		goat cheese (reagent + noodle)
-				fleetwood mac \'n\' cheese		6/awesome	Level 8		eagle\' milk (reagent + noodle + out of path)
-
+				fettucini inconnu				5/awesome	Level 8		goat cheese (reagent + noodle)
 			***/
 
-			if(((my_fullness() + 6) <= fullness_limit()) && (my_level() >= 6) && ovenHandle())
+			int canEat = fullness_limit() / 5;
+			boolean[item] toEat = $items[Fettucini Inconnu, Crudles, Spaghetti with Ghost Balls, Agnolotti Arboli, Suggestive Strozzapreti];
+			boolean[item] toPrep = $items[Bubblin\' Crude, Ectoplasmic Orbs, Salacious Crumbs, Pestopiary, Goat Cheese];
+
+			int haveToEat = 0;
+			foreach it in toEat
 			{
-				if(item_amount($item[Hell Broth]) == 0)
+				haveToEat = haveToEat + item_amount(it);
+			}
+
+			int haveToPrep = 0;
+			foreach it in toPrep
+			{
+				haveToPrep = haveToPrep + item_amount(it);
+			}
+
+			if((canEat > 0) && ((haveToEat + haveToPrep) > canEat))
+			{
+				if(haveToEat < canEat)
 				{
-					while((item_amount($item[Hellion Cube]) > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Hell Broth]) < 2))
+					ovenHandle();
+				}
+				while(haveToEat < canEat)
+				{
+					haveToEat = haveToEat + 1;
+					if((item_amount($item[Goat Cheese]) > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Dry Noodles]) > 0))
 					{
-						cli_execute("make Hell Broth");
+						craft("cook", 1, $item[Goat Cheese], $item[Scrumptious Reagent]);
+						craft("cook", 1, $item[Dry Noodles], $item[Fancy Schmancy Cheese Sauce]);
+					}
+					else if((item_amount($item[Bubblin\' Crude]) > 0) && (item_amount($item[Dry Noodles]) > 0))
+					{
+						craft("cook", 1, $item[Dry Noodles], $item[Bubblin\' Crude]);
+					}
+					else if((item_amount($item[Ectoplasmic Orbs]) > 0) && (item_amount($item[Dry Noodles]) > 0))
+					{
+						craft("cook", 1, $item[Dry Noodles], $item[Ectoplasmic Orbs]);
+					}
+					else if((item_amount($item[Pestopiary]) > 0) && (item_amount($item[Dry Noodles]) > 0))
+					{
+						craft("cook", 1, $item[Dry Noodles], $item[Pestopiary]);
+					}
+					else if((item_amount($item[Salacious Crumbs]) > 0) && (item_amount($item[Dry Noodles]) > 0))
+					{
+						craft("cook", 1, $item[Dry Noodles], $item[Salacious Crumbs]);
 					}
 				}
-				while((item_amount($item[Hell Broth]) > 0) && (item_amount($item[Dry Noodles]) > 0) && (item_amount($item[Hell Ramen]) < 2))
+				dealWithMilkOfMagnesium(true);
+				foreach it in toEat
 				{
-					cli_execute("make Hell Ramen");
-				}
-
-				while((item_amount($item[Hell Ramen]) > 0) && ((my_fullness() + 6) <= fullness_limit()))
-				{
-					dealWithMilkOfMagnesium(true);
-					ccEat(1, $item[Hell Ramen]);
+					while((canEat > 0) && (item_amount(it) > 0))
+					{
+						ccEat(1, it);
+						canEat = canEat - 1;
+					}
 				}
 			}
 		}
@@ -4669,10 +4707,16 @@ boolean L10_ground()
 	{
 		return false;
 	}
+	if(internalQuestStatus("questL10Garbage") > 8)
+	{
+		set_property("cc_castleground", "finished");
+	}
 	if(get_property("cc_castleground") != "")
 	{
 		return false;
 	}
+
+
 	print("Castle Ground Floor, boring!", "blue");
 	set_property("choiceAdventure672", 3);
 	set_property("choiceAdventure673", 3);
@@ -5350,24 +5394,34 @@ boolean L1_edIslandFallback()
 	return ccAdv(1, $location[Hippy Camp]);
 }
 
-boolean L6_friarsRamen()
+boolean LX_hardcoreFoodFarm()
 {
 	if(!in_hardcore() || !isGuildClass())
 	{
 		return false;
 	}
-	if(my_fullness() >= 12)
+	if(my_fullness() >= 11)
 	{
 		return false;
 	}
-	if((my_fullness() >= 6) && (item_amount($item[Hellion Cube]) > 0))
+
+	if(my_level() < 8)
 	{
 		return false;
 	}
-	if(item_amount($item[Hellion Cube]) > 1)
+
+	int possMeals = item_amount($item[Goat Cheese]);
+	possMeals = possMeals + item_amount($item[Bubblin\' Crude]);
+
+	if((my_fullness() >= 5) && (possMeals > 0))
 	{
 		return false;
 	}
+	if(possMeals > 1)
+	{
+		return false;
+	}
+
 	if((my_daycount() >= 3) && (my_adventures() > 15))
 	{
 		return false;
@@ -5376,15 +5430,18 @@ boolean L6_friarsRamen()
 	{
 		return false;
 	}
-	if(get_property("cc_friars") == "finished")
+
+	if((my_level() >= 9) && ((get_property("cc_highlandlord") == "start") || (get_property("cc_highlandlord") == "finished")))
 	{
-		ccAdv(1, $location[Pandamonium Slums]);
+		ccAdv(1, $location[Oil Peak]);
+		return true;
 	}
-	else
+	if(my_level() >= 8)
 	{
-		ccAdv(1, $location[The Dark Neck of the Woods]);
+		ccAdv(1, $location[The Goatlet]);
 	}
-	return true;
+
+	return false;
 }
 
 boolean L6_friarsGetParts()
@@ -8928,7 +8985,7 @@ my_maxmp()))
 		return true;
 	}
 
-	if(L6_friarsRamen())
+	if(LX_hardcoreFoodFarm())
 	{
 		return true;
 	}
@@ -9398,16 +9455,22 @@ my_maxmp()))
 		#	In hardcore, guild-class, the right side of the or doesn't happen properly due us farming the
 		#	Mega Gem within the if, with pulls, it works fine. Need to fix this. This is bad.
 		#
-		if((item_amount($item[Bird Rib]) > 0) && (item_amount($item[Lion Oil]) > 0) && (item_amount($item[Wet Stunt Nut Stew]) == 0))
+		if((item_amount($item[Bird Rib]) > 0) && (item_amount($item[Lion Oil]) > 0) && (item_amount($item[Wet Stew]) == 0))
+		{
+			craft("cook", 1, $item[Bird Rib], $item[Lion Oil]);
+		}
+		if((item_amount($item[Stunt Nuts]) > 0) && (item_amount($item[Wet Stew]) > 0) && (item_amount($item[Wet Stunt Nut Stew]) == 0))
 		{
 			craft("cook", 1, $item[wet stew], $item[stunt nuts]);
 		}
+
+		if((item_amount($item[Wet Stunt Nut Stew]) > 0) && !possessEquipment($item[Mega Gem]))
+		{
+			visit_url("place.php?whichplace=palindome&action=pal_mrlabel");
+		}
+
 		if((total == 0) && !possessEquipment($item[Mega Gem]) && lovemeDone && in_hardcore() && isGuildClass() && (item_amount($item[Wet Stunt Nut Stew]) == 0))
 		{
-			if((item_amount($item[Bird Rib]) > 0) && (item_amount($item[Lion Oil]) > 0) && (item_amount($item[Wet Stunt Nut Stew]) == 0))
-			{
-				craft("cook", 1, $item[wet stew], $item[stunt nuts]);
-			}
 			if(item_amount($item[Wet Stunt Nut Stew]) == 0)
 			{
 				if((item_amount($item[Bird Rib]) == 0) || (item_amount($item[Lion Oil]) == 0))
@@ -9470,13 +9533,20 @@ my_maxmp()))
 
 			}
 
-			if((item_amount($item[Bird Rib]) > 0) && (item_amount($item[Lion Oil]) > 0) && (item_amount($item[Wet Stunt Nut Stew]) == 0))
+			if((item_amount($item[Bird Rib]) > 0) && (item_amount($item[Lion Oil]) > 0) && (item_amount($item[Wet Stew]) == 0))
+			{
+				craft("cook", 1, $item[Bird Rib], $item[Lion Oil]);
+			}
+
+			if((item_amount($item[Stunt Nuts]) > 0) && (item_amount($item[Wet Stew]) > 0) && (item_amount($item[Wet Stunt Nut Stew]) == 0))
 			{
 				craft("cook", 1, $item[wet stew], $item[stunt nuts]);
 			}
-			
 
-			visit_url("place.php?whichplace=palindome&action=pal_mrlabel");
+			if(!possessEquipment($item[Mega Gem]))
+			{
+				visit_url("place.php?whichplace=palindome&action=pal_mrlabel");
+			}
 			equip($slot[acc2], $item[Mega Gem]);
 			print("War sir is raw!!", "blue");
 			visit_url("place.php?whichplace=palindome&action=pal_drlabel");
@@ -9909,7 +9979,7 @@ my_maxmp()))
 			case 1:
 				switch(ns_crowd1())
 				{
-				case 1:					
+				case 1:
 					if(get_property("cc_100familiar").to_boolean())
 					{
 						maximize("init, -equip snow suit", 1500, 0, false);

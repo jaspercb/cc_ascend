@@ -14,6 +14,32 @@ setting[int] s;
 string[string] fields;
 boolean success;
 
+void write_styles()
+{
+	# This function provided by Zen00.
+	writeln("<style type='text/css'>"+
+	"body {"+
+	"width: 95%;"+
+	"margin: auto;"+
+	"background: #EAEAEA;"+
+	"text-align:center;" +
+	"padding:0;"+
+	"cursor:default;"+
+	"user-select: none;"+
+	"-webkit-user- select: none;"+
+	"-moz-user-select: text;}"+
+
+	"h1 {"+
+	"font-family:times;" +
+	"font-size:125%;"+
+	"color:#000;}"+
+
+	"table, th, td {"+
+	"border: 1px solid black;}"+
+	"</style>");
+}
+
+
 void handleSetting(int x)
 {
 	string color = "white";
@@ -100,6 +126,7 @@ void generateTrackingData(string tracked, boolean hasSkill)
 
 void main()
 {
+	write_styles();
 	writeln("<html><head><title>cheeseascend (CHEDDAH) Crapulent Manager</title>");
 	writeln("</head><body><h1>cheeseascend (CHEDDAH) Manager</h1>");
 

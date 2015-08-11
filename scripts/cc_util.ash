@@ -12,6 +12,7 @@ boolean uneffect(effect toRemove);
 boolean organsFull();
 int doRest();
 item whatHiMein();
+boolean getDiscoStyle();
 int dreamJarDrops();
 int powderedGoldDrops();
 int grimTaleDrops();
@@ -298,6 +299,35 @@ string statCard()
 		return "69";
 	}
 	return "";
+}
+
+boolean getDiscoStyle()
+{
+	if(item_amount($item[Smooth Velvet Hanky]) > 0)
+	{
+		equip($slot[acc1], $item[Smooth Velvet Hanky]);
+	}
+	if(item_amount($item[Smooth Velvet Pocket Square]) > 0)
+	{
+		equip($slot[acc2], $item[Smooth Velvet Pocket Square]);
+	}
+	if(item_amount($item[Smooth Velvet Socks]) > 0)
+	{
+		equip($slot[acc3], $item[Smooth Velvet Socks]);
+	}
+	if(item_amount($item[Smooth Velvet Hat]) > 0)
+	{
+		equip($item[Smooth Velvet Hat]);
+	}
+	if(item_amount($item[Smooth Velvet Pants]) > 0)
+	{
+		equip($item[Smooth Velvet Pants]);
+	}
+	if(item_amount($item[Smooth Velvet Shirt]) > 0)
+	{
+		equip($item[Smooth Velvet Shirt]);
+	}
+	return true;
 }
 
 boolean isGuildClass()
