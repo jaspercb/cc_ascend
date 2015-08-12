@@ -650,6 +650,13 @@ effect whatStatSmile()
 
 item whatHiMein()
 {
+	//Hopefully, temporary hack for this method, we may be able to pretend nothing happened at this point aside from less turn-gen.
+	if(my_level() < 8)
+	{
+		return $item[none];
+	}
+	return $item[Fettucini Inconnu];
+/*
 	switch(my_class())
 	{
 	case $class[Seal Clubber]:
@@ -664,6 +671,7 @@ item whatHiMein()
 		return $item[Sleazy Hi Mein];
 	}
 	return $item[none];
+*/
 }
 
 void tootGetMeat()

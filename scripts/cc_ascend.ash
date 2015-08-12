@@ -3804,22 +3804,22 @@ void consumeStuff()
 			}
 		}
 
-		if(in_hardcore() && isGuildClass())
+		if(in_hardcore() && isGuildClass() && have_skill($skill[Pastamastery]))
 		{
-			/***
-			On July 28th, Hell Ramen was reduced to Hello Ramen, or maybe Heck Ramen, who knows....
-			Possiblities:
-				crudles							5/awesome	Level 9		Bubblin\' Crude, easy to farm
-				spaghetti with ghost balls		5/awesome	Level 9		ectoplasmic orbs
-				suggestive strozzapreti			5/awesome	Level 7		salacious crumbs
-				agnolotti arboli				5/awesome	Level 9		pestopiary
-
-				fettucini inconnu				5/awesome	Level 8		goat cheese (reagent + noodle)
-			***/
-
 			int canEat = fullness_limit() / 5;
-			boolean[item] toEat = $items[Fettucini Inconnu, Crudles, Spaghetti with Ghost Balls, Agnolotti Arboli, Suggestive Strozzapreti];
-			boolean[item] toPrep = $items[Bubblin\' Crude, Ectoplasmic Orbs, Salacious Crumbs, Pestopiary, Goat Cheese];
+			boolean[item] toEat;
+			boolean[item] toPrep;
+
+			if(have_skill($skill[Advanced Saucecrafting]))
+			{
+				toPrep = $items[Bubblin\' Crude, Ectoplasmic Orbs, Salacious Crumbs, Pestopiary, Goat Cheese];
+				toEat = $items[Fettucini Inconnu, Crudles, Spaghetti with Ghost Balls, Agnolotti Arboli, Suggestive Strozzapreti];
+			}
+			else //Pastamastery was checked before we entered this block.
+			{
+				toPrep = $items[Bubblin\' Crude, Ectoplasmic Orbs, Salacious Crumbs, Pestopiary];
+				toEat = $items[Crudles, Spaghetti with Ghost Balls, Agnolotti Arboli, Suggestive Strozzapreti];
+			}
 
 			int haveToEat = 0;
 			foreach it in toEat
