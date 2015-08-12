@@ -605,11 +605,15 @@ string cc_combatHandler(int round, string opp, string text)
 		return "item 4-d camera";
 	}
 
-	if((enemy == $monster[clingy pirate]) && (item_amount($item[cocktail napkin]) > 0))
+	if((enemy == $monster[clingy pirate (female)]) && (item_amount($item[cocktail napkin]) > 0))
 	{
 		return "item cocktail napkin";
 	}
 
+	if((enemy == $monster[clingy pirate (male)]) && (item_amount($item[cocktail napkin]) > 0))
+	{
+		return "item cocktail napkin";
+	}
 	if((!contains_text(combatState, "DNA")) && (monster_level_adjustment() < 150) && (item_amount($item[DNA Extraction Syringe]) > 0))
 	{
 		if(type != current)
@@ -800,7 +804,8 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		if((enemy == $monster[tomb asp]) ||
 			(enemy == $monster[pygmy orderlies]) ||
-			(enemy == $monster[clingy pirate]))
+			(enemy == $monster[clingy pirate (female)]) ||
+			(enemy == $monster[clingy pirate (male)]))
 		{
 			set_property("cc_combatHandler", combatState + "(politics)");
 			handleTracker(enemy, $skill[talk about politics], "cc_banishes");
@@ -1581,7 +1586,11 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((enemy == $monster[clingy pirate]) && (item_amount($item[cocktail napkin]) > 0))
+	if((enemy == $monster[clingy pirate (female)]) && (item_amount($item[cocktail napkin]) > 0))
+	{
+		return "item cocktail napkin";
+	}
+	if((enemy == $monster[clingy pirate (male)]) && (item_amount($item[cocktail napkin]) > 0))
 	{
 		return "item cocktail napkin";
 	}
