@@ -1124,6 +1124,7 @@ void initializeDay(int day)
 	}
 
 	cli_execute("ccs null");
+	set_property("battleAction", "custom combat script");
 	if((item_amount($item[cursed microwave]) >= 1) && (get_property("_cursedMicrowaveUsed") == "false"))
 	{
 		use(1, $item[cursed microwave]);
