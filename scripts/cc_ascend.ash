@@ -561,15 +561,39 @@ Note: Maximizer gives concert White-boy angst, instead of concert 3 (consequentl
 	return count;
 }
 
-void warOutfit()
+boolean warOutfit()
 {
 	if(!get_property("cc_hippyInstead").to_boolean())
 	{
-		outfit("frat warrior fatigues");
+		if(!outfit("frat warrior fatigues"))
+		{
+			foreach it in $items[Beer Helmet, Distressed Denim Pants, Bejeweled Pledge Pin]
+			{
+				take_closet(closet_amount(it), it);
+			}
+			if(!outfit("frat warrior fatigues"))
+			{
+				abort("Do not have frat warrior fatigues and don't know why....");
+				return false;
+			}
+		}
+		return true;
 	}
 	else
 	{
-		outfit("war hippy fatigues");
+		if(!outfit("war hippy fatigues"))
+		{
+			foreach it in $items[Reinforced Beaded Headband, Bullet-proof Corduroys, Round Purple Sunglasses]
+			{
+				take_closet(closet_amount(it), it);
+			}
+			if(!outfit("war hippy fatigues"))
+			{
+				abort("Do not have war hippy fatigues and don't know why....");
+				return false;
+			}
+		}
+		return true;
 	}
 }
 
@@ -1146,7 +1170,7 @@ void initializeDay(int day)
 
 	if(item_amount($item[GameInformPowerDailyPro Magazine]) > 0)
 	{
-
+#		use(1, $item[GameInformPowerDailyPro Magazine]);
 	}
 
 	chateaumantegna_useDesk();
@@ -2109,6 +2133,11 @@ boolean L11_aridDesert()
 
 		if(possessEquipment($item[reinforced beaded headband]) && possessEquipment($item[bullet-proof corduroys]) && possessEquipment($item[round purple sunglasses]))
 		{
+			foreach it in $items[Beer Helmet, Distressed Denim Pants, Bejeweled Pledge Pin]
+			{
+				take_closet(closet_amount(it), it);
+			}
+
 			if(get_property("cc_nunsTrick") == "true")
 			{
 				print("Had gotten War Hippy Fatigues during the Ferret rescue. Don't need to worry about them now.", "blue");
@@ -2119,12 +2148,10 @@ boolean L11_aridDesert()
 		else
 		{
 #			print("Only have some of the War Hippy Fatigues, so I'm going to closet everything relevant to get them in the desert", "blue");
-			put_closet(item_amount($item[beer helmet]), $item[beer helmet]);
-			put_closet(item_amount($item[distressed denim pants]), $item[distressed denim pants]);
-			put_closet(item_amount($item[bejeweled pledge pin]), $item[bejeweled pledge pin]);
-			put_closet(item_amount($item[reinforced beaded headband]), $item[reinforced beaded headband]);
-			put_closet(item_amount($item[bullet-proof corduroys]), $item[bullet-proof corduroys]);
-			put_closet(item_amount($item[round purple sunglasses]), $item[round purple sunglasses]);
+			foreach it in $items[Reinforced Beaded Headband, Bullet-proof Corduroys, Round Purple Sunglasses, Beer Helmet, Distressed Denim Pants, Bejeweled Pledge Pin]
+			{
+				put_closet(closet_amount(it), it);
+			}
 		}
 
 		buyUpTo(1, $item[hair spray]);
