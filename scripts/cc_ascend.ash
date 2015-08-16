@@ -133,7 +133,7 @@ void initializeSettings()
 	set_property("cc_mosquito", "");
 	set_property("cc_nuns", "");
 
-	if((my_name() == "Cheesecookie") && (my_path() != "Actually Ed the Undying"))
+	if((my_name() == "cheesecookie") && (my_path() != "Actually Ed the Undying"))
 	{
 		set_property("cc_nunsTrick", "yes");
 	}
@@ -3323,7 +3323,7 @@ boolean L12_gremlinStart()
 			use(1, $item[chewing gum on a string]);
 		}
 	}
-	if((item_amount($item[louder than bomb]) == 0) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+	if((item_amount($item[louder than bomb]) == 0) && (item_amount($item[Handful of Smithereens]) > 0))
 	{
 		buyUpTo(1, $item[Ben-Gal&trade; Balm]);
 		cli_execute("make louder than bomb");
@@ -9899,7 +9899,7 @@ my_maxmp()))
 
 	if(get_property("cc_sorceress") == "start")
 	{
-		if((get_property("cc_trytower") == "pause") || (get_property("cc_trytower") == "stop") || ((my_name() == "Cheesecookie") && (get_property("choiceAdventure1003").to_int() < 3)))
+		if((get_property("cc_trytower") == "pause") || (get_property("cc_trytower") == "stop") || ((my_name() == "cheesecookie") && (get_property("choiceAdventure1003").to_int() < 3)))
 		{
 			ns_crowd1();
 			ns_crowd2();
@@ -10123,7 +10123,7 @@ my_maxmp()))
 
 	if(get_property("cc_sorceress") == "tower")
 	{
-		if(my_name() == "Cheesecookie")
+		if(my_name() == "cheesecookie")
 		{
 #			abort("Aborting for tower experiments, beep");
 		}
