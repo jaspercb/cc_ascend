@@ -395,7 +395,13 @@ string cc_combatHandler(int round, string opp, string text)
 	#Do not accidentally charge the nanorhino with a non-banisher
 	if((my_familiar() == $familiar[Nanorhino]) && (have_effect($effect[Nanobrawny]) == 0))
 	{
-		return "skill toss";
+		foreach it in $skills[toss, clobber, shell up, lunge smack, thrust-smack, headbutt, kneebutt, lunging thrust-smack, club foot, shieldbutt, spirit snap, cavalcade of fury, northern explosion, spectral snapper, Harpoon!, Summon Leviatuga]
+		{
+			if(have_skill(it) && (my_mp() >= mp_cost(it)))
+			{
+				return "skill " + it;
+			}
+		}
 	}
 
 	if((!contains_text(combatState, "nanotoss")) && (have_effect($effect[Nanobrawny]) >= 40))
