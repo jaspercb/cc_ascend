@@ -143,9 +143,13 @@ boolean deck_cheat(string cheat)
 	cards["ore"] = 63;
 	cards["items"] = 67;
 	cards["muscle stat"] = 68;
+	cards["Muscle stat"] = 68;
 	cards["moxie stat"] = 69;
+	cards["Moxie stat"] = 69;
 	cards["myst stat"] = 70;
+	cards["Myst stat"] = 70;
 	cards["mysticality stat"] = 70;
+	cards["Mysticality stat"] = 70;
 
 
 	string page = visit_url("inv_use.php?cheat=1&pwd=&whichitem=8382");
