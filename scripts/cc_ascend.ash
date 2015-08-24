@@ -7658,7 +7658,14 @@ boolean LX_pirateBlueprint()
 				visit_url("choice.php?pwd="+my_hash()+"&whichchoice=664&option=1&choiceform1=Er,+sure,+I+guess+so...");
 				visit_url("place.php?whichplace=forestvillage&preaction=screwquest&action=fv_untinker_quest");
 			}
-			ccAdv(1, $location[The Degrassi Knoll Gym]);
+			if(!ccAdv(1, $location[The Degrassi Knoll Gym]))
+			{
+				visit_url("place.php?whichplace=forestvillage&preaction=screwquest&action=fv_untinker_quest");
+				if(!ccAdv(1, $location[The Degrassi Knoll Gym]))
+				{
+					abort("Can't access The Degrassi Knoll Gym. Either start the untinker quest or get a frilly skirt.");
+				}
+			}
 			return true;
 		}
 
