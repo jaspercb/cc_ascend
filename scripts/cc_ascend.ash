@@ -7649,6 +7649,15 @@ boolean LX_pirateBlueprint()
 		}
 		else if(!possessEquipment($item[Frilly Skirt]))
 		{
+			if(available_amount($item[continuum transfunctioner]) == 0)
+			{
+				//From Bale\'s Woods.ash
+				visit_url("place.php?whichplace=forestvillage&action=fv_mystic");
+				visit_url("choice.php?pwd="+my_hash()+"&whichchoice=664&option=1&choiceform1=Sure%2C+old+man.++Tell+me+all+about+it.");
+				visit_url("choice.php?pwd="+my_hash()+"&whichchoice=664&option=1&choiceform1=Against+my+better+judgment%2C+yes.");
+				visit_url("choice.php?pwd="+my_hash()+"&whichchoice=664&option=1&choiceform1=Er,+sure,+I+guess+so...");
+				visit_url("place.php?whichplace=forestvillage&preaction=screwquest&action=fv_untinker_quest");
+			}
 			ccAdv(1, $location[The Degrassi Knoll Gym]);
 			return true;
 		}

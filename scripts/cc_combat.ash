@@ -1201,39 +1201,11 @@ string findBanisher(string opp)
 
 string ccsJunkyard(int round, string opp, string text)
 {
-	if(opp == "gourmet gourami")
+	monster enemy = to_monster(opp);
+	if(enemy == $monster[gourmet gourami])
 	{
 		return "attack with weapon";
 	}
-
-
-	string fun = "";
-	monster enemy = to_monster(opp);
-	if(enemy.base_hp == 0)
-	{
-		while((length(opp) > 0) && (enemy.base_hp == 0))
-		{
-			int space = index_of(opp, " ");
-			if(space == -1)
-			{
-				print("Could not determine non-fun monster.", "red");
-				break;
-			}
-			else
-			{
-				fun = fun + substring(opp, 0, space+1);
-				opp = substring(opp, space+1);
-				enemy = to_monster(opp);
-
-
-				if(enemy.base_hp != 0)
-				{
-					print("Determined non-fun monster: (" + enemy + ") with fun: " + fun, "blue");
-				}
-			}
-		}
-	}
-
 
 	if(round == 0)
 	{
@@ -1257,14 +1229,14 @@ string ccsJunkyard(int round, string opp, string text)
 		}
 	}
 
-	if(opp == "A.M.C. gremlin")
+	if(enemy == $monster[A.M.C. gremlin])
 	{
 		set_property("cc_gremlinMoly", false);
 	}
 
 	if(my_location() == $location[Next To That Barrel With Something Burning In It])
 	{
-		if(opp == "vegetable gremlin")
+		if(enemy == $monster[vegetable gremlin])
 		{
 			set_property("cc_gremlinMoly", false);
 		}
@@ -1275,7 +1247,7 @@ string ccsJunkyard(int round, string opp, string text)
 	}
 	else if(my_location() == $location[Out By That Rusted-Out Car])
 	{
-		if(opp == "erudite gremlin")
+		if(enemy == $monster[erudite gremlin])
 		{
 			set_property("cc_gremlinMoly", false);
 		}
@@ -1286,7 +1258,7 @@ string ccsJunkyard(int round, string opp, string text)
 	}
 	else if(my_location() == $location[Over Where The Old Tires Are])
 	{
-		if(opp == "spider gremlin")
+		if(enemy == $monster[spider gremlin])
 		{
 			set_property("cc_gremlinMoly", false);
 		}
@@ -1297,7 +1269,7 @@ string ccsJunkyard(int round, string opp, string text)
 	}
 	else if(my_location() == $location[Near an Abandoned Refrigerator])
 	{
-		if(opp == "batwinged gremlin")
+		if(enemy == $monster[batwinged gremlin])
 		{
 			set_property("cc_gremlinMoly", false);
 		}
@@ -1747,11 +1719,6 @@ string cc_edCombatHandler(int round, string opp, string text)
 		if(enemy == $monster[Mountain Man])
 		{
 			doWrath = true;
-		}
-		if((opp == "mountain man") && !doWrath)
-		{
-			doWrath = true;
-			print("Mountain man was not found by $monster (" + enemy + ")and instead only by opp compare", "red");
 		}
 
 		if((enemy == $monster[Frat Warrior Drill Sergeant]) || (enemy == $monster[War Pledge]))
