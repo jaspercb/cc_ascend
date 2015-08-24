@@ -1074,6 +1074,17 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 			{
 				buy_using_storage(howMany - storage_amount(it), it, curPrice);
 			}
+			else
+			{
+				if(curPrice > oldPrice)
+				{
+					print("Price of " + it + " may have been mall manipulated. Expected to pay at most: " + oldPrice, "red");
+				}
+				if(my_storage_meat() < curPrice)
+				{
+					print("Do not have enough meat in Hagnk's to buy " + it + ". Need " + curPrice + " have " + my_storage_meat() + ".", "blue");
+				}
+			}
 			if(lastStorage == storage_amount(it))
 			{
 				break;

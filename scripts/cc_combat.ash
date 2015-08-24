@@ -1257,6 +1257,11 @@ string ccsJunkyard(int round, string opp, string text)
 		}
 	}
 
+	if(opp == "A.M.C. gremlin")
+	{
+		set_property("cc_gremlinMoly", false);
+	}
+
 	if(my_location() == $location[Next To That Barrel With Something Burning In It])
 	{
 		if(opp == "vegetable gremlin")

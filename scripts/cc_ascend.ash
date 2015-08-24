@@ -979,7 +979,7 @@ int handlePulls(int day)
 	{
 		set_property("lightsOutAutomation", "1");
 		# Do starting pulls:
-		if((pulls_remaining() != 20) && !in_hardcore())
+		if((pulls_remaining() != 20) && !in_hardcore() && (my_turncount() > 0))
 		{
 			print("I assume you've handled your pulls yourself... who knows.");
 			return 0;
@@ -1811,10 +1811,7 @@ void doBedtime()
 		{
 			print("You can drink a Ye Olde Meade as your nightcap! Yay!", "blue");
 		}
-		if(is_unrestricted("Deck of Every Card") && (item_amount($item[Deck of Every Card]) > 0) && (get_property("_deckCardsDrawn").to_int() < 15))
-		{
-			print("You have a Deck of Every Card and " + (15 - get_property("_deckCardsDrawn").to_int()) + " draws remaining!", "blue");
-		}
+
 		abort("You need to overdrink and then run me again. Beep.");
 	}
 	else
@@ -1848,6 +1845,11 @@ void doBedtime()
 				}
 				print("You still have pulls, consider: " + consider + "?", "red");
 			}
+		}
+
+		if(is_unrestricted("Deck of Every Card") && (item_amount($item[Deck of Every Card]) > 0) && (get_property("_deckCardsDrawn").to_int() < 15))
+		{
+			print("You have a Deck of Every Card and " + (15 - get_property("_deckCardsDrawn").to_int()) + " draws remaining!", "blue");
 		}
 
 		print("You are probably done for today, beep.", "blue");

@@ -538,10 +538,10 @@ boolean cc_nemesisCave()
 		{
 			break;
 		}
-		if(!ccAdv(1, $location[Nemesis Cave]))
-		{
+#		if(!ccAdv(1, $location[Nemesis Cave]))
+#		{
 			abort("Can not access area, aborting.");
-		}
+#		}
 	}
 	equip(cc_guildEpicWeapon());
 	visit_url("cave.php?pwd=action=door4");
