@@ -9,7 +9,7 @@ boolean ocrs_postHelper()
 	{
 		return false;
 	}
-	string prefix = get_property("cc_funPrefix");
+
 	set_property("cc_useCleesh", false);
 	return true;
 }
@@ -37,7 +37,7 @@ void handlePostAdventure()
 	}
 
 	ocrs_postHelper();
-	if((contains_text(get_property("cc_funPrefix"), "clingy")) || last_monster().random_modifiers["clingy"])
+	if(last_monster().random_modifiers["clingy"])
 	{
 		return;
 	}

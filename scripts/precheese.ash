@@ -17,7 +17,7 @@ void handlePreAdventure()
 		return;
 	}
 
-	if((contains_text(get_property("cc_funPrefix"), "clingy")) || last_monster().random_modifiers["clingy"])
+	if(last_monster().random_modifiers["clingy"])
 	{
 		return;
 	}

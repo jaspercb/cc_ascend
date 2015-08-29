@@ -218,7 +218,7 @@ boolean ccAdv(int num, location loc, string option)
 	boolean retval = adv1(loc, 0, option);
 	if(my_path() == "One Crazy Random Summer")
 	{
-		if((contains_text(get_property("cc_funPrefix"), "clingy")) || last_monster().random_modifiers["clingy"])
+		if(last_monster().random_modifiers["clingy"])
 		{
 			int oldDesert = get_property("desertExploration").to_int();
 			retval = ccAdv(num, loc, option);
@@ -8628,6 +8628,7 @@ my_maxmp()))
 	{
 		if(handleFaxMonster("lobsterfrogman"))
 		{
+			ccAdv(1, $location[Noob Cave]);
 			return true;
 		}
 	}

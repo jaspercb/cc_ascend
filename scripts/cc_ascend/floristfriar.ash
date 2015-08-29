@@ -201,7 +201,7 @@ void oldPeoplePlantStuff()
 		set_property("cc_secretLaboratoryPlant", "plant");
 	}
 #	else if((my_location() == $location[Pirates of the Garbage Barges]) && (get_property("cc_secretLaboratoryPlant") == "") && (my_daycount() == 1))
-	else if((to_string(my_location()) == "Pirates of the Garbage Barges") && (get_property("cc_secretLaboratoryPlant") == "") && (my_daycount() == 1))
+	else if((my_location() == $location[Pirates of the Garbage Barges]) && (get_property("cc_secretLaboratoryPlant") == "") && (my_daycount() == 1))
 	{
 		cli_execute("florist plant Pitcher Plant");
 		cli_execute("florist plant Canned Spinach");

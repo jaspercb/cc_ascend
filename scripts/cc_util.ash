@@ -3,8 +3,6 @@ import <zlib.ash>
 import <chateaumantegna.ash>
 
 // Public Prototypes
-string[int] getMonsterFun(string opp);
-string[int] findMonsterFun(string page);
 float elemental_resist_value(int resistance);
 float elemental_resist_value(element resistance);
 int elemental_resist(element goal);
@@ -155,80 +153,6 @@ void handleTracker(monster enemy, string tracker)
 	}
 	cur = cur + "(" + my_daycount() + ":" + safeString(enemy) + ":" + my_turncount() + ")";
 	set_property(tracker, cur);
-}
-
-string[int] findMonsterFun(string page)
-{
-	string[int] retval;
-	retval[0] = page;
-	retval[1] = page;
-	matcher my_element = create_matcher("<span id='monname'>(.*?)</span>", page);
-	if(my_element.find())
-	{
-		retval = getMonsterFun(my_element.group(1));
-	}
-	return retval;
-}
-string[int] getMonsterFun(string opp)
-{
-	string[int] retval;
-	retval[0] = opp;
-	retval[1] = opp;
-	static string[string] translation;
-	if(contains_text(opp, "1337"))
-	{
-		if(count(translation) == 0)
-		{
-			print("Building 1337 translation table: ", "blue");
-			foreach x in $monsters[]
-			{
-				string temp = leetify(to_string(x));
-				translation[temp] = to_string(x);
-			}
-		}
-	}
-
-	if(my_path() == "One Crazy Random Summer")
-	{
-		string fun = "";
-		monster enemy = to_monster(opp);
-		if(enemy.base_hp == 0)
-		{
-			while((length(opp) > 0) && (enemy.base_hp == 0))
-			{
-				int space = index_of(opp, " ");
-				if(space == -1)
-				{
-					print("Could not determine non-fun monster.", "red");
-					break;
-				}
-				else
-				{
-					fun = fun + substring(opp, 0, space+1);
-					opp = substring(opp, space+1);
-					enemy = to_monster(opp);
-
-					if(contains_text(fun, "1337"))
-					{
-						enemy = to_monster(translation[opp]);
-						if(enemy.base_hp != 0)
-						{
-							print("1337 encounted and in translation:", "blue");
-						}
-					}
-
-					if(enemy.base_hp != 0)
-					{
-						print("Determined non-fun monster: (" + enemy + ") with fun: " + fun, "blue");
-						retval[0] = fun;
-						retval[1] = to_string(enemy);
-					}
-				}
-			}
-		}
-		set_property("cc_funPrefix", fun);
-	}
-	return retval;
 }
 
 boolean organsFull()
@@ -779,6 +703,7 @@ boolean handleFaxMonster(string enemy)
 	}
 
 	visit_url("inv_use.php?pwd&which=3&whichitem=4873");
+/*
 	if(my_class() == $class[Ed])
 	{
 		adv1($location[Noob Cave], 1, "cc_edCombatHandler");
@@ -787,6 +712,7 @@ boolean handleFaxMonster(string enemy)
 	{
 		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
+*/
 	return true;
 }
 

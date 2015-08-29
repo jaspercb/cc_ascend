@@ -18,9 +18,7 @@ monster ocrs_helper(string page)
 	{
 		abort("Should not be in ocrs_helper if not on the path!");
 	}
-	string[int] monsterFun = findMonsterFun(page);
-	string fun = monsterFun[0];
-	monster enemy = to_monster(monsterFun[1]);
+
 	string combatState = get_property("cc_combatHandler");
 
 	//	ghostly				physical resistance
@@ -41,7 +39,7 @@ monster ocrs_helper(string page)
 		}
 	}
 
-	if(contains_text(fun, "unstoppable"))
+	if(last_monster().random_modifiers["unstoppable"])
 	{
 		if(!contains_text(combatState, "unstoppable"))
 		{
@@ -50,7 +48,7 @@ monster ocrs_helper(string page)
 		}
 	}
 
-	if(contains_text(fun, "annoying"))
+	if(last_monster().random_modifiers["annoying"])
 	{
 		if(contains_text(page, "makes the most annoying noise you've ever heard, stopping you in your tracks."))
 		{
@@ -60,7 +58,7 @@ monster ocrs_helper(string page)
 		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
 	}
 
-	if(contains_text(fun, "restless"))
+	if(last_monster().random_modifiers["restless"])
 	{
 		if(contains_text(page, "moves out of the way"))
 		{
@@ -81,7 +79,7 @@ monster ocrs_helper(string page)
 		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
 	}
 
-	if(contains_text(fun, "phase-shifting"))
+	if(last_monster().random_modifiers["phase-shifting"])
 	{
 		if(contains_text(page, "blinks out of existence before"))
 		{
@@ -91,7 +89,7 @@ monster ocrs_helper(string page)
 		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
 	}
 
-	if(contains_text(fun, "cartwheeling"))
+	if(last_monster().random_modifiers["cartwheeling"])
 	{
 		if(contains_text(page, "cartwheels out of the way"))
 		{
@@ -102,21 +100,21 @@ monster ocrs_helper(string page)
 	}
 
 	set_property("cc_useCleesh", false);
-	if(contains_text(fun, "ticking"))
+	if(last_monster().random_modifiers["ticking"])
 	{
 		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
 		{
 			set_property("cc_useCleesh", true);
 		}
 	}
-	if(contains_text(fun, "untouchable"))
+	if(last_monster().random_modifiers["untouchable"])
 	{
 		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
 		{
 			set_property("cc_useCleesh", true);
 		}
 	}
-	return enemy;
+	return last_monster();
 }
 
 string cc_combatHandler(int round, string opp, string text)
