@@ -198,7 +198,7 @@ void handlePostAdventure()
 		buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
 	}
 
-	if(my_class() == $class[Turtle Tamer])
+	if((my_class() == $class[Turtle Tamer]) && guild_store_available())
 	{
 		buffMaintain($effect[Eau de Tortue], 0, 1, 1);
 	}

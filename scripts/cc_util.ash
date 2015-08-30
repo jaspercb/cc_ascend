@@ -69,12 +69,6 @@ element ns_crowd3();
 element ns_hedge1();
 element ns_hedge2();
 element ns_hedge3();
-int ns_crowd1(string data);
-stat ns_crowd2(string data);
-element ns_crowd3(string data);
-element ns_hedge1(string data);
-element ns_hedge2(string data);
-element ns_hedge3(string data);
 void woods_questStart();			//From Bale\'s woods.ash relay mod.
 int howLongBeforeHoloWristDrop();
 string safeString(string input);
@@ -323,182 +317,36 @@ boolean uneffect(effect toRemove)
 	return false;
 }
 
-int ns_crowd1(string data)
-{
-	if(contains_text(data, "a group of people darting around outside the walls"))
-	{
-		print("First challenge: Speed Challenge", "red");
-		return 1;
-	}
-	return 0;
-}
-stat ns_crowd2(string data)
-{
-	if(contains_text(data, "a second group of people all wearing sunglasses"))
-	{
-		print("Second challenge: Smoothest Challenge", "red");
-		return $stat[Moxie];
-	}
-	if(contains_text(data, "a second group of people standing around flexing their muscles and using grip exercisers"))
-	{
-		print("Second challenge: Strongest Challenge", "red");
-		return $stat[Muscle];
-	}
-	if(contains_text(data, "a second group of people sitting around playing chess"))
-	{
-		print("Second challenge: Smartest Challenge", "red");
-		return $stat[Mysticality];
-	}
-	return $stat[none];
-
-}
-element ns_crowd3(string data)
-{
-	if(contains_text(data, "a third group of people, clustered around a group of igloos"))
-	{
-		print("Third challenge: Cold Challenge", "red");
-		return $element[cold];
-	}
-	if(contains_text(data, "a third group of people, all of whom appear to be on fire"))
-	{
-		print("Third challenge: Hot Challenge", "red");
-		return $element[hot];
-	}
-	if(contains_text(data, "a third group of greasy-looking people furtively skulking around"))
-	{
-		print("Third challenge: Sleaze Challenge", "red");
-		return $element[sleaze];
-	}
-	if(contains_text(data, "a third group of people, surrounded by a cloud of eldritch mist"))
-	{
-		print("Third challenge: Spooky Challenge", "red");
-		return $element[spooky];
-	}
-	if(contains_text(data, "a third group of people, surrounded by garbage and clouds of flies"))
-	{
-		print("Third challenge: Stench Challenge", "red");
-		return $element[stench];
-	}
-
-	return $element[none];
-}
-element ns_hedge1(string data)
-{
-	if(contains_text(data, "sweep the telescope up to reveal some frost-rimed bushes on the outskirts of a hedge maze"))
-	{
-		print("Hedge Maze 1: Cold", "red");
-		return $element[cold];
-	}
-	if(contains_text(data, "sweep the telescope up to reveal some smoldering bushes on the outskirts of a hedge maze"))
-	{
-		print("Hedge Maze 1: Hot", "red");
-		return $element[hot];
-	}
-	if(contains_text(data, "sweep the telescope up to reveal some purplish, greasy-looking hedges"))
-	{
-		print("Hedge Maze 1: Sleaze", "red");
-		return $element[sleaze];
-	}
-	if(contains_text(data, "sweep the telescope up to reveal some creepy-looking black bushes on the outskirts of a hedge maze"))
-	{
-		print("Hedge Maze 1: Spooky", "red");
-		return $element[spooky];
-	}
-	if(contains_text(data, "sweep the telescope up to reveal some nasty-looking, dripping green bushes on the outskirts of a hedge maze"))
-	{
-		print("Hedge Maze 1: Stench", "red");
-		return $element[stench];
-	}
-	return $element[none];
-}
-element ns_hedge2(string data)
-{
-	if(contains_text(data, "entrance you see wintry mists rising from deeper within the maze"))
-	{
-		print("Hedge Maze 2: Cold", "red");
-		return $element[cold];
-	}
-	if(contains_text(data, "entrance you see smoke rising from deeper within the maze"))
-	{
-		print("Hedge Maze 2: Hot", "red");
-		return $element[hot];
-	}
-	if(contains_text(data, "entrance you see a greasy purple cloud hanging over the center of the maze"))
-	{
-		print("Hedge Maze 2: Sleaze", "red");
-		return $element[sleaze];
-	}
-	if(contains_text(data, "entrance you see a miasma of eldritch vapors rising from deeper within the maze"))
-	{
-		print("Hedge Maze 2: Spooky", "red");
-		return $element[spooky];
-	}
-	if(contains_text(data, "entrance you see a cloud of green gas hovering over the maze"))
-	{
-		print("Hedge Maze 2: Stench", "red");
-		return $element[stench];
-	}
-
-	return $element[none];
-}
-element ns_hedge3(string data)
-{
-	if(contains_text(data, "and see a pipe occasionally disgorging a bunch of ice cubes"))
-	{
-		print("Hedge Maze 3: Cold", "red");
-		return $element[cold];
-	}
-	if(contains_text(data, "and see a pipe with lava slowly oozing out of it"))
-	{
-		print("Hedge Maze 3: Hot", "red");
-		return $element[hot];
-	}
-	if(contains_text(data, "and see a pipe that occasionally vomits out a greasy ball of hair"))
-	{
-		print("Hedge Maze 3: Sleaze", "red");
-		return $element[spooky];
-	}
-	if(contains_text(data, "and see a pipe surrounded by creepy black mist"))
-	{
-		print("Hedge Maze 3: Spooky", "red");
-		return $element[spooky];
-	}
-	if(contains_text(data, "and see a pipe disgorging a really surprising amount of sewage"))
-	{
-		print("Hedge Maze 3: Stench", "red");
-		return $element[stench];
-	}
-	return $element[none];
-}
-
-
 int ns_crowd1()
 {
-	return ns_crowd1(visit_url("campground.php?action=telescopelow"));
+	print("Default Test: Initiative", "red");
+	return 1;
 }
 stat ns_crowd2()
 {
-	return ns_crowd2(visit_url("campground.php?action=telescopelow"));
+	print("Off-Stat Test: " + get_property("nsChallenge1"), "red");
+	return to_stat(get_property("nsChallenge1"));
 }
 element ns_crowd3()
 {
-	return ns_crowd3(visit_url("campground.php?action=telescopelow"));
+	print("Elemental Test: " + get_property("nsChallenge2"), "red");
+	return to_element(get_property("nsChallenge2"));
 }
 element ns_hedge1()
 {
-	return ns_hedge1(visit_url("campground.php?action=telescopelow"));
+	print("Hedge Maze 1: " + get_property("nsChallenge3"), "red");
+	return to_element(get_property("nsChallenge3"));
 }
 element ns_hedge2()
 {
-	return ns_hedge2(visit_url("campground.php?action=telescopelow"));
+	print("Hedge Maze 2: " + get_property("nsChallenge4"), "red");
+	return to_element(get_property("nsChallenge4"));
 }
 element ns_hedge3()
 {
-	return ns_hedge3(visit_url("campground.php?action=telescopelow"));
+	print("Hedge Maze 3: " + get_property("nsChallenge5"), "red");
+	return to_element(get_property("nsChallenge5"));
 }
-
-
-
 
 skill preferredLibram()
 {
@@ -642,31 +490,6 @@ boolean cc_deleteMail(kmessage msg)
 		return true;
 	}
 	return false;
-}
-
-effect effectNeededFirstGate(string data)
-{
-	if(contains_text(data, "Gate of Light"))
-	{
-		return $effect[Izchak\'s Blessing];
-	}
-	if(contains_text(data, "Gate of That Which is Hidden"))
-	{
-		return $effect[Object Detection];
-	}
-	if(contains_text(data, "Gate of the Mind"))
-	{
-		return $effect[Strange Mental Acuity];
-	}
-	if(contains_text(data, "Gate of the Ogre"))
-	{
-		return $effect[Strength of Ten Ettins];
-	}
-	if(contains_text(data, "Gate that is Not a Gate"))
-	{
-		return $effect[Teleportitis];
-	}
-	return $effect[none];
 }
 
 boolean handleFaxMonster(string enemy)
@@ -946,24 +769,6 @@ boolean haveAny(boolean[item] array)
 	return false;
 }
 
-boolean haveGuitar()
-{
-	boolean[item] strings = $items[acoustic guitarrr, heavy metal thunderrr guitarrr, stone banjo, Disco Banjo,	Shagadelic Disco Banjo,	Seeger\'s Unstoppable Banjo, Crimbo ukulele, Massive sitar, 4-dimensional guitar, plastic guitar, half-sized guitar, out-of-tune biwa, Zim Merman\'s guitar];
-	return haveAny(strings);
-}
-
-boolean haveAccordion()
-{
-	boolean[item] squeezings = $items[stolen accordion, calavera concertina, Rock and Roll Legend, Squeezebox of the Ages, The Trickster\'s Trikitixa];
-	return haveAny(squeezings);
-}
-
-boolean haveDrum()
-{
-	boolean[item] drums = $items[tambourine, big bass drum, black kettle drum, bone rattle, hippy bongo, jungle drum];
-	return haveAny(drums);
-}
-
 
 void pullAll(item it)
 {
@@ -1035,23 +840,6 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 	return false;
 }
 
-//Thanks to Bale and slyz here!
-effect [item] allBangPotions() {
-	effect [item] potion;
-	for id from 819 to 827 {
-		switch( get_property("lastBangPotion"+id) ) {
-			case "sleepiness": potion[id.to_item()] = $effect[ Sleepy ]; break;
-			case "confusion": potion[id.to_item()] = $effect[ Confused ]; break;
-			case "inebriety": potion[id.to_item()] = $effect[ Antihangover ]; break;
-			case "ettin strength": potion[id.to_item()] = $effect[ Strength of Ten Ettins ]; break;
-			case "blessing": potion[id.to_item()] = $effect[ Izchak\'s Blessing ]; break;
-			case "healing": break;
-			default: potion[id.to_item()] = get_property("lastBangPotion"+id).to_effect();
-		}
-	}
-	return potion;
-}
-
 //From Bale\'s woods.ash relay script.
 void woods_questStart() {
 	if(available_amount($item[continuum transfunctioner]) > 0)
@@ -1069,68 +857,6 @@ void woods_questStart() {
 	}
 }
 
-int numPotionsFound(effect need)
-{
-	int i = 0;
-	foreach pot, eff in allBangPotions()
-	{
-		if(need == eff)
-		{
-			return 5;
-		}
-		switch(eff)
-		{
-		case $effect[Izchak\'s Blessing]:
-		case $effect[Object Detection]:
-		case $effect[Strange Mental Acuity]:
-		case $effect[Strength of Ten Ettins]:
-		case $effect[Teleportitis]:
-			i = i + 1;
-		break;
-		}
-	}
-	return i;
-}
-
-item bangPotionNeeded(effect need)
-{
-	foreach pot, eff in allBangPotions()
-	{
-		if(need == eff)
-		{
-			return pot;
-		}
-	}
-
-	return $item[none];
-}
-
-boolean solveBangPotion(effect need)
-{
-	if(my_inebriety() > 11)
-	{
-		abort("Can not test bang potions at this inebriety (although, we can if know the booze but the script isn't smart enough yet");
-		return false;
-	}
-
-	boolean usedPotion = false;
-	while(numPotionsFound(need) < 5)
-	{
-		usedPotion = false;
-		foreach pot, eff in allBangPotions()
-		{
-			if(item_amount(pot) > 0)
-			{
-				if((eff == $effect[none]) && !usedPotion)
-				{
-					use(1, pot);
-					usedPotion = true;
-				}
-			}
-		}
-	}
-	return true;
-}
 
 void pulverizeThing(item it)
 {
@@ -1174,20 +900,6 @@ boolean buy_item(item it, int quantity, int maxprice)
 		return false;
 	}
 	return true;
-}
-
-void visitBarrels()
-{
-	int x = 1;
-	while(x<=36)
-	{
-		if(my_adventures() < 1)
-		{
-			return;
-		}
-		visit_url("barrel.php?pwd&smash=" + x);
-		x = x + 1;
-	}
 }
 
 //Thanks, Rinn!
@@ -1282,8 +994,7 @@ int howLongBeforeHoloWristDrop()
 
 boolean hasShieldEquipped()
 {
-	## I couldn't find a "shield" parameter for type $item, so, this will have to do for now.
-	return contains_text(to_string(equipped_item($slot[off-hand])), "Shield") || (equipped_item($slot[off-hand]) == $item[Ouija Board\, Ouija Board]);
+	return item_type(equipped_item($slot[off-hand])) == "shield";
 }
 
 boolean beehiveConsider()

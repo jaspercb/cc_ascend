@@ -356,9 +356,9 @@ void maximize_hedge()
 {
 	string data = visit_url("campground.php?action=telescopelow");
 
-	element first = ns_hedge1(data);
-	element second = ns_hedge2(data);
-	element third = ns_hedge3(data);
+	element first = ns_hedge1();
+	element second = ns_hedge2();
+	element third = ns_hedge3();
 	if((first == $element[none]) || (second == $element[none]) || (third == $element[none]))
 	{
 		maximize("all res -equip snow suit", 2500, 0, false);
@@ -400,7 +400,7 @@ int pullsNeeded(string data)
 	{
 		progress = 4;
 	}
-	data = visit_url("campground.php?action=telescopelow");
+	visit_url("campground.php?action=telescopelow");
 
 	if(progress < 1)
 	{
@@ -434,19 +434,19 @@ Note: Maximizer gives concert White-boy angst, instead of concert 3 (consequentl
 
 ***/
 
-		switch(ns_crowd1(data))
+		switch(ns_crowd1())
 		{
 		case 1:					crowd1score = initiative_modifier()/40;							break;
 		}
 
-		switch(ns_crowd2(data))
+		switch(ns_crowd2())
 		{
 		case $stat[Moxie]:		crowd2score = (my_buffedstat($stat[Moxie]) - 150) / 40;			break;
 		case $stat[Muscle]:		crowd2score = (my_buffedstat($stat[Muscle]) - 150) / 40;		break;
 		case $stat[Mysticality]:crowd2score = (my_buffedstat($stat[Mysticality]) - 150) / 40;	break;
 		}
 
-		switch(ns_crowd3(data))
+		switch(ns_crowd3())
 		{
 		case $element[cold]:	crowd3score = numeric_modifier("cold damage") / 9;				break;
 		case $element[hot]:		crowd3score = numeric_modifier("hot damage") / 9;				break;
@@ -484,9 +484,9 @@ Note: Maximizer gives concert White-boy angst, instead of concert 3 (consequentl
 
 	if(progress < 2)
 	{
-		ns_hedge1(data);
-		ns_hedge2(data);
-		ns_hedge3(data);
+		ns_hedge1();
+		ns_hedge2();
+		ns_hedge3();
 
 		print("Hedge time of 4 adventures. (Up to 10 without Elemental Resistances)", "red");
 		adv = adv + 4;
