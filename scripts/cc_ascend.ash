@@ -1100,6 +1100,13 @@ boolean fortuneCookieEvent()
 		cli_execute("counters");
 		cli_execute("counters clear");
 		print("Removed all the counters, can we just remove the cookie?");
+
+		if((get_property("cc_semirare") == "") && (item_amount($item[stone wool]) >= 2))
+		{
+			set_property("cc_semirare", "1");
+			set_property("cc_semisub", "wool");
+		}
+
 		if((get_property("cc_semirare") == "") && (get_property("cc_spookysapling") == "finished"))
 		{
 			ccAdv(1, $location[The Hidden Temple]);
@@ -8596,7 +8603,10 @@ my_maxmp()))
 		}
 	}
 
-	fortuneCookieEvent();
+	if(fortuneCookieEvent())
+	{
+		return true;
+	}
 
 	if(knoll_available() && (item_amount($item[detuned radio]) == 0) && (my_meat() > 300))
 	{
