@@ -997,7 +997,7 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			attackMajor = "skill Weapon of the Pastalord";
 		}
-		if((my_mp() >= 1) && (have_skill($skill[Utensil Twist])))
+		if((my_mp() >= 1) && (have_skill($skill[Utensil Twist])) && (item_type(equipped_item($slot[weapon])) == "utensil"))
 		{
 			attackMinor = "skill Utensil Twist";
 		}

@@ -794,6 +794,10 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 	{
 		return false;
 	}
+	if(it == $item[none])
+	{
+		return false;
+	}
 	if(item_amount(it) == whenHave)
 	{
 		int lastStorage = storage_amount(it);
