@@ -1,5 +1,6 @@
 script "cc_ascend_header.ash"
 
+boolean LA_communityService();
 
 boolean LX_handleSpookyravenNecklace();
 boolean LX_handleSpookyravenFirstFloor();

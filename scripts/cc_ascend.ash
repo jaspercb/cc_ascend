@@ -21,6 +21,8 @@ import <cc_ascend/cc_eudora.ash>
 import <cc_ascend/cc_summerfun.ash>
 import <cc_ascend/cc_elementalPlanes.ash>
 import <cc_ascend/cc_deckofeverycard.ash>
+import <cc_ascend/cc_community_service.ash>
+import <cc_ascend/cc_clan.ash>
 
 
 boolean ccEat(int howMany, item toEat)
@@ -28,7 +30,7 @@ boolean ccEat(int howMany, item toEat)
 	boolean retval = false;
 	while(howMany > 0)
 	{
-		if((get_campground() contains $item[Portable Mayo Clinic]) && (my_meat() > 11000))
+		if((cc_get_campground() contains $item[Portable Mayo Clinic]) && (my_meat() > 11000))
 		{
 			buy(1, $item[Mayoflex]);
 			use(1, $item[Mayoflex]);
@@ -375,7 +377,7 @@ int pullsNeeded(string data)
 	{
 		return 0;
 	}
-	if(my_class() == $class[Ed])
+	if((my_class() == $class[Ed]) || (my_path() == "Community Service"))
 	{
 		return 0;
 	}
@@ -408,31 +410,7 @@ int pullsNeeded(string data)
 		int crowd2score = 0;
 		int crowd3score = 0;
 
-/***
-			Skill:				Benefit		(350/85/550)?
-			416% init 			9		1 ahead
-			402% init			9		1 ahead
-			390% init			9		1 ahead
-			348% init			8		2 ahead
-			346% init			8		2 ahead
-			208% init			4		6 ahead
-
-			Sleaze + 88			9
-			Spooky + 86			9		1 ahead
-			Spooky + 86			8		2 ahead
-			Sleaze + 83			8		2 ahead
-			Stench + 80			9		1 ahead
-			Cold + 33			3		7 ahead
-			560 Moxie			9
-			544 Moxie			8		2 ahead
-			564 Myst			8		2 ahead
-			537 Myst			8		2 ahead
-			488 Myst			7		3 ahead
-			479 Moxie			7		3 ahead
-
-Note: Maximizer gives concert White-boy angst, instead of concert 3 (consequently, it doesn\'t work).
-
-***/
+//		Note: Maximizer gives concert White-boy angst, instead of concert 3 (consequently, it doesn\'t work).
 
 		switch(ns_crowd1())
 		{
@@ -455,30 +433,9 @@ Note: Maximizer gives concert White-boy angst, instead of concert 3 (consequentl
 		case $element[stench]:	crowd3score = numeric_modifier("stench damage") / 9;			break;
 		}
 
-		if(crowd1score < 0)
-		{
-			crowd1score = 0;
-		}
-		if(crowd1score > 9)
-		{
-			crowd1score = 9;
-		}
-		if(crowd2score < 0)
-		{
-			crowd2score = 0;
-		}
-		if(crowd2score > 9)
-		{
-			crowd2score = 9;
-		}
-		if(crowd3score < 0)
-		{
-			crowd3score = 0;
-		}
-		if(crowd3score > 9)
-		{
-			crowd3score = 9;
-		}
+		crowd1score = min(max(0, crowd1score), 9);
+		crowd2score = min(max(0, crowd2score), 9);
+		crowd3score = min(max(0, crowd3score), 9);
 		adv = adv + (10 - crowd1score) + (10 - crowd2score) + (10 - crowd3score);
 	}
 
@@ -542,8 +499,6 @@ Note: Maximizer gives concert White-boy angst, instead of concert 3 (consequentl
 			print("Need a skeleton key or the ingredients (skeleton bone, loose teeth) for it.");
 		}
 	}
-
-
 
 	if(progress < 4)
 	{
@@ -1156,6 +1111,7 @@ void initializeDay(int day)
 
 	cli_execute("ccs null");
 	set_property("battleAction", "custom combat script");
+
 	if((item_amount($item[cursed microwave]) >= 1) && (get_property("_cursedMicrowaveUsed") == "false"))
 	{
 		use(1, $item[cursed microwave]);
@@ -1182,6 +1138,7 @@ void initializeDay(int day)
 
 	chateaumantegna_useDesk();
 	ed_initializeDay(day);
+	cs_initializeDay(day);
 
 	if(day == 1)
 	{
@@ -1340,7 +1297,7 @@ void initializeDay(int day)
 
 			set_property("cc_day2_init", "finished");
 		}
-		if(chateaumantegna_havePainting() && (my_class() != $class[Ed]))
+		if(chateaumantegna_havePainting() && (my_class() != $class[Ed]) && (my_path() != "Community Service"))
 		{
 			handleFamiliar($familiar[Reanimated Reanimator]);
 			if(chateaumantegna_usePainting())
@@ -1616,7 +1573,7 @@ void doBedtime()
 		}
 	}
 
-	//We can also use int[item] get_campground()
+	//We can also use int[item] cc_get_campground()
 	int lastDNA = get_property("_dnaPotionsMade").to_int();
 	while((get_property("_dnaPotionsMade") != "3") && (get_property("dnaSyringe") != ""))
 	{
@@ -1884,13 +1841,13 @@ void handleInitFamiliar()
 
 boolean questOverride()
 {
-	// At the start of an ascension, get_campground() displays the wrong info.
+	// At the start of an ascension, cc_get_campground() displays the wrong info.
 	// Visiting the campground doesn\'t work.... grrr...
 	//	visit_url("campground.php");
 
 #	if(!get_property("cc_haveoven").to_boolean())
 #	{
-#		if(get_campground() contains $item[Dramatic&trade; range])
+#		if(cc_get_campground() contains $item[Dramatic&trade; range])
 #		{
 #			set_property("cc_haveoven", true);
 #		}
@@ -3678,6 +3635,10 @@ void consumeStuff()
 	{
 		return;
 	}
+	if(my_path() == "Community Service")
+	{
+		return;
+	}
 
 	int mpForOde = 50;
 	if(!have_skill($skill[The Ode to Booze]))
@@ -3843,7 +3804,7 @@ void consumeStuff()
 
 		if(in_hardcore() && isGuildClass() && have_skill($skill[Pastamastery]))
 		{
-			int canEat = fullness_limit() / 5;
+			int canEat = (fullness_limit() - my_fullness()) / 5;
 			boolean[item] toEat;
 			boolean[item] toPrep;
 
@@ -5631,7 +5592,7 @@ boolean L9_leafletQuest()
 	{
 		return false;
 	}
-	if(get_campground() contains $item[Frobozz Real-Estate Company Instant House (TM)])
+	if(cc_get_campground() contains $item[Frobozz Real-Estate Company Instant House (TM)])
 	{
 		return false;
 	}
@@ -8211,6 +8172,430 @@ boolean autosellCrap()
 	return true;
 }
 
+boolean LA_communityService()
+{
+	if(my_path() != "Community Service")
+	{
+		return false;
+	}
+	if(my_inebriety() > inebriety_limit())
+	{
+		abort("Too drunk, not sure if not aborting is safe yet");
+	}
+
+	static int curQuest = 0;
+	if(curQuest == 0)
+	{
+		curQuest = expected_next_cs_quest();
+	}
+
+	cs_dnaPotions();
+	use_barrels();
+	cs_make_stuff();
+
+
+	equipBaseline();
+	print(what_cs_quest(curQuest), "blue");
+
+	switch(curQuest)
+	{
+	case 0:
+		print("Service Complete, finishing finish...", "blue");
+		try
+		{
+			if(do_cs_quest(30))
+			{
+				print("This might pop up a window?", "red");
+				cli_execute("call kingcheese");
+				return true;
+			}
+			else
+			{
+				abort("Could not complete run.");
+			}
+		}
+		finally
+		{
+			if(get_property("kingLiberated").to_boolean())
+			{
+				cli_execute("call kingcheese");
+				return true;
+			}
+			else
+			{
+				abort("kingLiberation not set correctly but run is probably complete. Beep boop. Try running again to handle resetting options");
+			}
+		}
+		break;
+	case 1:
+			if(!possessEquipment($item[Barrel Lid]))
+			{
+				visit_url("choice.php?whichchoice=1100&pwd&option=1", true);
+			}
+
+			if(possessEquipment($item[Barrel Lid]))
+			{
+				equip($item[Barrel Lid]);
+			}
+
+			if(item_amount($item[Ben-Gal&trade; Balm]) == 0)
+			{
+				buy(1, $item[Ben-Gal&trade; Balm]);
+			}
+
+			while((my_mp() < 125) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
+			buffMaintain($effect[Song of Starch], 100, 1, 1);
+			buffMaintain($effect[Reptilian Fortitude], 10, 1, 1);
+			buffMaintain($effect[Rage of the Reindeer], 10, 1, 1);
+			buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
+
+
+			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
+			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
+			buffMaintain($effect[Phorcefullness], 0, 1, 1);
+			buffMaintain($effect[Tomato Power], 0, 1, 1);
+			buffMaintain($effect[Puddingskin], 0, 1, 1);
+			buffMaintain($effect[Superheroic], 0, 1, 1);
+			buffMaintain($effect[Extra Backbone], 0, 1, 1);
+			buffMaintain($effect[Pill Power], 0, 1, 1);
+			buffMaintain($effect[Go Get \'Em, Tiger!], 0, 1, 1);
+			if((15 - get_property("_deckCardsDrawn").to_int()) >= 5)
+			{
+				deck_cheat("muscle buff");
+			}
+
+			if(do_cs_quest(1))
+			{
+				curQuest = 0;
+			}
+		break;
+
+	case 2:
+			if(!possessEquipment($item[Barrel Lid]))
+			{
+				visit_url("choice.php?whichchoice=1100&pwd&option=1", true);
+			}
+
+			if(possessEquipment($item[Barrel Lid]))
+			{
+				equip($item[Barrel Lid]);
+			}
+
+			if(item_amount($item[Ben-Gal&trade; Balm]) == 0)
+			{
+				buy(1, $item[Ben-Gal&trade; Balm]);
+			}
+
+			cs_giant_growth();
+
+			if(item_amount($item[Blood-drive sticker]) > 0)
+			{
+				chew(1, $item[Blood-drive sticker]);
+			}
+
+			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
+			if(my_inebriety() == 0)
+			{
+				use_skill(1, $skill[The Ode to Booze]);
+				cli_execute("drink 1 bee's knees");
+			}
+
+
+			while((my_mp() < 125) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
+			buffMaintain($effect[Song of Bravado], 100, 1, 1);
+			buffMaintain($effect[Rage of the Reindeer], 10, 1, 1);
+			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
+			buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
+
+
+			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
+			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
+			buffMaintain($effect[Orange Crusher], 0, 1, 50);
+			buffMaintain($effect[Orange Crusher], 0, 1, 50);
+			buffMaintain($effect[Orange Crusher], 0, 1, 50);
+			buffMaintain($effect[Orange Crusher], 0, 1, 50);
+			buffMaintain($effect[Orange Crusher], 0, 1, 50);
+			buffMaintain($effect[Phorcefullness], 0, 1, 1);
+			buffMaintain($effect[Tomato Power], 0, 1, 1);
+			buffMaintain($effect[Savage Beast Inside], 0, 1, 1);
+			buffMaintain($effect[Extra Backbone], 0, 1, 1);
+			buffMaintain($effect[Pill Power], 0, 1, 1);
+			buffMaintain($effect[Go Get \'Em, Tiger!], 0, 1, 1);
+
+			if(do_cs_quest(2))
+			{
+				curQuest = 0;
+			}
+		break;
+
+	case 3:
+			if(item_amount($item[Glittery Mascara]) == 0)
+			{
+				buy(1, $item[Glittery Mascara]);
+			}
+
+			cs_giant_growth();
+
+			if(item_amount($item[Saucepanic]) > 0)
+			{
+				equip($slot[off-hand], $item[Saucepanic]);
+			}
+
+			while((my_mp() < 133) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
+			buffMaintain($effect[Song of Bravado], 100, 1, 1);
+			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
+			buffMaintain($effect[The Magical Mojomuscular Melody], 3, 1, 1);
+
+			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
+			buffMaintain($effect[Mystically Oiled], 0, 1, 1);
+			buffMaintain($effect[Tomato Power], 0, 1, 1);
+			buffMaintain($effect[Pill Power], 0, 1, 1);
+			buffMaintain($effect[Glittering Eyelashes], 0, 1, 1);
+			buffMaintain($effect[Purple Reign], 0, 1, 50);
+			buffMaintain($effect[Purple Reign], 0, 1, 50);
+			buffMaintain($effect[Purple Reign], 0, 1, 50);
+			buffMaintain($effect[Purple Reign], 0, 1, 50);
+			buffMaintain($effect[Purple Reign], 0, 1, 50);
+
+			buffMaintain($effect[Nearly All-Natural], 0, 1, 1);
+			if(do_cs_quest(3))
+			{
+				curQuest = 0;
+			}
+		break;
+
+
+	case 4:
+			if(item_amount($item[Hair Spray]) == 0)
+			{
+				buy(1, $item[Hair Spray]);
+			}
+
+			cs_giant_growth();
+
+			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
+			if(my_inebriety() == 2)
+			{
+				use_skill(1, $skill[The Ode to Booze]);
+				cli_execute("drink 1 bee's knees");
+			}
+
+
+			while((my_mp() < 142) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
+			buffMaintain($effect[Song of Bravado], 100, 1, 1);
+			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
+			buffMaintain($effect[The Moxious Madrigal], 2, 1, 1);
+			buffMaintain($effect[Disco Smirk], 10, 1, 1);
+
+			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
+			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
+			buffMaintain($effect[Tomato Power], 0, 1, 1);
+			buffMaintain($effect[Pulchritudinous Pressure], 0, 1, 1);
+			buffMaintain($effect[Superhuman Sarcasm], 0, 1, 1);
+			buffMaintain($effect[Pill Power], 0, 1, 1);
+			buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
+			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
+			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
+			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
+			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
+			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
+
+			buffMaintain($effect[Amazing], 0, 1, 1);
+
+			if(do_cs_quest(4))
+			{
+				curQuest = 0;
+			}
+		break;
+	case 5:
+			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
+			if(my_inebriety() == 4)
+			{
+				use_skill(1, $skill[The Ode to Booze]);
+				cli_execute("drink 1 vintage smart drink");
+			}
+
+
+			while((my_mp() < 27) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
+			buffMaintain($effect[Empathy], 15, 1, 1);
+			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
+
+
+			buffMaintain($effect[Blue Swayed], 0, 1, 50);
+			buffMaintain($effect[Blue Swayed], 0, 1, 50);
+			buffMaintain($effect[Blue Swayed], 0, 1, 50);
+			buffMaintain($effect[Blue Swayed], 0, 1, 50);
+			buffMaintain($effect[Blue Swayed], 0, 1, 50);
+
+			if(do_cs_quest(5))
+			{
+				curQuest = 0;
+			}
+		break;
+
+	case 7:
+		if(my_daycount() > 1)
+		{
+			#visit_url("choice.php?whichchoice=1100&pwd&option=4", true);
+			while((my_mp() < 200) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
+			if(possessEquipment($item[Staff of the Headmaster\'s Victuals]))
+			{
+				equip($slot[weapon], $item[Staff of the Headmaster\'s Victuals]);
+			}
+			if(possessEquipment($item[Astral Statuette]))
+			{
+				equip($item[Astral Statuette]);
+			}
+			buffMaintain($effect[Song of Sauce], 100, 1, 1);
+			buffMaintain($effect[Arched Eyebrow of the Archmage], 10, 1, 1);
+			buffMaintain($effect[Jackasses\' Symphony of Destruction], 8, 1, 1);
+
+			if(do_cs_quest(7))
+			{
+				curQuest = 0;
+			}
+		}
+		break;
+
+	case 8:
+			while((my_mp() < 30) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
+			buffMaintain($effect[Smooth Movements], 10, 1, 1);
+			buffMaintain($effect[The Sonata of Sneakiness], 20, 1, 1);
+
+			if((item_amount($item[Snow Berries]) > 0) && (have_effect($effect[Snow Shoes]) == 0) && (item_amount($item[Snow Cleats]) == 0))
+			{
+				cli_execute("make 1 snow cleats");
+			}
+
+			buffMaintain($effect[A Rose by Any Other Material], 0, 1, 1);
+			buffMaintain($effect[Throwing Some Shade], 0, 1, 1);
+			buffMaintain($effect[Snow Shoes], 0, 1, 1);
+
+			if(do_cs_quest(8))
+			{
+				curQuest = 0;
+			}
+		break;
+
+
+	case 10:
+//		//YR some hot resistance
+//		//If we Everything looks Yellow, assume this is done
+//		//Make sure to unequipped the awful heat-res accessories.
+			handleFamiliar($familiar[Exotic Parrot]);
+
+			if(possessEquipment($item[lava-proof pants]))
+			{
+				equip($item[lava-proof pants]);
+			}
+			if(possessEquipment($item[fireproof megaphone]))
+			{
+				equip($item[fireproof megaphone]);
+			}
+			if(possessEquipment($item[high-temperature mining mask]))
+			{
+				equip($item[high-temperature mining mask]);
+			}
+			if(possessEquipment($item[heat-resistant gloves]))
+			{
+				equip($slot[acc1], $item[heat-resistant gloves]);
+			}
+			if(possessEquipment($item[heat-resistant necktie]))
+			{
+				equip($slot[acc3], $item[heat-resistant necktie]);
+			}
+
+			while((my_mp() < 37) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
+			if((item_amount($item[Sleaze Powder]) > 0) && (item_amount($item[Lotion of Sleaziness]) == 0) && (have_effect($effect[Sleazy Hands]) == 0))
+			{
+				cli_execute("make lotion of sleaziness");
+			}
+			if((item_amount($item[Stench Powder]) > 0) && (item_amount($item[Lotion of Stench]) == 0) && (have_effect($effect[Stinky Hands]) == 0))
+			{
+				cli_execute("make lotion of stench");
+			}
+
+			boolean [item] toSmash = $items[plastic nunchaku, Staff of the Headmaster\'s Victuals];
+
+			foreach it in toSmash
+			{
+				pulverizeThing(it);
+			}
+
+			buffMaintain($effect[Protection from Bad Stuff], 0, 1, 1);
+			buffMaintain($effect[Human-Elemental Hybrid], 0, 1, 1);
+			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
+			buffMaintain($effect[Empathy], 15, 1, 1);
+			buffMaintain($effect[Astral Shell], 10, 1, 1);
+			buffMaintain($effect[Sleazy Hands], 0, 1, 1);
+			buffMaintain($effect[Stinky Hands], 0, 1, 1);
+
+			cs_eat_stuff();
+
+			if(do_cs_quest(10))
+			{
+				curQuest = 0;
+			}
+		break;
+	case 11:
+			if((my_inebriety() == 0) && (my_meat() > 500) && (my_mp() >= 50))
+			{
+				use_skill(1, $skill[The Ode to Booze]);
+				cli_execute("drink lucky lindy");
+				if(item_amount($item[Ice Island Long Tea]) > 0)
+				{
+					cli_execute("drink Ice Island Long Tea");
+				}
+			}
+
+			if(do_cs_quest(11))
+			{
+				curQuest = 0;
+			}
+		break;
+
+	default:
+		abort("No quest remaining or detectable. Maybe we are already done?");
+		break;
+
+	}
+
+	return true;
+}
+
 
 boolean doTasks()
 {
@@ -8484,6 +8869,11 @@ my_maxmp()))
 	hr_dnaPotions();
 	picky_dnaPotions();
 	standard_dnaPotions();
+
+	if(LA_communityService())
+	{
+		return true;
+	}
 
 	# FIXME: Can we do this earlier? This isn't even all that useful, to be fair.
 	# When is the last time we encounter each of these types?
@@ -10300,6 +10690,7 @@ my_maxmp()))
 
 		if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_06_monster2"))
 		{
+			equipBaseline();
 			buffMaintain($effect[Disco Leer], 0, 1, 1);
 			buffMaintain($effect[Polka of Plenty], 0, 1, 1);
 			buffMaintain($effect[Cranberry Cordiality], 0, 1, 1);

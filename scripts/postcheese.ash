@@ -192,15 +192,40 @@ void handlePostAdventure()
 		}
 	}
 
+	if((my_class() == $class[Turtle Tamer]) && guild_store_available())
+	{
+		buffMaintain($effect[Eau de Tortue], 0, 1, 1);
+	}
+
 	if((monster_level_adjustment() > 140) && !get_property("kingLiberated").to_boolean())
 	{
 		buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
 		buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
 	}
 
-	if((my_class() == $class[Turtle Tamer]) && guild_store_available())
+	if(my_path() == "Community Service")
 	{
-		buffMaintain($effect[Eau de Tortue], 0, 1, 1);
+		if(have_skill($skill[Summon Taffy]))
+		{
+			libram = $skill[Summon Taffy];
+		}
+
+		boolean [skill] toCast = $skills[Pastamastery, Advanced Saucecrafting, Advanced Cocktailcrafting, Summon Confiscated Things, Summon Holiday Fun!, Summon Kokomo Resort Pass, Summon Carrot, Request Sandwich, Summon Hilarious Objects, Summon Tasteful Items, Summon Alice\'s Army Cards, Summon Crimbo Candy, Summon Geeky Gifts, Lunch Break, Grab a Cold One, Spaghetti Breakfast];
+
+		foreach sk in toCast
+		{
+			if(have_skill(sk) && (my_mp() >= mp_cost(sk)))
+			{
+				use_skill(1, sk);
+			}
+		}
+
+		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 15) && (mp_cost(libram) < 75))
+		{
+			use_skill(1, libram);
+		}
+
+		return;
 	}
 
 	if(my_class() == $class[Sauceror])
@@ -677,19 +702,19 @@ void handlePostAdventure()
 		}
 		if((have_skill($skill[Summon Tasteful Items])) && (my_mp() > 5))
 		{
-			use_skill(3, $skill[Summon Tasteful Items]);
+			use_skill(1, $skill[Summon Tasteful Items]);
 		}
 		if((have_skill($skill[Summon Alice\'s Army Cards])) && (my_mp() > 5))
 		{
-			use_skill(3, $skill[Summon Alice\'s Army Cards]);
+			use_skill(1, $skill[Summon Alice\'s Army Cards]);
 		}
 		if((have_skill($skill[Summon Crimbo Candy])) && (my_mp() > 5))
 		{
-			use_skill(3, $skill[Summon Crimbo Candy]);
+			use_skill(1, $skill[Summon Crimbo Candy]);
 		}
 		if((have_skill($skill[Lunch Break])) && (my_mp() > 10))
 		{
-			use_skill(3, $skill[Lunch Break]);
+			use_skill(1, $skill[Lunch Break]);
 		}
 
 
@@ -701,7 +726,7 @@ void handlePostAdventure()
 			}
 			if((have_skill($skill[Summon Geeky Gifts])) && (my_mp() > 5))
 			{
-				use_skill(3, $skill[Summon Geeky Gifts]);
+				use_skill(1, $skill[Summon Geeky Gifts]);
 			}
 			if((have_skill($skill[Summon Stickers])) && (my_mp() > 6))
 			{

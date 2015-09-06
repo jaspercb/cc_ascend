@@ -2,6 +2,7 @@ script "cc_edTheUndying.ash"
 import <cc_util.ash>
 import <cc_equipment.ash>
 import <cc_ascend/cc_eudora.ash>
+import <cc_ascend/cc_clan.ash>
 
 void ed_initializeSettings()
 {
@@ -597,26 +598,28 @@ boolean ed_eatStuff()
 	}
 	if(!get_property("_fancyHotDogEaten").to_boolean() && (my_daycount() == 1) && (my_level() >= 9) && ((my_fullness() + 3) <= fullness_limit()) && (item_amount($item[Astral Hot Dog]) == 0) && (my_adventures() < 10) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 	{
-		visit_url("clan_viplounge.php?action=hotdogstand");
-		buy_using_storage(3, $item[GameInformPowerDailyPro Magazine], 2500);
-		visit_url("clan_viplounge.php?preaction=hotdogsupply&hagnks=1&whichdog=-103&quantity=3");
-		cli_execute("eat 1 video games hot dog");
-		if(!get_property("_fancyHotDogEaten").to_boolean())
-		{
-			abort("Failed eating video games hot dog (already contributed, eat it manually I suppose)....");
-		}
+		eatFancyDog("video games hot dog");
+#		visit_url("clan_viplounge.php?action=hotdogstand");
+#		buy_using_storage(3, $item[GameInformPowerDailyPro Magazine], 2500);
+#		visit_url("clan_viplounge.php?preaction=hotdogsupply&hagnks=1&whichdog=-103&quantity=3");
+#		cli_execute("eat 1 video games hot dog");
+#		if(!get_property("_fancyHotDogEaten").to_boolean())
+#		{
+#			abort("Failed eating video games hot dog (already contributed, eat it manually I suppose)....");
+#		}
 	}
 
 	if(get_property("cc_dickstab").to_boolean() && !get_property("_fancyHotDogEaten").to_boolean() && (my_daycount() == 1) && ((my_fullness() + 2) <= fullness_limit()) && (item_amount($item[Astral Hot Dog]) == 0) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 	{
-		visit_url("clan_viplounge.php?action=hotdogstand");
-		buy_using_storage(10, $item[Gauze Hammock], 6000);
-		visit_url("clan_viplounge.php?preaction=hotdogsupply&hagnks=1&whichdog=-101&quantity=10");
-		cli_execute("eat 1 sleeping dog");
-		if(!get_property("_fancyHotDogEaten").to_boolean())
-		{
-			abort("Failed eating sleeping dog (already contributed, eat it manually I suppose)....");
-		}
+		eatFancyDog("sleeping dog");
+#		visit_url("clan_viplounge.php?action=hotdogstand");
+#		buy_using_storage(10, $item[Gauze Hammock], 6000);
+#		visit_url("clan_viplounge.php?preaction=hotdogsupply&hagnks=1&whichdog=-101&quantity=10");
+#		cli_execute("eat 1 sleeping dog");
+#		if(!get_property("_fancyHotDogEaten").to_boolean())
+#		{
+#			abort("Failed eating sleeping dog (already contributed, eat it manually I suppose)....");
+#		}
 	}
 
 

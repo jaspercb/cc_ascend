@@ -33,6 +33,16 @@ boolean elementalPlanes_initializeSettings()
 			set_property("stenchAirportAlways", true);
 		}
 	}
+
+	if(!get_property("hotAirportAlways").to_boolean())
+	{
+		temp = visit_url("place.php?whichplace=airport_hot&intro=1");
+		if(contains_text(temp, "After a convenient, comfortable and dignified ticketing and boarding process"))
+		{
+			print("We have access to That 70s Volcano. Groovy.", "green");
+			set_property("hotAirportAlways", true);
+		}
+	}
 	return true;
 }
 
