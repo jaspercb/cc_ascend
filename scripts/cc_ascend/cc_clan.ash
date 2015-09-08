@@ -113,6 +113,6 @@ boolean eatFancyDog(string dog)
 
 	visit_url("clan_viplounge.php?action=hotdogstand");
 
-	cli_execute("eat 1 " + dog);
+	cli_execute("eatsilent 1 " + dog);
 	return true;
 }

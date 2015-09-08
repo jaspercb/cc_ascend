@@ -8794,6 +8794,11 @@ boolean LA_communityService()
 				drink(6, $item[Astral Pilsner]);
 			}
 
+			if(my_level() < 8)
+			{
+				eatFancyDog("sleeping dog");
+			}
+
 			if(do_cs_quest(6))
 			{
 				curQuest = 0;
