@@ -1292,6 +1292,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Florid Cheeks]:				useItem = $item[Henna Face Paint];				break;
 	case $effect[Fortunate Resolve]:			useItem = $item[Resolution: Be Luckier];		break;
 	case $effect[Frigidalmatian]:				useSkill = $skill[Frigidalmatian];				break;
+	case $effect[Frog in Your Throat]:			useItem = $item[Frogade];						break;
 	case $effect[From Nantucket]:				useItem = $item[Ye Olde Bawdy Limerick];		break;
 	case $effect[Frosty]:						useItem = $item[Frost Flower];					break;
 	case $effect[Gelded]:						useItem = $item[Chocolate Filthy Lucre];		break;
@@ -1400,6 +1401,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Rosewater Mark]:				useItem = $item[Old Rosewater Cream];			break;
 	case $effect[Rotten Memories]:				useSkill = $skill[Rotten Memories];				break;
 	case $effect[Ruthlessly Efficient]:			useSkill = $skill[Ruthless Efficiency];			break;
+	case $effect[Salamander in Your Stomach]:	useItem = $item[Salamander Slurry];				break;
 	case $effect[Saucemastery]:					useSkill = $skill[Sauce Contemplation];			break;
 	case $effect[Sauce Monocle]:				useSkill = $skill[Sauce Monocle];				break;
 	case $effect[Savage Beast Inside]:			useItem = $item[jar of &quot;Creole Lady&quot; marrrmalade];break;

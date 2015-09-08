@@ -8246,6 +8246,11 @@ boolean LA_communityService()
 	}
 	handleFamiliar(toFam);
 
+	if(item_amount($item[gold nuggets]) > 0)
+	{
+		autosell(item_amount($item[gold nuggets]), $item[gold nuggets]);
+	}
+
 	//Quest order on Day 1: 11, 6, 9
 	//Day 2: 7, 10, 1, 2, 3, 4, 5, 8
 
@@ -8505,6 +8510,12 @@ boolean LA_communityService()
 			buffMaintain($effect[Reptilian Fortitude], 10, 1, 1);
 			buffMaintain($effect[Rage of the Reindeer], 10, 1, 1);
 			buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
+			buffMaintain($effect[Seal Clubbing Frenzy], 1, 1, 1);
+			buffMaintain($effect[Patience of the Tortoise], 1, 1, 1);
+			buffMaintain($effect[Mariachi Mood], 1, 1, 1);
+			buffMaintain($effect[Saucemastery], 1, 1, 1);
+			buffMaintain($effect[Disco State of Mind], 1, 1, 1);
+			buffMaintain($effect[Pasta Oneness], 1, 1, 1);
 
 			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
@@ -8516,12 +8527,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Pill Power], 0, 1, 1);
 			buffMaintain($effect[Go Get \'Em, Tiger!], 0, 1, 1);
 			buffMaintain($effect[Nigh-Invincible], 0, 1, 1);
-			buffMaintain($effect[Seal Clubbing Frenzy], 1, 1, 1);
-			buffMaintain($effect[Patience of the Tortoise], 1, 1, 1);
-			buffMaintain($effect[Mariachi Mood], 1, 1, 1);
-			buffMaintain($effect[Saucemastery], 1, 1, 1);
-			buffMaintain($effect[Disco State of Mind], 1, 1, 1);
-			buffMaintain($effect[Pasta Oneness], 1, 1, 1);
+			buffMaintain($effect[Frog in Your Throat], 0, 1, 1);
 
 			if((15 - get_property("_deckCardsDrawn").to_int()) >= 5)
 			{
@@ -8596,6 +8602,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Patience of the Tortoise], 1, 1, 1);
 			buffMaintain($effect[Human-Humanoid Hybrid], 0, 1, 1);
 			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
+			buffMaintain($effect[Frog in Your Throat], 0, 1, 1);
 
 			if(do_cs_quest(2))
 			{
@@ -8638,6 +8645,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Pasta Oneness], 1, 1, 1);
 			buffMaintain($effect[Human-Humanoid Hybrid], 0, 1, 1);
 			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
+			buffMaintain($effect[Salamander In Your Stomach], 0, 1, 1);
 
 			buffMaintain($effect[Nearly All-Natural], 0, 1, 1);
 
@@ -8693,6 +8701,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Mariachi Mood], 1, 1, 1);
 			buffMaintain($effect[Human-Humanoid Hybrid], 0, 1, 1);
 			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
+			buffMaintain($effect[Newt Gets In Your Eyes], 0, 1, 1);
 
 			buffMaintain($effect[Amazing], 0, 1, 1);
 
@@ -8905,7 +8914,7 @@ boolean LA_communityService()
 				doRest();
 			}
 
-			boolean [item] toSmash = $items[plastic nunchaku, Staff of the Headmaster\'s Victuals];
+			boolean [item] toSmash = $items[plastic nunchaku, Staff of the Headmaster\'s Victuals, heavy-duty clipboard];
 			foreach it in toSmash
 			{
 				pulverizeThing(it);

@@ -167,6 +167,22 @@ void cs_initializeDay(int day)
 				buyUpTo(1, $item[chewing gum on a string]);
 				use(1, $item[chewing gum on a string]);
 			}
+			if(item_amount($item[grapefruit]) > 0)
+			{
+				cli_execute("make ointment of the occult");
+			}
+			if(item_amount($item[squashed frog]) > 0)
+			{
+				cli_execute("make frogade");
+			}
+			if(item_amount($item[eye of newt]) > 0)
+			{
+				cli_execute("make eyedrops of newt");
+			}
+			else if(item_amount($item[salamander spleen]) > 0)
+			{
+				cli_execute("make salamander slurry");
+			}
 
 			cli_execute("postcheese");
 
