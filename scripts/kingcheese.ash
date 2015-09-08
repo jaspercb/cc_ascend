@@ -24,7 +24,7 @@ void handleKingLiberation()
 
 		if(have_display())
 		{
-			boolean[item] toDisplay = $items[Instant Karma, Thwaitgold Caterpillar Statuette, Thwaitgold Nit Statuette, Thwaitgold Scarab Beetle Statuette, Thwaitgold Spider Statuette];
+			boolean[item] toDisplay = $items[Instant Karma, Thwaitgold Caterpillar Statuette, Thwaitgold Nit Statuette, Thwaitgold Scarab Beetle Statuette, Thwaitgold Spider Statuette, Thwaitgold Termite Statuette];
 			foreach it in toDisplay
 			{
 				put_display(item_amount(it), it);

@@ -34,12 +34,71 @@ void florist_initializeSettings()
 	}
 }
 
+boolean didWePlantHere(location loc)
+{
+	string [location, 3] places = get_florist_plants();
+	foreach place in places
+	{
+		if(loc == place)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void oldPeoplePlantStuff()
 {
 	if(!florist_available())
 	{
 		return;
 	}
+
+	if(didWePlantHere(my_location()))
+	{
+		return;
+	}
+
+	if(my_path() == "Community Service")
+	{
+		if(my_location() == $location[The Velvet / Gold Mine])
+		{
+			cli_execute("florist plant horn of plenty");
+			cli_execute("florist plant max headshroom");
+			cli_execute("florist plant foul toadstool");
+		}
+		else if(my_location() == $location[The Secret Government Laboratory])
+		{
+			cli_execute("florist plant pitcher plant");
+			cli_execute("florist plant spider plant");
+			cli_execute("florist plant stealing magnolia");
+		}
+		else if(my_location() == $location[The Bubblin\' Caldera])
+		{
+			cli_execute("florist plant seltzer watercress");
+			cli_execute("florist plant lettuce spray");
+			cli_execute("florist plant skunk cabbage");
+		}
+		else if(my_location() == $location[The Skeleton Store])
+		{
+			cli_execute("florist plant canned spinach");
+			cli_execute("florist plant aloe guv'nor");
+		}
+		else if(my_location() == $location[LavaCo&trade; Lamp Factory])
+		{
+			cli_execute("florist plant impatients");
+			cli_execute("florist plant red fern");
+			cli_execute("florist plant bamboo!");
+		}
+		else if(my_location() == $location[8-bit realm])
+		{
+			cli_execute("florist plant rad-ish radish");
+			cli_execute("florist plant smoke-ra");
+			cli_execute("florist plant deadly cinnamon");
+		}
+		return;
+	}
+
 
 	if((my_location() == $location[The Outskirts of Cobb\'s Knob]) && (get_property("cc_knobplant") == ""))
 	{

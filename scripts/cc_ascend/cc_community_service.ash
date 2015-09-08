@@ -19,11 +19,13 @@ void cs_initializeDay(int day);
 void cs_make_stuff();
 boolean cs_eat_stuff();
 boolean cs_giant_growth();
-#
 
 
+# Internal
 int expected_next_cs_quest_internal();
 string cs_combatLTB(int round, string opp, string text);
+string cs_combatNormal(int round, string opp, string text);
+string cs_combatYR(int round, string opp, string text);
 
 void cs_initializeDay(int day)
 {
@@ -37,6 +39,7 @@ void cs_initializeDay(int day)
 		if(get_property("cc_day1_init") != "finished")
 		{
 			set_property("cc_semirare", "2");
+			set_property("cc_day1_dna", "finished");
 			if(item_amount($item[transmission from planet Xi]) > 0)
 			{
 				use(1, $item[transmission from planet xi]);
@@ -99,13 +102,40 @@ void cs_initializeDay(int day)
 				cli_execute("make ice island long tea");
 			}
 
+			visit_url("da.php");
+			if(get_property("barrelShrineUnlocked").to_boolean())
+			{
+				visit_url("da.php?barrelshrine=1");
+				visit_url("choice.php?whichchoice=1100&pwd&option=2", true);
+			}
+
+			visit_url("shop.php?whichshop=meatsmith");
+			visit_url("shop.php?whichshop=meatsmith&action=talk");
+			run_choice(1);
+
+			use_familiar($familiar[Crimbo Shrub]);
+			if((my_familiar() == $familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
+			{
+				visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
+				visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=2&lights=1&garland=3&gift=1");
+			}
+			use_familiar($familiar[none]);
+
+
 			if(get_property("cc_breakstone").to_boolean())
 			{
 				visit_url("campground.php?action=stone&smashstone=Yep.&pwd&confirm=on", true);
 				set_property("cc_breakstone", false);
 			}
 			set_property("cc_day1_init", "finished");
-			visit_url("council.php");
+			try
+			{
+				visit_url("council.php");
+			}
+			finally
+			{
+				print("Visited Council for first time, if you manually visited the council before running, this might have aborted, just run again.", "red");
+			}
 		}
 	}
 	else if(day == 2)
@@ -323,16 +353,150 @@ void cs_dnaPotions()
 	}
 }
 
+string cs_combatNormal(int round, string opp, string text)
+{
+	if(round == 0)
+	{
+		print("cc_combatHandler: " + round, "brown");
+		set_property("cc_combatHandler", "");
+	}
+
+	set_property("cc_diag_round", round);
+	if(get_property("cc_diag_round").to_int() > 60)
+	{
+		abort("Somehow got to 60 rounds.... aborting");
+	}
+
+	monster enemy = to_monster(opp);
+	string combatState = get_property("cc_combatHandler");
+
+	phylum current = to_phylum(get_property("dnaSyringe"));
+	phylum type = monster_phylum(enemy);
+
+	if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
+	{
+		set_property("cc_combatHandler", combatState + "(love gnats)");
+		return "skill summon love gnats";
+	}
+
+
+	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= 40))
+	{
+		if((enemy == $monster[Novelty Tropical Skeleton]) ||
+			(enemy == $monster[Possessed Can of Tomatoes]) ||
+			(enemy == $monster[Government Scientist]))
+		{
+			set_property("cc_combatHandler", combatState + "(olfaction)");
+			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
+			return "skill transcendent olfaction";
+		}
+	}
+
+	if((!contains_text(combatState, "cleesh")) && (my_mp() > 10) && ((enemy == $monster[creepy little girl]) || (enemy == $monster[lab monkey]) || (enemy == $monster[super-sized cola wars soldier])))
+	{
+			set_property("cc_combatHandler", combatState + "(cleesh)");
+			return "skill cleesh";
+	}
+
+	if((!contains_text(combatState, "DNA")) && (item_amount($item[DNA Extraction Syringe]) > 0))
+	{
+		if(type != current)
+		{
+			set_property("cc_combatHandler", combatState + "(DNA)");
+			return "item DNA extraction syringe";
+		}
+	}
+
+	if((!contains_text(combatState, "love stinkbug")) && get_property("lovebugsUnlocked").to_boolean())
+	{
+		set_property("cc_combatHandler", combatState + "(love stinkbug)");
+		return "skill summon love stinkbug";
+	}
+	if((!contains_text(combatState, "love mosquito")) && get_property("lovebugsUnlocked").to_boolean())
+	{
+		set_property("cc_combatHandler", combatState + "(love mosquito)");
+		return "skill summon love mosquito";
+	}
+
+	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 32))
+	{
+		set_property("cc_combatHandler", combatState + "(weaksauce)");
+		return "skill curse of weaksauce";
+	}
+
+	if(have_skill($skill[saucegeyser]) && (my_mp() >= 24))
+	{
+		return "skill saucegeyser";
+	}
+
+	return "skill salsaball";
+
+
+}
+
+string cs_combatYR(int round, string opp, string text)
+{
+	if(round == 0)
+	{
+		print("cc_combatHandler: " + round, "brown");
+		set_property("cc_combatHandler", "");
+	}
+
+	set_property("cc_diag_round", round);
+	if(get_property("cc_diag_round").to_int() > 60)
+	{
+		abort("Somehow got to 60 rounds.... aborting");
+	}
+
+	monster enemy = to_monster(opp);
+	string combatState = get_property("cc_combatHandler");
+
+	phylum current = to_phylum(get_property("dnaSyringe"));
+	phylum type = monster_phylum(enemy);
+
+	if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
+	{
+		set_property("cc_combatHandler", combatState + "(love gnats)");
+		return "skill summon love gnats";
+	}
+	if((!contains_text(combatState, "DNA")) && (item_amount($item[DNA Extraction Syringe]) > 0))
+	{
+		if(type != current)
+		{
+			set_property("cc_combatHandler", combatState + "(DNA)");
+			return "item DNA extraction syringe";
+		}
+	}
+	boolean [monster] lookFor = $monsters[Dairy Goat, factory overseer (female), factory worker (female), mine overseer (male), mine overseer (female), mine worker (male), mine worker (female)];
+	if((have_effect($effect[Everything Looks Yellow]) == 0) && (lookFor contains enemy))
+	{
+		if((!contains_text(combatState, "yellowray")) && (my_familiar() == $familiar[Crimbo Shrub]))
+		{
+			set_property("cc_combatHandler", combatState + "(yellowray)");
+			handleTracker(enemy, $skill[Open a Big Yellow Present], "cc_yellowRays");
+			return "skill Open a Big Yellow Present";
+		}
+	}
+
+	if((!contains_text(combatState, "love stinkbug")) && get_property("lovebugsUnlocked").to_boolean())
+	{
+		set_property("cc_combatHandler", combatState + "(love stinkbug)");
+		return "skill summon love stinkbug";
+	}
+	if((!contains_text(combatState, "love mosquito")) && get_property("lovebugsUnlocked").to_boolean())
+	{
+		set_property("cc_combatHandler", combatState + "(love mosquito)");
+		return "skill summon love mosquito";
+	}
+	return "skill salsaball";
+}
+
 string cs_combatLTB(int round, string opp, string text)
 {
 	if(round == 0)
 	{
 		print("cc_combatHandler: " + round, "brown");
 		set_property("cc_combatHandler", "");
-		set_property("cc_funCombatHandler", "");
-		set_property("cc_funPrefix", "");
-		set_property("cc_combatHandlerThunderBird", "0");
-		set_property("cc_combatHandlerFingernailClippers", "0");
 	}
 
 	set_property("cc_diag_round", round);
@@ -488,8 +652,15 @@ boolean do_cs_quest(int quest)
 	if(((questList contains quest) && (my_adventures() > questList[quest])) || (quest == 30))
 	{
 		visit_url("council.php");
-		run_choice(quest);
-		print("Quest " + quest + " completed for " + questList[quest] + " adventures.", "blue");
+		string temp = run_choice(quest);
+		if(quest != 30)
+		{
+			print("Quest " + quest + " completed for " + questList[quest] + " adventures.", "blue");
+		}
+		else
+		{
+			print("Community Service Completed. Beep boop.", "blue");
+		}
 		return true;
 	}
 	else

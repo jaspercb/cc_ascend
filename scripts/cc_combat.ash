@@ -2095,11 +2095,6 @@ string cc_edCombatHandler(int round, string opp, string text)
 		{
 			if(item_amount($item[Rock Band Flyers]) == 0)
 			{
-				if((!contains_text(combatState, "love stinkbug")) && have_skill($skill[Summon Love Stinkbug]))
-				{
-					set_property("cc_combatHandler", combatState + "(love stinkbug1)");
-					return "skill summon love stinkbug";
-				}
 				if((!contains_text(combatState, "love stinkbug")) && get_property("lovebugsUnlocked").to_boolean())
 				{
 					set_property("cc_combatHandler", combatState + "(love stinkbug2)");

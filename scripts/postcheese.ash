@@ -210,6 +210,23 @@ void handlePostAdventure()
 			libram = $skill[Summon Taffy];
 		}
 
+		int missing = (my_maxmp() - my_mp()) / 15;
+		int casts = (my_soulsauce() - 25) / 5;
+		if(casts < 0)
+		{
+			casts = 0;
+		}
+		int regen = casts;
+		if(casts > missing)
+		{
+			regen = missing;
+		}
+		if(regen > 0)
+		{
+			use_skill(regen, $skill[Soul Food]);
+		}
+
+
 		boolean [skill] toCast = $skills[Pastamastery, Advanced Saucecrafting, Advanced Cocktailcrafting, Summon Confiscated Things, Summon Holiday Fun!, Summon Kokomo Resort Pass, Summon Carrot, Request Sandwich, Summon Hilarious Objects, Summon Tasteful Items, Summon Alice\'s Army Cards, Summon Crimbo Candy, Summon Geeky Gifts, Lunch Break, Grab a Cold One, Spaghetti Breakfast];
 
 		foreach sk in toCast
@@ -221,6 +238,10 @@ void handlePostAdventure()
 		}
 
 		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 15) && (mp_cost(libram) < 75))
+		{
+			use_skill(1, libram);
+		}
+		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 175))
 		{
 			use_skill(1, libram);
 		}
