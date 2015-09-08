@@ -8391,6 +8391,19 @@ boolean LA_communityService()
 
 			if(((item_amount($item[Gene Tonic: Elemental]) == 0) || !get_property("_dnaHybrid").to_boolean()) && (item_amount($item[DNA Extraction Syringe]) > 0))
 			{
+				buffMaintain($effect[Reptilian Fortitude], 8, 1, 1);
+				buffMaintain($effect[Power Ballad of the Arrowsmith], 5, 1, 1);
+
+				buffMaintain($effect[Astral Shell], 10, 1, 1);
+				buffMaintain($effect[Ghostly Shell], 6, 1, 1);
+				buffMaintain($effect[Blubbered Up], 7, 1, 1);
+				buffMaintain($effect[Springy Fusilli], 10, 1, 1);
+				buffMaintain($effect[The Moxious Madrigal], 2, 1, 1);
+				buffMaintain($effect[Cletus\'s Canticle of Celerity], 4, 1, 1);
+				buffMaintain($effect[Walberg\'s Dim Bulb], 5, 1, 1);
+
+				useCocoon();
+
 				ccAdv(1, $location[The Bubblin\' Caldera], "cs_combatNormal");
 				if(to_phylum(get_property("dnaSyringe")) == $phylum[elemental])
 				{
