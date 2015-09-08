@@ -8333,6 +8333,7 @@ boolean LA_communityService()
 				visit_url("guild.php?place=paco");
 				visit_url("guild.php?place=paco");
 				run_choice(1);
+				woods_questStart();
 				if(!florist_available())
 				{
 					abort("Mafia not detecting that you have Florist Access. Log out and back in.");
