@@ -8362,7 +8362,7 @@ boolean LA_communityService()
 				return true;
 			}
 
-			if((item_amount($item[Cherry]) < 2) && (item_amount($item[Grapefruit]) < 1) && (item_amount($item[Lemon]) < 1))
+			if((item_amount($item[Cherry]) < 2) || (item_amount($item[Grapefruit]) < 1) || (item_amount($item[Lemon]) < 1))
 			{
 				if((have_effect($effect[On The Trail]) > 0) && (get_property("olfactedMonster") == to_string($monster[possessed can of tomatoes])))
 				{
@@ -8877,6 +8877,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 11, 1, 1);
 			buffMaintain($effect[Spice Haze], 250, 1, 1);
 
+			buffMaintain($effect[Human-Pirate Hybrid], 0, 1, 1);
 			buffMaintain($effect[One Very Clear Eye], 0, 1, 1);
 			buffMaintain($effect[Sour Softshoe], 0, 1, 1);
 
