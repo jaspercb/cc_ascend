@@ -8506,7 +8506,6 @@ boolean LA_communityService()
 			buffMaintain($effect[Rage of the Reindeer], 10, 1, 1);
 			buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
 
-
 			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
 			buffMaintain($effect[Phorcefullness], 0, 1, 1);
@@ -8786,7 +8785,7 @@ boolean LA_communityService()
 			{
 				doRest();
 			}
-			if(possessEquipment($item[Staff of the Headmaster\'s Victuals]))
+			if(possessEquipment($item[Staff of the Headmaster\'s Victuals]) && can_equip($item[Staff of the Headmaster\'s Victuals]))
 			{
 				equip($slot[weapon], $item[Staff of the Headmaster\'s Victuals]);
 			}
