@@ -664,7 +664,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = $items[blue LavaCo Lamp&trade;, green LavaCo Lamp&trade;, red LavaCo Lamp&trade;, Silver Cow Creamer];
+	poss = $items[Astral Statuette, blue LavaCo Lamp&trade;, green LavaCo Lamp&trade;, red LavaCo Lamp&trade;, Silver Cow Creamer];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))

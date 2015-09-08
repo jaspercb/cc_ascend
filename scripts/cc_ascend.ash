@@ -8914,7 +8914,7 @@ boolean LA_communityService()
 				doRest();
 			}
 
-			boolean [item] toSmash = $items[plastic nunchaku, Staff of the Headmaster\'s Victuals, heavy-duty clipboard];
+			boolean [item] toSmash = $items[plastic nunchaku, Staff of the Headmaster\'s Victuals, heavy-duty clipboard, dirty hobo gloves];
 			foreach it in toSmash
 			{
 				pulverizeThing(it);
