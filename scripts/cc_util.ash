@@ -1256,6 +1256,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Celestial Camouflage]:			useItem = $item[Celestial Squid Ink];			break;
 	case $effect[Celestial Sheen]:				useItem = $item[Celestial Olive Oil];			break;
 	case $effect[Cinnamon Challenger]:			useItem = $item[Pulled Red Taffy];				break;
+	case $effect[Cletus\'s Canticle of Celerity]:	useSkill = $skill[Cletus\'s Canticle of Celerity];break;
 	case $effect[Clyde\'s Blessing]:			useItem = $item[The Legendary Beat];			break;
 	case $effect[Chalky Hand]:					useItem = $item[Handful of Hand Chalk];			break;
 	case $effect[Cranberry Cordiality]:			useItem = $item[Cranberry Cordial];				break;
