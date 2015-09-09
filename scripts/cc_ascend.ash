@@ -8352,12 +8352,14 @@ boolean LA_communityService()
 
 			if(my_ascensions() > get_property("lastGuildStoreOpen").to_int())
 			{
+				buffMaintain($effect[Musk of the Moose], 10, 1, 1);
 				ccAdv(1, $location[The Haunted Pantry], "cs_combatNormal");
 				return true;
 			}
 
 			if(item_amount($item[Tomato]) < 2)
 			{
+				buffMaintain($effect[Musk of the Moose], 10, 1, 1);
 				ccAdv(1, $location[The Haunted Pantry], "cs_combatNormal");
 				return true;
 			}
@@ -8942,7 +8944,7 @@ boolean LA_communityService()
 				doRest();
 			}
 
-			boolean [item] toSmash = $items[plastic nunchaku, Staff of the Headmaster\'s Victuals, heavy-duty clipboard, dirty hobo gloves];
+			boolean [item] toSmash = $items[asparagus knife, plastic nunchaku, Staff of the Headmaster\'s Victuals, heavy-duty clipboard, dirty hobo gloves];
 			foreach it in toSmash
 			{
 				pulverizeThing(it);
