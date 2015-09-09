@@ -1233,7 +1233,7 @@ void initializeDay(int day)
 			hr_dnaPotions();
 			set_property("cc_day1_desk", "finished");
 		}
-		if(get_property("lastCouncilVisit").to_int() < my_level())
+		if((get_property("lastCouncilVisit").to_int() < my_level()) && (my_path() != "Community Service"))
 		{
 			cli_execute("counters");
 			council();
@@ -8462,7 +8462,15 @@ boolean LA_communityService()
 			buffMaintain($effect[Ode to Booze], 50, 1, 10);
 			buffMaintain($effect[Simmering], 0, 1, 1);
 			overdrink(1, $item[Emergency Margarita]);
-			chew(1, $item[Handful of Smithereens]);
+			if(my_spleen_use() == 12)
+			{
+				chew(1, $item[Handful of Smithereens]);
+			}
+			while((my_spleen_use() < spleen_limit()) && (item_amount($item[Nasty Snuff]) > 0))
+			{
+				chew(1, $item[Nasty Snuff]);
+			}
+
 			return true;
 		}
 	}
