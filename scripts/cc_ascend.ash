@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16166;
+since r16302;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -8266,7 +8266,7 @@ boolean LA_communityService()
 			if(my_inebriety() == 0)
 			{
 				doRest();
-				use_skill(1, $skill[The Ode to Booze]);
+				buffMaintain($effect[Ode to Booze], 50, 1, 1);
 				cli_execute("drink lucky lindy");
 				if(item_amount($item[Ice Island Long Tea]) > 0)
 				{
@@ -8275,7 +8275,7 @@ boolean LA_communityService()
 				solveCookie();
 			}
 
-			if(!get_property("_chateauMonsterFought").to_boolean() && (item_amount($item[DNA Extraction Syringe]) > 0))
+			if(!get_property("_chateauMonsterFought").to_boolean() && chateaumantegna_available() && (item_amount($item[DNA Extraction Syringe]) > 0))
 			{
 				buffMaintain($effect[Reptilian Fortitude], 8, 1, 1);
 				buffMaintain($effect[Power Ballad of the Arrowsmith], 5, 1, 1);
@@ -8300,7 +8300,14 @@ boolean LA_communityService()
 				handleFamiliar($familiar[Crimbo Shrub]);
 				if(chateaumantegna_usePainting())
 				{
-					ccAdv(1, $location[Noob Cave], "cs_combatYR");
+					if(my_familiar() == $familiar[Crimbo Shrub])
+					{
+						ccAdv(1, $location[Noob Cave], "cs_combatYR");
+					}
+					else
+					{
+						ccAdv(1, $location[Noob Cave], "cs_combatNormal");
+					}
 				}
 				if(to_phylum(get_property("dnaSyringe")) == $phylum[beast])
 				{
@@ -8343,6 +8350,7 @@ boolean LA_communityService()
 				{
 					abort("Mafia not detecting that you have Florist Access. Log out and back in.");
 				}
+				//Handle Barrels here.
 				return true;
 			}
 
@@ -8362,14 +8370,14 @@ boolean LA_communityService()
 				return true;
 			}
 
-			if(item_amount($item[Tomato]) < 2)
+			if((item_amount($item[Tomato]) < 2) && have_skill($skill[Advanced Saucecrafting]))
 			{
 				buffMaintain($effect[Musk of the Moose], 10, 1, 1);
 				ccAdv(1, $location[The Haunted Pantry], "cs_combatNormal");
 				return true;
 			}
 
-			if((item_amount($item[Cherry]) < 2) || (item_amount($item[Grapefruit]) < 1) || (item_amount($item[Lemon]) < 1))
+			if(have_skill($skill[Advanced Saucecrafting]) && ((item_amount($item[Cherry]) < 2) || (item_amount($item[Grapefruit]) < 1) || (item_amount($item[Lemon]) < 1)))
 			{
 				if((have_effect($effect[On The Trail]) > 0) && (get_property("olfactedMonster") == to_string($monster[possessed can of tomatoes])))
 				{
@@ -8387,7 +8395,7 @@ boolean LA_communityService()
 				return true;
 			}
 
-			if((item_amount($item[Gene Tonic: Pirate]) == 0) && (item_amount($item[DNA Extraction Syringe]) > 0))
+			if((item_amount($item[Gene Tonic: Pirate]) == 0) && (item_amount($item[DNA Extraction Syringe]) > 0) && elementalPlanes_access($element[stench]))
 			{
 				ccAdv(1, $location[Pirates of the Garbage Barges], "cs_combatNormal");
 				if(to_phylum(get_property("dnaSyringe")) == $phylum[pirate])
@@ -8397,7 +8405,7 @@ boolean LA_communityService()
 				return true;
 			}
 
-			if(((item_amount($item[Gene Tonic: Elemental]) == 0) || !get_property("_dnaHybrid").to_boolean()) && (item_amount($item[DNA Extraction Syringe]) > 0))
+			if(((item_amount($item[Gene Tonic: Elemental]) == 0) || !get_property("_dnaHybrid").to_boolean()) && (item_amount($item[DNA Extraction Syringe]) > 0) && elementalPlanes_access($element[hot]))
 			{
 				buffMaintain($effect[Reptilian Fortitude], 8, 1, 1);
 				buffMaintain($effect[Power Ballad of the Arrowsmith], 5, 1, 1);
@@ -8424,46 +8432,95 @@ boolean LA_communityService()
 				return true;
 			}
 
-			if((curQuest == 9) && (item_amount($item[Experimental Serum G-9]) < 2))
+			if((curQuest == 9) && (item_amount($item[Experimental Serum G-9]) < 2) && elementalPlanes_access($element[spooky]))
 			{
 				if(item_amount($item[Personal Ventilation Unit]) > 0)
 				{
 					equip($slot[acc1], $item[Personal Ventilation Unit]);
 				}
-				ccAdv(1, $location[The Secret Government Laboratory], "cs_combatNormal");
-				return true;
+				if(have_skill($skill[CLEESH]) || ($location[The Secret Government Laboratory].turns_spent <= 10))
+				{
+					ccAdv(1, $location[The Secret Government Laboratory], "cs_combatNormal");
+					return true;
+				}
 			}
 
 		}
 		else if(curQuest == 7)
 		{
-			if((have_effect($effect[Everything Looks Yellow]) == 0) && have_familiar($familiar[Crimbo Shrub]))
+			if((have_effect($effect[Everything Looks Yellow]) == 0) && have_familiar($familiar[Crimbo Shrub]) && elementalPlanes_access($element[hot]))
 			{
 				handleFamiliar($familiar[Crimbo Shrub]);
 				ccAdv(1, $location[LavaCo&trade; Lamp Factory], "cs_combatYR");
 				return true;
 			}
 
-			if(item_amount($item[Black Pixel]) < 2)
+			if((item_amount($item[Black Pixel]) < 2) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
 				equip($slot[acc1], $item[Continuum Transfunctioner]);
 				ccAdv(1, $location[8-bit Realm], "cs_combatNormal");
 				return true;
 			}
 
-			if((item_amount($item[Power Pill]) < 2) && (item_amount($item[Yellow Pixel]) < 25))
+			if((item_amount($item[Power Pill]) < 2) && (item_amount($item[Yellow Pixel]) < 25) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
 				ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
 				return true;
 			}
 
-			if(item_amount($item[Oil of Expertise]) < 4)
+			int missing = 0;
+			if(!have_skill($skill[Advanced Saucecrafting]))
 			{
-				cli_execute("make 6 oil of expertise");
+				missing = missing + 1;
 			}
-			if(item_amount($item[Tomato Juice of Powerful Power]) < 4)
+			if(!elementalPlanes_access($element[spooky]))
 			{
-				cli_execute("make 6 tomato juice of powerful power");
+				missing = missing + 1;
+			}
+			if(!elementalPlanes_access($element[hot]))
+			{
+				missing = missing + 1;
+			}
+
+			if((missing > item_amount($item[Miniature Power Pill])) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
+			{
+				if(elementalPlanes_access($element[hot]))
+				{
+					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
+				}
+				else if(elementalPlanes_access($element[stench]))
+				{
+					ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice], "cs_combatNormal");
+				}
+				else if(elementalPlanes_access($element[spooky]))
+				{
+					ccAdv(1, $location[The Deep Dark Jungle], "cs_combatNormal");
+				}
+				else if(elementalPlanes_access($element[sleaze]))
+				{
+					ccAdv(1, $location[Sloppy Seconds Diner], "cs_combatNormal");
+				}
+				else
+				{
+					ccAdv(1, $location[The Haunted Kitchen], "cs_combatNormal");
+				}
+				if(item_amount($item[Yellow Pixel]) >= 20)
+				{
+					cli_execute("make minature power pill");
+				}
+				return true;
+			}
+
+			if(have_skill($skill[Advanced Saucecrafting]))
+			{
+				if(item_amount($item[Oil of Expertise]) < 4)
+				{
+					cli_execute("make 6 oil of expertise");
+				}
+				if(item_amount($item[Tomato Juice of Powerful Power]) < 4)
+				{
+					cli_execute("make 6 tomato juice of powerful power");
+				}
 			}
 
 			buffMaintain($effect[Ode to Booze], 50, 1, 10);
@@ -8807,12 +8864,14 @@ boolean LA_communityService()
 			}
 			if(my_level() >= 8)
 			{
+				buffMaintain($effect[Ode to Booze], 50, 1, 6);
 				drink(6, $item[Astral Pilsner]);
 			}
 
 			if(my_level() < 8)
 			{
 				eatFancyDog("sleeping dog");
+				return true;
 			}
 
 			if(do_cs_quest(6))

@@ -1,6 +1,7 @@
 script "cc_community_service.ash"
 
 import <cc_ascend/cc_clan.ash>
+import <cc_util>
 
 #	Some details derived some yojimbos_law's forum post:
 #	http://forums.kingdomofloathing.com/vb/showpost.php?p=4769933&postcount=345
@@ -83,17 +84,20 @@ void cs_initializeDay(int day)
 			cli_execute("make bitch");
 			buyUpTo(1, $item[Antique Accordion]);
 
-			if(my_mp() >= mp_cost($skill[Summon Smithsness]))
+			if(have_skill($skill[Summon Smithsness]))
 			{
-				use_skill(1, $skill[Summon Smithsness]);
-			}
-			if(my_mp() >= mp_cost($skill[Summon Smithsness]))
-			{
-				use_skill(1, $skill[Summon Smithsness]);
-			}
-			if(my_mp() >= mp_cost($skill[Summon Smithsness]))
-			{
-				use_skill(1, $skill[Summon Smithsness]);
+				if(my_mp() >= mp_cost($skill[Summon Smithsness]))
+				{
+					use_skill(1, $skill[Summon Smithsness]);
+				}
+				if(my_mp() >= mp_cost($skill[Summon Smithsness]))
+				{
+					use_skill(1, $skill[Summon Smithsness]);
+				}
+				if(my_mp() >= mp_cost($skill[Summon Smithsness]))
+				{
+					use_skill(1, $skill[Summon Smithsness]);
+				}
 			}
 
 			cli_execute("garden pick");
@@ -146,46 +150,37 @@ void cs_initializeDay(int day)
 			deck_cheat("Giant Growth");
 			deck_cheat("green mana");
 
-			if(my_mp() >= mp_cost($skill[Summon Smithsness]))
+			if(have_skill($skill[Summon Smithsness]))
 			{
-				use_skill(1, $skill[Summon Smithsness]);
-			}
-			if(my_mp() >= mp_cost($skill[Summon Smithsness]))
-			{
-				use_skill(1, $skill[Summon Smithsness]);
-			}
-			if(my_mp() >= mp_cost($skill[Summon Smithsness]))
-			{
-				use_skill(1, $skill[Summon Smithsness]);
+				if(my_mp() >= mp_cost($skill[Summon Smithsness]))
+				{
+					use_skill(1, $skill[Summon Smithsness]);
+				}
+				if(my_mp() >= mp_cost($skill[Summon Smithsness]))
+				{
+					use_skill(1, $skill[Summon Smithsness]);
+				}
+				if(my_mp() >= mp_cost($skill[Summon Smithsness]))
+				{
+					use_skill(1, $skill[Summon Smithsness]);
+				}
 			}
 
 			cli_execute("garden pick");
-
 
 			while(item_amount($item[saucepan]) == 0)
 			{
 				buyUpTo(1, $item[chewing gum on a string]);
 				use(1, $item[chewing gum on a string]);
 			}
-			if(item_amount($item[grapefruit]) > 0)
-			{
-				cli_execute("make ointment of the occult");
-			}
-			if(item_amount($item[squashed frog]) > 0)
-			{
-				cli_execute("make frogade");
-			}
-			if(item_amount($item[eye of newt]) > 0)
-			{
-				cli_execute("make eyedrops of newt");
-			}
-			else if(item_amount($item[salamander spleen]) > 0)
-			{
-				cli_execute("make salamander slurry");
-			}
 
 			cli_execute("postcheese");
 
+			if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
+	
 			set_property("cc_day2_init", "finished");
 		}
 	}
@@ -240,6 +235,27 @@ void cs_make_stuff()
 		{
 			cli_execute("make 3 louder than bomb");
 		}
+
+		if(item_amount($item[Scrumptious Reagent]) == 5)
+		{
+			if(item_amount($item[grapefruit]) > 0)
+			{
+				cli_execute("make ointment of the occult");
+			}
+			if(item_amount($item[squashed frog]) > 0)
+			{
+				cli_execute("make frogade");
+			}
+			if(item_amount($item[eye of newt]) > 0)
+			{
+				cli_execute("make eyedrops of newt");
+			}
+			else if(item_amount($item[salamander spleen]) > 0)
+			{
+				cli_execute("make salamander slurry");
+			}
+		}
+
 	}
 }
 
