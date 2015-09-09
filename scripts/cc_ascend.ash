@@ -8346,11 +8346,14 @@ boolean LA_communityService()
 				visit_url("guild.php?place=paco");
 				run_choice(1);
 				woods_questStart();
+				if(!get_property("barrelShrineUnlocked").to_boolean())
+				{
+					handleBarrelFullOfBarrels();
+				}
 				if(!florist_available())
 				{
 					abort("Mafia not detecting that you have Florist Access. Log out and back in.");
 				}
-				//Handle Barrels here.
 				return true;
 			}
 
@@ -8613,6 +8616,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Pill Power], 0, 1, 1);
 			buffMaintain($effect[Go Get \'Em, Tiger!], 0, 1, 1);
 			buffMaintain($effect[Nigh-Invincible], 0, 1, 1);
+			buffMaintain($effect[Pill Power], 0, 1, 1);
 			buffMaintain($effect[Frog in Your Throat], 0, 1, 1);
 
 			if((15 - get_property("_deckCardsDrawn").to_int()) >= 5)
@@ -8642,8 +8646,6 @@ boolean LA_communityService()
 			{
 				buy(1, $item[Ben-Gal&trade; Balm]);
 			}
-
-			cs_giant_growth();
 
 			if(item_amount($item[Blood-drive sticker]) > 0)
 			{
@@ -8690,8 +8692,11 @@ boolean LA_communityService()
 			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
 			buffMaintain($effect[Frog in Your Throat], 0, 1, 1);
 
+			cs_giant_growth();
+
 			if(do_cs_quest(2))
 			{
+				cli_execute("refresh inv");
 				curQuest = 0;
 			}
 		break;
@@ -8701,8 +8706,6 @@ boolean LA_communityService()
 			{
 				buy(1, $item[Glittery Mascara]);
 			}
-
-			cs_giant_growth();
 
 			if(item_amount($item[Saucepanic]) > 0)
 			{
@@ -8735,8 +8738,11 @@ boolean LA_communityService()
 
 			buffMaintain($effect[Nearly All-Natural], 0, 1, 1);
 
+			cs_giant_growth();
+
 			if(do_cs_quest(3))
 			{
+				cli_execute("refresh inv");
 				curQuest = 0;
 			}
 		break;
@@ -8747,8 +8753,6 @@ boolean LA_communityService()
 			{
 				buy(1, $item[Hair Spray]);
 			}
-
-			cs_giant_growth();
 
 			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
@@ -8790,6 +8794,8 @@ boolean LA_communityService()
 			buffMaintain($effect[Newt Gets In Your Eyes], 0, 1, 1);
 
 			buffMaintain($effect[Amazing], 0, 1, 1);
+
+			cs_giant_growth();
 
 			if(do_cs_quest(4))
 			{
@@ -8835,6 +8841,8 @@ boolean LA_communityService()
 			}
 			if((my_inebriety() == 5) || (my_inebriety() == 11))
 			{
+				uneffect($effect[Cletus\'s Canticle of Celerity]);
+				uneffect($effect[The Moxious Madrigal]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 1);
 				cli_execute("drink sockdollager");
 				cli_execute("drink cup of tea");

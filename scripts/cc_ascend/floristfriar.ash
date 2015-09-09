@@ -86,7 +86,7 @@ void oldPeoplePlantStuff()
 		}
 		else if(my_location() == $location[LavaCo&trade; Lamp Factory])
 		{
-			cli_execute("florist plant impatients");
+			cli_execute("florist plant impatiens");
 			cli_execute("florist plant red fern");
 			cli_execute("florist plant bamboo!");
 		}

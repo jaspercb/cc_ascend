@@ -3,6 +3,7 @@ import <zlib.ash>
 import <chateaumantegna.ash>
 
 // Public Prototypes
+boolean handleBarrelFullOfBarrels();
 int solveCookie();
 boolean use_barrels();
 int [item] cc_get_campground();
@@ -683,6 +684,37 @@ int towerKeyCount()
 	return tokens;
 }
 
+boolean handleBarrelFullOfBarrels()
+{
+	string page = visit_url("barrel.php");
+
+	if(!contains_text(page, "The Barrel Full of Barrels"))
+	{
+		return false;
+	}
+
+	boolean [string] locations;
+	int smashed = 0;
+	matcher mimic_matcher = create_matcher("<div class=\"ex\">((?:<div class=\"mimic\">!</div>)|)<a class=\"spot\" href=\"choice.php[?]whichchoice=1099[&]pwd=(?:.*?)[&]option=1[&]slot=(\\d\\d)\"><img title=\"(.*?)\"", page);
+	while(mimic_matcher.find())
+	{
+		string mimic = mimic_matcher.group(1);
+		string slotID = mimic_matcher.group(2);
+		string label = mimic_matcher.group(3);
+
+		if(mimic != "")
+		{
+			print("Found mimic in slot: " + slotID, "red");
+		}
+		else if(label == "A barrel")
+		{
+			smashed = smashed + 1;
+			visit_url("choice.php?whichchoice=1099&pwd&option=1&slot=" + slotID);
+		}
+	}
+	return (smashed > 0);
+}
+
 boolean use_barrels()
 {
 	if(!get_property("barrelShrineUnlocked").to_boolean())
@@ -886,10 +918,11 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 void woods_questStart() {
 	if(available_amount($item[continuum transfunctioner]) > 0)
 		return;
+	visit_url("woods.php");
 	visit_url("place.php?whichplace=forestvillage&action=fv_mystic");
-	visit_url("choice.php?pwd="+my_hash()+"&whichchoice=664&option=1&choiceform1=Sure%2C+old+man.++Tell+me+all+about+it.");
-	visit_url("choice.php?pwd="+my_hash()+"&whichchoice=664&option=1&choiceform1=Against+my+better+judgment%2C+yes.");
-	visit_url("choice.php?pwd="+my_hash()+"&whichchoice=664&option=1&choiceform1=Er,+sure,+I+guess+so...");
+	visit_url("choice.php?pwd=&whichchoice=664&option=1&choiceform1=Sure%2C+old+man.++Tell+me+all+about+it.");
+	visit_url("choice.php?pwd=&whichchoice=664&option=1&choiceform1=Against+my+better+judgment%2C+yes.");
+	visit_url("choice.php?pwd=&whichchoice=664&option=1&choiceform1=Er,+sure,+I+guess+so...");
 	if(knoll_available()) {
 		visit_url("place.php?whichplace=forestvillage&preaction=screwquest&action=fv_untinker_quest");
 	}

@@ -125,6 +125,10 @@ void cs_initializeDay(int day)
 			}
 			use_familiar($familiar[none]);
 
+			if(get_property("barrelShrineUnlocked").to_boolean())
+			{
+				handleBarrelFullOfBarrels();
+			}
 
 			if(get_property("cc_breakstone").to_boolean())
 			{
