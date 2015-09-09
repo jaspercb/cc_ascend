@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16302;
+since r16300;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -8465,7 +8465,9 @@ boolean LA_communityService()
 				return true;
 			}
 
-			if((item_amount($item[Power Pill]) < 2) && (item_amount($item[Yellow Pixel]) < 25) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
+
+
+			if((item_amount($item[Power Pill]) < 2) && (item_amount($item[Yellow Pixel]) < 30) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
 				ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
 				return true;
@@ -8484,6 +8486,7 @@ boolean LA_communityService()
 			{
 				missing = missing + 1;
 			}
+			missing = min(2, missing);
 
 			if((missing > item_amount($item[Miniature Power Pill])) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
@@ -8507,7 +8510,7 @@ boolean LA_communityService()
 				{
 					ccAdv(1, $location[The Haunted Kitchen], "cs_combatNormal");
 				}
-				if(item_amount($item[Yellow Pixel]) >= 20)
+				if(item_amount($item[Yellow Pixel]) >= 15)
 				{
 					cli_execute("make minature power pill");
 				}
