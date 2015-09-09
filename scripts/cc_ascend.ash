@@ -8192,6 +8192,11 @@ boolean LA_communityService()
 		abort("Too drunk, not sure if not aborting is safe yet");
 	}
 
+	if(get_property("cc_100familiar").to_boolean())
+	{
+		abort("100% familiar is not compatible, to disable: set cc_100familiar=false");
+	}
+
 	static int curQuest = 0;
 	if(curQuest == 0)
 	{
