@@ -8512,7 +8512,7 @@ boolean LA_communityService()
 				}
 				if(item_amount($item[Yellow Pixel]) >= 15)
 				{
-					cli_execute("make minature power pill");
+					cli_execute("make miniature power pill");
 				}
 				return true;
 			}
