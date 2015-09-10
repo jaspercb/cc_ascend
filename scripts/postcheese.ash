@@ -632,32 +632,18 @@ void handlePostAdventure()
 			use_skill($skill[Spaghetti Breakfast]);
 		}
 
-#		cli_execute("refresh status");
 		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 32))
 		{
 			print("Mymp: " + my_mp() + " of " + my_maxmp() + " and cost: " + mp_cost(libram), "blue");
-#			cli_execute("refresh status");
-			if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 32))
+			try
 			{
-
-				print("Mymp: " + my_mp() + " of " + my_maxmp() + " and cost: " + mp_cost(libram), "blue");
-	#			boolean temp = use_skill(1, libram);
-				try
-				{
-					#if(use_skill(1, libram)) {}
-					boolean temp = use_skill(1, libram);
-				}
-				finally
-				{
-					#This is only here because of the bug when changing outfits that mafia does not update any losses in MP that occurs.
-					print("Mymp: " + my_mp() + " of " + my_maxmp() + " and cost: " + mp_cost(libram), "blue");
-				}
+				#if(use_skill(1, libram)) {}
+				boolean temp = use_skill(1, libram);
 			}
-			else
+			finally
 			{
-				print("No longer have enough MP.", "red");
+				print("No longer have enough MP and failed.", "red");
 				print("Mymp: " + my_mp() + " of " + my_maxmp() + " and cost: " + mp_cost(libram), "blue");
-				wait(5);
 			}
 		}
 

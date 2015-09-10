@@ -1726,7 +1726,7 @@ void doBedtime()
 
 	if(get_property("libramSummons").to_int() > 0)
 	{
-		print("Total Libram Summoms: " + get_property("libramSummons"), "blue");
+		print("Total Libram Summons: " + get_property("libramSummons"), "blue");
 	}
 
 	int smiles = (5 * (item_amount($item[Golden Mr. Accessory]) + storage_amount($item[Golden Mr. Accessory]) + closet_amount($item[Golden Mr. Accessory]))) - get_property("_smilesOfMrA").to_int();
@@ -8328,6 +8328,11 @@ boolean LA_communityService()
 					curQuest = 0;
 					return true;
 				}
+				else
+				{
+					curQuest = 0;
+					abort("Could not handle our quest and can not recover");
+				}
 			}
 
 			buffMaintain($effect[Singer\'s Faithful Ocelot], 15, 1, 1);
@@ -8631,6 +8636,11 @@ boolean LA_communityService()
 			{
 				curQuest = 0;
 			}
+			else
+			{
+				curQuest = 0;
+				abort("Could not handle our quest and can not recover");
+			}
 		break;
 
 	case 2:
@@ -8702,6 +8712,11 @@ boolean LA_communityService()
 				cli_execute("refresh inv");
 				curQuest = 0;
 			}
+			else
+			{
+				curQuest = 0;
+				abort("Could not handle our quest and can not recover");
+			}
 		break;
 
 	case 3:
@@ -8748,6 +8763,12 @@ boolean LA_communityService()
 				cli_execute("refresh inv");
 				curQuest = 0;
 			}
+			else
+			{
+				curQuest = 0;
+				abort("Could not handle our quest and can not recover");
+			}
+
 		break;
 
 
@@ -8804,6 +8825,11 @@ boolean LA_communityService()
 			{
 				curQuest = 0;
 			}
+			else
+			{
+				curQuest = 0;
+				abort("Could not handle our quest and can not recover");
+			}
 		break;
 	case 5:
 			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
@@ -8834,6 +8860,11 @@ boolean LA_communityService()
 			if(do_cs_quest(5))
 			{
 				curQuest = 0;
+			}
+			else
+			{
+				curQuest = 0;
+				abort("Could not handle our quest and can not recover");
 			}
 		break;
 
@@ -8889,6 +8920,11 @@ boolean LA_communityService()
 			{
 				curQuest = 0;
 			}
+			else
+			{
+				curQuest = 0;
+				abort("Could not handle our quest and can not recover");
+			}
 		break;
 
 	case 7:
@@ -8913,6 +8949,11 @@ boolean LA_communityService()
 			if(do_cs_quest(7))
 			{
 				curQuest = 0;
+			}
+			else
+			{
+				curQuest = 0;
+				abort("Could not handle our quest and can not recover");
 			}
 		}
 		break;
@@ -8942,9 +8983,20 @@ boolean LA_communityService()
 				buffMaintain($effect[Throwing Some Shade], 0, 1, 1);
 			}
 
+			if((my_turncount() + get_cs_QuestCost(curQuest)) >= 483)
+			{
+				buffMaintain($effect[A Rose by Any Other Material], 0, 1, 1);
+				buffMaintain($effect[Throwing Some Shade], 0, 1, 1);
+			}
+
 			if(do_cs_quest(8))
 			{
 				curQuest = 0;
+			}
+			else
+			{
+				curQuest = 0;
+				abort("Could not handle our quest and can not recover");
 			}
 		break;
 
@@ -8980,6 +9032,11 @@ boolean LA_communityService()
 			if(do_cs_quest(9))
 			{
 				curQuest = 0;
+			}
+			else
+			{
+				curQuest = 0;
+				abort("Could not handle our quest and can not recover");
 			}
 		break;
 
@@ -9019,7 +9076,7 @@ boolean LA_communityService()
 				doRest();
 			}
 
-			boolean [item] toSmash = $items[asparagus knife, plastic nunchaku, Staff of the Headmaster\'s Victuals, heavy-duty clipboard, dirty hobo gloves];
+			boolean [item] toSmash = $items[asparagus knife, plastic nunchaku, Staff of the Headmaster\'s Victuals, heavy-duty clipboard, dirty hobo gloves, dirty rigging rope];
 			foreach it in toSmash
 			{
 				pulverizeThing(it);
@@ -9054,6 +9111,16 @@ boolean LA_communityService()
 				equip($slot[acc1], $item[none]);
 				equip($slot[acc3], $item[none]);
 			}
+			else
+			{
+				curQuest = 0;
+				equip($slot[hat], $item[none]);
+				equip($slot[pants], $item[none]);
+				equip($slot[off-hand], $item[none]);
+				equip($slot[acc1], $item[none]);
+				equip($slot[acc3], $item[none]);
+				abort("Could not handle our quest and can not recover");
+			}
 		break;
 	case 11:
 			abort("Beep");
@@ -9062,6 +9129,11 @@ boolean LA_communityService()
 			{
 				use(1, $item[a ten-percent bonus]);
 				curQuest = 0;
+			}
+			else
+			{
+				curQuest = 0;
+				abort("Could not handle our quest and can not recover");
 			}
 		break;
 
