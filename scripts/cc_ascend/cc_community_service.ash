@@ -81,7 +81,10 @@ void cs_initializeDay(int day)
 			deck_cheat("green mana");
 			autosell(1, $item[1952 Mickey Mantle Card]);
 
-			cli_execute("make bitch");
+			if(item_amount($item[Bitchin\' Meatcar]) == 0)
+			{
+				cli_execute("make bitch");
+			}
 			buyUpTo(1, $item[Antique Accordion]);
 
 			if(have_skill($skill[Summon Smithsness]))
@@ -113,6 +116,7 @@ void cs_initializeDay(int day)
 				visit_url("choice.php?whichchoice=1100&pwd&option=2", true);
 			}
 
+			set_property("choiceAdventure1059", 1);
 			visit_url("shop.php?whichshop=meatsmith");
 			visit_url("shop.php?whichshop=meatsmith&action=talk");
 			run_choice(1);
