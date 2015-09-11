@@ -184,7 +184,7 @@ void cs_initializeDay(int day)
 			{
 				doRest();
 			}
-	
+
 			set_property("cc_day2_init", "finished");
 		}
 	}
@@ -687,8 +687,8 @@ boolean do_cs_quest(int quest)
 	int [int] questList = get_cs_questList();
 	if(((questList contains quest) && (my_adventures() > questList[quest])) || (quest == 30))
 	{
-		visit_url("council.php");
-		string temp = run_choice(quest);
+		string temp = visit_url("council.php");
+		temp = run_choice(quest);
 		if(quest != 30)
 		{
 			print("Quest " + quest + " completed for " + questList[quest] + " adventures.", "blue");

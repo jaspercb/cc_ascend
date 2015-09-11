@@ -635,15 +635,19 @@ void handlePostAdventure()
 		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 32))
 		{
 			print("Mymp: " + my_mp() + " of " + my_maxmp() + " and cost: " + mp_cost(libram), "blue");
+			boolean temp = false;
 			try
 			{
 				#if(use_skill(1, libram)) {}
-				boolean temp = use_skill(1, libram);
+				temp = use_skill(1, libram);
 			}
 			finally
 			{
-				print("No longer have enough MP and failed.", "red");
-				print("Mymp: " + my_mp() + " of " + my_maxmp() + " and cost: " + mp_cost(libram), "blue");
+				if(!temp)
+				{
+					print("No longer have enough MP and failed.", "red");
+					print("Mymp: " + my_mp() + " of " + my_maxmp() + " and cost: " + mp_cost(libram), "blue");
+				}
 			}
 		}
 

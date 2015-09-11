@@ -8599,6 +8599,13 @@ boolean LA_communityService()
 				buy(1, $item[Ben-Gal&trade; Balm]);
 			}
 
+			while(((total_free_rests() - get_property("timesRested").to_int()) > 5) && chateaumantegna_available())
+			{
+				cli_execute("postcheese");
+				doRest();
+			}
+
+
 			while((my_mp() < 125) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
 				doRest();
