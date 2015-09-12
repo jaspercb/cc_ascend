@@ -8472,7 +8472,7 @@ boolean LA_communityService()
 
 
 
-			if((item_amount($item[Power Pill]) < 2) && (item_amount($item[Yellow Pixel]) < 30) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
+			if(((item_amount($item[Power Pill]) < 2) || (item_amount($item[Yellow Pixel]) < 30)) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
 				ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
 				return true;
@@ -8599,7 +8599,7 @@ boolean LA_communityService()
 				buy(1, $item[Ben-Gal&trade; Balm]);
 			}
 
-			while(((total_free_rests() - get_property("timesRested").to_int()) > 5) && chateaumantegna_available())
+			while(((total_free_rests() - get_property("timesRested").to_int()) > 4) && chateaumantegna_available())
 			{
 				cli_execute("postcheese");
 				doRest();

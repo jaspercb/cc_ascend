@@ -264,6 +264,15 @@ void cs_make_stuff()
 			}
 		}
 
+		if((item_amount($item[Yellow Pixel]) >= 15) && (item_amount($item[Black Pixel]) >= 2))
+		{
+			cli_execute("make pixel star");
+		}
+		if(item_amount($item[Yellow Pixel]) >= 15)
+		{
+			cli_execute("make miniature power pill");
+		}
+
 	}
 }
 
