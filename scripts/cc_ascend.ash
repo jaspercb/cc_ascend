@@ -9364,6 +9364,11 @@ my_maxmp()))
 		}
 	}
 
+	if((have_effect($effect[beaten up]) > 0) && (my_path() == "Community Service"))
+	{
+		cli_execute("hottub");
+	}
+
 	if(have_effect($effect[beaten up]) > 0)
 	{
 		abort("Got beaten up, please fix me");
