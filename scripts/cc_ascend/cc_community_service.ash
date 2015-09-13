@@ -293,12 +293,12 @@ boolean cs_eat_stuff()
 			eat(1, $item[Weird Gazelle Steak]);
 			eatFancyDog("sleeping dog");
 
-			if((item_amount($item[Snow Berries]) > 1) && (my_fullness() < (my_fullness_limit() - 1)))
+			if((item_amount($item[Snow Berries]) > 1) && (my_fullness() < (fullness_limit() - 1)))
 			{
 				cli_execute("make 1 snow crab");
 				eat(1, $item[Snow Crab]);
 			}
-			if((item_amount($item[Handful of Smithereens]) > 0) && (my_fullness() < (my_fullness_limit() - 2)))
+			if((item_amount($item[Handful of Smithereens]) > 0) && (my_fullness() < (fullness_limit() - 2)))
 			{
 				cli_execute("make 1 this charming flan");
 				eat(1, $item[This Charming Flan]);
