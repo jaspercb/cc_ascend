@@ -264,7 +264,7 @@ void cs_make_stuff()
 			}
 		}
 
-		if((item_amount($item[Yellow Pixel]) >= 15) && (item_amount($item[Black Pixel]) >= 2))
+		if((item_amount($item[Yellow Pixel]) >= 15) && (item_amount($item[Black Pixel]) >= 2) && (item_amount($item[Pixel Star]) == 0))
 		{
 			cli_execute("make pixel star");
 		}
