@@ -8385,6 +8385,25 @@ boolean LA_communityService()
 				return true;
 			}
 
+			if((my_adventures() <= 2) && (my_fullness() == 0))
+			{
+				if(item_amount($item[Milk of Magnesium]) > 0)
+				{
+					use(1, $item[Milk of Magnesium]);
+				}
+				if(item_amount($item[Handful of Smithereens]) > 0)
+				{
+					cli_execute("make 1 this charming flan");
+					eat(1, $item[This Charming Flan]);
+				}
+				if(item_amount($item[Snow Berries]) > 1)
+				{
+					cli_execute("make 1 snow crab");
+					eat(1, $item[Snow Crab]);
+				}
+				eatFancyDog("sleeping dog");
+			}
+
 			if(have_skill($skill[Advanced Saucecrafting]) && ((item_amount($item[Cherry]) < 2) || (item_amount($item[Grapefruit]) < 1) || (item_amount($item[Lemon]) < 1)))
 			{
 				if((have_effect($effect[On The Trail]) > 0) && (get_property("olfactedMonster") == to_string($monster[possessed can of tomatoes])))
@@ -8987,12 +9006,6 @@ boolean LA_communityService()
 			}
 			if(my_adventures() < currentCost)
 			{
-				buffMaintain($effect[Throwing Some Shade], 0, 1, 1);
-			}
-
-			if((my_turncount() + get_cs_QuestCost(curQuest)) >= 483)
-			{
-				buffMaintain($effect[A Rose by Any Other Material], 0, 1, 1);
 				buffMaintain($effect[Throwing Some Shade], 0, 1, 1);
 			}
 

@@ -868,6 +868,10 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 	{
 		return false;
 	}
+	if(!is_unrestricted(it) && !get_property("kingLiberated").to_boolean())
+	{
+		return false;
+	}
 	if(item_amount(it) == whenHave)
 	{
 		int lastStorage = storage_amount(it);
