@@ -8653,6 +8653,14 @@ boolean LA_communityService()
 			buffMaintain($effect[Pill Power], 0, 1, 1);
 			buffMaintain($effect[Frog in Your Throat], 0, 1, 1);
 
+			if(get_property("telescopeUpgrades").to_int() > 0)
+			{
+				if(get_property("telescopeLookedHigh") == "false")
+				{
+					cli_execute("telescope high");
+				}
+			}
+
 			if((15 - get_property("_deckCardsDrawn").to_int()) >= 5)
 			{
 				deck_cheat("muscle buff");
