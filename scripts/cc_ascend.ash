@@ -1865,6 +1865,29 @@ boolean questOverride()
 #			set_property("cc_haveoven", true);
 #		}
 #	}
+
+	if((get_property("lastTempleUnlock").to_int() == my_ascensions()) && (get_property("cc_treecoin") != "finished"))
+	{
+		print("Found Unlocked Hidden Temple but unaware of tree-holed coin (2)");
+		set_property("cc_treecoin", "finished");
+	}
+	if((get_property("lastTempleUnlock").to_int() == my_ascensions()) && (get_property("cc_spookymap") != "finished"))
+	{
+		print("Found Unlocked Hidden Temple but unaware of spooky map (2)");
+		set_property("cc_spookymap", "finished");
+	}
+	if((get_property("lastTempleUnlock").to_int() == my_ascensions()) && (get_property("cc_spookyfertilizer") != "finished"))
+	{
+		print("Found Unlocked Hidden Temple but unaware of spooky fertilizer (2)");
+		set_property("cc_spookyfertilizer", "finished");
+	}
+	if((get_property("lastTempleUnlock").to_int() == my_ascensions()) && (get_property("cc_spookysapling") != "finished"))
+	{
+		print("Found Unlocked Hidden Temple but unaware of spooky sapling (2)");
+		set_property("cc_spookysapling", "finished");
+	}
+
+
 	if((get_property("questL02Larva") == "finished") && (get_property("cc_mosquito") != "finished"))
 	{
 		print("Found completed Mosquito Larva (2)");
@@ -6013,6 +6036,7 @@ boolean L2_treeCoin()
 	{
 		return false;
 	}
+
 	print("Time for a tree-holed coin", "blue");
 	set_property("choiceAdventure502", "2");
 	set_property("choiceAdventure505", "2");
@@ -6044,10 +6068,10 @@ boolean L2_spookyMap()
 
 boolean L2_spookyFertilizer()
 {
-    if(item_amount($item[Spooky-Gro Fertilizer]) > 0)
-    {
-        set_property("cc_spookyfertilizer", "finished");
-    }
+	if(item_amount($item[Spooky-Gro Fertilizer]) > 0)
+	{
+		set_property("cc_spookyfertilizer", "finished");
+	}
 	if(get_property("cc_spookyfertilizer") == "finished")
 	{
 		return false;
