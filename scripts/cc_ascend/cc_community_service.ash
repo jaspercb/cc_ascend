@@ -20,6 +20,7 @@ void cs_initializeDay(int day);
 void cs_make_stuff();
 boolean cs_eat_stuff();
 boolean cs_giant_growth();
+boolean cs_eat_spleen();
 
 
 # Internal
@@ -276,6 +277,38 @@ void cs_make_stuff()
 	}
 }
 
+
+boolean cs_eat_spleen()
+{
+	if(my_path() != "Community Service")
+	{
+		return false;
+	}
+	if(my_daycount() > 1)
+	{
+		return false;
+	}
+
+	int oldSpleenUse = my_spleen_use();
+	while((my_spleen_use() < 12) && ((item_amount($item[Unconscious Collective Dream Jar]) + item_amount($item[Grim Fairy Tale]) + item_amount($item[Powdered Gold])) > 0))
+	{
+		if(item_amount($item[Unconscious Collective Dream Jar]) > 0)
+		{
+			chew(1, $item[Unconscious Collective Dream Jar]);
+		}
+		if(item_amount($item[Grim Fairy Tale]) > 0)
+		{
+			chew(1, $item[Grim Fairy Tale]);
+		}
+		if(item_amount($item[Powdered Gold]) > 0)
+		{
+			chew(1, $item[Powdered Gold]);
+		}
+	}
+	return oldSpleenUse != my_spleen_use();
+}
+
+
 boolean cs_eat_stuff()
 {
 	if(my_path() != "Community Service")
@@ -380,14 +413,14 @@ void cs_dnaPotions()
 		{
 			cli_execute("camp dnapotion");
 		}
-		if((get_property("_dnaPotionsMade").to_int() == 1) && (my_daycount() == 2))
-		{
-			cli_execute("camp dnapotion");
-		}
 	}
 
 	if(get_property("dnaSyringe") == $phylum[dude])
 	{
+		if((get_property("_dnaPotionsMade").to_int() == 1) && (my_daycount() == 2))
+		{
+			cli_execute("camp dnapotion");
+		}
 		if((get_property("_dnaPotionsMade").to_int() == 2) && (my_daycount() == 2))
 		{
 			cli_execute("camp dnapotion");
@@ -396,6 +429,10 @@ void cs_dnaPotions()
 
 	if(get_property("dnaSyringe") == $phylum[humanoid])
 	{
+		if((get_property("_dnaPotionsMade").to_int() == 1) && (my_daycount() == 2))
+		{
+			cli_execute("camp dnapotion");
+		}
 		if((get_property("_dnaPotionsMade").to_int() == 2) && (my_daycount() == 2))
 		{
 			cli_execute("camp dnapotion");

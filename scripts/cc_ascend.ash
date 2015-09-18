@@ -194,6 +194,10 @@ void initializeSettings()
 
 	beehiveConsider();
 
+	//Leave this here so it is near the Florist initialization
+	set_property("cc_haveFlorist", false);
+
+
 	elementalPlanes_initializeSettings();
 	eudora_initializeSettings();
 	hr_initializeSettings();
@@ -3646,6 +3650,7 @@ void consumeStuff()
 	}
 	if(my_path() == "Community Service")
 	{
+		cs_eat_spleen();
 		return;
 	}
 
@@ -8215,21 +8220,7 @@ boolean LA_communityService()
 	equipBaseline();
 	print(what_cs_quest(curQuest), "blue");
 
-	while((my_spleen_use() < 12) && ((item_amount($item[Unconscious Collective Dream Jar]) + item_amount($item[Grim Fairy Tale]) + item_amount($item[Powdered Gold])) > 0))
-	{
-		if(item_amount($item[Unconscious Collective Dream Jar]) > 0)
-		{
-			chew(1, $item[Unconscious Collective Dream Jar]);
-		}
-		if(item_amount($item[Grim Fairy Tale]) > 0)
-		{
-			chew(1, $item[Grim Fairy Tale]);
-		}
-		if(item_amount($item[Powdered Gold]) > 0)
-		{
-			chew(1, $item[Powdered Gold]);
-		}
-	}
+	cs_eat_spleen();
 
 	boolean [familiar] useFam;
 	if((my_daycount() == 1) && (my_spleen_use() < 12))
@@ -8355,9 +8346,21 @@ boolean LA_communityService()
 				{
 					handleBarrelFullOfBarrels();
 				}
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("place.php?whichplace=forestvillage&action=fv_friar");
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
 				if(!florist_available())
 				{
-					abort("Mafia not detecting that you have Florist Access. Log out and back in.");
+					if(my_path() == "Community Service")
+					{
+						string page = visit_url("forestvillage.php");
+						set_property("cc_haveFlorist", contains_text(page, "fv_friar"));
+					}
+					if(!florist_available())
+					{
+						abort("Mafia not detecting that you have Florist Access. Log out and back in.");
+					}
 				}
 				return true;
 			}
@@ -8385,7 +8388,7 @@ boolean LA_communityService()
 				return true;
 			}
 
-			if((my_adventures() <= 2) && (my_fullness() == 0))
+			if((my_adventures() <= 10) && (my_fullness() == 0))
 			{
 				if(item_amount($item[Milk of Magnesium]) > 0)
 				{
@@ -9104,7 +9107,7 @@ boolean LA_communityService()
 				doRest();
 			}
 
-			boolean [item] toSmash = $items[asparagus knife, plastic nunchaku, Staff of the Headmaster\'s Victuals, heavy-duty clipboard, dirty hobo gloves, dirty rigging rope];
+			boolean [item] toSmash = $items[asparagus knife, plastic nunchaku, Staff of the Headmaster\'s Victuals, heavy-duty clipboard, dirty hobo gloves, dirty rigging rope, sewage-clogged pistol];
 			foreach it in toSmash
 			{
 				pulverizeThing(it);

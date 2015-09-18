@@ -51,7 +51,14 @@ void oldPeoplePlantStuff()
 {
 	if(!florist_available())
 	{
-		return;
+		if(my_path() != "Community Service")
+		{
+			return;
+		}
+		if(!get_property("cc_haveFlorist").to_boolean())
+		{
+			return;
+		}
 	}
 
 	if(didWePlantHere(my_location()))
@@ -61,217 +68,244 @@ void oldPeoplePlantStuff()
 
 	if(my_path() == "Community Service")
 	{
-		if(my_location() == $location[The Velvet / Gold Mine])
+		if(florist_available())
 		{
-			cli_execute("florist plant horn of plenty");
-			cli_execute("florist plant max headshroom");
-			cli_execute("florist plant foul toadstool");
+			if(my_location() == $location[The Velvet / Gold Mine])
+			{
+				cli_execute("florist plant horn of plenty");
+				cli_execute("florist plant max headshroom");
+				cli_execute("florist plant foul toadstool");
+			}
+			else if(my_location() == $location[The Secret Government Laboratory])
+			{
+				cli_execute("florist plant pitcher plant");
+				cli_execute("florist plant spider plant");
+				cli_execute("florist plant stealing magnolia");
+			}
+			else if(my_location() == $location[The Bubblin\' Caldera])
+			{
+				cli_execute("florist plant seltzer watercress");
+				cli_execute("florist plant lettuce spray");
+				cli_execute("florist plant skunk cabbage");
+			}
+			else if(my_location() == $location[The Skeleton Store])
+			{
+				cli_execute("florist plant canned spinach");
+				cli_execute("florist plant aloe guv'nor");
+			}
+			else if(my_location() == $location[LavaCo&trade; Lamp Factory])
+			{
+				cli_execute("florist plant impatiens");
+				cli_execute("florist plant red fern");
+				cli_execute("florist plant bamboo!");
+			}
+			else if(my_location() == $location[8-bit realm])
+			{
+				cli_execute("florist plant rad-ish radish");
+				cli_execute("florist plant smoke-ra");
+				cli_execute("florist plant deadly cinnamon");
+			}
 		}
-		else if(my_location() == $location[The Secret Government Laboratory])
+		else
 		{
-			cli_execute("florist plant pitcher plant");
-			cli_execute("florist plant spider plant");
-			cli_execute("florist plant stealing magnolia");
-		}
-		else if(my_location() == $location[The Bubblin\' Caldera])
-		{
-			cli_execute("florist plant seltzer watercress");
-			cli_execute("florist plant lettuce spray");
-			cli_execute("florist plant skunk cabbage");
-		}
-		else if(my_location() == $location[The Skeleton Store])
-		{
-			cli_execute("florist plant canned spinach");
-			cli_execute("florist plant aloe guv'nor");
-		}
-		else if(my_location() == $location[LavaCo&trade; Lamp Factory])
-		{
-			cli_execute("florist plant impatiens");
-			cli_execute("florist plant red fern");
-			cli_execute("florist plant bamboo!");
-		}
-		else if(my_location() == $location[8-bit realm])
-		{
-			cli_execute("florist plant rad-ish radish");
-			cli_execute("florist plant smoke-ra");
-			cli_execute("florist plant deadly cinnamon");
+			if(my_location() == $location[The Velvet / Gold Mine])
+			{
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=22");
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=30");
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=27");
+			}
+			else if(my_location() == $location[The Secret Government Laboratory])
+			{
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=15");
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=20");
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=12");
+			}
+			else if(my_location() == $location[The Bubblin\' Caldera])
+			{
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=10");
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=9");
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=6");
+			}
+			else if(my_location() == $location[The Skeleton Store])
+			{
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=19");
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=13");
+			}
+			else if(my_location() == $location[LavaCo&trade; Lamp Factory])
+			{
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=14");
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=16");
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=17");
+			}
+			else if(my_location() == $location[8-bit realm])
+			{
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=3");
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=5");
+				visit_url("choice.php?whichchoice=720&pwd=&option=4");
+				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=7");
+			}
 		}
 		return;
 	}
 
 
-	if((my_location() == $location[The Outskirts of Cobb\'s Knob]) && (get_property("cc_knobplant") == ""))
+	if((my_location() == $location[The Outskirts of Cobb\'s Knob]))
 	{
 		cli_execute("florist plant rad-ish radish");
 		cli_execute("florist plant celery stalker");
-		set_property("cc_knobplant", "plant");
 	}
-	else if((my_location() == $location[The Spooky Forest]) && (get_property("cc_spookyplant") == ""))
+	else if((my_location() == $location[The Spooky Forest]))
 	{
 		cli_execute("florist plant seltzer watercress");
 		cli_execute("florist plant lettuce spray");
 		cli_execute("florist plant deadly cinnamon");
-		set_property("cc_spookyplant", "finished");
 	}
-	else if((my_location() == $location[The Haunted Bathroom]) && (get_property("cc_bathroomplant") == ""))
+	else if((my_location() == $location[The Haunted Bathroom]))
 	{
 		cli_execute("florist plant war lily");
 		cli_execute("florist plant Impatiens");
 		cli_execute("florist plant arctic moss");
-		set_property("cc_bathroomplant", "plant");
 	}
-	else if((my_location() == $location[The Haunted Ballroom]) && (get_property("cc_ballroomplant") == ""))
+	else if((my_location() == $location[The Haunted Ballroom]))
 	{
 		cli_execute("florist plant stealing magnolia");
 		cli_execute("florist plant aloe guv'nor");
 		cli_execute("florist plant pitcher plant");
-		set_property("cc_ballroomplant", "plant");
 	}
-	else if((my_location() == $location[The Defiled Nook]) && (get_property("cc_nookplant") == ""))
+	else if((my_location() == $location[The Defiled Nook]))
 	{
 		cli_execute("florist plant horn of plenty");
-		set_property("cc_nookplant", "plant");
 	}
-	else if((my_location() == $location[The Defiled Alcove]) && (get_property("cc_alcoveplant") == ""))
+	else if((my_location() == $location[The Defiled Alcove]))
 	{
 		cli_execute("florist plant shuffle truffle");
-		set_property("cc_alcoveplant", "plant");
 	}
-	else if((my_location() == $location[The Defiled Niche]) && (get_property("cc_nicheplant") == ""))
+	else if((my_location() == $location[The Defiled Niche]))
 	{
 		cli_execute("florist plant wizard's wig");
-		set_property("cc_nicheplant", "plant");
 	}
-	else if((my_location() == $location[The Obligatory Pirate\'s Cove]) && (get_property("cc_coveplant") == ""))
+	else if((my_location() == $location[The Obligatory Pirate\'s Cove]))
 	{
 		cli_execute("florist plant rabid dogwood");
 		cli_execute("florist plant artichoker");
-		set_property("cc_coveplant", "plant");
 	}
-	else if((my_location() == $location[Barrrney\'s Barrr]) && (get_property("cc_barplant") == ""))
+	else if((my_location() == $location[Barrrney\'s Barrr]))
 	{
 		cli_execute("florist plant spider plant");
 		cli_execute("florist plant red fern");
 		cli_execute("florist plant bamboo!");
-		set_property("cc_barplant", "plant");
 	}
-	else if((my_location() == $location[The Penultimate Fantasy Airship]) && (get_property("cc_airshipplant") == ""))
+	else if((my_location() == $location[The Penultimate Fantasy Airship]))
 	{
 		cli_execute("florist plant rutabeggar");
 		cli_execute("florist plant smoke-ra");
 		cli_execute("florist plant skunk cabbage");
-		set_property("cc_airshipplant", "plant");
 	}
-	else if((my_location() == $location[The Castle in the Clouds in the Sky (Basement)]) && (get_property("cc_castlebasementplant") == ""))
+	else if((my_location() == $location[The Castle in the Clouds in the Sky (Basement)]) && (my_daycount() == 1))
 	{
-		if(my_daycount() == 1)
-		{
-			cli_execute("florist plant blustery puffball");
-			cli_execute("florist plant dis lichen");
-			cli_execute("florist plant max headshroom");
-		}
-		set_property("cc_castlebasementplant", "plant");
+		cli_execute("florist plant blustery puffball");
+		cli_execute("florist plant dis lichen");
+		cli_execute("florist plant max headshroom");
 	}
-	else if((my_location() == $location[The Castle in the Clouds in the Sky (Ground Floor)]) && (get_property("cc_castlegroundplant") == ""))
+	else if((my_location() == $location[The Castle in the Clouds in the Sky (Ground Floor)]))
 	{
 		cli_execute("florist plant canned spinach");
-		set_property("cc_castlegroundplant", "plant");
 	}
-	else if((my_location() == $location[Oil Peak]) && (get_property("cc_oilpeakplant") == ""))
+	else if((my_location() == $location[Oil Peak]))
 	{
 		cli_execute("florist plant rabid dogwood");
 		cli_execute("florist plant artichoker");
 		cli_execute("florist plant celery stalker");
-		set_property("cc_oilpeakplant", "plant");
 	}
-	else if((my_location() == $location[The Haunted Boiler Room]) && (get_property("cc_boilerroomplant") == ""))
+	else if((my_location() == $location[The Haunted Boiler Room]))
 	{
 		cli_execute("florist plant war lily");
 		cli_execute("florist plant red fern");
 		cli_execute("florist plant arctic moss");
-		set_property("cc_boilerroomplant", "plant");
 	}
-	else if((my_location() == $location[A Massive Ziggurat]) && (get_property("cc_massivezigguratplant") == ""))
+	else if((my_location() == $location[A Massive Ziggurat]))
 	{
 		cli_execute("florist plant skunk cabbage");
 		cli_execute("florist plant deadly cinnamon");
-		set_property("cc_massivezigguratplant", "plant");
 	}
-	else if((my_location() == $location[The Arid\, Extra-Dry Desert]) && (get_property("cc_desertplant") == ""))
+	else if((my_location() == $location[The Arid\, Extra-Dry Desert]))
 	{
 		cli_execute("florist plant rad-ish radish");
 		cli_execute("florist plant lettuce spray");
-		set_property("cc_desertplant", "plant");
 	}
-	else if((my_location() == $location[The Hidden Apartment Building]) && (get_property("cc_hiddenapartmentplant") == ""))
+	else if((my_location() == $location[The Hidden Apartment Building]))
 	{
 		cli_execute("florist plant impatiens");
 		cli_execute("florist plant spider plant");
 		cli_execute("florist plant pitcher plant");
-		set_property("cc_hiddenapartmentplant", "plant");
 	}
-	else if((my_location() == $location[The Hidden Office Building]) && (get_property("cc_hiddenofficeplant") == ""))
+	else if((my_location() == $location[The Hidden Office Building]))
 	{
 		cli_execute("florist plant canned spinach");
-		set_property("cc_hiddenofficeplant", "plant");
 	}
-	else if((my_location() == $location[The Hidden Bowling Alley]) && (get_property("cc_hiddenbowlingplant") == ""))
+	else if((my_location() == $location[The Hidden Bowling Alley]))
 	{
 		cli_execute("florist plant Stealing Magnolia");
-		set_property("cc_hiddenbowlingplant", "plant");
 	}
-	else if((my_location() == $location[The Hidden Hospital]) && (get_property("cc_hiddenhospitalplant") == ""))
+	else if((my_location() == $location[The Hidden Hospital]))
 	{
 		cli_execute("florist plant bamboo!");
 		cli_execute("florist plant aloe guv'nor");
-		set_property("cc_hiddenhospitalplant", "plant");
 	}
-	else if((my_location() == $location[The Upper Chamber]) && (get_property("cc_pyramidupperplant") == ""))
+	else if((my_location() == $location[The Upper Chamber]))
 	{
 		cli_execute("florist plant Blustery Puffball");
 		cli_execute("florist plant Loose Morels");
 		cli_execute("florist plant Foul Toadstool");
-		set_property("cc_pyramidupperplant", "plant");
 	}
-	else if((my_location() == $location[The Middle Chamber]) && (get_property("cc_pyramidmiddleplant") == ""))
+	else if((my_location() == $location[The Middle Chamber]))
 	{
 		cli_execute("florist plant Horn of Plenty");
 		cli_execute("florist plant max headshroom");
 		cli_execute("florist plant Dis Lichen");
-		set_property("cc_pyramidmiddleplant", "plant");
 	}
-	else if((my_location() == $location[The Battlefield (Frat Uniform)]) && (get_property("cc_battleFratplant") == ""))
+	else if((my_location() == $location[The Battlefield (Frat Uniform)]))
 	{
 		cli_execute("florist plant Seltzer Watercress");
 		cli_execute("florist plant Smoke-ra");
 		cli_execute("florist plant Rutabeggar");
-		set_property("cc_battleFratplant", "plant");
 	}
-	else if((my_location() == $location[The Secret Government Laboratory]) && (get_property("cc_secretLaboratoryPlant") == "") && (my_daycount() == 1))
+	else if((my_location() == $location[The Secret Government Laboratory]) && (my_daycount() == 1))
 	{
 		cli_execute("florist plant Pitcher Plant");
 		cli_execute("florist plant Canned Spinach");
-		set_property("cc_secretLaboratoryPlant", "plant");
 	}
-	else if((my_location() == $location[Hippy Camp]) && (get_property("cc_secretLaboratoryPlant") == "") && (my_daycount() == 1))
+	else if((my_location() == $location[Hippy Camp]) && (my_daycount() == 1))
 	{
 		cli_execute("florist plant Seltzer Watercress");
 		cli_execute("florist plant Rad-ish Radish");
-		set_property("cc_secretLaboratoryPlant", "plant");
 	}
-#	else if((my_location() == $location[Pirates of the Garbage Barges]) && (get_property("cc_secretLaboratoryPlant") == "") && (my_daycount() == 1))
-	else if((my_location() == $location[Pirates of the Garbage Barges]) && (get_property("cc_secretLaboratoryPlant") == "") && (my_daycount() == 1))
+	else if((my_location() == $location[Pirates of the Garbage Barges]) && (my_daycount() == 1))
 	{
 		cli_execute("florist plant Pitcher Plant");
 		cli_execute("florist plant Canned Spinach");
-		set_property("cc_secretLaboratoryPlant", "plant");
 	}
-	else if((my_location() == $location[The Battlefield (Hippy Uniform)]) && (get_property("cc_battleFratplant") == ""))
+	else if((my_location() == $location[The Battlefield (Hippy Uniform)]))
 	{
 		cli_execute("florist plant Seltzer Watercress");
 		cli_execute("florist plant Smoke-ra");
 		cli_execute("florist plant Rutabeggar");
-		set_property("cc_battleFratplant", "plant");
 	}
 
 
