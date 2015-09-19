@@ -245,6 +245,8 @@ void main()
 	writeln("<tr bgcolor=#af6fbf><td>Action: This causes something to immediately (or when reasonable) happen.</td></tr>");
 	writeln("</table>");
 
+#	writeln("<br>Handle <a href=\"ccascend_quests.php\">Quest Tracker</a><br>");
+
 
 	writeln("<h2>Banishes</h2>");
 	generateTrackingData("cc_banishes", true);

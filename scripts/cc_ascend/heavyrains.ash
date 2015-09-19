@@ -576,7 +576,7 @@ boolean rainManSummon(string monsterName, boolean copy, boolean wink)
 		{
 			use_familiar($familiar[Angry Jung Man]);
 		}
-		else
+		else if(have_familiar($familiar[Piano Cat]))
 		{
 			use_familiar($familiar[Piano Cat]);
 		}

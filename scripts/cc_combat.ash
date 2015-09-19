@@ -1000,6 +1000,10 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			attackMinor = "skill Utensil Twist";
 		}
+		if(have_skill($skill[Entangling Noodles]) && (my_mp() >= mp_cost($skill[Entangling Noodles])))
+		{
+			stunner = "skill entangling noodles";
+		}
 		break;
 	case $class[Sauceror]:
 		if((my_mp() >= 24) && (have_skill($skill[Saucegeyser])))

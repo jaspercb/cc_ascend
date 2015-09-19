@@ -41,6 +41,7 @@ void ed_initializeSettings()
 
 
 		set_property("choiceAdventure1002", 1);
+		set_property("choiceAdventure1023", "");
 		set_property("desertExploration", 100);
 		set_property("nsTowerDoorKeysUsed", "Boris's key,Jarlsberg's key,Sneaky Pete's key,Richard's star key,skeleton key,digital key");
 	}

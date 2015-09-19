@@ -5420,6 +5420,12 @@ boolean L1_edIslandFallback()
 		ccAdv(1, $location[Pirates of the Garbage Barges]);
 		return true;
 	}
+	if(elementalPlanes_access($element[hot]))
+	{
+		ccAdv(1, $location[The SMOOCH Army HQ]);
+		return true;
+	}
+
 
 	if(LX_islandAccess())
 	{
@@ -5537,10 +5543,13 @@ boolean L6_friarsHotWing()
 	}
 	if((get_property("cc_pirateoutfit") == "almost") || (get_property("cc_pirateoutfit") == "finished") )
 	{
-		if(get_property("cc_friars") == "done")
-		{
-			set_property("cc_friars", "finished");
-		}
+		set_property("cc_friars", "finished");
+		return false;
+	}
+
+	if(internalQuestStatus("questM12Pirate") >= 3)
+	{
+		set_property("cc_friars", "finished");
 		return false;
 	}
 
@@ -6380,6 +6389,13 @@ boolean L12_getOutfit()
 	set_property("choiceAdventure146", "1");
 
 	if((get_property("cc_orcishfratboyspy") == "done") && (!in_hardcore()))
+	{
+		pullXWhenHaveY($item[Beer Helmet], 1, 0);
+		pullXWhenHaveY($item[Bejeweled Pledge Pin], 1, 0);
+		pullXWhenHaveY($item[Distressed Denim Pants], 1, 0);
+	}
+
+	if(!in_hardcore() && (my_path() != "Heavy Rains"))
 	{
 		pullXWhenHaveY($item[Beer Helmet], 1, 0);
 		pullXWhenHaveY($item[Bejeweled Pledge Pin], 1, 0);
@@ -8370,12 +8386,12 @@ boolean LA_communityService()
 				{
 					handleBarrelFullOfBarrels();
 				}
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("place.php?whichplace=forestvillage&action=fv_friar");
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
 				if(!florist_available())
 				{
+					visit_url("choice.php?whichchoice=720&pwd=&option=4");
+					visit_url("place.php?whichplace=forestvillage&action=fv_friar");
+					visit_url("choice.php?whichchoice=720&pwd=&option=4");
+					visit_url("choice.php?whichchoice=720&pwd=&option=4");
 					if(my_path() == "Community Service")
 					{
 						string page = visit_url("forestvillage.php");
