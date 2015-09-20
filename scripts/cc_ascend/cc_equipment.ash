@@ -484,7 +484,7 @@ void equipBaseline()
 		{
 			equip($item[Snow Suit]);
 		}
-		if((equipped_item($slot[familiar]) != $item[none]) && !is_familiar_equipment_locked())
+		if(($items[Snow suit, miniature life preserver] contains equipped_item($slot[familiar])) && !is_familiar_equipment_locked())
 		{
 			lock_familiar_equipment(true);
 		}

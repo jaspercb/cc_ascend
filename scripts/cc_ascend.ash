@@ -1195,7 +1195,7 @@ void initializeDay(int day)
 
 			handleFamiliar($familiar[Angry Jung Man]);
 			equipBaseline();
-			if(equipped_item($slot[familiar]) != $item[none])
+			if($items[Snow suit, miniature life preserver] contains equipped_item($slot[familiar]))
 			{
 				lock_familiar_equipment(true);
 			}
@@ -8427,7 +8427,14 @@ boolean LA_communityService()
 					cli_execute("make 1 snow crab");
 					eat(1, $item[Snow Crab]);
 				}
-				eatFancyDog("sleeping dog");
+				if(get_property("cc_noSleepingDog").to_boolean())
+				{
+					eatFancyDog("savage macho dog");
+				}
+				else
+				{
+					eatFancyDog("sleeping dog");
+				}
 			}
 
 			if(my_ascensions() > get_property("lastGuildStoreOpen").to_int())
@@ -9998,7 +10005,7 @@ my_maxmp()))
 
 	if(get_property("lastGoofballBuy").to_int() < my_ascensions())
 	{
-		visit_url("woods.php");
+		visit_url("place.php?whichplace=woods");
 		print("Got Goofballs", "blue");
 		visit_url("tavern.php?place=susguy&action=buygoofballs", true);
 	}

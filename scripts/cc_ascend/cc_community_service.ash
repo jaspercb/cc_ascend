@@ -739,13 +739,14 @@ boolean do_cs_quest(int quest)
 	if(((questList contains quest) && (my_adventures() > questList[quest])) || (quest == 30))
 	{
 		string temp = visit_url("council.php");
-		temp = run_choice(quest);
 		if(quest != 30)
 		{
+			temp = run_choice(quest);
 			print("Quest " + quest + " completed for " + questList[quest] + " adventures.", "blue");
 		}
 		else
 		{
+			visit_url("choice.php?pwd&whichchoice=1089&option=30");
 			print("Community Service Completed. Beep boop.", "blue");
 		}
 		return true;
