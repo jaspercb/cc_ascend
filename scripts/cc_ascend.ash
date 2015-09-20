@@ -8985,7 +8985,7 @@ boolean LA_communityService()
 				buffMaintain($effect[Ode to Booze], 50, 1, 6);
 				cli_execute("postcheese");
 			}
-			if(my_level() >= 8)
+			if((my_level() >= 8) && (item_amount($item[Astral Pilsner]) == 6))
 			{
 				buffMaintain($effect[Ode to Booze], 50, 1, 6);
 				drink(6, $item[Astral Pilsner]);
