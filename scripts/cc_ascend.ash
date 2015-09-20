@@ -8414,6 +8414,22 @@ boolean LA_communityService()
 				equip(oldHat);
 			}
 
+			if((my_adventures() <= 10) && (my_fullness() == 0) && (item_amount($item[Milk of Magnesium]) > 0))
+			{
+				use(1, $item[Milk of Magnesium]);
+				if(item_amount($item[Handful of Smithereens]) > 0)
+				{
+					cli_execute("make 1 this charming flan");
+					eat(1, $item[This Charming Flan]);
+				}
+				if(item_amount($item[Snow Berries]) > 1)
+				{
+					cli_execute("make 1 snow crab");
+					eat(1, $item[Snow Crab]);
+				}
+				eatFancyDog("sleeping dog");
+			}
+
 			if(my_ascensions() > get_property("lastGuildStoreOpen").to_int())
 			{
 				buffMaintain($effect[Musk of the Moose], 10, 1, 1);
@@ -8426,25 +8442,6 @@ boolean LA_communityService()
 				buffMaintain($effect[Musk of the Moose], 10, 1, 1);
 				ccAdv(1, $location[The Haunted Pantry], "cs_combatNormal");
 				return true;
-			}
-
-			if((my_adventures() <= 10) && (my_fullness() == 0))
-			{
-				if(item_amount($item[Milk of Magnesium]) > 0)
-				{
-					use(1, $item[Milk of Magnesium]);
-				}
-				if(item_amount($item[Handful of Smithereens]) > 0)
-				{
-					cli_execute("make 1 this charming flan");
-					eat(1, $item[This Charming Flan]);
-				}
-				if(item_amount($item[Snow Berries]) > 1)
-				{
-					cli_execute("make 1 snow crab");
-					eat(1, $item[Snow Crab]);
-				}
-				eatFancyDog("sleeping dog");
 			}
 
 			if(have_skill($skill[Advanced Saucecrafting]) && ((item_amount($item[Cherry]) < 2) || (item_amount($item[Grapefruit]) < 1) || (item_amount($item[Lemon]) < 1)))
