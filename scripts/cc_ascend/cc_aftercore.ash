@@ -23,6 +23,7 @@ boolean cc_guildUnlock();
 boolean cc_guildClown();
 boolean cc_nemesisCave();
 boolean cc_nemesisIsland();
+boolean cc_cheesePostCS();
 
 #Definitons here
 void cc_combatTest()
@@ -601,5 +602,76 @@ boolean cc_nemesisIsland()
 			abort("Can not access area, aborting.");
 		}
 	}
+	return true;
+}
+
+
+boolean cc_cheesePostCS()
+{
+	ccAdv(1, $location[Barf Mountain]);
+	chew(1, $item[Unconscious Collective Dream Jar]);
+	chew(1, $item[Twinkly Wad]);
+	cli_execute("florist plant stealing magnolia");
+	cli_execute("florist plant pitcher plant");
+	cli_execute("florist plant aloe guv'nor");
+
+	boolean oldGarbage = get_property("cc_getDinseyGarbageMoney").to_boolean();
+	set_property("cc_getDinseyGarbageMoney", true);
+	dinseylandfill_garbageMoney();
+	set_property("cc_getDinseyGarbageMoney", oldGarbage);
+
+	getDiscoStyle();
+	visit_url("place.php?whichplace=airport_hot&action=airport4_zone1");
+	run_choice(7);
+
+	use(1, $item[CSA fire-starting kit]);
+	use(1, $item[Confusing LED Clock]);
+	visit_url("campground.php?action=rest");
+	equip($item[The Crown of Ed the Undying]);
+	adjustEdHat("meat");
+	equip($item[Camp Scout Backpack]);
+	equip($item[Sneaky Pete\'s Leather Jacket]);
+	equip($item[Thor\'s Pliers]);
+	equip($item[Operation Patriot Shield]);
+	equip($item[Pantsgiving]);
+	equip($slot[acc1], $item[Cheap Sunglasses]);
+	equip($slot[acc2], $item[Sister Accessory]);
+	equip($slot[acc3], $item[Mr. Cheeng\'s Spectacles]);
+	handleFamiliar($familiar[Golden Monkey]);
+	equip($item[Snow Suit]);
+
+	use(5, $item[How to Avoid Scams]);
+	while(my_adventures() > 0)
+	{
+		ccAdv(1, $location[Barf Mountain]);
+	}
+
+	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
+	tryPantsEat();
+
+	while(my_adventures() > 0)
+	{
+		ccAdv(1, $location[Barf Mountain]);
+	}
+
+	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
+	tryPantsEat();
+
+	while(my_adventures() > 0)
+	{
+		ccAdv(1, $location[Barf Mountain]);
+	}
+
+	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
+	tryPantsEat();
+
+	while(my_adventures() > 0)
+	{
+		ccAdv(1, $location[Barf Mountain]);
+	}
+
+	cli_execute("drink 5-hour acrimony");
+	cli_execute("pvp loot 1");
+	cli_execute("cc_ascend");
 	return true;
 }

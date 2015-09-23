@@ -8306,7 +8306,7 @@ boolean LA_communityService()
 				solveCookie();
 			}
 
-			if(!get_property("_chateauMonsterFought").to_boolean() && chateaumantegna_available() && (item_amount($item[DNA Extraction Syringe]) > 0))
+			if(!get_property("_chateauMonsterFought").to_boolean() && chateaumantegna_available() && (item_amount($item[DNA Extraction Syringe]) > 0) && (get_property("chateauMonster") == "dairy goat"))
 			{
 				buffMaintain($effect[Reptilian Fortitude], 8, 1, 1);
 				buffMaintain($effect[Power Ballad of the Arrowsmith], 5, 1, 1);
@@ -8991,7 +8991,7 @@ boolean LA_communityService()
 				drink(6, $item[Astral Pilsner]);
 			}
 
-			if(my_level() < 8)
+			if((my_level() < 8) && !get_property("_fancyHotDogEaten").to_boolean())
 			{
 				eatFancyDog("sleeping dog");
 				return true;
