@@ -324,7 +324,15 @@ boolean cs_eat_stuff()
 				use(1, $item[Milk of Magnesium]);
 			}
 			eat(1, $item[Weird Gazelle Steak]);
-			eatFancyDog("sleeping dog");
+
+			if(get_property("cc_noSleepingDog").to_boolean())
+			{
+				eatFancyDog("savage macho dog");
+			}
+			else
+			{
+				eatFancyDog("sleeping dog");
+			}
 
 			if((item_amount($item[Snow Berries]) > 1) && (my_fullness() <= (fullness_limit() - 1)))
 			{
