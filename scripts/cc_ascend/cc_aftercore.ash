@@ -24,6 +24,7 @@ boolean cc_guildClown();
 boolean cc_nemesisCave();
 boolean cc_nemesisIsland();
 boolean cc_cheesePostCS();
+boolean cc_ascendIntoCS();
 
 #Definitons here
 void cc_combatTest()
@@ -605,6 +606,24 @@ boolean cc_nemesisIsland()
 	return true;
 }
 
+boolean cc_ascendIntoCS()
+{
+	if(my_inebriety() <= inebriety_limit())
+	{
+		return false;
+	}
+	visit_url("ascend.php?pwd=&confirm=on&confirm2=on&action=ascend&submit=Ascend", true);
+	visit_url("afterlife.php?action=pearlygates");
+	visit_url("afterlife.php?action=buydeli&whichitem=5046", true);
+	visit_url("afterlife.php?action=buyarmory&whichitem=5037", true);
+	visit_url("afterlife.php?place=reincarnate");
+	int gender = 1;
+	visit_url("afterlife.php?action=ascend&asctype=3&whichclass=4&gender=" + gender + "&whichpath=25&whichsign=2", true);
+	visit_url("afterlife.php?action=ascend&confirmascend=1&asctype=3&whichclass=4&gender=" + gender + "&whichpath=25&whichsign=2&noskillsok=1", true);
+
+	return true;
+}
+
 
 boolean cc_cheesePostCS()
 {
@@ -646,8 +665,15 @@ boolean cc_cheesePostCS()
 		ccAdv(1, $location[Barf Mountain]);
 	}
 
+	while((my_inebriety() + 2) <= inebriety_limit())
+	{
+		buy(1, $item[Beery Blood]);
+		drink(1, $item[Beery Blood]);
+	}
+
 	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
 	tryPantsEat();
+	cli_execute("refresh all");
 
 	while(my_adventures() > 0)
 	{
@@ -656,6 +682,7 @@ boolean cc_cheesePostCS()
 
 	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
 	tryPantsEat();
+	cli_execute("refresh all");
 
 	while(my_adventures() > 0)
 	{
@@ -664,11 +691,13 @@ boolean cc_cheesePostCS()
 
 	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
 	tryPantsEat();
+	cli_execute("refresh all");
 
 	while(my_adventures() > 0)
 	{
 		ccAdv(1, $location[Barf Mountain]);
 	}
+	use_barrels();
 
 	cli_execute("drink 5-hour acrimony");
 	cli_execute("pvp loot 1");

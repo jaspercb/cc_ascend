@@ -8212,7 +8212,7 @@ boolean autosellCrap()
 		return false;
 	}
 
-	foreach it in $items[Fancy Bath Salts, Empty Cloaca-Cola Bottle, Keel-Haulin\' Knife, Photoprotoneutron Torpedo, Procrastination Potion, Awful Poetry Journal, Imp Ale, Ratgut, Patchouli Incense Stick, Frigid Ninja Stars, Tambourine Bells, Beach Glass Bead, Clay Peace-Sign Bead, Windchimes, Phat Turquoise Bead, Decorative Fountain, Moxie Weed, Strongness Elixir, Sunken Chest]
+	foreach it in $items[Anticheese, Awful Poetry Journal, Beach Glass Bead, Blue Pixel, Clay Peace-Sign Bead, Decorative Fountain, Empty Cloaca-Cola Bottle, Enchanted Barbell, Fancy Bath Salts, Frigid Ninja Stars, Giant Moxie Weed, Green Pixel, Half of a Gold Tooth, Imp Ale, Keel-Haulin\' Knife, Kokomo Resort Pass, Mad Train Wine, Margarita, Martini, Meat Paste, Mineapple, Moxie Weed, Patchouli Incense Stick, Phat Turquoise Bead, Photoprotoneutron Torpedo, Procrastination Potion, Ratgut, Red Pixel, Smelted Roe, Spicy Jumping Bean Burrito, Spicy Bean Burrito, Strongness Elixir, Sunken Chest, Tambourine Bells, Tequila Sunrise, Windchimes]
 	{
 		if(item_amount(it) > 0)
 		{
@@ -8286,6 +8286,8 @@ boolean LA_communityService()
 	{
 		autosell(item_amount($item[gold nuggets]), $item[gold nuggets]);
 	}
+
+	autosellCrap();
 
 	//Quest order on Day 1: 11, 6, 9
 	//Day 2: 7, 10, 1, 2, 3, 4, 5, 8
@@ -8917,12 +8919,81 @@ boolean LA_communityService()
 			{
 				doRest();
 			}
-			if(my_inebriety() == 4)
+
+			int lastQuestCost = 36;
+			if(have_skill($skill[Smooth Movement]))
 			{
-				use_skill(1, $skill[The Ode to Booze]);
-				cli_execute("drink 1 vintage smart drink");
+				lastQuestCost = lastQuestCost - 3;
+			}
+			if(have_skill($skill[The Sonata of Sneakiness]))
+			{
+				lastQuestCost = lastQuestCost - 3;
+			}
+			if((item_amount($item[Snow Berries]) > 0) || (item_amount($item[Snow Cleats]) == 0))
+			{
+				lastQuestCost = lastQuestCost - 3;
 			}
 
+			buffMaintain($effect[Blue Swayed], 0, 1, 50);
+			buffMaintain($effect[Blue Swayed], 0, 1, 50);
+			buffMaintain($effect[Blue Swayed], 0, 1, 50);
+			buffMaintain($effect[Blue Swayed], 0, 1, 50);
+			buffMaintain($effect[Blue Swayed], 0, 1, 50);
+
+			int currentCost = get_cs_questCost(curQuest);
+			if(have_skill($skill[Empathy of the Newt]))
+			{
+				currentCost = currentCost - 1;
+			}
+			if(have_skill($skill[Leash of Linguini]))
+			{
+				currentCost = currentCost - 1;
+			}
+
+			int needCost = lastQuestCost + currentCost;
+
+			if(my_inebriety() == 4)
+			{
+				if(my_adventures() < needCost)
+				{
+					//Is it possible for us to drink some other stuff?
+					int extraAdv = 0;
+					if(my_meat() > 5000)
+					{
+						extraAdv = extraAdv + 13;
+						needCost = needCost - 2;
+					}
+					if(item_amount($item[Asbestos Thermos]) > 0)
+					{
+						extraAdv = extraAdv + 16;
+					}
+					if(item_amount($item[Cold One]) > 0)
+					{
+						extraAdv = extraAdv + 5;
+					}
+					if((my_adventures() + extraAdv) > needCost)
+					{
+						use_skill(1, $skill[The Ode to Booze]);
+						if(my_meat() > 5000)
+						{
+							cli_execute("drink 1 hot socks");
+						}
+						if(item_amount($item[Asbestos Thermos]) > 0)
+						{
+							drink(1, $item[Asbestos Thermos]);
+						}
+						if(item_amount($item[Cold One]) > 0)
+						{
+							drink(1, $item[Cold One]);
+						}
+					}
+					else
+					{
+						use_skill(1, $skill[The Ode to Booze]);
+						cli_execute("drink 1 vintage smart drink");
+					}
+				}
+			}
 
 			while((my_mp() < 27) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
@@ -8932,11 +9003,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
 
 
-			buffMaintain($effect[Blue Swayed], 0, 1, 50);
-			buffMaintain($effect[Blue Swayed], 0, 1, 50);
-			buffMaintain($effect[Blue Swayed], 0, 1, 50);
-			buffMaintain($effect[Blue Swayed], 0, 1, 50);
-			buffMaintain($effect[Blue Swayed], 0, 1, 50);
+
 
 			if(do_cs_quest(5))
 			{
@@ -9054,12 +9121,13 @@ boolean LA_communityService()
 
 			buffMaintain($effect[Snow Shoes], 0, 1, 1);
 
-			int currentCost = get_cs_questCost(curQuest);
-			if(my_adventures() < currentCost)
+			int questCost = get_cs_questCost(curQuest);
+			if(my_adventures() < questCost)
 			{
 				buffMaintain($effect[A Rose by Any Other Material], 0, 1, 1);
+				questCost = questCost - 12;
 			}
-			if(my_adventures() < currentCost)
+			if(my_adventures() < questCost)
 			{
 				buffMaintain($effect[Throwing Some Shade], 0, 1, 1);
 			}
