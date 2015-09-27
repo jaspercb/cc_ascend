@@ -25,6 +25,7 @@ boolean cc_nemesisCave();
 boolean cc_nemesisIsland();
 boolean cc_cheesePostCS();
 boolean cc_ascendIntoCS();
+boolean cc_doCS();
 
 #Definitons here
 void cc_combatTest()
@@ -659,11 +660,18 @@ boolean cc_cheesePostCS()
 	handleFamiliar($familiar[Golden Monkey]);
 	equip($item[Snow Suit]);
 
-	use(5, $item[How to Avoid Scams]);
+	use(1 + ((my_adventures() + 9)/20), $item[How to Avoid Scams]);
 	while(my_adventures() > 0)
 	{
 		ccAdv(1, $location[Barf Mountain]);
 	}
+
+	while((my_inebriety() + 5) <= inebriety_limit())
+	{
+		buy(1, $item[5-Hour Acrimony]);
+		drink(1, $item[5-Hour Acrimony]);
+	}
+
 
 	while((my_inebriety() + 2) <= inebriety_limit())
 	{
@@ -701,6 +709,16 @@ boolean cc_cheesePostCS()
 
 	cli_execute("drink 5-hour acrimony");
 	cli_execute("pvp loot 1");
+	cli_execute("cc_ascend");
+	return true;
+}
+
+
+boolean cc_doCS()
+{
+	cli_execute("cc_ascend");
+	cc_cheesePostCS();
+	cc_ascendIntoCS();
 	cli_execute("cc_ascend");
 	return true;
 }
