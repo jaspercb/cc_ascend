@@ -8619,7 +8619,7 @@ boolean LA_communityService()
 		}
 	}
 
-	checkQuest = expected_next_cs_quest();
+	int checkQuest = expected_next_cs_quest();
 	if(checkQuest != curQuest)
 	{
 		print("Quest data error detected, trying to resolve. Please don't do quests manually, it hurts me!", "red");
