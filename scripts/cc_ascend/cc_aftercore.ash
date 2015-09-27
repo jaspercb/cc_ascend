@@ -761,6 +761,7 @@ boolean cc_doCS()
 {
 	cli_execute("cc_ascend");
 	cc_cheesePostCS();
+	cli_execute("cc_ascend");
 	cc_ascendIntoCS();
 	cli_execute("cc_ascend");
 	return true;
