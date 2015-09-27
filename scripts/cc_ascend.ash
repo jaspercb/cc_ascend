@@ -8263,7 +8263,7 @@ boolean LA_communityService()
 	cs_eat_spleen();
 
 	boolean [familiar] useFam;
-	if((my_daycount() == 1) && (my_spleen_use() < 12))
+	if(((curQuest == 11) || (curQuest == 6) || (curQuest == 9)) && (my_spleen_use() < 12))
 	{
 		useFam = $familiars[Unconscious Collective, Grim Brother, Golden Monkey];
 	}
