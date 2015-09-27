@@ -629,11 +629,18 @@ boolean cc_ascendIntoCS()
 boolean cc_cheesePostCS()
 {
 	ccAdv(1, $location[Barf Mountain]);
-	chew(1, $item[Unconscious Collective Dream Jar]);
-	chew(1, $item[Twinkly Wad]);
 	cli_execute("florist plant stealing magnolia");
 	cli_execute("florist plant pitcher plant");
 	cli_execute("florist plant aloe guv'nor");
+
+	if(item_amount($item[Unconscious Collective Dream Jar]) > 0)
+	{
+		chew(1, $item[Unconscious Collective Dream Jar]);
+	}
+	if(item_amount($item[Twinkly Wad]) > 0)
+	{
+		chew(1, $item[Twinkly Wad]);
+	}
 
 	boolean oldGarbage = get_property("cc_getDinseyGarbageMoney").to_boolean();
 	set_property("cc_getDinseyGarbageMoney", true);
@@ -644,21 +651,57 @@ boolean cc_cheesePostCS()
 	visit_url("place.php?whichplace=airport_hot&action=airport4_zone1");
 	run_choice(7);
 
-	use(1, $item[CSA fire-starting kit]);
-	use(1, $item[Confusing LED Clock]);
-	visit_url("campground.php?action=rest");
-	equip($item[The Crown of Ed the Undying]);
-	adjustEdHat("meat");
-	equip($item[Camp Scout Backpack]);
-	equip($item[Sneaky Pete\'s Leather Jacket]);
-	equip($item[Thor\'s Pliers]);
-	equip($item[Operation Patriot Shield]);
-	equip($item[Pantsgiving]);
-	equip($slot[acc1], $item[Cheap Sunglasses]);
-	equip($slot[acc2], $item[Sister Accessory]);
-	equip($slot[acc3], $item[Mr. Cheeng\'s Spectacles]);
+	if(item_amount($item[CSA fire-starting kit]) > 0)
+	{
+		use(1, $item[CSA fire-starting kit]);
+	}
+	if(item_amount($item[Confusing LED Clock]) > 0)
+	{
+		use(1, $item[Confusing LED Clock]);
+		visit_url("campground.php?action=rest");
+	}
+	if(item_amount($item[The Crown of Ed the Undying]) > 0)
+	{
+		equip($item[The Crown of Ed the Undying]);
+		adjustEdHat("meat");
+	}
+	if(item_amount($item[Camp Scout Backpack]) > 0)
+	{
+		equip($item[Camp Scout Backpack]);
+	}
+	if(item_amount($item[Sneaky Pete\'s Leather Jacket]) > 0)
+	{
+		equip($item[Sneaky Pete\'s Leather Jacket]);
+	}
+	if(item_amount($item[Thor\'s Pliers]) > 0)
+	{
+		equip($item[Thor\'s Pliers]);
+	}
+	if(item_amount($item[Operation Patriot Shield]) > 0)
+	{
+		equip($item[Operation Patriot Shield]);
+	}
+	if(item_amount($item[Pantsgiving]) > 0)
+	{
+		equip($item[Pantsgiving]);
+	}
+	if(item_amount($item[Cheap Sunglasses]) > 0)
+	{
+		equip($slot[acc1], $item[Cheap Sunglasses]);
+	}
+	if(item_amount($item[Sister Accessory]) > 0)
+	{
+		equip($slot[acc2], $item[Sister Accessory]);
+	}
+	if(item_amount($item[Mr. Cheeng\'s Spectacles]) > 0)
+	{
+		equip($slot[acc3], $item[Mr. Cheeng\'s Spectacles]);
+	}
 	handleFamiliar($familiar[Golden Monkey]);
-	equip($item[Snow Suit]);
+	if(item_amount($item[Snow Suit]) > 0)
+	{
+		equip($item[Snow Suit]);
+	}
 
 	use(1 + ((my_adventures() + 9)/20), $item[How to Avoid Scams]);
 	while(my_adventures() > 0)
