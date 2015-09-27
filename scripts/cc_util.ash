@@ -268,6 +268,10 @@ boolean getDiscoStyle()
 	{
 		equip($item[Smooth Velvet Shirt]);
 	}
+	else if(item_amount($item[Smooth Velvet Bra]) > 0)
+	{
+		equip($item[Smooth Velvet Bra]);
+	}
 	return true;
 }
 
