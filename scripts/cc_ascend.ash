@@ -8292,7 +8292,8 @@ boolean LA_communityService()
 	//Quest order on Day 1: 11, 6, 9
 	//Day 2: 7, 10, 1, 2, 3, 4, 5, 8
 
-	if(my_daycount() == 1)
+#	if(my_daycount() == 1)
+	if((curQuest == 11) || (curQuest == 6) || (curQuest == 9) || (curQuest == 7))
 	{
 		if(curQuest != 7)
 		{
@@ -8522,7 +8523,7 @@ boolean LA_communityService()
 			}
 
 		}
-		else if(curQuest == 7)
+		else if((curQuest == 7) && (item_amount($item[Emergency Margarita]) > 0))
 		{
 			if((have_effect($effect[Everything Looks Yellow]) == 0) && have_familiar($familiar[Crimbo Shrub]) && elementalPlanes_access($element[hot]))
 			{
@@ -9144,7 +9145,7 @@ boolean LA_communityService()
 		break;
 
 	case 9:
-			cs_eat_stuff();
+			cs_eat_stuff(curQuest);
 
 			while((my_mp() < 53) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
@@ -9243,7 +9244,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Stinky Hands], 0, 1, 1);
 			buffMaintain($effect[Human-Machine Hybrid], 0, 1, 1);
 
-			cs_eat_stuff();
+			cs_eat_stuff(curQuest);
 
 			if(do_cs_quest(10))
 			{

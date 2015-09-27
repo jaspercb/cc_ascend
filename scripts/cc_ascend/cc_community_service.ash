@@ -18,7 +18,7 @@ int expected_next_cs_quest();
 void cs_dnaPotions();
 void cs_initializeDay(int day);
 void cs_make_stuff();
-boolean cs_eat_stuff();
+boolean cs_eat_stuff(int quest);
 boolean cs_giant_growth();
 boolean cs_eat_spleen();
 
@@ -309,13 +309,13 @@ boolean cs_eat_spleen()
 }
 
 
-boolean cs_eat_stuff()
+boolean cs_eat_stuff(int quest)
 {
 	if(my_path() != "Community Service")
 	{
 		return false;
 	}
-	if(my_daycount() == 1)
+	if(quest == 9)
 	{
 		if(item_amount($item[Weird Gazelle Steak]) > 0)
 		{
@@ -346,7 +346,7 @@ boolean cs_eat_stuff()
 			}
 		}
 	}
-	else if(my_daycount() == 2)
+	else if(quest == 10)
 	{
 		if(item_amount($item[Sausage Without A Cause]) > 0)
 		{
