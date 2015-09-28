@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16300;
+since r16335;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -9275,7 +9275,7 @@ boolean LA_communityService()
 			}
 		break;
 	case 11:
-			abort("Beep");
+			abort("Beep, should not be trying quest 11 at this point in the script");
 
 			if(do_cs_quest(11))
 			{
