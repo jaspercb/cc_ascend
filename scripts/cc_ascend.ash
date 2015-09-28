@@ -8354,6 +8354,30 @@ boolean LA_communityService()
 				return true;
 			}
 
+			if((my_fullness() == 0) && (item_amount($item[Milk of Magnesium]) > 0))
+			{
+				use(1, $item[Milk of Magnesium]);
+				if(item_amount($item[Handful of Smithereens]) > 0)
+				{
+					cli_execute("make 1 this charming flan");
+					eat(1, $item[This Charming Flan]);
+				}
+				if(item_amount($item[Snow Berries]) > 1)
+				{
+					cli_execute("make 1 snow crab");
+					eat(1, $item[Snow Crab]);
+				}
+				if(get_property("cc_noSleepingDog").to_boolean() || have_skill($skill[Dog Tired]))
+				{
+					eatFancyDog("savage macho dog");
+				}
+				else
+				{
+					eatFancyDog("sleeping dog");
+				}
+			}
+
+
 			if((curQuest == 11) && ((my_turncount() + 60) < get_property("cc_cookie").to_int()) && (my_adventures() > 65))
 			{
 				if(do_cs_quest(11))
@@ -8415,29 +8439,6 @@ boolean LA_communityService()
 				equip($item[Snorkel]);
 				use(1, $item[Dolphin King\'s Map]);
 				equip(oldHat);
-			}
-
-			if((my_adventures() <= 10) && (my_fullness() == 0) && (item_amount($item[Milk of Magnesium]) > 0))
-			{
-				use(1, $item[Milk of Magnesium]);
-				if(item_amount($item[Handful of Smithereens]) > 0)
-				{
-					cli_execute("make 1 this charming flan");
-					eat(1, $item[This Charming Flan]);
-				}
-				if(item_amount($item[Snow Berries]) > 1)
-				{
-					cli_execute("make 1 snow crab");
-					eat(1, $item[Snow Crab]);
-				}
-				if(get_property("cc_noSleepingDog").to_boolean())
-				{
-					eatFancyDog("savage macho dog");
-				}
-				else
-				{
-					eatFancyDog("sleeping dog");
-				}
 			}
 
 			if(my_ascensions() > get_property("lastGuildStoreOpen").to_int())
