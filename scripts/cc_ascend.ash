@@ -8611,7 +8611,11 @@ boolean LA_communityService()
 			{
 				chew(1, $item[Handful of Smithereens]);
 			}
-			while((my_spleen_use() < spleen_limit()) && (item_amount($item[Nasty Snuff]) > 0))
+			while(((my_spleen_use() + 2) <= spleen_limit()) && (item_amount($item[cuppa Activi tea]) > 0))
+			{
+				chew(1, $item[cuppa Activi tea]);
+			}
+			while(((my_spleen_use() + 1) <= spleen_limit()) && (item_amount($item[Nasty Snuff]) > 0))
 			{
 				chew(1, $item[Nasty Snuff]);
 			}
@@ -8660,7 +8664,7 @@ boolean LA_communityService()
 			}
 		}
 		break;
-	case 1:
+	case 1:		#HP Quest
 			if(!possessEquipment($item[Barrel Lid]))
 			{
 				visit_url("da.php?barrelshrine=1");
@@ -8711,6 +8715,9 @@ boolean LA_communityService()
 			buffMaintain($effect[Nigh-Invincible], 0, 1, 1);
 			buffMaintain($effect[Pill Power], 0, 1, 1);
 			buffMaintain($effect[Frog in Your Throat], 0, 1, 1);
+			buffMaintain($effect[Feroci Tea], 0, 1, 1);
+			buffMaintain($effect[Vitali Tea], 0, 1, 1);
+			buffMaintain($effect[Twen Tea], 0, 1, 1);
 
 			if(get_property("telescopeUpgrades").to_int() > 0)
 			{
@@ -8736,7 +8743,7 @@ boolean LA_communityService()
 			}
 		break;
 
-	case 2:
+	case 2:		#Muscle Quest
 			if(!possessEquipment($item[Barrel Lid]))
 			{
 				visit_url("da.php?barrelshrine=1");
@@ -8797,6 +8804,9 @@ boolean LA_communityService()
 			buffMaintain($effect[Human-Humanoid Hybrid], 0, 1, 1);
 			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
 			buffMaintain($effect[Frog in Your Throat], 0, 1, 1);
+			buffMaintain($effect[Twen Tea], 0, 1, 1);
+			buffMaintain($effect[Feroci Tea], 0, 1, 1);
+
 
 			cs_giant_growth();
 
@@ -8812,7 +8822,7 @@ boolean LA_communityService()
 			}
 		break;
 
-	case 3:
+	case 3:		#Myst Quest
 			if(item_amount($item[Glittery Mascara]) == 0)
 			{
 				buy(1, $item[Glittery Mascara]);
@@ -8846,6 +8856,8 @@ boolean LA_communityService()
 			buffMaintain($effect[Human-Humanoid Hybrid], 0, 1, 1);
 			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
 			buffMaintain($effect[Salamander In Your Stomach], 0, 1, 1);
+			buffMaintain($effect[Twen Tea], 0, 1, 1);
+			buffMaintain($effect[Wit Tea], 0, 1, 1);
 
 			buffMaintain($effect[Nearly All-Natural], 0, 1, 1);
 
@@ -8865,7 +8877,7 @@ boolean LA_communityService()
 		break;
 
 
-	case 4:
+	case 4:		#Moxie Quest
 			if(item_amount($item[Hair Spray]) == 0)
 			{
 				buy(1, $item[Hair Spray]);
@@ -8909,6 +8921,8 @@ boolean LA_communityService()
 			buffMaintain($effect[Human-Humanoid Hybrid], 0, 1, 1);
 			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
 			buffMaintain($effect[Newt Gets In Your Eyes], 0, 1, 1);
+			buffMaintain($effect[Twen Tea], 0, 1, 1);
+			buffMaintain($effect[Dexteri Tea], 0, 1, 1);
 
 			buffMaintain($effect[Amazing], 0, 1, 1);
 
@@ -8924,7 +8938,7 @@ boolean LA_communityService()
 				abort("Could not handle our quest and can not recover");
 			}
 		break;
-	case 5:
+	case 5:		#Familiar Weight
 			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
 				doRest();
@@ -8943,12 +8957,17 @@ boolean LA_communityService()
 			{
 				lastQuestCost = lastQuestCost - 3;
 			}
+			if(item_amount($item[cuppa Obscuri Tea]) > 0)
+			{
+				lastQuestCost = lastQuestCost - 3;
+			}
 
 			buffMaintain($effect[Blue Swayed], 0, 1, 50);
 			buffMaintain($effect[Blue Swayed], 0, 1, 50);
 			buffMaintain($effect[Blue Swayed], 0, 1, 50);
 			buffMaintain($effect[Blue Swayed], 0, 1, 50);
 			buffMaintain($effect[Blue Swayed], 0, 1, 50);
+			buffMaintain($effect[Loyal Tea], 0, 1, 1);
 
 			int currentCost = get_cs_questCost(curQuest);
 			if(have_skill($skill[Empathy of the Newt]))
@@ -9026,7 +9045,7 @@ boolean LA_communityService()
 			}
 		break;
 
-	case 6:
+	case 6:		#Melee Damage
 			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
 				doRest();
@@ -9085,7 +9104,7 @@ boolean LA_communityService()
 			}
 		break;
 
-	case 7:
+	case 7:		#Spell Damage
 		if(my_daycount() > 1)
 		{
 			while((my_mp() < 200) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
@@ -9116,7 +9135,7 @@ boolean LA_communityService()
 		}
 		break;
 
-	case 8:
+	case 8:			#Non-Combat
 			while((my_mp() < 30) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
 				doRest();
@@ -9130,6 +9149,7 @@ boolean LA_communityService()
 			}
 
 			buffMaintain($effect[Snow Shoes], 0, 1, 1);
+			buffMaintain($effect[Obscuri Tea], 0, 1, 1);
 
 			int questCost = get_cs_questCost(curQuest);
 			if(my_adventures() < questCost)
@@ -9153,7 +9173,7 @@ boolean LA_communityService()
 			}
 		break;
 
-	case 9:
+	case 9:		#item/booze drops
 			cs_eat_stuff(curQuest);
 
 			while((my_mp() < 53) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
@@ -9170,6 +9190,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Human-Pirate Hybrid], 0, 1, 1);
 			buffMaintain($effect[One Very Clear Eye], 0, 1, 1);
 			buffMaintain($effect[Sour Softshoe], 0, 1, 1);
+			buffMaintain($effect[Serendipi Tea], 0, 1, 1);
 
 			boolean [familiar] itemFams = $familiars[Gelatinous Cubeling, Syncopated Turtle, Slimeling, Angry Jung Man, Grimstone Golem, Adventurous Spelunker, Jumpsuited Hound Dog, Steam-Powered Cheerleader];
 			familiar itemFam = $familiar[Cocoabo];
@@ -9194,7 +9215,7 @@ boolean LA_communityService()
 		break;
 
 
-	case 10:
+	case 10:	#Hot Resistance
 			if((have_effect($effect[Everything Looks Yellow]) == 0) && have_familiar($familiar[Crimbo Shrub]))
 			{
 				handleFamiliar($familiar[Crimbo Shrub]);
@@ -9252,6 +9273,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Sleazy Hands], 0, 1, 1);
 			buffMaintain($effect[Stinky Hands], 0, 1, 1);
 			buffMaintain($effect[Human-Machine Hybrid], 0, 1, 1);
+			buffMaintain($effect[Frost Tea], 0, 1, 1);
 
 			cs_eat_stuff(curQuest);
 

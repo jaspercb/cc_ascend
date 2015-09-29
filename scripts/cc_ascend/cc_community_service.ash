@@ -198,6 +198,13 @@ void cs_initializeDay(int day)
 
 void cs_make_stuff()
 {
+	if(get_property("cc_shakeTeaTree").to_int() != my_daycount())
+	{
+		#visit_url("choice.php?pwd=&whichchoice=1104&choice=1", true);
+		visit_url("campground.php?action=teatree");
+		run_choice(1);
+		set_property("cc_shakeTeaTree", my_daycount());
+	}
 	if(item_amount($item[skeleton key]) == 0)
 	{
 		if((item_amount($item[skeleton bone]) > 0) && (item_amount($item[loose teeth]) > 0))

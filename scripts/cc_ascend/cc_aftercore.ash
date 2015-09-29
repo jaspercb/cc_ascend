@@ -657,6 +657,7 @@ boolean cc_cheesePostCS()
 
 	if(item_amount($item[CSA fire-starting kit]) > 0)
 	{
+		set_property("choiceAdventure595", 1);
 		use(1, $item[CSA fire-starting kit]);
 	}
 	if(item_amount($item[Confusing LED Clock]) > 0)
