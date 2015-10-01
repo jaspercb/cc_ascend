@@ -475,6 +475,12 @@ string cs_combatNormal(int round, string opp, string text)
 	phylum current = to_phylum(get_property("dnaSyringe"));
 	phylum type = monster_phylum(enemy);
 
+	if((my_location() == $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]) && !contains_text(combatState, "love gnats"))
+	{
+		combatState = combatState + "(love gnats)(love stinkbug)(love mosquito)";
+		set_property("cc_combatHandler", combatState);
+	}
+
 	if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
 	{
 		set_property("cc_combatHandler", combatState + "(love gnats)");

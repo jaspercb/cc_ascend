@@ -51,14 +51,7 @@ void oldPeoplePlantStuff()
 {
 	if(!florist_available())
 	{
-		if(my_path() != "Community Service")
-		{
-			return;
-		}
-		if(!get_property("cc_haveFlorist").to_boolean())
-		{
-			return;
-		}
+		return;
 	}
 
 	if(didWePlantHere(my_location()))
@@ -68,99 +61,47 @@ void oldPeoplePlantStuff()
 
 	if(my_path() == "Community Service")
 	{
-		if(florist_available())
+		if(my_location() == $location[The Velvet / Gold Mine])
 		{
-			if(my_location() == $location[The Velvet / Gold Mine])
-			{
-				cli_execute("florist plant horn of plenty");
-				cli_execute("florist plant max headshroom");
-				cli_execute("florist plant foul toadstool");
-			}
-			else if(my_location() == $location[The Secret Government Laboratory])
-			{
-				cli_execute("florist plant pitcher plant");
-				cli_execute("florist plant spider plant");
-				cli_execute("florist plant stealing magnolia");
-			}
-			else if(my_location() == $location[The Bubblin\' Caldera])
-			{
-				cli_execute("florist plant seltzer watercress");
-				cli_execute("florist plant lettuce spray");
-				cli_execute("florist plant skunk cabbage");
-			}
-			else if(my_location() == $location[The Skeleton Store])
-			{
-				cli_execute("florist plant canned spinach");
-				cli_execute("florist plant aloe guv'nor");
-			}
-			else if(my_location() == $location[LavaCo&trade; Lamp Factory])
-			{
-				cli_execute("florist plant impatiens");
-				cli_execute("florist plant red fern");
-				cli_execute("florist plant bamboo!");
-			}
-			else if(my_location() == $location[8-bit realm])
-			{
-				cli_execute("florist plant rad-ish radish");
-				cli_execute("florist plant smoke-ra");
-				cli_execute("florist plant deadly cinnamon");
-			}
+			cli_execute("florist plant horn of plenty");
+			cli_execute("florist plant max headshroom");
+			cli_execute("florist plant foul toadstool");
 		}
-		else
+		else if(my_location() == $location[The Secret Government Laboratory])
 		{
-			if(my_location() == $location[The Velvet / Gold Mine])
-			{
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=22");
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=30");
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=27");
-			}
-			else if(my_location() == $location[The Secret Government Laboratory])
-			{
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=15");
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=20");
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=12");
-			}
-			else if(my_location() == $location[The Bubblin\' Caldera])
-			{
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=10");
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=9");
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=6");
-			}
-			else if(my_location() == $location[The Skeleton Store])
-			{
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=19");
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=13");
-			}
-			else if(my_location() == $location[LavaCo&trade; Lamp Factory])
-			{
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=14");
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=16");
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=17");
-			}
-			else if(my_location() == $location[8-bit realm])
-			{
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=3");
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=5");
-				visit_url("choice.php?whichchoice=720&pwd=&option=4");
-				visit_url("choice.php?whichchoice=720&pwd=&option=1&plant=7");
-			}
+			cli_execute("florist plant pitcher plant");
+			cli_execute("florist plant spider plant");
+			cli_execute("florist plant stealing magnolia");
 		}
+		else if(my_location() == $location[The Bubblin\' Caldera])
+		{
+			cli_execute("florist plant seltzer watercress");
+			cli_execute("florist plant lettuce spray");
+			cli_execute("florist plant skunk cabbage");
+		}
+		else if(my_location() == $location[The Skeleton Store])
+		{
+			cli_execute("florist plant canned spinach");
+			cli_execute("florist plant aloe guv'nor");
+		}
+		else if(my_location() == $location[LavaCo&trade; Lamp Factory])
+		{
+			cli_execute("florist plant impatiens");
+			cli_execute("florist plant red fern");
+			cli_execute("florist plant bamboo!");
+		}
+		else if(my_location() == $location[8-bit realm])
+		{
+			cli_execute("florist plant rad-ish radish");
+			cli_execute("florist plant smoke-ra");
+			cli_execute("florist plant deadly cinnamon");
+		}
+		else if(my_location() == $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice])
+		{
+			cli_execute("florist plant war lily");
+			cli_execute("florist plant arctic moss");
+		}
+
 		return;
 	}
 

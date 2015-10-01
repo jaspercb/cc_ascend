@@ -2161,7 +2161,7 @@ boolean L11_aridDesert()
 		if(my_primestat() == $stat[Muscle])
 		{
 			buyUpTo(1, $item[Ben-Gal&trade; Balm]);
-			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
+			buffMaintain($effect[Go Get \'Em, Tiger!], 0, 1, 1);
 			buyUpTo(1, $item[Blood of the Wereseal]);
 			buffMaintain($effect[Temporary Lycanthropy], 0, 1, 1);
 		}
@@ -8536,16 +8536,112 @@ boolean LA_communityService()
 			if((item_amount($item[Black Pixel]) < 2) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
 				equip($slot[acc1], $item[Continuum Transfunctioner]);
+
+				if(get_property("cc_tryPowerLevel").to_boolean())
+				{
+					buffMaintain($effect[Ur-Kel\'s Aria of Annoyance], 62, 1, 1);
+					buffMaintain($effect[Pride of the Puffin], 62, 1, 1);
+					buffMaintain($effect[Drescher\'s Annoying Noise], 72, 1, 1);
+					buffMaintain($effect[Wry Smile], 42, 1, 1);
+				}
+
 				ccAdv(1, $location[8-bit Realm], "cs_combatNormal");
 				return true;
 			}
 
 
+			if(have_skill($skill[Advanced Saucecrafting]))
+			{
+				if(item_amount($item[Tomato Juice of Powerful Power]) < 4)
+				{
+					cli_execute("make 6 tomato juice of powerful power");
+				}
+			}
 
 			if(((item_amount($item[Power Pill]) < 2) || (item_amount($item[Yellow Pixel]) < 30)) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
+				if(get_property("cc_tryPowerLevel").to_boolean())
+				{
+					if((my_hp() + 50) < my_maxhp())
+					{
+						useCocoon();
+					}
+					if(elementalPlanes_access($element[stench]) && (my_hp() > 100))
+					{
+						if(current_mcd() < 10)
+						{
+							change_mcd(10);
+						}
+						if(item_amount($item[Astral Statuette]) > 0)
+						{
+							equip($item[Astral Statuette]);
+						}
+
+						if(have_skill($skill[Soul Food]))
+						{
+							use_skill(my_soulsauce() / 5, $skill[Soul Food]);
+						}
+
+						buyUpTo(1, $item[Hair Spray]);
+						buyUpTo(1, $item[Ben-Gal&trade; Balm]);
+						buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
+						buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
+
+						buffMaintain($effect[Ur-Kel\'s Aria of Annoyance], 62, 1, 1);
+						buffMaintain($effect[Pride of the Puffin], 62, 1, 1);
+						buffMaintain($effect[Drescher\'s Annoying Noise], 72, 1, 1);
+						buffMaintain($effect[Wry Smile], 42, 1, 1);
+						buffMaintain($effect[Astral Shell], 42, 1, 1);
+						buffMaintain($effect[Elemental Saucesphere], 42, 1, 1);
+						buffMaintain($effect[Brawnee\'s Anthem of Absorption], 45, 1, 1);
+						buffMaintain($effect[Jalape&ntilde;o Saucesphere], 37, 1, 1);
+						buffMaintain($effect[Ghostly Shell], 38, 1, 1);
+						buffMaintain($effect[Reptilian Fortitude], 42, 1, 1);
+						buffMaintain($effect[Power Ballad of the Arrowsmith], 37, 1, 1);
+						buffMaintain($effect[The Moxious Madrigal], 34, 1, 1);
+						buffMaintain($effect[Patience of the Tortoise], 33, 1, 1);
+						buffMaintain($effect[Seal Clubbing Frenzy], 33, 1, 1);
+						buffMaintain($effect[Mariachi Mood], 33, 1, 1);
+						buffMaintain($effect[Disco State of Mind], 33, 1, 1);
+						buffMaintain($effect[Saucemastery], 33, 1, 1);
+						buffMaintain($effect[Blubbered Up], 39, 1, 1);
+						buffMaintain($effect[Spiky Shell], 40, 1, 1);
+						buffMaintain($effect[Song of Starch], 132, 1, 1);
+						buffMaintain($effect[Empathy], 47, 1, 1);
+						buffMaintain($effect[Leash of Linguini], 44, 1, 1);
+						buffMaintain($effect[Rage of the Reindeer], 42, 1, 1);
+						buffMaintain($effect[Scarysauce], 42, 1, 1);
+						buffMaintain($effect[Disco Fever], 42, 1, 1);
+						buffMaintain($effect[Ruthlessly Efficient], 42, 1, 1);
+
+
+#						if((have_effect($effect[The Dinsey Look]) == 0) && (item_amount($item[FunFunds&trade;]) > 0))
+#						{
+#							cli_execute("make dinsey face paint");
+#						}
+#						buffMaintain($effect[The Dinsey Look], 0, 1, 1);
+
+
+#						buffMaintain($effect[Flexibili Tea], 0, 1, 1);
+						buffMaintain($effect[Neuroplastici Tea], 0, 1, 1);
+#						buffMaintain($effect[Physicali Tea], 0, 1, 1);
+
+						if(item_amount($item[Tomato Juice of Powerful Power]) > 4)
+						{
+							buffMaintain($effect[Tomato Power], 0, 1, 1);
+						}
+
+						ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice], "cs_combatNormal");
+						return true;
+					}
+				}
 				ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
 				return true;
+			}
+
+			if(get_property("cc_tryPowerLevel").to_boolean())
+			{
+				change_mcd(0);
 			}
 
 			int missing = 0;
@@ -8604,8 +8700,8 @@ boolean LA_communityService()
 				}
 			}
 
-			buffMaintain($effect[Ode to Booze], 50, 1, 10);
 			buffMaintain($effect[Simmering], 0, 1, 1);
+			buffMaintain($effect[Ode to Booze], 50, 1, 10);
 			overdrink(1, $item[Emergency Margarita]);
 			if(my_spleen_use() == 12)
 			{
@@ -8702,6 +8798,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Saucemastery], 1, 1, 1);
 			buffMaintain($effect[Disco State of Mind], 1, 1, 1);
 			buffMaintain($effect[Pasta Oneness], 1, 1, 1);
+			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
 
 			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
@@ -8711,7 +8808,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Superheroic], 0, 1, 1);
 			buffMaintain($effect[Extra Backbone], 0, 1, 1);
 			buffMaintain($effect[Pill Power], 0, 1, 1);
-			buffMaintain($effect[Go Get \'Em, Tiger!], 0, 1, 1);
+			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
 			buffMaintain($effect[Nigh-Invincible], 0, 1, 1);
 			buffMaintain($effect[Pill Power], 0, 1, 1);
 			buffMaintain($effect[Frog in Your Throat], 0, 1, 1);
@@ -8784,7 +8881,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Rage of the Reindeer], 10, 1, 1);
 			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
 			buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
-
+			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
 
 			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
@@ -8798,7 +8895,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Savage Beast Inside], 0, 1, 1);
 			buffMaintain($effect[Extra Backbone], 0, 1, 1);
 			buffMaintain($effect[Pill Power], 0, 1, 1);
-			buffMaintain($effect[Go Get \'Em, Tiger!], 0, 1, 1);
+			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
 			buffMaintain($effect[Seal Clubbing Frenzy], 1, 1, 1);
 			buffMaintain($effect[Patience of the Tortoise], 1, 1, 1);
 			buffMaintain($effect[Human-Humanoid Hybrid], 0, 1, 1);
@@ -8840,6 +8937,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Song of Bravado], 100, 1, 1);
 			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
 			buffMaintain($effect[The Magical Mojomuscular Melody], 3, 1, 1);
+			buffMaintain($effect[Disdain of She-Who-Was], 15, 1, 1);
 
 			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			buffMaintain($effect[Mystically Oiled], 0, 1, 1);
@@ -9089,7 +9187,14 @@ boolean LA_communityService()
 
 			if((my_level() < 8) && !get_property("_fancyHotDogEaten").to_boolean())
 			{
-				eatFancyDog("sleeping dog");
+				if(get_property("cc_noSleepingDog").to_boolean() || have_skill($skill[Dog Tired]))
+				{
+					eatFancyDog("savage macho dog");
+				}
+				else
+				{
+					eatFancyDog("sleeping dog");
+				}
 				return true;
 			}
 

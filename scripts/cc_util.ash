@@ -1290,6 +1290,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Boon of the Storm Tortoise]:	useSkill = $skill[Spirit Boon];					break;
 	case $effect[Boon of the War Snapper]:		useSkill = $skill[Spirit Boon];					break;
 	case $effect[Bounty of Renenutet]:			useSkill = $skill[Bounty of Renenutet];			break;
+	case $effect[Brawnee\'s Anthem of Absorption]:useSkill = $skill[Brawnee\'s Anthem of Absorption];break;
 	case $effect[Brilliant Resolve]:			useItem = $item[Resolution: Be Smarter];		break;
 	case $effect[Browbeaten]:					useItem = $item[Old Eyebrow Pencil];			break;
 	case $effect[Butt-Rock Hair]:				useItem = $item[Hair Spray];					break;
@@ -1332,6 +1333,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Fishy\, Oily]:					useItem = $item[Gourmet Gourami Oil];			break;
 	case $effect[Fishy Whiskers]:				useItem = $item[Catfish Whiskers];				break;
 	case $effect[Flame-Retardant Trousers]:		useItem = $item[Hot Powder];					break;
+	case $effect[Flexibili Tea]:				useItem = $item[cuppa Flexibili Tea];			break;
 	case $effect[Flimsy Shield of the Pastalord]:useSkill = $skill[Shield of the Pastalord];	break;
 	case $effect[Florid Cheeks]:				useItem = $item[Henna Face Paint];				break;
 	case $effect[Fortunate Resolve]:			useItem = $item[Resolution: Be Luckier];		break;
@@ -1397,6 +1399,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Mysteriously Handsome]:		useItem = $item[Handsomeness Potion];			break;
 	case $effect[Mystically Oiled]:				useItem = $item[Ointment of the Occult];		break;
 	case $effect[Nearly All-Natural]:			useItem = $item[bag of grain];					break;
+	case $effect[Neuroplastici Tea]:			useItem = $item[cuppa Neuroplastici tea];		break;
 	case $effect[Neutered Nostrils]:			useItem = $item[Polysniff Perfume];				break;
 	case $effect[Newt Gets In Your Eyes]:		useItem = $item[eyedrops of newt];				break;
 	case $effect[Nigh-Invincible]:				useItem = $item[pixel star];					break;
@@ -1416,6 +1419,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Perceptive Pressure]:			useItem = $item[Pressurized Potion of Perception];	break;
 	case $effect[Perspicacious Pressure]:		useItem = $item[Pressurized Potion of Perspicacity];break;
 	case $effect[Phorcefullness]:				useItem = $item[Philter of Phorce];				break;
+	case $effect[Physicali Tea]:				useItem = $item[cuppa Physicali tea];			break;
 	case $effect[Pill Power]:
 		if(item_amount($item[miniature power pill]) > 0)
 		{
