@@ -637,11 +637,11 @@ boolean cc_cheesePostCS()
 	cli_execute("florist plant pitcher plant");
 	cli_execute("florist plant aloe guv'nor");
 
-	if(item_amount($item[Unconscious Collective Dream Jar]) > 0)
+	while(((my_spleen_use() + 4) <= spleen_limit()) && (item_amount($item[Unconscious Collective Dream Jar]) > 0))
 	{
 		chew(1, $item[Unconscious Collective Dream Jar]);
 	}
-	if(item_amount($item[Twinkly Wad]) > 0)
+	while(((my_spleen_use() + 1) <= spleen_limit()) && (item_amount($item[Twinkly Wad]) > 0))
 	{
 		chew(1, $item[Twinkly Wad]);
 	}
