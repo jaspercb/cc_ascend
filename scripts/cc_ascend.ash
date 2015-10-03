@@ -8561,7 +8561,9 @@ boolean LA_communityService()
 				}
 			}
 
-			if(((item_amount($item[Power Pill]) < 2) || (item_amount($item[Yellow Pixel]) < 30)) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
+			int pixelsNeed = 30 - (15 * item_amount($item[Miniature Power Pill]));
+
+			if(((item_amount($item[Power Pill]) < 2) || (item_amount($item[Yellow Pixel]) < pixelsNeed)) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
 				if(get_property("cc_tryPowerLevel").to_boolean())
 				{
