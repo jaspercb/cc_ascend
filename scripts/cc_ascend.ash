@@ -83,6 +83,7 @@ void initializeSettings()
 	set_property("cc_castletop", "");
 	set_property("cc_chasmBusted", true);
 	set_property("cc_clanstuff", "0");
+	set_property("cc_combatHandler", "");
 	set_property("cc_cookie", -1);
 	set_property("cc_crackpotjar", "");
 	set_property("cc_crypt", "");
@@ -8701,6 +8702,11 @@ boolean LA_communityService()
 			}
 
 			buffMaintain($effect[Simmering], 0, 1, 1);
+			uneffect($effect[The Moxious Madrigal]);
+			uneffect($effect[Ur-Kel\'s Aria of Annoyance]);
+			uneffect($effect[Brawnee\'s Anthem of Absorption]);
+			uneffect($effect[Power Ballad of the Arrowsmith]);
+
 			buffMaintain($effect[Ode to Booze], 50, 1, 10);
 			overdrink(1, $item[Emergency Margarita]);
 			if(my_spleen_use() == 12)
