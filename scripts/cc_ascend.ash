@@ -8456,7 +8456,7 @@ boolean LA_communityService()
 				return true;
 			}
 
-			if(have_skill($skill[Advanced Saucecrafting]) && ((item_amount($item[Cherry]) < 2) || (item_amount($item[Grapefruit]) < 1) || (item_amount($item[Lemon]) < 1)))
+			if(have_skill($skill[Advanced Saucecrafting]) && ((item_amount($item[Cherry]) < 1) || (item_amount($item[Grapefruit]) < 1) || (item_amount($item[Lemon]) < 1)))
 			{
 				if((have_effect($effect[On The Trail]) > 0) && (get_property("olfactedMonster") == to_string($monster[possessed can of tomatoes])))
 				{
@@ -8691,14 +8691,32 @@ boolean LA_communityService()
 
 			if(have_skill($skill[Advanced Saucecrafting]))
 			{
-				if(item_amount($item[Oil of Expertise]) < 4)
+				if(item_amount($item[Oil of Expertise]) < 2)
 				{
-					cli_execute("make 6 oil of expertise");
+					cli_execute("make 3 oil of expertise");
 				}
 				if(item_amount($item[Tomato Juice of Powerful Power]) < 4)
 				{
 					cli_execute("make 6 tomato juice of powerful power");
 				}
+
+				if((item_amount($item[grapefruit]) > 0) && (item_amount($item[Ointment of the Occult]) == 0))
+				{
+					cli_execute("make ointment of the occult");
+				}
+				else if((item_amount($item[squashed frog]) > 0) && (item_amount($item[Frogade]) == 0))
+				{
+					cli_execute("make frogade");
+				}
+				else if((item_amount($item[eye of newt]) > 0) && (item_amount($item[Eyedrops of Newt]) == 0))
+				{
+					cli_execute("make eyedrops of newt");
+				}
+				else if((item_amount($item[salamander spleen]) > 0) && (item_amount($item[Salamander Slurry]) == 0))
+				{
+					cli_execute("make salamander slurry");
+				}
+
 			}
 
 			buffMaintain($effect[Simmering], 0, 1, 1);

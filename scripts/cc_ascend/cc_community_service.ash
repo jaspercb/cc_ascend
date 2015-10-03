@@ -254,19 +254,19 @@ void cs_make_stuff()
 
 		if(item_amount($item[Scrumptious Reagent]) == 5)
 		{
-			if(item_amount($item[grapefruit]) > 0)
+			if((item_amount($item[grapefruit]) > 0) && (item_amount($item[Ointment of the Occult]) == 0))
 			{
 				cli_execute("make ointment of the occult");
 			}
-			if(item_amount($item[squashed frog]) > 0)
+			if((item_amount($item[squashed frog]) > 0) && (item_amount($item[Frogade]) == 0))
 			{
 				cli_execute("make frogade");
 			}
-			if(item_amount($item[eye of newt]) > 0)
+			if((item_amount($item[eye of newt]) > 0) && (item_amount($item[Eyedrops of Newt]) == 0))
 			{
 				cli_execute("make eyedrops of newt");
 			}
-			else if(item_amount($item[salamander spleen]) > 0)
+			else if((item_amount($item[salamander spleen]) > 0) && (item_amount($item[Salamander Slurry]) == 0))
 			{
 				cli_execute("make salamander slurry");
 			}
