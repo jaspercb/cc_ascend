@@ -8270,7 +8270,7 @@ boolean LA_communityService()
 	}
 	else
 	{
-		useFam = $familiars[Puck Man, Ms. Puck Man];
+		useFam = $familiars[Galloping Grill, Fist Turkey, Puck Man, Ms. Puck Man];
 	}
 
 	familiar toFam = $familiar[Cocoabo];
@@ -8519,6 +8519,8 @@ boolean LA_communityService()
 				}
 				if(have_skill($skill[CLEESH]) || ($location[The Secret Government Laboratory].turns_spent <= 10))
 				{
+					buffMaintain($effect[Singer\'s Faithful Ocelot], 47, 1, 1);
+					buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 43, 1, 1);
 					ccAdv(1, $location[The Secret Government Laboratory], "cs_combatNormal");
 					return true;
 				}
