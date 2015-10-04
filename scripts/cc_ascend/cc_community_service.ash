@@ -757,7 +757,7 @@ boolean do_cs_quest(int quest)
 		return false;
 	}
 	int [int] questList = get_cs_questList();
-	if(((questList contains quest) && (my_adventures() > questList[quest])) || (quest == 30))
+	if(((questList contains quest) && (my_adventures() >= questList[quest])) || (quest == 30))
 	{
 		string temp = visit_url("council.php");
 		if(quest != 30)
