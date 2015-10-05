@@ -168,6 +168,10 @@ boolean adjustEdHat(string goal)
 	{
 		option = 6;
 	}
+	else if(((goal == "breathe") || (goal == "underwater") || (goal == "fish")) && (get_property("edPiece") != "fish"))
+	{
+		option = 7;
+	}
 
 	if(option != -1)
 	{

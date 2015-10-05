@@ -9157,7 +9157,22 @@ boolean LA_communityService()
 			buffMaintain($effect[Empathy], 15, 1, 1);
 			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
 
+			familiar toFam = $familiar[Cocoabo];
+			foreach fam in $familiars[]
+			{
+				if(familiar_weight(fam) > familiar_weight(toFam))
+				{
+					toFam = fam;
+				}
+			}
 
+			handleFamiliar(toFam);
+
+			#This is probably not all that effective here....
+			if(item_amount($item[Ghost Dog Chow]) > 0)
+			{
+				use(item_amount($item[Ghost Dog Chow]), $item[Ghost Dog Chow]);
+			}
 
 
 			if(do_cs_quest(5))
@@ -9207,10 +9222,10 @@ boolean LA_communityService()
 				buffMaintain($effect[Ode to Booze], 50, 1, 6);
 				cli_execute("postcheese");
 			}
-			if((my_level() >= 8) && (item_amount($item[Astral Pilsner]) == 6))
+			if((my_level() >= 8) && (item_amount($item[Astral Pilsner]) > 0))
 			{
 				buffMaintain($effect[Ode to Booze], 50, 1, 6);
-				drink(6, $item[Astral Pilsner]);
+				drink(item_amount($item[Astral Pilsner]), $item[Astral Pilsner]);
 			}
 
 			if((my_level() < 8) && !get_property("_fancyHotDogEaten").to_boolean())

@@ -36,6 +36,10 @@ void cs_initializeDay(int day)
 		return;
 	}
 
+	set_property("choiceAdventure1106", 3);
+	set_property("choiceAdventure1107", 1);
+	set_property("choiceAdventure1108", 3);
+
 	if(day == 1)
 	{
 		if(get_property("cc_day1_init") != "finished")
@@ -654,7 +658,7 @@ boolean cs_giant_growth()
 	{
 		return false;
 	}
-	return adv1($location[The Haunted Kitchen], 0, "cs_combatLTB");
+	return adv1($location[8-bit Realm], 0, "cs_combatLTB");
 }
 
 
