@@ -9677,6 +9677,12 @@ my_maxmp()))
 		abort("Got beaten up, please fix me");
 	}
 
+	if(!get_property("_pottedTeaTreeUsed").to_boolean())
+	{
+		visit_url("campground.php?action=teatree");
+		run_choice(1);
+	}
+
 	if(LA_communityService())
 	{
 		return true;

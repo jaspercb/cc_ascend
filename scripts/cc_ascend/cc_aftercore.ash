@@ -632,10 +632,13 @@ boolean cc_ascendIntoCS()
 
 boolean cc_cheesePostCS()
 {
-	ccAdv(1, $location[Barf Mountain]);
-	cli_execute("florist plant stealing magnolia");
-	cli_execute("florist plant pitcher plant");
-	cli_execute("florist plant aloe guv'nor");
+	if(!didWePlantHere($location[Barf Mountain]))
+	{
+		ccAdv(1, $location[Barf Mountain]);
+		cli_execute("florist plant stealing magnolia");
+		cli_execute("florist plant pitcher plant");
+		cli_execute("florist plant aloe guv'nor");
+	}
 
 	while(((my_spleen_use() + 4) <= spleen_limit()) && (item_amount($item[Unconscious Collective Dream Jar]) > 0))
 	{
@@ -655,11 +658,7 @@ boolean cc_cheesePostCS()
 	visit_url("place.php?whichplace=airport_hot&action=airport4_zone1");
 	run_choice(7);
 
-	if(item_amount($item[CSA fire-starting kit]) > 0)
-	{
-		set_property("choiceAdventure595", 1);
-		use(1, $item[CSA fire-starting kit]);
-	}
+
 	if(item_amount($item[Confusing LED Clock]) > 0)
 	{
 		use(1, $item[Confusing LED Clock]);
@@ -756,6 +755,15 @@ boolean cc_cheesePostCS()
 	use_barrels();
 
 	cli_execute("drink 5-hour acrimony");
+
+	if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean())
+	{
+		set_property("choiceAdventure595", 1);
+		use(1, $item[CSA fire-starting kit]);
+	}
+
+
+
 	cli_execute("pvp loot 1");
 	cli_execute("cc_ascend");
 	return true;
