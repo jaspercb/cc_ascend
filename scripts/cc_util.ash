@@ -1192,6 +1192,11 @@ int [item] cc_get_campground()
 		campItems[$item[packet of winter seeds]] = 1;
 	}
 
+	if(contains_text(page, "Your Haunted Doghouse"))
+	{
+		campItems[$item[Haunted Doghouse]] = 1;
+	}
+
 	if(!(campItems contains $item[Dramatic&trade; range]) && get_property("cc_haveoven").to_boolean())
 	{
 		campItems[$item[Dramatic&trade; range]] = 1;
