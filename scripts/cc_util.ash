@@ -690,6 +690,11 @@ int towerKeyCount()
 
 boolean handleBarrelFullOfBarrels()
 {
+	if(!get_property("barrelShrineUnlocked").to_boolean())
+	{
+		return false;
+	}
+
 	string page = visit_url("barrel.php");
 
 	if(!contains_text(page, "The Barrel Full of Barrels"))
