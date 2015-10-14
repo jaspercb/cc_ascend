@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16335;
+since r16380;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1376,6 +1376,8 @@ void doBedtime()
 	{
 		abort("Our last encounter was UNDYING and we ended up trying to bedtime and failed.");
 	}
+
+	handleBarrelFullOfBarrels();
 
 	process_kmail("cc_deleteMail");
 
@@ -8410,10 +8412,7 @@ boolean LA_communityService()
 				visit_url("guild.php?place=paco");
 				run_choice(1);
 				woods_questStart();
-				if(!get_property("barrelShrineUnlocked").to_boolean())
-				{
-					handleBarrelFullOfBarrels();
-				}
+				handleBarrelFullOfBarrels();
 				if(!florist_available())
 				{
 					visit_url("choice.php?whichchoice=720&pwd=&option=4");
@@ -9682,6 +9681,8 @@ my_maxmp()))
 		visit_url("campground.php?action=teatree");
 		run_choice(1);
 	}
+
+	doNumberology("adventures3");
 
 	if(LA_communityService())
 	{

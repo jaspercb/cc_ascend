@@ -3,6 +3,7 @@ import <zlib.ash>
 import <chateaumantegna.ash>
 
 // Public Prototypes
+int doNumberology(string goal);
 boolean handleBarrelFullOfBarrels();
 int solveCookie();
 boolean use_barrels();
@@ -834,6 +835,97 @@ boolean playwith(skill sk, string prop) {
 	if(ok_skill(sk) && need(prop))
 		use_skill(1, sk);
 	return !need(prop);
+}
+
+int doNumberology(string goal)
+{
+	if(!have_skill($skill[Calculate the Universe]))
+	{
+		return -1;
+	}
+	if(get_property("_universeCalculated").to_boolean())
+	{
+		return -1;
+	}
+	if(my_mp() < 12)
+	{
+		return -1;
+	}
+	static int [string] signs;
+	signs["Mongoose"] = 1;
+	signs["Wallaby"] = 2;
+	signs["Vole"] = 3;
+	signs["Platypus"] = 4;
+	signs["Opossum"] = 5;
+	signs["Marmot"] = 6;
+	signs["Wombat"] = 7;
+	signs["Blender"] = 8;
+	signs["Packrat"] = 9;
+	signs["Bad Moon"] = 10; #Derp Mode? Derp Mode.
+
+	static string [int] numberwang;
+	numberwang[0] = "meat";
+	numberwang[1] = "muscle";
+	numberwang[2] = "sleepy";
+	numberwang[3] = "confused";
+	numberwang[4] = "embarrassed";
+	numberwang[5] = "";
+	numberwang[6] = "wings";
+	numberwang[7] = "beaten up";
+	numberwang[8] = "";
+	numberwang[9] = "perfume";
+	numberwang[10] = "steroid";
+	numberwang[11] = "inebriety";
+	numberwang[12] = "";
+	numberwang[13] = "";
+	numberwang[14] = "";
+	numberwang[15] = "";
+	numberwang[16] = "magicalness-in-a-can";
+	numberwang[17] = "adventures";
+	numberwang[18] = "rum";
+	numberwang[19] = "+moxie";
+	numberwang[20] = "-moxie";
+	numberwang[21] = "fites";
+	numberwang[22] = "phone";
+	numberwang[23] = "muscle";
+	numberwang[24] = "fail";
+	numberwang[25] = "";
+	numberwang[26] = "";
+	numberwang[27] = "phone";
+	numberwang[28] = "";
+	numberwang[29] = "";
+	numberwang[30] = "";
+	numberwang[31] = "";
+	numberwang[32] = "";
+	numberwang[33] = "";
+	numberwang[34] = "";
+	numberwang[35] = "-muscle";
+	numberwang[36] = "adventures2";
+	numberwang[51] = "battlefield";
+	numberwang[69] = "adventures3";
+
+
+	# seed + ascensions + moonsign * (spleen + level) + turns
+	int melancholy = my_spleen_use() + my_level();
+	int score = my_adventures() + (melancholy * (my_ascensions() + signs[my_sign()]));
+
+	# Under the assumption that the result is % 100:
+	score = score % 100;
+	int i=0;
+	while(i < 100)
+	{
+		int current = (score + (melancholy * i)) % 100;
+		#print("Possible(" + i + "): " + current);
+		if(numberwang[current] == goal)
+		{
+			use_skill($skill[Calculate the Universe]);
+			visit_url("choice.php?whichchoice=1103&pwd=&option=1&num=" + 30);
+			//Do numberology
+			return i;
+		}
+		i = i + 1;
+	}
+	return -1;
 }
 
 boolean haveAny(boolean[item] array)
