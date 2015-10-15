@@ -75,16 +75,18 @@ element ns_hedge2();
 element ns_hedge3();
 void woods_questStart();			//From Bale\'s woods.ash relay mod.
 int howLongBeforeHoloWristDrop();
-string safeString(string input);
-string safeString(skill input);
-string safeString(item input);
-string safeString(monster input);
+boolean is_avatar_potion(item it);	//From Veracity\'s "avatar potion" post
+
 
 // Private Prototypes
 boolean buffMaintain(item source, effect buff, int uses, int turns);
 boolean buffMaintain(skill source, effect buff, int mp_min, int casts, int turns);
 string beerPong(string page);
 boolean beehiveConsider();
+string safeString(string input);
+string safeString(skill input);
+string safeString(item input);
+string safeString(monster input);
 
 // Function Definitions
 
@@ -168,6 +170,19 @@ boolean organsFull()
 		return false;
 	}
 	return true;
+}
+
+boolean is_avatar_potion(item it)
+{
+	#From Veracity\'s "avatar potion" post
+	#http://kolmafia.us/showthread.php?19302-Add-quot-avatar-potion-quot-as-an-item_type%28%29&p=129243&viewfull=1#post129243
+	effect e = effect_modifier(it, "Effect");
+	if(e == $effect[none])
+	{
+		return false;
+	}
+	string avatar = string_modifier(e, "Avatar");
+	return (avatar != "");
 }
 
 int internalQuestStatus(string prop)
@@ -869,17 +884,17 @@ int doNumberology(string goal)
 	numberwang[2] = "sleepy";
 	numberwang[3] = "confused";
 	numberwang[4] = "embarrassed";
-	numberwang[5] = "";
+	numberwang[5] = "far out";
 	numberwang[6] = "wings";
 	numberwang[7] = "beaten up";
-	numberwang[8] = "";
+	numberwang[8] = "poisoned";
 	numberwang[9] = "perfume";
 	numberwang[10] = "steroid";
 	numberwang[11] = "inebriety";
-	numberwang[12] = "";
-	numberwang[13] = "";
-	numberwang[14] = "";
-	numberwang[15] = "";
+	numberwang[12] = "gnoll";
+	numberwang[13] = "???";
+	numberwang[14] = "moxieweed";
+	numberwang[15] = "meat";
 	numberwang[16] = "magicalness-in-a-can";
 	numberwang[17] = "adventures";
 	numberwang[18] = "rum";
@@ -888,20 +903,18 @@ int doNumberology(string goal)
 	numberwang[21] = "fites";
 	numberwang[22] = "phone";
 	numberwang[23] = "muscle";
-	numberwang[24] = "fail";
-	numberwang[25] = "";
-	numberwang[26] = "";
-	numberwang[27] = "phone";
-	numberwang[28] = "";
-	numberwang[29] = "";
-	numberwang[30] = "";
-	numberwang[31] = "";
-	numberwang[32] = "";
-	numberwang[33] = "";
-	numberwang[34] = "";
+	numberwang[27] = "moxie";
+	numberwang[30] = "ghuol";
+	numberwang[33] = "magicalness-in-a-can";
+	numberwang[34] = "+moxie";
 	numberwang[35] = "-muscle";
 	numberwang[36] = "adventures2";
+	numberwang[37] = "fites3";
+	numberwang[38] = "+myst";
+	numberwang[40] = "meat";
+	numberwang[48] = "butt";
 	numberwang[51] = "battlefield";
+	numberwang[58] = "teleportitis";
 	numberwang[69] = "adventures3";
 
 
@@ -918,9 +931,9 @@ int doNumberology(string goal)
 		#print("Possible(" + i + "): " + current);
 		if(numberwang[current] == goal)
 		{
-			use_skill($skill[Calculate the Universe]);
-			visit_url("choice.php?whichchoice=1103&pwd=&option=1&num=" + 30);
-			//Do numberology
+			visit_url("runskillz.php?pwd&action=Skillz&whichskill=144&quantity=1", true);
+			#use_skill($skill[Calculate the Universe]);
+			visit_url("choice.php?whichchoice=1103&pwd=&option=1&num=" + i);
 			return i;
 		}
 		i = i + 1;
