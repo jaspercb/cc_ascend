@@ -1827,6 +1827,11 @@ void doBedtime()
 			}
 		}
 
+		if(have_skill($skill[Calculate the Universe]) && !get_property("_universeCalculated").to_boolean())
+		{
+			print("You can still Calculate the Universe!", "blue");
+		}
+
 		if(is_unrestricted("Deck of Every Card") && (item_amount($item[Deck of Every Card]) > 0) && (get_property("_deckCardsDrawn").to_int() < 15))
 		{
 			print("You have a Deck of Every Card and " + (15 - get_property("_deckCardsDrawn").to_int()) + " draws remaining!", "blue");
@@ -8516,7 +8521,12 @@ boolean LA_communityService()
 				{
 					equip($slot[acc1], $item[Personal Ventilation Unit]);
 				}
-				if(have_skill($skill[CLEESH]) || ($location[The Secret Government Laboratory].turns_spent <= 10))
+				int turns_max = 10;
+				if(have_skill($skill[CLEESH]))
+				{
+					turns_max = 18;
+				}
+				if($location[The Secret Government Laboratory].turns_spent <= turns_max)
 				{
 					buffMaintain($effect[Singer\'s Faithful Ocelot], 47, 1, 1);
 					buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 43, 1, 1);
