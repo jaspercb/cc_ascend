@@ -1377,7 +1377,24 @@ void doBedtime()
 		abort("Our last encounter was UNDYING and we ended up trying to bedtime and failed.");
 	}
 
-	handleBarrelFullOfBarrels();
+	if(get_property("cc_priorCoinmasters").to_boolean())
+	{
+		set_property("cc_priorCoinmasters", false);
+		set_property("autoSatisfyWithCoinmasters", false);
+	}
+
+	if(get_property("cc_priorCharpaneMode").to_int() == 1)
+	{
+		print("Resuming Compact Character Mode.");
+		set_property("cc_priorCharpaneMode", 0);
+		visit_url("account.php?am=1&pwd=&action=flag_compactchar&value=1&ajax=0", true);
+	}
+
+	restore_property("kingLiberatedScript", "cc_kingLiberatedScript");
+	restore_property("afterAdventureScript", "cc_afterAdventureScript");
+	restore_property("betweenAdventureScript", "cc_betweenAdventureScript");
+	restore_property("betweenBattleScript", "cc_betweenBattleScript");
+
 
 	process_kmail("cc_deleteMail");
 
@@ -1410,18 +1427,7 @@ void doBedtime()
 		return;
 	}
 
-	if(get_property("cc_priorCoinmasters").to_boolean())
-	{
-		set_property("cc_priorCoinmasters", false);
-		set_property("autoSatisfyWithCoinmasters", false);
-	}
-
-	if(get_property("cc_priorCharpaneMode").to_int() == 1)
-	{
-		print("Resuming Compact Character Mode.");
-		set_property("cc_priorCharpaneMode", 0);
-		visit_url("account.php?am=1&pwd=&action=flag_compactchar&value=1&ajax=0", true);
-	}
+	handleBarrelFullOfBarrels();
 
 	if(get_property("cc_priorXiblaxianMode").to_int() == 1)
 	{
@@ -11927,6 +11933,11 @@ void cc_begin()
 		set_property("cc_priorCoinmasters", true);
 		set_property("autoSatisfyWithCoinmasters", true);
 	}
+
+	set_property_ifempty("cc_kingLiberatedScript", get_property("kingLiberatedScript"));
+	set_property_ifempty("cc_afterAdventureScript", get_property("afterAdventureScript"));
+	set_property_ifempty("cc_betweenAdventureScript", get_property("betweenAdventureScript"));
+	set_property_ifempty("cc_betweenBattleScript", get_property("betweenBattleScript"));
 
 	set_property("kingLiberatedScript", "scripts/kingcheese.ash");
 	set_property("afterAdventureScript", "scripts/postcheese.ash");

@@ -14,6 +14,9 @@ float elemental_resist_value(element resistance);
 int elemental_resist(element goal);
 boolean uneffect(effect toRemove);
 boolean organsFull();
+boolean set_property_ifempty(string setting, string change);
+boolean restore_property(string setting, string source);
+boolean clear_property_if(string setting, string cond);
 int doRest();
 item whatHiMein();
 boolean getDiscoStyle();
@@ -781,7 +784,33 @@ string runChoice(string page_text)
 	return page_text;
 }
 
+boolean set_property_ifempty(string setting, string change)
+{
+	if(get_property(setting) == "")
+	{
+		set_property(setting, change);
+		return true;
+	}
+	return false;
+}
 
+boolean restore_property(string setting, string source)
+{
+	string data = get_property(source);
+	set_property(setting, data);
+	set_property(source, "");
+	return (data != "");
+}
+
+boolean clear_property_if(string setting, string cond)
+{
+	if(get_property(setting) == cond)
+	{
+		set_property(setting, "");
+		return true;
+	}
+	return false;
+}
 
 int turkeyBooze()
 {
