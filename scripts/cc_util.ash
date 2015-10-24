@@ -8,6 +8,7 @@ boolean handleBarrelFullOfBarrels();
 int solveCookie();
 boolean use_barrels();
 int [item] cc_get_campground();
+boolean haveSpleenFamiliar();
 float elemental_resist_value(int resistance);
 float elemental_resist_value(element resistance);
 int elemental_resist(element goal);
@@ -1275,6 +1276,20 @@ void shrugAT()
 	}
 }
 
+
+boolean haveSpleenFamiliar()
+{
+	boolean [familiar] spleenies = $familiars[Baby Sandworm, Rogue Program, Pair of Stomping Boots, Bloovian Groose, Unconscious Collective, Grim Brother, Golden Monkey];
+
+	foreach fam in spleenies
+	{
+		if(have_familiar(fam))
+		{
+			return true;
+		}
+	}
+	return false;
+}
 
 int [item] cc_get_campground()
 {

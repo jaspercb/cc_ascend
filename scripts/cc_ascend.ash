@@ -1401,6 +1401,10 @@ void doBedtime()
 	{
 		spleenlimit -= 3;
 	}
+	if(!haveSpleenFamiliar())
+	{
+		spleenlimit = 0;
+	}
 	if((my_spleen_use() < spleenlimit) && !in_hardcore())
 	{
 		return;

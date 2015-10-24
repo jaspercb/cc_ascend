@@ -118,13 +118,19 @@ void cs_initializeDay(int day)
 			if(get_property("barrelShrineUnlocked").to_boolean())
 			{
 				visit_url("da.php?barrelshrine=1");
-				visit_url("choice.php?whichchoice=1100&pwd&option=2", true);
+				if(!get_property("_barrelPrayer").to_boolean())
+				{
+					visit_url("choice.php?whichchoice=1100&pwd&option=2", true);
+				}
 			}
 
-			set_property("choiceAdventure1059", 1);
-			visit_url("shop.php?whichshop=meatsmith");
-			visit_url("shop.php?whichshop=meatsmith&action=talk");
-			run_choice(1);
+			if(get_property("questM23Meatsmith") == "unstarted")
+			{
+				set_property("choiceAdventure1059", 1);
+				visit_url("shop.php?whichshop=meatsmith");
+				visit_url("shop.php?whichshop=meatsmith&action=talk");
+				run_choice(1);
+			}
 
 			use_familiar($familiar[Crimbo Shrub]);
 			if((my_familiar() == $familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
@@ -656,7 +662,7 @@ boolean cs_giant_growth()
 	{
 		return true;
 	}
-	return cs_giant_growth();	
+	return cs_giant_growth();
 }
 
 

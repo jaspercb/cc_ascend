@@ -874,6 +874,12 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill curse of weaksauce";
 		}
 
+		if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_class() == $class[Sauceror]) && (my_mp() >= 20))
+		{
+			set_property("cc_combatHandler", combatState + "(weaksauce)");
+			return "skill curse of weaksauce";
+		}
+
 		if((!contains_text(combatState, "pocket crumbs")) && (have_skill($skill[pocket crumbs])))
 		{
 			set_property("cc_combatHandler", combatState + "(pocket crumbs)");
@@ -933,13 +939,19 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill spirit snap";
 	}
 
-	if((!contains_text(combatState, "stuffedmortarshell")) && (my_class() == $class[Sauceror]) && ((expected_damage() * 2) < my_hp()) && have_skill($skill[Stuffed Mortar Shell]))
+	if((!contains_text(combatState, "stuffedmortarshell")) && (my_class() == $class[Sauceror]) && ((expected_damage() * 2) < my_hp()) && have_skill($skill[Stuffed Mortar Shell]) && (my_mp() > mp_cost($skill[Stuffed Mortar Shell])))
 	{
 		set_property("cc_combatHandler", combatState + "(stuffedmortarshell)");
 		return "skill stuffed mortar shell";
 	}
 
 	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_class() == $class[Sauceror]) && (my_mp() >= 32))
+	{
+		set_property("cc_combatHandler", combatState + "(weaksauce)");
+		return "skill curse of weaksauce";
+	}
+
+	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_class() == $class[Sauceror]) && (my_mp() >= 8) && contains_text(combatState, "stuffedmortarshell"))
 	{
 		set_property("cc_combatHandler", combatState + "(weaksauce)");
 		return "skill curse of weaksauce";
@@ -1016,6 +1028,15 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			stunner = "skill soul bubble";
 		}
+
+
+		if(!contains_text(combatState, "delaymortarshell") && contains_text(combatState, "stuffedmortarshell") && (my_class() == $class[Sauceror]) && ((expected_damage() * 2) < my_hp()) && !have_skill($skill[Stuffed Mortar Shell]) && have_skill($skill[Salsaball]) && (my_mp() > mp_cost($skill[Salsaball])))
+		{
+			set_property("cc_combatHandler", combatState + "(delaymortarshell)");
+			return "skill salsaball";
+		}
+
+
 		break;
 
 	}
