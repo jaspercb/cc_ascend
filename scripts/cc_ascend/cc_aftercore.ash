@@ -754,14 +754,13 @@ boolean cc_cheesePostCS()
 	}
 	use_barrels();
 
-	cli_execute("drink 5-hour acrimony");
-
 	if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean())
 	{
 		set_property("choiceAdventure595", 1);
 		use(1, $item[CSA fire-starting kit]);
 	}
 
+	cli_execute("drink 5-hour acrimony");
 
 
 	cli_execute("pvp loot 1");

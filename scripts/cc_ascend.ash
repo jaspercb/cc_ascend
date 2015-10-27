@@ -9278,7 +9278,7 @@ boolean LA_communityService()
 			{
 				doRest();
 			}
-			if(possessEquipment($item[Staff of the Headmaster\'s Victuals]) && can_equip($item[Staff of the Headmaster\'s Victuals]))
+			if(possessEquipment($item[Staff of the Headmaster\'s Victuals]) && can_equip($item[Staff of the Headmaster\'s Victuals]) && have_skill($skill[Spirit of Rigatoni]))
 			{
 				equip($slot[weapon], $item[Staff of the Headmaster\'s Victuals]);
 			}
