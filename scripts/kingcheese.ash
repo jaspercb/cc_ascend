@@ -22,6 +22,10 @@ void handleKingLiberation()
 			set_property("cc_100familiar", false);
 		}
 
+		// Some items don't get pulled, notably, Stench Wad but some others as well (fat loot token, holiday fun, box of sunshine).
+		// This might fix it...
+		cli_execute("refresh all");
+
 		if(have_display())
 		{
 			boolean[item] toDisplay = $items[Instant Karma, Thwaitgold Caterpillar Statuette, Thwaitgold Nit Statuette, Thwaitgold Scarab Beetle Statuette, Thwaitgold Spider Statuette, Thwaitgold Termite Statuette];

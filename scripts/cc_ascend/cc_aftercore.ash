@@ -760,8 +760,11 @@ boolean cc_cheesePostCS()
 		use(1, $item[CSA fire-starting kit]);
 	}
 
+	if(item_amount($item[5-hour acrimony]) == 0)
+	{
+		buy(1, $item[5-Hour Acrimony]);
+	}
 	cli_execute("drink 5-hour acrimony");
-
 
 	cli_execute("pvp loot 1");
 	cli_execute("cc_ascend");

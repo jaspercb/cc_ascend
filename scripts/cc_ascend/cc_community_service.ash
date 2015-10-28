@@ -185,6 +185,11 @@ void cs_initializeDay(int day)
 				}
 			}
 
+			if((item_amount($item[Seal Tooth]) == 0) && have_skill($skill[Ambidextrous Funkslinging]))
+			{
+				cli_execute("hermit seal tooth");
+			}
+
 			cli_execute("garden pick");
 
 			while(item_amount($item[saucepan]) == 0)
@@ -632,6 +637,11 @@ string cs_combatLTB(int round, string opp, string text)
 	if((!contains_text(combatState, "louder than bomb")) && (item_amount($item[Louder Than Bomb]) > 0))
 	{
 		set_property("cc_combatHandler", combatState + "(louder than bomb)");
+
+		if((item_amount($item[Seal Tooth]) > 0) && have_skill($skill[Ambidextrous Funkslinging]))
+		{
+			return "item louder than bomb, seal tooth";
+		}
 		return "item louder than bomb";
 	}
 
