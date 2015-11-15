@@ -640,6 +640,7 @@ string cs_combatLTB(int round, string opp, string text)
 
 		if((item_amount($item[Seal Tooth]) > 0) && have_skill($skill[Ambidextrous Funkslinging]))
 		{
+			#return "item louder than bomb";
 			return "item louder than bomb, seal tooth";
 		}
 		return "item louder than bomb";
@@ -667,7 +668,15 @@ boolean cs_giant_growth()
 	{
 		return false;
 	}
+
+#	print("Starting LTBs: " + item_amount($item[Louder Than Bomb]), "blue");
 	adv1($location[8-bit Realm], 0, "cs_combatLTB");
+
+#	print("Ending LTBs: " + item_amount($item[Louder Than Bomb]), "blue");
+#	cli_execute("refresh inv");
+#	print("Corrected LTBs: " + item_amount($item[Louder Than Bomb]), "blue");
+
+
 	if(have_effect($effect[Giant Growth]) > 0)
 	{
 		return true;

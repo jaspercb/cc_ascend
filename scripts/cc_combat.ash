@@ -486,7 +486,7 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		if((equipped_item($slot[acc1]) == $item[Mayfly Bait Necklace]) || (equipped_item($slot[acc2]) == $item[Mayfly Bait Necklace]) || (equipped_item($slot[acc3]) == $item[Mayfly Bait Necklace]))
 		{
-			if((my_location() == $location[Dreadsylvanian Village]) || (my_location() == $location[Dreadsylvanian Castle]) || (my_location() == $location[Dreadsylvanian Woods]) || (my_location() == $location[Sloppy Seconds Diner]))
+			if((my_location() == $location[Dreadsylvanian Village]) || (my_location() == $location[Dreadsylvanian Castle]) || (my_location() == $location[Dreadsylvanian Woods]) || (my_location() == $location[Sloppy Seconds Diner]) || (my_location() == $location[The Ice Hole]))
 			{
 				set_property("cc_combatHandler", combatState + "(mayfly)");
 				return "skill summon mayfly swarm";

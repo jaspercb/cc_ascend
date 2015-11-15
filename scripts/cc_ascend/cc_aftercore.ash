@@ -772,10 +772,170 @@ boolean cc_cheesePostCS()
 }
 
 
+boolean cc_cheesePostCSWalford()
+{
+	while(((my_spleen_use() + 4) <= spleen_limit()) && (item_amount($item[Unconscious Collective Dream Jar]) > 0))
+	{
+		chew(1, $item[Unconscious Collective Dream Jar]);
+	}
+	while(((my_spleen_use() + 1) <= spleen_limit()) && (item_amount($item[Twinkly Wad]) > 0))
+	{
+		chew(1, $item[Twinkly Wad]);
+	}
+
+	boolean oldGarbage = get_property("cc_getDinseyGarbageMoney").to_boolean();
+	set_property("cc_getDinseyGarbageMoney", true);
+	dinseylandfill_garbageMoney();
+	set_property("cc_getDinseyGarbageMoney", oldGarbage);
+
+	getDiscoStyle(6);
+
+	//Equip Ice Hole Equipment	
+
+	if(!didWePlantHere($location[The Ice Hole]) && (my_location() == $location[The Ice Hole]))
+	{
+		ccAdv(1, $location[The Ice Hole]);
+		cli_execute("florist plant kelptomaniac");
+		cli_execute("florist plant orca orchid");
+		cli_execute("florist plant snori");
+	}
+
+	//While bucket < 100 and enough adventures, Ice Hole
+	//Return bucket, get new bucket
+	//While bucket < 100 and enough adventures, Ice Hole
+
+	//Ice Hotel Equipment
+	//Assume mayfly
+	//Until adventures > 0, Ice Hotel
+	//Set Choice == 5, when previous adv == choice 5, set choice 4
+	
+	//set choice back to 0
+
+
+	if(item_amount($item[Confusing LED Clock]) > 0)
+	{
+		use(1, $item[Confusing LED Clock]);
+		visit_url("campground.php?action=rest");
+	}
+	if(item_amount($item[The Crown of Ed the Undying]) > 0)
+	{
+		equip($item[The Crown of Ed the Undying]);
+		adjustEdHat("meat");
+	}
+	if(item_amount($item[Camp Scout Backpack]) > 0)
+	{
+		equip($item[Camp Scout Backpack]);
+	}
+	if(item_amount($item[Sneaky Pete\'s Leather Jacket]) > 0)
+	{
+		equip($item[Sneaky Pete\'s Leather Jacket]);
+	}
+	if(item_amount($item[Thor\'s Pliers]) > 0)
+	{
+		equip($item[Thor\'s Pliers]);
+	}
+	if(item_amount($item[Operation Patriot Shield]) > 0)
+	{
+		equip($item[Operation Patriot Shield]);
+	}
+	if(item_amount($item[Pantsgiving]) > 0)
+	{
+		equip($item[Pantsgiving]);
+	}
+	if(item_amount($item[Cheap Sunglasses]) > 0)
+	{
+		equip($slot[acc1], $item[Cheap Sunglasses]);
+	}
+	if(item_amount($item[Sister Accessory]) > 0)
+	{
+		equip($slot[acc2], $item[Sister Accessory]);
+	}
+	if(item_amount($item[Mr. Cheeng\'s Spectacles]) > 0)
+	{
+		equip($slot[acc3], $item[Mr. Cheeng\'s Spectacles]);
+	}
+	handleFamiliar($familiar[Golden Monkey]);
+	if(item_amount($item[Snow Suit]) > 0)
+	{
+		equip($item[Snow Suit]);
+	}
+
+	use(1 + ((my_adventures() + 9)/20), $item[How to Avoid Scams]);
+	while(my_adventures() > 0)
+	{
+		ccAdv(1, $location[Barf Mountain]);
+	}
+
+	while((my_inebriety() + 5) <= inebriety_limit())
+	{
+		buy(1, $item[5-Hour Acrimony]);
+		drink(1, $item[5-Hour Acrimony]);
+	}
+
+
+	while((my_inebriety() + 2) <= inebriety_limit())
+	{
+		buy(1, $item[Beery Blood]);
+		drink(1, $item[Beery Blood]);
+	}
+
+	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
+	tryPantsEat();
+	cli_execute("refresh all");
+
+	while(my_adventures() > 0)
+	{
+		ccAdv(1, $location[Barf Mountain]);
+	}
+
+	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
+	tryPantsEat();
+	cli_execute("refresh all");
+
+	while(my_adventures() > 0)
+	{
+		ccAdv(1, $location[Barf Mountain]);
+	}
+
+	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
+	tryPantsEat();
+	cli_execute("refresh all");
+
+	while(my_adventures() > 0)
+	{
+		ccAdv(1, $location[Barf Mountain]);
+	}
+	use_barrels();
+
+	if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean())
+	{
+		set_property("choiceAdventure595", 1);
+		use(1, $item[CSA fire-starting kit]);
+	}
+
+	if(item_amount($item[5-hour acrimony]) == 0)
+	{
+		buy(1, $item[5-Hour Acrimony]);
+	}
+	cli_execute("drink 5-hour acrimony");
+
+	cli_execute("pvp loot 1");
+	cli_execute("cc_ascend");
+	return true;
+}
+
+
 boolean cc_doCS()
 {
 	cli_execute("cc_ascend");
-	cc_cheesePostCS();
+//	if(item_amount($item[Blood-Drive Sticker]) > 0)
+//	{
+//		cc_cheesePostCSWalford();
+//	}
+//	else
+//	{
+		cc_cheesePostCS();
+//	}
 	cc_ascendIntoCS();
 	cli_execute("cc_ascend");
 	return true;

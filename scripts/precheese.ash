@@ -1,7 +1,20 @@
 script "precheese.ash";
 import <cc_util.ash>
 
+
+//	handlePreAdventure methods, first allows explicit location declaration
+//	second uses my_location(), this is called defaultly by preadventure.
+//	Primarily, we use the explicit location declaration whenever we bypass adv1
+void handlePreAdventure(location place);
+void handlePreAdventure();
+
+
 void handlePreAdventure()
+{
+	handlePreAdventure(my_location());
+}
+
+void handlePreAdventure(location place)
 {
 	if(get_property("cc_bedroomHandler2") == "yes")
 	{
@@ -22,7 +35,7 @@ void handlePreAdventure()
 		return;
 	}
 
-	if(my_location() == $location[The Lower Chambers])
+	if(place == $location[The Lower Chambers])
 	{
 		return;
 	}
@@ -33,12 +46,12 @@ void handlePreAdventure()
 		use(1, $item[bittycar meatcar]);
 	}
 
-	if((have_effect($effect[Coated in Slime]) > 0) && (my_location() != $location[The Slime Tube]))
+	if((have_effect($effect[Coated in Slime]) > 0) && (place != $location[The Slime Tube]))
 	{
 		visit_url("clan_slimetube.php?action=chamois&pwd");
 	}
 
-	if((my_location() == $location[The Broodling Grounds]) && (my_class() == $class[Seal Clubber]))
+	if((place == $location[The Broodling Grounds]) && (my_class() == $class[Seal Clubber]))
 	{
 		uneffect($effect[Spiky Shell]);
 		uneffect($effect[Scarysauce]);
@@ -47,29 +60,7 @@ void handlePreAdventure()
 
 	if(my_path() == "Actually Ed the Undying")
 	{
-		if((my_location() == $location[The Penultimate Fantasy Airship]) ||
-			(my_location() == $location[Twin Peak]) ||
-			(my_location() == $location[The Poop Deck]) ||
-			(my_location() == $location[The Haunted Ballroom]) ||
-			(my_location() == $location[The Haunted Billiards Room]) ||
-			(my_location() == $location[The Haunted Gallery]) ||
-			(my_location() == $location[The Haunted Bathroom]) ||
-			(my_location() == $location[The Hidden Hospital]) ||
-			(my_location() == $location[Inside the Palindome]) ||
-			(my_location() == $location[The Dark Neck of the Woods]) ||
-			(my_location() == $location[The Dark Heart of the Woods]) ||
-			(my_location() == $location[The Dark Elbow of the Woods]) ||
-			(my_location() == $location[The Defiled Cranny]) ||
-			(my_location() == $location[The Defiled Alcove]) ||
-			(my_location() == $location[The Spooky Forest]) ||
-			(my_location() == $location[Inside the Palindome]) ||
-			(my_location() == $location[The Hidden Hospital]) ||
-			(my_location() == $location[The Obligatory Pirate\'s Cove]) ||
-			(my_location() == $location[Wartime Hippy Camp]) ||
-			(my_location() == $location[The Castle in the Clouds in the Sky (Basement)]) ||
-			(my_location() == $location[The Castle in the Clouds in the Sky (Top Floor)]) ||
-			(my_location() == $location[The Castle in the Clouds in the Sky (Ground Floor)])
-		)
+		if($locations[The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Defiled Alcove, The Defiled Cranny, The Haunted Ballroom, The Haunted Bathroom, The Haunted Billiards Room, The Haunted Gallery, The Hidden Hospital, Inside the Palindome, The Obligatory Pirate\'s Cove, The Penultimate Fantasy Airship, The Poop Deck, The Spooky Forest, Twin Peak, Wartime Hippy Camp] contains place)
 		{
 			if((have_effect($effect[Shelter of Shed]) == 0) && (my_mp() < 15))
 			{
@@ -97,10 +88,7 @@ void handlePreAdventure()
 
 
 	#+C Maintenance
-	if((my_location() == $location[The F\'c\'le]) ||
-		(my_location() == $location[Sonofa Beach]) ||
-		(my_location() == $location[The Black Forest])
-	)
+	if($locations[The Black Forest, The F\'c\'le, Sonofa Beach] contains place)
 	{
 		uneffect($effect[The Sonata Of Sneakiness]);
 		buffMaintain($effect[Hippy Stench], 0, 1, 10);
@@ -108,7 +96,7 @@ void handlePreAdventure()
 		buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 25, 1, 2);
 	}
 	#+C Maintenance
-	if(my_location() == $location[Barrrney\'s Barrr])
+	if(place == $location[Barrrney\'s Barrr])
 	{
 		if(numPirateInsults() < 7)
 		{
@@ -125,32 +113,7 @@ void handlePreAdventure()
 	}
 
 	#+NC Maintenance
-	if((my_location() == $location[The Penultimate Fantasy Airship]) ||
-		(my_location() == $location[Twin Peak]) ||
-		(my_location() == $location[A Maze of Sewer Tunnels]) ||
-		(my_location() == $location[The Poop Deck]) ||
-		(my_location() == $location[The Haunted Ballroom]) ||
-		(my_location() == $location[The Haunted Billiards Room]) ||
-		(my_location() == $location[The Haunted Gallery]) ||
-		(my_location() == $location[The Haunted Bathroom]) ||
-		(my_location() == $location[The Hidden Hospital]) ||
-		(my_location() == $location[Inside the Palindome]) ||
-		(my_location() == $location[The Dark Neck of the Woods]) ||
-		(my_location() == $location[The Dark Heart of the Woods]) ||
-		(my_location() == $location[The Dark Elbow of the Woods]) ||
-		(my_location() == $location[The Defiled Cranny]) ||
-		(my_location() == $location[The Defiled Alcove]) ||
-		(my_location() == $location[The Upper Chamber]) ||
-		(my_location() == $location[The Spooky Forest]) ||
-		(my_location() == $location[The Middle Chamber]) ||
-		(my_location() == $location[Inside the Palindome]) ||
-		(my_location() == $location[The Hidden Hospital]) ||
-		(my_location() == $location[The Obligatory Pirate\'s Cove]) ||
-		(my_location() == $location[Wartime Hippy Camp]) ||
-		(my_location() == $location[The Castle in the Clouds in the Sky (Basement)]) ||
-		(my_location() == $location[The Castle in the Clouds in the Sky (Top Floor)]) ||
-		(my_location() == $location[The Castle in the Clouds in the Sky (Ground Floor)])
-	)
+	if($locations[A Maze of Sewer Tunnels, The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Defiled Alcove, The Defiled Cranny, The Haunted Ballroom, The Haunted Bathroom, The Haunted Billiards Room, The Haunted Gallery, The Hidden Hospital, The Ice Hotel, Inside the Palindome, The Middle Chamber, The Obligatory Pirate\'s Cove, The Penultimate Fantasy Airship, The Poop Deck, The Spooky Forest, Twin Peak, The Upper Chamber, Wartime Hippy Camp] contains place)
 	{
 		buffMaintain($effect[Smooth Movements], 15, 1, 2);
 		buffMaintain($effect[The Sonata of Sneakiness], 25, 1, 2);

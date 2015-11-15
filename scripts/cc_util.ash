@@ -18,8 +18,10 @@ boolean set_property_ifempty(string setting, string change);
 boolean restore_property(string setting, string source);
 boolean clear_property_if(string setting, string cond);
 int doRest();
+boolean in_ronin();
 item whatHiMein();
 boolean getDiscoStyle();
+boolean getDiscoStyle(int choice);
 int dreamJarDrops();
 int powderedGoldDrops();
 int grimTaleDrops();
@@ -260,6 +262,14 @@ string statCard()
 		return "69";
 	}
 	return "";
+}
+
+boolean getDiscoStyle(int choice)
+{
+	getDiscoStyle();
+    visit_url("place.php?whichplace=airport_hot&action=airport4_zone1");
+    run_choice(choice);
+	return true;
 }
 
 boolean getDiscoStyle()
@@ -927,7 +937,7 @@ int doNumberology(string goal)
 	numberwang[15] = "meat";
 	numberwang[16] = "magicalness-in-a-can";
 	numberwang[17] = "adventures";
-	numberwang[18] = "rum";
+	numberwang[18] = "booze";
 	numberwang[19] = "+moxie";
 	numberwang[20] = "-moxie";
 	numberwang[21] = "fites";
@@ -942,10 +952,13 @@ int doNumberology(string goal)
 	numberwang[37] = "fites3";
 	numberwang[38] = "+myst";
 	numberwang[40] = "meat";
+	numberwang[44] = "booze";
 	numberwang[48] = "butt";
 	numberwang[51] = "battlefield";
 	numberwang[58] = "teleportitis";
 	numberwang[69] = "adventures3";
+	numberwang[75] = "booze";
+	numberwang[99] = "booze";
 
 
 	# seed + ascensions + moonsign * (spleen + level) + turns
@@ -961,6 +974,7 @@ int doNumberology(string goal)
 		#print("Possible(" + i + "): " + current);
 		if(numberwang[current] == goal)
 		{
+			print("Found option for Numberology: " + current, "blue");
 			visit_url("runskillz.php?pwd&action=Skillz&whichskill=144&quantity=1", true);
 			#use_skill($skill[Calculate the Universe]);
 			visit_url("choice.php?whichchoice=1103&pwd=&option=1&num=" + i);
@@ -981,6 +995,11 @@ boolean haveAny(boolean[item] array)
 		}
 	}
 	return false;
+}
+
+boolean in_ronin()
+{
+	return !can_interact();
 }
 
 

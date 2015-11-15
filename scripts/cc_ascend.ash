@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16380;
+since r16465;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -23,6 +23,7 @@ import <cc_ascend/cc_elementalPlanes.ash>
 import <cc_ascend/cc_deckofeverycard.ash>
 import <cc_ascend/cc_community_service.ash>
 import <cc_ascend/cc_clan.ash>
+import <precheese.ash>
 
 
 boolean ccEat(int howMany, item toEat)
@@ -247,6 +248,7 @@ boolean ccAdv(int num, location loc)
 
 boolean ccAdvBypass(string url, location loc)
 {
+	handlePreAdventure(loc);
 	if(my_class() == $class[Ed])
 	{
 		ed_preAdv(1, loc, "");
@@ -8781,7 +8783,6 @@ boolean LA_communityService()
 		print("Service Complete, finishing finish...", "blue");
 		try
 		{
-			print("This might pop up a window?", "red");
 			if(do_cs_quest(30))
 			{
 				cli_execute("call kingcheese");
@@ -8904,10 +8905,10 @@ boolean LA_communityService()
 				buy(1, $item[Ben-Gal&trade; Balm]);
 			}
 
-			if(item_amount($item[Blood-drive sticker]) > 0)
-			{
-				chew(1, $item[Blood-drive sticker]);
-			}
+#			if(item_amount($item[Blood-drive sticker]) > 0)
+#			{
+#				chew(1, $item[Blood-drive sticker]);
+#			}
 
 			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
@@ -9145,6 +9146,12 @@ boolean LA_communityService()
 					{
 						extraAdv = extraAdv + 5;
 					}
+
+					if(item_amount($item[Blood-Drive Sticker]) > 0)
+					{
+						needCost = needCost + 5;
+					}
+
 					if((my_adventures() + extraAdv) > needCost)
 					{
 						use_skill(1, $skill[The Ode to Booze]);
@@ -9327,6 +9334,17 @@ boolean LA_communityService()
 			if(my_adventures() < questCost)
 			{
 				buffMaintain($effect[Throwing Some Shade], 0, 1, 1);
+			}
+
+
+			if((my_adventures() < questCost) && (item_amount($item[Blood-Drive Sticker]) > 0))
+			{
+				equip($slot[pants], $item[none]);
+				equip($slot[off-hand], $item[none]);
+				pulverizeThing($item[A Light That Never Goes Out]);
+				pulverizeThing($item[Vicar\'s Tutu]);
+				chew(item_amount($item[Handful of Smithereens]), $item[Handful of Smithereens]);
+
 			}
 
 			if(do_cs_quest(8))
@@ -9642,7 +9660,7 @@ boolean doTasks()
 	{
 		handleFamiliar($familiar[Adventurous Spelunker]);
 	}
-	if(in_hardcore() && (my_familiar() == $familiar[Adventurous Spelunker]) && (my_mp() < 50) && ((my_mp() * 2) <
+	if(in_hardcore() && (my_familiar() == $familiar[Adventurous Spelunker]) && (my_mp() < 50) && ((my_mp() ** 2) <
 my_maxmp()))
 	{
 		handleFamiliar($familiar[Galloping Grill]);
@@ -9711,15 +9729,15 @@ my_maxmp()))
 
 	if(item_amount($item[pulled red taffy]) >= 6)
 	{
-		use(item_amount($item[pulled red taffy]), $item[pulled red taffy]);
+		buffMaintain($effect[Cinnamon Challenger], 0, 6, 10);
 	}
 	if(item_amount($item[pulled orange taffy]) >= 6)
 	{
-		use(item_amount($item[pulled orange taffy]), $item[pulled orange taffy]);
+		buffMaintain($effect[Orange Crusher], 0, 6, 10);
 	}
 	if(item_amount($item[pulled violet taffy]) >= 6)
 	{
-		use(item_amount($item[pulled violet taffy]), $item[pulled violet taffy]);
+		buffMaintain($effect[Purple Reign], 0, 6, 10);
 	}
 	buyableMaintain($item[Ben-gal&trade; Balm], 1, 200);
 	buyableMaintain($item[Turtle Pheromones], 1, 800, my_class() == $class[Turtle Tamer]);
@@ -10197,6 +10215,19 @@ my_maxmp()))
 	if((item_amount($item[antique accordion]) == 0) && (my_meat() > 12500) && (have_skill($skill[The Ode to Booze])))
 	{
 		buyUpTo(1, $item[antique accordion]);
+	}
+
+	while((item_amount($item[Seal Tooth]) == 0) && (item_amount($item[Hermit Permit]) > 0) && (my_meat() > 7500))
+	{
+		if((item_amount($item[Worthless Trinket]) + item_amount($item[Worthless Gewgaw]) + item_amount($item[Worthless Knick-knack])) > 0)
+		{
+			hermit(1, $item[Seal Tooth]);
+		}
+		else
+		{
+			buyUpTo(1, $item[chewing gum on a string]);
+			use(1, $item[chewing gum on a string]);
+		}
 	}
 
 
