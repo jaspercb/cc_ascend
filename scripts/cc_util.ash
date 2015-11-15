@@ -1618,6 +1618,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Protection from Bad Stuff]:	useItem = $item[scroll of Protection from Bad Stuff];break;
 	case $effect[Puddingskin]:					useItem = $item[scroll of Puddingskin];			break;
 	case $effect[Pulchritudinous Pressure]:		useItem = $item[Pressurized Potion of Pulchritude];break;
+	case $effect[Purity of Spirit]:				useItem = $item[cold-filtered water];			break;
 	case $effect[Purr of the Feline]:			useSkill = $skill[Purr of the Feline];			break;
 	case $effect[Purple Reign]:					useItem = $item[Pulled Violet Taffy];			break;
 	case $effect[Puzzle Fury]:					useItem = $item[37x37x37 puzzle cube];			break;

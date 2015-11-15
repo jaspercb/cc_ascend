@@ -8640,14 +8640,16 @@ boolean LA_communityService()
 						buffMaintain($effect[Disco Fever], 42, 1, 1);
 						buffMaintain($effect[Ruthlessly Efficient], 42, 1, 1);
 
+						if(!get_property("_aprilShower").to_boolean())
+						{
+							cli_execute("shower myst");
+						}
 
 #						if((have_effect($effect[The Dinsey Look]) == 0) && (item_amount($item[FunFunds&trade;]) > 0))
 #						{
 #							cli_execute("make dinsey face paint");
 #						}
 #						buffMaintain($effect[The Dinsey Look], 0, 1, 1);
-
-
 #						buffMaintain($effect[Flexibili Tea], 0, 1, 1);
 						buffMaintain($effect[Neuroplastici Tea], 0, 1, 1);
 #						buffMaintain($effect[Physicali Tea], 0, 1, 1);
@@ -8655,6 +8657,21 @@ boolean LA_communityService()
 						if(item_amount($item[Tomato Juice of Powerful Power]) > 4)
 						{
 							buffMaintain($effect[Tomato Power], 0, 1, 1);
+						}
+
+
+						if((get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]))
+						{
+							handleFamiliar($familiar[Artistic Goth Kid]);
+						}
+
+						if(my_familiar() != $familiar[Artistic Goth Kid])
+						{
+							if(handleFaxMonster("black crayon elf"))
+							{
+								ccAdv(1, $location[Noob Cave]);
+								return true;
+							}
 						}
 
 						ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice], "cs_combatNormal");
@@ -8847,6 +8864,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Disco State of Mind], 1, 1, 1);
 			buffMaintain($effect[Pasta Oneness], 1, 1, 1);
 			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
+			buffMaintain($effect[A Few Extra Pounds], 10, 1, 1);
 
 			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
@@ -8863,6 +8881,11 @@ boolean LA_communityService()
 			buffMaintain($effect[Feroci Tea], 0, 1, 1);
 			buffMaintain($effect[Vitali Tea], 0, 1, 1);
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
+			buffMaintain($effect[Purity of Spirit], 0, 1, 1);
+			if(is_unrestricted("Colorful Plastic Ball"))
+			{
+				cli_execute("ballpit");
+			}
 
 			if(get_property("telescopeUpgrades").to_int() > 0)
 			{
@@ -9182,6 +9205,10 @@ boolean LA_communityService()
 			}
 			buffMaintain($effect[Empathy], 15, 1, 1);
 			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
+			if(is_unrestricted("Clan Pool Table"))
+			{
+				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
+			}
 
 			familiar toFam = $familiar[Cocoabo];
 			foreach fam in $familiars[]
@@ -9240,6 +9267,10 @@ boolean LA_communityService()
 			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
 
 			buffMaintain($effect[Human-Beast Hybrid], 0, 1, 1);
+			if(is_unrestricted("Clan Pool Table"))
+			{
+				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
+			}
 
 
 			while((my_level() < 8) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
@@ -9296,6 +9327,10 @@ boolean LA_communityService()
 			buffMaintain($effect[Song of Sauce], 100, 1, 1);
 			buffMaintain($effect[Arched Eyebrow of the Archmage], 10, 1, 1);
 			buffMaintain($effect[Jackasses\' Symphony of Destruction], 8, 1, 1);
+			if(is_unrestricted("Clan Pool Table"))
+			{
+				visit_url("clan_viplounge.php?preaction=poolgame&stance=2");
+			}
 
 			if(do_cs_quest(7))
 			{
@@ -9324,6 +9359,10 @@ boolean LA_communityService()
 
 			buffMaintain($effect[Snow Shoes], 0, 1, 1);
 			buffMaintain($effect[Obscuri Tea], 0, 1, 1);
+			if(!get_property("_olympicSwimmingPool").to_boolean())
+			{
+				cli_execute("swim noncombat");
+			}
 
 			int questCost = get_cs_questCost(curQuest);
 			if(my_adventures() < questCost)
@@ -9376,6 +9415,11 @@ boolean LA_communityService()
 			buffMaintain($effect[One Very Clear Eye], 0, 1, 1);
 			buffMaintain($effect[Sour Softshoe], 0, 1, 1);
 			buffMaintain($effect[Serendipi Tea], 0, 1, 1);
+			if(is_unrestricted("Clan Pool Table"))
+			{
+				visit_url("clan_viplounge.php?preaction=poolgame&stance=3");
+			}
+
 
 			boolean [familiar] itemFams = $familiars[Gelatinous Cubeling, Syncopated Turtle, Slimeling, Angry Jung Man, Grimstone Golem, Adventurous Spelunker, Jumpsuited Hound Dog, Steam-Powered Cheerleader];
 			familiar itemFam = $familiar[Cocoabo];
