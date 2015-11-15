@@ -9660,8 +9660,7 @@ boolean doTasks()
 	{
 		handleFamiliar($familiar[Adventurous Spelunker]);
 	}
-	if(in_hardcore() && (my_familiar() == $familiar[Adventurous Spelunker]) && (my_mp() < 50) && ((my_mp() ** 2) <
-my_maxmp()))
+	if(in_hardcore() && (my_familiar() == $familiar[Adventurous Spelunker]) && (my_mp() < 50))
 	{
 		handleFamiliar($familiar[Galloping Grill]);
 	}
