@@ -8928,10 +8928,10 @@ boolean LA_communityService()
 				buy(1, $item[Ben-Gal&trade; Balm]);
 			}
 
-#			if(item_amount($item[Blood-drive sticker]) > 0)
-#			{
-#				chew(1, $item[Blood-drive sticker]);
-#			}
+			if(item_amount($item[Blood-drive sticker]) > 0)
+			{
+				chew(1, $item[Blood-drive sticker]);
+			}
 
 			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
