@@ -1471,6 +1471,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Brawnee\'s Anthem of Absorption]:useSkill = $skill[Brawnee\'s Anthem of Absorption];break;
 	case $effect[Brilliant Resolve]:			useItem = $item[Resolution: Be Smarter];		break;
 	case $effect[Browbeaten]:					useItem = $item[Old Eyebrow Pencil];			break;
+	case $effect[Busy Bein\' Delicious]:		useItem = $item[Crimbo fudge];					break;
 	case $effect[Butt-Rock Hair]:				useItem = $item[Hair Spray];					break;
 	case $effect[Carlweather\'s Cantata of Confrontation]:useSkill = $skill[Carlweather\'s Cantata of Confrontation];break;
 	case $effect[Celestial Camouflage]:			useItem = $item[Celestial Squid Ink];			break;
@@ -1593,6 +1594,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Patience of the Tortoise]:		useSkill = $skill[Patience of the Tortoise];	break;
 	case $effect[Patient Smile]:				useSkill = $skill[Patient Smile];				break;
 	case $effect[Penne Fedora]:					useSkill = $skill[none];						break;
+	case $effect[Peppermint Bite]:				useItem = $item[Crimbo Peppermint Bark];		break;
 	case $effect[Peppermint Twisted]:			useItem = $item[Peppermint Twist];				break;
 	case $effect[Perceptive Pressure]:			useItem = $item[Pressurized Potion of Perception];	break;
 	case $effect[Perspicacious Pressure]:		useItem = $item[Pressurized Potion of Perspicacity];break;
@@ -1608,6 +1610,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 			useItem = $item[power pill];
 		}																						break;
 	case $effect[Pill Party!]:					useItem = $item[Pill Cup];						break;
+	case $effect[Pisces in the Skyces]:			useItem = $item[tobiko marble soda];			break;
 	case $effect[Prayer of Seshat]:				useSkill = $skill[Prayer of Seshat];			break;
 	case $effect[Pride of the Puffin]:			useSkill = $skill[Pride of the Puffin];			break;
 	case $effect[Polar Express]:				useItem = $item[Cloaca Cola Polar];				break;
@@ -1682,6 +1685,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Strong Resolve]:				useItem = $item[Resolution: Be Stronger];		break;
 	case $effect[Superheroic]:					useItem = $item[Confiscated Comic Book];		break;
 	case $effect[Superhuman Sarcasm]:			useItem = $item[Serum of Sarcasm];				break;
+	case $effect[Sweet\, Nuts]:					useItem = $item[Crimbo Candied Pecan];			break;
 	case $effect[Takin\' It Greasy]:			useSkill = $skill[Grease Up];					break;
 	case $effect[Taunt of Horus]:				useItem = $item[Talisman of Horus];				break;
 	case $effect[Temporary Lycanthropy]:		useItem = $item[Blood of the Wereseal];			break;
@@ -1700,6 +1704,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Walberg\'s Dim Bulb]:			useSkill = $skill[Walberg\'s Dim Bulb];			break;
 	case $effect[WAKKA WAKKA WAKKA]:			useItem = $item[Yellow Pixel Potion];			break;
 	case $effect[Wasabi Sinuses]:				useItem = $item[Knob Goblin Nasal Spray];		break;
+	case $effect[Wasabi With You]:				useItem = $item[Wasabi Marble Soda];			break;
 	case $effect[Well-Oiled]:					useItem = $item[Oil of Parrrlay];				break;
 	case $effect[Well-Swabbed Ear]:				useItem = $item[Swabbie&trade; Swab];			break;
 	case $effect[Wet and Greedy]:				useItem = $item[Goblin Water];					break;

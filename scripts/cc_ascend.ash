@@ -1620,7 +1620,7 @@ void doBedtime()
 
 	if(get_property("cc_clanstuff").to_int() < my_daycount())
 	{
-		if(!get_property("_olympicSwimmingPool").to_boolean())
+		if(is_unrestricted("Olympic-sized Clan Crate") && !get_property("_olympicSwimmingPool").to_boolean())
 		{
 			cli_execute("swim noncombat");
 		}
@@ -8660,7 +8660,7 @@ boolean LA_communityService()
 						}
 
 
-						if((get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]))
+						if((get_property("_hipsterAdv").to_int() < 1) && is_unrestricted($familiar[Artistic Goth Kid]))
 						{
 							handleFamiliar($familiar[Artistic Goth Kid]);
 						}
@@ -8882,9 +8882,26 @@ boolean LA_communityService()
 			buffMaintain($effect[Vitali Tea], 0, 1, 1);
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
 			buffMaintain($effect[Purity of Spirit], 0, 1, 1);
+			buffMaintain($effect[Peppermint Bite], 0, 1 , 1);
 			if(is_unrestricted("Colorful Plastic Ball"))
 			{
 				cli_execute("ballpit");
+			}
+
+			if(!get_property("_madTeaParty").to_boolean())
+			{
+				if(item_amount($item[Coconut Shell]) == 0)
+				{
+					if((item_amount($item[Pentacorn Hat]) == 0) && (my_meat() > 300))
+					{
+						buyUpTo(1, $item[Pentacorn Hat]);
+					}
+				}
+				if(!get_property("_lookingGlass").to_boolean())
+				{
+					cli_execute("clan_viplounge.php?action=lookingglass");
+				}
+				cli_execute("hatter 12");
 			}
 
 			if(get_property("telescopeUpgrades").to_int() > 0)
@@ -8923,14 +8940,14 @@ boolean LA_communityService()
 				equip($item[Barrel Lid]);
 			}
 
-			if(item_amount($item[Ben-Gal&trade; Balm]) == 0)
-			{
-				buy(1, $item[Ben-Gal&trade; Balm]);
-			}
+			buyUpTo(1, $item[Ben-Gal&trade; Balm]);
 
-			if(item_amount($item[Blood-drive sticker]) > 0)
+			if(!get_property("cc_tryPowerLevel").to_boolean())
 			{
-				chew(1, $item[Blood-drive sticker]);
+				if(item_amount($item[Blood-drive sticker]) > 0)
+				{
+					chew(1, $item[Blood-drive sticker]);
+				}
 			}
 
 			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
@@ -8974,6 +8991,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Frog in Your Throat], 0, 1, 1);
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
 			buffMaintain($effect[Feroci Tea], 0, 1, 1);
+			buffMaintain($effect[Peppermint Bite], 0, 1 , 1);
 
 
 			cs_giant_growth();
@@ -8991,10 +9009,7 @@ boolean LA_communityService()
 		break;
 
 	case 3:		#Myst Quest
-			if(item_amount($item[Glittery Mascara]) == 0)
-			{
-				buy(1, $item[Glittery Mascara]);
-			}
+			buyUpTo(1, $item[Glittery Mascara]);
 
 			if(item_amount($item[Saucepanic]) > 0)
 			{
@@ -9027,6 +9042,8 @@ boolean LA_communityService()
 			buffMaintain($effect[Salamander In Your Stomach], 0, 1, 1);
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
 			buffMaintain($effect[Wit Tea], 0, 1, 1);
+			buffMaintain($effect[Sweet\, Nuts], 0, 1 , 1);
+
 
 			buffMaintain($effect[Nearly All-Natural], 0, 1, 1);
 
@@ -9047,10 +9064,7 @@ boolean LA_communityService()
 
 
 	case 4:		#Moxie Quest
-			if(item_amount($item[Hair Spray]) == 0)
-			{
-				buy(1, $item[Hair Spray]);
-			}
+			buyUpTo(1, $item[Hair Spray]);
 
 			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
@@ -9092,6 +9106,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Newt Gets In Your Eyes], 0, 1, 1);
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
 			buffMaintain($effect[Dexteri Tea], 0, 1, 1);
+			buffMaintain($effect[Busy Bein\' Delicious], 0, 1 , 1);
 
 			buffMaintain($effect[Amazing], 0, 1, 1);
 
@@ -9127,6 +9142,10 @@ boolean LA_communityService()
 				lastQuestCost = lastQuestCost - 3;
 			}
 			if(item_amount($item[cuppa Obscuri Tea]) > 0)
+			{
+				lastQuestCost = lastQuestCost - 3;
+			}
+			if(is_unrestricted("Olympic-sized Clan Crate") && !get_property("_olympicSwimmingPool").to_boolean())
 			{
 				lastQuestCost = lastQuestCost - 3;
 			}
@@ -9266,6 +9285,11 @@ boolean LA_communityService()
 			buffMaintain($effect[Tenacity of the Snapper], 8, 1, 1);
 			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
 
+			if((item_amount($item[Wasabi Marble Soda]) == 0) && (have_effect($effect[Wasabi With You]) == 0) && (item_amount($item[Ye Wizard\'s Shack snack voucher]) > 0))
+			{
+				buffMaintain($effect[Wasabi With You], 0, 1, 1);
+			}
+
 			buffMaintain($effect[Human-Beast Hybrid], 0, 1, 1);
 			if(is_unrestricted("Clan Pool Table"))
 			{
@@ -9332,6 +9356,12 @@ boolean LA_communityService()
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=2");
 			}
 
+			if((item_amount($item[Tobiko Marble Soda]) == 0) && (have_effect($effect[Pisces in the Skyces]) == 0) && (item_amount($item[Ye Wizard\'s Shack snack voucher]) > 0))
+			{
+				buffMaintain($effect[Pisces in the Skyces], 0, 1, 1);
+			}
+
+
 			if(do_cs_quest(7))
 			{
 				curQuest = 0;
@@ -9359,7 +9389,7 @@ boolean LA_communityService()
 
 			buffMaintain($effect[Snow Shoes], 0, 1, 1);
 			buffMaintain($effect[Obscuri Tea], 0, 1, 1);
-			if(!get_property("_olympicSwimmingPool").to_boolean())
+			if(is_unrestricted("Olympic-sized Clan Crate") && !get_property("_olympicSwimmingPool").to_boolean())
 			{
 				cli_execute("swim noncombat");
 			}

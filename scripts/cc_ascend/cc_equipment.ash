@@ -621,7 +621,7 @@ void equipRollover()
 
 
 	toEquip = $item[none];
-	poss = $items[Time Bandit Time Towel, Auxiliary Backbone];
+	poss = $items[Time Bandit Time Towel, Auxiliary Backbone, Octolus-Skin Cloak];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))

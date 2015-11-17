@@ -567,6 +567,10 @@ void handlePostAdventure()
 		}
 
 		boolean doML = true;
+		if(equipped_amount($item[Space Trip Safety Headphones]) > 0)
+		{
+			doML = false;
+		}
 		if(((get_property("flyeredML").to_int() > 9999) || get_property("cc_hippyInstead").to_boolean()) && (my_level() >= 13))
 		{
 			doML = false;

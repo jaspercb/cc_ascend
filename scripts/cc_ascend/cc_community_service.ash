@@ -84,13 +84,20 @@ void cs_initializeDay(int day)
 			deck_cheat("myst stat");
 			deck_cheat("meat");
 			deck_cheat("green mana");
-			autosell(1, $item[1952 Mickey Mantle Card]);
+			autosell(item_amount($item[1952 Mickey Mantle Card]), $item[1952 Mickey Mantle Card]);
 
-			if(item_amount($item[Bitchin\' Meatcar]) == 0)
+			if(knoll_available())
 			{
-				cli_execute("make bitch");
+				if(item_amount($item[Bitchin\' Meatcar]) == 0)
+				{
+					cli_execute("make bitch");
+				}
+				buyUpTo(1, $item[Antique Accordion]);
 			}
-			buyUpTo(1, $item[Antique Accordion]);
+			else
+			{
+				buyUpTo(1, $item[Toy Accordion]);
+			}
 
 			if(have_skill($skill[Summon Smithsness]))
 			{
@@ -179,7 +186,12 @@ void cs_initializeDay(int day)
 				{
 					use_skill(1, $skill[Summon Smithsness]);
 				}
-				if(my_mp() >= mp_cost($skill[Summon Smithsness]))
+
+				if(have_skill($skill[Summon Clip Art]) && (my_mp() >= mp_cost($skill[Summon Clip Art])))
+				{
+					cli_execute("make cold-filtered water");
+				}
+				else if(my_mp() >= mp_cost($skill[Summon Smithsness]))
 				{
 					use_skill(1, $skill[Summon Smithsness]);
 				}
@@ -230,7 +242,10 @@ void cs_make_stuff()
 	{
 		if(!possessEquipment($item[Hairpiece on Fire]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
 		{
-			cli_execute("make Hairpiece on Fire");
+			if(knoll_available() || (item_amount($item[Maiden Wig]) > 0))
+			{
+				cli_execute("make Hairpiece on Fire");
+			}
 		}
 		if(!possessEquipment($item[Saucepanic]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
 		{
@@ -247,14 +262,16 @@ void cs_make_stuff()
 		{
 			cli_execute("make Saucepanic");
 		}
-		if(!possessEquipment($item[Staff of the Headmaster\'s Victuals]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
-		{
-			cli_execute("make Staff of the Headmaster\'s Victuals");
-		}
 		if(!possessEquipment($item[Vicar\'s Tutu]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
 		{
 			cli_execute("make Vicar's Tutu");
 		}
+
+		if(!possessEquipment($item[Staff of the Headmaster\'s Victuals]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+		{
+			cli_execute("make Staff of the Headmaster\'s Victuals");
+		}
+
 		if(item_amount($item[Handful of Smithereens]) >= 3)
 		{
 			cli_execute("make 3 louder than bomb");
