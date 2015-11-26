@@ -113,7 +113,7 @@ boolean elementalPlanes_takeJob(element ele)
 		int best = 0;
 
 		boolean[string] jobs = $strings[balls, blood, bolts, chum, ice, milk, moonbeams, chicken, rain];
-		int at = 0;
+		int at = 1;
 		while(bucket.find())
 		{
 			at = at + 1;
