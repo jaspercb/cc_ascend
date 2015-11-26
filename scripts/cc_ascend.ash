@@ -269,6 +269,13 @@ boolean ccAdvBypass(string url, location loc)
 	{
 		return ccAdv(1, loc);
 	}
+
+	# Handle NC wanderers? Doghouse, Turtle Taming?
+	if(contains_text(page, "Wooof! Wooooooof!"))
+	{
+		return true;
+	}
+
 	return false;
 }
 boolean ccAdvBypass(int snarfblat, location loc)
@@ -4299,8 +4306,11 @@ void consumeStuff()
 		if((my_level() >= 11) && (my_spleen_use() == 0) && (item_amount($item[astral energy drink]) >= 2))
 		{
 			chew(1, $item[astral energy drink]);
-			use(1, $item[mojo filter]);
-			chew(1, $item[astral energy drink]);
+			if(item_amount($item[mojo filter]) > 0)
+			{
+				use(1, $item[mojo filter]);
+				chew(1, $item[astral energy drink]);
+			}
 		}
 	}
 	else if(my_daycount() == 3)
@@ -7720,6 +7730,7 @@ boolean LX_pirateBlueprint()
 
 		if(item_amount($item[Hot Wing]) < 3)
 		{
+			abort("You somehow got here without 3 hot wings, did you eat them or something? That makes me sad.");
 			return false;
 		}
 		if(equipped_item($slot[pants]) != $item[Frilly Skirt])
@@ -10425,6 +10436,10 @@ boolean doTasks()
 		else
 		{
 			print("Farming for a Bitchin' Meatcar", "blue");
+			if(get_property("questM01Untinker") == "unstarted")
+			{
+				visit_url("place.php?whichplace=forestvillage&preaction=screwquest&action=fv_untinker_quest");
+			}
 			if((item_amount($item[Tires]) == 0) || (item_amount($item[empty meat tank]) == 0) || (item_amount($item[spring]) == 0) ||(item_amount($item[sprocket]) == 0) ||(item_amount($item[cog]) == 0))
 			{
 				if(!ccAdv(1, $location[The Degrassi Knoll Garage]))
