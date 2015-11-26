@@ -353,7 +353,7 @@ void equipBaselineBack()
 	}
 	else
 	{
-		poss = $items[Giant Gym Membership Card, Misty Cloak, Misty Cape, Misty Robe, Makeshift Cape, Buddy Bjorn, Camp Scout Backpack];
+		poss = $items[Pillow Shell, Giant Gym Membership Card, Misty Cloak, Misty Cape, Misty Robe, Makeshift Cape, Buddy Bjorn, Camp Scout Backpack];
 	}
 	foreach thing in poss
 	{

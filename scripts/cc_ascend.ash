@@ -1772,6 +1772,7 @@ void doBedtime()
 	{
 		elementalPlanes_takeJob($element[spooky]);
 		elementalPlanes_takeJob($element[stench]);
+		elementalPlanes_takeJob($element[cold]);
 	}
 
 	if((get_property("cc_dickstab").to_boolean()) && chateaumantegna_available() && (my_daycount() == 1))
@@ -4733,7 +4734,7 @@ boolean L10_topFloor()
 	{
 		pullXWhenHaveY($item[Mohawk Wig], 1, 0);
 	}
-	if(item_amount($item[Mohawk Wig]) > 0)
+	if((item_amount($item[Mohawk Wig]) > 0) && can_equip($item[Mohawk Wig]))
 	{
 		equip($item[mohawk wig]);
 	}

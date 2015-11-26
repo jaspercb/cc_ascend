@@ -60,13 +60,14 @@ boolean elementalPlanes_takeJob(element ele)
 		return false;
 	}
 
-	switch(ele)
+	if(ele == $element[spooky])
 	{
-	case $element[spooky]:
 		visit_url("place.php?whichplace=airport_spooky&action=airport2_radio");
 		visit_url("choice.php?pwd&whichchoice=984&option=1", true);
 		return true;
-	case $element[stench]:
+	}
+	else if(ele == $element[stench])
+	{
 		string page = visit_url("place.php?whichplace=airport_stench&action=airport3_kiosk");
 		int choice = 1;
 		int at = index_of(page, "Available Assignments");
@@ -100,6 +101,37 @@ boolean elementalPlanes_takeJob(element ele)
 		}
 
 		visit_url("choice.php?pwd=&whichchoice=1066&option=" + choice,true);
+		return true;
+	}
+	else if(ele == $element[cold])
+	{
+		string page = visit_url("place.php?whichplace=airport_cold&action=glac_walrus");
+
+		matcher bucket = create_matcher("I'll get you some (\\w+)", page);
+
+		int choice = 0;
+		int best = 0;
+
+		boolean[string] jobs = $strings[balls, blood, bolts, chum, ice, milk, moonbeams, chicken, rain];
+		int at = 0;
+		while(bucket.find())
+		{
+			at = at + 1;
+			print("Found bucket " + bucket.group(1) + ".", "blue");
+			int i = 0;
+			foreach job in jobs
+			{
+				i = i + 1;
+				if((bucket.group(1) == job) && (i > best))
+				{
+					print("Considering job " + job, "blue");
+					best = i;
+					choice = at;
+				}
+			}
+		}
+
+		visit_url("choice.php?pwd=&whichchoice=1114&option=" + choice,true);
 		return true;
 	}
 	return false;
