@@ -1768,12 +1768,9 @@ void doBedtime()
 		visit_url("choice.php?pwd=&whichchoice=986&option=10",true);
 	}
 
-	if(my_daycount() == 2)
-	{
-		elementalPlanes_takeJob($element[spooky]);
-		elementalPlanes_takeJob($element[stench]);
-		elementalPlanes_takeJob($element[cold]);
-	}
+	elementalPlanes_takeJob($element[spooky]);
+	elementalPlanes_takeJob($element[stench]);
+	elementalPlanes_takeJob($element[cold]);
 
 	if((get_property("cc_dickstab").to_boolean()) && chateaumantegna_available() && (my_daycount() == 1))
 	{
