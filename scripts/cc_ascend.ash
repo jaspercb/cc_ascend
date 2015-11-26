@@ -1558,11 +1558,14 @@ void doBedtime()
 
 	if(!possessEquipment($item[Vicar\'s Tutu]) && (my_daycount() == 1) && (item_amount($item[lump of Brituminous coal]) > 0))
 	{
-		if(item_amount($item[frilly skirt]) < 1)
+		if((item_amount($item[frilly skirt]) < 1) && knoll_available())
 		{
 			buyUpTo(1, $item[frilly skirt]);
 		}
-		craft("smith", 1, $item[lump of Brituminous coal], $item[frilly skirt]);
+		if(item_amount($item[frilly skirt]) > 0)
+		{
+			craft("smith", 1, $item[lump of Brituminous coal], $item[frilly skirt]);
+		}
 	}
 
 	if((my_daycount() == 1) && ((item_amount($item[thor\'s pliers]) == 1) || (equipped_item($slot[weapon]) == $item[Thor\'s Pliers]) || (equipped_item($slot[off-hand]) == $item[Thor\'s Pliers]) || (get_property("_rapidPrototypingUsed").to_int() < 5)) && have_skill($skill[Rapid Prototyping]))
@@ -1847,6 +1850,11 @@ void doBedtime()
 		if(is_unrestricted("Deck of Every Card") && (item_amount($item[Deck of Every Card]) > 0) && (get_property("_deckCardsDrawn").to_int() < 15))
 		{
 			print("You have a Deck of Every Card and " + (15 - get_property("_deckCardsDrawn").to_int()) + " draws remaining!", "blue");
+		}
+
+		if(is_unrestricted("shrine to the Barrel God") && !get_property("_barrelPrayer").to_boolean())
+		{
+			print("You can still worship the barrel god today.", "blue");
 		}
 
 		print("You are probably done for today, beep.", "blue");
@@ -3829,7 +3837,7 @@ void consumeStuff()
 			hermit(10, $item[ten-leaf clover]);
 		}
 
-		if((my_adventures() < 4) && (my_fullness() == 0) && (my_level() >= 7))
+		if((my_adventures() < 4) && (my_fullness() == 0) && (my_level() >= 7) && !in_hardcore())
 		{
 			dealWithMilkOfMagnesium(true);
 			buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -8436,15 +8444,6 @@ boolean LA_communityService()
 					visit_url("place.php?whichplace=forestvillage&action=fv_friar");
 					visit_url("choice.php?whichchoice=720&pwd=&option=4");
 					visit_url("choice.php?whichchoice=720&pwd=&option=4");
-					if(my_path() == "Community Service")
-					{
-						string page = visit_url("forestvillage.php");
-						set_property("cc_haveFlorist", contains_text(page, "fv_friar"));
-					}
-					if(!florist_available())
-					{
-						abort("Mafia not detecting that you have Florist Access. Log out and back in.");
-					}
 				}
 				return true;
 			}
@@ -9232,13 +9231,28 @@ boolean LA_communityService()
 			familiar toFam = $familiar[Cocoabo];
 			foreach fam in $familiars[]
 			{
-				if(familiar_weight(fam) > familiar_weight(toFam))
+				if((familiar_weight(fam) > familiar_weight(toFam)) && have_familiar(fam))
 				{
 					toFam = fam;
 				}
 			}
 
+			if(possessEquipment($item[Pet Rock &quot;Snooty&quot; Disguise]))
+			{
+				foreach fam in $familiars[Pet Rock, Toothsome Rock, Bulky Buddy Box, Holiday Log]
+				{
+					if(((familiar_weight(fam) + 11) > familiar_weight(toFam)) && have_familiar(fam))
+					{
+						toFam = fam;
+					}
+				}
+			}
+
 			handleFamiliar(toFam);
+			if(can_equip($item[Pet Rock &quot;Snooty&quot; Disguise]) && possessEquipment($item[Pet Rock &quot;Snooty&quot; Disguise]))
+			{
+				equip($item[Pet Rock &quot;Snooty&quot; Disguise]);
+			}
 
 			#This is probably not all that effective here....
 			if(item_amount($item[Ghost Dog Chow]) > 0)
@@ -9799,6 +9813,10 @@ boolean doTasks()
 	{
 		return true;
 	}
+	if(my_path() == "Community Service")
+	{
+		abort("Should not have gotten here, aborted LA_communityService method allowed return to caller. Uh oh.");
+	}
 
 	if(item_amount($item[pulled red taffy]) >= 6)
 	{
@@ -9827,6 +9845,18 @@ boolean doTasks()
 	if(my_level() > get_property("lastCouncilVisit").to_int())
 	{
 		council();
+		if(contains_text(visit_url("place.php?whichplace=forestvillage"), "The Florist Friar's Cottage") && !florist_available())
+		{
+			print("Mafia does not think you have a Florist Friar but one seems to live in your forest.", "red");
+			visit_url("choice.php?whichchoice=720&pwd=&option=4");
+			visit_url("place.php?whichplace=forestvillage&action=fv_friar");
+			visit_url("choice.php?whichchoice=720&pwd=&option=4");
+			visit_url("choice.php?whichchoice=720&pwd=&option=4");
+			if(florist_available())
+			{
+				print("Deception successful, Mafia now realizes you have a Florist Friar.", "blue");
+			}
+		}
 		if((my_class() == $class[Ed]) && (my_level() == 11) && (item_amount($item[7961]) > 0))
 		{
 			cli_execute("refresh inv");
@@ -9840,8 +9870,6 @@ boolean doTasks()
 		return true;
 	}
 	handleJar();
-
-
 
 	if(last_monster() == $monster[Crate])
 	{
@@ -10391,8 +10419,39 @@ boolean doTasks()
 
 	if((item_amount($item[bitchin\' meatcar]) == 0) && !gnomads_available() && (my_class() != $class[Ed]))
 	{
-		cli_execute("make bitch");
-		cli_execute("place.php?whichplace=desertbeach&action=db_nukehouse");
+		if(knoll_available())
+		{
+			cli_execute("make bitch");
+			cli_execute("place.php?whichplace=desertbeach&action=db_nukehouse");
+		}
+		else
+		{
+			print("Farming for a Bitchin' Meatcar", "blue");
+			if((item_amount($item[Tires]) == 0) || (item_amount($item[empty meat tank]) == 0) || (item_amount($item[spring]) == 0) ||(item_amount($item[sprocket]) == 0) ||(item_amount($item[cog]) == 0))
+			{
+				if(!ccAdv(1, $location[The Degrassi Knoll Garage]))
+				{
+					if(guild_store_available())
+					{
+						visit_url("guild.php?place=paco");
+					}
+					else
+					{
+						abort("Need to farm a Bitchin' Meatcar but guild not available.");
+					}
+				}
+				if(item_amount($item[Gnollish Toolbox]) > 0)
+				{
+					use(1, $item[Gnollish Toolbox]);
+				}
+			}
+			else
+			{
+				cli_execute("make bitch");
+				cli_execute("place.php?whichplace=desertbeach&action=db_nukehouse");
+			}
+			return true;
+		}
 	}
 
 	if(L5_haremOutfit())

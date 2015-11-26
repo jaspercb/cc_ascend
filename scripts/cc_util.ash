@@ -1083,8 +1083,10 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 
 //From Bale\'s woods.ash relay script.
 void woods_questStart() {
-	if(available_amount($item[continuum transfunctioner]) > 0)
+	if((item_amount($item[continuum transfunctioner]) > 0) || (equipped_amount($item[Continuum Transfunctioner]) > 0))
+	{
 		return;
+	}
 	visit_url("place.php?whichplace=woods");
 	visit_url("place.php?whichplace=forestvillage&action=fv_mystic");
 	visit_url("choice.php?pwd=&whichchoice=664&option=1&choiceform1=Sure%2C+old+man.++Tell+me+all+about+it.");

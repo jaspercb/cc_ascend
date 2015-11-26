@@ -844,18 +844,20 @@ void handlePostAdventure()
 		}
 	}
 
-
-	if((my_daycount() == 1) && (my_bjorned_familiar() != $familiar[grim brother]) && (get_property("_grimFairyTaleDropsCrown").to_int() == 0) && (have_familiar($familiar[grim brother])) && (equipped_item($slot[back]) == $item[Buddy Bjorn]) && (my_familiar() != $familiar[Grim Brother]))
+	if(!get_property("kingLiberated").to_boolean())
 	{
-		bjornify_familiar($familiar[grim brother]);
-	}
-	if((my_bjorned_familiar() == $familiar[grimstone golem]) && (get_property("_grimstoneMaskDropsCrown") == 1) && have_familiar($familiar[El Vibrato Megadrone]))
-	{
-		bjornify_familiar($familiar[el vibrato megadrone]);
-	}
-	if((my_bjorned_familiar() == $familiar[grim brother]) && (get_property("_grimFairyTaleDropsCrown").to_int() >= 1))
-	{
-		bjornify_familiar($familiar[el vibrato megadrone]);
+		if((my_daycount() == 1) && (my_bjorned_familiar() != $familiar[grim brother]) && (get_property("_grimFairyTaleDropsCrown").to_int() == 0) && (have_familiar($familiar[grim brother])) && (equipped_item($slot[back]) == $item[Buddy Bjorn]) && (my_familiar() != $familiar[Grim Brother]))
+		{
+			bjornify_familiar($familiar[grim brother]);
+		}
+		if((my_bjorned_familiar() == $familiar[grimstone golem]) && (get_property("_grimstoneMaskDropsCrown") == 1) && have_familiar($familiar[El Vibrato Megadrone]))
+		{
+			bjornify_familiar($familiar[el vibrato megadrone]);
+		}
+		if((my_bjorned_familiar() == $familiar[grim brother]) && (get_property("_grimFairyTaleDropsCrown").to_int() >= 1))
+		{
+			bjornify_familiar($familiar[el vibrato megadrone]);
+		}
 	}
 
 	if(my_path() == "Heavy Rains")
@@ -884,7 +886,7 @@ void handlePostAdventure()
 	}
 
 	# We only do this in aftercore because we don't want a spiralling death loop in-run.
-	if((get_property("kingLiberated") != "false") && (have_effect($effect[beaten up]) > 0) && (my_mp() >= 11) && have_skill($skill[Tongue of the Walrus]))
+	if(get_property("kingLiberated").to_boolean() && (have_effect($effect[beaten up]) > 0) && (my_mp() >= mp_cost($skill[Tongue of the Walrus])) && have_skill($skill[Tongue of the Walrus]))
 	{
 		print("Owwie, was beaten up but trying to recover", "red");
 		use_skill(1, $skill[Tongue of the Walrus]);
