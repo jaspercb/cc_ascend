@@ -4107,7 +4107,7 @@ void consumeStuff()
 			}
 		}
 
-		if(in_hardcore() && isGuildClass())
+		if(in_hardcore() && isGuildClass() && have_skill($skill[Pastamastery]))
 		{
 			if(((my_fullness() + 6) <= fullness_limit()) && (my_level() >= 6) && ovenHandle())
 			{
