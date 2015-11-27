@@ -658,7 +658,7 @@ boolean doThemtharHills(boolean trickMode)
 	if((equipped_item($slot[off-hand]) != $item[Half a Purse]) && (item_amount($item[Half a Purse]) == 0) && (item_amount($item[Lump of Brituminous Coal]) > 0))
 	{
 		buyUpTo(1, $item[Loose Purse Strings]);
-		craft("smith", 1, $item[Lump of Brituminous Coal], $item[Loose purse strings]);
+		ccCraft("smith", 1, $item[Lump of Brituminous Coal], $item[Loose purse strings]);
 	}
 
 	if(possessEquipment($item[Half a Purse]))
@@ -1571,7 +1571,7 @@ void doBedtime()
 		}
 		if(item_amount($item[frilly skirt]) > 0)
 		{
-			craft("smith", 1, $item[lump of Brituminous coal], $item[frilly skirt]);
+			ccCraft("smith", 1, $item[lump of Brituminous coal], $item[frilly skirt]);
 		}
 	}
 
@@ -2793,7 +2793,7 @@ boolean L11_mauriceSpookyraven()
 	{
 		print("Time to cook up something explosive! Science fair unstable fulminate time!", "green");
 		ovenHandle();
-		craft("cook", 1, $item[bottle of Chateau de Vinegar], $item[blasting soda]);
+		ccCraft("cook", 1, $item[bottle of Chateau de Vinegar], $item[blasting soda]);
 		set_property("cc_winebomb", "partial");
 	}
 
@@ -3157,14 +3157,20 @@ boolean L11_unlockPyramid()
 	}
 
 
-	if((((item_amount($item[2180]) > 0) && (item_amount($item[2286]) > 0) && (item_amount($item[2268]) > 0)) || (item_amount($item[2325]) > 0)))
+	if((((item_amount($item[2180]) > 0) || (item_amount($item[2286]) > 0) || (item_amount($item[2268]) > 0)) || (item_amount($item[2325]) > 0)))
 	{
 		print("Reveal the pyramid", "blue");
 #		if(item_amount($item[Staff of Ed]) == 0)
 		if(item_amount($item[2325]) == 0)
 		{
-			craft("combine", 1, $item[2180], $item[2286]);
-			craft("combine", 1, $item[headpiece of the staff of ed], $item[2268]);
+			if((item_amount($item[2180]) > 0) && (item_amount($item[2286]) > 0))
+			{
+				ccCraft("combine", 1, $item[2180], $item[2286]);
+			}
+			if((item_amount($item[Headpiece of the Staff of Ed]) > 0) && (item_amount($item[2268]) > 0))
+			{
+				ccCraft("combine", 1, $item[headpiece of the staff of ed], $item[2268]);
+			}
 		}
 		if(item_amount($item[2325]) == 0)
 		{
@@ -3351,7 +3357,7 @@ boolean L12_gremlinStart()
 			buyUpTo(1, $item[chewing gum on a string]);
 			use(1, $item[chewing gum on a string]);
 		}
-		craft("smith", 1, $item[lump of Brituminous coal], $item[turtle totem]);
+		ccCraft("smith", 1, $item[lump of Brituminous coal], $item[turtle totem]);
 		while(item_amount($item[turtle totem]) == 0)
 		{
 			buyUpTo(1, $item[chewing gum on a string]);
@@ -3362,7 +3368,7 @@ boolean L12_gremlinStart()
 	{
 		buyUpTo(1, $item[Ben-Gal&trade; Balm]);
 		cli_execute("make louder than bomb");
-#		craft("paste", 1, $item[Ben-Gal&trade; Balm], $item[Handful of Smithereens]);
+#		ccCraft("paste", 1, $item[Ben-Gal&trade; Balm], $item[Handful of Smithereens]);
 	}
 	set_property("cc_gremlins", "start");
 	set_property("cc_gremlinclap", "");
@@ -3585,7 +3591,7 @@ boolean L12_filthworms()
 	if((!possessEquipment($item[A Light That Never Goes Out])) && (item_amount($item[Lump of Brituminous Coal]) > 0))
 	{
 		buyUpTo(1, $item[third-hand lantern]);
-		craft("smith", 1, $item[Lump of Brituminous Coal], $item[third-hand lantern]);
+		ccCraft("smith", 1, $item[Lump of Brituminous Coal], $item[third-hand lantern]);
 	}
 
 	if(possessEquipment($item[A Light That Never Goes Out]))
@@ -3912,24 +3918,24 @@ void consumeStuff()
 					haveToEat = haveToEat + 1;
 					if((item_amount($item[Goat Cheese]) > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Dry Noodles]) > 0))
 					{
-						craft("cook", 1, $item[Goat Cheese], $item[Scrumptious Reagent]);
-						craft("cook", 1, $item[Dry Noodles], $item[Fancy Schmancy Cheese Sauce]);
+						ccCraft("cook", 1, $item[Goat Cheese], $item[Scrumptious Reagent]);
+						ccCraft("cook", 1, $item[Dry Noodles], $item[Fancy Schmancy Cheese Sauce]);
 					}
 					else if((item_amount($item[Bubblin\' Crude]) > 0) && (item_amount($item[Dry Noodles]) > 0))
 					{
-						craft("cook", 1, $item[Dry Noodles], $item[Bubblin\' Crude]);
+						ccCraft("cook", 1, $item[Dry Noodles], $item[Bubblin\' Crude]);
 					}
 					else if((item_amount($item[Ectoplasmic Orbs]) > 0) && (item_amount($item[Dry Noodles]) > 0))
 					{
-						craft("cook", 1, $item[Dry Noodles], $item[Ectoplasmic Orbs]);
+						ccCraft("cook", 1, $item[Dry Noodles], $item[Ectoplasmic Orbs]);
 					}
 					else if((item_amount($item[Pestopiary]) > 0) && (item_amount($item[Dry Noodles]) > 0))
 					{
-						craft("cook", 1, $item[Dry Noodles], $item[Pestopiary]);
+						ccCraft("cook", 1, $item[Dry Noodles], $item[Pestopiary]);
 					}
 					else if((item_amount($item[Salacious Crumbs]) > 0) && (item_amount($item[Dry Noodles]) > 0))
 					{
-						craft("cook", 1, $item[Dry Noodles], $item[Salacious Crumbs]);
+						ccCraft("cook", 1, $item[Dry Noodles], $item[Salacious Crumbs]);
 					}
 				}
 				dealWithMilkOfMagnesium(true);
@@ -10987,11 +10993,11 @@ boolean doTasks()
 		#
 		if((item_amount($item[Bird Rib]) > 0) && (item_amount($item[Lion Oil]) > 0) && (item_amount($item[Wet Stew]) == 0))
 		{
-			craft("cook", 1, $item[Bird Rib], $item[Lion Oil]);
+			ccCraft("cook", 1, $item[Bird Rib], $item[Lion Oil]);
 		}
 		if((item_amount($item[Stunt Nuts]) > 0) && (item_amount($item[Wet Stew]) > 0) && (item_amount($item[Wet Stunt Nut Stew]) == 0))
 		{
-			craft("cook", 1, $item[wet stew], $item[stunt nuts]);
+			ccCraft("cook", 1, $item[wet stew], $item[stunt nuts]);
 		}
 
 		if((item_amount($item[Wet Stunt Nut Stew]) > 0) && !possessEquipment($item[Mega Gem]))
@@ -11065,12 +11071,12 @@ boolean doTasks()
 
 			if((item_amount($item[Bird Rib]) > 0) && (item_amount($item[Lion Oil]) > 0) && (item_amount($item[Wet Stew]) == 0))
 			{
-				craft("cook", 1, $item[Bird Rib], $item[Lion Oil]);
+				ccCraft("cook", 1, $item[Bird Rib], $item[Lion Oil]);
 			}
 
 			if((item_amount($item[Stunt Nuts]) > 0) && (item_amount($item[Wet Stew]) > 0) && (item_amount($item[Wet Stunt Nut Stew]) == 0))
 			{
-				craft("cook", 1, $item[wet stew], $item[stunt nuts]);
+				ccCraft("cook", 1, $item[wet stew], $item[stunt nuts]);
 			}
 
 			if(!possessEquipment($item[Mega Gem]))

@@ -7,6 +7,7 @@ int doNumberology(string goal);
 boolean handleBarrelFullOfBarrels();
 int solveCookie();
 boolean use_barrels();
+int ccCraft(string mode, int count, item item1, item item2);
 int [item] cc_get_campground();
 boolean haveSpleenFamiliar();
 float elemental_resist_value(int resistance);
@@ -189,6 +190,24 @@ boolean is_avatar_potion(item it)
 	}
 	string avatar = string_modifier(e, "Avatar");
 	return (avatar != "");
+}
+
+int ccCraft(string mode, int count, item item1, item item2)
+{
+	if((mode == "combine") && !knoll_available())
+	{
+		if(my_meat() < (10 * count))
+		{
+			print("Count not combine " + item1 + " and " + item2 + " due to lack of meat paste.", "red");
+			return 0;
+		}
+		int need = max(0, count - item_amount($item[Meat Paste]));
+		if(need > 0)
+		{
+			cli_execute("make " + need + " meat paste");
+		}
+	}
+	return craft(mode, count, item1, item2);
 }
 
 int internalQuestStatus(string prop)
