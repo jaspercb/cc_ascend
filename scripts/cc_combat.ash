@@ -1175,6 +1175,17 @@ string findBanisher(string opp)
 			return "item louder than bomb";
 		}
 	}
+
+	if(get_property("cc_gremlintennis") == "")
+	{
+		set_property("cc_gremlintennisr", "used");
+		if(item_amount($item[tennis ball]) > 0)
+		{
+			handleTracker(enemy, $item[tennis ball], "cc_banishes");
+			return "item tennis ball";
+		}
+	}
+
 	if(get_property("cc_gremlinpants") == "")
 	{
 		set_property("cc_gremlinpants", "used");

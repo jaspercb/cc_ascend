@@ -108,8 +108,9 @@ void initializeSettings()
 	set_property("cc_gremlins", "");
 	set_property("cc_gremlinclap", "");
 	set_property("cc_gremlinbatter", "");
-	set_property("cc_gremlinpants", "");
 	set_property("cc_gremlinlouder", "");
+	set_property("cc_gremlinpants", "");
+	set_property("cc_gremlintennis", "");
 	set_property("cc_grimfairytale", "");
 	set_property("cc_grimstoneFancyOilPainting", true);
 	set_property("cc_grimstoneOrnateDowsingRod", true);
