@@ -10018,7 +10018,7 @@ boolean doTasks()
 		{
 			if(in_hardcore() && isGuildClass())
 			{
-				if((item_amount($item[Snow Berries]) >= 3) && (item_amount($item[Ice Harvest]) >=3))
+				if((item_amount($item[Snow Berries]) >= 3) && (item_amount($item[Ice Harvest]) >= 3) && (item_amount($item[Unfinished Ice Sculpture]) == 0))
 				{
 					cli_execute("make 1 Unfinished Ice Sculpture");
 				}

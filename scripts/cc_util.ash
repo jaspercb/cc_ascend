@@ -1414,7 +1414,7 @@ boolean buyUpTo(int num, item it)
 	num = num - item_amount(it);
 	if(num > 0)
 	{
-		buy(num, it);
+		buy(num, it, 20000);
 	}
 	return (item_amount(it) == num);
 }
