@@ -1105,14 +1105,14 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			return attackMinor;
 		}
-		return attackBasic;
+		return attackMinor;
 	}
 	else
 	{
 		abort("Some sort of problem occurred, it is past round 25 but we are still in non-gremlin combat...");
 	}
 
-	return attackBasic;
+	return attackMinor;
 #	return get_ccs_action(round);
 }
 

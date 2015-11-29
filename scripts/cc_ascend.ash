@@ -2022,6 +2022,16 @@ boolean questOverride()
 		set_property("cc_palindome", "finished");
 	}
 
+//	if((get_property("questL11Pyramid") == "finished") && (get_property("cc_mcmuffin") != "finished"))
+//	{
+//		print("Found completed Pyramid (11)");
+//		set_property("cc_mcmuffin", "finished");
+//	}
+	if((get_property("questL11MacGuffin") == "finished") && (get_property("cc_mcmuffin") != "finished"))
+	{
+		print("Found completed McMuffin (11)");
+		set_property("cc_mcmuffin", "finished");
+	}
 
 	if((get_property("questL11Business") == "finished") && (get_property("cc_hiddenoffice") != "finished"))
 	{
