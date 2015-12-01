@@ -3778,7 +3778,7 @@ void consumeStuff()
 			}
 		}
 
-		if((my_mp() > mpForOde) && get_property("cc_100familiar").to_boolean() && (my_inebriety() == 0) && (my_meat() >= 500))
+		if((my_mp() > mpForOde) && get_property("cc_100familiar").to_boolean() && (my_inebriety() == 0) && (my_meat() >= 500) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
@@ -3795,12 +3795,11 @@ void consumeStuff()
 			drink(1, $item[Cold One]);
 		}
 
-		if((my_mp() > mpForOde) && (amountTurkeyBooze() >= 2) && (my_inebriety() == 0) && (my_meat() >= 500))
+		if((my_mp() > mpForOde) && (amountTurkeyBooze() >= 2) && (my_inebriety() == 0) && (my_meat() >= 500) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 3);
 			cli_execute("drink 1 lucky lindy");
-			print("drink 1 lucky lindy");
 			while((amountTurkeyBooze() > 0) && (my_inebriety() < 3))
 			{
 				if(item_amount($item[Friendly Turkey]) > 0)
@@ -3849,13 +3848,13 @@ void consumeStuff()
 #		if((get_property("cc_ballroomsong") == "set") && (get_property("_speakeasyDrinksDrunk").to_int() == 1) && (my_mp() > mpForOde) && (my_inebriety() == sockdollagerDrunk))
 		if((get_property("cc_ballroomsong") == "set") && (get_property("_speakeasyDrinksDrunk").to_int() == 1) && (my_mp() >= (mpForOde+30)) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
-			shrugAT();
-			buffMaintain($effect[Ode to Booze], 50, 1, 2);
-			visit_url("clan_viplounge.php?action=speakeasy");
-			cli_execute("drink 1 sockdollager");
-			print("drink 1 sockdollager");
-#			cli_execute("get _speakeasyDrinksDrunk ");
-			print("Second speakeasy drink down!");
+			if(item_amount($item[Clan VIP Lounge Key]) > 0)
+			{
+				shrugAT();
+				buffMaintain($effect[Ode to Booze], 50, 1, 2);
+				visit_url("clan_viplounge.php?action=speakeasy");
+				cli_execute("drink 1 sockdollager");
+			}
 			hermit(10, $item[ten-leaf clover]);
 		}
 
@@ -4242,7 +4241,7 @@ void consumeStuff()
 			drink(1, $item[Ambitious Turkey]);
 		}
 
-		if((my_path() == "Picky") && (my_mp() > mpForOde) && (my_inebriety() <= inebriety_limit()) && (my_meat() > 500) && (get_property("_speakeasyDrinksDrunk").to_int() < 3))
+		if((my_path() == "Picky") && (my_mp() > mpForOde) && (my_inebriety() <= inebriety_limit()) && (my_meat() > 500) && (get_property("_speakeasyDrinksDrunk").to_int() < 3) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 		{
 			# We could check for good drinks here but I don't know what would be good checks
 			int canDrink = inebriety_limit() - my_inebriety();
@@ -8979,7 +8978,7 @@ boolean LA_communityService()
 			{
 				doRest();
 			}
-			if(my_inebriety() == 0)
+			if((my_inebriety() == 0) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 			{
 				use_skill(1, $skill[The Ode to Booze]);
 				cli_execute("drink 1 bee's knees");
@@ -9095,7 +9094,7 @@ boolean LA_communityService()
 			{
 				doRest();
 			}
-			if(my_inebriety() == 2)
+			if((my_inebriety() == 2) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 			{
 				use_skill(1, $skill[The Ode to Booze]);
 				cli_execute("drink 1 bee's knees");
@@ -9222,7 +9221,7 @@ boolean LA_communityService()
 					if((my_adventures() + extraAdv) > needCost)
 					{
 						use_skill(1, $skill[The Ode to Booze]);
-						if(my_meat() > 5000)
+						if((my_meat() > 5000) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 						{
 							cli_execute("drink 1 hot socks");
 						}
@@ -9238,7 +9237,7 @@ boolean LA_communityService()
 					else
 					{
 						use_skill(1, $skill[The Ode to Booze]);
-						cli_execute("drink 1 vintage smart drink");
+						drink(1, $item[Vintage Smart Drink]);
 					}
 				}
 			}

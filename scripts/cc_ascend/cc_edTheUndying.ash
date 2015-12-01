@@ -653,7 +653,7 @@ boolean ed_eatStuff()
 	string cookie = get_counters("Fortune Cookie", 0, 200);
 	if((cookie != "Fortune Cookie") && (get_property("cc_semirare").to_int() < 2))
 	{
-		if((my_meat() >= 500) && (inebriety_limit() == 4) && ((my_inebriety() == 0) || (my_inebriety() == 3)))
+		if((item_amount($item[Clan VIP Lounge Key]) > 0) && (my_meat() >= 500) && (inebriety_limit() == 4) && ((my_inebriety() == 0) || (my_inebriety() == 3)))
 		{
 			cli_execute("drink 1 lucky lindy");
 		}

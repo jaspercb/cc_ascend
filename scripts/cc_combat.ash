@@ -957,7 +957,6 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill curse of weaksauce";
 	}
 
-	string attackBasic = "attack with weapon";
 	string attackMinor = "attack with weapon";
 	string attackMajor = "attack with weapon";
 	string stunner = "";
@@ -1022,7 +1021,6 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			attackMinor = "skill saucegeyser";
 			attackMajor = "skill saucegeyser";
-			attackBasic = "skill saucegeyser";
 		}
 		if(my_soulsauce() >= 5)
 		{
