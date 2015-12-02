@@ -2104,6 +2104,18 @@ boolean questOverride()
 		set_property("cc_war", "finished");
 	}
 
+	if((internalQuestStatus("questL12War") >= 1)  && (get_property("cc_prewar") != "started"))
+	{
+		print("Found Started Island War (12)");
+		set_property("cc_prewar", "started");
+	}
+
+	if((internalQuestStatus("questL12War") >= 2)  && (get_property("cc_war") != "finished"))
+	{
+		print("Found completed Island War (12)");
+		set_property("cc_war", "finished");
+	}
+
 
 	if(possessEquipment($item[Pirate Fledges]))
 	{

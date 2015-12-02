@@ -687,8 +687,15 @@ boolean cs_giant_growth()
 	}
 
 #	print("Starting LTBs: " + item_amount($item[Louder Than Bomb]), "blue");
-	adv1($location[8-bit Realm], 0, "cs_combatLTB");
 
+	if(my_familiar() == $familiar[Machine Elf])
+	{
+		adv1($location[Deep Machine Tunnels], 0, "cs_combatLTB");
+	}
+	else
+	{
+		adv1($location[8-bit Realm], 0, "cs_combatLTB");
+	}
 #	print("Ending LTBs: " + item_amount($item[Louder Than Bomb]), "blue");
 #	cli_execute("refresh inv");
 #	print("Corrected LTBs: " + item_amount($item[Louder Than Bomb]), "blue");
