@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16465;
+since r16502;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1546,13 +1546,13 @@ void doBedtime()
 		}
 	}
 
-	if(is_unrestricted("Clan Pool Table"))
+	if(is_unrestricted($item[Clan Pool Table]))
 	{
 		visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 		visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 		visit_url("clan_viplounge.php?preaction=poolgame&stance=3");
 	}
-	if(is_unrestricted("Colorful Plastic Ball"))
+	if(is_unrestricted($item[Colorful Plastic Ball]))
 	{
 		cli_execute("ballpit");
 	}
@@ -1631,7 +1631,7 @@ void doBedtime()
 
 	if(get_property("cc_clanstuff").to_int() < my_daycount())
 	{
-		if(is_unrestricted("Olympic-sized Clan Crate") && !get_property("_olympicSwimmingPool").to_boolean())
+		if(is_unrestricted($item[Olympic-sized Clan Crate]) && !get_property("_olympicSwimmingPool").to_boolean())
 		{
 			cli_execute("swim noncombat");
 		}
@@ -1822,7 +1822,7 @@ void doBedtime()
 			print(get_property("cc_banishes_day" + my_daycount()));
 			print(get_property("cc_yellowRay_day" + my_daycount()));
 			pullsNeeded("evaluate");
-			if((get_property("_photocopyUsed") == "false") && (is_unrestricted("Deluxe Fax Machine")) && (my_adventures() > 0))
+			if((get_property("_photocopyUsed") == "false") && (is_unrestricted($item[Deluxe Fax Machine])) && (my_adventures() > 0))
 			{
 				print("You may have a fax that you can use. Check it out!", "blue");
 			}
@@ -1853,12 +1853,12 @@ void doBedtime()
 			print("You can still Calculate the Universe!", "blue");
 		}
 
-		if(is_unrestricted("Deck of Every Card") && (item_amount($item[Deck of Every Card]) > 0) && (get_property("_deckCardsDrawn").to_int() < 15))
+		if(is_unrestricted($item[Deck of Every Card]) && (item_amount($item[Deck of Every Card]) > 0) && (get_property("_deckCardsDrawn").to_int() < 15))
 		{
 			print("You have a Deck of Every Card and " + (15 - get_property("_deckCardsDrawn").to_int()) + " draws remaining!", "blue");
 		}
 
-		if(is_unrestricted("shrine to the Barrel God") && !get_property("_barrelPrayer").to_boolean())
+		if(is_unrestricted($item[shrine to the Barrel God]) && !get_property("_barrelPrayer").to_boolean())
 		{
 			print("You can still worship the barrel god today.", "blue");
 		}
@@ -8907,7 +8907,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
 			buffMaintain($effect[Purity of Spirit], 0, 1, 1);
 			buffMaintain($effect[Peppermint Bite], 0, 1 , 1);
-			if(is_unrestricted("Colorful Plastic Ball"))
+			if(is_unrestricted($item[Colorful Plastic Ball]))
 			{
 				cli_execute("ballpit");
 			}
@@ -9017,7 +9017,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Feroci Tea], 0, 1, 1);
 			buffMaintain($effect[Peppermint Bite], 0, 1 , 1);
 
-
+			handleFamiliar($familiar[Machine Elf]);
 			cs_giant_growth();
 
 			if(do_cs_quest(2))
@@ -9071,6 +9071,7 @@ boolean LA_communityService()
 
 			buffMaintain($effect[Nearly All-Natural], 0, 1, 1);
 
+			handleFamiliar($familiar[Machine Elf]);
 			cs_giant_growth();
 
 			if(do_cs_quest(3))
@@ -9134,6 +9135,7 @@ boolean LA_communityService()
 
 			buffMaintain($effect[Amazing], 0, 1, 1);
 
+			handleFamiliar($familiar[Machine Elf]);
 			cs_giant_growth();
 
 			if(do_cs_quest(4))
@@ -9169,7 +9171,7 @@ boolean LA_communityService()
 			{
 				lastQuestCost = lastQuestCost - 3;
 			}
-			if(is_unrestricted("Olympic-sized Clan Crate") && !get_property("_olympicSwimmingPool").to_boolean())
+			if(is_unrestricted($item[Olympic-sized Clan Crate]) && !get_property("_olympicSwimmingPool").to_boolean())
 			{
 				lastQuestCost = lastQuestCost - 3;
 			}
@@ -9248,7 +9250,7 @@ boolean LA_communityService()
 			}
 			buffMaintain($effect[Empathy], 15, 1, 1);
 			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
-			if(is_unrestricted("Clan Pool Table"))
+			if(is_unrestricted($item[Clan Pool Table]))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 			}
@@ -9330,7 +9332,7 @@ boolean LA_communityService()
 			}
 
 			buffMaintain($effect[Human-Beast Hybrid], 0, 1, 1);
-			if(is_unrestricted("Clan Pool Table"))
+			if(is_unrestricted($item[Clan Pool Table]))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 			}
@@ -9390,7 +9392,7 @@ boolean LA_communityService()
 			buffMaintain($effect[Song of Sauce], 100, 1, 1);
 			buffMaintain($effect[Arched Eyebrow of the Archmage], 10, 1, 1);
 			buffMaintain($effect[Jackasses\' Symphony of Destruction], 8, 1, 1);
-			if(is_unrestricted("Clan Pool Table"))
+			if(is_unrestricted($item[Clan Pool Table]))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=2");
 			}
@@ -9428,7 +9430,7 @@ boolean LA_communityService()
 
 			buffMaintain($effect[Snow Shoes], 0, 1, 1);
 			buffMaintain($effect[Obscuri Tea], 0, 1, 1);
-			if(is_unrestricted("Olympic-sized Clan Crate") && !get_property("_olympicSwimmingPool").to_boolean())
+			if(is_unrestricted($item[Olympic-sized Clan Crate]) && !get_property("_olympicSwimmingPool").to_boolean())
 			{
 				cli_execute("swim noncombat");
 			}
@@ -9484,7 +9486,7 @@ boolean LA_communityService()
 			buffMaintain($effect[One Very Clear Eye], 0, 1, 1);
 			buffMaintain($effect[Sour Softshoe], 0, 1, 1);
 			buffMaintain($effect[Serendipi Tea], 0, 1, 1);
-			if(is_unrestricted("Clan Pool Table"))
+			if(is_unrestricted($item[Clan Pool Table]))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=3");
 			}

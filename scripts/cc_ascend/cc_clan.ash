@@ -1,13 +1,137 @@
 script "cc_clan.ash"
 
 
-boolean eatFancyDog(item dog);
+//boolean eatFancyDog(item dog);
+boolean eatFancyDog(string dog);
+boolean drinkSpeakeasyDrink(item drink);
+boolean drinkSpeakeasyDrink(string drink);
+int [item] get_clan_furniture();
+
+
 /****
 
 We might consider migrating faxbot stuff here as it is "clan". I dunno....
 
 ****/
 
+int [item] get_clan_furniture()
+{
+    int [item] clanItems;
+    string basic = visit_url("clan_rumpus.php");
+	string vipMain = visit_url("clan_viplounge.php");
+	string vipOld = visit_url("clan_viplounge.php?whichfloor=2");
+
+	
+	matcher ball_matcher = create_matcher("An Awesome Ball Pit", basic);
+    if(ball_matcher.find() && is_unrestricted($item[Colorful Plastic Ball]))
+	{
+		clanItems[$item[Colorful Plastic Ball]] = 1;
+	}
+
+	matcher speakeasy_matcher = create_matcher("A \"Phone Booth\"", vipMain);
+	if(speakeasy_matcher.find() && is_unrestricted($item[Clan Speakeasy]))
+	{
+		clanItems[$item[Clan Speakeasy]] = 1;
+	}
+	matcher hotdog_matcher = create_matcher("Hot Dog Stand", vipMain);
+	if(hotdog_matcher.find() && is_unrestricted($item[Clan Hot Dog Stand]))
+	{
+		clanItems[$item[Clan Hot Dog Stand]] = 1;
+	}
+
+	matcher pool_matcher = create_matcher("A Pool Table", vipOld);
+	if(pool_matcher.find() && is_unrestricted($item[Clan Pool Table]))
+	{
+		clanItems[$item[Clan Pool Table]] = 1;
+	}
+	matcher glass_matcher = create_matcher("A Looking Glass", vipOld);
+	if(glass_matcher.find() && is_unrestricted($item[Clan Looking Glass]))
+	{
+		clanItems[$item[Clan Looking Glass]] = 1;
+	}
+	matcher crimbo_matcher = create_matcher("A Crimbo Tree", vipOld);
+	if(crimbo_matcher.find() && is_unrestricted($item[Crimbough]))
+	{
+		clanItems[$item[Crimbough]] = 1;
+	}
+	matcher april_matcher = create_matcher("April Shower", vipOld);
+	if(april_matcher.find() && is_unrestricted($item[Clan Shower]))
+	{
+		clanItems[$item[Clan Shower]] = 1;
+	}
+	matcher fax_matcher = create_matcher("A Fax Machine", vipOld);
+	if(fax_matcher.find() && is_unrestricted($item[Deluxe Fax Machine]))
+	{
+		clanItems[$item[Deluxe Fax Machine]] = 1;
+	}
+	matcher olympic_matcher = create_matcher("An Olympic-Sized Swimming Pool", vipOld);
+	if(olympic_matcher.find() && is_unrestricted($item[Olympic-Sized Clan Crate]))
+	{
+		clanItems[$item[Olympic-Sized Clan Crate]] = 1;
+	}
+
+	return clanItems;
+}
+
+
+boolean drinkSpeakeasyDrink(item drink)
+{
+	if(item_amount($item[Clan VIP Lounge Key]) == 0)
+	{
+		return false;
+	}
+
+	if(get_property("_speakeasyDrinksDrunk").to_int() >= 3)
+	{
+		return false;
+	}
+
+	if(!(get_clan_furniture() contains $item[Clan Speakeasy]))
+	{
+		return false;
+	}
+
+	static int [item] cost;
+	static int [item] drunk;
+	cost[$item[Glass of &quot;Milk&quot;]] = 250;
+	cost[$item[Cup of &quot;Tea&quot;]] = 250;
+	cost[$item[Thermos of &quot;Whiskey&quot;]] = 250;
+	cost[$item[Lucky Lindy]] = 500;
+	cost[$item[Bee\'s Knees]] = 500;
+	cost[$item[Sockdollager]] = 500;
+	cost[$item[Ish Kabibble]] = 500;
+	cost[$item[Hot Socks]] = 5000;
+	cost[$item[Phonus Balonus]] = 10000;
+	cost[$item[Flivver]] = 20000;
+	cost[$item[Sloppy Jalopy]] = 100000;
+
+
+	drunk[$item[Glass of &quot;Milk&quot;]] = 1;
+	drunk[$item[Cup of &quot;Tea&quot;]] = 1;
+	drunk[$item[Thermos of &quot;Whiskey&quot;]] = 1;
+	drunk[$item[Lucky Lindy]] = 1;
+	drunk[$item[Bee\'s Knees]] = 2;
+	drunk[$item[Sockdollager]] = 2;
+	drunk[$item[Ish Kabibble]] = 2;
+	drunk[$item[Hot Socks]] = 3;
+	drunk[$item[Phonus Balonus]] = 3;
+	drunk[$item[Flivver]] = 2;
+	drunk[$item[Sloppy Jalopy]] = 5;
+
+	if(my_meat() < cost[drink])
+	{
+		return false;
+	}
+
+	if((my_inebriety() + drunk[drink]) > inebriety_limit())
+	{
+		return false;
+	}
+
+	cli_execute("drink 1 " + drink);
+
+	return true;
+}
 
 boolean eatFancyDog(string dog)
 {
@@ -19,6 +143,13 @@ boolean eatFancyDog(string dog)
 	{
 		return false;
 	}
+
+	if(!(get_clan_furniture() contains $item[Clan Hot Dog Stand]))
+	{
+		return false;
+	}
+
+
 	dog = to_lower_case(dog);
 
 	static int [string] dogFull;
@@ -115,4 +246,15 @@ boolean eatFancyDog(string dog)
 
 	cli_execute("eatsilent 1 " + dog);
 	return true;
+}
+
+
+boolean drinkSpeakeasyDrink(string drink)
+{
+	item realDrink = to_item(drink);
+	if(realDrink == $item[None])
+	{
+		return false;
+	}
+	return drinkSpeakeasyDrink(realDrink);
 }
