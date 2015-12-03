@@ -690,7 +690,7 @@ boolean cs_giant_growth()
 
 	if(my_familiar() == $familiar[Machine Elf])
 	{
-		adv1($location[Deep Machine Tunnels], 0, "cs_combatLTB");
+		adv1($location[The Deep Machine Tunnels], 0, "cs_combatLTB");
 	}
 	else
 	{
