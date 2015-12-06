@@ -134,10 +134,6 @@ void ed_initializeDay(int day)
 
 boolean adjustEdHat(string goal)
 {
-	if(my_class() != $class[Ed])
-	{
-		return false;
-	}
 	if(!possessEquipment($item[The Crown of Ed the Undying]))
 	{
 		return false;
@@ -604,27 +600,11 @@ boolean ed_eatStuff()
 	if(!get_property("_fancyHotDogEaten").to_boolean() && (my_daycount() == 1) && (my_level() >= 9) && ((my_fullness() + 3) <= fullness_limit()) && (item_amount($item[Astral Hot Dog]) == 0) && (my_adventures() < 10) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 	{
 		eatFancyDog("video games hot dog");
-#		visit_url("clan_viplounge.php?action=hotdogstand");
-#		buy_using_storage(3, $item[GameInformPowerDailyPro Magazine], 2500);
-#		visit_url("clan_viplounge.php?preaction=hotdogsupply&hagnks=1&whichdog=-103&quantity=3");
-#		cli_execute("eat 1 video games hot dog");
-#		if(!get_property("_fancyHotDogEaten").to_boolean())
-#		{
-#			abort("Failed eating video games hot dog (already contributed, eat it manually I suppose)....");
-#		}
 	}
 
 	if(get_property("cc_dickstab").to_boolean() && !get_property("_fancyHotDogEaten").to_boolean() && (my_daycount() == 1) && ((my_fullness() + 2) <= fullness_limit()) && (item_amount($item[Astral Hot Dog]) == 0) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 	{
 		eatFancyDog("sleeping dog");
-#		visit_url("clan_viplounge.php?action=hotdogstand");
-#		buy_using_storage(10, $item[Gauze Hammock], 6000);
-#		visit_url("clan_viplounge.php?preaction=hotdogsupply&hagnks=1&whichdog=-101&quantity=10");
-#		cli_execute("eat 1 sleeping dog");
-#		if(!get_property("_fancyHotDogEaten").to_boolean())
-#		{
-#			abort("Failed eating sleeping dog (already contributed, eat it manually I suppose)....");
-#		}
 	}
 
 
@@ -646,7 +626,7 @@ boolean ed_eatStuff()
 	}
 	if((item_amount($item[Coinspiracy]) >= 6) && ((my_inebriety() + 3) <= inebriety_limit()) && (my_adventures() < 3) && (item_amount($item[Astral Pilsner]) == 0))
 	{
-		buy(1, $item[Highest Bitter]);
+		buyUpTo(1, $item[Highest Bitter]);
 		drink(1, $item[Highest Bitter]);
 	}
 
@@ -659,7 +639,7 @@ boolean ed_eatStuff()
 		}
 		else if((my_meat() >= 40) && (my_fullness() < fullness_limit()) && (my_fullness() >= 4))
 		{
-			buy(1, $item[Fortune Cookie]);
+			buyUpTo(1, $item[Fortune Cookie], 20);
 			eat(1, $item[Fortune Cookie]);
 		}
 	}
@@ -740,7 +720,6 @@ boolean ed_shopping()
 		while((coins >= 15) && (canEat > 0))
 		{
 			visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=428", true);
-			#buy(1, $item[Mummified Beef Haunch]);
 			print("Buying a mummified beef haunch!", "green");
 			coins = coins - 15;
 			canEat = canEat - 1;
@@ -850,7 +829,6 @@ boolean ed_shopping()
 		{
 			print("Buying Talisman of Renenutet", "green");
 			visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=439", true);
-			#buy(1, $item[Talisman of Renenutet]);
 			set_property("cc_renenutetBought", 1 + get_property("cc_renenutetBought").to_int());
 			coins = coins - 1;
 			if(!have_skill($skill[Okay Seriously, This is the Last Spleen]))
@@ -948,7 +926,6 @@ boolean ed_shopping()
 		{
 			print("Buying Talisman of Renenutet", "green");
 			visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=439", true);
-			#buy(1, $item[Talisman of Renenutet]);
 			set_property("cc_renenutetBought", 1 + get_property("cc_renenutetBought").to_int());
 			coins = coins - 1;
 		}
@@ -956,35 +933,30 @@ boolean ed_shopping()
 		{
 			print("Buying Linen Bandages", "green");
 			visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=429", true);
-			#buy(1, $item[Linen Bandages]);
 			coins -= 1;
 		}
 		while((item_amount($item[Holy Spring Water]) < 1) && (coins >= 2))
 		{
 			print("Buying Holy Spring Water", "green");
 			visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=436", true);
-			#buy(1, $item[Holy Spring Water]);
 			coins -= 1;
 		}
 		while((item_amount($item[Talisman of Horus]) < 3) && (coins >= 5))
 		{
 			print("Buying Talisman of Horus", "green");
 			visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=693", true);
-			#buy(1, $item[Talisman of Horus]);
 			coins -= 5;
 		}
 		while((item_amount($item[Spirit Beer]) == 0) && (coins >= 30))
 		{
 			print("Buying Spirit Beer", "green");
 			visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=432", true);
-			#buy(1, $item[Spirit Beer]);
 			coins -= 1;
 		}
 		if(((item_amount($item[Soft Green Echo Eyedrop Antidote]) + item_amount($item[Ancient Cure-All])) < 2) && (coins >= 30))
 		{
 			print("Buying Ancient Cure-all", "green");
 			visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=435", true);
-			#buy(1, $item[Ancient Cure-all]);
 			coins -= 3;
 		}
 	}

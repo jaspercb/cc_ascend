@@ -178,7 +178,7 @@ void handlePostAdventure()
 		}
 		else
 		{
-			buy(1, $item[anti-anti-antidote]);
+			buyUpTo(1, $item[anti-anti-antidote], 30);
 #			visit_url("shop.php?pwd=&whichshop=doc&action=buyitem&quantity=1&whichrow=694", true);
 			use(1, $item[anti-anti-antidote]);
 		}

@@ -210,7 +210,7 @@ void hr_initializeDay(int day)
 
 			if(item_amount($item[miniature life preserver]) == 0)
 			{
-				buy(1, $item[miniature life preserver]);
+				buyUpTo(1, $item[miniature life preserver]);
 			}
 			set_property("cc_day1_skills", "finished");
 			visit_url("main.php");

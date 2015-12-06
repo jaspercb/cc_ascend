@@ -68,6 +68,7 @@ boolean useCocoon();
 boolean hasShieldEquipped();
 void shrugAT();
 boolean buyUpTo(int num, item it);
+boolean buyUpTo(int num, item it, int maxprice);
 boolean buffMaintain(effect buff, int mp_min, int cases, int turns);
 effect effectNeededFirstGate(string data);
 boolean cc_deleteMail(kmessage msg);
@@ -1152,7 +1153,11 @@ boolean buy_item(item it, int quantity, int maxprice)
 		{
 			abort("Don't have enough meat to restock, big sad");
 		}
-		buy(1, it);
+		if(buy(1, it, maxprice) == 0)
+		{
+			print("Price of " + it + " exceeded expected mall price of " + maxprice + ".", "blue");
+			return false;
+		}
 	}
 	if(item_amount(it) < quantity)
 	{
@@ -1411,10 +1416,15 @@ string tryBeerPong() {
 
 boolean buyUpTo(int num, item it)
 {
+	return buyUpTo(num, it, 20000);
+}
+
+boolean buyUpTo(int num, item it, int maxprice)
+{
 	num = num - item_amount(it);
 	if(num > 0)
 	{
-		buy(num, it, 20000);
+		buy(num, it, maxprice);
 	}
 	return (item_amount(it) == num);
 }

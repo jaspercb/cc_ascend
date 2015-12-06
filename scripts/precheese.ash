@@ -130,12 +130,12 @@ void handlePreAdventure(location place)
 		{
 			if(guild_store_available() && (my_level() >= 5))
 			{
-				buy(1, $item[Magical Mystery Juice]);
+				buyUpTo(1, $item[Magical Mystery Juice], 50);
 				use(1, $item[Magical Mystery Juice]);
 			}
 			else
 			{
-				buy(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+				buyUpTo(1, $item[Doc Galaktik\'s Invigorating Tonic], 25);
 				use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
 			}
 		}

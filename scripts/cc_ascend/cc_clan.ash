@@ -227,7 +227,12 @@ boolean eatFancyDog(string dog)
 	int need = dogAmt[dog] - storage_amount(dogReq[dog]);
 	if(need > 0)
 	{
-		buy_using_storage(need, dogReq[dog], 1.5 * historical_price(dogReq[dog]));
+		if(buy_using_storage(need, dogReq[dog], min(1.5 * historical_price(dogReq[dog]), 30000)) == 0)
+		{
+			print("Could not buy " + dogReq[dog] + " for a fancy dog. Price may have been manipulated.", "red");
+			wait(5);
+			return false;
+		}
 	}
 
 	if(storage_amount(dogReq[dog]) < dogAmt[dog])

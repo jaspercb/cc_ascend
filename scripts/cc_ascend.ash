@@ -33,7 +33,7 @@ boolean ccEat(int howMany, item toEat)
 	{
 		if((cc_get_campground() contains $item[Portable Mayo Clinic]) && (my_meat() > 11000))
 		{
-			buy(1, $item[Mayoflex]);
+			buyUpTo(1, $item[Mayoflex], 1000);
 			use(1, $item[Mayoflex]);
 		}
 		retval = eat(1, toEat);
@@ -1290,7 +1290,7 @@ void initializeDay(int day)
 
 			if(item_amount($item[handful of smithereens]) >= 2)
 			{
-				buy(2, $item[Ben-Gal&trade; Balm]);
+				buyUpTo(2, $item[Ben-Gal&trade; Balm], 25);
 				cli_execute("make 2 louder than bomb");
 			}
 
@@ -8879,7 +8879,7 @@ boolean LA_communityService()
 
 			if(item_amount($item[Ben-Gal&trade; Balm]) == 0)
 			{
-				buy(1, $item[Ben-Gal&trade; Balm]);
+				buyUpTo(1, $item[Ben-Gal&trade; Balm], 25);
 			}
 
 			while(((total_free_rests() - get_property("timesRested").to_int()) > 4) && chateaumantegna_available())
@@ -10155,7 +10155,7 @@ boolean doTasks()
 		}
 		if((item_amount($item[Hermit Permit]) == 0) && (my_meat() > 100))
 		{
-			buy(1, $item[Hermit Permit]);
+			buyUpTo(1, $item[Hermit Permit], 100);
 		}
 		while((item_amount($item[Seal Tooth]) == 0) && (item_amount($item[Hermit Permit]) > 0) && (my_meat() > 50))
 		{
@@ -10258,7 +10258,7 @@ boolean doTasks()
 			{
 				if(item_amount($item[FunFunds&trade;]) > 4)
 				{
-					buy(1, $item[Dinsey Face Paint]);
+					buyUpTo(1, $item[Dinsey Face Paint]);
 				}
 				return true;
 			}
@@ -11348,7 +11348,7 @@ boolean doTasks()
 
 					if(((my_inebriety() + 1) < inebriety_limit()) && (item_amount($item[Coinspiracy]) > 0) && (have_effect($effect[Jungle Juiced]) == 0))
 					{
-						buy(1, $item[Jungle Juice]);
+						buyUpTo(1, $item[Jungle Juice]);
 						drink(1, $item[Jungle Juice]);
 						tryJungle = true;
 					}

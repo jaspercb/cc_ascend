@@ -15,6 +15,7 @@ boolean cc_sexismReduction();
 boolean cc_racismReduction();
 boolean cc_lubeBarfMountain();
 boolean cc_trashNet();
+boolean cc_doWalford();
 boolean cc_mtMolehill();
 boolean cc_acquireKeycards();
 boolean cc_dailyDungeon();
@@ -374,6 +375,81 @@ boolean cc_mtMolehill()
 	return true;
 }
 
+boolean cc_doWalford()
+{
+	if(!get_property("_walfordQuestStartedToday").to_boolean())
+	{
+		if(!elementalPlanes_takeJob($element[cold]))
+		{
+			return false;
+		}
+	}
+
+	if(get_property("walfordBucketProgress").to_int() >= 100)
+	{
+		return false;
+	}
+
+	handleFamiliar($familiar[Artistic Goth Kid]);
+	if(equipped_item($slot[Familiar]) != $item[Das Boot])
+	{
+		equip($item[Das Boot]);
+	}
+	if(equipped_item($slot[Hat]) != $item[The Crown of Ed the Undying])
+	{
+		equip($item[The Crown of Ed the Undying]);
+		adjustEdHat("fish");
+	}
+	if(equipped_item($slot[Back]) != $item[Camp Scout Backpack])
+	{
+		equip($item[Camp Scout Backpack]);
+	}
+	if((equipped_item($slot[Weapon]) != $item[Garbage Sticker]) && can_equip($item[Garbage Sticker]))
+	{
+		equip($item[Garbage Sticker]);
+	}
+	if(equipped_item($slot[Pants]) != $item[Pantsgiving])
+	{
+		equip($item[Pantsgiving]);
+	}
+	if(equipped_item($slot[Shirt]) != $item[Sneaky Pete\'s Leather Jacket])
+	{
+		equip($item[Sneaky Pete\'s Leather Jacket]);
+	}
+	if((equipped_item($slot[acc1]) != $item[Space Trip Safety Headphones]) && can_equip($item[Space Trip Safety Headphones]))
+	{
+		equip($slot[acc1], $item[Space Trip Safety Headphones]);
+	}
+	if(equipped_item($slot[acc2]) != $item[Mayfly Bait Necklace])
+	{
+		equip($slot[acc2], $item[Mayfly Bait Necklace]);
+	}
+	if((equipped_item($slot[acc3]) != $item[Mr. Cheeng\'s Spectacles]) && can_equip($item[Mr. Cheeng\'s Spectacles]))
+	{
+		equip($slot[acc3], $item[Mr. Cheeng\'s Spectacles]);
+	}
+
+	if(equipped_item($slot[Off-Hand]) != $item[Walford\'s Bucket])
+	{
+		equip($item[Walford\'s Bucket]);
+	}
+	while((get_property("walfordBucketProgress").to_int() < 100) && (my_adventures() > 0))
+	{
+		if(!ccAdv(1, $location[The Ice Hole]))
+		{
+			abort("Could not adventure in the Ice Hotel, aborting");
+		}
+	}
+
+	if(get_property("walfordBucketProgress").to_int() >= 100)
+	{
+		visit_url("choice.php?pwd=&whichchoice=1114&option=1",true);
+		return true;
+	}
+	return false;
+}
+
+
 item cc_guildEpicWeapon()
 {
 	item toMake = $item[none];
@@ -715,14 +791,22 @@ boolean cc_cheesePostCS()
 
 	while((my_inebriety() + 5) <= inebriety_limit())
 	{
-		buy(1, $item[5-Hour Acrimony]);
+		if(!buyUpTo(1, $item[5-Hour Acrimony], 5000))
+		{
+			print("Could not buy 5-Hour Acrimony, price too high", "red");
+			break;
+		}
 		drink(1, $item[5-Hour Acrimony]);
 	}
 
 
 	while((my_inebriety() + 2) <= inebriety_limit())
 	{
-		buy(1, $item[Beery Blood]);
+		if(!buyUpTo(1, $item[Beery Blood], 500))
+		{
+			print("Could not buy Beery Blood, price too high", "red");
+			break;
+		}
 		drink(1, $item[Beery Blood]);
 	}
 
@@ -762,7 +846,10 @@ boolean cc_cheesePostCS()
 
 	if(item_amount($item[5-hour acrimony]) == 0)
 	{
-		buy(1, $item[5-Hour Acrimony]);
+		if(!buyUpTo(1, $item[5-Hour Acrimony], 5000))
+		{
+			print("Could not buy 5-Hour Acrimony, price too high", "red");
+		}
 	}
 	cli_execute("drink 5-hour acrimony");
 
@@ -868,14 +955,22 @@ boolean cc_cheesePostCSWalford()
 
 	while((my_inebriety() + 5) <= inebriety_limit())
 	{
-		buy(1, $item[5-Hour Acrimony]);
+		if(!buyUpTo(1, $item[5-Hour Acrimony], 5000))
+		{
+			print("Could not buy 5-Hour Acrimony, price too high", "red");
+			break;
+		}
 		drink(1, $item[5-Hour Acrimony]);
 	}
 
 
 	while((my_inebriety() + 2) <= inebriety_limit())
 	{
-		buy(1, $item[Beery Blood]);
+		if(!buyUpTo(1, $item[Beery Blood], 500))
+		{
+			print("Could not buy Beery Blood, price too high", "red");
+			break;
+		}
 		drink(1, $item[Beery Blood]);
 	}
 
@@ -915,7 +1010,10 @@ boolean cc_cheesePostCSWalford()
 
 	if(item_amount($item[5-hour acrimony]) == 0)
 	{
-		buy(1, $item[5-Hour Acrimony]);
+		if(!buyUpTo(1, $item[5-Hour Acrimony], 5000))
+		{
+			print("Could not buy 5-Hour Acrimony, price too high", "red");
+		}
 	}
 	cli_execute("drink 5-hour acrimony");
 
@@ -940,3 +1038,4 @@ boolean cc_doCS()
 	cli_execute("cc_ascend");
 	return true;
 }
+
