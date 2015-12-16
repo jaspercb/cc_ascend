@@ -2408,10 +2408,12 @@ boolean L11_hiddenCityZones()
 		{
 			handleBjornify($familiar[grimstone golem]);
 		}
+		set_property("choiceAdventure781", 2);
 		ccAdv(1, $location[An Overgrown Shrine (Northwest)]);
 		if(contains_text(get_property("lastEncounter"), "Earthbound and Down"))
 		{
 			set_property("cc_hiddenzones", "2");
+			set_property("choiceAdventure781", 6);
 		}
 		return true;
 	}
@@ -2432,10 +2434,12 @@ boolean L11_hiddenCityZones()
 		{
 			handleBjornify($familiar[grimstone golem]);
 		}
+		set_property("choiceAdventure785", 2);
 		ccAdv(1, $location[An Overgrown Shrine (Northeast)]);
 		if(contains_text(get_property("lastEncounter"), "Air Apparent"))
 		{
 			set_property("cc_hiddenzones", "3");
+			set_property("choiceAdventure785", 6);
 		}
 		return true;
 	}
@@ -2456,10 +2460,12 @@ boolean L11_hiddenCityZones()
 		{
 			handleBjornify($familiar[grimstone golem]);
 		}
+		set_property("choiceAdventure783", 2);
 		ccAdv(1, $location[An Overgrown Shrine (Southwest)]);
 		if(contains_text(get_property("lastEncounter"), "Water You Dune"))
 		{
 			set_property("cc_hiddenzones", "4");
+			set_property("choiceAdventure783", 6);
 		}
 		return true;
 	}
@@ -2480,10 +2486,12 @@ boolean L11_hiddenCityZones()
 		{
 			handleBjornify($familiar[grimstone golem]);
 		}
+		set_property("choiceAdventure787", 2);
 		ccAdv(1, $location[An Overgrown Shrine (Southeast)]);
 		if(contains_text(get_property("lastEncounter"), "Fire When Ready"))
 		{
 			set_property("cc_hiddenzones", "5");
+			set_property("choiceAdventure787", 6);
 		}
 		return true;
 	}
