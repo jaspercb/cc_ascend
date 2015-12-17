@@ -1862,6 +1862,14 @@ void doBedtime()
 		{
 			print("You can still worship the barrel god today.", "blue");
 		}
+		if(is_unrestricted($item[Airplane Charter: Dinseylandfill]) && !get_property("_dinseyGarbageDisposed").to_boolean())
+		{
+			print("You can still dispose of Garbage in Dinseyland.", "blue");
+		}
+		if(is_unrestricted($item[Airplane Charter: That 70s Volcano]) && !get_property("_infernoDiscoVisited").to_boolean())
+		{
+			print("You can still disco inferno at the Inferno Disco.", "blue");
+		}
 		if(is_unrestricted($item[Potted Tea Tree]) && !get_property("_pottedTeaTreeUsed").to_boolean())
 		{
 			print("You have a tea tree to shake!", "blue");
