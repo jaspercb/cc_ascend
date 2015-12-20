@@ -7778,7 +7778,11 @@ boolean LX_pirateBlueprint()
 
 		if(item_amount($item[Hot Wing]) < 3)
 		{
-			abort("You somehow got here without 3 hot wings, did you eat them or something? That makes me sad.");
+			#abort("You somehow got here without 3 hot wings, did you eat them or something? That makes me sad.");
+			if(L6_friarsGetParts() || L6_friarsHotWing())
+			{
+				return true;
+			}
 			return false;
 		}
 		if(equipped_item($slot[pants]) != $item[Frilly Skirt])
