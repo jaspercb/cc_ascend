@@ -1,10 +1,22 @@
 script "cc_elementalPlanes.ash"
 
+item[element] getCharterIndexable()
+{
+	item[element] charters;
+	charters[$element[cold]] = $item[Airplane Charter: The Glaciest];
+	charters[$element[hot]] = $item[Airplane Charter: That 70s Volcano];
+	charters[$element[sleaze]] = $item[Airplane Charter: Spring Break Beach];
+	charters[$element[spooky]] = $item[Airplane Charter: Conspiracy Island];
+	charters[$element[stench]] = $item[Airplane Charter: Dinseylandfill];
+	return charters;
+}
+
 boolean elementalPlanes_initializeSettings()
 {
 	string temp = "";
+	item[element] charters = getCharterIndexable();
 
-	if(!get_property("sleazeAirportAlways").to_boolean())
+	if(!get_property("sleazeAirportAlways").to_boolean() && is_unrestricted(charters[$element[sleaze]]))
 	{
 		temp = visit_url("place.php?whichplace=airport_sleaze&intro=1");
 		if(contains_text(temp, "you take a short, turbulence-free flight to Spring Break Beach."))
@@ -14,7 +26,7 @@ boolean elementalPlanes_initializeSettings()
 		}
 	}
 
-	if(!get_property("spookyAirportAlways").to_boolean())
+	if(!get_property("spookyAirportAlways").to_boolean() && is_unrestricted(charters[$element[spooky]]))
 	{
 		temp = visit_url("place.php?whichplace=airport_spooky&intro=1");
 		if(contains_text(temp, "Your flight to Conspiracy Island is nasty, brutish and short."))
@@ -24,7 +36,7 @@ boolean elementalPlanes_initializeSettings()
 		}
 	}
 
-	if(!get_property("stenchAirportAlways").to_boolean())
+	if(!get_property("stenchAirportAlways").to_boolean() && is_unrestricted(charters[$element[stench]]))
 	{
 		temp = visit_url("place.php?whichplace=airport_stench&intro=1");
 		if(contains_text(temp, "You get in line with the thousands of other passengers bound for Dinseylandfill."))
@@ -34,7 +46,7 @@ boolean elementalPlanes_initializeSettings()
 		}
 	}
 
-	if(!get_property("hotAirportAlways").to_boolean())
+	if(!get_property("hotAirportAlways").to_boolean() && is_unrestricted(charters[$element[hot]]))
 	{
 		temp = visit_url("place.php?whichplace=airport_hot&intro=1");
 		if(contains_text(temp, "After a convenient, comfortable and dignified ticketing and boarding process"))
@@ -43,14 +55,24 @@ boolean elementalPlanes_initializeSettings()
 			set_property("hotAirportAlways", true);
 		}
 	}
+
+	if(!get_property("coldAirportAlways").to_boolean() && is_unrestricted(charters[$element[cold]]))
+	{
+		temp = visit_url("place.php?whichplace=airport_cold&intro=1");
+		if(contains_text(temp, "The local temperature is about a million degrees below zero"))
+		{
+			print("We can go to The Glaciest. Great prices everyday!", "green");
+			set_property("coldAirportAlways", true);
+		}
+	}
 	return true;
 }
 
 
 boolean elementalPlanes_access(element ele)
 {
-#	return (get_property("_" + ele + "AirportToday").to_boolean() || get_property(ele + "AirportAlways").to_boolean());
-	return get_property(ele + "AirportAlways").to_boolean();
+	item[element] charters = getCharterIndexable();
+	return get_property(ele + "AirportAlways").to_boolean() && is_unrestricted(charters[ele]);
 }
 
 boolean elementalPlanes_takeJob(element ele)
@@ -60,13 +82,13 @@ boolean elementalPlanes_takeJob(element ele)
 		return false;
 	}
 
-	if(ele == $element[spooky])
+	if((ele == $element[spooky]) && elementalPlanes_access(ele))
 	{
 		visit_url("place.php?whichplace=airport_spooky&action=airport2_radio");
 		visit_url("choice.php?pwd&whichchoice=984&option=1", true);
 		return true;
 	}
-	else if(ele == $element[stench])
+	else if((ele == $element[stench]) && elementalPlanes_access(ele))
 	{
 		string page = visit_url("place.php?whichplace=airport_stench&action=airport3_kiosk");
 		int choice = 1;
@@ -103,7 +125,7 @@ boolean elementalPlanes_takeJob(element ele)
 		visit_url("choice.php?pwd=&whichchoice=1066&option=" + choice,true);
 		return true;
 	}
-	else if(ele == $element[cold])
+	else if((ele == $element[cold]) && elementalPlanes_access(ele))
 	{
 		string page = visit_url("place.php?whichplace=airport_cold&action=glac_walrus");
 
