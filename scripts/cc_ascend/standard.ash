@@ -9,6 +9,10 @@ void standard_dnaPotions()
 	{
 		return;
 	}
+	if(!is_unrestricted($item[Little Geneticist DNA-Splicing Lab]))
+	{
+		return;
+	}
 	if(get_property("dnaSyringe") == "construct")
 	{
 		if((get_property("_dnaPotionsMade").to_int() == 0) && (my_daycount() == 1))

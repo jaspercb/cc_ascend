@@ -25,7 +25,7 @@ void makeStartingSmiths()
 
 	if(item_amount($item[Lump of Brituminous Coal]) == 0)
 	{
-		if(my_mp() < (3 * mp_cost($skill[Summon Smithsness]))
+		if(my_mp() < (3 * mp_cost($skill[Summon Smithsness])))
 		{
 			print("You don't have enough MP for initialization, it might be ok but probably not.", "red");
 		}

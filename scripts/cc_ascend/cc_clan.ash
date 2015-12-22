@@ -8,6 +8,7 @@ boolean drinkSpeakeasyDrink(string drink);
 int [item] get_clan_furniture();
 int changeClan(int toClan);			//Returns new clan ID (or old one if it failed)
 int changeClan();					//To BAFH
+int doHottub();						//Returns number of usages left.
 
 
 
@@ -97,6 +98,21 @@ int changeClan(int toClan)
 int changeClan()
 {
 	return changeClan(90485);
+}
+
+
+int doHottub()
+{
+	if((item_amount($item[Clan VIP Lounge Key]) == 0) || !is_unrestricted($item[Clan VIP Lounge Key]))
+	{
+		return 0;
+	}
+	if(get_property("_hotTubSoaks").to_int() < 5)
+	{
+		cli_execute("hottub");
+	}
+
+	return 5 - get_property("_hotTubSoaks").to_int();
 }
 
 boolean drinkSpeakeasyDrink(item drink)

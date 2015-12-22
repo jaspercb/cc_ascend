@@ -1244,12 +1244,12 @@ void initializeDay(int day)
 		{
 			if(my_hp() < my_maxhp())
 			{
-				cli_execute("hottub");
+				doHottub();
 			}
 			rainManSummon("writing desk", true, true);
 			if((my_hp() * 2) < my_maxhp())
 			{
-				cli_execute("hottub");
+				doHottub();
 			}
 			hr_dnaPotions();
 			set_property("cc_day1_desk", "finished");
@@ -1529,7 +1529,7 @@ void doBedtime()
 	}
 	if((my_hp() < (0.9 * my_maxhp())) && (get_property("_hotTubSoaks").to_int() < 5))
 	{
-		cli_execute("hottub");
+		doHottub();
 	}
 
 	if(!get_property("_mayoTankSoaked").to_boolean())
@@ -9852,14 +9852,14 @@ boolean doTasks()
 			}
 			else
 			{
-				cli_execute("hottub");
+				doHottub();
 			}
 		}
 	}
 
 	if((have_effect($effect[beaten up]) > 0) && (my_path() == "Community Service"))
 	{
-		cli_execute("hottub");
+		doHottub();
 	}
 
 	if(have_effect($effect[beaten up]) > 0)
@@ -10759,7 +10759,7 @@ boolean doTasks()
 			if(item_amount($item[Moss-Covered Stone Sphere]) > 0)
 			{
 				set_property("cc_hiddenapartment", "finished");
-				cli_execute("hottub");
+				doHottub();
 				if(have_effect($effect[On The Trail]) > 0)
 				{
 					if(item_amount($item[soft green echo eyedrop antidote]) > 0)
@@ -11099,7 +11099,7 @@ boolean doTasks()
 				if(item_amount($item[&quot;2 Love Me\, Vol. 2&quot;]) > 0)
 				{
 					use(1, $item[&quot;2 Love Me\, Vol. 2&quot;]);
-					cli_execute("hottub");
+					doHottub();
 				}
 				visit_url("place.php?whichplace=palindome&action=pal_mrlabel");
 				if(!in_hardcore() && (item_amount($item[Wet Stunt Nut Stew]) == 0))
@@ -11866,7 +11866,7 @@ boolean doTasks()
 			}
 			else if(my_hp() < (0.9 * my_maxhp()))
 			{
-				cli_execute("hottub");
+				doHottub();
 			}
 			#Wall of Meat, buff meat, need at least 400 I suppose.
 			visit_url("place.php?whichplace=nstower&action=ns_06_monster2");
@@ -11939,7 +11939,7 @@ boolean doTasks()
 				if(have_effect($effect[Beaten Up]) > 0)
 				{
 					print("Could not towerkill Wall of Bones, reverting to Boning Knife", "red");
-					cli_execute("hottub");
+					doHottub();
 					set_property("cc_getBoningKnife", true);
 				}
 				else
@@ -11982,7 +11982,7 @@ boolean doTasks()
 				buffMaintain($effect[Spiky Hair], 0, 1, 1);
 			}
 			cli_execute("scripts/postcheese.ash");
-			cli_execute("hottub");
+			doHottub();
 
 			visit_url("place.php?whichplace=nstower&action=ns_09_monster5");
 			adv1($location[Noob Cave], 1, "cc_combatHandler");
