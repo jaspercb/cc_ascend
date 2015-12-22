@@ -2,36 +2,7 @@ script "floristfriar.ash"
 
 void florist_initializeSettings()
 {
-	if(florist_available())
-	{
-		#Florist Friar Settings
-		#FIXME: Upgrade this a String container (see cc_combat.ash)
-		set_property("cc_airshipplant", "");
-		set_property("cc_alcoveplant", "");
-		set_property("cc_ballroomplant", "");
-		set_property("cc_barplant", "");
-		set_property("cc_bathroomplant", "");
-		set_property("cc_battleFratplant", "");
-		set_property("cc_battleHippyplant", "");
-		set_property("cc_boilerroomplant", "");
-		set_property("cc_castlegroundplant", "");
-		set_property("cc_castlebasementplant", "");
-		set_property("cc_coveplant", "");
-		set_property("cc_desertplant", "");
-		set_property("cc_hiddenapartmentplant", "");
-		set_property("cc_hiddenbowlingplant", "");
-		set_property("cc_hiddenhospitalplant", "");
-		set_property("cc_hiddenofficeplant", "");
-		set_property("cc_knobplant", "");
-		set_property("cc_massivezigguratplant", "");
-		set_property("cc_nicheplant", "");
-		set_property("cc_nookplant", "");
-		set_property("cc_oilpeakplant", "");
-		set_property("cc_pyramidmiddleplant", "");
-		set_property("cc_pyramidupperplant", "");
-		set_property("cc_secretLaboratoryPlant", "");
-		set_property("cc_spookyplant", "");
-	}
+	# Nothing to initialize, left as a stub.
 }
 
 boolean didWePlantHere(location loc)
@@ -45,6 +16,16 @@ boolean didWePlantHere(location loc)
 		}
 	}
 	return false;
+}
+
+void trickMafiaAboutFlorist()
+{
+	// This only works if you actually have the Florist Friar but it isn\'t detected by Mafia
+	// This may not be the most optimal way to do it.
+	visit_url("choice.php?whichchoice=720&pwd=&option=4");
+	visit_url("place.php?whichplace=forestvillage&action=fv_friar");
+	visit_url("choice.php?whichchoice=720&pwd=&option=4");
+	visit_url("choice.php?whichchoice=720&pwd=&option=4");
 }
 
 void oldPeoplePlantStuff()
@@ -101,10 +82,8 @@ void oldPeoplePlantStuff()
 			cli_execute("florist plant war lily");
 			cli_execute("florist plant arctic moss");
 		}
-
 		return;
 	}
-
 
 	if((my_location() == $location[The Outskirts of Cobb\'s Knob]))
 	{
@@ -248,6 +227,4 @@ void oldPeoplePlantStuff()
 		cli_execute("florist plant Smoke-ra");
 		cli_execute("florist plant Rutabeggar");
 	}
-
-
 }

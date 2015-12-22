@@ -8507,10 +8507,7 @@ boolean LA_communityService()
 				handleBarrelFullOfBarrels();
 				if(!florist_available())
 				{
-					visit_url("choice.php?whichchoice=720&pwd=&option=4");
-					visit_url("place.php?whichplace=forestvillage&action=fv_friar");
-					visit_url("choice.php?whichchoice=720&pwd=&option=4");
-					visit_url("choice.php?whichchoice=720&pwd=&option=4");
+					trickMafiaAboutFlorist();
 				}
 				return true;
 			}
