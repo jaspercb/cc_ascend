@@ -6,6 +6,9 @@ boolean eatFancyDog(string dog);
 boolean drinkSpeakeasyDrink(item drink);
 boolean drinkSpeakeasyDrink(string drink);
 int [item] get_clan_furniture();
+int changeClan(int toClan);			//Returns new clan ID (or old one if it failed)
+int changeClan();					//To BAFH
+
 
 
 /****
@@ -21,7 +24,7 @@ int [item] get_clan_furniture()
 	string vipMain = visit_url("clan_viplounge.php");
 	string vipOld = visit_url("clan_viplounge.php?whichfloor=2");
 
-	
+
 	matcher ball_matcher = create_matcher("An Awesome Ball Pit", basic);
     if(ball_matcher.find() && is_unrestricted($item[Colorful Plastic Ball]))
 	{
@@ -73,6 +76,28 @@ int [item] get_clan_furniture()
 	return clanItems;
 }
 
+int changeClan(int toClan)
+{
+	int oldClan = get_clan_id();
+	if(toClan == oldClan)
+	{
+		print("Already in this clan, no need to try to change (" + toClan + ")", "red");
+		return oldClan;
+	}
+	visit_url("showclan.php?pwd=&recruiter=1&action=joinclan&apply=Apply+to+this+Clan&confirm=on&whichclan=" + toClan, true);
+
+	if(get_clan_id() == oldClan)
+	{
+		print("Clan change failed", "red");
+	}
+	return get_clan_id();
+}
+
+
+int changeClan()
+{
+	return changeClan(90485);
+}
 
 boolean drinkSpeakeasyDrink(item drink)
 {
@@ -148,7 +173,6 @@ boolean eatFancyDog(string dog)
 	{
 		return false;
 	}
-
 
 	dog = to_lower_case(dog);
 
@@ -256,6 +280,11 @@ boolean eatFancyDog(string dog)
 
 boolean drinkSpeakeasyDrink(string drink)
 {
+	if(!(get_clan_furniture() contains $item[Clan Speakeasy]))
+	{
+		return false;
+	}
+
 	item realDrink = to_item(drink);
 	if(realDrink == $item[None])
 	{
