@@ -15,15 +15,15 @@ boolean[item] eudora_initializeSettings()
 	if(eudora_available())
 	{
 		string eudora = visit_url("account.php?tab=correspondence");
-		if(contains_text(eudora, "GameInformPowerDailyPro Magazine"))
+		if((contains_text(eudora, "GameInformPowerDailyPro Magazine")) && is_unrestricted($item[GameInformPowerDailyPro Subscription Card]))
 		{
 			retval[$item[GameInformPowerDailyPro Subscription Card]] = true;
 		}
-		if(contains_text(eudora, "Xi Receiver Unit"))
+		if((contains_text(eudora, "Xi Receiver Unit")) && is_unrestricted($item[Xi Receiver Unit]))
 		{
 			retval[$item[Xi Receiver Unit]] = true;
 		}
-		if(contains_text(eudora, "Pen Pal"))
+		if((contains_text(eudora, "Pen Pal")) && is_unrestricted($item[My Own Pen Pal Kit]))
 		{
 			retval[$item[My Own Pen Pal Kit]] = true;
 		}
@@ -36,15 +36,15 @@ item eudora_current()
 	if(eudora_available())
 	{
 		string eudora = visit_url("account.php?tab=correspondence");
-		if(contains_text(eudora, "selected\' value=\"2"))
+		if((contains_text(eudora, "selected\' value=\"2")) && is_unrestricted($item[GameInformPowerDailyPro Subscription Card]))
 		{
 			return $item[GameInformPowerDailyPro Subscription Card];
 		}
-		if(contains_text(eudora, "selected\' value=\"3"))
+		if((contains_text(eudora, "selected\' value=\"3")) && is_unrestricted($item[Xi Receiver Unit]))
 		{
 			return $item[Xi Receiver Unit];
 		}
-		if(contains_text(eudora, "selected\' value=\"1"))
+		if((contains_text(eudora, "selected\' value=\"1")) && is_unrestricted($item[My Own Pen Pal Kit]))
 		{
 			return $item[My Own Pen Pal Kit];
 		}
@@ -55,7 +55,7 @@ item eudora_current()
 int[item] eudora_xiblaxian()
 {
 	int[item] retval;
-	if(item_amount($item[Xiblaxian 5D Printer]) > 0)
+	if((item_amount($item[Xiblaxian 5D Printer]) > 0) && is_unrestricted($item[Xiblaxian 5D Printer]))
 	{
 		string canMake = visit_url("shop.php?whichshop=5dprinter");
 		int polymer = item_amount($item[Xiblaxian Polymer]);
