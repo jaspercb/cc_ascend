@@ -2,7 +2,7 @@ script "chateaumantegna.ash"
 
 boolean chateaumantegna_available()
 {
-	if(contains_text(visit_url("mountains.php"),"whichplace=chateau"))
+	if((contains_text(visit_url("mountains.php"),"whichplace=chateau")) && is_unrestricted($item[Chateau Mantegna Room Key]))
 	{
 		return true;
 	}
@@ -49,6 +49,10 @@ boolean chateaumantegna_havePainting()
 
 boolean chateaumantegna_usePainting()
 {
+	if(!chateaumantegna_available())
+	{
+		return false;
+	}
 	if(get_property("chateauMonster") == "lobsterfrogman")
 	{
 		if(item_amount($item[Barrel of Gunpowder]) >= 5)
@@ -127,8 +131,6 @@ boolean[item] chateaumantegna_decorations()
 	return retval;
 }
 
-
-
 void chateaumantegna_buyStuff(item toBuy)
 {
 	if(!chateaumantegna_available())
@@ -184,6 +186,11 @@ void chateaumantegna_buyStuff(item toBuy)
 
 boolean chateaumantegna_nightstandSet()
 {
+	if(!chateaumantegna_available())
+	{
+		return false;
+	}
+
 	stat myStat = my_primestat();
 	if(myStat == $stat[none])
 	{
