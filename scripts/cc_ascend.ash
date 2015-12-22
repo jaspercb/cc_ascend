@@ -1223,9 +1223,15 @@ void initializeDay(int day)
 			set_property("cc_day1_init", "finished");
 		}
 
-		if(get_property("cc_day1_dna") != "finished")
+		if((get_property("cc_day1_dna") != "finished") && (have_effect($effect[Human-Weird Thing Hybrid]) != 2147483647) && (item_amount($item[DNA Extraction Syringe]) > 0))
 		{
-			if(elementalPlanes_access($element[sleaze]) && (item_amount($item[DNA Extraction Syringe]) > 0))
+			if((have_familiar($familiar[Machine Elf])) && !get_property("cc_100familiar").to_boolean())
+			{
+				handleFamiliar($familiar[Machine Elf]);
+				ccAdv(1, $location[The Deep Machine Tunnels]);
+				cli_execute("camp dnainject");
+			}
+			else if(elementalPlanes_access($element[sleaze]))
 			{
 				ccAdv(1, $location[Sloppy Seconds Diner]);
 				ccAdv(1, $location[Sloppy Seconds Diner]);
