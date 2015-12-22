@@ -4,7 +4,7 @@ script "cc_deckofeverycard.ash"
 
 boolean deck_available()
 {
-	return item_amount($item[Deck of Every Card]) > 0;
+	return ((item_amount($item[Deck of Every Card]) > 0) && is_unrestricted($item[Deck of Every Card]));
 }
 
 int deck_draws_left()
