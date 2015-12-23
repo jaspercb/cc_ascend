@@ -8,13 +8,13 @@ since r16507;
 
 import <cc_ascend/cc_ascend_header.ash>
 import <cc_ascend/cc_deprecation.ash>
-import <cc_combat.ash>
-import <cc_util.ash>
-import <cc_ascend/heavyrains.ash>
-import <cc_ascend/picky.ash>
-import <cc_ascend/standard.ash>
-import <cc_ascend/floristfriar.ash>
-import <cc_ascend/chateaumantegna.ash>
+import <cc_ascend/cc_combat.ash>
+import <cc_ascend/cc_util.ash>
+import <cc_ascend/cc_heavyrains.ash>
+import <cc_ascend/cc_picky.ash>
+import <cc_ascend/cc_standard.ash>
+import <cc_ascend/cc_floristfriar.ash>
+import <cc_ascend/cc_chateaumantegna.ash>
 import <cc_ascend/cc_equipment.ash>
 import <cc_ascend/cc_edTheUndying.ash>
 import <cc_ascend/cc_eudora.ash>
@@ -139,7 +139,7 @@ void initializeSettings()
 	set_property("cc_mosquito", "");
 	set_property("cc_nuns", "");
 
-	if((my_name() == "cheesecookie") && (my_path() != "Actually Ed the Undying"))
+	if((my_name() == "cheesecookie") && (cc_my_path() != "Actually Ed the Undying"))
 	{
 		set_property("cc_nunsTrick", "yes");
 	}
@@ -213,20 +213,26 @@ void initializeSettings()
 }
 
 # num is not handled properly anyway, so we'll just reject it.
+boolean ccAdv(location loc, string option)
+{
+	return ccAdv(1, loc, option);
+}
+
+# num is not handled properly anyway, so we'll just reject it.
 boolean ccAdv(int num, location loc, string option)
 {
 	if(option == "")
 	{
 		option = "cc_combatHandler";
 	}
-	if(my_path() == "Actually Ed the Undying")
+	if(cc_my_path() == "Actually Ed the Undying")
 	{
 		return ed_ccAdv(num, loc, option);
 	}
 
 #	boolean retval = adv1(loc, num, option);
 	boolean retval = adv1(loc, 0, option);
-	if(my_path() == "One Crazy Random Summer")
+	if(cc_my_path() == "One Crazy Random Summer")
 	{
 		if(last_monster().random_modifiers["clingy"])
 		{
@@ -393,7 +399,7 @@ int pullsNeeded(string data)
 	{
 		return 0;
 	}
-	if((my_class() == $class[Ed]) || (my_path() == "Community Service"))
+	if((my_class() == $class[Ed]) || (cc_my_path() == "Community Service"))
 	{
 		return 0;
 	}
@@ -470,7 +476,7 @@ int pullsNeeded(string data)
 		if((item_amount($item[Richard\'s Star Key]) == 0) && (item_amount($item[Star Chart]) == 0))
 		{
 			print("Need star chart", "red");
-			if((my_path() == "Heavy Rains") && (my_rain() >= 50))
+			if((cc_my_path() == "Heavy Rains") && (my_rain() >= 50))
 			{
 				print("You should rain man a star chart", "blue");
 			}
@@ -670,7 +676,7 @@ boolean doThemtharHills(boolean trickMode)
 	{
 		equip($item[Miracle Whip]);
 	}
-	if((my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) > 0))
+	if((cc_my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) > 0))
 	{
 		equip($item[Thor\'s Pliers]);
 	}
@@ -713,7 +719,7 @@ boolean doThemtharHills(boolean trickMode)
 	buffMaintain($effect[Human-Fish Hybrid], 0, 1, 1);
 	buffMaintain($effect[Cranberry Cordiality], 0, 1, 1);
 
-	if(my_path() == "Heavy Rains")
+	if(cc_my_path() == "Heavy Rains")
 	{
 		buffMaintain($effect[Sinuses For Miles], 0, 1, 1);
 	}
@@ -723,7 +729,7 @@ boolean doThemtharHills(boolean trickMode)
 	}
 	// Target 1000 + 400% = 5000 meat per brigand. Of course we want more, but don\'t bother unless we can get this.
 	float meat_need = 400.00;
-#	if(my_path() == "Standard")
+#	if(cc_my_path() == "Standard")
 #	{
 #		meat_need = meat_need - 100.00;
 #	}
@@ -983,19 +989,19 @@ int handlePulls(int day)
 #		pullXWhenHaveY(whatHiMein(), 2, 0);
 #		pullXWhenHaveY($item[digital key lime pie], 1, 0);
 
-		if((my_path() == "Picky") || get_property("cc_100familiar").to_boolean())
+		if((cc_my_path() == "Picky") || get_property("cc_100familiar").to_boolean())
 		{
 			pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
 			pullXWhenHaveY($item[Sneaky Pete\'s Key Lime Pie], 1, 0);
 			pullXWhenHaveY($item[Jarlsberg\'s Key Lime Pie], 1, 0);
 		}
-		else if(my_path() == "Standard")
+		else if(cc_my_path() == "Standard")
 		{
 			pullXWhenHaveY(whatHiMein(), 3, 0);
 		}
 
 		pullXWhenHaveY($item[over-the-shoulder folder holder], 1, 0);
-		if((my_primestat() == $stat[Muscle]) && (my_path() != "Heavy Rains"))
+		if((my_primestat() == $stat[Muscle]) && (cc_my_path() != "Heavy Rains"))
 		{
 			pullXWhenHaveY($item[Fake Washboard], 1, 0);
 			if(item_amount($item[Fake Washboard]) == 0)
@@ -1018,13 +1024,13 @@ int handlePulls(int day)
 		#pullXWhenHaveY($item[camp scout backpack], 1, 0);
 		#pullXWhenHaveY($item[caveman dan\'s favorite rock], 1, 0);
 
-		if(my_path() == "Picky")
+		if(cc_my_path() == "Picky")
 		{
 			pullXWhenHaveY($item[gumshoes], 1, 0);
 		}
 		pullXWhenHaveY($item[hand in glove], 1, 0);
 
-		if(my_path() != "Heavy Rains")
+		if(cc_my_path() != "Heavy Rains")
 		{
 			pullXWhenHaveY($item[snow suit], 1, 0);
 		}
@@ -1045,7 +1051,7 @@ int handlePulls(int day)
 
 boolean fortuneCookieEvent()
 {
-	if((my_path() == "Heavy Rains") && (get_property("cc_orchard") == "finished"))
+	if((cc_my_path() == "Heavy Rains") && (get_property("cc_orchard") == "finished"))
 	{
 		cli_execute("counters");
 		if(get_counters("Fortune Cookie", 0, 200) != "")
@@ -1240,7 +1246,7 @@ void initializeDay(int day)
 			set_property("cc_day1_dna", "finished");
 		}
 
-		if((my_path() == "Heavy Rains") && (get_property("cc_day1_desk") != "finished") && (my_rain() > 50))
+		if((cc_my_path() == "Heavy Rains") && (get_property("cc_day1_desk") != "finished") && (my_rain() > 50))
 		{
 			if(my_hp() < my_maxhp())
 			{
@@ -1254,7 +1260,7 @@ void initializeDay(int day)
 			hr_dnaPotions();
 			set_property("cc_day1_desk", "finished");
 		}
-		if((get_property("lastCouncilVisit").to_int() < my_level()) && (my_path() != "Community Service"))
+		if((get_property("lastCouncilVisit").to_int() < my_level()) && (cc_my_path() != "Community Service"))
 		{
 			cli_execute("counters");
 			council();
@@ -1320,14 +1326,14 @@ void initializeDay(int day)
 				pullXWhenHaveY(whatHiMein(), 3, 0);
 			}
 
-#			if((item_amount($item[glass of goat\'s milk]) == 0) || (my_path() == "Picky"))
+#			if((item_amount($item[glass of goat\'s milk]) == 0) || (cc_my_path() == "Picky"))
 #			{
 #				pullXWhenHaveY($item[milk of magnesium], 1, 0);
 #			}
 
 			set_property("cc_day2_init", "finished");
 		}
-		if(chateaumantegna_havePainting() && (my_class() != $class[Ed]) && (my_path() != "Community Service"))
+		if(chateaumantegna_havePainting() && (my_class() != $class[Ed]) && (cc_my_path() != "Community Service"))
 		{
 			handleFamiliar($familiar[Reanimated Reanimator]);
 			if(chateaumantegna_usePainting())
@@ -1452,19 +1458,7 @@ void doBedtime()
 		cli_execute("zlib chit.helpers.xiblaxian = true");
 	}
 
-	if(my_class() == $class[Ed])
-	{
-		if(get_property("hpAutoRecoveryItems") == "linen bandages")
-		{
-			set_property("hpAutoRecoveryItems", get_property("cc_hpAutoRecoveryItems"));
-			set_property("hpAutoRecovery", get_property("cc_hpAutoRecovery"));
-			set_property("hpAutoRecoveryTarget", get_property("cc_hpAutoRecoveryTarget"));
-			set_property("cc_hpAutoRecoveryItems", "");
-			set_property("cc_hpAutoRecovery", 0.0);
-			set_property("cc_hpAutoRecoveryTarget", 0.0);
-		}
-	}
-
+	ed_terminateSession();
 
 	if(my_class() == $class[seal clubber])
 	{
@@ -2209,7 +2203,7 @@ boolean L11_aridDesert()
 	{
 		print("Searching for the pyramid", "blue");
 		equip(desertBuff);
-		if((my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) > 0))
+		if((cc_my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) > 0))
 		{
 			equip($item[Thor\'s Pliers]);
 		}
@@ -2788,15 +2782,12 @@ boolean L11_mauriceSpookyraven()
 		return false;
 	}
 
-	if(my_class() == $class[Ed])
+	if(L11_ed_mauriceSpookyraven())
 	{
-		if(item_amount($item[7962]) == 0)
-		{
-			set_property("cc_ballroom", "finished");
-			return true;
-		}
+		return true;
 	}
-	else if(item_amount($item[2286]) > 0)
+
+	if(item_amount($item[2286]) > 0)
 	{
 		set_property("cc_ballroom", "finished");
 		return true;
@@ -2893,7 +2884,7 @@ boolean L11_mauriceSpookyraven()
 		}
 		print("Now we mix and heat it up.", "blue");
 
-		if((my_path() == "Picky") && (item_amount($item[gumshoes]) > 0))
+		if((cc_my_path() == "Picky") && (item_amount($item[gumshoes]) > 0))
 		{
 			change_mcd(0);
 			equip($slot[acc2], $item[gumshoes]);
@@ -3239,7 +3230,7 @@ boolean L11_unlockPyramid()
 		if(get_property("questL11Pyramid") == "unstarted")
 		{
 			print("No burning Ed's model now!", "blue");
-			if((my_path() == "One Crazy Random Summer") && (get_property("desertExploration").to_int() == 100))
+			if((cc_my_path() == "One Crazy Random Summer") && (get_property("desertExploration").to_int() == 100))
 			{
 				print("We might have had an issue due to OCRS and the Desert, please finish the desert (and only the desert) manually and run again.", "red");
 				string page = visit_url("place.php?whichplace=desertbeach");
@@ -3300,7 +3291,7 @@ boolean L11_defeatEd()
 	}
 
 	int baseML = monster_level_adjustment();
-	if(my_path() == "Heavy Rains")
+	if(cc_my_path() == "Heavy Rains")
 	{
 		baseML = baseML + 60;
 	}
@@ -3767,7 +3758,7 @@ void consumeStuff()
 	{
 		return;
 	}
-	if(my_path() == "Community Service")
+	if(cc_my_path() == "Community Service")
 	{
 		cs_eat_spleen();
 		return;
@@ -4272,7 +4263,7 @@ void consumeStuff()
 			}
 		}
 
-		if((my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
+		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -4280,14 +4271,14 @@ void consumeStuff()
 		}
 
 
-		if((my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()))
+		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
 			drink(1, $item[Ambitious Turkey]);
 		}
 
-		if((my_path() == "Picky") && (my_mp() > mpForOde) && (my_inebriety() <= inebriety_limit()) && (my_meat() > 500) && (get_property("_speakeasyDrinksDrunk").to_int() < 3) && (item_amount($item[Clan VIP Lounge Key]) > 0))
+		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (my_inebriety() <= inebriety_limit()) && (my_meat() > 500) && (get_property("_speakeasyDrinksDrunk").to_int() < 3) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 		{
 			# We could check for good drinks here but I don't know what would be good checks
 			int canDrink = inebriety_limit() - my_inebriety();
@@ -4317,7 +4308,7 @@ void consumeStuff()
 		}
 
 /*****	This section needs to merge into a "Standard equivalent"		*****/
-		if((my_path() == "Standard") && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
+		if((cc_my_path() == "Standard") && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -4325,14 +4316,14 @@ void consumeStuff()
 		}
 
 
-		if((my_path() == "Standard") && (my_mp() >= mpForOde) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()))
+		if((cc_my_path() == "Standard") && (my_mp() >= mpForOde) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
 			drink(1, $item[Ambitious Turkey]);
 		}
 
-		if((my_path() == "Standard") && (my_mp() >= mpForOde) && (my_inebriety() <= inebriety_limit()) && (my_meat() > 500) && (get_property("_speakeasyDrinksDrunk").to_int() < 3))
+		if((cc_my_path() == "Standard") && (my_mp() >= mpForOde) && (my_inebriety() <= inebriety_limit()) && (my_meat() > 500) && (get_property("_speakeasyDrinksDrunk").to_int() < 3))
 		{
 			# We could check for good drinks here but I don't know what would be good checks
 #			int canDrink = inebriety_limit() - my_inebriety();
@@ -4405,14 +4396,14 @@ void consumeStuff()
 			cli_execute("make paint a vulgar pitcher");
 		}
 
-		if((my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
+		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[paint a vulgar pitcher]);
 		}
 
-		if((my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()))
+		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
@@ -4454,12 +4445,12 @@ boolean L12_nunsTrickGlandGet()
 	{
 		return false;
 	}
-	if((my_lightning() < 5) && (my_path() == "Heavy Rains"))
+	if((my_lightning() < 5) && (cc_my_path() == "Heavy Rains"))
 	{
 		return false;
 	}
 	cli_execute("outfit war hippy fatigues");
-	if(my_path() != "Heavy Rains")
+	if(cc_my_path() != "Heavy Rains")
 	{
 		handleFamiliar($familiar[Crimbo Shrub]);
 		if((my_familiar() == $familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
@@ -5393,145 +5384,6 @@ boolean L7_crypt()
 	return false;
 }
 
-boolean L1_edIsland()
-{
-	return L1_edIsland(0);
-}
-
-boolean L1_edDinsey()
-{
-	if(my_class() != $class[Ed])
-	{
-		return false;
-	}
-	if(!elementalPlanes_access($element[stench]))
-	{
-		return false;
-	}
-	if(my_level() < 6)
-	{
-		return false;
-	}
-	if(!get_property("cc_dickstab").to_boolean())
-	{
-		return false;
-	}
-	if(possessEquipment($item[Sewage-Clogged Pistol]) && possessEquipment($item[Perfume-Soaked Bandana]))
-	{
-		return false;
-	}
-	ccAdv(1, $location[Pirates of the Garbage Barges]);
-	return true;
-}
-
-boolean L1_edIsland(int dickstabOverride)
-{
-	if(my_class() != $class[Ed])
-	{
-		return false;
-	}
-	if(!elementalPlanes_access($element[spooky]))
-	{
-		return false;
-	}
-
-	skill blocker = $skill[Still Another Extra Spleen];
-	if(get_property("cc_dickstab").to_boolean())
-	{
-		if(turns_played() > 22)
-		{
-			blocker = $skill[Replacement Liver];
-			blocker = $skill[Okay Seriously, This is the Last Spleen];
-			if((dickstabOverride == 0) || (my_level() >= dickstabOverride))
-			{
-				return false;
-			}
-		}
-	}
-
-	if((my_level() >= 10) || ((my_level() >= 8) && have_skill(blocker)))
-	{
-		return false;
-	}
-	if((my_level() >= 3) && !get_property("controlPanel9").to_boolean())
-	{
-		visit_url("place.php?whichplace=airport_spooky_bunker&action=si_controlpanel");
-		visit_url("choice.php?pwd=&whichchoice=986&option=9",true);
-	}
-	if((my_level() >= 3) && !get_property("controlPanel9").to_boolean())
-	{
-		abort("Damn control panel is not set, WTF!!!");
-	}
-
-	#If we get some other CI quest, this might keep triggering, should we flag this?
-	if((my_hp() > 20) && !possessEquipment($item[Gore Bucket]) && !possessEquipment($item[Encrypted Micro-Cassette Recorder]) && !possessEquipment($item[Military-Grade Fingernail Clippers]))
-	{
-		elementalPlanes_takeJob($element[spooky]);
-		#visit_url("place.php?whichplace=airport_spooky&action=airport2_radio");
-		#visit_url("choice.php?pwd&whichchoice=984&option=1", true);
-		set_property("choiceAdventure988", 2);
-	}
-
-	if(item_amount($item[Gore Bucket]) > 0)
-	{
-		equip($item[Gore Bucket]);
-	}
-
-	if(item_amount($item[Personal Ventilation Unit]) > 0)
-	{
-		equip($slot[acc2], $item[Personal Ventilation Unit]);
-	}
-	if(possessEquipment($item[Gore Bucket]) && (get_property("goreCollected").to_int() >= 100))
-	{
-		visit_url("place.php?whichplace=airport_spooky&action=airport2_radio");
-		visit_url("choice.php?pwd&whichchoice=984&option=1", true);
-	}
-
-	buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
-	ccAdv(1, $location[The Secret Government Laboratory]);
-	if(item_amount($item[Bottle-Opener Keycard]) > 0)
-	{
-		use(1, $item[Bottle-Opener Keycard]);
-	}
-	set_property("choiceAdventure988", 1);
-	return true;
-}
-
-
-boolean L1_edIslandFallback()
-{
-	if(my_class() != $class[Ed])
-	{
-		return false;
-	}
-	if(elementalPlanes_access($element[spooky]))
-	{
-		return false;
-	}
-
-	if((my_level() >= 10) || ((my_level() >= 8) && have_skill($skill[Still Another Extra Spleen])))
-	{
-		return false;
-	}
-	if(elementalPlanes_access($element[stench]))
-	{
-		ccAdv(1, $location[Pirates of the Garbage Barges]);
-		return true;
-	}
-	if(elementalPlanes_access($element[hot]))
-	{
-		ccAdv(1, $location[The SMOOCH Army HQ]);
-		return true;
-	}
-
-
-	if(LX_islandAccess())
-	{
-		return true;
-	}
-
-	return ccAdv(1, $location[Hippy Camp]);
-}
 
 boolean LX_hardcoreFoodFarm()
 {
@@ -5785,14 +5637,14 @@ boolean L8_trapperGround()
 		ccAdv(1, $location[The Goatlet]);
 		return true;
 	}
-	else if((my_rain() > 50) && (have_effect($effect[Ultrahydrated]) == 0) && (my_path() == "Heavy Rains"))
+	else if((my_rain() > 50) && (have_effect($effect[Ultrahydrated]) == 0) && (cc_my_path() == "Heavy Rains"))
 	{
 		print("Trying to summon a mountain man", "blue");
 		set_property("cc_mountainmen", "1");
 		rainManSummon("mountain man", false, false);
 		return true;
 	}
-	else if(my_path() == "Heavy Rains")
+	else if(cc_my_path() == "Heavy Rains")
 	{
 		#Do pulls instead if we don't possess rain man?
 		print("Need Ore but not enough rain", "blue");
@@ -6493,7 +6345,7 @@ boolean L12_getOutfit()
 		pullXWhenHaveY($item[Distressed Denim Pants], 1, 0);
 	}
 
-	if(!in_hardcore() && (my_path() != "Heavy Rains"))
+	if(!in_hardcore() && (cc_my_path() != "Heavy Rains"))
 	{
 		pullXWhenHaveY($item[Beer Helmet], 1, 0);
 		pullXWhenHaveY($item[Bejeweled Pledge Pin], 1, 0);
@@ -6569,7 +6421,7 @@ boolean L12_preOutfit()
 	{
 		return false;
 	}
-	if(my_path() == "Heavy Rains")
+	if(cc_my_path() == "Heavy Rains")
 	{
 		abort("We shouldn't be going down this path in HR");
 	}
@@ -6831,7 +6683,7 @@ boolean L9_aBooPeak()
 			}
 			return true;
 		}
-		else if(my_path() != "Picky")
+		else if(cc_my_path() != "Picky")
 		{
 			#abort("Could not handle HP/MP situation for a-boo peak");
 		}
@@ -7133,31 +6985,16 @@ boolean L9_chasmBuild()
 		visit_url("place.php?whichplace=orc_chasm&action=bridge"+(to_int(get_property("chasmBridgeProgress"))));
 	}
 
-	if((my_class() == $class[Ed]) && !get_property("cc_chasmBusted").to_boolean())
+	if(L9_ed_chasmBuild())
 	{
-		print("What a nice bridge over here...." , "green");
-
-		string page = visit_url("place.php?whichplace=orc_chasm&action=bridge_done");
-		ccAdvBypass("place.php?whichplace=orc_chasm&action=bridge_done", $location[The Smut Orc Logging Camp]);
-
-		set_property("cc_chasmBusted", true);
-		set_property("chasmBridgeProgress", 0);
 		return true;
 	}
 
 	if(in_hardcore())
 	{
 		int need = (30 - get_property("chasmBridgeProgress").to_int());
-		if((my_class() == $class[Ed]) && (need > 3) && (item_amount($item[Disassembled Clover]) > 2))
+		if(L9_ed_chasmBuildClover(need))
 		{
-			use(1, $item[disassembled clover]);
-			visit_url("adventure.php?snarfblat=295&confirm=on");
-			if(contains_text(visit_url("main.php"), "Combat"))
-			{
-				ccAdv(1, $location[The Smut Orc Logging Camp]);
-				return true;
-			}
-			visit_url("place.php?whichplace=orc_chasm&action=bridge"+(to_int(get_property("chasmBridgeProgress"))));
 			return true;
 		}
 
@@ -7234,20 +7071,12 @@ boolean L9_chasmStart()
 	{
 		return false;
 	}
-	if((my_class() == $class[Ed]) && !get_property("cc_chasmBusted").to_boolean())
+	if(L9_ed_chasmStart())
 	{
-		print("It's a troll on a bridge!!!!", "blue");
-
-		string page = visit_url("place.php?whichplace=orc_chasm&action=bridge_done");
-		ccAdvBypass("place.php?whichplace=orc_chasm&action=bridge_done", $location[The Smut Orc Logging Camp]);
-
-		set_property("cc_chasmBusted", true);
-		set_property("chasmBridgeProgress", 0);
 		return true;
 	}
 	return false;
 }
-
 
 boolean L11_talismanOfNam()
 {
@@ -7544,7 +7373,7 @@ boolean L5_haremOutfit()
 		return false;
 	}
 
-	if(my_path() == "Heavy Rains")
+	if(cc_my_path() == "Heavy Rains")
 	{
 		if(have_skill($skill[Ball Lightning]) && (my_lightning() >= 5))
 		{
@@ -8337,1346 +8166,6 @@ boolean autosellCrap()
 	return true;
 }
 
-boolean LA_communityService()
-{
-	if(my_path() != "Community Service")
-	{
-		return false;
-	}
-	if(my_inebriety() > inebriety_limit())
-	{
-		abort("Too drunk, not sure if not aborting is safe yet");
-	}
-
-	if(get_property("cc_100familiar").to_boolean())
-	{
-		abort("100% familiar is not compatible, to disable: set cc_100familiar=false");
-	}
-
-	static int curQuest = 0;
-	if(curQuest == 0)
-	{
-		curQuest = expected_next_cs_quest();
-	}
-
-	cs_dnaPotions();
-	use_barrels();
-	cs_make_stuff();
-
-	if(fortuneCookieEvent())
-	{
-		return true;
-	}
-
-	equipBaseline();
-	print(what_cs_quest(curQuest), "blue");
-
-	cs_eat_spleen();
-
-	boolean [familiar] useFam;
-	if(((curQuest == 11) || (curQuest == 6) || (curQuest == 9)) && (my_spleen_use() < 12))
-	{
-		useFam = $familiars[Unconscious Collective, Grim Brother, Golden Monkey];
-	}
-	else
-	{
-		useFam = $familiars[Galloping Grill, Fist Turkey, Puck Man, Ms. Puck Man];
-	}
-
-	familiar toFam = $familiar[Cocoabo];
-	foreach fam in useFam
-	{
-		if(have_familiar(fam))
-		{
-			toFam = fam;
-		}
-	}
-	handleFamiliar(toFam);
-
-	if(item_amount($item[gold nuggets]) > 0)
-	{
-		autosell(item_amount($item[gold nuggets]), $item[gold nuggets]);
-	}
-
-	autosellCrap();
-
-	//Quest order on Day 1: 11, 6, 9
-	//Day 2: 7, 10, 1, 2, 3, 4, 5, 8
-
-#	if(my_daycount() == 1)
-	if((curQuest == 11) || (curQuest == 6) || (curQuest == 9) || (curQuest == 7))
-	{
-		if(curQuest != 7)
-		{
-			if(my_inebriety() == 0)
-			{
-				doRest();
-				buffMaintain($effect[Ode to Booze], 50, 1, 1);
-				cli_execute("drink lucky lindy");
-				if(item_amount($item[Ice Island Long Tea]) > 0)
-				{
-					cli_execute("drink Ice Island Long Tea");
-				}
-				solveCookie();
-			}
-
-			if(!get_property("_chateauMonsterFought").to_boolean() && chateaumantegna_available() && (item_amount($item[DNA Extraction Syringe]) > 0) && (get_property("chateauMonster") == "dairy goat"))
-			{
-				buffMaintain($effect[Reptilian Fortitude], 8, 1, 1);
-				buffMaintain($effect[Power Ballad of the Arrowsmith], 5, 1, 1);
-
-				buffMaintain($effect[Astral Shell], 10, 1, 1);
-				buffMaintain($effect[Ghostly Shell], 6, 1, 1);
-				buffMaintain($effect[Blubbered Up], 7, 1, 1);
-				buffMaintain($effect[Springy Fusilli], 10, 1, 1);
-				buffMaintain($effect[The Moxious Madrigal], 2, 1, 1);
-				buffMaintain($effect[Cletus\'s Canticle of Celerity], 4, 1, 1);
-				buffMaintain($effect[Walberg\'s Dim Bulb], 5, 1, 1);
-				cli_execute("postcheese");
-				doRest();
-				buffMaintain($effect[Astral Shell], 10, 1, 1);
-				buffMaintain($effect[Ghostly Shell], 6, 1, 1);
-				buffMaintain($effect[Blubbered Up], 7, 1, 1);
-				buffMaintain($effect[Springy Fusilli], 10, 1, 1);
-				buffMaintain($effect[The Moxious Madrigal], 2, 1, 1);
-				buffMaintain($effect[Cletus\'s Canticle of Celerity], 4, 1, 1);
-				buffMaintain($effect[Walberg\'s Dim Bulb], 5, 1, 1);
-
-				handleFamiliar($familiar[Crimbo Shrub]);
-				if(chateaumantegna_usePainting())
-				{
-					if(my_familiar() == $familiar[Crimbo Shrub])
-					{
-						ccAdv(1, $location[Noob Cave], "cs_combatYR");
-					}
-					else
-					{
-						ccAdv(1, $location[Noob Cave], "cs_combatNormal");
-					}
-				}
-				if(to_phylum(get_property("dnaSyringe")) == $phylum[beast])
-				{
-					cli_execute("camp dnapotion");
-				}
-				if(item_amount($item[Glass of Goat\'s Milk]) > 0)
-				{
-					cli_execute("make milk of magnesium");
-				}
-				return true;
-			}
-
-			if((my_fullness() == 0) && (item_amount($item[Milk of Magnesium]) > 0))
-			{
-				use(1, $item[Milk of Magnesium]);
-				if(item_amount($item[Handful of Smithereens]) > 0)
-				{
-					cli_execute("make 1 this charming flan");
-					eat(1, $item[This Charming Flan]);
-				}
-				if(item_amount($item[Snow Berries]) > 1)
-				{
-					cli_execute("make 1 snow crab");
-					eat(1, $item[Snow Crab]);
-				}
-				if(get_property("cc_noSleepingDog").to_boolean() || have_skill($skill[Dog Tired]))
-				{
-					eatFancyDog("savage macho dog");
-				}
-				else
-				{
-					eatFancyDog("sleeping dog");
-				}
-			}
-
-
-			if((curQuest == 11) && ((my_turncount() + 60) < get_property("cc_cookie").to_int()) && (my_adventures() > 65))
-			{
-				if(do_cs_quest(11))
-				{
-					use(1, $item[a ten-percent bonus]);
-					curQuest = 0;
-					return true;
-				}
-				else
-				{
-					curQuest = 0;
-					abort("Could not handle our quest and can not recover");
-				}
-			}
-
-			buffMaintain($effect[Singer\'s Faithful Ocelot], 15, 1, 1);
-			buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 11, 1, 1);
-
-			while((my_mp() < 40) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-
-			if(item_amount($item[Exorcised sandwich]) > 0)
-			{
-				visit_url("guild.php?place=challenge");
-				visit_url("guild.php?place=paco");
-				visit_url("guild.php?place=paco");
-				visit_url("guild.php?place=paco");
-				run_choice(1);
-				woods_questStart();
-				handleBarrelFullOfBarrels();
-				if(!florist_available())
-				{
-					trickMafiaAboutFlorist();
-				}
-				return true;
-			}
-
-			if(item_amount($item[Dolphin King\'s Map]) > 0)
-			{
-				buyUpTo(1, $item[Snorkel]);
-				item oldHat = equipped_item($slot[hat]);
-				equip($item[Snorkel]);
-				use(1, $item[Dolphin King\'s Map]);
-				equip(oldHat);
-			}
-
-			if(my_ascensions() > get_property("lastGuildStoreOpen").to_int())
-			{
-				buffMaintain($effect[Musk of the Moose], 10, 1, 1);
-				ccAdv(1, $location[The Haunted Pantry], "cs_combatNormal");
-				return true;
-			}
-
-			if((item_amount($item[Tomato]) < 2) && have_skill($skill[Advanced Saucecrafting]))
-			{
-				buffMaintain($effect[Musk of the Moose], 10, 1, 1);
-				ccAdv(1, $location[The Haunted Pantry], "cs_combatNormal");
-				return true;
-			}
-
-			if(have_skill($skill[Advanced Saucecrafting]) && ((item_amount($item[Cherry]) < 1) || (item_amount($item[Grapefruit]) < 1) || (item_amount($item[Lemon]) < 1)))
-			{
-				if((have_effect($effect[On The Trail]) > 0) && (get_property("olfactedMonster") == to_string($monster[possessed can of tomatoes])))
-				{
-					uneffect($effect[On The Trail]);
-				}
-				set_property("choiceAdventure1060", 2);
-				ccAdv(1, $location[The Skeleton Store], "cs_combatNormal");
-				if(item_amount($item[skeleton key]) == 0)
-				{
-					if((item_amount($item[skeleton bone]) > 0) && (item_amount($item[loose teeth]) > 0))
-					{
-						cli_execute("make skeleton key");
-					}
-				}
-				return true;
-			}
-
-			if((item_amount($item[Gene Tonic: Pirate]) == 0) && (item_amount($item[DNA Extraction Syringe]) > 0) && elementalPlanes_access($element[stench]))
-			{
-				ccAdv(1, $location[Pirates of the Garbage Barges], "cs_combatNormal");
-				if(to_phylum(get_property("dnaSyringe")) == $phylum[pirate])
-				{
-					cli_execute("camp dnapotion");
-				}
-				return true;
-			}
-
-			if(((item_amount($item[Gene Tonic: Elemental]) == 0) || !get_property("_dnaHybrid").to_boolean()) && (item_amount($item[DNA Extraction Syringe]) > 0) && elementalPlanes_access($element[hot]))
-			{
-				buffMaintain($effect[Reptilian Fortitude], 8, 1, 1);
-				buffMaintain($effect[Power Ballad of the Arrowsmith], 5, 1, 1);
-
-				buffMaintain($effect[Astral Shell], 10, 1, 1);
-				buffMaintain($effect[Ghostly Shell], 6, 1, 1);
-				buffMaintain($effect[Blubbered Up], 7, 1, 1);
-				buffMaintain($effect[Springy Fusilli], 10, 1, 1);
-				buffMaintain($effect[The Moxious Madrigal], 2, 1, 1);
-				buffMaintain($effect[Cletus\'s Canticle of Celerity], 4, 1, 1);
-				buffMaintain($effect[Walberg\'s Dim Bulb], 5, 1, 1);
-
-				useCocoon();
-
-				ccAdv(1, $location[The Bubblin\' Caldera], "cs_combatNormal");
-				if(to_phylum(get_property("dnaSyringe")) == $phylum[elemental])
-				{
-					cli_execute("camp dnapotion");
-				}
-				if(to_phylum(get_property("dnaSyringe")) == $phylum[fish])
-				{
-					cli_execute("camp dnainject");
-				}
-				return true;
-			}
-
-			if((curQuest == 9) && (item_amount($item[Experimental Serum G-9]) < 2) && elementalPlanes_access($element[spooky]))
-			{
-				if(item_amount($item[Personal Ventilation Unit]) > 0)
-				{
-					equip($slot[acc1], $item[Personal Ventilation Unit]);
-				}
-				int turns_max = 10;
-				if(have_skill($skill[CLEESH]))
-				{
-					turns_max = 18;
-				}
-				if($location[The Secret Government Laboratory].turns_spent <= turns_max)
-				{
-					buffMaintain($effect[Singer\'s Faithful Ocelot], 47, 1, 1);
-					buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 43, 1, 1);
-					ccAdv(1, $location[The Secret Government Laboratory], "cs_combatNormal");
-					return true;
-				}
-			}
-
-		}
-		else if((curQuest == 7) && (item_amount($item[Emergency Margarita]) > 0))
-		{
-			if((have_effect($effect[Everything Looks Yellow]) == 0) && have_familiar($familiar[Crimbo Shrub]) && elementalPlanes_access($element[hot]))
-			{
-				handleFamiliar($familiar[Crimbo Shrub]);
-				ccAdv(1, $location[LavaCo&trade; Lamp Factory], "cs_combatYR");
-				return true;
-			}
-
-			if((item_amount($item[Black Pixel]) < 2) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
-			{
-				equip($slot[acc1], $item[Continuum Transfunctioner]);
-
-				if(get_property("cc_tryPowerLevel").to_boolean())
-				{
-					buffMaintain($effect[Ur-Kel\'s Aria of Annoyance], 62, 1, 1);
-					buffMaintain($effect[Pride of the Puffin], 62, 1, 1);
-					buffMaintain($effect[Drescher\'s Annoying Noise], 72, 1, 1);
-					buffMaintain($effect[Wry Smile], 42, 1, 1);
-				}
-
-				ccAdv(1, $location[8-bit Realm], "cs_combatNormal");
-				return true;
-			}
-
-
-			if(have_skill($skill[Advanced Saucecrafting]))
-			{
-				if(item_amount($item[Tomato Juice of Powerful Power]) < 4)
-				{
-					cli_execute("make 6 tomato juice of powerful power");
-				}
-			}
-
-			int pixelsNeed = 30 - (15 * item_amount($item[Miniature Power Pill]));
-
-			if(((item_amount($item[Power Pill]) < 2) || (item_amount($item[Yellow Pixel]) < pixelsNeed)) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
-			{
-				if(get_property("cc_tryPowerLevel").to_boolean())
-				{
-					if((my_hp() + 50) < my_maxhp())
-					{
-						useCocoon();
-					}
-					if(elementalPlanes_access($element[stench]) && (my_hp() > 100))
-					{
-						if(current_mcd() < 10)
-						{
-							change_mcd(10);
-						}
-						if(item_amount($item[Astral Statuette]) > 0)
-						{
-							equip($item[Astral Statuette]);
-						}
-
-						if(have_skill($skill[Soul Food]))
-						{
-							use_skill(my_soulsauce() / 5, $skill[Soul Food]);
-						}
-
-						buyUpTo(1, $item[Hair Spray]);
-						buyUpTo(1, $item[Ben-Gal&trade; Balm]);
-						buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
-						buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
-
-						buffMaintain($effect[Ur-Kel\'s Aria of Annoyance], 62, 1, 1);
-						buffMaintain($effect[Pride of the Puffin], 62, 1, 1);
-						buffMaintain($effect[Drescher\'s Annoying Noise], 72, 1, 1);
-						buffMaintain($effect[Wry Smile], 42, 1, 1);
-						buffMaintain($effect[Astral Shell], 42, 1, 1);
-						buffMaintain($effect[Elemental Saucesphere], 42, 1, 1);
-						buffMaintain($effect[Brawnee\'s Anthem of Absorption], 45, 1, 1);
-						buffMaintain($effect[Jalape&ntilde;o Saucesphere], 37, 1, 1);
-						buffMaintain($effect[Ghostly Shell], 38, 1, 1);
-						buffMaintain($effect[Reptilian Fortitude], 42, 1, 1);
-						buffMaintain($effect[Power Ballad of the Arrowsmith], 37, 1, 1);
-						buffMaintain($effect[The Moxious Madrigal], 34, 1, 1);
-						buffMaintain($effect[Patience of the Tortoise], 33, 1, 1);
-						buffMaintain($effect[Seal Clubbing Frenzy], 33, 1, 1);
-						buffMaintain($effect[Mariachi Mood], 33, 1, 1);
-						buffMaintain($effect[Disco State of Mind], 33, 1, 1);
-						buffMaintain($effect[Saucemastery], 33, 1, 1);
-						buffMaintain($effect[Blubbered Up], 39, 1, 1);
-						buffMaintain($effect[Spiky Shell], 40, 1, 1);
-						buffMaintain($effect[Song of Starch], 132, 1, 1);
-						buffMaintain($effect[Empathy], 47, 1, 1);
-						buffMaintain($effect[Leash of Linguini], 44, 1, 1);
-						buffMaintain($effect[Rage of the Reindeer], 42, 1, 1);
-						buffMaintain($effect[Scarysauce], 42, 1, 1);
-						buffMaintain($effect[Disco Fever], 42, 1, 1);
-						buffMaintain($effect[Ruthlessly Efficient], 42, 1, 1);
-
-						if(!get_property("_aprilShower").to_boolean())
-						{
-							cli_execute("shower myst");
-						}
-
-#						if((have_effect($effect[The Dinsey Look]) == 0) && (item_amount($item[FunFunds&trade;]) > 0))
-#						{
-#							cli_execute("make dinsey face paint");
-#						}
-#						buffMaintain($effect[The Dinsey Look], 0, 1, 1);
-#						buffMaintain($effect[Flexibili Tea], 0, 1, 1);
-						buffMaintain($effect[Neuroplastici Tea], 0, 1, 1);
-#						buffMaintain($effect[Physicali Tea], 0, 1, 1);
-
-						if(item_amount($item[Tomato Juice of Powerful Power]) > 4)
-						{
-							buffMaintain($effect[Tomato Power], 0, 1, 1);
-						}
-
-
-						if((get_property("_hipsterAdv").to_int() < 1) && is_unrestricted($familiar[Artistic Goth Kid]))
-						{
-							handleFamiliar($familiar[Artistic Goth Kid]);
-						}
-
-						if(my_familiar() != $familiar[Artistic Goth Kid])
-						{
-							if(handleFaxMonster("black crayon elf"))
-							{
-								ccAdv(1, $location[Noob Cave]);
-								return true;
-							}
-						}
-
-						ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice], "cs_combatNormal");
-						return true;
-					}
-				}
-				ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
-				return true;
-			}
-
-			if(get_property("cc_tryPowerLevel").to_boolean())
-			{
-				change_mcd(0);
-			}
-
-			int missing = 0;
-			if(!have_skill($skill[Advanced Saucecrafting]))
-			{
-				missing = missing + 1;
-			}
-			if(!elementalPlanes_access($element[spooky]))
-			{
-				missing = missing + 1;
-			}
-			if(!elementalPlanes_access($element[hot]))
-			{
-				missing = missing + 1;
-			}
-			missing = min(2, missing);
-
-			if((missing > (item_amount($item[Miniature Power Pill]) + item_amount($item[Power Pill]))) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
-			{
-				if(elementalPlanes_access($element[hot]))
-				{
-					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
-				}
-				else if(elementalPlanes_access($element[stench]))
-				{
-					ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice], "cs_combatNormal");
-				}
-				else if(elementalPlanes_access($element[spooky]))
-				{
-					ccAdv(1, $location[The Deep Dark Jungle], "cs_combatNormal");
-				}
-				else if(elementalPlanes_access($element[sleaze]))
-				{
-					ccAdv(1, $location[Sloppy Seconds Diner], "cs_combatNormal");
-				}
-				else
-				{
-					ccAdv(1, $location[The Haunted Kitchen], "cs_combatNormal");
-				}
-				if(item_amount($item[Yellow Pixel]) >= 15)
-				{
-					cli_execute("make miniature power pill");
-				}
-				return true;
-			}
-
-			if(have_skill($skill[Advanced Saucecrafting]))
-			{
-				if(item_amount($item[Oil of Expertise]) < 2)
-				{
-					cli_execute("make 3 oil of expertise");
-				}
-				if(item_amount($item[Tomato Juice of Powerful Power]) < 4)
-				{
-					cli_execute("make 6 tomato juice of powerful power");
-				}
-
-				if((item_amount($item[grapefruit]) > 0) && (item_amount($item[Ointment of the Occult]) == 0))
-				{
-					cli_execute("make ointment of the occult");
-				}
-				else if((item_amount($item[squashed frog]) > 0) && (item_amount($item[Frogade]) == 0))
-				{
-					cli_execute("make frogade");
-				}
-				else if((item_amount($item[eye of newt]) > 0) && (item_amount($item[Eyedrops of Newt]) == 0))
-				{
-					cli_execute("make eyedrops of newt");
-				}
-				else if((item_amount($item[salamander spleen]) > 0) && (item_amount($item[Salamander Slurry]) == 0))
-				{
-					cli_execute("make salamander slurry");
-				}
-
-			}
-
-			buffMaintain($effect[Simmering], 0, 1, 1);
-			uneffect($effect[The Moxious Madrigal]);
-			uneffect($effect[Ur-Kel\'s Aria of Annoyance]);
-			uneffect($effect[Brawnee\'s Anthem of Absorption]);
-			uneffect($effect[Power Ballad of the Arrowsmith]);
-
-			buffMaintain($effect[Ode to Booze], 50, 1, 10);
-			overdrink(1, $item[Emergency Margarita]);
-			if(my_spleen_use() == 12)
-			{
-				chew(1, $item[Handful of Smithereens]);
-			}
-			while(((my_spleen_use() + 2) <= spleen_limit()) && (item_amount($item[cuppa Activi tea]) > 0))
-			{
-				chew(1, $item[cuppa Activi tea]);
-			}
-			while(((my_spleen_use() + 1) <= spleen_limit()) && (item_amount($item[Nasty Snuff]) > 0))
-			{
-				chew(1, $item[Nasty Snuff]);
-			}
-
-			return true;
-		}
-	}
-
-	int checkQuest = expected_next_cs_quest();
-	if(checkQuest != curQuest)
-	{
-		print("Quest data error detected, trying to resolve. Please don't do quests manually, it hurts me!", "red");
-		curQuest = checkQuest;
-		return true;
-	}
-
-	switch(curQuest)
-	{
-	case 0:
-		print("Service Complete, finishing finish...", "blue");
-		try
-		{
-			if(do_cs_quest(30))
-			{
-				cli_execute("call kingcheese");
-				return true;
-			}
-			else
-			{
-				abort("Could not complete run.");
-			}
-		}
-		finally
-		{
-			print("Waiting a few seconds, please hold.", "red");
-			wait(5);
-			if(get_property("kingLiberated").to_boolean())
-			{
-				cli_execute("call kingcheese");
-				return true;
-			}
-			else
-			{
-				abort("kingLiberation not set correctly but run is probably complete. Beep boop. Try running again to handle resetting options");
-			}
-		}
-		break;
-	case 1:		#HP Quest
-			if(!possessEquipment($item[Barrel Lid]))
-			{
-				visit_url("da.php?barrelshrine=1");
-				visit_url("choice.php?whichchoice=1100&pwd&option=1", true);
-			}
-
-			if(possessEquipment($item[Barrel Lid]))
-			{
-				equip($item[Barrel Lid]);
-			}
-
-			if(item_amount($item[Ben-Gal&trade; Balm]) == 0)
-			{
-				buyUpTo(1, $item[Ben-Gal&trade; Balm], 25);
-			}
-
-			while(((total_free_rests() - get_property("timesRested").to_int()) > 4) && chateaumantegna_available())
-			{
-				cli_execute("postcheese");
-				doRest();
-			}
-
-
-			while((my_mp() < 125) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-			buffMaintain($effect[Song of Starch], 100, 1, 1);
-			buffMaintain($effect[Reptilian Fortitude], 10, 1, 1);
-			buffMaintain($effect[Rage of the Reindeer], 10, 1, 1);
-			buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
-			buffMaintain($effect[Seal Clubbing Frenzy], 1, 1, 1);
-			buffMaintain($effect[Patience of the Tortoise], 1, 1, 1);
-			buffMaintain($effect[Mariachi Mood], 1, 1, 1);
-			buffMaintain($effect[Saucemastery], 1, 1, 1);
-			buffMaintain($effect[Disco State of Mind], 1, 1, 1);
-			buffMaintain($effect[Pasta Oneness], 1, 1, 1);
-			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
-			buffMaintain($effect[A Few Extra Pounds], 10, 1, 1);
-
-			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
-			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
-			buffMaintain($effect[Phorcefullness], 0, 1, 1);
-			buffMaintain($effect[Tomato Power], 0, 1, 1);
-			buffMaintain($effect[Puddingskin], 0, 1, 1);
-			buffMaintain($effect[Superheroic], 0, 1, 1);
-			buffMaintain($effect[Extra Backbone], 0, 1, 1);
-			buffMaintain($effect[Pill Power], 0, 1, 1);
-			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
-			buffMaintain($effect[Nigh-Invincible], 0, 1, 1);
-			buffMaintain($effect[Pill Power], 0, 1, 1);
-			buffMaintain($effect[Frog in Your Throat], 0, 1, 1);
-			buffMaintain($effect[Feroci Tea], 0, 1, 1);
-			buffMaintain($effect[Vitali Tea], 0, 1, 1);
-			buffMaintain($effect[Twen Tea], 0, 1, 1);
-			buffMaintain($effect[Purity of Spirit], 0, 1, 1);
-			buffMaintain($effect[Peppermint Bite], 0, 1 , 1);
-			if(is_unrestricted($item[Colorful Plastic Ball]))
-			{
-				cli_execute("ballpit");
-			}
-
-			if(!get_property("_madTeaParty").to_boolean())
-			{
-				if(item_amount($item[Coconut Shell]) == 0)
-				{
-					if((item_amount($item[Pentacorn Hat]) == 0) && (my_meat() > 300))
-					{
-						buyUpTo(1, $item[Pentacorn Hat]);
-					}
-				}
-				if(!get_property("_lookingGlass").to_boolean())
-				{
-					cli_execute("clan_viplounge.php?action=lookingglass");
-				}
-				cli_execute("hatter 12");
-			}
-
-			if(get_property("telescopeUpgrades").to_int() > 0)
-			{
-				if(get_property("telescopeLookedHigh") == "false")
-				{
-					cli_execute("telescope high");
-				}
-			}
-
-			if((15 - get_property("_deckCardsDrawn").to_int()) >= 5)
-			{
-				deck_cheat("muscle buff");
-			}
-
-			if(do_cs_quest(1))
-			{
-				curQuest = 0;
-			}
-			else
-			{
-				curQuest = 0;
-				abort("Could not handle our quest and can not recover");
-			}
-		break;
-
-	case 2:		#Muscle Quest
-			if(!possessEquipment($item[Barrel Lid]))
-			{
-				visit_url("da.php?barrelshrine=1");
-				visit_url("choice.php?whichchoice=1100&pwd&option=1", true);
-			}
-
-			if(possessEquipment($item[Barrel Lid]))
-			{
-				equip($item[Barrel Lid]);
-			}
-
-			buyUpTo(1, $item[Ben-Gal&trade; Balm]);
-
-			if(!get_property("cc_tryPowerLevel").to_boolean())
-			{
-				if(item_amount($item[Blood-drive sticker]) > 0)
-				{
-					chew(1, $item[Blood-drive sticker]);
-				}
-			}
-
-			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-			if((my_inebriety() == 0) && (item_amount($item[Clan VIP Lounge Key]) > 0))
-			{
-				use_skill(1, $skill[The Ode to Booze]);
-				cli_execute("drink 1 bee's knees");
-			}
-
-
-			while((my_mp() < 125) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-			buffMaintain($effect[Song of Bravado], 100, 1, 1);
-			buffMaintain($effect[Rage of the Reindeer], 10, 1, 1);
-			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
-			buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
-			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
-
-			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
-			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
-			buffMaintain($effect[Orange Crusher], 0, 1, 50);
-			buffMaintain($effect[Orange Crusher], 0, 1, 50);
-			buffMaintain($effect[Orange Crusher], 0, 1, 50);
-			buffMaintain($effect[Orange Crusher], 0, 1, 50);
-			buffMaintain($effect[Orange Crusher], 0, 1, 50);
-			buffMaintain($effect[Phorcefullness], 0, 1, 1);
-			buffMaintain($effect[Tomato Power], 0, 1, 1);
-			buffMaintain($effect[Savage Beast Inside], 0, 1, 1);
-			buffMaintain($effect[Extra Backbone], 0, 1, 1);
-			buffMaintain($effect[Pill Power], 0, 1, 1);
-			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
-			buffMaintain($effect[Seal Clubbing Frenzy], 1, 1, 1);
-			buffMaintain($effect[Patience of the Tortoise], 1, 1, 1);
-			buffMaintain($effect[Human-Humanoid Hybrid], 0, 1, 1);
-			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
-			buffMaintain($effect[Frog in Your Throat], 0, 1, 1);
-			buffMaintain($effect[Twen Tea], 0, 1, 1);
-			buffMaintain($effect[Feroci Tea], 0, 1, 1);
-			buffMaintain($effect[Peppermint Bite], 0, 1 , 1);
-
-			handleFamiliar($familiar[Machine Elf]);
-			cs_giant_growth();
-
-			if(do_cs_quest(2))
-			{
-				cli_execute("refresh inv");
-				curQuest = 0;
-			}
-			else
-			{
-				curQuest = 0;
-				abort("Could not handle our quest and can not recover");
-			}
-		break;
-
-	case 3:		#Myst Quest
-			buyUpTo(1, $item[Glittery Mascara]);
-
-			if(item_amount($item[Saucepanic]) > 0)
-			{
-				equip($slot[off-hand], $item[Saucepanic]);
-			}
-
-			while((my_mp() < 133) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-			buffMaintain($effect[Song of Bravado], 100, 1, 1);
-			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
-			buffMaintain($effect[The Magical Mojomuscular Melody], 3, 1, 1);
-			buffMaintain($effect[Disdain of She-Who-Was], 15, 1, 1);
-
-			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
-			buffMaintain($effect[Mystically Oiled], 0, 1, 1);
-			buffMaintain($effect[Tomato Power], 0, 1, 1);
-			buffMaintain($effect[Pill Power], 0, 1, 1);
-			buffMaintain($effect[Glittering Eyelashes], 0, 1, 1);
-			buffMaintain($effect[Purple Reign], 0, 1, 50);
-			buffMaintain($effect[Purple Reign], 0, 1, 50);
-			buffMaintain($effect[Purple Reign], 0, 1, 50);
-			buffMaintain($effect[Purple Reign], 0, 1, 50);
-			buffMaintain($effect[Purple Reign], 0, 1, 50);
-			buffMaintain($effect[Saucemastery], 1, 1, 1);
-			buffMaintain($effect[Pasta Oneness], 1, 1, 1);
-			buffMaintain($effect[Human-Humanoid Hybrid], 0, 1, 1);
-			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
-			buffMaintain($effect[Salamander In Your Stomach], 0, 1, 1);
-			buffMaintain($effect[Twen Tea], 0, 1, 1);
-			buffMaintain($effect[Wit Tea], 0, 1, 1);
-			buffMaintain($effect[Sweet\, Nuts], 0, 1 , 1);
-
-
-			buffMaintain($effect[Nearly All-Natural], 0, 1, 1);
-
-			handleFamiliar($familiar[Machine Elf]);
-			cs_giant_growth();
-
-			if(do_cs_quest(3))
-			{
-				cli_execute("refresh inv");
-				curQuest = 0;
-			}
-			else
-			{
-				curQuest = 0;
-				abort("Could not handle our quest and can not recover");
-			}
-
-		break;
-
-
-	case 4:		#Moxie Quest
-			buyUpTo(1, $item[Hair Spray]);
-
-			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-			if((my_inebriety() == 2) && (item_amount($item[Clan VIP Lounge Key]) > 0))
-			{
-				use_skill(1, $skill[The Ode to Booze]);
-				cli_execute("drink 1 bee's knees");
-			}
-
-
-			while((my_mp() < 142) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-			buffMaintain($effect[Song of Bravado], 100, 1, 1);
-			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
-			buffMaintain($effect[The Moxious Madrigal], 2, 1, 1);
-			buffMaintain($effect[Disco Smirk], 10, 1, 1);
-
-			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
-			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
-			buffMaintain($effect[Tomato Power], 0, 1, 1);
-			buffMaintain($effect[Pulchritudinous Pressure], 0, 1, 1);
-			buffMaintain($effect[Superhuman Sarcasm], 0, 1, 1);
-			buffMaintain($effect[Notably Lovely], 0, 1, 1);
-			buffMaintain($effect[Pill Power], 0, 1, 1);
-			buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
-			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
-			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
-			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
-			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
-			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
-			buffMaintain($effect[Disco State of Mind], 1, 1, 1);
-			buffMaintain($effect[Mariachi Mood], 1, 1, 1);
-			buffMaintain($effect[Human-Humanoid Hybrid], 0, 1, 1);
-			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
-			buffMaintain($effect[Newt Gets In Your Eyes], 0, 1, 1);
-			buffMaintain($effect[Twen Tea], 0, 1, 1);
-			buffMaintain($effect[Dexteri Tea], 0, 1, 1);
-			buffMaintain($effect[Busy Bein\' Delicious], 0, 1 , 1);
-
-			buffMaintain($effect[Amazing], 0, 1, 1);
-
-			handleFamiliar($familiar[Machine Elf]);
-			cs_giant_growth();
-
-			if(do_cs_quest(4))
-			{
-				curQuest = 0;
-			}
-			else
-			{
-				curQuest = 0;
-				abort("Could not handle our quest and can not recover");
-			}
-		break;
-	case 5:		#Familiar Weight
-			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-
-			int lastQuestCost = 36;
-			if(have_skill($skill[Smooth Movement]))
-			{
-				lastQuestCost = lastQuestCost - 3;
-			}
-			if(have_skill($skill[The Sonata of Sneakiness]))
-			{
-				lastQuestCost = lastQuestCost - 3;
-			}
-			if((item_amount($item[Snow Berries]) > 0) || (item_amount($item[Snow Cleats]) == 0))
-			{
-				lastQuestCost = lastQuestCost - 3;
-			}
-			if(item_amount($item[cuppa Obscuri Tea]) > 0)
-			{
-				lastQuestCost = lastQuestCost - 3;
-			}
-			if(is_unrestricted($item[Olympic-sized Clan Crate]) && !get_property("_olympicSwimmingPool").to_boolean())
-			{
-				lastQuestCost = lastQuestCost - 3;
-			}
-
-			buffMaintain($effect[Blue Swayed], 0, 1, 50);
-			buffMaintain($effect[Blue Swayed], 0, 1, 50);
-			buffMaintain($effect[Blue Swayed], 0, 1, 50);
-			buffMaintain($effect[Blue Swayed], 0, 1, 50);
-			buffMaintain($effect[Blue Swayed], 0, 1, 50);
-			buffMaintain($effect[Loyal Tea], 0, 1, 1);
-
-			int currentCost = get_cs_questCost(curQuest);
-			if(have_skill($skill[Empathy of the Newt]))
-			{
-				currentCost = currentCost - 1;
-			}
-			if(have_skill($skill[Leash of Linguini]))
-			{
-				currentCost = currentCost - 1;
-			}
-
-			int needCost = lastQuestCost + currentCost;
-
-			if(my_inebriety() == 4)
-			{
-				if(my_adventures() < needCost)
-				{
-					//Is it possible for us to drink some other stuff?
-					int extraAdv = 0;
-					if(my_meat() > 5000)
-					{
-						extraAdv = extraAdv + 13;
-						needCost = needCost - 2;
-					}
-					if(item_amount($item[Asbestos Thermos]) > 0)
-					{
-						extraAdv = extraAdv + 16;
-					}
-					if(item_amount($item[Cold One]) > 0)
-					{
-						extraAdv = extraAdv + 5;
-					}
-
-					if(item_amount($item[Blood-Drive Sticker]) > 0)
-					{
-						needCost = needCost + 5;
-					}
-
-					if((my_adventures() + extraAdv) > needCost)
-					{
-						use_skill(1, $skill[The Ode to Booze]);
-						if((my_meat() > 5000) && (item_amount($item[Clan VIP Lounge Key]) > 0))
-						{
-							cli_execute("drink 1 hot socks");
-						}
-						if(item_amount($item[Asbestos Thermos]) > 0)
-						{
-							drink(1, $item[Asbestos Thermos]);
-						}
-						if(item_amount($item[Cold One]) > 0)
-						{
-							drink(1, $item[Cold One]);
-						}
-					}
-					else
-					{
-						use_skill(1, $skill[The Ode to Booze]);
-						drink(1, $item[Vintage Smart Drink]);
-					}
-				}
-			}
-
-			while((my_mp() < 27) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-			buffMaintain($effect[Empathy], 15, 1, 1);
-			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
-			if(is_unrestricted($item[Clan Pool Table]))
-			{
-				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
-			}
-
-			familiar toFam = $familiar[Cocoabo];
-			foreach fam in $familiars[]
-			{
-				if((familiar_weight(fam) > familiar_weight(toFam)) && have_familiar(fam))
-				{
-					toFam = fam;
-				}
-			}
-
-			if(possessEquipment($item[Pet Rock &quot;Snooty&quot; Disguise]))
-			{
-				foreach fam in $familiars[Pet Rock, Toothsome Rock, Bulky Buddy Box, Holiday Log]
-				{
-					if(((familiar_weight(fam) + 11) > familiar_weight(toFam)) && have_familiar(fam))
-					{
-						toFam = fam;
-					}
-				}
-			}
-
-			handleFamiliar(toFam);
-			if(can_equip($item[Pet Rock &quot;Snooty&quot; Disguise]) && possessEquipment($item[Pet Rock &quot;Snooty&quot; Disguise]))
-			{
-				equip($item[Pet Rock &quot;Snooty&quot; Disguise]);
-			}
-
-			#This is probably not all that effective here....
-			if(item_amount($item[Ghost Dog Chow]) > 0)
-			{
-				use(item_amount($item[Ghost Dog Chow]), $item[Ghost Dog Chow]);
-			}
-
-
-			if(do_cs_quest(5))
-			{
-				curQuest = 0;
-			}
-			else
-			{
-				curQuest = 0;
-				abort("Could not handle our quest and can not recover");
-			}
-		break;
-
-	case 6:		#Melee Damage
-			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-			if((my_inebriety() == 5) || (my_inebriety() == 11))
-			{
-				uneffect($effect[Cletus\'s Canticle of Celerity]);
-				uneffect($effect[The Moxious Madrigal]);
-				buffMaintain($effect[Ode to Booze], 50, 1, 1);
-				cli_execute("drink sockdollager");
-				cli_execute("drink cup of tea");
-			}
-
-
-			while((my_mp() < 152) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-
-			buffMaintain($effect[Song of the North], 100, 1, 1);
-			buffMaintain($effect[Jackasses\' Symphony of Destruction], 9, 1, 1);
-			buffMaintain($effect[Rage of the Reindeer], 10, 1, 1);
-			buffMaintain($effect[Scowl of the Auk], 10, 1, 1);
-			buffMaintain($effect[Tenacity of the Snapper], 8, 1, 1);
-			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
-
-			if((item_amount($item[Wasabi Marble Soda]) == 0) && (have_effect($effect[Wasabi With You]) == 0) && (item_amount($item[Ye Wizard\'s Shack snack voucher]) > 0))
-			{
-				buffMaintain($effect[Wasabi With You], 0, 1, 1);
-			}
-
-			buffMaintain($effect[Human-Beast Hybrid], 0, 1, 1);
-			if(is_unrestricted($item[Clan Pool Table]))
-			{
-				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
-			}
-
-
-			while((my_level() < 8) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-				buffMaintain($effect[Ode to Booze], 50, 1, 6);
-				cli_execute("postcheese");
-			}
-			if((my_level() >= 8) && (item_amount($item[Astral Pilsner]) > 0))
-			{
-				buffMaintain($effect[Ode to Booze], 50, 1, 6);
-				drink(item_amount($item[Astral Pilsner]), $item[Astral Pilsner]);
-			}
-
-			if((my_level() < 8) && !get_property("_fancyHotDogEaten").to_boolean())
-			{
-				if(get_property("cc_noSleepingDog").to_boolean() || have_skill($skill[Dog Tired]))
-				{
-					eatFancyDog("savage macho dog");
-				}
-				else
-				{
-					eatFancyDog("sleeping dog");
-				}
-				return true;
-			}
-
-			if(do_cs_quest(6))
-			{
-				curQuest = 0;
-			}
-			else
-			{
-				curQuest = 0;
-				abort("Could not handle our quest and can not recover");
-			}
-		break;
-
-	case 7:		#Spell Damage
-		if(my_daycount() > 1)
-		{
-			while((my_mp() < 200) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-			if(possessEquipment($item[Staff of the Headmaster\'s Victuals]) && can_equip($item[Staff of the Headmaster\'s Victuals]) && have_skill($skill[Spirit of Rigatoni]))
-			{
-				equip($slot[weapon], $item[Staff of the Headmaster\'s Victuals]);
-			}
-			if(possessEquipment($item[Astral Statuette]))
-			{
-				equip($item[Astral Statuette]);
-			}
-			buffMaintain($effect[Song of Sauce], 100, 1, 1);
-			buffMaintain($effect[Arched Eyebrow of the Archmage], 10, 1, 1);
-			buffMaintain($effect[Jackasses\' Symphony of Destruction], 8, 1, 1);
-			if(is_unrestricted($item[Clan Pool Table]))
-			{
-				visit_url("clan_viplounge.php?preaction=poolgame&stance=2");
-			}
-
-			if((item_amount($item[Tobiko Marble Soda]) == 0) && (have_effect($effect[Pisces in the Skyces]) == 0) && (item_amount($item[Ye Wizard\'s Shack snack voucher]) > 0))
-			{
-				buffMaintain($effect[Pisces in the Skyces], 0, 1, 1);
-			}
-
-
-			if(do_cs_quest(7))
-			{
-				curQuest = 0;
-			}
-			else
-			{
-				curQuest = 0;
-				abort("Could not handle our quest and can not recover");
-			}
-		}
-		break;
-
-	case 8:			#Non-Combat
-			while((my_mp() < 30) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-			buffMaintain($effect[Smooth Movements], 10, 1, 1);
-			buffMaintain($effect[The Sonata of Sneakiness], 20, 1, 1);
-
-			if((item_amount($item[Snow Berries]) > 0) && (have_effect($effect[Snow Shoes]) == 0) && (item_amount($item[Snow Cleats]) == 0))
-			{
-				cli_execute("make 1 snow cleats");
-			}
-
-			buffMaintain($effect[Snow Shoes], 0, 1, 1);
-			buffMaintain($effect[Obscuri Tea], 0, 1, 1);
-			if(is_unrestricted($item[Olympic-sized Clan Crate]) && !get_property("_olympicSwimmingPool").to_boolean())
-			{
-				cli_execute("swim noncombat");
-			}
-
-			int questCost = get_cs_questCost(curQuest);
-			if(my_adventures() < questCost)
-			{
-				buffMaintain($effect[A Rose by Any Other Material], 0, 1, 1);
-				questCost = questCost - 12;
-			}
-			if(my_adventures() < questCost)
-			{
-				buffMaintain($effect[Throwing Some Shade], 0, 1, 1);
-			}
-
-
-			if((my_adventures() < questCost) && (item_amount($item[Blood-Drive Sticker]) > 0))
-			{
-				equip($slot[pants], $item[none]);
-				equip($slot[off-hand], $item[none]);
-				pulverizeThing($item[A Light That Never Goes Out]);
-				pulverizeThing($item[Vicar\'s Tutu]);
-				chew(item_amount($item[Handful of Smithereens]), $item[Handful of Smithereens]);
-
-			}
-
-			if(do_cs_quest(8))
-			{
-				curQuest = 0;
-			}
-			else
-			{
-				curQuest = 0;
-				abort("Could not handle our quest and can not recover");
-			}
-		break;
-
-	case 9:		#item/booze drops
-			cs_eat_stuff(curQuest);
-
-			while((my_mp() < 53) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-
-			buffMaintain($effect[Singer\'s Faithful Ocelot], 15, 1, 1);
-			buffMaintain($effect[Empathy], 15, 1, 1);
-			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
-			buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 11, 1, 1);
-			buffMaintain($effect[Spice Haze], 250, 1, 1);
-
-			buffMaintain($effect[Human-Pirate Hybrid], 0, 1, 1);
-			buffMaintain($effect[One Very Clear Eye], 0, 1, 1);
-			buffMaintain($effect[Sour Softshoe], 0, 1, 1);
-			buffMaintain($effect[Serendipi Tea], 0, 1, 1);
-			if(is_unrestricted($item[Clan Pool Table]))
-			{
-				visit_url("clan_viplounge.php?preaction=poolgame&stance=3");
-			}
-
-
-			boolean [familiar] itemFams = $familiars[Gelatinous Cubeling, Syncopated Turtle, Slimeling, Angry Jung Man, Grimstone Golem, Adventurous Spelunker, Jumpsuited Hound Dog, Steam-Powered Cheerleader];
-			familiar itemFam = $familiar[Cocoabo];
-			foreach fam in itemFams
-			{
-				if(have_familiar(fam))
-				{
-					itemFam = fam;
-				}
-			}
-			handleFamiliar(itemFam);
-
-			if(do_cs_quest(9))
-			{
-				curQuest = 0;
-			}
-			else
-			{
-				curQuest = 0;
-				abort("Could not handle our quest and can not recover");
-			}
-		break;
-
-
-	case 10:	#Hot Resistance
-			if((have_effect($effect[Everything Looks Yellow]) == 0) && have_familiar($familiar[Crimbo Shrub]))
-			{
-				handleFamiliar($familiar[Crimbo Shrub]);
-				ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatYR");
-				return true;
-			}
-			handleFamiliar($familiar[Exotic Parrot]);
-
-			if(possessEquipment($item[lava-proof pants]))
-			{
-				equip($item[lava-proof pants]);
-			}
-			if(possessEquipment($item[fireproof megaphone]))
-			{
-				equip($item[fireproof megaphone]);
-			}
-			if(possessEquipment($item[high-temperature mining mask]))
-			{
-				equip($item[high-temperature mining mask]);
-			}
-			if(possessEquipment($item[heat-resistant gloves]))
-			{
-				equip($slot[acc1], $item[heat-resistant gloves]);
-			}
-			if(possessEquipment($item[heat-resistant necktie]))
-			{
-				equip($slot[acc3], $item[heat-resistant necktie]);
-			}
-
-			while((my_mp() < 37) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-
-			boolean [item] toSmash = $items[asparagus knife, plastic nunchaku, Staff of the Headmaster\'s Victuals, heavy-duty clipboard, dirty hobo gloves, dirty rigging rope, sewage-clogged pistol];
-			foreach it in toSmash
-			{
-				pulverizeThing(it);
-			}
-
-			if((item_amount($item[Sleaze Powder]) > 0) && (item_amount($item[Lotion of Sleaziness]) == 0) && (have_effect($effect[Sleazy Hands]) == 0))
-			{
-				cli_execute("make lotion of sleaziness");
-			}
-			if((item_amount($item[Stench Powder]) > 0) && (item_amount($item[Lotion of Stench]) == 0) && (have_effect($effect[Stinky Hands]) == 0))
-			{
-				cli_execute("make lotion of stench");
-			}
-
-			buffMaintain($effect[Protection from Bad Stuff], 0, 1, 1);
-			buffMaintain($effect[Human-Elemental Hybrid], 0, 1, 1);
-			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
-			buffMaintain($effect[Empathy], 15, 1, 1);
-			buffMaintain($effect[Astral Shell], 10, 1, 1);
-			buffMaintain($effect[Sleazy Hands], 0, 1, 1);
-			buffMaintain($effect[Stinky Hands], 0, 1, 1);
-			buffMaintain($effect[Human-Machine Hybrid], 0, 1, 1);
-			buffMaintain($effect[Frost Tea], 0, 1, 1);
-
-			cs_eat_stuff(curQuest);
-
-			if(do_cs_quest(10))
-			{
-				curQuest = 0;
-				equip($slot[hat], $item[none]);
-				equip($slot[pants], $item[none]);
-				equip($slot[off-hand], $item[none]);
-				equip($slot[acc1], $item[none]);
-				equip($slot[acc3], $item[none]);
-			}
-			else
-			{
-				curQuest = 0;
-				equip($slot[hat], $item[none]);
-				equip($slot[pants], $item[none]);
-				equip($slot[off-hand], $item[none]);
-				equip($slot[acc1], $item[none]);
-				equip($slot[acc3], $item[none]);
-				abort("Could not handle our quest and can not recover");
-			}
-		break;
-	case 11:
-			abort("Beep, should not be trying quest 11 at this point in the script");
-
-			if(do_cs_quest(11))
-			{
-				use(1, $item[a ten-percent bonus]);
-				curQuest = 0;
-			}
-			else
-			{
-				curQuest = 0;
-				abort("Could not handle our quest and can not recover");
-			}
-		break;
-
-	default:
-		abort("No quest remaining or detectable. Maybe we are already done?");
-		break;
-
-	}
-
-	return true;
-}
-
-
 boolean doTasks()
 {
 	if(my_thunder() > get_property("cc_lastthunder").to_int())
@@ -9710,7 +8199,7 @@ boolean doTasks()
 		print("Snow suit usage: " + get_property("_snowSuitCount") + " carrots: " + get_property("_carrotNoseDrops"), "blue");
 	}
 	print("HP: " + my_hp() + "/" + my_maxhp() + "\tMP: " + my_mp() + "/" + my_maxmp(), "violet");
-	if(my_path() == "Heavy Rains")
+	if(cc_my_path() == "Heavy Rains")
 	{
 		print("Post adventure done: Thunder: " + my_thunder() + " Rain: " + my_rain() + " Lightning: " + my_lightning(), "green");
 	}
@@ -9845,14 +8334,14 @@ boolean doTasks()
 		set_property("cc_doCombatCopy", "no");
 	}
 
-	if((equipped_item($slot[familiar]) == $item[none]) && (my_familiar() != $familiar[none]) && (my_path() == "Heavy Rains"))
+	if((equipped_item($slot[familiar]) == $item[none]) && (my_familiar() != $familiar[none]) && (cc_my_path() == "Heavy Rains"))
 	{
 		abort("Familiar has no equipment, WTF");
 	}
 
 	autosellCrap();
 
-	if((have_effect($effect[beaten up]) > 0) && (my_path() == "One Crazy Random Summer"))
+	if((have_effect($effect[beaten up]) > 0) && (cc_my_path() == "One Crazy Random Summer"))
 	{
 		if(contains_text(get_property("cc_funPrefix"), "annoying") ||
 			contains_text(get_property("cc_funPrefix"), "phase-shifting") ||
@@ -9873,7 +8362,7 @@ boolean doTasks()
 		}
 	}
 
-	if((have_effect($effect[beaten up]) > 0) && (my_path() == "Community Service"))
+	if((have_effect($effect[beaten up]) > 0) && (cc_my_path() == "Community Service"))
 	{
 		doHottub();
 	}
@@ -9891,13 +8380,13 @@ boolean doTasks()
 
 	doNumberology("adventures3");
 
-	if(LA_communityService())
+	if(LA_cs_communityService())
 	{
 		return true;
 	}
-	if(my_path() == "Community Service")
+	if(cc_my_path() == "Community Service")
 	{
-		abort("Should not have gotten here, aborted LA_communityService method allowed return to caller. Uh oh.");
+		abort("Should not have gotten here, aborted LA_cs_communityService method allowed return to caller. Uh oh.");
 	}
 
 	if(item_amount($item[pulled red taffy]) >= 6)
@@ -10115,7 +8604,7 @@ boolean doTasks()
 
 	consumeStuff();
 	int paintingLevel = 8;
-	if(my_path() == "One Crazy Random Summer")
+	if(cc_my_path() == "One Crazy Random Summer")
 	{
 		paintingLevel = 9;
 	}
@@ -10163,203 +8652,10 @@ boolean doTasks()
 		}
 	}
 
-	if(my_class() == $class[Ed])
+	//Handle most quests, if we are Actually Ed the Undying
+	if(LM_edTheUndying())
 	{
-		ed_buySkills();
-
-		if(get_property("edPiece") != "hyena")
-		{
-			if(get_property("spookyAirportAlways").to_boolean() || (my_level() >= 5))
-			{
-				adjustEdHat("ml");
-			}
-			else
-			{
-				adjustEdHat("myst");
-			}
-		}
-		if(L1_edIsland() || l1_edIslandFallback())
-		{
-			return true;
-		}
-
-		if(L5_getEncryptionKey())
-		{
-			return true;
-		}
-
-		if(LX_islandAccess())
-		{
-			return true;
-		}
-		if((item_amount($item[Hermit Permit]) == 0) && (my_meat() > 100))
-		{
-			buyUpTo(1, $item[Hermit Permit], 100);
-		}
-		while((item_amount($item[Seal Tooth]) == 0) && (item_amount($item[Hermit Permit]) > 0) && (my_meat() > 50))
-		{
-			if((item_amount($item[Worthless Trinket]) + item_amount($item[Worthless Gewgaw]) + item_amount($item[Worthless Knick-knack])) > 0)
-			{
-				hermit(1, $item[Seal Tooth]);
-			}
-			else
-			{
-				buyUpTo(1, $item[chewing gum on a string]);
-				use(1, $item[chewing gum on a string]);
-			}
-		}
-
-		if(my_level() >= 9)
-		{
-			if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-				cli_execute("scripts/postcheese.ash");
-				return true;
-			}
-		}
-
-		if(L10_plantThatBean() || L10_airship() || L10_basement() || L10_ground() || L10_topFloor())
-		{
-			return true;
-		}
-
-		if(L12_preOutfit())
-		{
-			return true;
-		}
-
-		if(get_property("cc_dickstab").to_boolean())
-		{
-			if((my_level() >= 5) && (chateaumantegna_havePainting()) && (my_daycount() <= 2) && (my_class() != $class[Ed]))
-			{
-				if(chateaumantegna_usePainting())
-				{
-					ccAdv(1, $location[Noob Cave]);
-					return true;
-				}
-			}
-			if(L1_edDinsey())
-			{
-				return true;
-			}
-			if(L2_mosquito() || L2_treeCoin() || L2_spookyMap() || L2_spookyFertilizer() || L2_spookySapling())
-			{
-				return true;
-			}
-			if(L8_trapperStart() || L8_trapperGround() || L8_trapperYeti())
-			{
-				return true;
-			}
-			if(L4_batCave())
-			{
-				return true;
-			}
-			if(L5_getEncryptionKey())
-			{
-				return true;
-			}
-			if(L5_goblinKing())
-			{
-				return true;
-			}
-			if(L9_chasmStart() || L9_chasmBuild())
-			{
-				return true;
-			}
-			if(LX_pirateOutfit() || LX_pirateInsults() || LX_pirateBlueprint() || LX_pirateBeerPong() || LX_fcle())
-			{
-				return true;
-			}
-			if(LX_dinseylandfillFunbucks())
-			{
-				return true;
-			}
-
-			if(my_level() < 9)
-			{
-				if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-				{
-					doRest();
-					cli_execute("scripts/postcheese.ash");
-					return true;
-				}
-			}
-
-			if(L1_edIsland(10))
-			{
-				return true;
-			}
-
-			buffMaintain($effect[The Dinsey Look], 0, 1, 1);
-
-			if(L7_crypt())
-			{
-				if(item_amount($item[FunFunds&trade;]) > 4)
-				{
-					buyUpTo(1, $item[Dinsey Face Paint]);
-				}
-				return true;
-			}
-
-
-		}
-
-
-		if(LX_pirateOutfit() || LX_pirateInsults() || LX_pirateBlueprint() || LX_pirateBeerPong() || LX_fcle())
-		{
-			return true;
-		}
-		if(L2_mosquito() || L2_treeCoin() || L2_spookyMap() || L2_spookyFertilizer() || L2_spookySapling())
-		{
-			return true;
-		}
-		if(L8_trapperStart() || L8_trapperGround() || L8_trapperYeti())
-		{
-			return true;
-		}
-		if(L4_batCave())
-		{
-			return true;
-		}
-		if(L5_goblinKing())
-		{
-			return true;
-		}
-		if(!get_property("cc_dickstab").to_boolean() || (my_daycount() >= 2))
-		{
-			if(L3_tavern())
-			{
-				return true;
-			}
-		}
-
-		if(L9_chasmStart() || L9_chasmBuild())
-		{
-			return true;
-		}
-
-		if(L6_friarsGetParts() || L6_friarsHotWing())
-		{
-			return true;
-		}
-		if(L11_blackMarket() || L11_forgedDocuments() || L11_mcmuffinDiary() || L11_talismanOfNam())
-		{
-			return true;
-		}
-
-		if(my_spleen_use() == 35)
-		{
-			if(my_daycount() >= 2)
-			{
-				if(my_mp() < 40)
-				{
-					buffMaintain($effect[Spiritually Awake], 0, 1, 1);
-					buffMaintain($effect[Spiritually Aware], 0, 1, 1);
-					buffMaintain($effect[Spiritually Awash], 0, 1, 1);
-				}
-			}
-		}
+		return true;
 	}
 
 	if(organsFull() && (my_adventures() < 10) && (chateaumantegna_havePainting()) && (my_daycount() == 1) && (my_class() != $class[Ed]))
@@ -10922,7 +9218,7 @@ boolean doTasks()
 			if(item_amount($item[Bowl Of Scorpions]) == 0)
 			{
 				buyUpTo(1, $item[Bowl Of Scorpions]);
-				if(my_path() == "One Crazy Random Summer")
+				if(cc_my_path() == "One Crazy Random Summer")
 				{
 					buyUpTo(3, $item[Bowl Of Scorpions]);
 				}
@@ -11275,7 +9571,7 @@ boolean doTasks()
 	if(((item_amount($item[rock band flyers]) == 1) || (item_amount($item[jam band flyers]) == 1)) && (get_property("flyeredML").to_int() < 10000))
 	{
 		print("Not enough flyer ML but we are ready for the war... uh oh", "blue");
-		if(my_path() == "Picky")
+		if(cc_my_path() == "Picky")
 		{
 			//This is outdated since we don\'t need to consider stars/lines as much
 			if(item_amount($item[Steam-Powered Model Rocketship]) == 0)
@@ -12166,7 +10462,7 @@ void cc_begin()
 	print("This is version: " + svn_info("ccascend-cc_ascend").last_changed_rev);
 	print("This is day " + my_daycount() + ".");
 	print("Turns played: " + my_turncount() + " current adventures: " + my_adventures());
-	print("Current Ascension: " + my_path());
+	print("Current Ascension: " + cc_my_path());
 
 	set_property("cc_disableAdventureHandling", "no");
 
@@ -12210,19 +10506,7 @@ void cc_begin()
 		cli_execute("zlib chit.helpers.xiblaxian = false");
 	}
 
-
-	if(my_class() == $class[Ed])
-	{
-		if(get_property("hpAutoRecoveryItems") != "linen bandages")
-		{
-			set_property("cc_hpAutoRecoveryItems", get_property("hpAutoRecoveryItems"));
-			set_property("cc_hpAutoRecovery", get_property("hpAutoRecovery"));
-			set_property("cc_hpAutoRecoveryTarget", get_property("hpAutoRecoveryTarget"));
-			set_property("hpAutoRecoveryItems", "linen bandages");
-			set_property("hpAutoRecovery", 0.0);
-			set_property("hpAutoRecoveryTarget", 0.0);
-		}
-	}
+	ed_initializeSession();
 
 	questOverride();
 

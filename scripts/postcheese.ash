@@ -1,5 +1,5 @@
 script "postcheese.ash";
-import <cc_util.ash>
+import <cc_ascend/cc_util.ash>
 
 boolean ocrs_postHelper();
 

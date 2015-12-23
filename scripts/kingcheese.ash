@@ -1,5 +1,5 @@
 script "kingcheese.ash";
-import <cc_util.ash>
+import <cc_ascend/cc_util.ash>
 
 boolean pullPVPJunk();
 

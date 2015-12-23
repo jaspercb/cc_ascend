@@ -1,6 +1,6 @@
 script "cc_summerfun.ash"
 
-import<cc_util.ash>
+import<cc_ascend/cc_util.ash>
 
 boolean ocrs_initializeSettings()
 {

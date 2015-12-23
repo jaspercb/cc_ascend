@@ -1,8 +1,10 @@
 script "cc_edTheUndying.ash"
-import <cc_util.ash>
-import <cc_equipment.ash>
+import <cc_ascend/cc_util.ash>
+import <cc_ascend/cc_equipment.ash>
 import <cc_ascend/cc_eudora.ash>
 import <cc_ascend/cc_clan.ash>
+import <cc_ascend/cc_ascend_header.ash>
+import <cc_ascend/cc_elementalPlanes.ash>
 
 void ed_initializeSettings()
 {
@@ -44,6 +46,38 @@ void ed_initializeSettings()
 		set_property("choiceAdventure1023", "");
 		set_property("desertExploration", 100);
 		set_property("nsTowerDoorKeysUsed", "Boris's key,Jarlsberg's key,Sneaky Pete's key,Richard's star key,skeleton key,digital key");
+	}
+}
+
+void ed_initializeSession()
+{
+	if(my_class() == $class[Ed])
+	{
+		if(get_property("hpAutoRecoveryItems") != "linen bandages")
+		{
+			set_property("cc_hpAutoRecoveryItems", get_property("hpAutoRecoveryItems"));
+			set_property("cc_hpAutoRecovery", get_property("hpAutoRecovery"));
+			set_property("cc_hpAutoRecoveryTarget", get_property("hpAutoRecoveryTarget"));
+			set_property("hpAutoRecoveryItems", "linen bandages");
+			set_property("hpAutoRecovery", 0.0);
+			set_property("hpAutoRecoveryTarget", 0.0);
+		}
+	}
+}
+
+void ed_terminateSession()
+{
+	if(my_class() == $class[Ed])
+	{
+		if(get_property("hpAutoRecoveryItems") == "linen bandages")
+		{
+			set_property("hpAutoRecoveryItems", get_property("cc_hpAutoRecoveryItems"));
+			set_property("hpAutoRecovery", get_property("cc_hpAutoRecovery"));
+			set_property("hpAutoRecoveryTarget", get_property("cc_hpAutoRecoveryTarget"));
+			set_property("cc_hpAutoRecoveryItems", "");
+			set_property("cc_hpAutoRecovery", 0.0);
+			set_property("cc_hpAutoRecoveryTarget", 0.0);
+		}
 	}
 }
 
@@ -1268,4 +1302,415 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 boolean ed_ccAdv(int num, location loc, string option)
 {
 	return ed_ccAdv(num, loc, option, false);
+}
+
+
+boolean L1_ed_island()
+{
+	return L1_ed_island(0);
+}
+
+boolean L1_ed_dinsey()
+{
+	if(my_class() != $class[Ed])
+	{
+		return false;
+	}
+	if(!elementalPlanes_access($element[stench]))
+	{
+		return false;
+	}
+	if(my_level() < 6)
+	{
+		return false;
+	}
+	if(!get_property("cc_dickstab").to_boolean())
+	{
+		return false;
+	}
+	if(possessEquipment($item[Sewage-Clogged Pistol]) && possessEquipment($item[Perfume-Soaked Bandana]))
+	{
+		return false;
+	}
+	ccAdv(1, $location[Pirates of the Garbage Barges]);
+	return true;
+}
+
+boolean L1_ed_island(int dickstabOverride)
+{
+	if(my_class() != $class[Ed])
+	{
+		return false;
+	}
+	if(!elementalPlanes_access($element[spooky]))
+	{
+		return false;
+	}
+
+	skill blocker = $skill[Still Another Extra Spleen];
+	if(get_property("cc_dickstab").to_boolean())
+	{
+		if(turns_played() > 22)
+		{
+			blocker = $skill[Replacement Liver];
+			blocker = $skill[Okay Seriously, This is the Last Spleen];
+			if((dickstabOverride == 0) || (my_level() >= dickstabOverride))
+			{
+				return false;
+			}
+		}
+	}
+
+	if((my_level() >= 10) || ((my_level() >= 8) && have_skill(blocker)))
+	{
+		return false;
+	}
+	if((my_level() >= 3) && !get_property("controlPanel9").to_boolean())
+	{
+		visit_url("place.php?whichplace=airport_spooky_bunker&action=si_controlpanel");
+		visit_url("choice.php?pwd=&whichchoice=986&option=9",true);
+	}
+	if((my_level() >= 3) && !get_property("controlPanel9").to_boolean())
+	{
+		abort("Damn control panel is not set, WTF!!!");
+	}
+
+	#If we get some other CI quest, this might keep triggering, should we flag this?
+	if((my_hp() > 20) && !possessEquipment($item[Gore Bucket]) && !possessEquipment($item[Encrypted Micro-Cassette Recorder]) && !possessEquipment($item[Military-Grade Fingernail Clippers]))
+	{
+		elementalPlanes_takeJob($element[spooky]);
+		#visit_url("place.php?whichplace=airport_spooky&action=airport2_radio");
+		#visit_url("choice.php?pwd&whichchoice=984&option=1", true);
+		set_property("choiceAdventure988", 2);
+	}
+
+	if(item_amount($item[Gore Bucket]) > 0)
+	{
+		equip($item[Gore Bucket]);
+	}
+
+	if(item_amount($item[Personal Ventilation Unit]) > 0)
+	{
+		equip($slot[acc2], $item[Personal Ventilation Unit]);
+	}
+	if(possessEquipment($item[Gore Bucket]) && (get_property("goreCollected").to_int() >= 100))
+	{
+		visit_url("place.php?whichplace=airport_spooky&action=airport2_radio");
+		visit_url("choice.php?pwd&whichchoice=984&option=1", true);
+	}
+
+	buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
+	ccAdv(1, $location[The Secret Government Laboratory]);
+	if(item_amount($item[Bottle-Opener Keycard]) > 0)
+	{
+		use(1, $item[Bottle-Opener Keycard]);
+	}
+	set_property("choiceAdventure988", 1);
+	return true;
+}
+
+
+boolean L1_ed_islandFallback()
+{
+	if(my_class() != $class[Ed])
+	{
+		return false;
+	}
+	if(elementalPlanes_access($element[spooky]))
+	{
+		return false;
+	}
+
+	if((my_level() >= 10) || ((my_level() >= 8) && have_skill($skill[Still Another Extra Spleen])))
+	{
+		return false;
+	}
+	if(elementalPlanes_access($element[stench]))
+	{
+		ccAdv(1, $location[Pirates of the Garbage Barges]);
+		return true;
+	}
+	if(elementalPlanes_access($element[hot]))
+	{
+		ccAdv(1, $location[The SMOOCH Army HQ]);
+		return true;
+	}
+
+
+	if(LX_islandAccess())
+	{
+		return true;
+	}
+
+	return ccAdv(1, $location[Hippy Camp]);
+}
+
+boolean L9_ed_chasmStart()
+{
+	if((my_class() == $class[Ed]) && !get_property("cc_chasmBusted").to_boolean())
+	{
+		print("It's a troll on a bridge!!!!", "blue");
+
+		string page = visit_url("place.php?whichplace=orc_chasm&action=bridge_done");
+		ccAdvBypass("place.php?whichplace=orc_chasm&action=bridge_done", $location[The Smut Orc Logging Camp]);
+
+		set_property("cc_chasmBusted", true);
+		set_property("chasmBridgeProgress", 0);
+		return true;
+	}
+	return false;
+}
+
+boolean L9_ed_chasmBuild()
+{
+	if((my_class() == $class[Ed]) && !get_property("cc_chasmBusted").to_boolean())
+	{
+		print("What a nice bridge over here...." , "green");
+
+		string page = visit_url("place.php?whichplace=orc_chasm&action=bridge_done");
+		ccAdvBypass("place.php?whichplace=orc_chasm&action=bridge_done", $location[The Smut Orc Logging Camp]);
+
+		set_property("cc_chasmBusted", true);
+		set_property("chasmBridgeProgress", 0);
+		return true;
+	}
+	return false;
+}
+
+boolean L9_ed_chasmBuildClover(int need)
+{
+	if((my_class() == $class[Ed]) && (need > 3) && (item_amount($item[Disassembled Clover]) > 2))
+	{
+		use(1, $item[disassembled clover]);
+		visit_url("adventure.php?snarfblat=295&confirm=on");
+		if(contains_text(visit_url("main.php"), "Combat"))
+		{
+			ccAdv(1, $location[The Smut Orc Logging Camp]);
+			return true;
+		}
+		visit_url("place.php?whichplace=orc_chasm&action=bridge"+(to_int(get_property("chasmBridgeProgress"))));
+		return true;
+	}
+	return false;
+}
+
+boolean L11_ed_mauriceSpookyraven()
+{
+	if(my_class() == $class[Ed])
+	{
+		if(item_amount($item[7962]) == 0)
+		{
+			set_property("cc_ballroom", "finished");
+			return true;
+		}
+	}
+	return false;
+}
+
+boolean LM_edTheUndying()
+{
+	if(my_path() != "Actually Ed the Undying")
+	{
+		return false;
+	}
+
+	ed_buySkills();
+
+	if(get_property("edPiece") != "hyena")
+	{
+		if(elementalPlanes_access($element[spooky]) || (my_level() >= 5))
+		{
+			adjustEdHat("ml");
+		}
+		else
+		{
+			adjustEdHat("myst");
+		}
+	}
+	if(L1_ed_island() || l1_ed_islandFallback())
+	{
+		return true;
+	}
+
+	if(L5_getEncryptionKey())
+	{
+		return true;
+	}
+
+	if(LX_islandAccess())
+	{
+		return true;
+	}
+	if((item_amount($item[Hermit Permit]) == 0) && (my_meat() > 100))
+	{
+		buyUpTo(1, $item[Hermit Permit], 100);
+	}
+	while((item_amount($item[Seal Tooth]) == 0) && (item_amount($item[Hermit Permit]) > 0) && (my_meat() > 50))
+	{
+		if((item_amount($item[Worthless Trinket]) + item_amount($item[Worthless Gewgaw]) + item_amount($item[Worthless Knick-knack])) > 0)
+		{
+			hermit(1, $item[Seal Tooth]);
+		}
+		else
+		{
+			buyUpTo(1, $item[chewing gum on a string]);
+			use(1, $item[chewing gum on a string]);
+		}
+	}
+
+	if(my_level() >= 9)
+	{
+		if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+		{
+			doRest();
+			cli_execute("scripts/postcheese.ash");
+			return true;
+		}
+	}
+
+	if(L10_plantThatBean() || L10_airship() || L10_basement() || L10_ground() || L10_topFloor())
+	{
+		return true;
+	}
+
+	if(L12_preOutfit())
+	{
+		return true;
+	}
+
+	if(get_property("cc_dickstab").to_boolean())
+	{
+		if((my_level() >= 5) && (chateaumantegna_havePainting()) && (my_daycount() <= 2) && (my_class() != $class[Ed]))
+		{
+			if(chateaumantegna_usePainting())
+			{
+				ccAdv(1, $location[Noob Cave]);
+				return true;
+			}
+		}
+		if(L1_ed_dinsey())
+		{
+			return true;
+		}
+		if(L2_mosquito() || L2_treeCoin() || L2_spookyMap() || L2_spookyFertilizer() || L2_spookySapling())
+		{
+			return true;
+		}
+		if(L8_trapperStart() || L8_trapperGround() || L8_trapperYeti())
+		{
+			return true;
+		}
+		if(L4_batCave())
+		{
+			return true;
+		}
+		if(L5_getEncryptionKey())
+		{
+			return true;
+		}
+		if(L5_goblinKing())
+		{
+			return true;
+		}
+		if(L9_chasmStart() || L9_chasmBuild())
+		{
+			return true;
+		}
+		if(LX_pirateOutfit() || LX_pirateInsults() || LX_pirateBlueprint() || LX_pirateBeerPong() || LX_fcle())
+		{
+			return true;
+		}
+		if(LX_dinseylandfillFunbucks())
+		{
+			return true;
+		}
+
+		if(my_level() < 9)
+		{
+			if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+				cli_execute("scripts/postcheese.ash");
+				return true;
+			}
+		}
+
+		if(L1_ed_island(10))
+		{
+			return true;
+		}
+
+		buffMaintain($effect[The Dinsey Look], 0, 1, 1);
+
+		if(L7_crypt())
+		{
+			if(item_amount($item[FunFunds&trade;]) > 4)
+			{
+				buyUpTo(1, $item[Dinsey Face Paint]);
+			}
+			return true;
+		}
+
+
+	}
+
+
+	if(LX_pirateOutfit() || LX_pirateInsults() || LX_pirateBlueprint() || LX_pirateBeerPong() || LX_fcle())
+	{
+		return true;
+	}
+	if(L2_mosquito() || L2_treeCoin() || L2_spookyMap() || L2_spookyFertilizer() || L2_spookySapling())
+	{
+		return true;
+	}
+	if(L8_trapperStart() || L8_trapperGround() || L8_trapperYeti())
+	{
+		return true;
+	}
+	if(L4_batCave())
+	{
+		return true;
+	}
+	if(L5_goblinKing())
+	{
+		return true;
+	}
+	if(!get_property("cc_dickstab").to_boolean() || (my_daycount() >= 2))
+	{
+		if(L3_tavern())
+		{
+			return true;
+		}
+	}
+
+	if(L9_chasmStart() || L9_chasmBuild())
+	{
+		return true;
+	}
+
+	if(L6_friarsGetParts() || L6_friarsHotWing())
+	{
+		return true;
+	}
+	if(L11_blackMarket() || L11_forgedDocuments() || L11_mcmuffinDiary() || L11_talismanOfNam())
+	{
+		return true;
+	}
+
+	if(my_spleen_use() == 35)
+	{
+		if(my_daycount() >= 2)
+		{
+			if(my_mp() < 40)
+			{
+				buffMaintain($effect[Spiritually Awake], 0, 1, 1);
+				buffMaintain($effect[Spiritually Aware], 0, 1, 1);
+				buffMaintain($effect[Spiritually Awash], 0, 1, 1);
+			}
+		}
+	}
+
+
+
+	return false;
 }

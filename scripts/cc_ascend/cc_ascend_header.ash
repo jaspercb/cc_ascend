@@ -1,6 +1,20 @@
 script "cc_ascend_header.ash"
 
-boolean LA_communityService();
+//	This is the primary (or will be) header file for cc_ascend.
+//	All potentially cross-dependent functions should be defined here such that we can use them from
+//	other scripts without the circular dependency issue. Thanks Ultibot for the advice regarding this.
+//	Documentation can go here too, I suppose.
+//	All functions that are defined outside of cc_ascend must include a note regarding where they come from
+//		Seriously, it\'s rude not to.
+
+//	Question Functions
+//	Denoted as L<classification>[<path>]_<name>:
+//		<classification>: Level to be used (Numeric, X for any). A for entire ascension.
+//		<classification>: M for most of ascension, "sc" for Seal Clubber only
+//		<path>: [optional] indicates path to be used in. "ed" for ed, "cs" for community service
+//			Usually separated with _
+boolean LA_cs_communityService();				//Defined in cc_ascend/cc_community_service.ash
+boolean LM_edTheUndying();						//Defined in cc_ascend/cc_edTheUndying.ash
 
 boolean LX_handleSpookyravenNecklace();
 boolean LX_handleSpookyravenFirstFloor();
@@ -28,10 +42,10 @@ boolean Lsc_flyerSeals();
 
 boolean L0_handleRainDoh();
 
-boolean L1_edIsland();
-boolean L1_edDinsey();
-boolean L1_edIsland(int dickstabOverride);
-boolean L1_edIslandFallback();
+boolean L1_ed_island();							//Defined in cc_ascend/cc_edTheUndying.ash
+boolean L1_ed_dinsey();							//Defined in cc_ascend/cc_edTheUndying.ash
+boolean L1_ed_island(int dickstabOverride);		//Defined in cc_ascend/cc_edTheUndying.ash
+boolean L1_ed_islandFallback();					//Defined in cc_ascend/cc_edTheUndying.ash
 boolean L2_mosquito();
 boolean L2_treeCoin();
 boolean L2_spookyMap();
@@ -93,3 +107,27 @@ boolean L12_finalizeWar();
 boolean L12_nunsTrickGlandGet();
 boolean L13_sorceressDoor();
 boolean questOverride();
+
+
+//
+//	Primary adventuring functions, we need additonal functionality over adv1, so we do it here.
+//	Note that, as of at least Mafia r16560, we can not use run_combat(<combat filter>).
+//	Don\'t even try it, it requires a custom modification that we can not really do an ASH workaround for.
+
+boolean ccAdv(location loc, string option);
+boolean ccAdv(int num, location loc, string option);		//num is ignored
+boolean ccAdv(int num, location loc);						//num is ignored
+boolean ccAdvBypass(string url, location loc);
+boolean ccAdvBypass(int snarfblat, location loc);
+boolean ccAdvBypass(int snarfblat);
+boolean ccAdvBypass(string url);
+
+
+// Semi-rare Handlers:
+boolean fortuneCookieEvent();
+
+// Familiar Behavior, good stuff.
+boolean handleFamiliar(familiar fam);
+
+// Meat Generation
+boolean autosellCrap();

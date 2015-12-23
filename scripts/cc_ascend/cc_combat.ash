@@ -1,7 +1,7 @@
 script "cc_combat.ash"
-import <cc_util.ash>
-import <cc_equipment.ash>
-import <cc_edTheUndying.ash>
+import <cc_ascend/cc_util.ash>
+import <cc_ascend/cc_equipment.ash>
+import <cc_ascend/cc_edTheUndying.ash>
 
 #void handleBanish(monster enemy, skill banisher);
 #void handleBanish(monster enemy, item banisher);

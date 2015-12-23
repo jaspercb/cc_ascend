@@ -1,5 +1,5 @@
 script "precheese.ash";
-import <cc_util.ash>
+import <cc_ascend/cc_util.ash>
 
 
 //	handlePreAdventure methods, first allows explicit location declaration

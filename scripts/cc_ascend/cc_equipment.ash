@@ -1,5 +1,5 @@
 script "cc_ascend/cc_equipment.ash";
-import <cc_util.ash>
+import <cc_ascend/cc_util.ash>
 void equipBaseline();
 void equipBaselineWeapon();
 void equipBaselinePants();

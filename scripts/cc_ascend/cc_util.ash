@@ -1,6 +1,6 @@
 script "cc_util.ash";
 import <zlib.ash>
-import <chateaumantegna.ash>
+import <cc_ascend/cc_chateaumantegna.ash>
 
 // Public Prototypes
 int doNumberology(string goal);
@@ -84,7 +84,7 @@ element ns_hedge3();
 void woods_questStart();			//From Bale\'s woods.ash relay mod.
 int howLongBeforeHoloWristDrop();
 boolean is_avatar_potion(item it);	//From Veracity\'s "avatar potion" post
-
+string cc_my_path();
 
 // Private Prototypes
 boolean buffMaintain(item source, effect buff, int uses, int turns);
@@ -1350,6 +1350,14 @@ void shrugAT()
 	}
 }
 
+string cc_my_path()
+{
+	// This is for handling the situation briefly after a new path is created so that we can
+	// attempt to use proper names.
+	// Most of the time, it is just a pointless wrapper.
+	// This is only needed in mainline files, path specific files have already been supported.
+	return my_path();
+}
 
 boolean haveSpleenFamiliar()
 {

@@ -1,4 +1,4 @@
-script "chateaumantegna.ash"
+script "cc_chateaumantegna.ash"
 
 boolean chateaumantegna_available()
 {
