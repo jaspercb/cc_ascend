@@ -2077,6 +2077,14 @@ boolean questOverride()
 		set_property("cc_hiddencity", "finished");
 	}
 
+	if(get_property("sidequestArenaCompleted") != "none")
+	{
+		if(get_property("flyeredML").to_int() < 10000)
+		{
+			print("Found completed Island War Arena but flyeredML does not match (12)");
+			set_property("flyeredML", 10000);
+		}
+	}
 
 	if(get_property("sidequestOrchardCompleted") != "none")
 	{
@@ -4597,7 +4605,7 @@ boolean LX_getDigitalKey()
 	{
 		return false;
 	}
-	if(((get_property("cc_war") != "finished") && (item_amount($item[rock band flyers]) == 0)))
+	if((get_property("cc_war") != "finished") && (item_amount($item[rock band flyers]) == 0) && (item_amount($item[jam band flyers]) == 0))
 	{
 		return false;
 	}
@@ -5012,7 +5020,7 @@ boolean Lsc_flyerSeals()
 	{
 		return false;
 	}
-	if(item_amount($item[Rock Band Flyers]) == 0)
+	if((item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[Jam Band Flyers]) == 0))
 	{
 		return false;
 	}
@@ -6595,24 +6603,32 @@ boolean L12_preOutfit()
 
 boolean L12_flyerFinish()
 {
-	if(item_amount($item[rock band flyers]) == 0)
+	if((item_amount($item[rock band flyers]) == 0) && (item_amount($item[jam band flyers]) == 0))
 	{
 		return false;
 	}
 	if(get_property("flyeredML").to_int() < 10000)
 	{
-		return false;
+		if(get_property("sidequestArenaCompleted") != "none")
+		{
+			print("Sidequest Arena detected as completed but flyeredML is not appropriate, fixing.", "red");
+			set_property("flyeredML", 10000);
+		}
+		else
+		{
+			return false;
+		}
 	}
 	if(get_property("cc_ignoreFlyer").to_boolean())
 	{
 		return false;
 	}
-	print("Done with this Rock Band crap", "blue");
+	print("Done with this Flyer crap", "blue");
 	warOutfit();
 	visit_url("bigisland.php?place=concert&pwd");
 
 	cli_execute("refresh inv");
-	if(item_amount($item[Rock Band Flyers]) == 0)
+	if((item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[Jam Band Flyers]) == 0))
 	{
 		change_mcd(0);
 		return true;
@@ -9670,7 +9686,7 @@ boolean doTasks()
 	}
 	wait(1);
 	print("Turn(" + my_turncount() + "): Starting with " + my_adventures() + " left and " + pulls_remaining() + " pulls left at Level: " + my_level(), "cyan");
-	if((item_amount($item[rock band flyers]) == 1) && (get_property("flyeredML").to_int() < 10000))
+	if(((item_amount($item[rock band flyers]) == 1) || (item_amount($item[jam band flyers]) == 1)) && (get_property("flyeredML").to_int() < 10000))
 	{
 		print("Still flyering: " + get_property("flyeredML"), "blue");
 	}
@@ -10403,7 +10419,7 @@ boolean doTasks()
 		return true;
 	}
 
-	if((my_level() >= 12) && (item_amount($item[rock band flyers]) == 0) && (get_property("flyeredML").to_int() < 10000) && ((get_property("cc_hiddenapartment") == "0") || (get_property("cc_hiddenapartment") == "finished")) && (have_effect($effect[ultrahydrated]) == 0))
+	if((my_level() >= 12) && (item_amount($item[rock band flyers]) == 0) && (item_amount($item[jam band flyers]) == 0) && (get_property("flyeredML").to_int() < 10000) && ((get_property("cc_hiddenapartment") == "0") || (get_property("cc_hiddenapartment") == "finished")) && (have_effect($effect[ultrahydrated]) == 0))
 	{
 		if(L12_getOutfit())
 		{
@@ -11256,7 +11272,7 @@ boolean doTasks()
 		return true;
 	}
 
-	if((item_amount($item[rock band flyers]) == 1) && (get_property("flyeredML").to_int() < 10000))
+	if(((item_amount($item[rock band flyers]) == 1) || (item_amount($item[jam band flyers]) == 1)) && (get_property("flyeredML").to_int() < 10000))
 	{
 		print("Not enough flyer ML but we are ready for the war... uh oh", "blue");
 		if(my_path() == "Picky")

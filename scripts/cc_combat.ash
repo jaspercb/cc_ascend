@@ -593,12 +593,17 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "flyers")) && (my_location() != $location[The Battlefield (Frat Uniform)]))
+	if((!contains_text(combatState, "flyers")) && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]))
 	{
 		if((item_amount($item[rock band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
 		{
 			set_property("cc_combatHandler", combatState + "(flyers)");
 			return "item rock band flyers";
+		}
+		if((item_amount($item[jam band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
+		{
+			set_property("cc_combatHandler", combatState + "(flyers)");
+			return "item jam band flyers";
 		}
 	}
 
@@ -1362,12 +1367,17 @@ string ccsJunkyard(int round, string opp, string text)
 	}
 
 
-	if((!contains_text(combatState, "flyers")) && (my_location() != $location[The Battlefield (Frat Uniform)]))
+	if((!contains_text(combatState, "flyers")) && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]))
 	{
 		if((item_amount($item[rock band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
 		{
 			set_property("cc_combatHandler", combatState + "(flyers)");
 			return "item rock band flyers";
+		}
+		if((item_amount($item[jam band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
+		{
+			set_property("cc_combatHandler", combatState + "(flyers)");
+			return "item jam band flyers";
 		}
 	}
 
@@ -1591,12 +1601,17 @@ string cc_edCombatHandler(int round, string opp, string text)
 	}
 
 
-	if((!contains_text(combatState, "flyers")) && (my_location() != $location[The Battlefield (Frat Uniform)]))
+	if((!contains_text(combatState, "flyers")) && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]))
 	{
 		if((item_amount($item[rock band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
 		{
 			set_property("cc_combatHandler", combatState + "(flyers)");
 			return "item rock band flyers";
+		}
+		if((item_amount($item[jam band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
+		{
+			set_property("cc_combatHandler", combatState + "(flyers)");
+			return "item jam band flyers";
 		}
 	}
 
@@ -2117,7 +2132,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		return "item short writ of habeas corpus";
 	}
 
-	if(!ed_needShop() && (my_level() >= 10) && (item_amount($item[Rock Band Flyers]) == 0) && (my_location() != $location[The Hidden Apartment Building]) && (type != to_phylum("Undead")) && (my_mp() > 20) && (my_location() != $location[Barrrney\'s Barrr]))
+	if(!ed_needShop() && (my_level() >= 10) && (item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[jam Band Flyers]) == 0) && (my_location() != $location[The Hidden Apartment Building]) && (type != to_phylum("Undead")) && (my_mp() > 20) && (my_location() != $location[Barrrney\'s Barrr]))
 	{
 		set_property("cc_edStatus", "dying");
 	}
@@ -2127,7 +2142,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 #		if((my_location() == $location[The Secret Government Laboratory]) || !ed_needShop())
 		if(my_location() == $location[The Secret Government Laboratory])
 		{
-			if(item_amount($item[Rock Band Flyers]) == 0)
+			if((item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[Jam Band Flyers]) == 0))
 			{
 				if((!contains_text(combatState, "love stinkbug")) && get_property("lovebugsUnlocked").to_boolean())
 				{
