@@ -1512,6 +1512,10 @@ void doBedtime()
 				print("If you have the Frat Warrior Fatigues, rain man an Astronomer? Skinflute?", "blue");
 			}
 		}
+		if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5))
+		{
+			print("You have " + (5 - get_property("_machineTunnelsAdv").to_int()) + " fights in The Deep Machine Tunnels that you should use!", "blue");
+		}
 		abort("You have a rain man to cast, please do so before overdrinking and run me again.");
 	}
 
@@ -1526,7 +1530,7 @@ void doBedtime()
 		doHottub();
 	}
 
-	if(!get_property("_mayoTankSoaked").to_boolean())
+	if(!get_property("_mayoTankSoaked").to_boolean() && (cc_get_campground() contains $item[Portable Mayo Clinic]))
 	{
 		visit_url("shop.php?action=bacta&whichshop=mayoclinic");
 	}
@@ -1792,6 +1796,10 @@ void doBedtime()
 	if(my_inebriety() <= inebriety_limit())
 	{
 		print("Goodnight done, please make sure to handle your overdrinking, then you can run me again.", "blue");
+		if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5))
+		{
+			print("You have " + (5 - get_property("_machineTunnelsAdv").to_int()) + " fights in The Deep Machine Tunnels that you should use!", "blue");
+		}
 		if((my_inebriety() <= inebriety_limit()) && (my_rain() >= 50) && (my_adventures() >= 1))
 		{
 			if(item_amount($item[beer helmet]) == 0)
@@ -1812,7 +1820,6 @@ void doBedtime()
 		{
 			print("You can drink a Ye Olde Meade as your nightcap! Yay!", "blue");
 		}
-
 		abort("You need to overdrink and then run me again. Beep.");
 	}
 	else
@@ -9544,15 +9551,6 @@ boolean doTasks()
 		set_property("cc_war", "done");
 	}
 
-	if((my_level() >= 12) && (get_property("cc_battleFratplant") == ""))
-	{
-		warOutfit();
-		warAdventure();
-		oldPeoplePlantStuff();
-		set_property("cc_battleFratplant", "plant");
-		return true;
-	}
-
 	if(L11_getBeehive())
 	{
 		return true;
@@ -9605,7 +9603,7 @@ boolean doTasks()
 		}
 	}
 
-	if((get_property("cc_battleFratplant") == "plant") && ((get_property("hippiesDefeated").to_int() < 64) && (get_property("fratboysDefeated").to_int() < 64)) && (my_level() >= 12))
+	if((get_property("hippiesDefeated").to_int() < 64) && (get_property("fratboysDefeated").to_int() < 64) && (my_level() >= 12))
 	{
 		print("First 64 combats. To orchard/lighthouse", "blue");
 		warOutfit();
@@ -9613,7 +9611,7 @@ boolean doTasks()
 		return true;
 	}
 
-	if((get_property("cc_battleFratplant") == "plant") && ((get_property("hippiesDefeated").to_int() < 192) && (get_property("fratboysDefeated").to_int() < 192)) && (my_level() >= 12))
+	if((get_property("hippiesDefeated").to_int() < 192) && (get_property("fratboysDefeated").to_int() < 192) && (my_level() >= 12))
 	{
 		print("Getting to the nunnery/junkyard", "blue");
 		warOutfit();
