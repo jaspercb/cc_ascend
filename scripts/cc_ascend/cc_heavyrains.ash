@@ -73,11 +73,6 @@ void hr_initializeSettings()
 		set_property("cc_day1_desk", "");
 		set_property("cc_day1_skills", "");
 	}
-	else
-	{
-		set_property("cc_hasrainman", "no");
-		set_property("cc_haslightningbolt", "no");
-	}
 }
 
 boolean hr_handleFamiliar(familiar fam)
@@ -92,20 +87,13 @@ boolean hr_handleFamiliar(familiar fam)
 
 boolean routineRainManHandler()
 {
+	if(!have_skill($skill[Rain Man]) || (cc_my_path() != "Heavy Rains"))
+	{
+		return false;
+	}
 #	if(my_rain() > (92 - (12 * my_daycount())))
 	if((my_rain() > (92 - (7 * (my_daycount() - 1)))) && (have_effect($effect[ultrahydrated]) == 0) && (get_property("cc_nunsTrickReady") != "yes") && (get_property("cc_nunsTrickActive") != "yes"))
 	{
-#		abort("Need to rain man something, do it manually and come back to me! Weee");
-#		if(item_amount($item[evilometer]) > 0)
-#		{
-#			if((get_property("cyrptCrannyEvilness").to_int() > 0) && (get_property("cc_hugeghuol") == ""))
-#			{
-#				set_property("cc_hugeghuol", "1");
-#				rainManSummon("huge swarm of ghuol whelps", true, false);
-#				return true;
-#			}
-#		}
-
 		if(get_property("cc_mountainmen") == "")
 		{
 			set_property("cc_mountainmen", "1");
@@ -195,7 +183,6 @@ void hr_initializeDay(int day)
 				visit_url("choice.php?pwd&whichchoice=968&option=3", true);
 				visit_url("choice.php?pwd&whichchoice=968&option=4", true);
 				set_property("choiceAdventure968", "2");
-				set_property("cc_hasrainman", "true");
 			}
 
 			if(item_amount($item[lightning milk]) > 0)
@@ -205,7 +192,6 @@ void hr_initializeDay(int day)
 				visit_url("choice.php?pwd&whichchoice=969&option=1", true);
 				visit_url("choice.php?pwd&whichchoice=969&option=7", true);
 				set_property("choiceAdventure969", "2");
-				set_property("cc_haslightningbolt", "true");
 			}
 
 			if(item_amount($item[miniature life preserver]) == 0)
@@ -296,7 +282,6 @@ boolean doHRSkills()
 			runChoice(page);
 			if(get_property("choiceAdventure968") == "1")
 			{
-				set_property("cc_hasrainman", "true");
 				set_property("choiceAdventure968", "3");
 			}
 			else if(get_property("choiceAdventure968") == "3")
@@ -338,7 +323,6 @@ boolean doHRSkills()
 			}
 			else if(get_property("choiceAdventure969") == "1")
 			{
-				set_property("cc_haslightningbolt", "true");
 				set_property("choiceAdventure969", "7");
 			}
 			else if(get_property("choiceAdventure969") == "7")

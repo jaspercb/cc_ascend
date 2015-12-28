@@ -77,10 +77,49 @@ boolean settingFixer()
 	{
 		set_property("cc_100familiar", false);
 	}
+	if(get_property("cc_ballroomsong") == "set")
+	{
+		set_property("cc_ballroomsong", "finished");
+	}
+	if(get_property("cc_killingjar") == "done")
+	{
+		set_property("cc_killingjar", "finished");
+	}
 	if(get_property("cc_useCubeling") == "yes")
 	{
 		set_property("cc_useCubeling", true);
 	}
+	if((get_property("cc_gremlinclap") == "used") && !contains_text("cc_gremlinBanishes", "(" + $skill[Thunder Clap] + ")"))
+	{
+		set_property("cc_gremlinBanishes", get_property("cc_gremlinBanishes") + "(" + $skill[Thunder Clap] + ")");
+		set_property("cc_gremlinclap", "");
+	}
+	if((get_property("cc_gremlinbatter") == "used") && !contains_text("cc_gremlinBanishes", "(" + $skill[Batter Up!] + ")"))
+	{
+		set_property("cc_gremlinBanishes", get_property("cc_gremlinBanishes") + "(" + $skill[Batter Up!] + ")");
+		set_property("cc_gremlinbatter", "");
+	}
+	if((get_property("cc_gremlinlouder") == "used") && !contains_text("cc_gremlinBanishes", "(" + $item[Louder Than Bomb] + ")"))
+	{
+		set_property("cc_gremlinBanishes", get_property("cc_gremlinBanishes") + "(" + $item[Louder Than Bomb] + ")");
+		set_property("cc_gremlinlouder", "");
+	}
+	if((get_property("cc_gremlinpants") == "used") && !contains_text("cc_gremlinBanishes", "(" + $skill[Talk About Politics] + ")"))
+	{
+		set_property("cc_gremlinBanishes", get_property("cc_gremlinBanishes") + "(" + $skill[Talk About Politics] + ")");
+		set_property("cc_gremlinpants", "");
+	}
+	if((get_property("cc_gremlintennis") == "used") && !contains_text("cc_gremlinBanishes", "(" + $item[Tennis Ball] + ")"))
+	{
+		set_property("cc_gremlinBanishes", get_property("cc_gremlinBanishes") + "(" + $item[Tennis Ball] + ")");
+		set_property("cc_gremlintennis", "");
+	}
+	if(get_property("cc_sonata") == "finished")
+	{
+		set_property("cc_sonofa", "finished");
+		set_property("cc_sonata", "");
+	}
+
 	if(get_property("cc_useCubeling") == "no")
 	{
 		set_property("cc_useCubeling", false);

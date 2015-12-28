@@ -37,6 +37,8 @@ boolean LX_spookyBedroomCombat();
 boolean LX_getDigitalKey();
 boolean LX_guildUnlock();
 boolean LX_hardcoreFoodFarm();
+boolean LX_attemptPowerLevel();
+boolean LX_bitchinMeatcar();
 
 boolean Lsc_flyerSeals();
 
@@ -79,6 +81,8 @@ boolean L10_ground();
 boolean L10_topFloor();
 boolean L10_holeInTheSkyUnlock();
 boolean L10_holeInTheSky();
+boolean L11_palindome();
+boolean L11_hiddenCity();
 boolean L11_blackMarket();
 boolean L11_forgedDocuments();
 boolean L11_aridDesert();
@@ -92,6 +96,7 @@ boolean L11_unlockPyramid();
 boolean L11_unlockEd();
 boolean L11_defeatEd();
 boolean L11_getBeehive();
+boolean L12_lastDitchFlyer();
 boolean L12_flyerFinish();
 boolean L12_preOutfit();
 boolean L12_getOutfit();
@@ -106,6 +111,15 @@ boolean L12_orchardStart();
 boolean L12_finalizeWar();
 boolean L12_nunsTrickGlandGet();
 boolean L13_sorceressDoor();
+boolean L13_towerNSEntrance();
+boolean L13_towerNSContests();
+boolean L13_towerNSHedge();
+boolean L13_towerNSTower();
+boolean L13_towerNSNagamar();
+boolean L13_towerNSTransition();
+boolean L13_towerNSFinal();
+boolean L13_ed_councilWarehouse();
+boolean L13_ed_towerHandler();
 boolean questOverride();
 
 

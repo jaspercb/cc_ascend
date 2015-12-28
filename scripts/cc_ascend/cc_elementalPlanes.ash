@@ -127,6 +127,11 @@ boolean elementalPlanes_takeJob(element ele)
 	}
 	else if((ele == $element[cold]) && elementalPlanes_access(ele))
 	{
+		if(get_property("_walfordQuestStartedToday").to_boolean())
+		{
+			return false;
+		}
+
 		string page = visit_url("place.php?whichplace=airport_cold&action=glac_walrus");
 
 		matcher bucket = create_matcher("I'll get you some (\\w+)", page);

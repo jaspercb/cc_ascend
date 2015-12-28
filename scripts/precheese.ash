@@ -58,7 +58,7 @@ void handlePreAdventure(location place)
 	}
 
 
-	if(my_path() == "Actually Ed the Undying")
+	if(my_class() == $class[Ed])
 	{
 		if($locations[The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Defiled Alcove, The Defiled Cranny, The Haunted Ballroom, The Haunted Bathroom, The Haunted Billiards Room, The Haunted Gallery, The Hidden Hospital, Inside the Palindome, The Obligatory Pirate\'s Cove, The Penultimate Fantasy Airship, The Poop Deck, The Spooky Forest, Twin Peak, Wartime Hippy Camp] contains place)
 		{
@@ -126,7 +126,7 @@ void handlePreAdventure(location place)
 
 	if(in_hardcore() && (my_class() == $class[Sauceror]) && (my_mp() < 32))
 	{
-		while((my_meat() > 100) && (my_mp() < 32))
+		while((my_meat() > 2500) && (my_mp() < 32))
 		{
 			if(guild_store_available() && (my_level() >= 5))
 			{

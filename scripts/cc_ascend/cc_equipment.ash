@@ -414,16 +414,16 @@ void equipBaselineWeapon()
 	switch(my_class())
 	{
 	case $class[Seal Clubber]:
-		poss = $items[Meat Tenderizer Is Murder];
+		poss = $items[Seal-Clubbing Club, Meat Tenderizer Is Murder];
 		break;
 	case $class[Turtle Tamer]:
-		poss = $items[Work Is A Four Letter Sword];
+		poss = $items[Turtle Totem, Work Is A Four Letter Sword];
 		break;
 	case $class[Sauceror]:
-		poss = $items[Saucepanic];
+		poss = $items[Saucepan, Saucepanic];
 		break;
 	case $class[Pastamancer]:
-		poss = $items[Hand That Rocks The Ladle];
+		poss = $items[Pasta Spoon, Hand That Rocks The Ladle];
 		break;
 	case $class[Disco Bandit]:
 		poss = $items[Frankly Mr. Shank];
@@ -574,7 +574,7 @@ void equipBaselineAcc2()
 	}
 	foreach thing in poss
 	{
-		if(possessEquipment(thing) && can_equip(thing))
+		if(possessEquipment(thing) && can_equip(thing) && (equipped_item($slot[acc1]) != thing))
 		{
 			toEquip = thing;
 		}
@@ -591,7 +591,7 @@ void equipBaselineAcc3()
 	boolean[item] poss = $items[ring of telling skeletons what to do, Glow-in-the-dark necklace, Glowing Red Eye, Xiblaxian Holo-Wrist-Puter, Badge Of Authority, Numberwang, Barrel Hoop Earring];
 	foreach thing in poss
 	{
-		if(possessEquipment(thing) && can_equip(thing))
+		if(possessEquipment(thing) && can_equip(thing) && (equipped_item($slot[acc1]) != thing) && (equipped_item($slot[acc2]) != thing))
 		{
 			toEquip = thing;
 		}

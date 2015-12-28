@@ -897,7 +897,7 @@ void handlePostAdventure()
 	{
 		print("Fought " + get_property("writingDesksDefeated") + " writing desks.", "blue");
 	}
-	if((last_monster() == $monster[Gaudy Pirate]) && (have_effect($effect[Beaten Up]) == 0))
+	if((last_monster() == $monster[Gaudy Pirate]) && (my_location() == $location[Belowdecks]) && (get_property("lastEncounter") == $monster[Gaudy Pirate]) && (have_effect($effect[Beaten Up]) == 0))
 	{
 		set_property("cc_gaudypiratecount", "" + (get_property("cc_gaudypiratecount").to_int() + 1));
 		print("Fought " + get_property("cc_gaudypiratecount") + " gaudy pirates.", "blue");

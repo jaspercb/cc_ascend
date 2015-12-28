@@ -26,6 +26,7 @@ boolean getDiscoStyle(int choice);
 int dreamJarDrops();
 int powderedGoldDrops();
 int grimTaleDrops();
+int maxSealSummons();
 string statCard();
 effect whatStatSmile();
 void tootGetMeat();
@@ -85,6 +86,7 @@ void woods_questStart();			//From Bale\'s woods.ash relay mod.
 int howLongBeforeHoloWristDrop();
 boolean is_avatar_potion(item it);	//From Veracity\'s "avatar potion" post
 string cc_my_path();
+boolean lastAdventureSpecialNC();
 
 // Private Prototypes
 boolean buffMaintain(item source, effect buff, int uses, int turns);
@@ -237,14 +239,14 @@ int internalQuestStatus(string prop)
 
 int solveCookie()
 {
-	if(get_counters("Fortune Cookie", 0, 250) != "Fortune Cookie")
+	if(!contains_text(get_counters("Fortune Cookie", 0, 250), "Fortune Cookie"))
 	{
 		return -1;
 	}
 	int i=0;
 	while(i < 250)
 	{
-		if(get_counters("Fortune Cookie", 0, i) == "Fortune Cookie")
+		if(contains_text(get_counters("Fortune Cookie", 0, i), "Fortune Cookie"))
 		{
 			set_property("cc_cookie", my_turncount() + i);
 			break;
@@ -442,6 +444,25 @@ skill preferredLibram()
 	return $skill[none];
 }
 
+
+boolean lastAdventureSpecialNC()
+{
+	if(my_class() == $class[Turtle Tamer])
+	{
+		if($strings[Nantucket Snapper, Blue Monday, Capital!, Training Day, Boxed In, Duel Nature, Slow Food, A Rolling Turtle Gathers No Moss, The Horror..., Slow Road to Hell, C\'mere\, Little Fella, The Real Victims, Like That Time in Tortuga, Cleansing your Palette, Harem Scarum, Turtle in peril, No Man\, No Hole, Slow and Steady Wins the Brawl, Stormy Weather, Turtles of the Universe, O Turtle Were Art Thou, Allow 6-8 Weeks For Delivery, Kick the Can, Turtles All The Way Around, More eXtreme Than Usual, Jewel in the Rough, The worst kind of drowning, Even Tamer Than Usual, Never Break the Chain, Close\, but Yes Cigar, Armchair Quarterback, This Turtle Rocks!, Really Sticking Her Neck Out, It Came from Beneath the Sewer? Great!, Don\'t Be Alarmed\, Now, Puttin\' it on Wax, More Like... Hurtle, Musk! Musk! Musk!, Silent Strolling] contains get_property("lastEncounter"))
+		{
+			return true;
+		}
+	}
+
+	//I suppose we really do not need to validate that we have a Haunted Doghouse actually.
+	if($strings[Wooof! Wooooooof!, Playing Fetch*, Your Dog Found Something Again, Dog Diner Afternoon, Labrador Conspirator, Doggy Heaven, Lava Dogs, Fruuuuuuuit, Boooooze Hound, Baker\'s Dogzen, Dog Needs Food Badly, Ratchet-catcher, Something About Hot Wings, Seeing-Eyes Dog, Carpenter Dog, Are They Made of Real Dogs?, Gunbowwowder, It Isn\'t a Poodle] contains get_property("lastEncounter"))
+	{
+		return true;
+	}
+
+	return false;
+}
 
 int doRest()
 {
@@ -656,9 +677,18 @@ void handleIceSculpture()
 	}
 }
 
+int maxSealSummons()
+{
+	if(item_amount($item[Claw of the Infernal Seal]) > 0)
+	{
+		return 10;
+	}
+	return 5;
+}
+
 void handleSealArmored()
 {
-	if((get_property("_sealsSummoned").to_int() < 5) && (item_amount($item[figurine of an armored seal]) > 0) && (item_amount($item[seal-blubber candle]) >= 10))
+	if((get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of an armored seal]) > 0) && (item_amount($item[seal-blubber candle]) >= 10))
 	{
 		visit_url("inv_use.php?pwd=&whichitem=3904&checked=1");
 		adv1($location[Noob Cave], 1, "cc_combatHandler");
@@ -670,7 +700,7 @@ void handleSealArmored()
 }
 void handleSealAncient()
 {
-	if((get_property("_sealsSummoned").to_int() < 5) && (item_amount($item[figurine of an ancient seal]) > 0) && (item_amount($item[seal-blubber candle]) >= 3))
+	if((get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of an ancient seal]) > 0) && (item_amount($item[seal-blubber candle]) >= 3))
 	{
 		visit_url("inv_use.php?pwd=&whichitem=3905&checked=1");
 		adv1($location[Noob Cave], 1, "cc_combatHandler");
@@ -683,27 +713,27 @@ void handleSealAncient()
 void handleSealElement(element flavor)
 {
 	string page = "";
-	if((flavor == $element[hot]) && (get_property("_sealsSummoned").to_int() < 5) && (item_amount($item[figurine of a charred seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
+	if((flavor == $element[hot]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a charred seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
 		page = visit_url("inv_use.php?pwd=&whichitem=3909&checked=1");
 #		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
-	if((flavor == $element[cold]) && (get_property("_sealsSummoned").to_int() < 5) && (item_amount($item[figurine of a cold seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
+	if((flavor == $element[cold]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a cold seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
 		page = visit_url("inv_use.php?pwd=&whichitem=3910&checked=1");
 #		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
-	if((flavor == $element[sleaze]) && (get_property("_sealsSummoned").to_int() < 5) && (item_amount($item[figurine of a slippery seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
+	if((flavor == $element[sleaze]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a slippery seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
 		page = visit_url("inv_use.php?pwd=&whichitem=3911&checked=1");
 #		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
-	if((flavor == $element[spooky]) && (get_property("_sealsSummoned").to_int() < 5) && (item_amount($item[figurine of a shadowy seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
+	if((flavor == $element[spooky]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a shadowy seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
 		page = visit_url("inv_use.php?pwd=&whichitem=3907&checked=1");
 #		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
-	if((flavor == $element[stench]) && (get_property("_sealsSummoned").to_int() < 5) && (item_amount($item[figurine of a stinking seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
+	if((flavor == $element[stench]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a stinking seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
 		page = visit_url("inv_use.php?pwd=&whichitem=3908&checked=1");
 #		adv1($location[Noob Cave], 1, "cc_combatHandler");

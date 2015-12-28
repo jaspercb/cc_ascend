@@ -284,6 +284,29 @@ string cc_combatHandler(int round, string opp, string text)
 		return "attack with weapon";
 	}
 
+	if(!contains_text(combatState, "abstraction") && in_ronin())
+	{
+		if((item_amount($item[Abstraction: Sensation]) > 0) && (enemy == $monster[Performer of Actions]))
+		{
+			#	Change +100% Moxie to +100% Init
+			set_property("cc_combatHandler", combatState + "(abstraction)");
+			return "item abstraction: sensation";
+		}
+		if((item_amount($item[Abstraction: Thought]) > 0) && (enemy == $monster[Perceiver of Sensations]))
+		{
+			# Change +100% Myst to +100% Items
+			set_property("cc_combatHandler", combatState + "(abstraction)");
+			return "item abstraction: thought";
+		}
+		if((item_amount($item[Abstraction: Action]) > 0) && (enemy == $monster[Thinker of Thoughts]))
+		{
+			# Change +100% Muscle to +10 Familiar Weight
+			set_property("cc_combatHandler", combatState + "(abstraction)");
+			return "item abstraction: action";
+		}
+	}
+
+
 	if((!contains_text(combatState, "tunneldownwards")) && (have_effect($effect[Shape of...Mole!]) > 0) && (my_location() == $location[Mt. Molehill]))
 	{
 		set_property("cc_combatHandler", combatState + "(tunneldownwards)");
@@ -533,7 +556,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 
 
-	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= 40) && ((get_property("cc_hasrainman") != "true") || get_property("cc_100familiar").to_boolean()))
+	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= 40) && (!have_skill($skill[Rain Man]) || get_property("cc_100familiar").to_boolean()))
 	{
 		if((enemy == $monster[writing desk]) && (my_location() == $location[The Haunted Library]))
 		{
@@ -1119,119 +1142,56 @@ string cc_combatHandler(int round, string opp, string text)
 #	return get_ccs_action(round);
 }
 
-/*
-void handleBanish(monster enemy, skill banisher)
-{
-	string banishes = get_property("cc_banishes");
-	if(banishes != "")
-	{
-		banishes = banishes + ", ";
-	}
-	banishes = banishes + "(" + my_daycount() + ":" + enemy + ":" + banisher + ":" + my_turncount() + ")";
-	set_property("cc_banishes", banishes);
-}
-
-void handleBanish(monster enemy, item banisher)
-{
-	string banishes = get_property("cc_banishes");
-	if(banishes != "")
-	{
-		banishes = banishes + ", ";
-	}
-	banishes = banishes + "(" + my_daycount() + ":" + enemy + ":" + banisher + ":" + my_turncount() + ")";
-	set_property("cc_banishes", banishes);
-}
-
-
-void handleYellowRay(monster enemy, skill yellowRay)
-{
-	string yellow = get_property("cc_yellowRays");
-	if(yellow != "")
-	{
-		yellow = yellow + ", ";
-	}
-	yellow = yellow + "(" + my_daycount() + ":" + enemy + ":" + yellowRay + ":" + my_turncount() + ")";
-	set_property("cc_yellowRays", yellow);
-}
-
-void handleYellowRay(monster enemy, item yellowRay)
-{
-	string yellow = get_property("cc_yellowRays");
-	if(yellow != "")
-	{
-		yellow = yellow + ", ";
-	}
-	yellow = yellow + "(" + my_daycount() + ":" + enemy + ":" + yellowRay + ":" + my_turncount() + ")";
-	set_property("cc_yellowRays", yellow);
-}
-*/
 string findBanisher(string opp)
 {
 	print("In findBanisher for: " + opp, "green");
 	monster enemy = to_monster(opp);
-	if(get_property("cc_gremlinlouder") == "")
+
+	foreach itm in $items[Louder Than Bomb, Tennis Ball]
 	{
-		set_property("cc_gremlinlouder", "used");
-		if(item_amount($item[louder than bomb]) > 0)
+		if((!contains_text(get_property("cc_gremlinBanishes"), itm)) && (item_amount(itm) > 0))
 		{
-			handleTracker(enemy, $item[louder than bomb], "cc_banishes");
-			return "item louder than bomb";
+			set_property("cc_gremlinBanishes", get_property("cc_gremlinBanishes") + "(" + itm + ")");
+			handleTracker(enemy, itm, "cc_banishes");
+			return "item " + itm;
 		}
 	}
 
-	if(get_property("cc_gremlintennis") == "")
+	foreach act in $skills[Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation]
 	{
-		set_property("cc_gremlintennisr", "used");
-		if(item_amount($item[tennis ball]) > 0)
+		if((!contains_text(get_property("cc_gremlinBanishes"), act)) && have_skill(act) && (my_mp() >= mp_cost(act)) && (my_thunder() >= thunder_cost(act)) && have_skill(act))
 		{
-			handleTracker(enemy, $item[tennis ball], "cc_banishes");
-			return "item tennis ball";
+			if((act == $skill[Batter Up!]) && (my_fury() < 5))
+			{
+				continue;
+			}
+			if((act == $skill[Talk About Politics]) && (get_property("_pantsgivingBanish").to_int() >= 5))
+			{
+				continue;
+			}
+			set_property("cc_gremlinBanishes", get_property("cc_gremlinBanishes") + "(" + act + ")");
+			handleTracker(enemy, act, "cc_banishes");
+			return "skill " + act;
 		}
 	}
 
-	if(get_property("cc_gremlinpants") == "")
-	{
-		set_property("cc_gremlinpants", "used");
-		if(have_skill($skill[talk about politics]))
-		{
-			handleTracker(enemy, $skill[talk about politics], "cc_banishes");
-			return "skill talk about politics";
-		}
-	}
-	if(get_property("cc_gremlinbatter") == "")
-	{
-		set_property("cc_gremlinbatter", "used");
-		if((have_skill($skill[batter up!])) && (my_fury() >= 5))
-		{
-			handleTracker(enemy, $skill[batter up!], "cc_banishes");
-			return "skill batter up!";
-		}
-	}
-	if(get_property("cc_gremlinclap") == "")
-	{
-		set_property("cc_gremlinclap", "used");
-		if(have_skill($skill[thunder clap]))
-		{
-			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
-			return "skill thunder clap";
-		}
-	}
-
-	if((my_thunder() >= 40) && have_skill($skill[thunder clap]))
+	if((my_thunder() >= thunder_cost($skill[Thunder Clap])) && have_skill($skill[thunder clap]))
 	{
 		return "skill thunder clap";
 	}
-	if((have_skill($skill[talk about politics])) && (get_property("_pantsgivingBanish").to_int() < 5))
-	{
-		return "skill talk about politics";
-	}
 
-	if((my_class() == $class[Ed]) && have_skill($skill[Curse of Vacation]) && (my_mp() >= 35))
+	if(have_skill($skill[Lunging Thrust-Smack]) && (my_mp() >= mp_cost($skill[Lunging Thrust-Smack])))
 	{
-		handleTracker(enemy, $skill[Curse of Vacation], "cc_banishes");
-		return "skill curse of vacation";
+		return "skill lunging thrust-smack";
 	}
-
+	if(have_skill($skill[Storm of the Scarab]) && (my_mp() >= mp_cost($skill[Storm of the Scarab])))
+	{
+		return "skill Storm of the Scarab";
+	}
+	if(have_skill($skill[Lunge Smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])))
+	{
+		return "skill lunge smack";
+	}
 	return "attack with weapon";
 }
 
@@ -1408,13 +1368,17 @@ string ccsJunkyard(int round, string opp, string text)
 
 	if(!get_property("cc_gremlinMoly").to_boolean())
 	{
-		if(have_skill($skill[Lunging Thrust-Smack]) && (my_mp() >= 8))
+		if(have_skill($skill[Lunging Thrust-Smack]) && (my_mp() >= mp_cost($skill[Lunging Thrust-Smack])))
 		{
 			return "skill lunging thrust-smack";
 		}
-		if(have_skill($skill[Storm of the Scarab]) && (my_mp() >= 8))
+		if(have_skill($skill[Storm of the Scarab]) && (my_mp() >= mp_cost($skill[Storm of the Scarab])))
 		{
 			return "skill Storm of the Scarab";
+		}
+		if(have_skill($skill[Lunge Smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])))
+		{
+			return "skill lunge smack";
 		}
 		return "attack with weapon";
 	}

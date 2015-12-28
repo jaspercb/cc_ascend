@@ -708,7 +708,7 @@ boolean cc_ascendIntoCS()
 
 boolean cc_cheesePostCS()
 {
-	if(!didWePlantHere($location[Barf Mountain]))
+	if(!didWePlantHere($location[Barf Mountain]) && florist_available())
 	{
 		ccAdv(1, $location[Barf Mountain]);
 		cli_execute("florist plant stealing magnolia");
@@ -877,7 +877,7 @@ boolean cc_cheesePostCSWalford()
 
 	getDiscoStyle(6);
 
-	//Equip Ice Hole Equipment	
+	//Equip Ice Hole Equipment
 
 	if(!didWePlantHere($location[The Ice Hole]) && (my_location() == $location[The Ice Hole]))
 	{
@@ -895,7 +895,7 @@ boolean cc_cheesePostCSWalford()
 	//Assume mayfly
 	//Until adventures > 0, Ice Hotel
 	//Set Choice == 5, when previous adv == choice 5, set choice 4
-	
+
 	//set choice back to 0
 
 

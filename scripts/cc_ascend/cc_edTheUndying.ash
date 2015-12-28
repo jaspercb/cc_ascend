@@ -20,15 +20,7 @@ void ed_initializeSettings()
 		set_property("cc_grimstoneFancyOilPainting", false);
 		set_property("cc_grimstoneOrnateDowsingRod", false);
 		set_property("cc_holeinthesky", false);
-		set_property("cc_lashes_day1", "");
-		set_property("cc_lashes_day2", "");
-		set_property("cc_lashes_day3", "");
-		set_property("cc_lashes_day4", "");
 		set_property("cc_lashes", "");
-		set_property("cc_renenutet_day1", "");
-		set_property("cc_renenutet_day2", "");
-		set_property("cc_renenutet_day3", "");
-		set_property("cc_renenutet_day4", "");
 		set_property("cc_renenutet", "");
 		set_property("cc_semisub", "pantry");
 		set_property("cc_useCubeling", false);
@@ -164,6 +156,132 @@ void ed_initializeDay(int day)
 			set_property("cc_day4_init", "finished");
 		}
 	}
+}
+
+boolean L13_ed_towerHandler()
+{
+	if(my_class() != $class[Ed])
+	{
+		return false;
+	}
+	if(get_property("cc_sorceress") != "")
+	{
+		return false;
+	}
+	if(item_amount($item[Thwaitgold Scarab Beetle Statuette]) > 0)
+	{
+		set_property("cc_sorceress", "finished");
+		council();
+		return true;
+	}
+
+	council();
+	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_10_sorcfight"))
+	{
+		print("We found the jerkwad!! Revenge!!!!!", "blue");
+
+		string page = "place.php?whichplace=nstower&action=ns_10_sorcfight";
+		ccAdvBypass(page, $location[Noob Cave]);
+
+		if(item_amount($item[Thwaitgold Scarab Beetle Statuette]) > 0)
+		{
+			set_property("cc_sorceress", "finished");
+			council();
+		}
+		return true;
+	}
+	else
+	{
+		if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+		{
+			doRest();
+			cli_execute("scripts/postcheese.ash");
+			return true;
+		}
+		print("Please check your quests, but you might just not be at level 13 yet in order to continue.", "red");
+		if((my_level() < 13) && get_property("spookyAirportAlways").to_boolean())
+		{
+			boolean tryJungle = false;
+			if(have_effect($effect[Jungle Juiced]) > 0)
+			{
+				tryJungle = true;
+			}
+
+			if(((my_inebriety() + 1) < inebriety_limit()) && (item_amount($item[Coinspiracy]) > 0) && (have_effect($effect[Jungle Juiced]) == 0))
+			{
+				buyUpTo(1, $item[Jungle Juice]);
+				drink(1, $item[Jungle Juice]);
+				tryJungle = true;
+			}
+
+			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
+			if(my_primestat() == $stat[Mysticality])
+			{
+				buffMaintain($effect[Perspicacious Pressure], 0, 1, 1);
+				buffMaintain($effect[Glittering Eyelashes], 0, 1, 1);
+				buffMaintain($effect[Erudite], 0, 1, 1);
+			}
+
+			if(tryJungle)
+			{
+				ccAdv(1, $location[The Deep Dark Jungle]);
+			}
+			else
+			{
+				if(item_amount($item[Personal Ventilation Unit]) > 0)
+				{
+					equip($slot[acc2], $item[Personal Ventilation Unit]);
+				}
+				ccAdv(1, $location[The Secret Government Laboratory]);
+			}
+			return true;
+		}
+		else
+		{
+			abort("We must be missing a sidequest. We can't find the jerk adventurer.");
+		}
+	}
+
+	return false;
+}
+
+boolean L13_ed_councilWarehouse()
+{
+	if(my_class() != $class[Ed])
+	{
+		return false;
+	}
+	if(get_property("cc_sorceress") != "finished")
+	{
+		return false;
+	}
+
+#	if(item_amount($item[Holy MacGuffin]) == 0)
+	if(item_amount($item[7965]) == 0)
+	{
+		ccAdv(1, $location[The Secret Council Warehouse]);
+	}
+	else
+	{
+		//Complete: Should not get here though.
+		abort("Tried to adventure in the Council Warehouse after finding theMcMuffin.");
+		return false;
+	}
+	while((item_amount($item[Warehouse Map Page]) > 0) && (item_amount($item[Warehouse Inventory Page]) > 0))
+	{
+		#use(item_amount($item[Warehouse Map Page]), $item[Warehouse Map Page]);
+		use(item_amount($item[Warehouse Inventory Page]), $item[Warehouse Inventory Page]);
+	}
+	if(get_property("lastEncounter") == "You Found It!")
+	{
+		council();
+		print("McMuffin is found!", "blue");
+		print("Ed Combats: " + get_property("cc_edCombatCount"), "blue");
+		print("Ed Combat Rounds: " + get_property("cc_edCombatRoundCount"), "blue");
+
+		return false;
+	}
+	return true;
 }
 
 boolean adjustEdHat(string goal)
@@ -664,8 +782,7 @@ boolean ed_eatStuff()
 		drink(1, $item[Highest Bitter]);
 	}
 
-	string cookie = get_counters("Fortune Cookie", 0, 200);
-	if((cookie != "Fortune Cookie") && (get_property("cc_semirare").to_int() < 2))
+	if((!contains_text(get_counters("Fortune Cookie", 0, 200), "Fortune Cookie")) && (get_property("cc_semirare").to_int() < 2))
 	{
 		if((item_amount($item[Clan VIP Lounge Key]) > 0) && (my_meat() >= 500) && (inebriety_limit() == 4) && ((my_inebriety() == 0) || (my_inebriety() == 3)))
 		{
