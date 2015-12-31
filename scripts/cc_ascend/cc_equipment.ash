@@ -472,19 +472,23 @@ void equipBaseline()
 
 	if(my_familiar() != $familiar[none])
 	{
-		if((my_path() != "Heavy Rains") && (item_amount($item[Astral Pet Sweater]) > 0))
-		{
-			equip($item[Astral Pet Sweater]);
-		}
 		if((my_path() == "Heavy Rains") && (item_amount($item[miniature life preserver]) > 0))
 		{
 			equip($item[miniature life preserver]);
 		}
-		if((my_path() != "Heavy Rains") && (item_amount($item[Snow Suit]) > 0))
+		if((my_path() != "Heavy Rains") && (item_amount($item[Astral Pet Sweater]) > 0))
+		{
+			equip($item[Astral Pet Sweater]);
+		}
+		else if((my_path() != "Heavy Rains") && (item_amount($item[Snow Suit]) > 0))
 		{
 			equip($item[Snow Suit]);
 		}
-		if(($items[Snow suit, miniature life preserver] contains equipped_item($slot[familiar])) && !is_familiar_equipment_locked())
+		else if((my_path() != "Heavy Rains") && (item_amount($item[Filthy Child Leash]) > 0))
+		{
+			equip($item[Filthy Child Leash]);
+		}
+		if(($items[astral pet sweater, filthy child leash, miniature life preserver, snow suit] contains equipped_item($slot[familiar])) && !is_familiar_equipment_locked())
 		{
 			lock_familiar_equipment(true);
 		}
@@ -546,7 +550,7 @@ void equipBaseline()
 void equipBaselineAcc1()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Ghost of a Necklace, Astral Mask, Astral Belt, Astral Ring, Astral Bracer, Over-The-Shoulder Folder Holder];
+	boolean[item] poss = $items[Infernal Insoles, Ghost of a Necklace, Astral Mask, Astral Belt, Astral Ring, Astral Bracer, Over-The-Shoulder Folder Holder];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))

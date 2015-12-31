@@ -1693,7 +1693,14 @@ void doBedtime()
 		}
 		if(!get_property("_aprilShower").to_boolean())
 		{
-			cli_execute("shower ice");
+			if(get_property("kingLiberated").to_boolean())
+			{
+				cli_execute("shower ice");
+			}
+			else
+			{
+				cli_execute("shower " + my_primestat());
+			}
 		}
 		if(!get_property("_crimboTree").to_boolean())
 		{
@@ -2118,6 +2125,7 @@ boolean questOverride()
 	{
 		print("Found completed Hidden City (11)");
 		set_property("cc_hiddencity", "finished");
+		set_property("cc_hiddenzones", "finished");
 	}
 
 	if(get_property("sidequestArenaCompleted") != "none")
@@ -3379,7 +3387,7 @@ boolean LX_attemptPowerLevel()
 	{
 		ccAdv(1, $location[VYKEA]);
 	}
-	else if((elementalPlanes_access($element[sleaze])) && (my_level() >= 10))
+	else if((elementalPlanes_access($element[sleaze])) && (my_level() < 11))
 	{
 		ccAdv(1, $location[Sloppy Seconds Diner]);
 	}
@@ -4695,16 +4703,23 @@ boolean L11_defeatEd()
 		visit_url("choice.php?pwd&whichchoice=976&option=1&choiceform1=If+you+say+so...&pwd="+my_hash());
 		visit_url("fight.php");
 		int x = 0;
+		set_property("cc_disableAdventureHandling", "yes");
 		while(x < 7)
 		{
 			x = x + 1;
-			run_combat();
-			#ccAdv(1, $location[Noob Cave]);
-			if(x < 7)
+			print("Hello Ed #" + x + " give me McMuffin please.", "blue");
+			#run_combat();
+			ccAdv(1, $location[Noob Cave]);
+#			if(x < 7)
+#			{
+#				visit_url("fight.php");
+#			}
+			if(have_effect($effect[Beaten Up]) > 0)
 			{
-				visit_url("fight.php");
+				abort("Got Beaten Up by Ed the Undying.");
 			}
 		}
+		set_property("cc_disableAdventureHandling", "no");
 	}
 
 	#if(item_amount($item[Holy MacGuffin]) != 0)
@@ -4965,6 +4980,8 @@ boolean L12_filthworms()
 		return false;
 	}
 	print("Doing the orchard.", "blue");
+
+	handleFamiliar("item");
 
 	if(item_amount($item[Filthworm Hatchling Scent Gland]) > 0)
 	{
@@ -5245,14 +5262,6 @@ void consumeStuff()
 			}
 		}
 
-#		int sockdollagerDrunk = 6;
-#		if(get_property("cc_100familiar").to_boolean())
-#		{
-#			sockdollagerDrunk = 5;
-#		}
-
-#		if((get_property("cc_bat") == "finished") && (get_property("_speakeasyDrinksDrunk") != "1") && (my_mp() > 50))
-#		if((get_property("cc_ballroomsong") == "finished") && (get_property("_speakeasyDrinksDrunk").to_int() == 1) && (my_mp() > mpForOde) && (my_inebriety() == sockdollagerDrunk))
 		if((get_property("cc_ballroomsong") == "finished") && (get_property("_speakeasyDrinksDrunk").to_int() == 1) && (my_mp() >= (mpForOde+30)) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
 			if(item_amount($item[Clan VIP Lounge Key]) > 0)
@@ -5523,29 +5532,102 @@ void consumeStuff()
 			}
 		}
 
+
 		if(in_hardcore() && isGuildClass() && have_skill($skill[Pastamastery]))
 		{
-			if(((my_fullness() + 6) <= fullness_limit()) && (my_level() >= 6) && ovenHandle())
+			int canEat = (fullness_limit() - my_fullness()) / 5;
+			boolean[item] toEat;
+			boolean[item] toPrep;
+
+			if(have_skill($skill[Advanced Saucecrafting]))
 			{
-				if(item_amount($item[Hell Broth]) == 0)
+				toPrep = $items[Bubblin\' Crude, Ectoplasmic Orbs, Salacious Crumbs, Pestopiary, Goat Cheese];
+				toEat = $items[Fettucini Inconnu, Crudles, Spaghetti with Ghost Balls, Agnolotti Arboli, Suggestive Strozzapreti];
+			}
+			else //Pastamastery was checked before we entered this block.
+			{
+				toPrep = $items[Bubblin\' Crude, Ectoplasmic Orbs, Salacious Crumbs, Pestopiary];
+				toEat = $items[Crudles, Spaghetti with Ghost Balls, Agnolotti Arboli, Suggestive Strozzapreti];
+			}
+
+			int haveToEat = 0;
+			foreach it in toEat
+			{
+				haveToEat = haveToEat + item_amount(it);
+			}
+
+			int haveToPrep = 0;
+			foreach it in toPrep
+			{
+				haveToPrep = haveToPrep + item_amount(it);
+			}
+
+			if((canEat > 0) && ((haveToEat + haveToPrep) > canEat))
+			{
+				if(haveToEat < canEat)
 				{
-					while((item_amount($item[Hellion Cube]) > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Hell Broth]) < 2))
+					ovenHandle();
+				}
+				while(haveToEat < canEat)
+				{
+					haveToEat = haveToEat + 1;
+					if((item_amount($item[Goat Cheese]) > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Dry Noodles]) > 0))
 					{
-						cli_execute("make Hell Broth");
+						ccCraft("cook", 1, $item[Goat Cheese], $item[Scrumptious Reagent]);
+						ccCraft("cook", 1, $item[Dry Noodles], $item[Fancy Schmancy Cheese Sauce]);
+					}
+					else if((item_amount($item[Bubblin\' Crude]) > 0) && (item_amount($item[Dry Noodles]) > 0))
+					{
+						ccCraft("cook", 1, $item[Dry Noodles], $item[Bubblin\' Crude]);
+					}
+					else if((item_amount($item[Ectoplasmic Orbs]) > 0) && (item_amount($item[Dry Noodles]) > 0))
+					{
+						ccCraft("cook", 1, $item[Dry Noodles], $item[Ectoplasmic Orbs]);
+					}
+					else if((item_amount($item[Pestopiary]) > 0) && (item_amount($item[Dry Noodles]) > 0))
+					{
+						ccCraft("cook", 1, $item[Dry Noodles], $item[Pestopiary]);
+					}
+					else if((item_amount($item[Salacious Crumbs]) > 0) && (item_amount($item[Dry Noodles]) > 0))
+					{
+						ccCraft("cook", 1, $item[Dry Noodles], $item[Salacious Crumbs]);
 					}
 				}
-				while((item_amount($item[Hell Broth]) > 0) && (item_amount($item[Dry Noodles]) > 0) && (item_amount($item[Hell Ramen]) < 2))
+				dealWithMilkOfMagnesium(true);
+				foreach it in toEat
 				{
-					cli_execute("make Hell Ramen");
-				}
-
-				while((item_amount($item[Hell Ramen]) > 0) && ((my_fullness() + 6) <= fullness_limit()))
-				{
-					dealWithMilkOfMagnesium(true);
-					ccEat(1, $item[Hell Ramen]);
+					while((canEat > 0) && (item_amount(it) > 0))
+					{
+						ccEat(1, it);
+						canEat = canEat - 1;
+					}
 				}
 			}
 		}
+
+#		if(in_hardcore() && isGuildClass() && have_skill($skill[Pastamastery]))
+#		{
+#			if(((my_fullness() + 6) <= fullness_limit()) && (my_level() >= 6) && ovenHandle())
+#			{
+#				if(item_amount($item[Hell Broth]) == 0)
+#				{
+#					while((item_amount($item[Hellion Cube]) > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Hell Broth]) < 2))
+#					{
+#						cli_execute("make Hell Broth");
+#					}
+#				}
+#				while((item_amount($item[Hell Broth]) > 0) && (item_amount($item[Dry Noodles]) > 0) && (item_amount($item[Hell Ramen]) < 2))
+#				{
+#					cli_execute("make Hell Ramen");
+#				}
+#
+#				while((item_amount($item[Hell Ramen]) > 0) && ((my_fullness() + 6) <= fullness_limit()))
+#				{
+#					dealWithMilkOfMagnesium(true);
+#					ccEat(1, $item[Hell Ramen]);
+#				}
+#			}
+#		}
 
 
 		if((fullness_limit() >= 15) && (my_fullness() < fullness_limit()))
@@ -6700,7 +6782,7 @@ boolean L7_crypt()
 		ccAdv(1, $location[The Defiled Nook]);
 		if(item_amount($item[evil eye]) > 0)
 		{
-			use(1, $item[evil eye]);
+			use(item_amount($item[evil eye]), $item[evil eye]);
 		}
 		return true;
 	}
@@ -8332,6 +8414,10 @@ boolean L9_twinPeak()
 
 	if(ccAdvBypass(297, $location[Twin Peak]))
 	{
+		if(lastAdventureSpecialNC())
+		{
+			abort("May be stuck in an interrupting Non-Combat adventure, finish current adventure and resume.");
+		}
 		return true;
 	}
 	string page = visit_url("main.php");
@@ -9723,6 +9809,14 @@ boolean doTasks()
 	else if((my_familiar() == $familiar[Adventurous Spelunker]) && (get_property("_jungDrops").to_int() == 0) && (my_daycount() == 1))
 	{
 		handleFamiliar($familiar[Angry Jung Man]);
+	}
+
+	if((my_familiar() == $familiar[Adventurous Spelunker]) && have_familiar($familiar[Grimstone Golem]) && (in_hardcore() || !possessEquipment($item[Buddy Bjorn])))
+	{
+		if((item_amount($item[Ornate Dowsing Rod]) == 0) && (item_amount($item[Odd Silver Coin]) < 5) && (item_amount($item[Grimstone Mask]) == 0))
+		{
+			handleFamiliar($familiar[Grimstone Golem]);
+		}
 	}
 
 	int spleen_hold = 4;

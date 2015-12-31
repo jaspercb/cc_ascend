@@ -1121,6 +1121,7 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 			return false;
 		}
 
+		print("Trying to pull " + howMany + " of " + it, "blue");
 		boolean retval = take_storage(howMany, it);
 		if(item_amount(it) != howMany)
 		{
