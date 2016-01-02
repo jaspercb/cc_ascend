@@ -140,6 +140,10 @@ boolean settingFixer()
 	{
 		set_property("cc_chasmBusted", false);
 	}
+	if(get_property("cc_ballroomflat") == "organ")
+	{
+		set_property("cc_ballroomflat", "finished");
+	}
 	if(get_property("cc_edDelayTimer") != "")
 	{
 		set_property("cc_delayTimer", get_property("cc_edDelayTimer"));

@@ -735,7 +735,7 @@ boolean cc_cheesePostCS()
 	run_choice(7);
 
 
-	if(item_amount($item[Confusing LED Clock]) > 0)
+	if((item_amount($item[Confusing LED Clock]) > 0) && get_property("cc_breakstone").to_boolean())
 	{
 		use(1, $item[Confusing LED Clock]);
 		visit_url("campground.php?action=rest");
@@ -783,13 +783,14 @@ boolean cc_cheesePostCS()
 		equip($item[Snow Suit]);
 	}
 
-	use(1 + ((my_adventures() + 9)/20), $item[How to Avoid Scams]);
+#	use(1 + ((my_adventures() + 9)/20), $item[How to Avoid Scams]);
 	while(my_adventures() > 0)
 	{
+		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
 		ccAdv(1, $location[Barf Mountain]);
 	}
 
-	while((my_inebriety() + 5) <= inebriety_limit())
+	while(((my_inebriety() + 5) <= inebriety_limit()) && get_property("cc_breakstone").to_boolean())
 	{
 		if(!buyUpTo(1, $item[5-Hour Acrimony], 5000))
 		{
@@ -800,7 +801,7 @@ boolean cc_cheesePostCS()
 	}
 
 
-	while((my_inebriety() + 2) <= inebriety_limit())
+	while(((my_inebriety() + 2) <= inebriety_limit()) && get_property("cc_breakstone").to_boolean())
 	{
 		if(!buyUpTo(1, $item[Beery Blood], 500))
 		{
@@ -816,6 +817,7 @@ boolean cc_cheesePostCS()
 
 	while(my_adventures() > 0)
 	{
+		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
 		ccAdv(1, $location[Barf Mountain]);
 	}
 
@@ -825,6 +827,7 @@ boolean cc_cheesePostCS()
 
 	while(my_adventures() > 0)
 	{
+		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
 		ccAdv(1, $location[Barf Mountain]);
 	}
 
@@ -834,26 +837,29 @@ boolean cc_cheesePostCS()
 
 	while(my_adventures() > 0)
 	{
+		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
 		ccAdv(1, $location[Barf Mountain]);
 	}
 	use_barrels();
 
-	if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean())
+	if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean() && get_property("cc_breakstone").to_boolean())
 	{
 		set_property("choiceAdventure595", 1);
 		use(1, $item[CSA fire-starting kit]);
 	}
 
-	if(item_amount($item[5-hour acrimony]) == 0)
+	if((item_amount($item[5-hour acrimony]) == 0) && get_property("cc_breakstone").to_boolean())
 	{
 		if(!buyUpTo(1, $item[5-Hour Acrimony], 5000))
 		{
 			print("Could not buy 5-Hour Acrimony, price too high", "red");
 		}
 	}
-	cli_execute("drink 5-hour acrimony");
-
-	cli_execute("pvp loot 1");
+	if(get_property("cc_breakstone").to_boolean())
+	{
+		cli_execute("drink 5-hour acrimony");
+		cli_execute("pvp loot 1");
+	}
 	cli_execute("cc_ascend");
 	return true;
 }

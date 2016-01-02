@@ -353,7 +353,7 @@ void equipBaselineBack()
 	}
 	else
 	{
-		poss = $items[Pillow Shell, Oil Shell, Giant Gym Membership Card, Frozen Turtle Shell, Misty Cloak, Misty Cape, Misty Robe, Makeshift Cape, Buddy Bjorn, Camp Scout Backpack];
+		poss = $items[Pillow Shell, Oil Shell, Giant Gym Membership Card, Frozen Turtle Shell, Misty Cloak, Misty Cape, Misty Robe, Makeshift Cape, Polyester Parachute, Buddy Bjorn, Camp Scout Backpack];
 	}
 	foreach thing in poss
 	{
@@ -373,7 +373,7 @@ void equipBaselineHat(boolean wantNC)
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Hollandaise Helmet, Viking Helmet, Chef\'s Hat, Crown of the Goblin King, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Hairpiece On Fire, Fuzzy Earmuffs, Reinforced Beaded Headband, Giant Yellow Hat, 8185];
+	boolean[item] poss = $items[Hollandaise Helmet, Viking Helmet, Eyepatch, Chef\'s Hat, Crown of the Goblin King, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Hairpiece On Fire, Fuzzy Earmuffs, Reinforced Beaded Headband, Giant Yellow Hat, 8185];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))

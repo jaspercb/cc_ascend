@@ -1075,7 +1075,10 @@ int handlePulls(int day)
 		if((!have_familiar($familiar[Grim Brother])) && (my_class() != $class[Ed]))
 		{
 			pullXWhenHaveY($item[Unconscious Collective Dream Jar], 1, 0);
-			chew(1, $item[Unconscious Collective Dream Jar]);
+			if(item_amount($item[Unconscious Collective Dream Jar]) > 0)
+			{
+				chew(1, $item[Unconscious Collective Dream Jar]);
+			}
 		}
 	}
 	return pulls_remaining();
@@ -2071,6 +2074,20 @@ boolean questOverride()
 		print("Found completed Spookyraven Manor (11)");
 		set_property("cc_ballroom", "finished");
 		set_property("cc_winebomb", "finished");
+		set_property("cc_ballroomflat", "finished");
+	}
+
+	if((internalQuestStatus("questL11Manor") >= 3) && (get_property("cc_winebomb") != "finished"))
+	{
+		print("Found completed Spookyraven Manor Organ Music (11)");
+		set_property("cc_winebomb", "finished");
+		set_property("cc_ballroomflat", "finished");
+	}
+
+	if((internalQuestStatus("questL11Manor") >= 1) && (get_property("cc_ballroomflat") != "finished"))
+	{
+		print("Found completed Spookyraven Manor Organ Music (11)");
+		set_property("cc_ballroomflat", "finished");
 	}
 
 	if((internalQuestStatus("questL11Worship") >= 3) && (get_property("cc_hiddenunlock") != "finished"))
@@ -2105,27 +2122,49 @@ boolean questOverride()
 	{
 		print("Found completed Hidden Office Building (11)");
 		set_property("cc_hiddenoffice", "finished");
+		if(get_property("cc_hiddenzones").to_int() < 3)
+		{
+			set_property("cc_hiddenzones", 3);
+		}
 	}
 	if((get_property("questL11Curses") == "finished") && (get_property("cc_hiddenapartment") != "finished"))
 	{
 		print("Found completed Hidden Apartment Building (11)");
 		set_property("cc_hiddenapartment", "finished");
+		if(get_property("cc_hiddenzones").to_int() < 2)
+		{
+			set_property("cc_hiddenzones", 2);
+		}
 	}
 	if((get_property("questL11Spare") == "finished") && (get_property("cc_hiddenbowling") != "finished"))
 	{
 		print("Found completed Hidden Bowling Alley (11)");
 		set_property("cc_hiddenbowling", "finished");
+		if(get_property("cc_hiddenzones").to_int() < 5)
+		{
+			set_property("cc_hiddenzones", 5);
+		}
 	}
 	if((get_property("questL11Doctor") == "finished") && (get_property("cc_hiddenhospital") != "finished"))
 	{
 		print("Found completed Hidden Hopickle (11)");
 		set_property("cc_hiddenhospital", "finished");
+		if(get_property("cc_hiddenzones").to_int() < 4)
+		{
+			set_property("cc_hiddenzones", 4);
+		}
 	}
 	if((get_property("questL11Worship") == "finished") && (get_property("cc_hiddencity") != "finished"))
 	{
 		print("Found completed Hidden City (11)");
 		set_property("cc_hiddencity", "finished");
 		set_property("cc_hiddenzones", "finished");
+		set_property("cc_hiddenunlock", "finished");
+	}
+	if((internalQuestStatus("questL11Worship") >= 3) && (get_property("cc_hiddenunlock") != "finished"))
+	{
+		print("Found completed unlocked Hidden City (11)");
+		set_property("cc_hiddenunlock", "finished");
 	}
 
 	if(get_property("sidequestArenaCompleted") != "none")
@@ -2649,7 +2688,6 @@ boolean L13_towerNSFinal()
 	{
 		return false;
 	}
-
 
 	cli_execute("scripts/postcheese.ash");
 	if(item_amount($item[Ouija Board\, Ouija Board]) > 0)
@@ -4177,7 +4215,7 @@ boolean L11_mauriceSpookyraven()
 		handleFamiliar($familiar[Adventurous Spelunker]);
 		if(contains_text(get_property("lastEncounter"), "We\'ll All Be Flat"))
 		{
-			set_property("cc_ballroomflat", "organ");
+			set_property("cc_ballroomflat", "finished");
 		}
 		return true;
 	}
@@ -4203,6 +4241,11 @@ boolean L11_mauriceSpookyraven()
 		ovenHandle();
 		ccCraft("cook", 1, $item[bottle of Chateau de Vinegar], $item[blasting soda]);
 		set_property("cc_winebomb", "partial");
+	}
+
+	if(get_property("spookyravenRecipeUsed") != "with_glasses")
+	{
+		abort("Did not read Mortar Recipe with the Spookyraven glasses. We can't proceed.");
 	}
 
 	if(possessEquipment($item[Unstable Fulminate]))
@@ -9663,7 +9706,7 @@ boolean LX_setBallroomSong()
 	}
 	if(contains_text(get_property("lastEncounter"), "We\'ll All Be Flat"))
 	{
-		set_property("cc_ballroomflat", "organ");
+		set_property("cc_ballroomflat", "finished");
 		if(my_class() == $class[Ed])
 		{
 			set_property("cc_ballroomsong", "finished");
@@ -9780,7 +9823,17 @@ boolean doTasks()
 		}
 		else if(((monster_level_adjustment() + (10 - current_mcd())) < 150) && (current_mcd() != 10))
 		{
-			change_mcd(10);
+			if(get_property("cc_beatenUpCount").to_int() < 5)
+			{
+				change_mcd(10);
+			}
+			else
+			{
+				if(current_mcd() != 0)
+				{
+					change_mcd(0);
+				}
+			}
 		}
 	}
 	if((my_familiar() == $familiar[Reanimated Reanimator]) && (get_property("_badlyRomanticArrows") == "1"))

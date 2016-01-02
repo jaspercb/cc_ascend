@@ -957,6 +957,8 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if((!contains_text(combatState, "candyblast")) && (my_mp() > 60) && (get_property("kingLiberated").to_boolean()))
 	{
+		# We can get only one candy and we can detect it, if so desired:
+		# "Hey, some of it is even intact afterwards!"
 		set_property("cc_combatHandler", combatState + "(candyblast)");
 		return "skill candyblast";
 	}
