@@ -226,8 +226,7 @@ void handlePostAdventure()
 			use_skill(regen, $skill[Soul Food]);
 		}
 
-
-		boolean [skill] toCast = $skills[Pastamastery, Advanced Saucecrafting, Advanced Cocktailcrafting, Summon Confiscated Things, Summon Holiday Fun!, Summon Kokomo Resort Pass, Summon Carrot, Request Sandwich, Summon Hilarious Objects, Summon Tasteful Items, Summon Alice\'s Army Cards, Summon Crimbo Candy, Summon Geeky Gifts, Lunch Break, Grab a Cold One, Spaghetti Breakfast];
+		boolean [skill] toCast = $skills[Advanced Cocktailcrafting, Advanced Saucecrafting, Communism!, Grab a Cold One, Lunch Break, Pastamastery, Perfect Freeze, Request Sandwich, Spaghetti Breakfast, Summon Alice\'s Army Cards, Summon Carrot, Summon Confiscated Things, Summon Crimbo Candy, Summon Geeky Gifts, Summon Hilarious Objects, Summon Holiday Fun!, Summon Kokomo Resort Pass, Summon Tasteful Items];
 
 		foreach sk in toCast
 		{
@@ -359,6 +358,9 @@ void handlePostAdventure()
 		use_skill(1, $skill[Summon Smithsness]);
 	}
 
+	# This is the list of castables that all MP sequences will use.
+	boolean [skill] toCast = $skills[Advanced Cocktailcrafting, Advanced Saucecrafting, Communism!, Grab a Cold One, Lunch Break, Pastamastery, Perfect Freeze, Request Sandwich, Spaghetti Breakfast, Summon Alice\'s Army Cards, Summon Carrot, Summon Confiscated Things, Summon Crimbo Candy, Summon Geeky Gifts, Summon Hilarious Objects, Summon Holiday Fun!, Summon Kokomo Resort Pass, Summon Tasteful Items];
+
 	if(my_maxmp() < 50)
 	{
 		buffMaintain($effect[Power Ballad of the Arrowsmith], 7, 1, 5);
@@ -372,15 +374,11 @@ void handlePostAdventure()
 			use_skill(1, libram);
 		}
 
-		if(my_mp() > 40)
+		foreach sk in toCast
 		{
-			if(have_skill($skill[Summon Geeky Gifts]))
+			if(have_skill(sk) && ((my_mp() - 40) >= mp_cost(sk)))
 			{
-				use_skill(1, $skill[Summon Geeky Gifts]);
-			}
-			if(have_skill($skill[Summon Confiscated Things]))
-			{
-				use_skill(1, $skill[Summon Confiscated Things]);
+				use_skill(1, sk);
 			}
 		}
 
@@ -423,18 +421,13 @@ void handlePostAdventure()
 			use_skill(1, libram);
 		}
 
-		if(my_mp() > 50)
+		foreach sk in toCast
 		{
-			if(have_skill($skill[Summon Geeky Gifts]))
+			if(have_skill(sk) && ((my_mp() - 50) >= mp_cost(sk)))
 			{
-				use_skill(1, $skill[Summon Geeky Gifts]);
-			}
-			if(have_skill($skill[Summon Confiscated Things]))
-			{
-				use_skill(1, $skill[Summon Confiscated Things]);
+				use_skill(1, sk);
 			}
 		}
-
 #		buffMaintain($effect[Prayer of Seshat], 5, 1, 10);
 
 		buffMaintain($effect[Singer\'s Faithful Ocelot], 40, 1, 10);
@@ -448,7 +441,10 @@ void handlePostAdventure()
 			buffMaintain($effect[Jalape&ntilde;o Saucesphere], 50, 1, 10);
 		}
 		buffMaintain($effect[Ghostly Shell], 45, 1, 10);
-		buffMaintain($effect[Disdain of the War Snapper], 60, 1, 10);
+		if(my_class() == $class[Turtle Tamer])
+		{
+			buffMaintain($effect[Disdain of the War Snapper], 60, 1, 10);
+		}
 		buffMaintain($effect[Walberg\'s Dim Bulb], 50, 1, 10);
 #		buffMaintain($effect[Springy Fusilli], 60, 1, 10);
 #		buffMaintain($effect[Flimsy Shield of the Pastalord], 70, 1, 10);
@@ -470,37 +466,13 @@ void handlePostAdventure()
 
 		buffMaintain($effect[Empathy], 50, 1, 10);
 		buffMaintain($effect[Leash of Linguini], 35, 1, 10);
-		if(my_mp() > 80)
-		{
-			if(have_skill($skill[Pastamastery]))
-			{
-				use_skill(1, $skill[Pastamastery]);
-			}
-			if(have_skill($skill[Advanced Saucecrafting]))
-			{
-				use_skill(1, $skill[Advanced Saucecrafting]);
-			}
-			if(have_skill($skill[Advanced Cocktailcrafting]))
-			{
-				use_skill(1, $skill[Advanced Cocktailcrafting]);
-			}
-			if(have_skill($skill[Summon Geeky Gifts]))
-			{
-				use_skill(1, $skill[Summon Geeky Gifts]);
-			}
-			if(have_skill($skill[Summon Confiscated Things]))
-			{
-				use_skill(1, $skill[Summon Confiscated Things]);
-			}
-		}
 
-		if((my_mp() > 95) && (have_skill($skill[Grab a Cold One])))
+		foreach sk in toCast
 		{
-			use_skill($skill[Grab a Cold One]);
-		}
-		if((my_mp() > 95) && (have_skill($skill[Spaghetti Breakfast])))
-		{
-			use_skill($skill[Spaghetti Breakfast]);
+			if(have_skill(sk) && ((my_mp() - 90) >= mp_cost(sk)))
+			{
+				use_skill(1, sk);
+			}
 		}
 
 		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 40))
@@ -521,7 +493,10 @@ void handlePostAdventure()
 			buffMaintain($effect[Jalape&ntilde;o Saucesphere], 60, 1, 10);
 		}
 		buffMaintain($effect[Ghostly Shell], 80, 1, 10);
-		buffMaintain($effect[Disdain of the War Snapper], 80, 1, 10);
+		if(my_class() == $class[Turtle Tamer])
+		{
+			buffMaintain($effect[Disdain of the War Snapper], 80, 1, 10);
+		}
 		buffMaintain($effect[Walberg\'s Dim Bulb], 80, 1, 10);
 		buffMaintain($effect[Springy Fusilli], 80, 1, 10);
 #		buffMaintain($effect[Flimsy Shield of the Pastalord], 80, 1, 10);
@@ -531,7 +506,7 @@ void handlePostAdventure()
 		buffMaintain($effect[Disco Fever], 80, 1, 10);
 		buffMaintain($effect[Seal Clubbing Frenzy], 50, 5, 4);
 		buffMaintain($effect[Patience of the Tortoise], 50, 5, 4);
-		buffMaintain($effect[Rotten Memories], 100, 1, 10);
+#		buffMaintain($effect[Rotten Memories], 100, 1, 10);
 
 		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 80))
 		{
@@ -546,10 +521,6 @@ void handlePostAdventure()
 			}
 			buffMaintain($effect[Takin\' It Greasy], 50, 1, 5);
 			buffMaintain($effect[Intimidating Mien], 50, 1, 5);
-#			buffMaintain($effect[Takin\' It Greasy], 50, 1, 25);
-#			buffMaintain($effect[Intimidating Mien], 50, 1, 25);
-#			buffMaintain($effect[Takin\' It Greasy], 50, 1, 45);
-#			buffMaintain($effect[Intimidating Mien], 50, 1, 45);
 		}
 	}
 	else
@@ -604,36 +575,12 @@ void handlePostAdventure()
 		buffMaintain($effect[Empathy], 50, 1, 10);
 		buffMaintain($effect[Leash of Linguini], 35, 1, 10);
 
-		if(my_mp() > 80)
+		foreach sk in toCast
 		{
-			if(have_skill($skill[Pastamastery]))
+			if(have_skill(sk) && ((my_mp() - 85) >= mp_cost(sk)))
 			{
-				use_skill(1, $skill[Pastamastery]);
+				use_skill(1, sk);
 			}
-			if(have_skill($skill[Advanced Saucecrafting]))
-			{
-				use_skill(1, $skill[Advanced Saucecrafting]);
-			}
-			if(have_skill($skill[Advanced Cocktailcrafting]))
-			{
-				use_skill(1, $skill[Advanced Cocktailcrafting]);
-			}
-			if(have_skill($skill[Summon Geeky Gifts]))
-			{
-				use_skill(1, $skill[Summon Geeky Gifts]);
-			}
-			if(have_skill($skill[Summon Confiscated Things]))
-			{
-				use_skill(1, $skill[Summon Confiscated Things]);
-			}
-		}
-		if((my_mp() > 85) && have_skill($skill[Grab a Cold One]))
-		{
-			use_skill($skill[Grab a Cold One]);
-		}
-		if((my_mp() > 85) && have_skill($skill[Spaghetti Breakfast]))
-		{
-			use_skill($skill[Spaghetti Breakfast]);
 		}
 
 		if((libram != $skill[none]) && ((my_mp() - mp_cost(libram)) > 32))
@@ -705,49 +652,7 @@ void handlePostAdventure()
 
 		buffMaintain($effect[Ruthlessly Efficient], 50, 1, 5);
 		buffMaintain($effect[Mathematically Precise], 150, 1, 5);
-		buffMaintain($effect[Rotten Memories], 150, 1, 10);
-
-		if((have_skill($skill[Summon Holiday Fun!])) && (my_mp() > 11))
-		{
-			use_skill(1, $skill[Summon Holiday Fun!]);
-		}
-		if((have_skill($skill[Summon Kokomo Resort Pass])) && (my_mp() > 1))
-		{
-			use_skill(1, $skill[Summon Kokomo Resort Pass]);
-		}
-		if((have_skill($skill[Summon Carrot])) && (my_mp() > 11))
-		{
-			use_skill(1, $skill[Summon Carrot]);
-		}
-		if((have_skill($skill[Summon Confiscated Things])) && (my_mp() > 5))
-		{
-			use_skill(3, $skill[Summon Confiscated Things]);
-		}
-		if((have_skill($skill[Request Sandwich])) && (my_mp() > 5))
-		{
-			use_skill(1, $skill[Request Sandwich]);
-		}
-		if((have_skill($skill[Summon Hilarious Objects])) && (my_mp() > 5))
-		{
-			use_skill(1, $skill[Summon Hilarious Objects]);
-		}
-		if((have_skill($skill[Summon Tasteful Items])) && (my_mp() > 5))
-		{
-			use_skill(1, $skill[Summon Tasteful Items]);
-		}
-		if((have_skill($skill[Summon Alice\'s Army Cards])) && (my_mp() > 5))
-		{
-			use_skill(1, $skill[Summon Alice\'s Army Cards]);
-		}
-		if((have_skill($skill[Summon Crimbo Candy])) && (my_mp() > 5))
-		{
-			use_skill(1, $skill[Summon Crimbo Candy]);
-		}
-		if((have_skill($skill[Lunch Break])) && (my_mp() > 10))
-		{
-			use_skill(1, $skill[Lunch Break]);
-		}
-
+#		buffMaintain($effect[Rotten Memories], 150, 1, 10);
 
 		if(get_property("kingLiberated").to_boolean())
 		{
@@ -786,28 +691,7 @@ void handlePostAdventure()
 			}
 			buffMaintain($effect[Takin\' It Greasy], 50, 1, 5);
 			buffMaintain($effect[Intimidating Mien], 50, 1, 5);
-#			buffMaintain($effect[Takin\' It Greasy], 150, 1, 25);
-#			buffMaintain($effect[Intimidating Mien], 150, 1, 25);
-#			buffMaintain($effect[Takin\' It Greasy], 250, 1, 45);
-#			buffMaintain($effect[Intimidating Mien], 250, 1, 45);
 		}
-
-#		if(my_mp() > 150)
-#		{
-#			int casts = (my_mp() - 150) / 60;
-#			if(casts == 0)
-#			{
-#				casts = 1;
-#			}
-#			if(have_skill($skill[Grease Up]))
-#			{
-#				use_skill(casts, $skill[Grease Up]);
-#			}
-#			if(have_skill($skill[Intimidating Mien]))
-#			{
-#				use_skill(casts, $skill[Intimidating Mien]);
-#			}
-#		}
 
 		if(didOutfit)
 		{
@@ -893,7 +777,7 @@ void handlePostAdventure()
 	}
 
 	#Should we create a separate function to track these? How many are we going to track?
-	if(last_monster() == $monster[writing desk])
+	if((last_monster() == $monster[writing desk]) && (get_property("lastEncounter") == $monster[Writing Desk]) && (have_effect($effect[Beaten Up]) == 0))
 	{
 		print("Fought " + get_property("writingDesksDefeated") + " writing desks.", "blue");
 	}
