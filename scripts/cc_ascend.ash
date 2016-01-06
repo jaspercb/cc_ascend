@@ -1029,6 +1029,10 @@ int handlePulls(int day)
 		if(cc_my_path() != "Heavy Rains")
 		{
 			pullXWhenHaveY($item[snow suit], 1, 0);
+			if(item_amount($item[snow suit]) == 0)
+			{
+				pullXWhenHaveY($item[Filthy Child Leash], 1, 0);
+			}
 		}
 
 		if(get_property("cc_dickstab").to_boolean())
@@ -1199,7 +1203,10 @@ void initializeDay(int day)
 
 			hr_initializeDay(day);
 
-			buyUpTo(1, $item[toy accordion]);
+			if(item_amount($item[Antique Accordion]) == 0)
+			{
+				buyUpTo(1, $item[toy accordion]);
+			}
 
 			while((item_amount($item[turtle totem]) == 0) || (item_amount($item[saucepan]) == 0))
 			{
@@ -1443,7 +1450,7 @@ void doBedtime()
 	{
 		spleenlimit = 0;
 	}
-	if((my_spleen_use() < spleenlimit) && !in_hardcore())
+	if((my_spleen_use() < spleenlimit) && !in_hardcore() && (my_inebriety() < inebriety_limit()))
 	{
 		return;
 	}
@@ -8397,6 +8404,7 @@ boolean LX_pirateInsults()
 	}
 	if(!outfit("swashbuckling getup"))
 	{
+		print("Can not equip, or do not have the Swashbuckling Getup. Delaying.", "red");
 		return false;
 	}
 	LX_getDictionary();
@@ -9371,7 +9379,7 @@ boolean doTasks()
 
 	if(!in_hardcore() || !isGuildClass())
 	{
-		if(deck_useScheme("turns"))
+		if(deck_useScheme("sc" + my_daycount()))
 		{
 			return true;
 		}
