@@ -414,7 +414,7 @@ void equipBaselineWeapon()
 	switch(my_class())
 	{
 	case $class[Seal Clubber]:
-		poss = $items[Seal-Clubbing Club, Lead Pipe, Meat Tenderizer Is Murder];
+		poss = $items[Seal-Clubbing Club, Flaming Crutch, Lead Pipe, Meat Tenderizer Is Murder];
 		break;
 	case $class[Turtle Tamer]:
 		poss = $items[Turtle Totem, Rope, Work Is A Four Letter Sword];

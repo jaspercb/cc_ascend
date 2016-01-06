@@ -1545,6 +1545,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Butt-Rock Hair]:				useItem = $item[Hair Spray];					break;
 	case $effect[Carlweather\'s Cantata of Confrontation]:useSkill = $skill[Carlweather\'s Cantata of Confrontation];break;
 	case $effect[Celestial Camouflage]:			useItem = $item[Celestial Squid Ink];			break;
+	case $effect[Celestial Saltiness]:			useItem = $item[Celestial Au Jus];				break;
 	case $effect[Celestial Sheen]:				useItem = $item[Celestial Olive Oil];			break;
 	case $effect[Cinnamon Challenger]:			useItem = $item[Pulled Red Taffy];				break;
 	case $effect[Cletus\'s Canticle of Celerity]:	useSkill = $skill[Cletus\'s Canticle of Celerity];break;
@@ -1576,6 +1577,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Expert Oiliness]:				useItem = $item[Oil of Expertise];				break;
 	case $effect[Experimental Effect G-9]:		useItem = $item[Experimental Serum G-9];		break;
 	case $effect[Extra Backbone]:				useItem = $item[Really Thick Spine];			break;
+	case $effect[Everything Must Go!]:			useItem = $item[Violent Pastilles];				break;
 	case $effect[Eyes All Black]:				useItem = $item[Delicious Candy];				break;
 	case $effect[Fat Leon\'s Phat Loot Lyric]:	useSkill = $skill[Fat Leon\'s Phat Loot Lyric];	break;
 	case $effect[Feroci Tea]:					useItem = $item[cuppa Feroci tea];				break;
@@ -1607,6 +1609,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Healthy Blue Glow]:			useItem = $item[gold star];						break;
 	case $effect[Heightened Senses]:			useItem = $item[airborne mutagen];				break;
 	case $effect[Hide of Sobek]:				useSkill = $skill[Hide of Sobek];				break;
+	case $effect[High Colognic]:				useItem = $item[Musk Turtle];					break;
 	case $effect[Hippy Stench]:					useItem = $item[reodorant];						break;
 	case $effect[How to Scam Tourists]:			useItem = $item[How to Avoid Scams];			break;
 	case $effect[Human-Beast Hybrid]:			useItem = $item[Gene Tonic: Beast];				break;

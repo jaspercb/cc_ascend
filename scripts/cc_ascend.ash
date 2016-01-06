@@ -299,6 +299,26 @@ boolean handleFamiliar(string type)
 			}
 		}
 	}
+	else if(type == "stat")
+	{
+		if(monster_level_adjustment() > 120)
+		{
+			foreach fam in $familiars[Hovering Sombrero, Baby Sandworm, Galloping Grill]
+			{
+				if(have_familiar(fam))
+				{
+					return handleFamiliar(fam);
+				}
+			}
+		}
+		foreach fam in $familiars[Blood-Faced Volleyball, Frumious Bandersnatch, Grinning Turtle, Dramatic Hedgehog, Smiling Rat, Li\'l Xenomorph, Baby Z-Rex, Happy Medium, Artistic Goth Kid, Lil\' Barrel Mimic, Bloovian Groose, Unconscious Collective, Reanimated Reanimator, Golden Monkey, Grim Brother]
+		{
+			if(have_familiar(fam))
+			{
+				return handleFamiliar(fam);
+			}
+		}
+	}
 
 	return false;
 }
@@ -1786,7 +1806,7 @@ void doBedtime()
 	{
 		print("Still have a CSA Fire-Starting Kit you can use!", "blue");
 	}
-	if((get_property("spookyAirportAlways").to_boolean()) && (my_class() != $class[Ed]))
+	if((get_property("spookyAirportAlways").to_boolean()) && (my_class() != $class[Ed]) && !get_property("_controlPanelUsed").to_boolean())
 	{
 		visit_url("place.php?whichplace=airport_spooky_bunker&action=si_controlpanel");
 		visit_url("choice.php?pwd=&whichchoice=986&option=8",true);
@@ -3383,7 +3403,7 @@ boolean L12_lastDitchFlyer()
 
 boolean LX_attemptPowerLevel()
 {
-	handleFamiliar($familiar[Fist Turkey]);
+	handleFamiliar("stat");
 	if((elementalPlanes_access($element[stench])) && have_skill($skill[Summon Smithsness]))
 	{
 		ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]);
@@ -4944,6 +4964,9 @@ boolean L12_sonofaBeach()
 	buffMaintain($effect[Hippy Stench], 0, 1, 1);
 	buffMaintain($effect[Musk of the Moose], 0, 1, 10);
 	buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 0, 1, 10);
+	buffMaintain($effect[High Colognic], 0, 1, 1);
+	buffMaintain($effect[Celestial Saltiness], 0, 1, 1);
+	buffMaintain($effect[Everything Must Go!], 0, 1, 1);
 	if(have_familiar($familiar[Grim Brother]))
 	{
 		handleBjornify($familiar[Grim Brother]);
@@ -4954,7 +4977,14 @@ boolean L12_sonofaBeach()
 	}
 	if(equipped_item($slot[acc1]) == $item[over-the-shoulder folder holder])
 	{
-		equip($slot[acc1], $item[bejeweled pledge pin]);
+		if((item_amount($item[Ass-Stompers of Violence]) > 0) && (equipped_item($slot[acc1]) != $item[Ass-Stompers of Violence]))
+		{
+			equip($slot[acc1], $item[Ass-Stompers of Violence]);
+		}
+		else
+		{
+			equip($slot[acc1], $item[bejeweled pledge pin]);
+		}
 	}
 	if(item_amount($item[portable cassette player]) > 0)
 	{
@@ -7290,9 +7320,6 @@ boolean L9_aBooPeak()
 	if(item_amount($item[a-boo clue]) > 0)
 	{
 		boolean doThisBoo = false;
-		buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
-		buffMaintain($effect[Astral Shell], 10, 1, 1);
-		buffMaintain($effect[Elemental Saucesphere], 10, 1, 1);
 
 		if(my_class() == $class[Ed])
 		{
@@ -7302,55 +7329,78 @@ boolean L9_aBooPeak()
 			}
 		}
 		familiar priorBjorn = my_bjorned_familiar();
-		maximize("spooky res, cold res -equip lihc face -equip snow suit", 0, 0, false);
-		adjustEdHat("ml");
-		int coldResist = elemental_resist($element[cold]);
-		int spookyResist = elemental_resist($element[spooky]);
 
-		if(item_amount($item[Spooky Powder]) > 0)
+		string lihcface = "";
+		if((my_class() == $class[Ed]) && possessEquipment($item[The Crown of Ed the Undying]))
 		{
-			spookyResist = spookyResist + 1;
-		}
-		if(item_amount($item[Cold Powder]) > 0)
-		{
-			coldResist = coldResist + 1;
+			lihcface = "-equip lihc face";
 		}
 
-		#	Ed could really use some HP buffs but healing is an issue here.
-		if(my_class() == $class[Ed])
-		{
-			if(black_market_available() && (item_amount($item[Can of Black Paint]) == 0) && (have_effect($effect[Red Door Syndrome]) == 0) && (my_meat() >= 1000))
-			{
-				buyUpTo(1, $item[Can of Black Paint]);
-			}
+		maximize("spooky res, cold res " + lihcface + " -equip snow suit", 0, 0, true);
+		int coldResist = numeric_modifier("Generated:_spec", "cold resistance");
+		int spookyResist = numeric_modifier("Generated:_spec", "spooky resistance");
+		int hpDifference = numeric_modifier("Generated:_spec", "Maximum HP") - numeric_modifier("Maximum HP");
 
-			if(item_amount($item[Can of Black Paint]) > 0)
-			{
-				spookyResist = spookyResist + 2;
-				coldResist = coldResist + 2;
-			}
-			if(item_amount($item[Oil of Parrrlay]) > 0)
-			{
-				spookyResist = spookyResist + 1;
-				coldResist = coldResist + 1;
-			}
+		if(black_market_available() && (item_amount($item[Can of Black Paint]) == 0) && (have_effect($effect[Red Door Syndrome]) == 0) && (my_meat() >= 1000))
+		{
+			buyUpTo(1, $item[Can of Black Paint]);
+			coldResist += 2;
+			spookyResist += 2;
 		}
+
+
+#		maximize("spooky res, cold res -equip lihc face -equip snow suit", 0, 0, false);
+#		adjustEdHat("ml");
+#		int coldResist = elemental_resist($element[cold]);
+#		int spookyResist = elemental_resist($element[spooky]);
+#		if(item_amount($item[Spooky Powder]) > 0)
+#		{
+#			spookyResist = spookyResist + 1;
+#		}
+#		if(item_amount($item[Cold Powder]) > 0)
+#		{
+#			coldResist = coldResist + 1;
+#		}
+
+#		#	Ed could really use some HP buffs but healing is an issue here.
+#		if(my_class() == $class[Ed])
+#		{
+#			if(black_market_available() && (item_amount($item[Can of Black Paint]) == 0) && (have_effect($effect[Red Door Syndrome]) == 0) && (my_meat() >= 1000))
+#			{
+#				buyUpTo(1, $item[Can of Black Paint]);
+#			}
+#
+#			if(item_amount($item[Can of Black Paint]) > 0)
+#			{
+#				spookyResist = spookyResist + 2;
+#				coldResist = coldResist + 2;
+#			}
+#			if(item_amount($item[Oil of Parrrlay]) > 0)
+#			{
+#				spookyResist = spookyResist + 1;
+#				coldResist = coldResist + 1;
+#			}
+#		}
 
 		#Calculate how much boo peak damage does per unit resistance.
 		int estimatedCold = (13+25+50+125+250) * ((100.0 - elemental_resist_value(coldResist)) / 100.0);
 		int estimatedSpooky = (13+25+50+125+250) * ((100.0 - elemental_resist_value(spookyResist)) / 100.0);
 		print("Current HP: " + my_hp() + "/" + my_maxhp(), "blue");
 		print("Expected cold damage: " + estimatedCold + " Expected spooky damage: " + estimatedSpooky, "blue");
+		print("Expected Cold Resist: " + coldResist + " Expected Spooky Resist: " + spookyResist + " Expected HP Difference: " + hpDifference, "blue");
 		int totalDamage = estimatedCold + estimatedSpooky;
-		int mp_need = 40;
-		if((my_hp() - totalDamage) > 200)
+
+		int considerHP = my_maxhp() + hpDifference;
+
+		int mp_need = 20 + numeric_modifier("Generated:_spec", "Mana Cost");
+		if((my_hp() - totalDamage) > 50)
 		{
 			mp_need = mp_need - 20;
 		}
-		if((my_hp() - totalDamage) > 300)
-		{
-			mp_need = mp_need - 10;
-		}
+#		if((my_hp() - totalDamage) > 300)
+#		{
+#			mp_need = mp_need - 10;
+#		}
 
 		if(my_turncount() == get_property("cc_lastABooConsider").to_int())
 		{
@@ -7370,20 +7420,35 @@ boolean L9_aBooPeak()
 		{
 			doThisBoo = true;
 		}
-		if(((my_hp() >= 400) && (my_mp() >= mp_need)) || ((my_hp() >= totalDamage) && (my_mp() >= 20)))
+		if((my_hp() >= totalDamage) && (my_mp() >= mp_need))
 		{
 			doThisBoo = true;
 		}
+		if((considerHP >= totalDamage) && (my_mp() >= mp_need) && have_skill($skill[Cannelloni Cocoon]))
+		{
+			doThisBoo = true;
+		}
+
+#		if(((my_hp() >= 400) && (my_mp() >= mp_need)) || ((my_hp() >= totalDamage) && (my_mp() >= 20)))
+#		{
+#			doThisBoo = true;
+#		}
 		if(doThisBoo)
 		{
+			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
+			maximize("spooky res, cold res " + lihcface + " -equip snow suit", 0, 0, false);
 			if((item_amount($item[Lihc Face]) > 0) && (my_class() != $class[Ed]))
 			{
 				equip($item[Lihc Face]);
 			}
+			adjustEdHat("ml");
+
 			if(item_amount($item[ghost of a necklace]) > 0)
 			{
 				equip($slot[acc2], $item[ghost of a necklace]);
 			}
+			buffMaintain($effect[Astral Shell], 10, 1, 1);
+			buffMaintain($effect[Elemental Saucesphere], 10, 1, 1);
 			buffMaintain($effect[Spookypants], 0, 1, 1);
 			buffMaintain($effect[Insulated Trousers], 0, 1, 1);
 
@@ -7394,7 +7459,10 @@ boolean L9_aBooPeak()
 			}
 
 			set_property("choiceAdventure611", "1");
-			useCocoon();
+			if((my_hp() - 50) < totalDamage)
+			{
+				useCocoon();
+			}
 			use(1, $item[A-Boo clue]);
 			ccAdv(1, $location[A-Boo Peak]);
 			useCocoon();
@@ -7408,6 +7476,7 @@ boolean L9_aBooPeak()
 		{
 			#abort("Could not handle HP/MP situation for a-boo peak");
 		}
+		print("Nevermind, that peak is too scary!", "green");
 		equipBaseline();
 		if(equipped_item($slot[back]) == $item[Buddy Bjorn])
 		{
@@ -8004,9 +8073,9 @@ boolean L11_blackMarket()
 		}
 	}
 
-	if(item_amount($item[blackberry galoshes]) == 1)
+	if((item_amount($item[Blackberry Galoshes]) > 0) && !have_equipped($item[Blackberry Galoshes]) && can_equip($item[Blackberry Galoshes]))
 	{
-		equip($slot[acc3], $item[blackberry galoshes]);
+		equip($slot[acc3], $item[Blackberry Galoshes]);
 	}
 
 	if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
@@ -9448,14 +9517,9 @@ boolean doTasks()
 		return true;
 	}
 
-	if((my_level() >= 12) && (item_amount($item[rock band flyers]) == 0) && (item_amount($item[jam band flyers]) == 0) && (get_property("flyeredML").to_int() < 10000) && ((get_property("cc_hiddenapartment") == "0") || (get_property("cc_hiddenapartment") == "finished")) && (have_effect($effect[ultrahydrated]) == 0))
+	if((my_level() >= 12) && (item_amount($item[rock band flyers]) == 0) && (item_amount($item[jam band flyers]) == 0) && (get_property("flyeredML").to_int() < 10000) && ((get_property("cc_hiddenapartment") == "0") || (get_property("cc_hiddenapartment") == "finished")) && ((have_effect($effect[ultrahydrated]) == 0) || (get_property("desertExploration").to_int() >= 100)))
 	{
-		if(L12_getOutfit())
-		{
-			return true;
-		}
-
-		if(L12_startWar())
+		if(L12_getOutfit() || L12_startWar())
 		{
 			return true;
 		}
