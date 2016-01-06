@@ -321,10 +321,20 @@ boolean adjustEdHat(string goal)
 		option = 7;
 	}
 
+	item oldHat = equipped_item($slot[hat]);
+
 	if(option != -1)
 	{
+		if(oldHat != $item[The Crown of Ed the Undying])
+		{
+			equip($slot[hat], $item[The Crown of Ed the Undying]);
+		}
 		visit_url("inventory.php?action=activateedhat");
 		visit_url("choice.php?pwd=&whichchoice=1063&option=" + option, true);
+		if(oldHat != $item[The Crown of Ed the Undying])
+		{
+			equip($slot[hat], oldHat);
+		}
 		return true;
 	}
 	return false;

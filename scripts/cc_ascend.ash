@@ -982,11 +982,19 @@ int handlePulls(int day)
 		{
 			pullXWhenHaveY($item[buddy bjorn], 1, 0);
 		}
-		if(storage_amount($item[Xiblaxian Stealth Cowl]) > 0)
+
+		if(is_unrestricted($item[Pantsgiving]))
 		{
 			pullXWhenHaveY($item[xiblaxian stealth cowl], 1, 0);
+			pullXWhenHaveY($item[Pantsgiving], 1, 0);
 		}
-		pullXWhenHaveY($item[pantsgiving], 1, 0);
+		else
+		{
+			pullXWhenHaveY($item[The Crown of Ed the Undying], 1, 0);
+			adjustEdHat("ml");
+			pullXWhenHaveY($item[Xiblaxian Stealth Trousers], 1, 0);
+		}
+
 		pullXWhenHaveY($item[spooky-gro fertilizer], 1, 0);
 
 		if(!have_familiar($familiar[Fist Turkey]))
@@ -4995,6 +5003,10 @@ boolean L12_sonofaBeach()
 	{
 		equip($item[Beer Helmet]);
 	}
+	if(have_equipped($item[Xiblaxian Stealth Trousers]))
+	{
+		equip($slot[Pants], $item[Xiblaxian Stealth Trousers]);
+	}
 	if(equipped_item($slot[acc1]) == $item[over-the-shoulder folder holder])
 	{
 		if((item_amount($item[Ass-Stompers of Violence]) > 0) && (equipped_item($slot[acc1]) != $item[Ass-Stompers of Violence]))
@@ -5701,6 +5713,50 @@ boolean L10_airship()
 	ccAdv(1, $location[The Penultimate Fantasy Airship]);
 	handleFamiliar($familiar[Adventurous Spelunker]);
 	return true;
+}
+
+boolean L12_flyerBackup()
+{
+	if(get_property("cc_prewar") != "started")
+	{
+		return false;
+	}
+	if(get_property("flyeredML").to_int() >= 10000)
+	{
+		return false;
+	}
+	if((item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[Jam Band Flyers]) == 0))
+	{
+		return false;
+	}
+	if(get_property("choiceAdventure1003").to_int() >= 3)
+	{
+		return false;
+	}
+
+
+	if(snojoFightAvailable())
+	{
+		handleFamiliar("stat");
+		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
+		return true;
+	}
+
+	if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5))
+	{
+		if(get_property("cc_choice1119") != "")
+		{
+			set_property("choiceAdventure1119", get_property("cc_choice1119"));
+		}
+		set_property("cc_choice1119", get_property("choiceAdventure1119"));
+		set_property("choiceAdventure1119", 1);
+		handleFamiliar($familiar[Machine Elf]);
+		ccAdv(1, $location[The Deep Machine Tunnels]);
+		set_property("choiceAdventure1119", get_property("cc_choice1119"));
+		set_property("cc_choice1119", "");
+		return true;
+	}
+	return false;
 }
 
 boolean Lsc_flyerSeals()
@@ -9726,7 +9782,7 @@ boolean doTasks()
 		return true;
 	}
 
-	if(Lsc_flyerSeals())
+	if(L12_flyerBackup() || Lsc_flyerSeals())
 	{
 		return true;
 	}

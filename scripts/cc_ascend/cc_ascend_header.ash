@@ -97,6 +97,7 @@ boolean L11_unlockEd();
 boolean L11_defeatEd();
 boolean L11_getBeehive();
 boolean L12_lastDitchFlyer();
+boolean L12_flyerBackup();
 boolean L12_flyerFinish();
 boolean L12_preOutfit();
 boolean L12_getOutfit();

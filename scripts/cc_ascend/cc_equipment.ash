@@ -307,7 +307,7 @@ void equipBaselinePants()
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Filthy Corduroys, Antique Greaves, Ninja Hot Pants, Leotarrrd, Swashbuckling Pants, Vicar\'s Tutu, Troll Britches, Distressed Denim Pants, Bankruptcy Barrel, Astral Shorts, Pantsgiving];
+	boolean[item] poss = $items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Filthy Corduroys, Antique Greaves, Ninja Hot Pants, Leotarrrd, Swashbuckling Pants, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Bankruptcy Barrel, Astral Shorts, Pantsgiving];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -373,7 +373,7 @@ void equipBaselineHat(boolean wantNC)
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Hollandaise Helmet, Viking Helmet, Eyepatch, Chef\'s Hat, Crown of the Goblin King, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Hairpiece On Fire, Fuzzy Earmuffs, Reinforced Beaded Headband, Giant Yellow Hat, 8185];
+	boolean[item] poss = $items[Hollandaise Helmet, Viking Helmet, Eyepatch, Chef\'s Hat, Crown of the Goblin King, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Hairpiece On Fire, Fuzzy Earmuffs, Reinforced Beaded Headband, Giant Yellow Hat, The Crown of Ed the Undying];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -550,7 +550,7 @@ void equipBaseline()
 void equipBaselineAcc1()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Infernal Insoles, Batskin Belt, Ghost of a Necklace, Astral Mask, Astral Belt, Astral Ring, Astral Bracer, Over-The-Shoulder Folder Holder];
+	boolean[item] poss = $items[Infernal Insoles, Batskin Belt, Ghost of a Necklace, Numberwang, Astral Mask, Astral Belt, Astral Ring, Astral Bracer, Over-The-Shoulder Folder Holder];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
