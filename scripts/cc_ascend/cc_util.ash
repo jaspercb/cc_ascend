@@ -525,7 +525,11 @@ item whatHiMein()
 	{
 		return $item[none];
 	}
-	return $item[Fettucini Inconnu];
+	if(my_level() < 9)
+	{
+		return $item[Fettucini Inconnu];
+	}
+	return $item[crudles];
 /*
 	switch(my_class())
 	{

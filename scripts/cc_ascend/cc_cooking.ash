@@ -13,10 +13,141 @@ import<cc_ascend/cc_util.ash>
 #
 #
 void consumeStuff();
+boolean makePerfectBooze();
+item getAvailablePerfectBooze();
 boolean dealWithMilkOfMagnesium(boolean useAdv);
 boolean ccEat(int howMany, item toEat);
 boolean tryPantsEat();
 boolean tryCookies();
+
+item getAvailablePerfectBooze()
+{
+	switch(my_primestat())
+	{
+	case $stat[Muscle]:
+		foreach booze in $items[Perfect Old-Fashioned, Perfect Cosmopolitan, Perfect Paloma, Perfect Mimosa, Perfect Negroni, Perfect Dark and Stormy]
+		{
+			if(item_amount(booze) > 0)
+			{
+				return booze;
+			}
+		}
+		break;
+	case $stat[Mysticality]:
+		foreach booze in $items[Perfect Dark and Stormy, Perfect Mimosa, Perfect Negroni, Perfect Cosmopolitan, Perfect Paloma, Perfect Old-Fashioned]
+		{
+			if(item_amount(booze) > 0)
+			{
+				return booze;
+			}
+		}
+		break;
+	case $stat[Moxie]:
+		foreach booze in $items[Perfect Paloma, Perfect Negroni, Perfect Old-Fashioned, Perfect Dark and Stormy, Perfect Cosmopolitan, Perfect Mimosa]
+		{
+			if(item_amount(booze) > 0)
+			{
+				return booze;
+			}
+		}
+		break;
+	}
+	return $item[none];
+}
+
+boolean makePerfectBooze()
+{
+	if(item_amount($item[Perfect Ice Cube]) == 0)
+	{
+		return false;
+	}
+
+	int starting = item_amount($item[Perfect Ice Cube]);
+
+	switch(my_primestat())
+	{
+	case $stat[Muscle]:
+		if(item_amount($item[Bottle of Whiskey]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Old-Fashioned]);
+		}
+		else if(item_amount($item[Bottle of Vodka]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Cosmopolitan]);
+		}
+		else if(item_amount($item[Bottle of Tequila]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Paloma]);
+		}
+		else if(item_amount($item[Boxed Wine]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Mimosa]);
+		}
+		else if(item_amount($item[Bottle of Gin]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Negroni]);
+		}
+		else if(item_amount($item[Bottle of Rum]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Dark and Stormy]);
+		}
+		break;
+	case $stat[Mysticality]:
+		if(item_amount($item[Bottle of Rum]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Dark and Stormy]);
+		}
+		else if(item_amount($item[Boxed Wine]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Mimosa]);
+		}
+		else if(item_amount($item[Bottle of Gin]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Negroni]);
+		}
+		else if(item_amount($item[Bottle of Vodka]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Cosmopolitan]);
+		}
+		else if(item_amount($item[Bottle of Tequila]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Paloma]);
+		}
+		else if(item_amount($item[Bottle of Whiskey]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Old-Fashioned]);
+		}
+		break;
+	case $stat[Moxie]:
+		if(item_amount($item[Bottle of Tequila]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Paloma]);
+		}
+		else if(item_amount($item[Bottle of Gin]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Negroni]);
+		}
+		else if(item_amount($item[Bottle of Whiskey]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Old-Fashioned]);
+		}
+		else if(item_amount($item[Bottle of Rum]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Dark and Stormy]);
+		}
+		else if(item_amount($item[Bottle of Vodka]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Cosmopolitan]);
+		}
+		else if(item_amount($item[Boxed Wine]) > 0)
+		{
+			cli_execute("make " + $item[Perfect Mimosa]);
+		}
+		break;
+	}
+
+	return !(starting == item_amount($item[Perfect Ice Cube]));
+}
 
 
 boolean tryCookies()
@@ -160,6 +291,19 @@ void consumeStuff()
 		mpForOde = 0;
 	}
 
+	//Generic Boozing (Yes, we leave 3 inebriety leftover.
+	if(((my_inebriety() + 6) < inebriety_limit()) && (my_mp() >= mpForOde))
+	{
+		makePerfectBooze();
+		item booze = getAvailablePerfectBooze();
+		if(booze != $item[none])
+		{
+			shrugAT();
+			buffMaintain($effect[Ode to Booze], 50, 1, 3);
+			drink(1, booze);
+		}
+	}
+
 	if(my_daycount() == 1)
 	{
 		if((my_spleen_use() == 0) && (item_amount($item[grim fairy tale]) > 0))
@@ -194,7 +338,7 @@ void consumeStuff()
 			chew(1, $item[astral energy drink]);
 		}
 
-		if((my_mp() > mpForOde) && (my_meat() > 400) && (my_level() >= 3) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
+		if((my_mp() > mpForOde) && (my_level() >= 3) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
