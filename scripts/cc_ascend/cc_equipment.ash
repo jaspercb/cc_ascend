@@ -610,7 +610,7 @@ void equipBaselineAcc3()
 void equipRollover()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Hairpiece on Fire];
+	boolean[item] poss = $items[Sea Cowboy Hat, Hairpiece on Fire, Leather Aviator\'s Cap];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -640,7 +640,7 @@ void equipRollover()
 
 
 	toEquip = $item[none];
-	poss = $items[Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
+	poss = $items[General Sage\'s Lonely Diamonds Club Jacket, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -668,7 +668,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = $items[Astral Statuette, blue LavaCo Lamp&trade;, green LavaCo Lamp&trade;, red LavaCo Lamp&trade;, Silver Cow Creamer];
+	poss = $items[Ancient Calendar, Mer-kin stopwatch, Astral Statuette, blue LavaCo Lamp&trade;, green LavaCo Lamp&trade;, red LavaCo Lamp&trade;, Silver Cow Creamer];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -682,7 +682,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = $items[Vicar\'s Tutu, Ninjammies, Pantaloons of Hatred, Ratskin Pajama Pants];
+	poss = $items[Paperclip Pants, Electronic Dulcimer Pants, Vicar\'s Tutu, Ninjammies, Pantaloons of Hatred, Ratskin Pajama Pants];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -699,7 +699,7 @@ void equipRollover()
 	equip($slot[acc3], $item[none]);
 
 	toEquip = $item[none];
-	poss = $items[Numberwang];
+	poss = $items[BGE Pocket Calendar, Boots of Twilight Whispers, Numberwang];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -713,7 +713,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = $items[Dead Guy\'s Watch, Sasq&trade; Watch];
+	poss = $items[Dead Guy\'s Watch, Grandfather Watch, Sasq&trade; Watch];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))

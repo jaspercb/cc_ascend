@@ -303,7 +303,7 @@ boolean handleFamiliar(string type)
 	{
 		if(monster_level_adjustment() > 120)
 		{
-			foreach fam in $familiars[Hovering Sombrero, Baby Sandworm, Galloping Grill]
+			foreach fam in $familiars[Galloping Grill, Hovering Sombrero, Baby Sandworm]
 			{
 				if(have_familiar(fam))
 				{
@@ -311,7 +311,7 @@ boolean handleFamiliar(string type)
 				}
 			}
 		}
-		foreach fam in $familiars[Blood-Faced Volleyball, Frumious Bandersnatch, Grinning Turtle, Dramatic Hedgehog, Smiling Rat, Li\'l Xenomorph, Baby Z-Rex, Happy Medium, Artistic Goth Kid, Lil\' Barrel Mimic, Bloovian Groose, Unconscious Collective, Reanimated Reanimator, Golden Monkey, Grim Brother]
+		foreach fam in $familiars[Grim Brother, Golden Monkey, Reanimated Reanimator, Unconscious Collective, Bloovian Groose, Lil\' Barrel Mimic, Artistic Goth Kid, Happy Medium, Baby Z-Rex, Li\'l Xenomorph, Smiling Rat, Dramatic Hedgehog, Grinning Turtle, Frumious Bandersnatch, Blood-Faced Volleyball]
 		{
 			if(have_familiar(fam))
 			{
