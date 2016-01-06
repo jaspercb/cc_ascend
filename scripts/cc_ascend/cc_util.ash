@@ -3,6 +3,7 @@ import <zlib.ash>
 import <cc_ascend/cc_chateaumantegna.ash>
 
 // Public Prototypes
+boolean snojoFightAvailable();
 int doNumberology(string goal);
 boolean handleBarrelFullOfBarrels();
 int solveCookie();
@@ -944,6 +945,17 @@ boolean playwith(skill sk, string prop) {
 	if(ok_skill(sk) && need(prop))
 		use_skill(1, sk);
 	return !need(prop);
+}
+
+boolean snojoFightAvailable()
+{
+	if(!get_property("snojoAvailable").to_boolean())
+	{
+		return false;
+	}
+	string page = visit_url("place.php?whichplace=snojo");
+	matcher snojoMatcher = create_matcher("Fight the X-32-F Combat Training Snowman\"", page);
+	return snojoMatcher.find();
 }
 
 int doNumberology(string goal)

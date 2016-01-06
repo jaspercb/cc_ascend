@@ -1486,15 +1486,21 @@ void doBedtime()
 
 	ed_terminateSession();
 
+	while(snojoFightAvailable())
+	{
+		handleFamiliar("stat");
+		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
+	}
+
 	if(my_class() == $class[seal clubber])
 	{
+		handleFamiliar("stat");
 		int oldSeals = get_property("_sealsSummoned").to_int();
 		while((get_property("_sealsSummoned").to_int() < 5) && (!get_property("kingLiberated").to_boolean()) && (my_meat() > 4500))
 		{
 			if(my_daycount() == 1)
 			{
 				cli_execute("make figurine of an ancient seal");
-	#			buyUpTo(1, $item[figurine of an ancient seal]);
 				buyUpTo(3, $item[seal-blubber candle]);
 				handleSealAncient();
 			}
@@ -1511,6 +1517,20 @@ void doBedtime()
 			}
 			oldSeals = newSeals;
 		}
+	}
+
+	while(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5))
+	{
+		if(get_property("cc_choice1119") != "")
+		{
+			set_property("choiceAdventure1119", get_property("cc_choice1119"));
+		}
+		set_property("cc_choice1119", get_property("choiceAdventure1119"));
+		set_property("choiceAdventure1119", 1);
+		handleFamiliar($familiar[Machine Elf]);
+		ccAdv(1, $location[The Deep Machine Tunnels]);
+		set_property("choiceAdventure1119", get_property("cc_choice1119"));
+		set_property("cc_choice1119", "");
 	}
 
 	if((my_inebriety() <= inebriety_limit()) && (my_rain() >= 50) && (my_adventures() >= 1))
