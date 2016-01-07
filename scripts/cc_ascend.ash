@@ -1190,6 +1190,23 @@ void initializeDay(int day)
 		}
 	}
 
+	if(!get_property("_pottedTeaTreeUsed").to_boolean())
+	{
+		if(day == 1)
+		{
+			cli_execute("teatree " + $item[Cuppa Voraci Tea]);
+		}
+		else if(day == 2)
+		{
+			cli_execute("teatree " + $item[Cuppa Sobrie Tea]);
+		}
+		else
+		{
+			visit_url("campground.php?action=teatree");
+			run_choice(1);
+		}
+	}
+
 	if(item_amount($item[Mick\'s IcyVapoHotness Inhaler]) > 0)
 	{
 		set_property("cc_castleground", "done");
@@ -9265,12 +9282,6 @@ boolean doTasks()
 	if(have_effect($effect[beaten up]) > 0)
 	{
 		abort("Got beaten up, please fix me");
-	}
-
-	if(!get_property("_pottedTeaTreeUsed").to_boolean())
-	{
-		visit_url("campground.php?action=teatree");
-		run_choice(1);
 	}
 
 	if((my_daycount() == 2) && have_familiar($familiar[Crimbo Shrub]))
