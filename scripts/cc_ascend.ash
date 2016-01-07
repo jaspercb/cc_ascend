@@ -1178,6 +1178,18 @@ void initializeDay(int day)
 		pullXWhenHaveY($item[Talking Spade], 1, 0);
 	}
 
+	if(!get_property("_barrelPrayer").to_boolean())
+	{
+		if(day == 1)
+		{
+			cli_execute("barrelprayer Protection");
+		}
+		else if(day == 2)
+		{
+			cli_execute("barrelprayer Glamour");
+		}
+	}
+
 	if(item_amount($item[Mick\'s IcyVapoHotness Inhaler]) > 0)
 	{
 		set_property("cc_castleground", "done");
@@ -9261,7 +9273,21 @@ boolean doTasks()
 		run_choice(1);
 	}
 
-	doNumberology("adventures3");
+	if((my_daycount() == 2) && have_familiar($familiar[Crimbo Shrub]))
+	{
+		//Do we have other Yellow Ray options? We really need a generic YR handler.
+		if((doNumberology("battlefield", false) != -1) && (my_mp() >= mp_cost($skill[Calculate the Universe])) && (have_effect($effect[Everything Looks Yellow]) == 0))
+		{
+			handleFamiliar($familiar[Crimbo Shrub]);
+			doNumberology("battlefield");
+			ccAdv(1, $location[Noob Cave]);
+			return true;
+		}
+	}
+	else
+	{
+		doNumberology("adventures3");
+	}
 
 	if(LA_cs_communityService())
 	{

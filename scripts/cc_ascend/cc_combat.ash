@@ -669,6 +669,7 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 			if((enemy == $monster[filthworm royal guard]) ||
 				((enemy == $monster[orcish frat boy spy]) && (my_daycount() == 1)) ||
+				((enemy == $monster[War Frat 151st Infantryman]) && (my_daycount() == 2)) ||
 				(enemy == $monster[knob goblin harem girl]))
 			{
 				doYellow = true;

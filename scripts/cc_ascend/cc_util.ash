@@ -5,6 +5,7 @@ import <cc_ascend/cc_chateaumantegna.ash>
 // Public Prototypes
 boolean snojoFightAvailable();
 int doNumberology(string goal);
+int doNumberology(string goal, boolean doIt);
 boolean handleBarrelFullOfBarrels();
 int solveCookie();
 boolean use_barrels();
@@ -960,6 +961,11 @@ boolean snojoFightAvailable()
 
 int doNumberology(string goal)
 {
+	return doNumberology(goal, true);
+}
+
+int doNumberology(string goal, boolean doIt)
+{
 	if(!have_skill($skill[Calculate the Universe]))
 	{
 		return -1;
@@ -1041,6 +1047,10 @@ int doNumberology(string goal)
 		if(numberwang[current] == goal)
 		{
 			print("Found option for Numberology: " + current, "blue");
+			if(!doIt)
+			{
+				return i;
+			}
 			visit_url("runskillz.php?pwd&action=Skillz&whichskill=144&quantity=1", true);
 			#use_skill($skill[Calculate the Universe]);
 			visit_url("choice.php?whichchoice=1103&pwd=&option=1&num=" + i);
