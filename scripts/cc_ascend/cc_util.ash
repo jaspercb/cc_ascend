@@ -522,7 +522,6 @@ effect whatStatSmile()
 
 item whatHiMein()
 {
-	//Hopefully, temporary hack for this method, we may be able to pretend nothing happened at this point aside from less turn-gen.
 	if(my_level() < 8)
 	{
 		return $item[none];
@@ -531,23 +530,23 @@ item whatHiMein()
 	{
 		return $item[Fettucini Inconnu];
 	}
-	return $item[crudles];
-/*
-	switch(my_class())
+	if(!in_hardcore() && (my_level() >= 13) && (pulls_remaining() > 0))
 	{
-	case $class[Seal Clubber]:
-	case $class[Turtle Tamer]:
-		return $item[Cold Hi Mein];
-	case $class[Sauceror]:
-	case $class[Pastamancer]:
-	case $class[Ed]:
-		return $item[Spooky Hi Mein];
-	case $class[Disco Bandit]:
-	case $class[Accordion Thief]:
-		return $item[Sleazy Hi Mein];
+		switch(my_class())
+		{
+		case $class[Seal Clubber]:
+		case $class[Turtle Tamer]:
+			return $item[Cold Hi Mein];
+		case $class[Sauceror]:
+		case $class[Pastamancer]:
+		case $class[Ed]:
+			return $item[Spooky Hi Mein];
+		case $class[Disco Bandit]:
+		case $class[Accordion Thief]:
+			return $item[Sleazy Hi Mein];
+		}
 	}
-	return $item[none];
-*/
+	return $item[crudles];
 }
 
 void tootGetMeat()

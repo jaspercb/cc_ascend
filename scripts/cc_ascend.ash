@@ -1523,7 +1523,7 @@ void doBedtime()
 
 	ed_terminateSession();
 
-	while(snojoFightAvailable())
+	while(snojoFightAvailable() && (my_adventures() > 0))
 	{
 		handleFamiliar("stat");
 		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
@@ -1556,7 +1556,7 @@ void doBedtime()
 		}
 	}
 
-	while(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5))
+	while(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0))
 	{
 		if(get_property("cc_choice1119") != "")
 		{
@@ -5764,14 +5764,14 @@ boolean L12_flyerBackup()
 	}
 
 
-	if(snojoFightAvailable())
+	if(snojoFightAvailable() && (my_adventures() > 0))
 	{
 		handleFamiliar("stat");
 		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
 		return true;
 	}
 
-	if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5))
+	if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0))
 	{
 		if(get_property("cc_choice1119") != "")
 		{
