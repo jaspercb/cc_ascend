@@ -1178,7 +1178,7 @@ void initializeDay(int day)
 		pullXWhenHaveY($item[Talking Spade], 1, 0);
 	}
 
-	if(!get_property("_barrelPrayer").to_boolean())
+	if(!get_property("_barrelPrayer").to_boolean() && !get_property("kingLiberated").to_boolean())
 	{
 		if(day == 1)
 		{
@@ -1190,7 +1190,7 @@ void initializeDay(int day)
 		}
 	}
 
-	if(!get_property("_pottedTeaTreeUsed").to_boolean())
+	if(!get_property("_pottedTeaTreeUsed").to_boolean() && !get_property("kingLiberated").to_boolean())
 	{
 		if(day == 1)
 		{
