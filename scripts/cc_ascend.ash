@@ -1257,7 +1257,7 @@ void initializeDay(int day)
 		pullXWhenHaveY($item[Talking Spade], 1, 0);
 	}
 
-	if(!get_property("_barrelPrayer").to_boolean() && !get_property("kingLiberated").to_boolean())
+	if(!get_property("_barrelPrayer").to_boolean() && get_property("barrelShrineUnlocked").to_boolean() && !get_property("kingLiberated").to_boolean())
 	{
 		if(day == 1)
 		{
@@ -1269,7 +1269,7 @@ void initializeDay(int day)
 		}
 	}
 
-	if(!get_property("_pottedTeaTreeUsed").to_boolean() && !get_property("kingLiberated").to_boolean())
+	if(!get_property("_pottedTeaTreeUsed").to_boolean() && (cc_get_campground() contains $item[Potted Tea Tree]) && !get_property("kingLiberated").to_boolean())
 	{
 		if(day == 1)
 		{
@@ -2320,7 +2320,6 @@ boolean questOverride()
 			print("Found completed Orchard (12)");
 			set_property("cc_orchard", "finished");
 		}
-		return false;
 	}
 
 	if((get_property("sidequestLighthouseCompleted") != "none") && (get_property("cc_sonofa") != "finished"))
@@ -2822,7 +2821,7 @@ boolean L13_towerNSFinal()
 	}
 
 	cli_execute("scripts/postcheese.ash");
-	if(item_amount($item[Ouija Board\, Ouija Board]) > 0)
+	if((item_amount($item[Ouija Board\, Ouija Board]) > 0) && (my_class() == $class[Turtle Tamer]))
 	{
 		equip($item[Ouija Board\, Ouija Board]);
 	}
@@ -2855,32 +2854,42 @@ boolean L13_towerNSFinal()
 	}
 
 
-	set_property("cc_disableAdventureHandling", "yes");
-	visit_url("place.php?whichplace=nstower&action=ns_10_sorcfight");
-	ccAdv(1, $location[Noob Cave]);
-	if(have_effect($effect[Beaten Up]) > 0)
+	if(internalQuestStatus("questL13Final") < 12)
 	{
-		print("Sorceress beat us up. Wahhh.", "red");
-		return true;
+		set_property("cc_disableAdventureHandling", "yes");
+		visit_url("place.php?whichplace=nstower&action=ns_10_sorcfight");
+		ccAdv(1, $location[Noob Cave]);
+		if(have_effect($effect[Beaten Up]) > 0)
+		{
+			print("Sorceress beat us up. Wahhh.", "red");
+			set_property("cc_disableAdventureHandling", "no");
+			return true;
+		}
+		if(last_monster() == $monster[Naughty Sorceress])
+		{
+			ccAdv(1, $location[Noob Cave]);
+			if(have_effect($effect[Beaten Up]) > 0)
+			{
+				print("Blobbers Sorceress beat us up. Wahhh.", "red");
+				set_property("cc_disableAdventureHandling", "no");
+				return true;
+			}
+			ccAdv(1, $location[Noob Cave]);
+			if(have_effect($effect[Beaten Up]) > 0)
+			{
+				print("We got beat up by a sausage....", "red");
+				set_property("cc_disableAdventureHandling", "no");
+				return true;
+			}
+			visit_url("place.php?whichplace=nstower&action=ns_11_prism");
+		}
+		set_property("cc_disableAdventureHandling", "no");
 	}
-	if(last_monster() == $monster[Naughty Sorceress])
+	else
 	{
-		ccAdv(1, $location[Noob Cave]);
-		if(have_effect($effect[Beaten Up]) > 0)
-		{
-			print("Blobbers Sorceress beat us up. Wahhh.", "red");
-			return true;
-		}
-		ccAdv(1, $location[Noob Cave]);
-		if(have_effect($effect[Beaten Up]) > 0)
-		{
-			print("We got beat up by a sausage....", "red");
-			return true;
-		}
 		visit_url("place.php?whichplace=nstower&action=ns_11_prism");
 	}
 
-	set_property("cc_disableAdventureHandling", "no");
 	visit_url("place.php?whichplace=nstower&action=ns_11_prism");
 	if(get_property("kingLiberated") == "false")
 	{
@@ -3165,7 +3174,7 @@ boolean L13_towerNSTower()
 		}
 		else
 		{
-			print("Backfarming an Electric Boning Knife", "brown");
+			print("Backfarming an Electric Boning Knife", "green");
 			set_property("choiceAdventure1026", "2");
 			ccAdv(1, $location[The Castle in the Clouds in the Sky (Ground Floor)]);
 		}
@@ -5434,10 +5443,19 @@ boolean L12_finalizeWar()
 		useCocoon();
 	}
 	print("Let's fight the boss!", "blue");
+
+	location bossFight = $location[The Battlefield (Frat Uniform)];
+	if(get_property("cc_hippyInstead").to_boolean())
+	{
+		bossFight = $location[The Battlefield (Hippy Uniform)];
+	}
 	visit_url("bigisland.php?place=camp&whichcamp=1");
 	visit_url("bigisland.php?place=camp&whichcamp=2");
 	visit_url("bigisland.php?action=bossfight&pwd");
-	ccAdv(1, $location[Noob Cave]);
+	if(!ccAdv(1, bossFight))
+	{
+		print("Boss already defeated, ignoring", "red");
+	}
 	council();
 	set_property("cc_war", "finished");
 	return true;
