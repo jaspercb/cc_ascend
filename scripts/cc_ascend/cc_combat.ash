@@ -1054,11 +1054,32 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 		break;
 	case $class[Sauceror]:
-		if((my_mp() >= 24) && (have_skill($skill[Saucegeyser])))
+		if((my_mp() >= mp_cost($skill[Saucecicle])) && (have_skill($skill[Saucegeyser])))
 		{
 			attackMinor = "skill saucegeyser";
 			attackMajor = "skill saucegeyser";
 		}
+		else if((my_mp() >= mp_cost($skill[Saucecicle])) && have_skill($skill[Saucecicle]) && (monster_element(enemy) != $element[cold]))
+		{
+			attackMinor = "skill saucecicle";
+			attackMajor = "skill saucecicle";
+		}
+		else if((my_mp() >= mp_cost($skill[Saucestorm])) && (have_skill($skill[Saucestorm])))
+		{
+			attackMinor = "skill saucestorm";
+			attackMajor = "skill saucestorm";
+		}
+		else if((my_mp() >= mp_cost($skill[Wave of Sauce])) && have_skill($skill[Wave of Sauce]) && (monster_element(enemy) != $element[hot]))
+		{
+			attackMinor = "skill wave of sauce";
+			attackMajor = "skill wave of sauce";
+		}
+		else if((my_mp() >= mp_cost($skill[Stream of Sauce])) && have_skill($skill[Stream of Sauce]) && (monster_element(enemy) != $element[hot]))
+		{
+			attackMinor = "skill stream of sauce";
+			attackMajor = "skill stream of sauce";
+		}
+
 		if(my_soulsauce() >= 5)
 		{
 			stunner = "skill soul bubble";
@@ -1070,7 +1091,6 @@ string cc_combatHandler(int round, string opp, string text)
 			set_property("cc_combatHandler", combatState + "(delaymortarshell)");
 			return "skill salsaball";
 		}
-
 
 		break;
 
