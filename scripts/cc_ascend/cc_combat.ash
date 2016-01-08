@@ -220,13 +220,13 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill summon love stinkbug";
 		}
 
-		if((!contains_text(combatState, "shell up")) && have_skill($skill[Shell Up]) && (my_mp() >= 6) && ((my_hp() * 4) < my_maxhp()) && (round >= 3))
+		if((!contains_text(combatState, "shell up")) && have_skill($skill[Shell Up]) && (my_mp() >= 6) && ((my_hp() * 4) < my_maxhp()) && (round >= 4))
 		{
 			set_property("cc_combatHandler", combatState + "(shell up)");
 			return "skill shell up";
 		}
 
-		if((!contains_text(combatState, "sauceshell")) && have_skill($skill[Sauceshell]) && (my_mp() >= 35) && (round >= 4))
+		if((!contains_text(combatState, "sauceshell")) && have_skill($skill[Sauceshell]) && (my_mp() >= 35) && (round >= 5))
 		{
 			set_property("cc_combatHandler", combatState + "(sauceshell)");
 			return "skill sauceshell";

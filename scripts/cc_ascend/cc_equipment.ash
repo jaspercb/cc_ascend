@@ -9,6 +9,7 @@ void equipBaselineHat();
 void equipBaselineAcc1();
 void equipBaselineAcc2();
 void equipBaselineAcc3();
+void equipBaselineFam();
 void equipBaselineHat(boolean wantNC);
 void equipRollover();
 void handleOffHand();
@@ -414,7 +415,7 @@ void equipBaselineWeapon()
 	switch(my_class())
 	{
 	case $class[Seal Clubber]:
-		poss = $items[Seal-Clubbing Club, Flaming Crutch, Lead Pipe, Meat Tenderizer Is Murder];
+		poss = $items[Seal-Clubbing Club, Flaming Crutch, Oversized Pipe, Lead Pipe, Meat Tenderizer Is Murder];
 		break;
 	case $class[Turtle Tamer]:
 		poss = $items[Turtle Totem, Rope, Work Is A Four Letter Sword];
@@ -458,6 +459,51 @@ void equipBaselineWeapon()
 	handleOffHand();
 }
 
+void equipBaselineFam()
+{
+	if(my_familiar() == $familiar[none])
+	{
+		return;
+	}
+
+	if(my_path() == "Heavy Rains")
+	{
+		if(item_amount($item[miniature life preserver]) > 0)
+		{
+			equip($item[miniature life preserver]);
+			if(!is_familiar_equipment_locked())
+			{
+				lock_familiar_equipment(true);
+			}
+		}
+	}
+	else
+	{
+		item toEquip = $item[none];
+
+		boolean[item] poss = $items[Chocolate-stained Collar, Tiny Bowler, Guard Turtle Collar, Vicious Spiked Collar, Ant Hoe, Ant Pick, Ant Rake, Ant Pitchfork, Ant Sickle, Anniversary Tiny Latex Mask, Origami &quot;Gentlemen\'s&quot; Magazine, Tiny Fly Glasses, Annoying Pitchfork, Li\'l Businessman Kit, Lead Necklace, Flaming Familiar Doppelg&auml;nger, Wax Lips, Lucky Tam O\'Shanter, Lucky Tam O\'Shatner, Miniature Gravy-Covered Maypole, Kill Screen, Loathing Legion Helicopter, Little Box of Fireworks, Filthy Child Leash, Mayflower Bouquet, Plastic Pumpkin Bucket, Moveable Feast, Ittah Bittah Hookah, Snow Suit, Astral Pet Sweater];
+		foreach thing in poss
+		{
+			if(possessEquipment(thing) && can_equip(thing))
+			{
+				toEquip = thing;
+			}
+		}
+
+		if((toEquip != $item[none]) && (toEquip != equipped_item($slot[familiar])))
+		{
+			if(is_familiar_equipment_locked())
+			{
+				lock_familiar_equipment(false);
+			}
+			equip($slot[familiar], toEquip);
+		}
+	}
+	if(!is_familiar_equipment_locked())
+	{
+		lock_familiar_equipment(true);
+	}
+}
 
 void equipBaseline()
 {
@@ -469,30 +515,7 @@ void equipBaseline()
 	equipBaselineAcc1();
 	equipBaselineAcc2();
 	equipBaselineAcc3();
-
-	if(my_familiar() != $familiar[none])
-	{
-		if((my_path() == "Heavy Rains") && (item_amount($item[miniature life preserver]) > 0))
-		{
-			equip($item[miniature life preserver]);
-		}
-		if((my_path() != "Heavy Rains") && (item_amount($item[Astral Pet Sweater]) > 0))
-		{
-			equip($item[Astral Pet Sweater]);
-		}
-		else if((my_path() != "Heavy Rains") && (item_amount($item[Snow Suit]) > 0))
-		{
-			equip($item[Snow Suit]);
-		}
-		else if((my_path() != "Heavy Rains") && (item_amount($item[Filthy Child Leash]) > 0))
-		{
-			equip($item[Filthy Child Leash]);
-		}
-		if(($items[astral pet sweater, filthy child leash, miniature life preserver, snow suit] contains equipped_item($slot[familiar])) && !is_familiar_equipment_locked())
-		{
-			lock_familiar_equipment(true);
-		}
-	}
+	equipBaselineFam();
 
 	if(my_daycount() == 1)
 	{
@@ -592,7 +615,7 @@ void equipBaselineAcc2()
 void equipBaselineAcc3()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[ring of telling skeletons what to do, Glow-in-the-dark necklace, Glowing Red Eye, Xiblaxian Holo-Wrist-Puter, Badge Of Authority, Numberwang, Barrel Hoop Earring];
+	boolean[item] poss = $items[ring of telling skeletons what to do, Glow-in-the-dark necklace, Glowing Red Eye, Xiblaxian Holo-Wrist-Puter, Badge Of Authority, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing) && (equipped_item($slot[acc1]) != thing) && (equipped_item($slot[acc2]) != thing))

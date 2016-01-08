@@ -437,12 +437,20 @@ boolean cc_doWalford()
 	{
 		if(!ccAdv(1, $location[The Ice Hole]))
 		{
-			abort("Could not adventure in the Ice Hotel, aborting");
+			abort("Could not adventure in the Ice Hole, aborting");
 		}
+		if(!didWePlantHere($location[The Ice Hole]) && florist_available())
+		{
+			cli_execute("florist plant snori");
+			cli_execute("florist plant kelptomaniac");
+			cli_execute("florist plant up sea daisy");
+		}
+
 	}
 
 	if(get_property("walfordBucketProgress").to_int() >= 100)
 	{
+		visit_url("place.php?whichplace=airport_cold&action=glac_walrus");
 		visit_url("choice.php?pwd=&whichchoice=1114&option=1",true);
 		return true;
 	}

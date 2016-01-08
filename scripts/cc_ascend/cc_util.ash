@@ -953,9 +953,7 @@ boolean snojoFightAvailable()
 	{
 		return false;
 	}
-	string page = visit_url("place.php?whichplace=snojo");
-	matcher snojoMatcher = create_matcher("Fight the X-32-F Combat Training Snowman\"", page);
-	return snojoMatcher.find();
+	return (get_property("_snojoFreeFights").to_int() < 10);
 }
 
 int doNumberology(string goal)

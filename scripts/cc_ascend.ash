@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16580;
+since r16602;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -995,12 +995,25 @@ int handlePulls(int day)
 			pullXWhenHaveY($item[Xiblaxian Stealth Trousers], 1, 0);
 		}
 
+		if(!possessEquipment($item[Astral Shirt]))
+		{
+			pullXWhenHaveY($item[Sneaky Pete\'s Leather Jacket], 1, 0);
+			if(item_amount($item[Sneaky Pete\'s Leather Jacket]) == 0)
+			{
+				pullXWhenHaveY($item[Sneaky Pete\'s Leather Jacket (Collar Popped)], 1, 0);
+			}
+			else
+			{
+				cli_execute("fold " + $item[Sneaky Pete\'s Leather Jacket (Collar Popped)]);
+			}
+		}
+
 		pullXWhenHaveY($item[spooky-gro fertilizer], 1, 0);
 
-		if(!have_familiar($familiar[Fist Turkey]))
-		{
-			pullXWhenHaveY($item[crystal skeleton vodka], 2, 0);
-		}
+#		if(!have_familiar($familiar[Fist Turkey]))
+#		{
+#			pullXWhenHaveY($item[crystal skeleton vodka], 2, 0);
+#		}
 
 #		pullXWhenHaveY(whatHiMein(), 2, 0);
 #		pullXWhenHaveY($item[digital key lime pie], 1, 0);
@@ -1836,6 +1849,11 @@ void doBedtime()
 	{
 		int craftingLeft = 5 - get_property("_inigosCasts").to_int();
 		print("Free Inigo\'s craftings left: " + craftingLeft, "blue");
+	}
+	if(item_amount($item[Loathing Legion Jackhammer]) > 0)
+	{
+		int craftingLeft = 3 - get_property("__legionJackhammerCrafting").to_int();
+		print("Free Loathing Legion Jackhammer craftings left: " + craftingLeft, "blue");
 	}
 	if(item_amount($item[Thor\'s Pliers]) > 0)
 	{
@@ -2922,8 +2940,16 @@ boolean L13_towerNSTower()
 		{
 			sources = sources + 1;
 		}
-
-		if((item_amount($item[beehive]) > 0) || (sources > 14))
+		int sourceNeed = 13;
+		if(have_skill($skill[Shell Up]))
+		{
+			sourceNeed -= 2;
+		}
+		if(have_skill($skill[Sauceshell]))
+		{
+			sourceNeed -= 2;
+		}
+		if((item_amount($item[beehive]) > 0) || (sources > sourceNeed))
 		{
 			if(item_amount($item[beehive]) == 0)
 			{
@@ -3306,6 +3332,7 @@ boolean L13_towerNSContests()
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=1", true);
 			visit_url("main.php");
+			handleFamiliar($familiar[Adventurous Spelunker]);
 		}
 		if(get_property("nsContestants2").to_int() == -1)
 		{
@@ -3318,6 +3345,7 @@ boolean L13_towerNSContests()
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=2", true);
 			visit_url("main.php");
+			handleFamiliar($familiar[Adventurous Spelunker]);
 		}
 		if(get_property("nsContestants3").to_int() == -1)
 		{
@@ -3332,6 +3360,8 @@ boolean L13_towerNSContests()
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=3", true);
 			visit_url("main.php");
+			handleFamiliar($familiar[Adventurous Spelunker]);
+			equipBaseline();
 		}
 
 		set_property("choiceAdventure1003",  4);
@@ -4400,7 +4430,7 @@ boolean LX_dinseylandfillFunbucks()
 	{
 		return false;
 	}
-	if((my_adventures() == 0) || (my_level() < 5))
+	if((my_adventures() == 0) || (my_level() < 6))
 	{
 		return false;
 	}
@@ -5763,7 +5793,6 @@ boolean L12_flyerBackup()
 		return false;
 	}
 
-
 	if(snojoFightAvailable() && (my_adventures() > 0))
 	{
 		handleFamiliar("stat");
@@ -6450,7 +6479,7 @@ boolean L8_trapperGround()
 	}
 	else if(!in_hardcore())
 	{
-		if(pulls_remaining() > 0)
+		if(pulls_remaining() >= (3 - item_amount(oreGoal)))
 		{
 			pullXWhenHaveY(oreGoal, 3 - item_amount(oreGoal), item_amount(oreGoal));
 		}
