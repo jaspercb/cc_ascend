@@ -4878,10 +4878,20 @@ boolean L11_defeatEd()
 	#This seems to work but we just want to be a little careful with it.
 	if(true)
 	{
+		int x = 0;
+		set_property("cc_disableAdventureHandling", "yes");
 		while(item_amount($item[2334]) == 0)
 		{
+			x = x + 1;
+			print("Hello Ed #" + x + " give me McMuffin please.", "blue");
 			ccAdv(1, $location[The Lower Chambers]);
+			if(have_effect($effect[Beaten Up]) > 0)
+			{
+				set_property("cc_disableAdventureHandling", "no");
+				abort("Got Beaten Up by Ed the Undying.");
+			}
 		}
+		set_property("cc_disableAdventureHandling", "no");
 	}
 	else
 	{
