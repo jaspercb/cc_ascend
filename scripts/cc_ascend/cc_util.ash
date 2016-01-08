@@ -629,16 +629,6 @@ boolean handleFaxMonster(string enemy)
 	}
 
 	visit_url("inv_use.php?pwd&which=3&whichitem=4873");
-/*
-	if(my_class() == $class[Ed])
-	{
-		adv1($location[Noob Cave], 1, "cc_edCombatHandler");
-	}
-	else
-	{
-		adv1($location[Noob Cave], 1, "cc_combatHandler");
-	}
-*/
 	return true;
 }
 

@@ -2462,7 +2462,7 @@ boolean L11_aridDesert()
 		int need = 100 - get_property("desertExploration").to_int();
 		print("Need for desert: " + need, "blue");
 		print("Worm riding: " + item_amount($item[worm-riding manual page]), "blue");
-		if((need < 85) && (item_amount($item[Can of Black Paint]) > 0))
+		if((need < 85) && (item_amount($item[Can of Black Paint]) > 0) && ((get_property("gnasirProgress").to_int() & 2) == 2))
 		{
 			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
@@ -7481,20 +7481,25 @@ boolean L9_aBooPeak()
 			coldResist += 2;
 			spookyResist += 2;
 		}
+		else if((item_amount($item[Can of Black Paint]) > 0) && (have_effect($effect[Red Door Syndrome]) == 0))
+		{
+			coldResist += 2;
+			spookyResist += 2;
+		}
 
 
 #		maximize("spooky res, cold res -equip lihc face -equip snow suit", 0, 0, false);
 #		adjustEdHat("ml");
 #		int coldResist = elemental_resist($element[cold]);
 #		int spookyResist = elemental_resist($element[spooky]);
-#		if(item_amount($item[Spooky Powder]) > 0)
-#		{
-#			spookyResist = spookyResist + 1;
-#		}
-#		if(item_amount($item[Cold Powder]) > 0)
-#		{
-#			coldResist = coldResist + 1;
-#		}
+		if((item_amount($item[Spooky Powder]) > 0) && (have_effect($effect[Spookypants]) == 0))
+		{
+			spookyResist = spookyResist + 1;
+		}
+		if((item_amount($item[Cold Powder]) > 0) && (have_effect($effect[Insulated Trousers]) == 0))
+		{
+			coldResist = coldResist + 1;
+		}
 
 #		#	Ed could really use some HP buffs but healing is an issue here.
 #		if(my_class() == $class[Ed])
@@ -7571,10 +7576,10 @@ boolean L9_aBooPeak()
 		{
 			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
 			maximize("spooky res, cold res " + lihcface + " -equip snow suit", 0, 0, false);
-			if((item_amount($item[Lihc Face]) > 0) && (my_class() != $class[Ed]))
-			{
-				equip($item[Lihc Face]);
-			}
+#			if((item_amount($item[Lihc Face]) > 0) && (my_class() != $class[Ed]))
+#			{
+#				equip($item[Lihc Face]);
+#			}
 			adjustEdHat("ml");
 
 			if(item_amount($item[ghost of a necklace]) > 0)
@@ -7586,11 +7591,11 @@ boolean L9_aBooPeak()
 			buffMaintain($effect[Spookypants], 0, 1, 1);
 			buffMaintain($effect[Insulated Trousers], 0, 1, 1);
 
-			if(my_class() == $class[Ed])
-			{
+#			if(my_class() == $class[Ed])
+#			{
 				buffMaintain($effect[Red Door Syndrome], 0, 1, 1);
 				buffMaintain($effect[Well-Oiled], 0, 1, 1);
-			}
+#			}
 
 			set_property("choiceAdventure611", "1");
 			if((my_hp() - 50) < totalDamage)
@@ -7612,10 +7617,7 @@ boolean L9_aBooPeak()
 		}
 		print("Nevermind, that peak is too scary!", "green");
 		equipBaseline();
-		if(equipped_item($slot[back]) == $item[Buddy Bjorn])
-		{
-			handleBjornify(priorBjorn);
-		}
+		handleBjornify(priorBjorn);
 	}
 	else if((get_property("cc_abooclover") == "") && (get_property("booPeakProgress").to_int() >= 40))
 	{
