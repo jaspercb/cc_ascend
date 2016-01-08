@@ -2527,7 +2527,7 @@ boolean L11_aridDesert()
 		int need = 100 - get_property("desertExploration").to_int();
 		print("Need for desert: " + need, "blue");
 		print("Worm riding: " + item_amount($item[worm-riding manual page]), "blue");
-		if((need < 85) && (item_amount($item[Can of Black Paint]) > 0) && ((get_property("gnasirProgress").to_int() & 2) == 2))
+		if((need < 85) && (item_amount($item[Can of Black Paint]) > 0) && ((get_property("gnasirProgress").to_int() & 2) != 2))
 		{
 			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
@@ -2554,6 +2554,10 @@ boolean L11_aridDesert()
 			visit_url("choice.php?whichchoice=805&option=2&pwd=");
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
 			set_property("cc_killingjar", "finished");
+			if(item_amount($item[Worm-Riding Hooks]) == 0)
+			{
+				abort("We messed up in the Desert, get the Worm-Riding Hooks and use them please.");
+			}
 			if(item_amount($item[Drum Machine]) > 0)
 			{
 				use(1, $item[Drum Machine]);
