@@ -567,6 +567,72 @@ int pullsNeeded(string data)
 	return count;
 }
 
+boolean tophatMaker()
+{
+	if(!knoll_available() || (item_amount($item[Brass Gear]) == 0) || possessEquipment($item[Mark V Steam-Hat]))
+	{
+		return false;
+	}
+	item reEquip = $item[none];
+
+	if(possessEquipment($item[Mark IV Steam-Hat]))
+	{
+		if(equipped_item($slot[Hat]) == $item[Mark IV Steam-Hat])
+		{
+			reEquip = $item[Mark V Steam-Hat];
+			equip($slot[hat], $item[none]);
+		}
+		ccCraft("paste", 1, $item[Brass Gear], $item[Mark IV Steam-Hat]);
+	}
+	else if(possessEquipment($item[Mark III Steam-Hat]))
+	{
+		if(equipped_item($slot[Hat]) == $item[Mark III Steam-Hat])
+		{
+			reEquip = $item[Mark IV Steam-Hat];
+			equip($slot[hat], $item[none]);
+		}
+		ccCraft("paste", 1, $item[Brass Gear], $item[Mark III Steam-Hat]);
+	}
+	else if(possessEquipment($item[Mark II Steam-Hat]))
+	{
+		if(equipped_item($slot[Hat]) == $item[Mark II Steam-Hat])
+		{
+			reEquip = $item[Mark III Steam-Hat];
+			equip($slot[hat], $item[none]);
+		}
+		ccCraft("paste", 1, $item[Brass Gear], $item[Mark II Steam-Hat]);
+	}
+	else if(possessEquipment($item[Mark I Steam-Hat]))
+	{
+		if(equipped_item($slot[Hat]) == $item[Mark I Steam-Hat])
+		{
+			reEquip = $item[Mark II Steam-Hat];
+			equip($slot[hat], $item[none]);
+		}
+		ccCraft("paste", 1, $item[Brass Gear], $item[Mark I Steam-Hat]);
+	}
+	else if(possessEquipment($item[Brown Felt Tophat]))
+	{
+		if(equipped_item($slot[Hat]) == $item[Brown Felt Tophat])
+		{
+			reEquip = $item[Mark I Steam-Hat];
+			equip($slot[hat], $item[none]);
+		}
+		ccCraft("paste", 1, $item[Brass Gear], $item[Brown Felt Tophat]);
+	}
+	else
+	{
+		return false;
+	}
+
+	print("Mark Steam-Hat upgraded!", "blue");
+	if(reEquip != $item[none])
+	{
+		equip($slot[hat], reEquip);
+	}
+	return true;
+}
+
 boolean warOutfit()
 {
 	if(!get_property("cc_hippyInstead").to_boolean())
@@ -7451,7 +7517,7 @@ boolean L9_aBooPeak()
 	}
 
 	print("A-Boo Peak: " + get_property("booPeakProgress"), "blue");
-	if(item_amount($item[a-boo clue]) > 0)
+	if((item_amount($item[a-boo clue]) > 0) && (get_property("booPeakProgress").to_int() > 2))
 	{
 		boolean doThisBoo = false;
 
@@ -7529,6 +7595,32 @@ boolean L9_aBooPeak()
 		print("Expected Cold Resist: " + coldResist + " Expected Spooky Resist: " + spookyResist + " Expected HP Difference: " + hpDifference, "blue");
 		int totalDamage = estimatedCold + estimatedSpooky;
 
+		if(get_property("booPeakProgress").to_int() <= 6)
+		{
+			estimatedCold = ((estimatedCold * 38) / 463) + 1;
+			estimatedSpooky = ((estimatedSpooky * 38) / 463) + 1;
+			totalDamage = estimatedCold + estimatedSpooky;
+		}
+		else if(get_property("booPeakProgress").to_int() <= 12)
+		{
+			estimatedCold = ((estimatedCold * 88) / 463) + 1;
+			estimatedSpooky = ((estimatedSpooky * 88) / 463) + 1;
+			totalDamage = estimatedCold + estimatedSpooky;
+		}
+		else if(get_property("booPeakProgress").to_int() <= 20)
+		{
+			estimatedCold = ((estimatedCold * 213) / 463) + 1;
+			estimatedSpooky = ((estimatedSpooky * 213) / 463) + 1;
+			totalDamage = estimatedCold + estimatedSpooky;
+		}
+
+		if(get_property("booPeakProgress").to_int() <= 20)
+		{
+			print("Don't need a full A-Boo Clue, adjusting values:", "blue");
+			print("Expected cold damage: " + estimatedCold + " Expected spooky damage: " + estimatedSpooky, "blue");
+			print("Expected Cold Resist: " + coldResist + " Expected Spooky Resist: " + spookyResist + " Expected HP Difference: " + hpDifference, "blue");
+		}
+
 		int considerHP = my_maxhp() + hpDifference;
 
 		int mp_need = 20 + numeric_modifier("Generated:_spec", "Mana Cost");
@@ -7603,11 +7695,16 @@ boolean L9_aBooPeak()
 				useCocoon();
 			}
 			use(1, $item[A-Boo clue]);
+			#When booPeakProgress <= 0, we want to leave this adventure. Can we?
 			ccAdv(1, $location[A-Boo Peak]);
 			useCocoon();
 			if((my_class() == $class[Ed]) && (my_hp() == 0))
 			{
 				use(1, $item[Linen Bandages]);
+			}
+			if(((my_hp() * 4) < my_maxhp()) && (item_amount($item[Scroll of Drastic Healing]) > 0))
+			{
+				use(1, $item[Scroll of Drastic Healing]);
 			}
 			return true;
 		}
@@ -9382,6 +9479,7 @@ boolean doTasks()
 		}
 	}
 
+	tophatMaker();
 	equipBaseline();
 
 	if(doHRSkills())

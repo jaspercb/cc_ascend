@@ -921,6 +921,12 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill air dirty laundry";
 		}
 
+		if((!contains_text(combatState, "fire death ray")) && (have_skill($skill[Fire Death Ray])))
+		{
+			set_property("cc_combatHandler", combatState + "(fire death ray)");
+			return "skill fire death ray";
+		}
+
 		if((!contains_text(combatState, "ply reality")) && (have_skill($skill[ply reality])))
 		{
 			set_property("cc_combatHandler", combatState + "(ply reality)");
