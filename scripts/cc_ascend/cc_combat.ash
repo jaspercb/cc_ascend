@@ -1173,6 +1173,15 @@ string cc_combatHandler(int round, string opp, string text)
 		abort("Some sort of problem occurred, it is past round 25 but we are still in non-gremlin combat...");
 	}
 
+	if(attackMinor == "attack with weapon")
+	{
+		if((!contains_text(combatState, "love stinkbug")) && have_skill($skill[Summon Love Stinkbug]))
+		{
+			set_property("cc_combatHandler", combatState + "(love stinkbug)");
+			return "skill " + $skill[Summon Love Stinkbug];
+		}
+	}
+
 	return attackMinor;
 #	return get_ccs_action(round);
 }
