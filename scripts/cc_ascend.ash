@@ -1135,8 +1135,11 @@ int handlePulls(int day)
 
 		if(cc_my_path() != "Heavy Rains")
 		{
-			pullXWhenHaveY($item[snow suit], 1, 0);
-			if(item_amount($item[snow suit]) == 0)
+			if(!possessEquipment($item[Snow Suit]))
+			{
+				pullXWhenHaveY($item[snow suit], 1, 0);
+			}
+			if(!possessEquipment($item[Snow Suit]) && !possessEquipment($item[Filthy Child Leash]))
 			{
 				pullXWhenHaveY($item[Filthy Child Leash], 1, 0);
 			}
