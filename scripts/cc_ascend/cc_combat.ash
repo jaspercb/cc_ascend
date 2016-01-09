@@ -1060,7 +1060,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 		break;
 	case $class[Sauceror]:
-		if((my_mp() >= mp_cost($skill[Saucecicle])) && (have_skill($skill[Saucegeyser])))
+		if((my_mp() >= mp_cost($skill[Saucegeyser])) && (have_skill($skill[Saucegeyser])))
 		{
 			attackMinor = "skill saucegeyser";
 			attackMajor = "skill saucegeyser";
