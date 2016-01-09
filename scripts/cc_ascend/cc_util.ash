@@ -1000,6 +1000,11 @@ boolean snojoFightAvailable()
 	{
 		return false;
 	}
+	if(get_property("snojoSetting") == "NONE")
+	{
+		print("Snojo not set, attempting to set to " + my_primestat(), "blue");
+		visit_url("place.php?whichplace=snojo&action=snojo_controller");
+	}
 	return (get_property("_snojoFreeFights").to_int() < 10);
 }
 

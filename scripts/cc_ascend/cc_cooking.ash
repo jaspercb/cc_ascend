@@ -291,8 +291,7 @@ void consumeStuff()
 		mpForOde = 0;
 	}
 
-	//Generic Boozing (Yes, we leave 3 inebriety leftover.
-	if(((my_inebriety() + 6) < inebriety_limit()) && (my_mp() >= mpForOde))
+	if(((my_inebriety() + 3) <= inebriety_limit()) && (my_mp() >= mpForOde))
 	{
 		makePerfectBooze();
 		item booze = getAvailablePerfectBooze();

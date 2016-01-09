@@ -574,10 +574,11 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 
 
-	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= 40))
+	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
 	{
 		if((enemy == $monster[blooper]) ||
 			(enemy == $monster[bob racecar]) ||
+			(enemy == $monster[dairy goat]) ||
 			(enemy == $monster[racecar bob]) ||
 #			(enemy == $monster[cubist bull]) ||
 			(enemy == $monster[pygmy bowler]) ||
