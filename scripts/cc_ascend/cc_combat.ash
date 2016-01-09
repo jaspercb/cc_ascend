@@ -1092,14 +1092,13 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 
 
-		if(!contains_text(combatState, "delaymortarshell") && contains_text(combatState, "stuffedmortarshell") && (my_class() == $class[Sauceror]) && ((expected_damage() * 2) < my_hp()) && !have_skill($skill[Stuffed Mortar Shell]) && have_skill($skill[Salsaball]) && (my_mp() > mp_cost($skill[Salsaball])))
+		if(!contains_text(combatState, "delaymortarshell") && contains_text(combatState, "stuffedmortarshell") && (my_class() == $class[Sauceror]) && ((expected_damage() * 2) < my_hp()) && have_skill($skill[Stuffed Mortar Shell]) && have_skill($skill[Salsaball]) && (my_mp() > mp_cost($skill[Salsaball])))
 		{
 			set_property("cc_combatHandler", combatState + "(delaymortarshell)");
 			return "skill salsaball";
 		}
 
 		break;
-
 	}
 
 	if(round <= 25)
