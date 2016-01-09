@@ -499,7 +499,7 @@ void equipBaselineFam()
 			equip($slot[familiar], toEquip);
 		}
 	}
-	if(!is_familiar_equipment_locked())
+	if(!is_familiar_equipment_locked() && (equipped_item($slot[familiar]) != $item[none]))
 	{
 		lock_familiar_equipment(true);
 	}
