@@ -21,6 +21,7 @@ boolean set_property_ifempty(string setting, string change);
 boolean restore_property(string setting, string source);
 boolean clear_property_if(string setting, string cond);
 int doRest();
+boolean isFreeMonster(monster mon);
 boolean in_ronin();
 item whatHiMein();
 boolean getDiscoStyle();
@@ -573,6 +574,65 @@ boolean ovenHandle()
 	}
 	return get_property("cc_haveoven").to_boolean();
 }
+
+boolean isFreeMonster(monster mon)
+{
+	boolean[monster] classRevamp = $monsters[Box of Crafty Dinner, depressing french accordionist, Frozen Bag of Tortellini, lively cajun accordionist, Possessed Can of Creepy Pasta, Possessed Can of Linguine-Os, Possessed Jar of Alphredo&trade;, quirky indie-rock accordionist];
+
+	boolean[monster] bricko = $monsters[BRICKO airship, BRICKO bat, BRICKO cathedral, BRICKO elephant, BRICKO gargantuchicken, BRICKO octopus, BRICKO ooze, BRICKO oyster, BRICKO python, BRICKO turtle, BRICKO vacuum cleaner];
+
+	boolean[monster] gothKid = $monsters[Black Crayon Beast, Black Crayon Beetle, Black Crayon Constellation, Black Crayon Golem, Black Crayon Demon, Black Crayon Man, Black Crayon Elemental, Black Crayon Crimbo Elf, Black Crayon Fish, Black Crayon Goblin, Black Crayon Hippy, Black Crayon Hobo, Black Crayon Shambling Monstrosity, Black Crayon Manloid, Black Crayon Mer-kin, Black Crayon Frat Orc, Black Crayon Penguin, Black Crayon Pirate, Black Crayon Flower, Black Crayon Slime, Black Crayon Undead Thing, Black Crayon Spiraling Shape];
+
+	boolean[monster] hipster = $monsters[angry bassist, blue-haired girl, evil ex-girlfriend, peeved roommate, random scenester];
+
+	boolean[monster] infernalSeals = $monsters[Broodling Seal, Centurion of Sparky, Hermetic Seal, Spawn of Wally, Heat Seal, Navy Seal, Servant of Grodstank, Shadow of Black Bubbles, Watertight Seal, Wet Seal];
+
+	boolean[monster] other = $monsters[lynyrd, giant rubber spider];
+
+	if(classRevamp contains mon)
+	{
+		return true;
+	}
+	if(bricko contains mon)
+	{
+		return true;
+	}
+	if(gothKid contains mon)
+	{
+		return true;
+	}
+	if(hipster contains mon)
+	{
+		return true;
+	}
+	if(infernalSeals contains mon)
+	{
+		return true;
+	}
+	if(other contains mon)
+	{
+		return true;
+	}
+
+	if($monsters[Perceiver of Sensations, Performer of Actions, Thinker of Thoughts] contains mon)
+	{
+		if((my_familiar() == $familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_location() == $location[The Deep Machine Tunnels]))
+		{
+			return true;
+		}
+	}
+
+	if($monster[X-32-F Combat Training Snowman] == mon)
+	{
+		if(get_property("_snojoFreeFights") < 10)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 
 boolean cc_deleteMail(kmessage msg)
 {

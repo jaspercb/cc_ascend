@@ -5634,6 +5634,22 @@ boolean L10_holeInTheSkyUnlock()
 	if(item_amount($item[steam-powered model rocketship]) > 0)
 	{
 		set_property("cc_holeinthesky", false);
+		return false;
+	}
+	if(item_amount($item[Richard\'s Star Key]) > 0)
+	{
+		set_property("cc_holeinthesky", false);
+		return false;
+	}
+	if((item_amount($item[Star Chart]) > 0) && (item_amount($item[Star]) >= 8) && (item_amount($item[Line]) >= 7))
+	{
+		set_property("cc_holeinthesky", false);
+		return false;
+	}
+	if(contains_text(get_property("nsTowerDoorKeysUsed"),"star key"))
+	{
+		set_property("cc_holeinthesky", false);
+		return false;
 	}
 
 	print("Castle Top Floor - Opening the Hole in the Sky", "blue");
