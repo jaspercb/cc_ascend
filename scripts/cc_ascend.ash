@@ -7227,6 +7227,11 @@ boolean L5_getEncryptionKey()
 	{
 		return false;
 	}
+	if(internalQuestStatus("questL05Goblin") >= 1)
+	{
+		set_property("cc_day1_cobb", "finished");
+		return false;
+	}
 	print("Looking for the knob.", "blue");
 	ccAdv(1, $location[the outskirts of cobb\'s knob]);
 
