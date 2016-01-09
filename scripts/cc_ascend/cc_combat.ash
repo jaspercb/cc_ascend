@@ -607,7 +607,7 @@ string cc_combatHandler(int round, string opp, string text)
 				return "skill talk about poltiics";
 			}
 		}
-		if(my_lightning() >= 25)
+		if((my_lightning() >= 25) && !isFreeMonster(enemy))
 		{
 			if(have_skill($skill[lightning strike]))
 			{
@@ -871,7 +871,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if(!enemy.boss)
 	{
-		if(my_lightning() > 89)
+		if((my_lightning() > 89) && !isFreeMonster(enemy))
 		{
 			if(have_skill($skill[lightning strike]))
 			{
@@ -887,11 +887,17 @@ string cc_combatHandler(int round, string opp, string text)
 					return "skill lightning strike";
 				}
 			}
-			else if(have_skill($skill[lightning strike]))
+			else if((have_skill($skill[lightning strike])) && !isFreeMonster(enemy))
 			{
 				return "skill lightning strike";
 			}
 		}
+	}
+
+	if((!contains_text(combatState, "shattering punch")) && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && !isFreeMonster(enemy))
+	{
+		set_property("cc_combatHandler", combatState + "(shattering punch)");
+		return "skill " + $skill[shattering punch];
 	}
 
 	#Default behaviors:

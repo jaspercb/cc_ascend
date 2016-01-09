@@ -35,6 +35,7 @@ effect whatStatSmile();
 void tootGetMeat();
 boolean ovenHandle();
 boolean handleFaxMonster(string enemy);
+boolean handleFaxMonster(monster enemy);
 boolean isGuildClass();
 void handleRainDoh();
 void handleSpookyPutty();
@@ -657,6 +658,11 @@ boolean cc_deleteMail(kmessage msg)
 
 boolean handleFaxMonster(string enemy)
 {
+	return handleFaxMonster(to_monster(enemy));
+}
+
+boolean handleFaxMonster(monster enemy)
+{
 	if(get_property("_photocopyUsed").to_boolean())
 	{
 		return false;
@@ -664,15 +670,6 @@ boolean handleFaxMonster(string enemy)
 	if(item_amount($item[Clan VIP Lounge Key]) == 0)
 	{
 		return false;
-	}
-
-	if(enemy == "ninja snowman assassin")
-	{
-		enemy = "ninja_assassin";
-	}
-	if(enemy == "mountain man")
-	{
-		enemy = "mountain_man";
 	}
 
 	print("If you don't have chat open, this could take well over a minute. Beep boop.", "green");
