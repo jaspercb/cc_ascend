@@ -758,7 +758,7 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 
 	#First pass snokebomb
-	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp()/2) >= mp_cost($skill[Snokebomb])))
+	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
 	{
 		if($monsters[Doughbat, Natural Spider, plaid ghost, slick lihc, skeletal sommelier, taco cat, wardr&ouml;b nightstand, upgraded ram] contains enemy)
 		{
@@ -792,7 +792,7 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 
 	#Snokebomb replace Batter Up! pass
-	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp()/2) >= mp_cost($skill[Snokebomb])) && (my_class() != $class[Seal Clubber]))
+	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])) && (my_class() != $class[Seal Clubber]))
 	{
 		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Drunk Goat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Senile Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
 		{
@@ -829,7 +829,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp()/2) >= mp_cost($skill[Snokebomb])))
+	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
 	{
 		if($monsters[Clingy Pirate (Female), Clingy Pirate (Male), Pygmy Orderlies, Tomb Asp] contains enemy)
 		{
@@ -892,6 +892,12 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		set_property("cc_combatHandler", combatState + "(shattering punch)");
 		return "skill " + $skill[shattering punch];
+	}
+
+	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 60) && have_skill($skill[Itchy Curse Finger]))
+	{
+		set_property("cc_combatHandler", combatState + "(weaksauce)");
+		return "skill curse of weaksauce";
 	}
 
 	#Default behaviors:
@@ -1024,11 +1030,14 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			attackMinor = "skill shieldbutt";
 		}
-		else if(my_mp() > 80)
+		else if((my_mp() > 80) && ((my_hp() * 2) < my_maxhp()))
 		{
 			attackMinor = "skill kneebutt";
 		}
-		attackMajor = "skill kneebutt";
+		if((round > 15) || ((my_hp() * 2) < my_maxhp()))
+		{
+			attackMajor = "skill kneebutt";
+		}
 		if((have_skill($skill[shieldbutt])) && hasShieldEquipped() && (my_mp() >= 10))
 		{
 			attackMajor = "skill shieldbutt";
@@ -1037,6 +1046,12 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			stunner = "skill shell up";
 		}
+
+		if(((monster_defense() - my_buffedstat(my_primestat())) > 20) && have_skill($skill[Saucestorm]) && (my_mp() >= mp_cost($skill[Saucestorm])))
+		{
+			attackMajor = "skill " + $skill[Saucestorm];
+		}
+
 		break;
 	case $class[Pastamancer]:
 		if((my_mp() >= mp_cost($skill[Cannelloni Cannon])) && (have_skill($skill[Cannelloni Cannon])))

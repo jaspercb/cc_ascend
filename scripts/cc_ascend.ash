@@ -9404,10 +9404,10 @@ boolean doTasks()
 		return true;
 	}
 
-	if((monster_level_adjustment() > 150) && (monster_level_adjustment() < 160))
+	if((monster_level_adjustment() > 150) && (monster_level_adjustment() <= 160))
 	{
 		int base = (monster_level_adjustment() - current_mcd());
-		if(base < 150)
+		if(base <= 150)
 		{
 			int canhave = 150 - base;
 			change_mcd(canhave);
@@ -9422,7 +9422,7 @@ boolean doTasks()
 				change_mcd(0);
 			}
 		}
-		else if(((monster_level_adjustment() + (10 - current_mcd())) < 150) && (current_mcd() != 10))
+		else if(((monster_level_adjustment() + (10 - current_mcd())) <= 150) && (current_mcd() != 10))
 		{
 			if(get_property("cc_beatenUpCount").to_int() < 5)
 			{

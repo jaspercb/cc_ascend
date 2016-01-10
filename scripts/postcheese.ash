@@ -443,7 +443,7 @@ void handlePostAdventure()
 		buffMaintain($effect[Ghostly Shell], 45, 1, 10);
 		if(my_class() == $class[Turtle Tamer])
 		{
-			buffMaintain($effect[Disdain of the War Snapper], 60, 1, 10);
+			buffMaintain($effect[Blessing of the Storm Tortoise], 60, 1, 10);
 		}
 		buffMaintain($effect[Walberg\'s Dim Bulb], 50, 1, 10);
 #		buffMaintain($effect[Springy Fusilli], 60, 1, 10);
@@ -495,7 +495,7 @@ void handlePostAdventure()
 		buffMaintain($effect[Ghostly Shell], 80, 1, 10);
 		if(my_class() == $class[Turtle Tamer])
 		{
-			buffMaintain($effect[Disdain of the War Snapper], 80, 1, 10);
+			buffMaintain($effect[Blessing of the Storm Tortoise], 80, 1, 10);
 		}
 		buffMaintain($effect[Walberg\'s Dim Bulb], 80, 1, 10);
 		buffMaintain($effect[Springy Fusilli], 80, 1, 10);
