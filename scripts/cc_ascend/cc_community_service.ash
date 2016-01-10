@@ -1229,7 +1229,6 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-
 			if(have_skill($skill[Advanced Saucecrafting]))
 			{
 				if(item_amount($item[Tomato Juice of Powerful Power]) < 4)
@@ -1357,6 +1356,32 @@ boolean LA_cs_communityService()
 				missing = missing + 1;
 			}
 			missing = min(2, missing);
+
+			if(snojoFightAvailable() && (my_adventures() > 0))
+			{
+				ccAdv(1, $location[The X-32-F Combat Training Snowman]);
+				return true;
+			}
+
+			if((have_effect($effect[Half-Blooded]) > 0) || (have_effect($effect[Half-Drained]) > 0) || (have_effect($effect[Bruised]) > 0) || (have_effect($effect[Relaxed Muscles]) > 0) || (have_effect($effect[Hypnotized]) > 0) || (have_effect($effect[Bad Haircut]) > 0))
+			{
+				doHottub();
+			}
+
+			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0))
+			{
+				if(get_property("cc_choice1119") != "")
+				{
+					set_property("choiceAdventure1119", get_property("cc_choice1119"));
+				}
+				set_property("cc_choice1119", get_property("choiceAdventure1119"));
+				set_property("choiceAdventure1119", 1);
+				handleFamiliar($familiar[Machine Elf]);
+				ccAdv(1, $location[The Deep Machine Tunnels]);
+				set_property("choiceAdventure1119", get_property("cc_choice1119"));
+				set_property("cc_choice1119", "");
+				return true;
+			}
 
 			if((missing > (item_amount($item[Miniature Power Pill]) + item_amount($item[Power Pill]))) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
@@ -1542,6 +1567,10 @@ boolean LA_cs_communityService()
 			if(is_unrestricted($item[Colorful Plastic Ball]))
 			{
 				cli_execute("ballpit");
+			}
+			if((item_amount($item[Ancient Medicinal Herbs]) > 0) && (have_effect($effect[Ancient Fortitude]) == 0))
+			{
+				chew(1, $item[Ancient Medicinal Herbs]);
 			}
 
 			if(!get_property("_madTeaParty").to_boolean())
@@ -2009,6 +2038,32 @@ boolean LA_cs_communityService()
 	case 7:		#Spell Damage
 		if(my_daycount() > 1)
 		{
+			if(snojoFightAvailable() && (my_adventures() > 0))
+			{
+				ccAdv(1, $location[The X-32-F Combat Training Snowman]);
+				return true;
+			}
+
+			if((have_effect($effect[Half-Blooded]) > 0) || (have_effect($effect[Half-Drained]) > 0) || (have_effect($effect[Bruised]) > 0) || (have_effect($effect[Relaxed Muscles]) > 0) || (have_effect($effect[Hypnotized]) > 0) || (have_effect($effect[Bad Haircut]) > 0))
+			{
+				doHottub();
+			}
+
+			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0))
+			{
+				if(get_property("cc_choice1119") != "")
+				{
+					set_property("choiceAdventure1119", get_property("cc_choice1119"));
+				}
+				set_property("cc_choice1119", get_property("choiceAdventure1119"));
+				set_property("choiceAdventure1119", 1);
+				handleFamiliar($familiar[Machine Elf]);
+				ccAdv(1, $location[The Deep Machine Tunnels]);
+				set_property("choiceAdventure1119", get_property("cc_choice1119"));
+				set_property("cc_choice1119", "");
+				return true;
+			}
+
 			while((my_mp() < 200) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
 				doRest();
