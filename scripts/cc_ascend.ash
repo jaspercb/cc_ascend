@@ -4906,7 +4906,10 @@ boolean L11_defeatEd()
 	}
 	if(baseML > 150)
 	{
-		equip($slot[acc2], $item[pirate fledges]);
+		if(equipped_item($slot[acc2]) == $item[Hand In Glove])
+		{
+			equip($slot[acc2], $item[pirate fledges]);
+		}
 		uneffect($effect[Ur-kel\'s Aria of Annoyance]);
 		if(possessEquipment($item[Beer Helmet]))
 		{
@@ -5290,6 +5293,10 @@ boolean L12_filthworms()
 	}
 
 	handleFamiliar($familiar[Adventurous Spelunker]);
+	if(item_amount($item[Training Helmet]) > 0)
+	{
+		equip($slot[hat], $item[Training Helmet]);
+	}
 
 	if(have_effect($effect[Filthworm Drone Stench]) > 0)
 	{
