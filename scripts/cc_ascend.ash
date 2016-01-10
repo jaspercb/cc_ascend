@@ -1113,14 +1113,6 @@ int handlePulls(int day)
 
 		pullXWhenHaveY($item[spooky-gro fertilizer], 1, 0);
 
-#		if(!have_familiar($familiar[Fist Turkey]))
-#		{
-#			pullXWhenHaveY($item[crystal skeleton vodka], 2, 0);
-#		}
-
-#		pullXWhenHaveY(whatHiMein(), 2, 0);
-#		pullXWhenHaveY($item[digital key lime pie], 1, 0);
-
 		if((cc_my_path() == "Picky") || get_property("cc_100familiar").to_boolean())
 		{
 			pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
@@ -1492,7 +1484,7 @@ void initializeDay(int day)
 			}
 			else
 			{
-				pullXWhenHaveY(whatHiMein(), 3, 0);
+				pullXWhenHaveY(whatHiMein(), 2, 0);
 			}
 
 #			if((item_amount($item[glass of goat\'s milk]) == 0) || (cc_my_path() == "Picky"))
