@@ -8642,8 +8642,17 @@ boolean LX_fcle()
 	{
 		equip($slot[acc1], $item[numberwang]);
 	}
-
+	if(have_familiar($familiar[Ms. Puck Man]))
+	{
+		handleFamiliar($familiar[Ms. Puck Man]);
+	}
+	else if(have_familiar($familiar[Puck Man]))
+	{
+		handleFamiliar($familiar[Puck Man]);
+	}
 	ccAdv(1, $location[The F\'c\'le]);
+	handleFamiliar($familiar[Adventurous Spelunker]);
+
 	return true;
 }
 
@@ -8824,7 +8833,16 @@ boolean LX_pirateInsults()
 
 	if(numPirateInsults() < 7)
 	{
+		if(have_familiar($familiar[Ms. Puck Man]))
+		{
+			handleFamiliar($familiar[Ms. Puck Man]);
+		}
+		else if(have_familiar($familiar[Puck Man]))
+		{
+			handleFamiliar($familiar[Puck Man]);
+		}
 		ccAdv(1, $location[barrrney\'s barrr]);
+		handleFamiliar($familiar[Adventurous Spelunker]);
 		return true;
 	}
 	set_property("cc_pirateoutfit", "blueprint");
