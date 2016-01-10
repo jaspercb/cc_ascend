@@ -8410,8 +8410,10 @@ boolean L11_blackMarket()
 	if(get_property("cc_blackfam").to_boolean())
 	{
 		council();
-		handleFamiliar($familiar[reassembled blackbird]);
-		pullXWhenHaveY($item[blackberry galoshes], 1, 0);
+		if(!have_equipped($item[Blackberry Galoshes]))
+		{
+			pullXWhenHaveY($item[blackberry galoshes], 1, 0);
+		}
 		set_property("cc_blackfam", false);
 		set_property("choiceAdventure923", "1");
 	}
@@ -8474,6 +8476,7 @@ boolean L11_blackMarket()
 			set_property("cc_blackmap", "finished");
 		}
 	}
+	handleFamiliar($familiar[Adventurous Spelunker]);
 	return true;
 }
 
