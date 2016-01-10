@@ -48,6 +48,8 @@ boolean L1_ed_island();							//Defined in cc_ascend/cc_edTheUndying.ash
 boolean L1_ed_dinsey();							//Defined in cc_ascend/cc_edTheUndying.ash
 boolean L1_ed_island(int dickstabOverride);		//Defined in cc_ascend/cc_edTheUndying.ash
 boolean L1_ed_islandFallback();					//Defined in cc_ascend/cc_edTheUndying.ash
+boolean L1_HRstart();							//Defined in cc_ascend/cc_heavyrains.ash
+boolean L1_dnaAcquire();
 boolean L2_mosquito();
 boolean L2_treeCoin();
 boolean L2_spookyMap();

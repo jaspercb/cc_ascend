@@ -398,6 +398,43 @@ boolean handleFamiliar(familiar fam)
 	return false;
 }
 
+boolean L1_dnaAcquire()
+{
+	if((get_property("cc_day1_dna") == "finished") || (my_daycount() != 1))
+	{
+		return false;
+	}
+	if(have_effect($effect[Human-Weird Thing Hybrid]) != 2147483647)
+	{
+		return false;
+	}
+	if(item_amount($item[DNA Extraction Syringe]) == 0)
+	{
+		return false;
+	}
+
+	if(get_property("dnaSyringe") == "weird")
+	{
+		cli_execute("camp dnainject");
+	}
+	else
+	{
+		if((have_familiar($familiar[Machine Elf])) && !get_property("cc_100familiar").to_boolean())
+		{
+			handleFamiliar($familiar[Machine Elf]);
+			ccAdv(1, $location[The Deep Machine Tunnels]);
+			cli_execute("camp dnainject");
+		}
+		else if(elementalPlanes_access($element[sleaze]))
+		{
+			ccAdv(1, $location[Sloppy Seconds Diner]);
+			ccAdv(1, $location[Sloppy Seconds Diner]);
+			cli_execute("camp dnainject");
+		}
+	}
+	set_property("cc_day1_dna", "finished");
+	return true;
+}
 
 void maximize_hedge()
 {
@@ -1374,37 +1411,6 @@ void initializeDay(int day)
 			set_property("cc_day1_init", "finished");
 		}
 
-		if((get_property("cc_day1_dna") != "finished") && (have_effect($effect[Human-Weird Thing Hybrid]) != 2147483647) && (item_amount($item[DNA Extraction Syringe]) > 0))
-		{
-			if((have_familiar($familiar[Machine Elf])) && !get_property("cc_100familiar").to_boolean())
-			{
-				handleFamiliar($familiar[Machine Elf]);
-				ccAdv(1, $location[The Deep Machine Tunnels]);
-				cli_execute("camp dnainject");
-			}
-			else if(elementalPlanes_access($element[sleaze]))
-			{
-				ccAdv(1, $location[Sloppy Seconds Diner]);
-				ccAdv(1, $location[Sloppy Seconds Diner]);
-				cli_execute("camp dnainject");
-			}
-			set_property("cc_day1_dna", "finished");
-		}
-
-		if((cc_my_path() == "Heavy Rains") && (get_property("cc_day1_desk") != "finished") && (my_rain() > 50))
-		{
-			if(my_hp() < my_maxhp())
-			{
-				doHottub();
-			}
-			rainManSummon("writing desk", true, true);
-			if((my_hp() * 2) < my_maxhp())
-			{
-				doHottub();
-			}
-			hr_dnaPotions();
-			set_property("cc_day1_desk", "finished");
-		}
 		if((get_property("lastCouncilVisit").to_int() < my_level()) && (cc_my_path() != "Community Service"))
 		{
 			cli_execute("counters");
@@ -2040,6 +2046,11 @@ void doBedtime()
 		if(is_unrestricted($item[Deck of Every Card]) && (item_amount($item[Deck of Every Card]) > 0) && (get_property("_deckCardsDrawn").to_int() < 15))
 		{
 			print("You have a Deck of Every Card and " + (15 - get_property("_deckCardsDrawn").to_int()) + " draws remaining!", "blue");
+		}
+
+		if(is_unrestricted($item[Chateau Mantegna Room Key]) && !get_property("_chateauMonsterFought").to_boolean() && get_property("chateauAvailable").to_boolean())
+		{
+			print("You can still fight a Chateau Mangtegna Painting today.", "blue");
 		}
 
 		if(is_unrestricted($item[shrine to the Barrel God]) && !get_property("_barrelPrayer").to_boolean() && get_property("barrelShrineUnlocked").to_boolean())
@@ -9318,6 +9329,16 @@ boolean doTasks()
 	{
 		print("Delay between adventures... beep boop... ", "blue");
 		wait(delay);
+	}
+
+	if(L1_dnaAcquire())
+	{
+		return true;
+	}
+
+	if(L1_HRstart())
+	{
+		return true;
 	}
 
 	if((monster_level_adjustment() > 150) && (monster_level_adjustment() < 160))

@@ -352,6 +352,34 @@ boolean doHRSkills()
 	return false;
 }
 
+boolean L1_HRstart()
+{
+	if(cc_my_path() != "Heavy Rains")
+	{
+		return false;
+	}
+	if((get_property("cc_day1_desk") == "finished") || (my_daycount() != 1))
+	{
+		return false;
+	}
+	if((my_rain() < 50) || !have_skill($skill[Rain Man]))
+	{
+		return false;
+	}
+
+	if(my_hp() < my_maxhp())
+	{
+		doHottub();
+	}
+	rainManSummon("writing desk", true, true);
+	if((my_hp() * 2) < my_maxhp())
+	{
+		doHottub();
+	}
+	hr_dnaPotions();
+	set_property("cc_day1_desk", "finished");
+	return true;
+}
 
 boolean rainManSummon(string monsterName, boolean copy, boolean wink)
 {

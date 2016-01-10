@@ -329,7 +329,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((get_property("cc_usePowerPill").to_boolean()) && (get_property("_powerPillUses").to_int() < 20) && (!enemy.boss))
+	if((get_property("cc_usePowerPill").to_boolean()) && (get_property("_powerPillUses").to_int() < 20) && !enemy.boss)
 	{
 		if(item_amount($item[Power Pill]) > 0)
 		{
@@ -608,7 +608,7 @@ string cc_combatHandler(int round, string opp, string text)
 				return "skill talk about poltiics";
 			}
 		}
-		if((my_lightning() >= 25) && !isFreeMonster(enemy))
+		if((my_lightning() >= 25) && !isFreeMonster(enemy) && !enemy.boss)
 		{
 			if(have_skill($skill[lightning strike]))
 			{
@@ -895,7 +895,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "shattering punch")) && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && !isFreeMonster(enemy))
+	if((!contains_text(combatState, "shattering punch")) && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && !isFreeMonster(enemy) && (my_adventures() < 20) && !enemy.boss)
 	{
 		set_property("cc_combatHandler", combatState + "(shattering punch)");
 		return "skill " + $skill[shattering punch];
