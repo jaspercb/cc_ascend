@@ -1950,7 +1950,10 @@ void doBedtime()
 		int craftingLeft = 5 - get_property("_rapidPrototypingUsed").to_int();
 		print("Free Rapid Prototyping craftings left: " + craftingLeft, "blue");
 	}
-
+	if(get_property("timesRested").to_int() < total_free_rests())
+	{
+		print("You have " + (total_free_rests() - get_property("timesRested").to_int()) + " free rests remaining.", "blue");
+	}
 	if(get_property("libramSummons").to_int() > 0)
 	{
 		print("Total Libram Summons: " + get_property("libramSummons"), "blue");
@@ -7832,6 +7835,7 @@ boolean L9_aBooPeak()
 			{
 				use(1, $item[Scroll of Drastic Healing]);
 			}
+			handleBjornify(priorBjorn);
 			return true;
 		}
 		else if(cc_my_path() != "Picky")
