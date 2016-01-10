@@ -111,7 +111,6 @@ void initializeSettings()
 	set_property("cc_hippyInstead", false);
 	set_property("cc_holeinthesky", false);
 	set_property("cc_ignoreFlyer", false);
-	set_property("cc_killingjar", "");
 	set_property("cc_mcmuffin", "");
 	set_property("cc_mistypeak", "");
 	set_property("cc_modernzmobiecount", "");
@@ -2424,11 +2423,7 @@ boolean questOverride()
 		set_property("cc_ballroomsong", "finished");
 	}
 
-	if(((get_property("gnasirProgress").to_int() & 4) != 0) && (get_property("cc_killingjar") != "finished"))
-	{
-		print("Found completed Killing Jar to Gnasir (11)");
-		set_property("cc_killingjar", "finished");
-	}
+
 
 	return false;
 }
@@ -2456,13 +2451,16 @@ boolean L11_aridDesert()
 	}
 
 	item desertBuff = $item[none];
+	int progress = 1;
 	if(possessEquipment($item[UV-resistant compass]))
 	{
 		desertBuff = $item[UV-resistant compass];
+		progress = 2;
 	}
 	if(possessEquipment($item[Ornate Dowsing Rod]))
 	{
 		desertBuff = $item[Ornate Dowsing Rod];
+		progress = 3;
 	}
 
 	if(!possessEquipment(desertBuff))
@@ -2528,7 +2526,7 @@ boolean L11_aridDesert()
 			useCocoon();
 		}
 
-		if(in_hardcore() && isGuildClass() && (item_amount($item[Worm-Riding Hooks]) > 0) && (get_property("desertExploration").to_int() < 85))
+		if(in_hardcore() && isGuildClass() && (item_amount($item[Worm-Riding Hooks]) > 0) && (get_property("desertExploration").to_int() <= (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 16) != 16))
 		{
 			if(item_amount($item[Drum Machine]) > 0)
 			{
@@ -2536,9 +2534,23 @@ boolean L11_aridDesert()
 			}
 			else
 			{
+				print("Off to find the drums!", "blue");
 				ccAdv(1, $location[The Oasis]);
 			}
 			return true;
+		}
+
+		if(((get_property("gnasirProgress").to_int() & 1) != 1))
+		{
+			int expectedOasisTurns = 8 - $location[The Oasis].turns_spent;
+			int equivProgress = expectedOasisTurns * progress;
+			int need = 100 - get_property("desertExploration").to_int();
+			if((need <= 14) && (15 >= equivProgress) && (item_amount($item[Stone Rose]) == 0))
+			{
+				print("It seems raisinable to hunt a Stone Rose. Beep", "blue");
+				ccAdv(1, $location[The Oasis]);
+				return true;
+			}
 		}
 
 		handleInitFamiliar();
@@ -2561,17 +2573,9 @@ boolean L11_aridDesert()
 		int need = 100 - get_property("desertExploration").to_int();
 		print("Need for desert: " + need, "blue");
 		print("Worm riding: " + item_amount($item[worm-riding manual page]), "blue");
-		if((need < 85) && (item_amount($item[Can of Black Paint]) > 0) && ((get_property("gnasirProgress").to_int() & 2) != 2))
+
+		if((need < (100 - (5 * progress))) && (item_amount($item[Stone Rose]) > 0) && ((get_property("gnasirProgress").to_int() & 1) != 1))
 		{
-			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
-			visit_url("choice.php?whichchoice=805&option=1&pwd=");
-			visit_url("choice.php?whichchoice=805&option=2&pwd=");
-			visit_url("choice.php?whichchoice=805&option=1&pwd=");
-			use(1, $item[desert sightseeing pamphlet]);
-		}
-		if((need < 85) && (item_amount($item[Killing Jar]) > 0) && (get_property("cc_killingjar") != "finished"))
-		{
-			set_property("cc_killingjar", "finished");
 			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
 			visit_url("choice.php?whichchoice=805&option=2&pwd=");
@@ -2579,30 +2583,56 @@ boolean L11_aridDesert()
 			use(1, $item[desert sightseeing pamphlet]);
 		}
 
-		need = 100 - get_property("desertExploration").to_int();
-		if((need >= 15) && (item_amount($item[Worm-Riding Manual Page]) >= 15))
+		if((need < (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 2) != 2))
 		{
-			pullXWhenHaveY($item[Drum Machine], 1, 0);
+			if((item_amount($item[Can of Black Paint]) > 0) || (my_meat() >= 1000))
+			{
+				buyUpTo(1, $item[Can of Black Paint]);
+				visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
+				visit_url("choice.php?whichchoice=805&option=1&pwd=");
+				visit_url("choice.php?whichchoice=805&option=2&pwd=");
+				visit_url("choice.php?whichchoice=805&option=1&pwd=");
+				use(1, $item[desert sightseeing pamphlet]);
+			}
+		}
+
+		if((need < (100 - (5 * progress))) && (item_amount($item[Killing Jar]) > 0) && ((get_property("gnasirProgress").to_int() & 4) != 4))
+		{
 			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
 			visit_url("choice.php?whichchoice=805&option=2&pwd=");
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
-			set_property("cc_killingjar", "finished");
+			use(1, $item[desert sightseeing pamphlet]);
+		}
+
+		if((item_amount($item[Worm-Riding Manual Page]) >= 15) && ((get_property("gnasirProgress").to_int() & 8) != 8))
+		{
+			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			visit_url("choice.php?whichchoice=805&option=2&pwd=");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
 			if(item_amount($item[Worm-Riding Hooks]) == 0)
 			{
 				abort("We messed up in the Desert, get the Worm-Riding Hooks and use them please.");
 			}
+		}
+
+		need = 100 - get_property("desertExploration").to_int();
+		if((item_amount($item[Worm-Riding Hooks]) > 0) && ((get_property("gnasirProgress").to_int() & 16) != 16))
+		{
+			pullXWhenHaveY($item[Drum Machine], 1, 0);
 			if(item_amount($item[Drum Machine]) > 0)
 			{
 				use(1, $item[Drum Machine]);
 			}
+			// Should we go to the Oasis here, this is where the logic is important.
 		}
 
 		need = 100 - get_property("desertExploration").to_int();
-		if((need <= 15) && (get_property("cc_killingjar") != "finished"))
+		# If we have done the Worm-Riding Hooks or the Killing jar, don\'t do this.
+		if((need <= 15) && ((get_property("gnasirProgress").to_int() & 12) == 0))
 		{
 			pullXWhenHaveY($item[Killing Jar], 1, 0);
-			set_property("cc_killingjar", "finished");
 			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
 			visit_url("choice.php?whichchoice=805&option=2&pwd=");
@@ -2615,7 +2645,7 @@ boolean L11_aridDesert()
 		int need = 100 - get_property("desertExploration").to_int();
 		print("Getting some ultrahydrated, I suppose. Desert left: " + need, "blue");
 
-		if((need > 15) && (item_amount($item[disassembled clover]) > 2) && !get_property("lovebugsUnlocked").to_boolean())
+		if((need > (5 * progress)) && (item_amount($item[disassembled clover]) > 2) && !get_property("lovebugsUnlocked").to_boolean())
 		{
 			print("Gonna clover this, yeah, it only saves 2 adventures. So?", "green");
 			use(1, $item[disassembled clover]);
@@ -3690,21 +3720,50 @@ boolean L11_hiddenCity()
 			handleFamiliar($familiar[Adventurous Spelunker]);
 		}
 
+		if((get_property("cc_hiddenapartment") == "finished") || (item_amount($item[Moss-Covered Stone Sphere]) > 0))
+		{
+			set_property("cc_hiddenapartment", "finished");
+			if(have_effect($effect[Thrice-Cursed]) > 0)
+			{
+				print("Ewww, time to wash off this pygmy stench.", "blue");
+				doHottub();
+			}
+			if((have_effect($effect[On The Trail]) > 0) && (get_property("olfactedMonster") == $monster[Pygmy Shaman]))
+			{
+				if(item_amount($item[soft green echo eyedrop antidote]) > 0)
+				{
+					print("They stink so much!", "blue");
+					uneffect($effect[On The Trail]);
+				}
+			}
+		}
+		if((get_property("cc_hiddenoffice") == "finished") || (item_amount($item[Crackling Stone Sphere]) > 0))
+		{
+			set_property("cc_hiddenoffice", "finished");
+			if((have_effect($effect[On The Trail]) > 0) && (get_property("olfactedMonster") == $monster[Pygmy Witch Accountant]))
+			{
+				if(item_amount($item[soft green echo eyedrop antidote]) > 0)
+				{
+					print("No more accountants to hunt!", "blue");
+					uneffect($effect[On The Trail]);
+				}
+			}
+		}
+		if((get_property("cc_hiddenbowling") == "finished") || (item_amount($item[Scorched Stone Sphere]) > 0))
+		{
+			set_property("cc_hiddenbowling", "finished");
+			if((have_effect($effect[On The Trail]) > 0) && (get_property("olfactedMonster") == $monster[Pygmy Bowler]))
+			{
+				if(item_amount($item[soft green echo eyedrop antidote]) > 0)
+				{
+					print("No more stinky bowling shoes to worry about!", "blue");
+					uneffect($effect[On The Trail]);
+				}
+			}
+		}
+
 		if((get_property("cc_hiddenapartment") != "finished"))
 		{
-			if(item_amount($item[Moss-Covered Stone Sphere]) > 0)
-			{
-				set_property("cc_hiddenapartment", "finished");
-				doHottub();
-				if(have_effect($effect[On The Trail]) > 0)
-				{
-					if(item_amount($item[soft green echo eyedrop antidote]) > 0)
-					{
-						uneffect($effect[On The Trail]);
-					}
-				}
-				return true;
-			}
 			print("The idden [sic] apartment!", "blue");
 			int current = get_property("cc_hiddenapartment").to_int() + 1;
 			set_property("cc_hiddenapartment", current);
@@ -3757,18 +3816,6 @@ boolean L11_hiddenCity()
 		}
 		if((get_property("cc_hiddenoffice") != "finished") && (my_adventures() >= 11))
 		{
-			if(item_amount($item[Crackling Stone Sphere]) > 0)
-			{
-				if(have_effect($effect[On The Trail]) > 0)
-				{
-					if(item_amount($item[soft green echo eyedrop antidote]) > 0)
-					{
-						uneffect($effect[On The Trail]);
-					}
-				}
-				set_property("cc_hiddenoffice", "finished");
-				return true;
-			}
 			print("The idden [sic] office!", "blue");
 			int current = get_property("cc_hiddenoffice").to_int();
 			current = current + 1;
@@ -3820,19 +3867,6 @@ boolean L11_hiddenCity()
 
 		if(get_property("cc_hiddenbowling") != "finished")
 		{
-			if(item_amount($item[Scorched Stone Sphere]) > 0)
-			{
-				if(have_effect($effect[On The Trail]) > 0)
-				{
-					if(item_amount($item[soft green echo eyedrop antidote]) > 0)
-					{
-						uneffect($effect[On The Trail]);
-					}
-				}
-				set_property("cc_hiddenbowling", "finished");
-				return true;
-			}
-
 			print("The idden [sic] bowling alley!", "blue");
 			if(item_amount($item[Book of Matches]) == 0)
 			{
@@ -7686,11 +7720,6 @@ boolean L9_aBooPeak()
 			spookyResist += 2;
 		}
 
-
-#		maximize("spooky res, cold res -equip lihc face -equip snow suit", 0, 0, false);
-#		adjustEdHat("ml");
-#		int coldResist = elemental_resist($element[cold]);
-#		int spookyResist = elemental_resist($element[spooky]);
 		if((item_amount($item[Spooky Powder]) > 0) && (have_effect($effect[Spookypants]) == 0))
 		{
 			spookyResist = spookyResist + 1;
@@ -7699,26 +7728,6 @@ boolean L9_aBooPeak()
 		{
 			coldResist = coldResist + 1;
 		}
-
-#		#	Ed could really use some HP buffs but healing is an issue here.
-#		if(my_class() == $class[Ed])
-#		{
-#			if(black_market_available() && (item_amount($item[Can of Black Paint]) == 0) && (have_effect($effect[Red Door Syndrome]) == 0) && (my_meat() >= 1000))
-#			{
-#				buyUpTo(1, $item[Can of Black Paint]);
-#			}
-#
-#			if(item_amount($item[Can of Black Paint]) > 0)
-#			{
-#				spookyResist = spookyResist + 2;
-#				coldResist = coldResist + 2;
-#			}
-#			if(item_amount($item[Oil of Parrrlay]) > 0)
-#			{
-#				spookyResist = spookyResist + 1;
-#				coldResist = coldResist + 1;
-#			}
-#		}
 
 		#Calculate how much boo peak damage does per unit resistance.
 		int estimatedCold = (13+25+50+125+250) * ((100.0 - elemental_resist_value(coldResist)) / 100.0);
@@ -8467,7 +8476,7 @@ boolean L11_blackMarket()
 	ccAdv(1, $location[The Black Forest]);
 	if(black_market_available())
 	{
-		buyUpTo(1, $item[can of black paint]);
+#		buyUpTo(1, $item[can of black paint]);
 		handleFamiliar($familiar[Adventurous Spelunker]);
 		set_property("cc_blackmap", "document");
 		if(my_meat() >= 5000)
@@ -9780,7 +9789,8 @@ boolean doTasks()
 		visit_url("place.php?whichplace=orc_chasm");
 		if(get_property("chasmBridgeProgress").to_int() >= 30)
 		{
-			if(in_hardcore() && isGuildClass())
+			#if(in_hardcore() && isGuildClass())
+			if(isGuildClass())
 			{
 				if((item_amount($item[Snow Berries]) >= 3) && (item_amount($item[Ice Harvest]) >= 3) && (item_amount($item[Unfinished Ice Sculpture]) == 0))
 				{
@@ -9791,7 +9801,7 @@ boolean doTasks()
 					cli_execute("make 1 Snow Crab");
 				}
 			}
-			cli_execute("make " + item_amount($item[snow berries]) + " snow cleats");
+			#cli_execute("make " + item_amount($item[snow berries]) + " snow cleats");
 		}
 		else
 		{
