@@ -171,6 +171,11 @@ boolean handleBjornify(familiar fam)
 		return false;
 	}
 
+	if(get_property("cc_100familiar").to_boolean() && (fam == my_familiar()))
+	{
+		return false;
+	}
+
 	if(have_familiar(fam))
 	{
 		bjornify_familiar(fam);

@@ -517,7 +517,7 @@ void consumeStuff()
 						ccCraft("cook", 1, $item[Dry Noodles], $item[Salacious Crumbs]);
 					}
 				}
-				dealWithMilkOfMagnesium(true);
+				dealWithMilkOfMagnesium(!in_hardcore());
 				foreach it in toEat
 				{
 					while((canEat > 0) && (item_amount(it) > 0))
