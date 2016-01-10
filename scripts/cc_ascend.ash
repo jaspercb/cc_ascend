@@ -1403,10 +1403,7 @@ void initializeDay(int day)
 
 			handleFamiliar($familiar[Angry Jung Man]);
 			equipBaseline();
-			if($items[Snow suit, miniature life preserver] contains equipped_item($slot[familiar]))
-			{
-				lock_familiar_equipment(true);
-			}
+
 			handleBjornify($familiar[none]);
 			handleBjornify($familiar[El Vibrato Megadrone]);
 
@@ -4808,10 +4805,8 @@ boolean L11_unlockEd()
 	return true;
 }
 
-
 boolean L11_unlockPyramid()
 {
-#	if((my_level() >= 12) && (my_class() != $class[Ed]) && (((item_amount($item[ancient amulet]) > 0) && (item_amount($item[Eye of Ed]) > 0) && (item_amount($item[Staff of Fats]) > 0)) || (item_amount($item[Staff of Ed]) > 0)) && (get_property("cc_mcmuffin") == "start"))
 	int pyramidLevel = 11;
 	if(get_property("cc_dickStab").to_boolean())
 	{

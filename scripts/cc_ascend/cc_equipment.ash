@@ -492,7 +492,7 @@ void equipBaselineFam()
 		if(item_amount($item[miniature life preserver]) > 0)
 		{
 			equip($item[miniature life preserver]);
-			if(!is_familiar_equipment_locked())
+			if(!is_familiar_equipment_locked() && (equipped_item($slot[familiar]) != $item[none]))
 			{
 				lock_familiar_equipment(true);
 			}
@@ -513,7 +513,7 @@ void equipBaselineFam()
 
 		if((toEquip != $item[none]) && (toEquip != equipped_item($slot[familiar])))
 		{
-			if(is_familiar_equipment_locked())
+			if(is_familiar_equipment_locked() && (equipped_item($slot[familiar]) != $item[none]))
 			{
 				lock_familiar_equipment(false);
 			}
