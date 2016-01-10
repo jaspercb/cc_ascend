@@ -895,7 +895,7 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 
 	#Default behaviors:
-	if(mcd < 150)
+	if(mcd <= 150)
 	{
 		if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 60))
 		{

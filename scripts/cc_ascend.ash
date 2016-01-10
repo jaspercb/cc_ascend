@@ -5695,9 +5695,17 @@ boolean L10_holeInTheSkyUnlock()
 	set_property("choiceAdventure678", 3);
 	set_property("choiceAdventure676", 4);
 
-	handleInitFamiliar();
+	if(have_familiar($familiar[Ms. Puck Man]))
+	{
+		handleFamiliar($familiar[Ms. Puck Man]);
+	}
+	else if(have_familiar($familiar[Puck Man]))
+	{
+		handleFamiliar($familiar[Puck Man]);
+	}
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
 	handleFamiliar($familiar[Adventurous Spelunker]);
+
 	return true;
 }
 
@@ -5789,7 +5797,14 @@ boolean L10_ground()
 		}
 	}
 
-	handleInitFamiliar();
+	if(have_familiar($familiar[Ms. Puck Man]))
+	{
+		handleFamiliar($familiar[Ms. Puck Man]);
+	}
+	else if(have_familiar($familiar[Puck Man]))
+	{
+		handleFamiliar($familiar[Puck Man]);
+	}
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Ground Floor)]);
 	handleFamiliar($familiar[Adventurous Spelunker]);
 
@@ -5832,7 +5847,14 @@ boolean L10_basement()
 		set_property("choiceAdventure669", "1");
 	}
 
-	handleInitFamiliar();
+	if(have_familiar($familiar[Ms. Puck Man]))
+	{
+		handleFamiliar($familiar[Ms. Puck Man]);
+	}
+	else if(have_familiar($familiar[Puck Man]))
+	{
+		handleFamiliar($familiar[Puck Man]);
+	}
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
 	handleFamiliar($familiar[Adventurous Spelunker]);
 
