@@ -1,5 +1,6 @@
 script "cc_ascend/cc_equipment.ash";
 import <cc_ascend/cc_util.ash>
+import <cc_ascend/cc_ascend_header.ash>
 void equipBaseline();
 void equipBaselineWeapon();
 void equipBaselinePants();
@@ -15,7 +16,7 @@ void equipRollover();
 void handleOffHand();
 boolean handleBjornify(familiar fam);
 void makeStartingSmiths();
-boolean possessEquipment(item equipment);
+
 
 void makeStartingSmiths()
 {
@@ -194,6 +195,21 @@ boolean handleBjornify(familiar fam)
 			{
 				return false;
 			}
+		}
+	}
+	if(my_familiar() == $familiar[none])
+	{
+		if(my_bjorned_familiar() == $familiar[Grimstone Golem])
+		{
+			handleFamiliar("stat");
+		}
+		else if(my_bjorned_familiar() == $familiar[Grim Brother])
+		{
+			handleFamiliar("item");
+		}
+		else
+		{
+			handleFamiliar("item");
 		}
 	}
 	return true;
@@ -593,11 +609,11 @@ void equipBaselineAcc2()
 	boolean[item] poss;
 	if((my_level() >= 13) && (get_property("flyeredML").to_int() >= 10000))
 	{
-		poss = $items[Glowing Red Eye, Bonerdagon Necklace, Batskin Belt, Jangly Bracelet, Pirate Fledges, Iron Beta of Industry, World\'s Best Adventurer Sash];
+		poss = $items[Stuffed Shoulder Parrot, Glow-in-the-dark necklace, Glowing Red Eye, Bonerdagon Necklace, Batskin Belt, Jangly Bracelet, Pirate Fledges, Iron Beta of Industry, World\'s Best Adventurer Sash];
 	}
 	else
 	{
-		poss = $items[imp unity ring, garish pinky ring, batskin belt, Jolly Roger Charrrm Bracelet, Glowing Red Eye, Jangly Bracelet, Pirate Fledges, Compression Stocking, Wicker Kickers, Iron Beta of Industry, perfume-soaked bandana, World\'s Best Adventurer Sash, Hand In Glove, barrel hoop earring, Gumshoes, Caveman Dan\'s Favorite Rock];
+		poss = $items[Stuffed Shoulder Parrot, imp unity ring, glow-in-the-dark necklace, garish pinky ring, batskin belt, Jolly Roger Charrrm Bracelet, Glowing Red Eye, Jangly Bracelet, Pirate Fledges, Compression Stocking, Wicker Kickers, Iron Beta of Industry, perfume-soaked bandana, World\'s Best Adventurer Sash, Hand In Glove, barrel hoop earring, Gumshoes, Caveman Dan\'s Favorite Rock];
 	}
 	foreach thing in poss
 	{

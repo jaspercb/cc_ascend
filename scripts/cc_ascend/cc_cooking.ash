@@ -302,6 +302,13 @@ void consumeStuff()
 			drink(1, booze);
 		}
 	}
+	if(((my_inebriety() + 2) <= inebriety_limit()) && (my_mp() >= mpForOde) && (item_amount($item[Yellow Pixel]) >= 10))
+	{
+		cli_execute("make " + $item[Pixel Daiquiri]);
+		shrugAT();
+		buffMaintain($effect[Ode to Booze], 50, 1, 3);
+		drink(1, $item[Pixel Daiquiri]);
+	}
 
 	if(my_daycount() == 1)
 	{

@@ -1,6 +1,7 @@
 script "cc_util.ash";
 import <zlib.ash>
 import <cc_ascend/cc_chateaumantegna.ash>
+import <cc_ascend/cc_ascend_header.ash>
 
 // Public Prototypes
 boolean snojoFightAvailable();
@@ -473,7 +474,63 @@ int doRest()
 	if(chateaumantegna_available())
 	{
 		chateaumantegna_nightstandSet();
+
+		boolean[item] restBonus = chateaumantegna_decorations();
+		stat bonus = $stat[none];
+		if(restBonus contains $item[Electric Muscle Stimulator])
+		{
+			bonus = $stat[Muscle];
+		}
+		else if(restBonus contains $item[Foreign Language Tapes])
+		{
+			bonus = $stat[Mysticality];
+		}
+		else if(restBonus contains $item[Bowl of Potpourri])
+		{
+			bonus = $stat[Moxie];
+		}
+
+		boolean closet = false;
+		item grab = $item[none];
+		item replace = $item[none];
+		switch(bonus)
+		{
+		case $stat[Muscle]:
+			replace = equipped_item($slot[off-hand]);
+			grab = $item[Fake Washboard];
+		break;
+		case $stat[Mysticality]:
+			replace = equipped_item($slot[off-hand]);
+			grab = $item[Basaltamander Buckler];
+		break;
+		case $stat[Moxie]:
+			replace = equipped_item($slot[weapon]);
+			grab = $item[Backwoods Banjo];
+		break;
+		}
+
+		if(possessEquipment(grab) && (replace != grab))
+		{
+			equip(grab);
+		}
+		if(!possessEquipment(grab) && (replace != grab) && (closet_amount(grab) > 0))
+		{
+			closet = true;
+			take_closet(1, grab);
+			equip(grab);
+		}
+
 		visit_url("place.php?whichplace=chateau&action=chateau_restbox");
+
+		if(replace != grab)
+		{
+			equip(replace);
+		}
+		if(closet)
+		{
+			put_closet(1, grab);
+		}
+
 	}
 	else
 	{

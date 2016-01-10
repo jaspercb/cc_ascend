@@ -145,6 +145,17 @@ boolean fortuneCookieEvent();
 
 // Familiar Behavior, good stuff.
 boolean handleFamiliar(familiar fam);
+boolean handleFamiliar(string fam);
 
 // Meat Generation
 boolean autosellCrap();
+
+
+//
+//	External cc_ascend.ash functions, indicate where they come from.
+//
+//
+
+
+//Do we have a some item either equipped or in inventory (not closet or hagnk\'s.
+boolean possessEquipment(item equipment);		//Defined in cc_ascend/cc_equipment.ash

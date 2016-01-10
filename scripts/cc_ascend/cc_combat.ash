@@ -1149,7 +1149,11 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 			if((!contains_text(combatState, "last attempt")) && (my_mp() >= 8))
 			{
-				set_property("cc_combatHandler", combatState + "(last attempt)");
+				if((expected_damage() * 1.4) >= my_hp())
+				{
+					set_property("cc_combatHandler", combatState + "(last attempt)");
+				}
+				print("Uh oh, I'm having trouble in combat.", "red");
 				return attackMajor;
 			}
 			if(my_location() != $location[The Slime Tube])
