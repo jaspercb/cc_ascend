@@ -1954,6 +1954,10 @@ void doBedtime()
 	{
 		print("You have " + (total_free_rests() - get_property("timesRested").to_int()) + " free rests remaining.", "blue");
 	}
+	if((get_property("sidequestNunsCompleted") == "fratboy") && (get_property("nunsVisits").to_int() < 3))
+	{
+		print("You have " + (3 - get_property("nunsVisits").to_int()) + " nuns visits left.", "blue");
+	}
 	if(get_property("libramSummons").to_int() > 0)
 	{
 		print("Total Libram Summons: " + get_property("libramSummons"), "blue");
