@@ -977,10 +977,13 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill candyblast";
 	}
 
-	if((!contains_text(combatState, "spiritsnap")) && (my_class() == $class[Turtle Tamer]) && (have_skill($skill[Spirit Snap]) && (my_mp() > 80)))
+	if((!contains_text(combatState, "spirit snap")) && (my_class() == $class[Turtle Tamer]) && (have_skill($skill[Spirit Snap]) && (my_mp() > 80)))
 	{
-		set_property("cc_combatHandler", combatState + "(spiritsnap)");
-		return "skill spirit snap";
+		if((have_effect($effect[Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Grand Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Glorious Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Glorious Blessing of the War Snapper]) > 0) || (have_effect($effect[Glorious Blessing of She-Who-Was]) > 0))
+		{
+			set_property("cc_combatHandler", combatState + "(spirit snap)");
+			return "skill " + $skill[Spirit Snap];
+		}
 	}
 
 	if((!contains_text(combatState, "stuffedmortarshell")) && (my_class() == $class[Sauceror]) && ((expected_damage() * 2) < my_hp()) && have_skill($skill[Stuffed Mortar Shell]) && (my_mp() > mp_cost($skill[Stuffed Mortar Shell])))
@@ -1131,10 +1134,13 @@ string cc_combatHandler(int round, string opp, string text)
 			{
 				return attackMajor;
 			}
-			if((my_class() == $class[Turtle Tamer]) && (my_mp() >= 10) && (have_skill($skill[Spirit Snap])) && (!contains_text(combatState, "spirit snap")))
+			if((my_class() == $class[Turtle Tamer]) && (my_mp() >= mp_cost($skill[Spirit Snap])) && (have_skill($skill[Spirit Snap])) && (!contains_text(combatState, "spirit snap")))
 			{
-				set_property("cc_combatHandler", combatState + "(spirit snap)");
-				return "skill spirit snap";
+				if((have_effect($effect[Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Grand Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Glorious Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Glorious Blessing of the War Snapper]) > 0) || (have_effect($effect[Glorious Blessing of She-Who-Was]) > 0))
+				{
+					set_property("cc_combatHandler", combatState + "(spirit snap)");
+					return "skill " + $skill[Spirit Snap];
+				}
 			}
 			if((!contains_text(combatState, "northern explosion")) && (have_skill($skill[northern explosion])) && (my_mp() >= 16) && (my_class() == $class[Seal Clubber]) && (monster_element(enemy) != $element[cold]))
 			{
@@ -1153,10 +1159,18 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 		if((monster_level_adjustment() > 150) && (my_mp() >= 45) && (have_skill($skill[Shell Up])) && (!contains_text(combatState, "shellup")) && (my_class() == $class[Turtle Tamer]))
 		{
-				set_property("cc_combatHandler", combatState + "(shellup)");
-				return "skill shell up";
+			set_property("cc_combatHandler", combatState + "(shellup)");
+			return "skill shell up";
 		}
 
+		if(attackMinor == "attack with weapon")
+		{
+			if((!contains_text(combatState, "love stinkbug")) && have_skill($skill[Summon Love Stinkbug]))
+			{
+				set_property("cc_combatHandler", combatState + "(love stinkbug)");
+				return "skill " + $skill[Summon Love Stinkbug];
+			}
+		}
 
 		if((monster_level_adjustment() > 150) && (my_mp() >= 8))
 		{
