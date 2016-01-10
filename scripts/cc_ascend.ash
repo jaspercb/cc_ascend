@@ -619,7 +619,7 @@ boolean tophatMaker()
 			reEquip = $item[Mark V Steam-Hat];
 			equip($slot[hat], $item[none]);
 		}
-		ccCraft("paste", 1, $item[Brass Gear], $item[Mark IV Steam-Hat]);
+		ccCraft("combine", 1, $item[Brass Gear], $item[Mark IV Steam-Hat]);
 	}
 	else if(possessEquipment($item[Mark III Steam-Hat]))
 	{
@@ -628,7 +628,7 @@ boolean tophatMaker()
 			reEquip = $item[Mark IV Steam-Hat];
 			equip($slot[hat], $item[none]);
 		}
-		ccCraft("paste", 1, $item[Brass Gear], $item[Mark III Steam-Hat]);
+		ccCraft("combine", 1, $item[Brass Gear], $item[Mark III Steam-Hat]);
 	}
 	else if(possessEquipment($item[Mark II Steam-Hat]))
 	{
@@ -637,7 +637,7 @@ boolean tophatMaker()
 			reEquip = $item[Mark III Steam-Hat];
 			equip($slot[hat], $item[none]);
 		}
-		ccCraft("paste", 1, $item[Brass Gear], $item[Mark II Steam-Hat]);
+		ccCraft("combine", 1, $item[Brass Gear], $item[Mark II Steam-Hat]);
 	}
 	else if(possessEquipment($item[Mark I Steam-Hat]))
 	{
@@ -646,7 +646,7 @@ boolean tophatMaker()
 			reEquip = $item[Mark II Steam-Hat];
 			equip($slot[hat], $item[none]);
 		}
-		ccCraft("paste", 1, $item[Brass Gear], $item[Mark I Steam-Hat]);
+		ccCraft("combine", 1, $item[Brass Gear], $item[Mark I Steam-Hat]);
 	}
 	else if(possessEquipment($item[Brown Felt Tophat]))
 	{
@@ -655,7 +655,7 @@ boolean tophatMaker()
 			reEquip = $item[Mark I Steam-Hat];
 			equip($slot[hat], $item[none]);
 		}
-		ccCraft("paste", 1, $item[Brass Gear], $item[Brown Felt Tophat]);
+		ccCraft("combine", 1, $item[Brass Gear], $item[Brown Felt Tophat]);
 	}
 	else
 	{
@@ -2199,7 +2199,10 @@ boolean questOverride()
 	{
 		print("Found completed Castle in the Clouds in the Sky with some Pie (10)");
 		set_property("cc_castletop", "finished");
-		set_property("cc_castleground", "finished");
+		if(get_property("cc_castleground") != "done")
+		{
+			set_property("cc_castleground", "finished");
+		}
 		set_property("cc_castlebasement", "finished");
 		set_property("cc_airship", "finished");
 		set_property("cc_bean", "plant");
@@ -5298,6 +5301,16 @@ boolean L12_filthworms()
 		equip($slot[hat], $item[Training Helmet]);
 	}
 
+	if(have_effect($effect[Everything Looks Yellow]) == 0)
+	{
+		handleFamiliar($familiar[Crimbo Shrub]);
+		if((my_familiar() == $familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
+		{
+			visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
+			visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=1&lights=1&garland=1&gift=1");
+		}
+	}
+
 	if(have_effect($effect[Filthworm Drone Stench]) > 0)
 	{
 		ccAdv(1, $location[The Royal Guard Chamber]);
@@ -5309,6 +5322,7 @@ boolean L12_filthworms()
 		return true;
 	}
 	ccAdv(1, $location[The Hatching Chamber]);
+	handleFamiliar($familiar[Adventurous Spelunker]);
 	return true;
 }
 
