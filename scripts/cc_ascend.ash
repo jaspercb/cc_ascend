@@ -5207,6 +5207,7 @@ boolean L12_sonofaBeach()
 	}
 	ccAdv(1, $location[Sonofa Beach]);
 	set_property("cc_doCombatCopy", "no");
+	handleFamiliar($familiar[Adventurous Spelunker]);
 
 	if((my_class() == $class[Ed]) && (my_hp() == 0))
 	{

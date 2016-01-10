@@ -605,6 +605,7 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			if(have_skill($skill[lightning strike]))
 			{
+				handleTracker(enemy, $skill[lightning strike], "cc_instakill");
 				return "skill lightning strike";
 			}
 		}
@@ -869,6 +870,7 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			if(have_skill($skill[lightning strike]))
 			{
+				handleTracker(enemy, $skill[lightning strike], "cc_instakill");
 				return "skill lightning strike";
 			}
 		}
@@ -878,11 +880,13 @@ string cc_combatHandler(int round, string opp, string text)
 			{
 				if((my_familiar() == $familiar[Artistic Goth Kid]) && (have_skill($skill[lightning strike])))
 				{
+					handleTracker(enemy, $skill[lightning strike], "cc_instakill");
 					return "skill lightning strike";
 				}
 			}
 			else if((have_skill($skill[lightning strike])) && !isFreeMonster(enemy))
 			{
+				handleTracker(enemy, $skill[lightning strike], "cc_instakill");
 				return "skill lightning strike";
 			}
 		}
@@ -891,6 +895,7 @@ string cc_combatHandler(int round, string opp, string text)
 	if((!contains_text(combatState, "shattering punch")) && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && !isFreeMonster(enemy) && (my_adventures() < 20) && !enemy.boss)
 	{
 		set_property("cc_combatHandler", combatState + "(shattering punch)");
+		handleTracker(enemy, $skill[shattering punch], "cc_instakill");
 		return "skill " + $skill[shattering punch];
 	}
 

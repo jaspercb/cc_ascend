@@ -257,6 +257,9 @@ void main()
 	writeln("<h2>Sniffing</h2>");
 	generateTrackingData("cc_sniffs", true);
 
+	writeln("<h2>Instakills</h2>");
+	generateTrackingData("cc_instakill", true);
+
 	if(my_class() == $class[Ed])
 	{
 		writeln("<h2>Lash of the Cobra <img src=\"images/itemimages/cobrahead.gif\"></h2>");
