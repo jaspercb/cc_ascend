@@ -3,13 +3,6 @@ import <cc_ascend/cc_util.ash>
 import <cc_ascend/cc_equipment.ash>
 import <cc_ascend/cc_edTheUndying.ash>
 
-#void handleBanish(monster enemy, skill banisher);
-#void handleBanish(monster enemy, item banisher);
-#void handleYellowRay(monster enemy, skill yellowRay);
-#void handleYellowRay(monster enemy, item yellowRay);
-#void handleSniffs(monster enemy, skill sniffer);
-#void handleLashes(monster enemy);
-#void handleRenenutet(monster enemy);
 monster ocrs_helper(string page);
 
 monster ocrs_helper(string page)
@@ -727,7 +720,6 @@ string cc_combatHandler(int round, string opp, string text)
 			(enemy == $monster[coaltergeist]) ||
 			(enemy == $monster[flock of stab-bats]) ||
 			(enemy == $monster[mad wino]) ||
-#			(enemy == $monster[empty suit of armor]) ||
 			(enemy == $monster[tomb servant]) ||
 			(enemy == $monster[sabre-toothed goat]) ||
 			(enemy == $monster[pygmy witch lawyer]) ||
@@ -757,18 +749,22 @@ string cc_combatHandler(int round, string opp, string text)
 	#First pass politics
 	if((!contains_text(combatState, "politics")) && (have_skill($skill[talk about politics])) && (get_property("_pantsgivingBanish").to_int() < 5))
 	{
-		if((enemy == $monster[plaid ghost]) ||
-			(enemy == $monster[skeletal sommelier]) ||
-			(enemy == $monster[slick lihc]) ||
-			(enemy == $monster[doughbat]) ||
-			(enemy == $monster[natural spider]) ||
-			(enemy == $monster[wardr&ouml;b nightstand]) ||
-			(enemy == $monster[upgraded ram]) ||
-			(enemy == $monster[taco cat]))
+		if($monsters[Doughbat, Natural Spider, plaid ghost, slick lihc, skeletal sommelier, taco cat, wardr&ouml;b nightstand, upgraded ram] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(politics)");
 			handleTracker(enemy, $skill[talk about politics], "cc_banishes");
 			return "skill talk about politics";
+		}
+	}
+
+	#First pass snokebomb
+	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp()/2) >= mp_cost($skill[Snokebomb])))
+	{
+		if($monsters[Doughbat, Natural Spider, plaid ghost, slick lihc, skeletal sommelier, taco cat, wardr&ouml;b nightstand, upgraded ram] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(Snokebomb)");
+			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
+			return "skill " + $skill[Snokebomb];
 		}
 	}
 
@@ -787,32 +783,22 @@ string cc_combatHandler(int round, string opp, string text)
 	#Only Batter Up
 	if((!contains_text(combatState, "batter up!")) && (have_skill($skill[batter up!])) && (my_fury() >= 5))
 	{
-		if((enemy == $monster[animated rustic nightstand]) ||
-			(enemy == $monster[bullet bill]) ||
-			(enemy == $monster[coaltergeist]) ||
-			(enemy == $monster[chatty pirate]) ||
-			(enemy == $monster[snow queen]) ||
-			(enemy == $monster[steam elemental]) ||
-			(enemy == $monster[drunk goat]) ||
-			(enemy == $monster[evil olive]) ||
-			(enemy == $monster[procrastination giant]) ||
-			(enemy == $monster[protagonist]) ||
-			(enemy == $monster[mad wino]) ||
-			(enemy == $monster[tomb asp]) ||
-			(enemy == $monster[animated possessions]) ||
-			(enemy == $monster[senile lihc]) ||
-#			(enemy == $monster[guy with a pitchfork\, and his wife]) ||
-			(enemy == $monster[pygmy headhunter]) ||
-			(enemy == $monster[pygmy orderlies]) ||
-			(enemy == $monster[punk rock giant]) ||
-			(enemy == $monster[skeletal sommelier]) ||
-			(enemy == $monster[possessed laundry press]) ||
-			(enemy == $monster[knob goblin harem guard]) ||
-			(enemy == $monster[bubblemint twins]))
+		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Drunk Goat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Senile Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(batter up!)");
 			handleTracker(enemy, $skill[batter up!], "cc_banishes");
 			return "skill batter up!";
+		}
+	}
+
+	#Snokebomb replace Batter Up! pass
+	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp()/2) >= mp_cost($skill[Snokebomb])) && (my_class() != $class[Seal Clubber]))
+	{
+		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Drunk Goat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Senile Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(Snokebomb)");
+			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
+			return "skill " + $skill[Snokebomb];
 		}
 	}
 
@@ -835,14 +821,21 @@ string cc_combatHandler(int round, string opp, string text)
 	#Second poltiics pass
 	if((!contains_text(combatState, "politics")) && (have_skill($skill[talk about politics])) && (get_property("_pantsgivingBanish").to_int() < 5))
 	{
-		if((enemy == $monster[tomb asp]) ||
-			(enemy == $monster[pygmy orderlies]) ||
-			(enemy == $monster[clingy pirate (female)]) ||
-			(enemy == $monster[clingy pirate (male)]))
+		if($monsters[Clingy Pirate (Female), Clingy Pirate (Male), Pygmy Orderlies, Tomb Asp] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(politics)");
 			handleTracker(enemy, $skill[talk about politics], "cc_banishes");
 			return "skill talk about politics";
+		}
+	}
+
+	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp()/2) >= mp_cost($skill[Snokebomb])))
+	{
+		if($monsters[Clingy Pirate (Female), Clingy Pirate (Male), Pygmy Orderlies, Tomb Asp] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(Snokebomb)");
+			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
+			return "skill " + $skill[Snokebomb];
 		}
 	}
 
@@ -1219,7 +1212,7 @@ string findBanisher(string opp)
 		}
 	}
 
-	foreach act in $skills[Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation]
+	foreach act in $skills[Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Snokebomb]
 	{
 		if((!contains_text(get_property("cc_gremlinBanishes"), act)) && have_skill(act) && (my_mp() >= mp_cost(act)) && (my_thunder() >= thunder_cost(act)) && have_skill(act))
 		{
@@ -1228,6 +1221,10 @@ string findBanisher(string opp)
 				continue;
 			}
 			if((act == $skill[Talk About Politics]) && (get_property("_pantsgivingBanish").to_int() >= 5))
+			{
+				continue;
+			}
+			if((act == $skill[Snokebomb]) && (get_property("_snokebombUsed").to_int() >= 3))
 			{
 				continue;
 			}

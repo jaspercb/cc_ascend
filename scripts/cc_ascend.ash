@@ -1135,10 +1135,20 @@ int handlePulls(int day)
 		pullXWhenHaveY($item[over-the-shoulder folder holder], 1, 0);
 		if((my_primestat() == $stat[Muscle]) && (cc_my_path() != "Heavy Rains"))
 		{
-			pullXWhenHaveY($item[Fake Washboard], 1, 0);
-			if(item_amount($item[Fake Washboard]) == 0)
+			if(closet_amount($item[Fake Washboard]) == 0)
+			{
+				pullXWhenHaveY($item[Fake Washboard], 1, 0);
+			}
+			if((item_amount($item[Fake Washboard]) == 0) && (closet_amount($item[Fake Washboard]) == 0))
 			{
 				pullXWhenHaveY($item[numberwang], 1, 0);
+			}
+			else
+			{
+				if(get_property("barrelShrineUnlocked").to_boolean())
+				{
+					put_closet(1, $item[Fake Washboard]);
+				}
 			}
 		}
 		else
@@ -1196,6 +1206,14 @@ int handlePulls(int day)
 			}
 		}
 	}
+	else if(day == 2)
+	{
+		if((closet_amount($item[Fake Washboard]) == 1) && get_property("barrelShrineUnlocked").to_boolean())
+		{
+			take_closet(1, $item[Fake Washboard]);
+		}
+	}
+
 	return pulls_remaining();
 }
 
@@ -2654,8 +2672,8 @@ boolean L11_palindome()
 	total = total + item_amount($item[Photograph Of A Dog]);
 
 
-	boolean lovemeDone = (item_amount($item[&quot;I Love Me\, Vol. I&quot;]) > 0);
-	if(get_property("palindomeDudesDefeated").to_int() >= 5)
+	boolean lovemeDone = (item_amount($item[&quot;I Love Me\, Vol. I&quot;]) > 0) || (internalQuestStatus("questL11Palindome") >= 1);
+	if(!lovemeDone && (get_property("palindomeDudesDefeated").to_int() >= 5))
 	{
 		string palindomeCheck = visit_url("place.php?whichplace=palindome");
 		lovemeDone = lovemeDone || contains_text(palindomeCheck, "pal_drlabel");
@@ -2742,7 +2760,6 @@ boolean L11_palindome()
 			{
 				return true;
 			}
-
 		}
 
 		if((item_amount($item[Bird Rib]) > 0) && (item_amount($item[Lion Oil]) > 0) && (item_amount($item[Wet Stew]) == 0))
@@ -2775,6 +2792,12 @@ boolean L11_palindome()
 		if(my_mp() > 60)
 		{
 			handleBjornify($familiar[grimstone golem]);
+		}
+		if(internalQuestStatus("questL11Palindome") >= 2)
+		{
+			print("Palindome failure:", "red");
+			print("You probably just need to get a Mega Gem to fix this.", "red");
+			abort("We have made too much progress in the Palindome and should not be here.");
 		}
 		ccAdv(1, $location[Inside the Palindome]);
 		if($location[Inside the Palindome].turns_spent > 30)
