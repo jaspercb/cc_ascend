@@ -922,6 +922,7 @@ boolean doThemtharHills(boolean trickMode)
 				set_property("cc_nuns", "done");
 				set_property("cc_nunsTrick", "no");
 				set_property("cc_nunsTrickReady", "done");
+				handleFamiliar($familiar[Adventurous Spelunker]);
 				return true;
 			}
 		}
@@ -1036,6 +1037,7 @@ boolean doThemtharHills(boolean trickMode)
 			ccAdv(1, $location[The Hidden Temple]);
 		}
 	}
+	handleFamiliar($familiar[Adventurous Spelunker]);
 	return true;
 }
 
@@ -3002,6 +3004,10 @@ boolean L13_towerNSTower()
 		{
 			sources = 6;
 		}
+		else if(have_skill($skill[Belch the Rainbow]))
+		{
+			sources = 6;
+		}
 		if(have_skill($skill[headbutt]))
 		{
 			sources = sources + 1;
@@ -3119,7 +3125,7 @@ boolean L13_towerNSTower()
 		else
 		{
 			set_property("cc_getBeehive", true);
-			print("Need a beehive, buzz buzz.", "red");
+			print("Need a beehive, buzz buzz. Only have " + sources + " damage sources and we want " + sourceNeed, "red");
 		}
 		return true;
 	}

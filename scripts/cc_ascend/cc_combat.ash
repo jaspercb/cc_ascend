@@ -207,12 +207,6 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill summon love stinkbug";
 		}
 
-		if((!contains_text(combatState, "love stinkbug")) && get_property("lovebugsUnlocked").to_boolean())
-		{
-			set_property("cc_combatHandler", combatState + "(love stinkbug2)");
-			return "skill summon love stinkbug";
-		}
-
 		if((!contains_text(combatState, "shell up")) && have_skill($skill[Shell Up]) && (my_mp() >= 6) && ((my_hp() * 4) < my_maxhp()) && (round >= 4))
 		{
 			set_property("cc_combatHandler", combatState + "(shell up)");
@@ -225,13 +219,20 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill sauceshell";
 		}
 
-		if(have_skill($skill[headbutt]) && (my_mp() >= 3))
+		if(have_equipped($item[Astral Shirt]))
 		{
-			return "headbutt";
+			if(have_skill($skill[headbutt]) && (my_mp() >= 3))
+			{
+				return "skill " + $skill[Headbutt];
+			}
+			if(have_skill($skill[clobber]) && (my_mp() >= mp_cost($skill[Clobber])))
+			{
+				return "skill " + $skill[Clobber];
+			}
 		}
-		if(have_skill($skill[clobber]) && (my_mp() >= mp_cost($skill[Clobber])))
+		if(have_skill($skill[Belch the Rainbow]) && (my_mp() >= mp_cost($skill[Belch the Rainbow])))
 		{
-			return "clobber";
+			return "skill " + $skill[Belch the Rainbow];
 		}
 		return "attack with weapon";
 	}
