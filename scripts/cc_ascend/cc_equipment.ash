@@ -439,13 +439,13 @@ void equipBaselineWeapon()
 		poss = $items[Seal-Clubbing Club, Flaming Crutch, Oversized Pipe, Lead Pipe, Meat Tenderizer Is Murder];
 		break;
 	case $class[Turtle Tamer]:
-		poss = $items[Turtle Totem, Rope, Lead Pipe, Work Is A Four Letter Sword];
+		poss = $items[Turtle Totem, Witty Rapier, Antique Machete, Short-Handled Mop, Rope, Lead Pipe, Work Is A Four Letter Sword, Garbage Sticker];
 		break;
 	case $class[Sauceror]:
-		poss = $items[Saucepan, Candlestick, Saucepanic];
+		poss = $items[Saucepan, Witty Rapier, Candlestick, Saucepanic];
 		break;
 	case $class[Pastamancer]:
-		poss = $items[Pasta Spoon, Wrench, Hand That Rocks The Ladle];
+		poss = $items[Pasta Spoon, Witty Rapier, Wrench, Hand That Rocks The Ladle];
 		break;
 	case $class[Disco Bandit]:
 		poss = $items[Knife, Frankly Mr. Shank];

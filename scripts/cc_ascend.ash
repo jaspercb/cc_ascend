@@ -4959,48 +4959,20 @@ boolean L11_defeatEd()
 
 	set_property("choiceAdventure976", "1");
 
-	#This seems to work but we just want to be a little careful with it.
-	if(true)
+	int x = 0;
+	set_property("cc_disableAdventureHandling", "yes");
+	while(item_amount($item[2334]) == 0)
 	{
-		int x = 0;
-		set_property("cc_disableAdventureHandling", "yes");
-		while(item_amount($item[2334]) == 0)
+		x = x + 1;
+		print("Hello Ed #" + x + " give me McMuffin please.", "blue");
+		ccAdv(1, $location[The Lower Chambers]);
+		if(have_effect($effect[Beaten Up]) > 0)
 		{
-			x = x + 1;
-			print("Hello Ed #" + x + " give me McMuffin please.", "blue");
-			ccAdv(1, $location[The Lower Chambers]);
-			if(have_effect($effect[Beaten Up]) > 0)
-			{
-				set_property("cc_disableAdventureHandling", "no");
-				abort("Got Beaten Up by Ed the Undying.");
-			}
+			set_property("cc_disableAdventureHandling", "no");
+			abort("Got Beaten Up by Ed the Undying.");
 		}
-		set_property("cc_disableAdventureHandling", "no");
 	}
-	else
-	{
-		visit_url("place.php?whichplace=pyramid&action=pyramid_state1a");
-		visit_url("choice.php?pwd&whichchoice=976&option=1&choiceform1=If+you+say+so...&pwd="+my_hash());
-		visit_url("fight.php");
-		int x = 0;
-		set_property("cc_disableAdventureHandling", "yes");
-		while(x < 7)
-		{
-			x = x + 1;
-			print("Hello Ed #" + x + " give me McMuffin please.", "blue");
-			#run_combat();
-			ccAdv(1, $location[Noob Cave]);
-#			if(x < 7)
-#			{
-#				visit_url("fight.php");
-#			}
-			if(have_effect($effect[Beaten Up]) > 0)
-			{
-				abort("Got Beaten Up by Ed the Undying.");
-			}
-		}
-		set_property("cc_disableAdventureHandling", "no");
-	}
+	set_property("cc_disableAdventureHandling", "no");
 
 	#if(item_amount($item[Holy MacGuffin]) != 0)
 	if(item_amount($item[2334]) != 0)
@@ -9865,6 +9837,30 @@ boolean doTasks()
 			return true;
 		}
 	}
+	if(in_hardcore() && isGuildClass())
+	{
+		switch(my_daycount())
+		{
+		case 1:
+			if(deck_useScheme("hc1"))
+			{
+				return true;
+			}
+			break;
+		case 2:
+			if(deck_useScheme("HC2"))
+			{
+				return true;
+			}
+			break;
+		case 3:
+			if(deck_useScheme("HC3"))
+			{
+				return true;
+			}
+			break;
+		}
+	}
 
 	//Handle most quests, if we are Actually Ed the Undying
 	if(LM_edTheUndying())
@@ -9940,31 +9936,6 @@ boolean doTasks()
 	if(LX_guildUnlock())
 	{
 		return true;
-	}
-
-	if(in_hardcore() && isGuildClass())
-	{
-		switch(my_daycount())
-		{
-		case 1:
-			if(deck_useScheme("HC1stats"))
-			{
-				return true;
-			}
-			break;
-		case 2:
-			if(deck_useScheme("HC2"))
-			{
-				return true;
-			}
-			break;
-		case 3:
-			if(deck_useScheme("HC3"))
-			{
-				return true;
-			}
-			break;
-		}
 	}
 
 	if(L5_getEncryptionKey())

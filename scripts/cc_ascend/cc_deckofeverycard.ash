@@ -193,7 +193,7 @@ boolean deck_useScheme(string action)
 		}
 		return true;
 	}
-	if(action == "sc1")
+	if((action == "sc1") || (action == "hc1"))
 	{
 		switch(my_class())
 		{
