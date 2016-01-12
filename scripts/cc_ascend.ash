@@ -1935,7 +1935,7 @@ void doBedtime()
 	}
 	if(item_amount($item[Loathing Legion Jackhammer]) > 0)
 	{
-		int craftingLeft = 3 - get_property("__legionJackhammerCrafting").to_int();
+		int craftingLeft = 3 - get_property("_legionJackhammerCrafting").to_int();
 		print("Free Loathing Legion Jackhammer craftings left: " + craftingLeft, "blue");
 	}
 	if(item_amount($item[Thor\'s Pliers]) > 0)

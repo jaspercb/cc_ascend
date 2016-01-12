@@ -315,7 +315,14 @@ void handleOffHand()
 
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[off-hand])))
 	{
-		equip($slot[Off-hand], toEquip);
+		if(equipped_item($slot[weapon]) != toEquip)
+		{
+			equip($slot[Off-hand], toEquip);
+		}
+		else if((equipped_item($slot[weapon]) == toEquip) && (item_amount(toEquip) > 0))
+		{
+			equip($slot[Off-hand], toEquip);
+		}
 	}
 
 }
