@@ -1070,7 +1070,15 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 		if((my_mp() >= 1) && (have_skill($skill[Utensil Twist])) && (item_type(equipped_item($slot[weapon])) == "utensil"))
 		{
-			attackMinor = "skill Utensil Twist";
+			if(equipped_item($slot[weapon]) == $item[Hand That Rocks the Ladle])
+			{
+				attackMajor = "skill " + $skill[Utensil Twist];
+				attackMinor = "skill " + $skill[Utensil Twist];
+			}
+			else if(enemy.physical_resistance <= 80)
+			{
+				attackMinor = "skill " + $skill[Utensil Twist];
+			}
 		}
 		if(have_skill($skill[Entangling Noodles]) && (my_mp() >= mp_cost($skill[Entangling Noodles])))
 		{
