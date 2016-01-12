@@ -1068,6 +1068,10 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			attackMajor = "skill Weapon of the Pastalord";
 		}
+		if((my_mp() >= mp_cost($skill[Saucestorm])) && (have_skill($skill[Saucestorm])))
+		{
+			attackMajor = "skill Weapon of the Pastalord";
+		}
 		if((my_mp() >= 1) && (have_skill($skill[Utensil Twist])) && (item_type(equipped_item($slot[weapon])) == "utensil"))
 		{
 			if(equipped_item($slot[weapon]) == $item[Hand That Rocks the Ladle])
