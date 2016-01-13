@@ -39,6 +39,7 @@ boolean LX_guildUnlock();
 boolean LX_hardcoreFoodFarm();
 boolean LX_attemptPowerLevel();
 boolean LX_bitchinMeatcar();
+boolean LX_meatMaid();
 
 boolean Lsc_flyerSeals();
 

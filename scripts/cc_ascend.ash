@@ -3094,7 +3094,17 @@ boolean L13_towerNSTower()
 		int sourceNeed = 13;
 		if(have_skill($skill[Shell Up]))
 		{
-			sourceNeed -= 2;
+			if((have_effect($effect[Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Grand Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Glorious Blessing of the Storm Tortoise]) > 0))
+			{
+				if(have_skill($skill[Blessing of the War Snapper]) && (my_mp() > (2 * mp_cost($skill[Blessing of the War Snapper]))))
+				{
+					use_skill(1, $skill[Blessing of the War Snapper]);
+				}
+			}
+			if((have_effect($effect[Blessing of the Storm Tortoise]) == 0) && (have_effect($effect[Grand Blessing of the Storm Tortoise]) == 0) && (have_effect($effect[Glorious Blessing of the Storm Tortoise]) == 0))
+			{
+				sourceNeed -= 2;
+			}
 		}
 		if(have_skill($skill[Sauceshell]))
 		{
@@ -6917,6 +6927,57 @@ boolean L4_batCave()
 	return true;
 }
 
+
+boolean LX_meatMaid()
+{
+	# We do not use cC_get_campground due to the page hit and this is probably not needed.
+	# Ok, we might need it if we used this function in an Ed the Undying run but it is pure turnbloat
+	if(get_campground() contains $item[Meat Maid])
+	{
+		return false;
+	}
+	if(!knoll_available() || (my_daycount() != 1) || (get_property("cc_crypt") != "finished"))
+	{
+		return false;
+	}
+	if(item_amount($item[Disassembled Clover]) == 0)
+	{
+		return false;
+	}
+	if(my_meat() < 320)
+	{
+		return false;
+	}
+	print("Well, we could make a Meat Maid and that seems raisinable.", "blue");
+
+	if((item_amount($item[Brainy Skull]) == 0) && (item_amount($item[Disembodied Brain]) == 0) && (item_amount($item[Smart Skull]) == 0))
+	{
+		use(1, $item[disassembled clover]);
+		if(contains_text(visit_url("adventure.php?snarfblat=58&confirm=on"), "Combat"))
+		{
+			print("Wandering combat at The VERY Unquiet Garves, have to try this again.", "red");
+			ccAdv(1, $location[The VERY Unquiet Garves]);
+			if(item_amount($item[ten-leaf clover]) == 1)
+			{
+				use(1, $item[ten-leaf clover]);
+			}
+			return true;
+		}
+		if(get_property("lastEncounter") == "Rolling the Bones")
+		{
+			print("Got a brain, trying to make and use a meat maid now.", "blue");
+			cli_execute("make meat maid");
+			use(1, $item[meat maid]);
+		}
+		if(lastAdventureSpecialNC())
+		{
+			abort("May be stuck in an interrupting Non-Combat adventure, finish current adventure and resume");
+		}
+		return false;
+	}
+	return false;
+}
+
 boolean LX_bitchinMeatcar()
 {
 	if((item_amount($item[Bitchin\' Meatcar]) > 0) || gnomads_available() || (my_class() == $class[Ed]))
@@ -8177,7 +8238,6 @@ boolean L9_chasmBuild()
 		visit_url("adventure.php?snarfblat=295&confirm=on");
 		if(contains_text(visit_url("main.php"), "Combat"))
 		{
-			//run_combat();
 			ccAdv(1, $location[The Smut Orc Logging Camp]);
 			return true;
 		}
