@@ -296,7 +296,7 @@ void handleOffHand()
 			toEquip = thing;
 		}
 	}
-
+/*
 	if(contains_text(holiday(), "Oyster Egg Day"))
 	{
 		poss = $items[Hot Plate, Disturbing Fanfic, Coffin Lid, Sawblade Shield, Wicker Shield, Keg Shield, Barrel Lid];
@@ -312,7 +312,7 @@ void handleOffHand()
 			}
 		}
 	}
-
+*/
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[off-hand])))
 	{
 		if(equipped_item($slot[weapon]) != toEquip)
