@@ -892,11 +892,14 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "shattering punch")) && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && !isFreeMonster(enemy) && (my_adventures() < 20) && !enemy.boss)
+	if((!contains_text(combatState, "shattering punch")) && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && !isFreeMonster(enemy) && !enemy.boss && (get_property("_shatteringPunchUsed").to_int() < 3))
 	{
-		set_property("cc_combatHandler", combatState + "(shattering punch)");
-		handleTracker(enemy, $skill[shattering punch], "cc_instakill");
-		return "skill " + $skill[shattering punch];
+		if((my_adventures() < 20) || get_property("kingLiberated").to_boolean())
+		{
+			set_property("cc_combatHandler", combatState + "(shattering punch)");
+			handleTracker(enemy, $skill[shattering punch], "cc_instakill");
+			return "skill " + $skill[shattering punch];
+		}
 	}
 
 	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 60) && have_skill($skill[Itchy Curse Finger]))

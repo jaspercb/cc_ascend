@@ -1312,11 +1312,11 @@ void initializeDay(int day)
 	{
 		if(day == 1)
 		{
-			cli_execute("barrelprayer Protection");
+			boolean buff = cli_execute("barrelprayer Protection");
 		}
 		else if(day == 2)
 		{
-			cli_execute("barrelprayer Glamour");
+			boolean buff = cli_execute("barrelprayer Glamour");
 		}
 	}
 
@@ -1324,11 +1324,11 @@ void initializeDay(int day)
 	{
 		if(day == 1)
 		{
-			cli_execute("teatree " + $item[Cuppa Voraci Tea]);
+			boolean buff = cli_execute("teatree " + $item[Cuppa Voraci Tea]);
 		}
 		else if(day == 2)
 		{
-			cli_execute("teatree " + $item[Cuppa Sobrie Tea]);
+			boolean buff = cli_execute("teatree " + $item[Cuppa Sobrie Tea]);
 		}
 		else
 		{
@@ -6973,7 +6973,7 @@ boolean LX_meatMaid()
 		{
 			abort("May be stuck in an interrupting Non-Combat adventure, finish current adventure and resume");
 		}
-		return false;
+		return true;
 	}
 	return false;
 }
@@ -7804,10 +7804,6 @@ boolean L9_aBooPeak()
 		{
 			mp_need = mp_need - 20;
 		}
-#		if((my_hp() - totalDamage) > 300)
-#		{
-#			mp_need = mp_need - 10;
-#		}
 
 		if(my_turncount() == get_property("cc_lastABooConsider").to_int())
 		{
@@ -7836,18 +7832,10 @@ boolean L9_aBooPeak()
 			doThisBoo = true;
 		}
 
-#		if(((my_hp() >= 400) && (my_mp() >= mp_need)) || ((my_hp() >= totalDamage) && (my_mp() >= 20)))
-#		{
-#			doThisBoo = true;
-#		}
 		if(doThisBoo)
 		{
 			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
 			maximize("spooky res, cold res " + lihcface + " -equip snow suit", 0, 0, false);
-#			if((item_amount($item[Lihc Face]) > 0) && (my_class() != $class[Ed]))
-#			{
-#				equip($item[Lihc Face]);
-#			}
 			adjustEdHat("ml");
 
 			if(item_amount($item[ghost of a necklace]) > 0)

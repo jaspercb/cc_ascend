@@ -31,6 +31,20 @@ void handlePostAdventure()
 		return;
 	}
 
+	if(!get_property("_ballInACupUsed").to_boolean() && (item_amount($item[Ball-In-A-Cup]) > 0))
+	{
+		use(1, $item[Ball-In-A-Cup]);
+	}
+	if(!get_property("_setOfJacksUsed").to_boolean() && (item_amount($item[Set of Jacks]) > 0))
+	{
+		use(1, $item[Set of Jacks]);
+	}
+	if(!get_property("_hobbyHorseUsed").to_boolean() && (item_amount($item[Handmade Hobby Horse]) > 0))
+	{
+		use(1, $item[Handmade Hobby Horse]);
+	}
+
+
 	if((my_location() == $location[The Lower Chambers]) && (item_amount($item[2334]) == 0))
 	{
 		return;

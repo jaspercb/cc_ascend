@@ -390,6 +390,25 @@ boolean cc_doWalford()
 		return false;
 	}
 
+	if(!get_property("_fishyPipeUsed").to_boolean())
+	{
+		use(1, $item[Fishy Pipe]);
+	}
+	if(!get_property("_bagOTricksUsed").to_boolean())
+	{
+		use(1, $item[Bag O\' Tricks]);
+	}
+	getDiscoStyle(6);
+	visit_url("place.php?whichplace=airport_hot&action=airport4_questhub");
+
+	if(get_property("cc_dinseyGarbageMoney").to_int() < my_daycount())
+	{	
+		set_property("cc_dinseyGarbageMoney", my_daycount());
+		visit_url("place.php?whichplace=airport_stench&action=airport3_tunnels");
+		visit_url("choice.php?pwd=&whichchoice=1067&option=6",true);
+		visit_url("main.php");
+	}
+
 	handleFamiliar($familiar[Artistic Goth Kid]);
 	if(equipped_item($slot[Familiar]) != $item[Das Boot])
 	{
@@ -414,7 +433,14 @@ boolean cc_doWalford()
 	}
 	if(equipped_item($slot[Shirt]) != $item[Sneaky Pete\'s Leather Jacket])
 	{
-		equip($item[Sneaky Pete\'s Leather Jacket]);
+		if(item_amount($item[Sneaky Pete\'s Leather Jacket]) > 0)
+		{
+			equip($item[Sneaky Pete\'s Leather Jacket]);
+		}
+		else if(item_amount($item[Sneaky Pete\'s Leather Jacket (Collar Popped)]) > 0)
+		{
+			equip($item[Sneaky Pete\'s Leather Jacket (Collar Popped)]);
+		}
 	}
 	if((equipped_item($slot[acc1]) != $item[Space Trip Safety Headphones]) && can_equip($item[Space Trip Safety Headphones]))
 	{
