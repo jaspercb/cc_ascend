@@ -6998,7 +6998,7 @@ boolean LX_meatMaid()
 	}
 	print("Well, we could make a Meat Maid and that seems raisinable.", "blue");
 
-	if((item_amount($item[Brainy Skull]) == 0) && (item_amount($item[Disembodied Brain]) == 0) && (item_amount($item[Smart Skull]) == 0))
+	if((item_amount($item[Brainy Skull]) == 0) && (item_amount($item[Disembodied Brain]) == 0))
 	{
 		use(1, $item[disassembled clover]);
 		if(contains_text(visit_url("adventure.php?snarfblat=58&confirm=on"), "Combat"))
@@ -9662,7 +9662,18 @@ boolean doTasks()
 
 	if(have_effect($effect[beaten up]) > 0)
 	{
-		abort("Got beaten up, please fix me");
+		if(have_effect($effect[Temporary Amnesia]) > 0)
+		{
+			doHottub();
+		}
+		else if((my_mp() > 20) && ((my_hp() * 1.2) >= my_maxhp()) && have_skill($skill[Tongue of the Walrus]))
+		{
+			use_skill(1, $skill[Tongue of the Walrus]);
+		}
+		if(have_effect($effect[beaten up]) > 0)
+		{
+			abort("Got beaten up, please fix me");
+		}
 	}
 
 	if((my_daycount() == 2) && have_familiar($familiar[Crimbo Shrub]))
