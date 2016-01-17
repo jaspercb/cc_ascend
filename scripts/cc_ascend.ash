@@ -6695,9 +6695,9 @@ boolean L8_trapperGround()
 			pullXWhenHaveY(oreGoal, 3 - item_amount(oreGoal), item_amount(oreGoal));
 		}
 	}
-	else if(my_level() >= 12)
+	else if((my_level() >= 12) && in_hardcore())
 	{
-		if(item_amount($item[Disassembled Clover]) > 0)
+		if(item_amount($item[Disassembled Clover]) > 1)
 		{
 			use(1, $item[Disassembled Clover]);
 			if(ccAdvBypass(270, $location[Itznotyerzitz Mine]))
