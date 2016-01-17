@@ -758,17 +758,6 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	#First pass snokebomb
-	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
-	{
-		if($monsters[Doughbat, Natural Spider, plaid ghost, slick lihc, skeletal sommelier, taco cat, wardr&ouml;b nightstand, upgraded ram] contains enemy)
-		{
-			set_property("cc_combatHandler", combatState + "(Snokebomb)");
-			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
-			return "skill " + $skill[Snokebomb];
-		}
-	}
-
 	#Unlikely path: Louder than bomb
 	if((!contains_text(combatState, "louderthanbomb")) && (item_amount($item[louder than bomb]) > 0))
 	{
@@ -791,11 +780,10 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill batter up!";
 		}
 	}
-
 	#Snokebomb replace Batter Up! pass
 	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])) && (my_class() != $class[Seal Clubber]))
 	{
-		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Drunk Goat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
+		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Drunk Goat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(Snokebomb)");
 			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
