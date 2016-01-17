@@ -243,11 +243,11 @@ void handleOffHand()
 	{
 		if((have_skill($skill[Double-Fisted Skull Smashing])) && (weapon_type(equipped_item($slot[weapon])) != $stat[Moxie]))
 		{
-			poss = $items[Turtle Totem, Knob Goblin Scimitar, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Hot Plate, Spiked Femur, Sawblade Shield, Wicker Shield, Keg Shield, Operation Patriot Shield, Fake Washboard, Barrel Lid];
+			poss = $items[Turtle Totem, Knob Goblin Scimitar, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Hot Plate, Spiked Femur, Yorick, Sawblade Shield, Wicker Shield, Keg Shield, Operation Patriot Shield, Fake Washboard, Barrel Lid];
 		}
 		else
 		{
-			poss = $items[7-ball, 5-ball, 2-ball, 1-ball, Hot Plate, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Sawblade Shield, Wicker Shield, Keg Shield, Whatsian Ionic Pliers, Little Black Book, Astral Shield, A Light That Never Goes Out, Astral Statuette, Operation Patriot Shield, Fake Washboard, Barrel Lid];
+			poss = $items[7-ball, 5-ball, 2-ball, 1-ball, Hot Plate, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Sawblade Shield, Wicker Shield, Keg Shield, Whatsian Ionic Pliers, Little Black Book, Yorick, Astral Shield, A Light That Never Goes Out, Astral Statuette, Operation Patriot Shield, Fake Washboard, Barrel Lid];
 		}
 	}
 	if(my_class() == $class[Turtle Tamer])
@@ -259,28 +259,28 @@ void handleOffHand()
 	{
 		if((have_skill($skill[Double-Fisted Skull Smashing])) && (weapon_type(equipped_item($slot[weapon])) != $stat[Moxie]))
 		{
-			poss = $items[Turtle Totem, Knob Goblin Scimitar, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Spiked Femur, Wicker Shield, Keg Shield, Barrel Lid, Operation Patriot Shield, Jarlsberg\'s Pan];
+			poss = $items[Turtle Totem, Knob Goblin Scimitar, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Spiked Femur, Wicker Shield, Keg Shield, Yorick, Barrel Lid, Operation Patriot Shield, Jarlsberg\'s Pan];
 		}
 		else
 		{
-			poss = $items[Hot Plate, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Sawblade Shield, Wicker Shield, Keg Shield, Sticky Hand Whip, Whatsian Ionic Pliers, Little Black Book, Astral Shield, Astral Statuette, A Light That Never Goes Out, Barrel Lid, Operation Patriot Shield, Jarlsberg\'s Pan];
+			poss = $items[Hot Plate, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Sawblade Shield, Wicker Shield, Keg Shield, Sticky Hand Whip, Whatsian Ionic Pliers, Little Black Book, Astral Shield, Astral Statuette, Yorick, A Light That Never Goes Out, Barrel Lid, Operation Patriot Shield, Jarlsberg\'s Pan];
 		}
 	}
 
 	if(my_class() == $class[Sauceror])
 	{
-			poss = $items[Hot Plate, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Sawblade Shield, Wicker Shield, Keg Shield, Whatsian Ionic Pliers, Little Black Book, Astral Shield, Astral Statuette, Operation Patriot Shield, Jarlsberg\'s Pan, Barrel Lid, A Light that Never Goes Out];
+			poss = $items[Hot Plate, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Sawblade Shield, Wicker Shield, Keg Shield, Whatsian Ionic Pliers, Little Black Book, Astral Shield, Astral Statuette, Yorick, Operation Patriot Shield, Jarlsberg\'s Pan, Barrel Lid, A Light that Never Goes Out];
 	}
 
 	if(my_class() == $class[Disco Bandit])
 	{
 		if((have_skill($skill[Double-Fisted Skull Smashing])) && (weapon_type(equipped_item($slot[weapon])) != $stat[Moxie]))
 		{
-			poss = $items[Turtle Totem, Knob Goblin Scimitar, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Spiked Femur, Wicker Shield, Keg Shield, Barrel Lid, Operation Patriot Shield];
+			poss = $items[Turtle Totem, Knob Goblin Scimitar, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Spiked Femur, Wicker Shield, Yorick, Keg Shield, Barrel Lid, Operation Patriot Shield];
 		}
 		else
 		{
-			poss = $items[Hot Plate, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Sawblade Shield, Wicker Shield, Keg Shield, Whatsian Ionic Pliers, Little Black Book, Astral Shield, Astral Statuette, Operation Patriot Shield, Fake Washboard, A Light That Never Goes Out, Barrel Lid];
+			poss = $items[Hot Plate, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Sawblade Shield, Wicker Shield, Keg Shield, Whatsian Ionic Pliers, Little Black Book, Astral Shield, Astral Statuette, Yorick, Operation Patriot Shield, Fake Washboard, A Light That Never Goes Out, Barrel Lid];
 		}
 	}
 
@@ -449,10 +449,10 @@ void equipBaselineWeapon()
 		poss = $items[Turtle Totem, Witty Rapier, Antique Machete, Short-Handled Mop, Rope, Lead Pipe, Work Is A Four Letter Sword, Garbage Sticker];
 		break;
 	case $class[Sauceror]:
-		poss = $items[Saucepan, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Candlestick, Saucepanic];
+		poss = $items[Saucepan, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Thor\'s Pliers, Candlestick, Saucepanic];
 		break;
 	case $class[Pastamancer]:
-		poss = $items[Pasta Spoon, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Wrench, Hand That Rocks The Ladle];
+		poss = $items[Pasta Spoon, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Thor\'s Pliers, Wrench, Hand That Rocks The Ladle];
 		break;
 	case $class[Disco Bandit]:
 		poss = $items[Knife, Frankly Mr. Shank];

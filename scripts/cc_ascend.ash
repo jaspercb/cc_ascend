@@ -167,11 +167,25 @@ void initializeSettings()
 
 	if(in_hardcore())
 	{
-		set_property("choiceAdventure1106", 2);
+		if(have_effect($effect[Adventurer\'s Best Friendship]) > 120)
+		{
+			set_property("choiceAdventure1106", 3);
+		}
+		else
+		{
+			set_property("choiceAdventure1106", 2);
+		}
 	}
 	else
 	{
-		set_property("choiceAdventure1106", 3);
+		if(have_effect($effect[Adventurer\'s Best Friendship]) > 30)
+		{
+			set_property("choiceAdventure1106", 3);
+		}
+		else
+		{
+			set_property("choiceAdventure1106", 2);
+		}
 	}
 	set_property("choiceAdventure1003", 0);
 	beehiveConsider();
@@ -1159,6 +1173,14 @@ int handlePulls(int day)
 		#pullXWhenHaveY($item[camp scout backpack], 1, 0);
 		#pullXWhenHaveY($item[caveman dan\'s favorite rock], 1, 0);
 
+		if((my_class() == $class[Sauceror]) || (my_class() == $class[Pastamancer]))
+		{
+			if((item_amount($item[Deck of Every Card]) == 0) && !have_skill($skill[Summon Smithsness]))
+			{
+				pullXWhenHaveY($item[Thor\'s Pliers], 1, 0);
+			}
+		}
+
 		if(cc_my_path() == "Picky")
 		{
 			pullXWhenHaveY($item[gumshoes], 1, 0);
@@ -1308,13 +1330,27 @@ void initializeDay(int day)
 		pullXWhenHaveY($item[Talking Spade], 1, 0);
 	}
 
+	if(internalQuestStatus("questM20Necklace") == -1)
+	{
+		if(item_amount($item[Telegram From Lady Spookyraven]) > 0)
+		{
+			use(1, $item[Telegram From Lady Spookyraven]);
+		}
+		else
+		{
+			print("Lady Spookyraven quest not detected as started but we don't have the telegram, assuming it is...", "red");
+			set_property("questM20Necklace", "started");
+		}
+	}
+
+
 	if(!get_property("_barrelPrayer").to_boolean() && get_property("barrelShrineUnlocked").to_boolean() && !get_property("kingLiberated").to_boolean())
 	{
-		if(day == 1)
+		if((day == 1) && !get_property("prayedForProtection").to_boolean())
 		{
 			boolean buff = cli_execute("barrelprayer Protection");
 		}
-		else if(day == 2)
+		else if((day == 2) && !get_property("prayedForGlamour").to_boolean())
 		{
 			boolean buff = cli_execute("barrelprayer Glamour");
 		}
@@ -1915,7 +1951,7 @@ void doBedtime()
 		}
 	}
 
-	if((my_daycount() % 5) == 1)
+	if((my_daycount() - 5) >= get_property("lastAnticheeseDay").to_int())
 	{
 		visit_url("place.php?whichplace=desertbeach&action=db_nukehouse");
 	}
@@ -2148,7 +2184,6 @@ boolean questOverride()
 		print("Found Unlocked Hidden Temple but unaware of spooky sapling (2)");
 		set_property("cc_spookysapling", "finished");
 	}
-
 
 	if((get_property("questL02Larva") == "finished") && (get_property("cc_mosquito") != "finished"))
 	{
@@ -6870,14 +6905,14 @@ boolean L4_batCave()
 	}
 	buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
 
-	if(item_amount($item[sonar-in-a-biscuit]) > 0)
+	int batStatus = internalQuestStatus("questL04Bat");
+	if((item_amount($item[sonar-in-a-biscuit]) > 0) && (batStatus < 3))
 	{
-		use(item_amount($item[sonar-in-a-biscuit]), $item[sonar-in-a-biscuit]);
+		use(1, $item[sonar-in-a-biscuit]);
 		return true;
 	}
-	string batHole = visit_url("place.php?whichplace=bathole");
 
-	if(contains_text(batHole, "bathole_bg5"))
+	if(batStatus >= 4)
 	{
 		if((item_amount($item[enchanted bean]) == 0) && (get_property("cc_bean") != "plant"))
 		{
@@ -6888,15 +6923,14 @@ boolean L4_batCave()
 		council();
 		return true;
 	}
-
-	if(contains_text(batHole, "bathole_bg4"))
+	if(batStatus >= 3)
 	{
 		ccAdv(1, $location[The Boss Bat\'s Lair]);
 		return true;
 	}
-	if(contains_text(batHole, "bathole_bg3"))
+	if(batStatus >= 2)
 	{
-		if((item_amount($item[enchanted bean]) == 0) && (get_property("cc_bean") != "plant"))
+		if((item_amount($item[Enchanted Bean]) == 0) && (get_property("cc_bean") != "plant"))
 		{
 			ccAdv(1, $location[The Beanbat Chamber]);
 			return true;
@@ -6904,7 +6938,7 @@ boolean L4_batCave()
 		ccAdv(1, $location[The Batrat and Ratbat Burrow]);
 		return true;
 	}
-	if(contains_text(batHole, "bathole_bg2"))
+	if(batStatus >= 1)
 	{
 		ccAdv(1, $location[The Batrat and Ratbat Burrow]);
 		return true;
@@ -6925,7 +6959,7 @@ boolean L4_batCave()
 		}
 	}
 
-	if((my_class() == $class[Ed]) && (item_amount($item[Disassembled Clover]) > 0))
+	if((my_class() == $class[Ed]) && (item_amount($item[Disassembled Clover]) > 0) && (batStatus <= 1))
 	{
 		use(1, $item[Disassembled Clover]);
 		if(ccAdvBypass(31, $location[Guano Junction]))
@@ -6998,6 +7032,10 @@ boolean LX_bitchinMeatcar()
 	{
 		return false;
 	}
+	if(get_property("lastDesertUnlock").to_int() == my_ascensions())
+	{
+		return false;
+	}
 
 	if(knoll_available())
 	{
@@ -7048,7 +7086,7 @@ boolean LX_islandAccess()
 		use(1, $item[dinghy plans]);
 		return true;
 	}
-	if(item_amount($item[Dingy Dinghy]) > 0)
+	if((item_amount($item[Dingy Dinghy]) > 0) || (get_property("lastIslandUnlock").to_int() == my_ascensions()))
 	{
 		return false;
 	}
@@ -7144,6 +7182,14 @@ boolean LX_phatLootToken()
 
 boolean L2_treeCoin()
 {
+	if(item_amount($item[Tree-Holed Coin]) == 1)
+	{
+		set_property("cc_treecoin", "finished");
+	}
+	if(item_amount($item[Spooky Temple Map]) == 1)
+	{
+		set_property("cc_treecoin", "finished");
+	}
 	if(get_property("cc_treecoin") == "finished")
 	{
 		return false;
@@ -7152,11 +7198,7 @@ boolean L2_treeCoin()
 	print("Time for a tree-holed coin", "blue");
 	set_property("choiceAdventure502", "2");
 	set_property("choiceAdventure505", "2");
-	ccAdv(1, $location[the spooky forest]);
-	if(item_amount($item[tree-holed coin]) == 1)
-	{
-		set_property("cc_treecoin", "finished");
-	}
+	ccAdv(1, $location[The Spooky Forest]);
 	return true;
 }
 
@@ -7192,10 +7234,6 @@ boolean L2_spookyFertilizer()
 	set_property("choiceAdventure502", "3");
 	set_property("choiceAdventure506", "2");
 	ccAdv(1, $location[The Spooky Forest]);
-	if(item_amount($item[Spooky-Gro Fertilizer]) > 0)
-	{
-		set_property("cc_spookyfertilizer", "finished");
-	}
 	return true;
 }
 
@@ -7215,7 +7253,7 @@ boolean L2_spookySapling()
 	set_property("choiceAdventure504", "3");
 
 #	cli_execute("aa none");
-	if(contains_text(visit_url("adventure.php?snarfblat=15"), "Combat"))
+	if(contains_text(visit_url("adventure.php?snarfblat=15"), "Combat") || lastAdventureSpecialNC())
 	{
 		ccAdv(1, $location[The Spooky Forest]);
 	}
@@ -7253,6 +7291,12 @@ boolean L2_spookySapling()
 
 boolean L2_mosquito()
 {
+	if(item_amount($item[mosquito larva]) > 0)
+	{
+		council();
+		set_property("cc_mosquito", "finished");
+		visit_url("tavern.php?place=barkeep");
+	}
 	if(get_property("cc_mosquito") == "finished")
 	{
 		return false;
@@ -7265,12 +7309,6 @@ boolean L2_mosquito()
 	set_property("choiceAdventure505", "1");
 	ccAdv(1, $location[The Spooky Forest]);
 
-	if(item_amount($item[mosquito larva]) > 0)
-	{
-		council();
-		set_property("cc_mosquito", "finished");
-		visit_url("tavern.php?place=barkeep");
-	}
 	return true;
 }
 
@@ -7382,6 +7420,19 @@ boolean LX_handleSpookyravenFirstFloor()
 
 boolean L5_getEncryptionKey()
 {
+	if(item_amount($item[11-inch knob sausage]) == 1)
+	{
+		visit_url("guild.php?place=challenge");
+		return true;
+	}
+	if(item_amount($item[Knob Goblin Encryption Key]) == 1)
+	{
+		set_property("cc_day1_cobb", "finished");
+		if(my_level() >= 5)
+		{
+			council();
+		}
+	}
 	if(get_property("cc_day1_cobb") == "finished")
 	{
 		return false;
@@ -7391,19 +7442,9 @@ boolean L5_getEncryptionKey()
 		set_property("cc_day1_cobb", "finished");
 		return false;
 	}
+
 	print("Looking for the knob.", "blue");
-	ccAdv(1, $location[the outskirts of cobb\'s knob]);
-
-	if(item_amount($item[11-inch knob sausage]) == 1)
-	{
-		visit_url("guild.php?place=challenge");
-	}
-
-	if(item_amount($item[Knob Goblin Encryption Key]) == 1)
-	{
-		set_property("cc_day1_cobb", "finished");
-		council();
-	}
+	ccAdv(1, $location[The Outskirts of Cobb\'s Knob]);
 	return true;
 }
 
@@ -8098,7 +8139,8 @@ boolean L9_twinPeak()
 	{
 		if(lastAdventureSpecialNC())
 		{
-			abort("May be stuck in an interrupting Non-Combat adventure, finish current adventure and resume.");
+			ccAdv(1, $location[Twin Peak]);
+			#abort("May be stuck in an interrupting Non-Combat adventure, finish current adventure and resume.");
 		}
 		return true;
 	}
@@ -10037,7 +10079,7 @@ boolean doTasks()
 	}
 
 	# Should check that we can actually get goofballs first. Should be migrated to cc_util
-	if(get_property("lastGoofballBuy").to_int() < my_ascensions())
+	if(get_property("lastGoofballBuy").to_int() != my_ascensions())
 	{
 		visit_url("place.php?whichplace=woods");
 		print("Got Goofballs", "blue");

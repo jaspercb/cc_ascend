@@ -53,7 +53,12 @@ boolean chateaumantegna_usePainting()
 	{
 		return false;
 	}
-	if(get_property("chateauMonster") == "lobsterfrogman")
+	if(get_property("_chateauMonsterFought").to_boolean())
+	{
+		return false;
+	}
+
+	if(get_property("chateauMonster") == $monster[lobsterfrogman])
 	{
 		if(item_amount($item[Barrel of Gunpowder]) >= 5)
 		{
@@ -64,7 +69,28 @@ boolean chateaumantegna_usePainting()
 			return false;
 		}
 	}
-	if(get_property("chateauMonster") == "mountain man")
+	if(get_property("chateauMonster") == $monster[Bram the Stoker])
+	{
+		if(have_equipped($item[Bram\'s Choker]) || (item_amount($item[Bram\'s Choker]) > 0))
+		{
+			return false;
+		}
+	}
+	if(get_property("chateauMonster") == $monster[Writing Desk])
+	{
+		if(get_property("writingDesksDefeated").to_int() >= 5)
+		{
+			return false;
+		}
+	}
+	if(get_property("chateauMonster") == $monster[Ninja Snowman Assassin])
+	{
+		if((item_amount($item[Ninja Carabiner]) > 0) && (item_amount($item[Ninja Crampons]) > 0) && (item_amount($item[Ninja Rope]) > 0))
+		{
+			return false;
+		}
+	}
+	if(get_property("chateauMonster") == $monster[Mountain Man])
 	{
 		if((get_property("cc_trapper") == "yeti") || (get_property("cc_trapper") == "finished"))
 		{

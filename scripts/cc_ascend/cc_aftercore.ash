@@ -390,11 +390,11 @@ boolean cc_doWalford()
 		return false;
 	}
 
-	if(!get_property("_fishyPipeUsed").to_boolean())
+	if((item_amount($item[Fishy Pipe]) > 0) && !get_property("_fishyPipeUsed").to_boolean())
 	{
 		use(1, $item[Fishy Pipe]);
 	}
-	if(!get_property("_bagOTricksUsed").to_boolean())
+	if((item_amount($item[Bag O\' Tricks]) > 0) && !get_property("_bagOTricksUsed").to_boolean())
 	{
 		use(1, $item[Bag O\' Tricks]);
 	}
@@ -402,11 +402,16 @@ boolean cc_doWalford()
 	visit_url("place.php?whichplace=airport_hot&action=airport4_questhub");
 
 	if(get_property("cc_dinseyGarbageMoney").to_int() < my_daycount())
-	{	
+	{
 		set_property("cc_dinseyGarbageMoney", my_daycount());
 		visit_url("place.php?whichplace=airport_stench&action=airport3_tunnels");
 		visit_url("choice.php?pwd=&whichchoice=1067&option=6",true);
 		visit_url("main.php");
+	}
+
+	if((item_amount($item[Platinum Yendorian Express Card]) > 0) && !get_property("expressCardUsed").to_boolean())
+	{
+		use(1, $item[Platinum Yendorian Express Card]);
 	}
 
 	handleFamiliar($familiar[Artistic Goth Kid]);

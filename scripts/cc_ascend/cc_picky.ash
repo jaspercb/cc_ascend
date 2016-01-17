@@ -140,28 +140,22 @@ void picky_buyskills()
 		{
 			visit_url("guild.php?action=buyskill&skillid=4", true);
 		}
-
-
 		if((my_level() >= 3) && (my_meat() >= 2500) && (!have_skill($skill[Cold Shoulder])))
 		{
 			visit_url("guild.php?action=buyskill&skillid=28", true);
 		}
-
 		if((my_level() >= 4) && (my_meat() >= 4500) && (!have_skill($skill[Wrath of the Wolverine])))
 		{
 			visit_url("guild.php?action=buyskill&skillid=29", true);
 		}
-
 		if((my_level() >= 10) && (my_meat() >= 12000) && (!have_skill($skill[Ire of the Orca])))
 		{
 			visit_url("guild.php?action=buyskill&skillid=35", true);
 		}
-
 		if((my_level() >= 11) && (my_meat() >= 12000) && (!have_skill($skill[Batter Up!])))
 		{
 			visit_url("guild.php?action=buyskill&skillid=14", true);
 		}
-
 		break;
 	case $class[Turtle Tamer]:
 		if((my_level() >= 3) && (my_meat() >= 1000) && (!have_skill($skill[Amphibian Sympathy])))
@@ -188,11 +182,6 @@ void picky_buyskills()
 		{
 			visit_url("guild.php?action=buyskill&skillid=31", true);
 		}
-#		if((my_level() >= 9) && (my_meat() >= 14000) && (!have_skill($skill[Testudinal Teachings])))
-#		{
-#			visit_url("guild.php?action=buyskill&skillid=35", true);
-#		}
-
 		if((my_level() >= 11) && (my_meat() >= 9000) && (!have_skill($skill[Shieldbutt])))
 		{
 			visit_url("guild.php?action=buyskill&skillid=5", true);
@@ -201,7 +190,6 @@ void picky_buyskills()
 		{
 			visit_url("guild.php?action=buyskill&skillid=34", true);
 		}
-
 		if((my_level() >= 7) && (my_meat() >= 13000) && (!have_skill($skill[Kneebutt])))
 		{
 			visit_url("guild.php?action=buyskill&skillid=15", true);
@@ -210,7 +198,6 @@ void picky_buyskills()
 		{
 			visit_url("guild.php?action=buyskill&skillid=28", true);
 		}
-
 		if((my_level() >= 11) && (my_meat() >= 17000) && (!have_skill($skill[Blessing of the Storm Tortoise])))
 		{
 			visit_url("guild.php?action=buyskill&skillid=37", true);
@@ -220,8 +207,46 @@ void picky_buyskills()
 			visit_url("guild.php?action=buyskill&skillid=32", true);
 		}
 		break;
-
-
+	case $class[Pastamancer]:
+		break;
+	case $class[Sauceror]:
+		if((my_level() >= 3) && (my_meat() >= 1000) && !have_skill($skill[Expert Panhandling]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=4", true);
+		}
+		if((my_level() >= 4) && (my_meat() >= 3000) && !have_skill($skill[Elemental Saucesphere]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=7", true);
+		}
+		if((my_level() >= 4) && (my_meat() >= 1000) && !have_skill($skill[Inner Sauce]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=28", true);
+		}
+		if((my_level() >= 5) && (my_meat() >= 5000) && !have_skill($skill[Advanced Saucecrafting]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=6", true);
+		}
+		if((my_level() >= 5) && (my_meat() >= 4000) && !have_skill($skill[Saucestorm]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=5", true);
+		}
+		if((my_level() >= 6) && (my_meat() >= 2500) && !have_skill($skill[Soul Saucery]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=27", true);
+		}
+		if((my_level() >= 8) && (my_meat() >= 12000) && !have_skill($skill[Itchy Curse Finger]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=30", true);
+		}
+		if((my_level() >= 11) && (my_meat() >= 20000) && !have_skill($skill[Saucemaven]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=39", true);
+		}
+		if((my_level() >= 12) && (my_meat() >= 20000) && !have_skill($skill[Curse of Weaksauce]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=34", true);
+		}
+		break;
 
 
 
