@@ -9634,9 +9634,11 @@ boolean doTasks()
 		handleFamiliar($familiar[Galloping Grill]);
 	}
 
+	# This function buys missing skills in general, not just for Picky.
+	# It should be moved.
+	picky_buyskills();
 
 	oldPeoplePlantStuff();
-	picky_buyskills();
 	use_barrels();
 
 	if(get_property("cc_doCombatCopy") == "yes")

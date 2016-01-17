@@ -131,8 +131,12 @@ void picky_startAscension()
 	}
 }
 
-void picky_buyskills()
+boolean picky_buyskills()
 {
+	if(!guild_store_available())
+	{
+		return false;
+	}
 	switch(my_class())
 	{
 	case $class[Seal Clubber]:
@@ -208,6 +212,30 @@ void picky_buyskills()
 		}
 		break;
 	case $class[Pastamancer]:
+		if((my_level() >= 1) && (my_meat() >= 500) && !have_skill($skill[Utensil Twist]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=25", true);
+		}
+		if((my_level() >= 2) && (my_meat() >= 1000) && !have_skill($skill[Entangling Noodles]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=4", true);
+		}
+		if((my_level() >= 5) && (my_meat() >= 4000) && !have_skill($skill[Pastamastery]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=6", true);
+		}
+		if((my_level() >= 9) && (my_meat() >= 12500) && !have_skill($skill[Spirit of Ravioli]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=14", true);
+		}
+		if((my_level() >= 11) && (my_meat() >= 15000) && !have_skill($skill[Leash Of Linguini]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=10", true);
+		}
+		if((my_level() >= 12) && (my_meat() >= 25000) && !have_skill($skill[Cannelloni Cocoon]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=12", true);
+		}
 		break;
 	case $class[Sauceror]:
 		if((my_level() >= 3) && (my_meat() >= 1000) && !have_skill($skill[Expert Panhandling]))
@@ -247,9 +275,71 @@ void picky_buyskills()
 			visit_url("guild.php?action=buyskill&skillid=34", true);
 		}
 		break;
+	case $class[Disco Bandit]:
+		if((my_level() >= 2) && (my_meat() >= 2100) && !have_skill($skill[Overdeveloped Sense of Self Preservation]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=10", true);
+		}
+		if((my_level() >= 5) && (my_meat() >= 2500) && !have_skill($skill[Advanced Cocktailcrafting]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=14", true);
+		}
+		if((my_level() >= 6) && (my_meat() >= 2500) && !have_skill($skill[Nimble Fingers]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=4", true);
+		}
+		if((my_level() >= 8) && (my_meat() >= 7500) && !have_skill($skill[Mad Looting Skillz]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=6", true);
+		}
+		break;
+	case $class[Accordion Thief]:
+		if((my_level() >= 1) && (my_meat() >= 400) && !have_skill($skill[The Moxious Madrigal]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=4", true);
+		}
+		if((my_level() >= 2) && (my_meat() >= 1250) && !have_skill($skill[The Magical Mojomuscular Melody]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=7", true);
+		}
+		if((my_level() >= 4) && (my_meat() >= 3500) && !have_skill($skill[The Power Ballad of the Arrowsmith]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=8", true);
+		}
+		if((my_level() >= 5) && (my_meat() >= 2000) && !have_skill($skill[The Polka of Plenty]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=6", true);
+		}
+		if((my_level() >= 7) && (my_meat() >= 7500) && !have_skill($skill[Fat Leon\'s Phat Loot Lyric]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=10", true);
+		}
+		if((my_level() >= 7) && (my_meat() >= 25000) && !have_skill($skill[Five Finger Discount]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=35", true);
+		}
+		if((my_level() >= 10) && (my_meat() >= 12500) && !have_skill($skill[Thief Among the Honorable]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=38", true);
+		}
+		if((my_level() >= 11) && (my_meat() >= 20000) && !have_skill($skill[Sticky Fingers]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=39", true);
+		}
+		if((my_level() >= 12) && (my_meat() >= 25000) && !have_skill($skill[The Ode to Booze]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=14", true);
+		}
+		if((my_level() >= 13) && (my_meat() >= 30000) && !have_skill($skill[The Sonata of Sneakiness]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=15", true);
+		}
+		if((my_level() >= 13) && (my_meat() >= 30000) && !have_skill($skill[Master Accordion Master Thief]))
+		{
+			visit_url("guild.php?action=buyskill&skillid=41", true);
+		}
 
-
-
+		break;
 	}
-
+	return false;
 }
