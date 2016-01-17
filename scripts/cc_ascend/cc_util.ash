@@ -1459,57 +1459,38 @@ boolean beehiveConsider()
 void shrugAT()
 {
 	int maxSongs = 3;
+	if(have_equipped($item[Brimstone Beret]) || have_equipped($item[Operation Patriot Shield]) || have_equipped($item[Plexiglass Pendant]) || have_equipped($item[Scandalously Skimpy Bikini]) || have_equipped($item[Sombrero De Vida]) || have_equipped($item[Super-Sweet Boom Box]))
+	{
+		maxSongs = 4;
+	}
+
+	if(have_equipped($item[La Hebilla del Cintur&oacute;n de Lopez]))
+	{
+		maxSongs += 1;
+	}
+	if(have_equipped($item[Zombie Accordion]))
+	{
+		maxSongs += 1;
+	}
 	if(have_skill($skill[Mariachi Memory]))
 	{
-		maxSongs = maxSongs + 1;
+		maxSongs += 1;
 	}
 
 	int count = 0;
-	if(have_effect($effect[Aloysius\' Antiphon of Aptitude]) > 0)
-	{
-		count = count + 1;
-	}
-	if(have_effect($effect[Fat Leon\'s Phat Loot Lyric]) > 0)
-	{
-		count = count + 1;
-	}
-	if(have_effect($effect[Polka of Plenty]) > 0)
-	{
-		count = count + 1;
-	}
-	if(have_effect($effect[Power Ballad of the Arrowsmith]) > 0)
-	{
-		count = count + 1;
-	}
-	if(have_effect($effect[The Sonata of Sneakiness]) > 0)
-	{
-		count = count + 1;
-	}
-	if(have_effect($effect[Ur-Kel\'s Aria of Annoyance]) > 0)
-	{
-		count = count + 1;
-	}
+	#Put these in priority of keeping.
+	boolean[effect] songs = $effects[Inigo\'s Incantation of Inspiration, The Ballad of Richie Thingfinder, Chorale of Companionship, Ode to Booze, Ur-Kel\'s Aria of Annoyance, Carlweather\'s Cantata of Confrontation, The Sonata of Sneakiness, Aloysius\' Antiphon of Aptitude, Fat Leon\'s Phat Loot Lyric, Polka of Plenty, Donho\'s Bubbly Ballad, Prelude of Precision, Elron\'s Explosive Etude, Benetton\'s Medley of Diversity, Dirge of Dreadfulness, Stevedave\'s Shanty of Superiority, Psalm of Pointiness, Brawnee\'s Anthem of Absorption, Jackasses\' Symphony of Destruction, Power Ballad of the Arrowsmith, Cletus\'s Canticle of Celerity, Cringle\'s Curative Carol, Magical Mojomuscular Melody, The Moxious Madrigal];
 
-	while(count >= maxSongs)
+	foreach song in songs
 	{
-		if(have_effect($effect[Power Ballad of the Arrowsmith]) > 0)
+		if(have_effect(song) > 0)
 		{
-			uneffect($effect[Power Ballad Of The Arrowsmith]);
+			count += 1;
+			if(count > maxSongs)
+			{
+				uneffect(song);
+			}
 		}
-		else if(have_effect($effect[The Sonata of Sneakiness]) > 0)
-		{
-			uneffect($effect[The Sonata Of Sneakiness]);
-		}
-		else if(have_effect($effect[Polka of Plenty]) > 0)
-		{
-			uneffect($effect[Polka Of Plenty]);
-		}
-		else if(have_effect($effect[Fat Leon\'s Phat Loot Lyric]) > 0)
-		{
-			uneffect($effect[Fat Leon\'s Phat Loot Lyric]);
-		}
-		count = count - 1;
-		#Yes, this doesn't quite work but oh well.
 	}
 }
 

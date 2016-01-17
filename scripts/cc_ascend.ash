@@ -1621,7 +1621,7 @@ void doBedtime()
 
 	while(snojoFightAvailable() && (my_adventures() > 0) && (my_inebriety() <= inebriety_limit()))
 	{
-		handleFamiliar("stat");
+		handleFamiliar($familiar[Ms. Puck Man]);
 		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
 	}
 
@@ -6006,7 +6006,7 @@ boolean L12_flyerBackup()
 
 	if(snojoFightAvailable() && (my_adventures() > 0))
 	{
-		handleFamiliar("stat");
+		handleFamiliar($familiar[Ms. Puck Man]);
 		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
 		return true;
 	}
@@ -6693,6 +6693,20 @@ boolean L8_trapperGround()
 		if(pulls_remaining() >= (3 - item_amount(oreGoal)))
 		{
 			pullXWhenHaveY(oreGoal, 3 - item_amount(oreGoal), item_amount(oreGoal));
+		}
+	}
+	else if(my_level() >= 12)
+	{
+		if(item_amount($item[Disassembled Clover]) > 0)
+		{
+			use(1, $item[Disassembled Clover]);
+			if(ccAdvBypass(270, $location[Itznotyerzitz Mine]))
+			{
+				print("Wandering monster interrupt at Itznotyerzitz Mine", "red");
+				return true;
+			}
+			use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+			return true;
 		}
 	}
 	return false;
