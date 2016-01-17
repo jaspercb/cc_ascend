@@ -1619,7 +1619,7 @@ void doBedtime()
 
 	ed_terminateSession();
 
-	while(snojoFightAvailable() && (my_adventures() > 0))
+	while(snojoFightAvailable() && (my_adventures() > 0) && (my_inebriety() <= inebriety_limit()))
 	{
 		handleFamiliar("stat");
 		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
@@ -1652,7 +1652,7 @@ void doBedtime()
 		}
 	}
 
-	while(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0))
+	while(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && (my_inebriety() <= inebriety_limit()))
 	{
 		if(get_property("cc_choice1119") != "")
 		{
