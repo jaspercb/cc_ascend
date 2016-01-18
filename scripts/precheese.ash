@@ -40,6 +40,12 @@ void handlePreAdventure(location place)
 		return;
 	}
 
+	familiar famChoice = to_familiar(get_property("cc_familiarChoice"));
+	if(famChoice != $familiar[none])
+	{
+		use_familiar(famChoice);
+	}
+
 
 	if((get_property("_bittycar") == "") && (item_amount($item[Bittycar Meatcar]) > 0))
 	{

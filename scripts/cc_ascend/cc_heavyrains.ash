@@ -1,6 +1,8 @@
 script "heavyrains.ash"
 
 import<cc_ascend/cc_util.ash>
+import<cc_ascend/cc_ascend_header.ash>
+import <precheese.ash>
 
 # Code here is supplementary handlers and specialized handlers
 
@@ -611,9 +613,14 @@ boolean rainManSummon(string monsterName, boolean copy, boolean wink)
 	}
 	print("Looking to summon: " + monsterName, "blue");
 
+	#
+	#	Because we currently can't use ccAdvBypass with 2 visit_urls
+	#	We will do the important handlePreAdventure here.
+	#
+	handlePreAdventure($location[Noob Cave]);
 	visit_url("runskillz.php?pwd&action=Skillz&whichskill=16011&quantity=1", true);
 	visit_url("choice.php?pwd&whichchoice=970&whichmonster=" + mId + "&option=1&choice2=and+Fight%21");
-	adv1($location[Noob Cave], 1, "cc_combatHandler");
+	ccAdv(1, $location[Noob Cave]);
 
 	if(wink == true)
 	{

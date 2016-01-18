@@ -402,22 +402,12 @@ void equipBaselineHat(boolean wantNC)
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Hollandaise Helmet, Viking Helmet, Eyepatch, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, Mark III Steam-Hat, Mark IV Steam-Hat, Mark V Steam-Hat, Hairpiece On Fire, Fuzzy Earmuffs, Reinforced Beaded Headband, Giant Yellow Hat, The Crown of Ed the Undying];
+	boolean[item] poss = $items[Hollandaise Helmet, Viking Helmet, Eyepatch, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, Mark III Steam-Hat, Mark IV Steam-Hat, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, The Crown of Ed the Undying];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
 		{
 			toEquip = thing;
-		}
-
-		if(my_class() == $class[Ed])
-		{
-			if(possessEquipment(thing) && (thing == $item[8185]))
-			{
-				toEquip = thing;
-				visit_url("inv_equip.php?pwd=&which=2&action=equip&whichitem=8185");
-				return;
-			}
 		}
 	}
 
@@ -443,7 +433,7 @@ void equipBaselineWeapon()
 	switch(my_class())
 	{
 	case $class[Seal Clubber]:
-		poss = $items[Seal-Clubbing Club, Flaming Crutch, Oversized Pipe, Lead Pipe, Meat Tenderizer Is Murder];
+		poss = $items[Seal-Clubbing Club, Gnollish Flyswatter, Club of Corruption, Remaindered Axe, Skeleton Bone, Corrupt Club of Corruption, Flaming Crutch, Homoerotic Frat-Paddle, Kneecapping Stick, Corrupt Club of Corrupt Corruption, Spiked Femur, Severed Flipper, Mannequin Leg, Infernal Toilet Brush, Hilarious Comedy Prop, Giant Foam Finger, Red Hot Poker, Maxwell\'s Silver Hammer, Elegant Nightstick, Oversized Pipe, Ghast Iron Cleaver, Frozen Seal Spine, Stainless Steel Shillelagh, Porcelain Police Baton, Lead Pipe, Meat Tenderizer Is Murder];
 		break;
 	case $class[Turtle Tamer]:
 		poss = $items[Turtle Totem, Witty Rapier, Antique Machete, Short-Handled Mop, Rope, Lead Pipe, Work Is A Four Letter Sword, Garbage Sticker];

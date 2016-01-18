@@ -524,6 +524,7 @@ void consumeStuff()
 					}
 				}
 				dealWithMilkOfMagnesium(!in_hardcore());
+				buffMaintain($effect[Got Milk], 0, 1, 1);
 				foreach it in toEat
 				{
 					while((canEat > 0) && (item_amount(it) > 0))
@@ -752,6 +753,7 @@ void consumeStuff()
 					}
 				}
 				dealWithMilkOfMagnesium(true);
+				buffMaintain($effect[Got Milk], 0, 1, 1);
 				foreach it in toEat
 				{
 					while((canEat > 0) && (item_amount(it) > 0))

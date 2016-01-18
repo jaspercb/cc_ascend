@@ -38,8 +38,10 @@ boolean ovenHandle();
 boolean handleFaxMonster(string enemy);
 boolean handleFaxMonster(monster enemy);
 boolean isGuildClass();
-void handleRainDoh();
-void handleSpookyPutty();
+boolean handleRainDoh();
+boolean handleSpookyPutty();
+boolean handle4dCamera();
+boolean handleIceSculpture();
 int towerKeyCount();
 void handleTracker(monster enemy, string tracker);
 void handleTracker(monster enemy, skill toTrack, string tracker);
@@ -742,48 +744,55 @@ boolean handleFaxMonster(monster enemy)
 		return false;
 	}
 
-	visit_url("inv_use.php?pwd&which=3&whichitem=4873");
-	return true;
+	return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=4873", $location[Noob Cave]);
+
+#	visit_url("inv_use.php?pwd&which=3&whichitem=4873");
+#	return true;
 }
 
 
-void handleRainDoh()
+boolean handleRainDoh()
 {
 	if(get_property("rainDohMonster") == "")
 	{
 		abort("Rain-doh has no monster so we can't use it");
 	}
-	visit_url("inv_use.php?pwd&which=3&whichitem=5564");
-	adv1($location[Noob Cave], 1, "cc_combatHandler");
+	return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=5564", $location[Noob Cave]);
+#	visit_url("inv_use.php?pwd&which=3&whichitem=5564");
+#	adv1($location[Noob Cave], 1, "cc_combatHandler");
 }
 
-void handleSpookyPutty()
+boolean handleSpookyPutty()
 {
 	if(get_property("spookyPuttyMonster") == "")
 	{
-		abort("Rain-doh has no monster so we can't use it");
+		abort("Spooky Putty has no monster so we can't use it");
 	}
-	visit_url("inv_use.php?pwd&which=3&whichitem=3667");
-	adv1($location[Noob Cave], 1, "cc_combatHandler");
+	return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=3667", $location[Noob Cave]);
+#	visit_url("inv_use.php?pwd&which=3&whichitem=3667");
+#	adv1($location[Noob Cave], 1, "cc_combatHandler");
 }
 
-void handle4dCamera()
+boolean handle4dCamera()
 {
 	if(get_property("_cameraUsed").to_boolean())
 	{
 		abort("4-D Camera was already used, we don't have another use today");
 	}
-	visit_url("inv_use.php?pwd=&whichitem=4170");
-	adv1($location[Noob Cave], 1, "cc_combatHandler");
+	return ccAdvBypass("inv_use.php?pwd=&whichitem=4170", $location[Noob Cave]);
+#	visit_url("inv_use.php?pwd=&whichitem=4170");
+#	adv1($location[Noob Cave], 1, "cc_combatHandler");
 }
 
-void handleIceSculpture()
+boolean handleIceSculpture()
 {
 	if(item_amount($item[Ice Sculpture]) > 0)
 	{
-		visit_url("inv_use.php?pwd=&whichitem=7080");
-		adv1($location[Noob Cave], 1, "cc_combatHandler");
+		return ccAdvBypass("inv_use.php?pwd=&whichitem=7080", $location[Noob Cave]);
+#		visit_url("inv_use.php?pwd=&whichitem=7080");
+#		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
+	return false;
 }
 
 int maxSealSummons()
@@ -795,66 +804,77 @@ int maxSealSummons()
 	return 5;
 }
 
-void handleSealArmored()
+boolean handleSealArmored()
 {
 	if((get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of an armored seal]) > 0) && (item_amount($item[seal-blubber candle]) >= 10))
 	{
-		visit_url("inv_use.php?pwd=&whichitem=3904&checked=1");
-		adv1($location[Noob Cave], 1, "cc_combatHandler");
+		return ccAdvBypass("inv_use.php?pwd=&whichitem=3904&checked=1", $location[Noob Cave]);
+#		visit_url("inv_use.php?pwd=&whichitem=3904&checked=1");
+#		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	else
 	{
 		abort("Can't use an Armored Seal for some reason");
 	}
+	return false;
 }
-void handleSealAncient()
+boolean handleSealAncient()
 {
 	if((get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of an ancient seal]) > 0) && (item_amount($item[seal-blubber candle]) >= 3))
 	{
-		visit_url("inv_use.php?pwd=&whichitem=3905&checked=1");
-		adv1($location[Noob Cave], 1, "cc_combatHandler");
+		return ccAdvBypass("inv_use.php?pwd=&whichitem=3905&checked=1", $location[Noob Cave]);
+#		visit_url("inv_use.php?pwd=&whichitem=3905&checked=1");
+#		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	else
 	{
 		abort("Can't use an Ancient Seal for some reason");
 	}
+	return false;
 }
-void handleSealElement(element flavor)
+boolean handleSealElement(element flavor)
 {
 	string page = "";
 	if((flavor == $element[hot]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a charred seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
-		page = visit_url("inv_use.php?pwd=&whichitem=3909&checked=1");
+		page = "inv_use.php?pwd=&whichitem=3909&checked=1";
+#		page = visit_url("inv_use.php?pwd=&whichitem=3909&checked=1");
 #		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	if((flavor == $element[cold]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a cold seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
-		page = visit_url("inv_use.php?pwd=&whichitem=3910&checked=1");
+		page = "inv_use.php?pwd=&whichitem=3910&checked=1";
+#		page = visit_url("inv_use.php?pwd=&whichitem=3910&checked=1");
 #		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	if((flavor == $element[sleaze]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a slippery seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
-		page = visit_url("inv_use.php?pwd=&whichitem=3911&checked=1");
+		page = "inv_use.php?pwd=&whichitem=3911&checked=1";
+#		page = visit_url("inv_use.php?pwd=&whichitem=3911&checked=1");
 #		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	if((flavor == $element[spooky]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a shadowy seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
-		page = visit_url("inv_use.php?pwd=&whichitem=3907&checked=1");
+		page = "inv_use.php?pwd=&whichitem=3907&checked=1";
+#		page = visit_url("inv_use.php?pwd=&whichitem=3907&checked=1");
 #		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	if((flavor == $element[stench]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a stinking seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
-		page = visit_url("inv_use.php?pwd=&whichitem=3908&checked=1");
+		page = "inv_use.php?pwd=&whichitem=3908&checked=1";
+#		page = visit_url("inv_use.php?pwd=&whichitem=3908&checked=1");
 #		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
-	if(contains_text(page, "Combat"))
-	{
-		adv1($location[Noob Cave], 1, "cc_combatHandler");
-	}
-	else
-	{
-		abort("Can't use an " + flavor + " Seal for some reason");
-	}
+	return ccAdvBypass(page, $location[Noob Cave]);
+#	if(contains_text(page, "Combat"))
+#	{
+#		adv1($location[Noob Cave], 1, "cc_combatHandler");
+#	}
+#	else
+#	{
+#		abort("Can't use an " + flavor + " Seal for some reason");
+#	}
+#	return false;
 }
 
 

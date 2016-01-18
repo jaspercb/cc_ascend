@@ -683,7 +683,7 @@ boolean cs_giant_growth()
 	{
 		return false;
 	}
-	if(item_amount($item[Louder Than Bomb]) == 0)
+	if((item_amount($item[Louder Than Bomb]) == 0) && !have_familiar($familiar[Machine Elf]))
 	{
 		return false;
 	}
@@ -692,11 +692,11 @@ boolean cs_giant_growth()
 
 	if(my_familiar() == $familiar[Machine Elf])
 	{
-		adv1($location[The Deep Machine Tunnels], 0, "cs_combatLTB");
+		ccAdv(1, $location[The Deep Machine Tunnels], "cs_combatLTB");
 	}
 	else
 	{
-		adv1($location[8-bit Realm], 0, "cs_combatLTB");
+		ccAdv(1, $location[8-bit Realm], "cs_combatLTB");
 	}
 #	print("Ending LTBs: " + item_amount($item[Louder Than Bomb]), "blue");
 #	cli_execute("refresh inv");

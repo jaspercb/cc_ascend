@@ -1,4 +1,5 @@
 script "cc_chateaumantegna.ash"
+import "cc_ascend/cc_ascend_header.ash"
 
 boolean chateaumantegna_available()
 {
@@ -104,8 +105,9 @@ boolean chateaumantegna_usePainting()
 	}
 	if(chateaumantegna_available())
 	{
-		visit_url("place.php?whichplace=chateau&action=chateau_painting");
-		return contains_text(visit_url("main.php"), "Combat");
+		return ccAdvBypass("place.php?whichplace=chateau&action=chateau_painting", $location[Noob Cave]);
+#		visit_url("place.php?whichplace=chateau&action=chateau_painting");
+#		return contains_text(visit_url("main.php"), "Combat");
 	}
 	return false;
 }

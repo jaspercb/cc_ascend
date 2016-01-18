@@ -314,6 +314,27 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+	if(!contains_text(combatState, "pickpocket") && ((my_class() == $class[Disco Bandit]) || (my_class() == $class[Accordion Thief])) && contains_text(text, "value=\"Pickpocket") && ((expected_damage() * 2) < my_hp()))
+	{
+		boolean tryIt = false;
+		foreach i, drop in item_drops_array(enemy)
+		{
+			if(drop.type == "0")
+			{
+				tryIt = true;
+			}
+			if((drop.rate > 0) && (drop.type != "n") && (drop.type != "c") && (drop.type != "b"))
+			{
+				tryIt = true;
+			}
+		}
+		if(tryIt)
+		{
+			set_property("cc_combatHandler", combatState + "(pickpocket)");
+			return "pickpocket";
+		}
+	}
+
 	if(get_property("cc_useTatter").to_boolean())
 	{
 		if(item_amount($item[Tattered Scrap of Paper]) > 0)

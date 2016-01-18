@@ -252,7 +252,7 @@ boolean ccAdvBypass(string url, location loc)
 
 	print("About to start a combat indirectly at " + loc + "...", "blue");
 	string page = visit_url(url);
-	if((my_hp() == 0) || (get_property("_edDefeats").to_int() == 1))
+	if((my_hp() == 0) || (get_property("_edDefeats").to_int() == 1) || (have_effect($effect[Beaten Up]) > 0))
 	{
 		print("Uh oh! Died when starting a combat indirectly.", "red");
 		if(my_class() == $class[Ed])
@@ -266,10 +266,15 @@ boolean ccAdvBypass(string url, location loc)
 		return ccAdv(1, loc);
 	}
 
-	# Handle NC wanderers? Doghouse, Turtle Taming?
-	if(contains_text(page, "Wooof! Wooooooof!"))
+	# Encounters that need to generate a false so we handle them manually should go here.
+	if(get_property("lastEncounter") == "Fitting In")
 	{
-		return true;
+		return false;
+	}
+
+	if(contains_text(page, "whichchoice value=") || contains_text(page, "whichchoice="))
+	{
+		return ccAdv(1, loc);
 	}
 
 	return false;
@@ -339,6 +344,11 @@ boolean handleFamiliar(string type)
 boolean handleFamiliar(familiar fam)
 {
 	if(get_property("cc_100familiar").to_boolean())
+	{
+		return true;
+	}
+
+	if(fam == $familiar[none])
 	{
 		return true;
 	}
@@ -1044,8 +1054,10 @@ boolean doThemtharHills(boolean trickMode)
 			set_property("cc_nunsTrickReady", "yes");
 			print("Attempting nuns trick, beep boop!! No more auto-aborting!");
 		}
-		if((item_amount($item[stone wool]) > 0) && (get_property("cc_nunsTrickCount").to_int() > 2) && !get_property("_templeHiddenPower").to_boolean())
+		if((item_amount($item[stone wool]) > 0) && (get_property("cc_nunsTrickCount").to_int() > 2) && (get_property("lastTempleAdventures") != my_ascensions()))
 		{
+			set_property("choiceAdventure582", "1");
+			set_property("choiceAdventure579", "3");
 			use(1, $item[stone wool]);
 			put_closet(item_amount($item[stone wool]), $item[stone wool]);
 			ccAdv(1, $location[The Hidden Temple]);
@@ -1531,10 +1543,11 @@ void initializeDay(int day)
 		if(chateaumantegna_havePainting() && (my_class() != $class[Ed]) && (cc_my_path() != "Community Service"))
 		{
 			handleFamiliar($familiar[Reanimated Reanimator]);
-			if(chateaumantegna_usePainting())
-			{
-				ccAdv(1, $location[Noob Cave]);
-			}
+			chateaumantegna_usePainting();
+#			if(chateaumantegna_usePainting())
+#			{
+#				ccAdv(1, $location[Noob Cave]);
+#			}
 			handleFamiliar($familiar[Angry Jung Man]);
 		}
 	}
@@ -1688,7 +1701,7 @@ void doBedtime()
 		}
 	}
 
-	while(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && (my_inebriety() <= inebriety_limit()))
+	while(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && (my_inebriety() <= inebriety_limit()) && !get_property("cc_100familiar").to_boolean())
 	{
 		if(get_property("cc_choice1119") != "")
 		{
@@ -2843,10 +2856,13 @@ boolean L11_palindome()
 			visit_url("place.php?whichplace=palindome&action=pal_mrlabel");
 		}
 		equip($slot[acc2], $item[Mega Gem]);
+		set_property("choiceAdventure131", 1);
+
 		print("War sir is raw!!", "blue");
-		visit_url("place.php?whichplace=palindome&action=pal_drlabel");
-		visit_url("choice.php?pwd&whichchoice=131&option=1&choiceform1=War%2C+sir%2C+is+raw%21");
-		ccAdv(1, $location[Noob Cave]);
+		ccAdvBypass("place.php?whichplace=palindome&action=pal_drlabel", $location[Noob Cave]);
+#		visit_url("place.php?whichplace=palindome&action=pal_drlabel");
+#		visit_url("choice.php?pwd&whichchoice=131&option=1&choiceform1=War%2C+sir%2C+is+raw%21");
+#		ccAdv(1, $location[Noob Cave]);
 		if(item_amount($item[2268]) == 1)
 		{
 			set_property("cc_palindome", "finished");
@@ -2964,8 +2980,9 @@ boolean L13_towerNSFinal()
 	if(internalQuestStatus("questL13Final") < 12)
 	{
 		set_property("cc_disableAdventureHandling", "yes");
-		visit_url("place.php?whichplace=nstower&action=ns_10_sorcfight");
-		ccAdv(1, $location[Noob Cave]);
+		ccAdvBypass("place.php?whichplace=nstower&action=ns_10_sorcfight", $location[Noob Cave]);
+#		visit_url("place.php?whichplace=nstower&action=ns_10_sorcfight");
+#		ccAdv(1, $location[Noob Cave]);
 		if(have_effect($effect[Beaten Up]) > 0)
 		{
 			print("Sorceress beat us up. Wahhh.", "red");
@@ -3151,8 +3168,9 @@ boolean L13_towerNSTower()
 			{
 				useCocoon();
 			}
-			visit_url("place.php?whichplace=nstower&action=ns_05_monster1");
-			adv1($location[Noob Cave], 1, "cc_combatHandler");
+#			visit_url("place.php?whichplace=nstower&action=ns_05_monster1");
+#			adv1($location[Noob Cave], 1, "cc_combatHandler");
+			ccAdvBypass("place.php?whichplace=nstower&action=ns_05_monster1", $location[Noob Cave]);
 			if(have_effect($effect[Beaten Up]) > 0)
 			{
 				set_property("cc_getBeehive", true);
@@ -3216,8 +3234,9 @@ boolean L13_towerNSTower()
 		{
 			doHottub();
 		}
-		visit_url("place.php?whichplace=nstower&action=ns_06_monster2");
-		ccAdv(1, $location[Noob Cave]);
+		return ccAdvBypass("place.php?whichplace=nstower&action=ns_06_monster2", $location[Noob Cave]);
+#		visit_url("place.php?whichplace=nstower&action=ns_06_monster2");
+#		ccAdv(1, $location[Noob Cave]);
 		return true;
 	}
 
@@ -3274,9 +3293,11 @@ boolean L13_towerNSTower()
 			{
 				equip($slot[acc3], $item[Pirate Fledges]);
 			}
+
 			useCocoon();
-			visit_url("place.php?whichplace=nstower&action=ns_07_monster3");
-			ccAdv(1, $location[Noob Cave]);
+			ccAdvBypass("place.php?whichplace=nstower&action=ns_07_monster3", $location[Noob Cave]);
+#			visit_url("place.php?whichplace=nstower&action=ns_07_monster3");
+#			ccAdv(1, $location[Noob Cave]);
 			if(have_effect($effect[Beaten Up]) > 0)
 			{
 				print("Could not towerkill Wall of Bones, reverting to Boning Knife", "red");
@@ -3290,8 +3311,9 @@ boolean L13_towerNSTower()
 		}
 		else if(item_amount($item[electric boning knife]) > 0)
 		{
-			visit_url("place.php?whichplace=nstower&action=ns_07_monster3");
-			ccAdv(1, $location[Noob Cave]);
+			return ccAdvBypass("place.php?whichplace=nstower&action=ns_07_monster3", $location[Noob Cave]);
+#			visit_url("place.php?whichplace=nstower&action=ns_07_monster3");
+#			ccAdv(1, $location[Noob Cave]);
 		}
 		else
 		{
@@ -3323,9 +3345,9 @@ boolean L13_towerNSTower()
 		cli_execute("scripts/postcheese.ash");
 		doHottub();
 
-		visit_url("place.php?whichplace=nstower&action=ns_09_monster5");
-		adv1($location[Noob Cave], 1, "cc_combatHandler");
-
+		ccAdvBypass("place.php?whichplace=nstower&action=ns_09_monster5", $location[Noob Cave]);
+#		visit_url("place.php?whichplace=nstower&action=ns_09_monster5");
+#		adv1($location[Noob Cave], 1, "cc_combatHandler");
 		return true;
 	}
 
@@ -4265,8 +4287,6 @@ boolean L11_unlockHiddenCity()
 	visit_url("choice.php?whichchoice=125&option=3&pwd");
 	print("Hidden Temple Unlocked");
 	set_property("cc_hiddenunlock", "finished");
-	set_property("choiceAdventure582", "1");
-	set_property("choiceAdventure579", "3");
 	if((item_amount($item[antique machete]) == 0) && (!in_hardcore()))
 	{
 		pullXWhenHaveY($item[Antique Machete], 1, 0);
@@ -4317,7 +4337,7 @@ boolean L11_nostrilOfTheSerpent()
 	if(item_amount($item[The Nostril of the Serpent]) == 1)
 	{
 		set_property("cc_hiddenunlock", "nose");
-		set_property("choiceAdventure579", "3");
+		set_property("choiceAdventure579", "0");
 	}
 	return true;
 }
@@ -4602,11 +4622,17 @@ boolean L11_mauriceSpookyraven()
 		buffMaintain($effect[Astral Shell], 10, 1, 1);
 		buffMaintain($effect[Elemental Saucesphere], 10, 1, 1);
 
-		visit_url("place.php?whichplace=manor4&action=manor4_chamberboss");
-		if(my_class() != $class[Ed])
+
+		# The ccAdvBypass case is probably suitable for Ed but we'd need to verify it.
+		if(my_class() == $class[Ed])
 		{
-			ccAdv(1, $location[Noob Cave]);
+			visit_url("place.php?whichplace=manor4&action=manor4_chamberboss");
 		}
+		else
+		{
+			ccAdvBypass("place.php?whichplace=manor4&action=manor4_chamberboss", $location[Noob Cave]);
+		}
+
 		if(have_effect($effect[beaten up]) == 0)
 		{
 			set_property("cc_ballroom", "finished");
@@ -6046,7 +6072,7 @@ boolean L12_flyerBackup()
 		return true;
 	}
 
-	if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0))
+	if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && !get_property("cc_100familiar").to_boolean())
 	{
 		if(get_property("cc_choice1119") != "")
 		{
@@ -7471,7 +7497,7 @@ boolean LX_handleSpookyravenNecklace()
 	set_property("choiceAdventure879", "1");
 	set_property("choiceAdventure880", "1");
 
-	#handle lights-out, too bad we can't at least start Stephen Spookyraven here.
+	#handle lights-out, too bad we can\'t at least start Stephen Spookyraven here.
 	set_property("choiceAdventure897", "2");
 	set_property("choiceAdventure896", "1");
 	set_property("choiceAdventure892", "2");
@@ -8144,6 +8170,8 @@ boolean L9_twinPeak()
 		}
 		return true;
 	}
+
+	print("Backwards Twin Peak Handler, can this be removed?", "red");
 	string page = visit_url("main.php");
 	if((contains_text(page, "choice.php")) && (!contains_text(page, "Really Sticking Her Neck Out")) && (!contains_text(page, "It Came from Beneath the Sewer?")))
 	{
@@ -8833,10 +8861,7 @@ boolean LX_nastyBooty()
 		adjustEdHat("weasel");
 	}
 
-	string page = "inv_use.php?pwd=&which=3&whichitem=2950";
-	ccAdvBypass(page, $location[Noob Cave]);
-
-	return true;
+	return ccAdvBypass("inv_use.php?pwd=&which=3&whichitem=2950", $location[Noob Cave]);
 }
 
 boolean LX_pirateBlueprint()
@@ -9224,12 +9249,9 @@ boolean cc_tavern()
 		if(char_at(tavern, loc) == "0")
 		{
 			int actual = loc + 1;
-			#string newTavern = substring(tavern, 0, loc) + "1" + substring(tavern, loc+1, 25);
-			#set_property("tavernLayout", newTavern);
 			boolean needReset = false;
-			#string page = visit_url("cellar.php?action=explore&whichspot=" + actual);
 
-			if(ccAdvBypass("cellar.php?action=explore&whichspot=" + actual))
+			if(ccAdvBypass("cellar.php?action=explore&whichspot=" + actual, $location[Noob Cave]))
 			{
 				return true;
 			}
@@ -9246,14 +9268,11 @@ boolean cc_tavern()
 				print("tavernLayout is reporting too many places as visited.", "red");
 			}
 
-			#page = visit_url("main.php");
-			#if(contains_text(page, "Combat"))
-			#{
-			#	ccAdv(1, $location[Noob Cave]);
-			#}
 			if(contains_text(page, "whichchoice value=") || contains_text(page, "whichchoice="))
 			{
-				adv1($location[Noob Cave], 1, "");
+				print("Tavern handler: You are RL drunk, you should not be here.", "red");
+				ccAdv(1, $location[Noob Cave]);
+#				adv1($location[Noob Cave], 1, "");
 			}
 			if(last_monster() == $monster[Crate])
 			{
@@ -9505,6 +9524,8 @@ boolean doTasks()
 		wait(delay);
 	}
 
+	set_property("cc_familiarChoice", $familiar[none]);
+
 	if(L1_dnaAcquire())
 	{
 		return true;
@@ -9682,6 +9703,11 @@ boolean doTasks()
 		if((doNumberology("battlefield", false) != -1) && (my_mp() >= mp_cost($skill[Calculate the Universe])) && (have_effect($effect[Everything Looks Yellow]) == 0))
 		{
 			handleFamiliar($familiar[Crimbo Shrub]);
+
+			#
+			#	Can not currently use ccAdvBypass here
+			#
+			handlePreAdventure($location[Noob Cave]);
 			doNumberology("battlefield");
 			ccAdv(1, $location[Noob Cave]);
 			return true;
@@ -9923,7 +9949,7 @@ boolean doTasks()
 		{
 			if(chateaumantegna_usePainting())
 			{
-				ccAdv(1, $location[Noob Cave]);
+#				ccAdv(1, $location[Noob Cave]);
 				return true;
 			}
 		}
@@ -9934,7 +9960,15 @@ boolean doTasks()
 	{
 		if(handleFaxMonster("lobsterfrogman"))
 		{
-			ccAdv(1, $location[Noob Cave]);
+#			ccAdv(1, $location[Noob Cave]);
+			return true;
+		}
+	}
+
+	if((my_adventures() <= 3) && (my_daycount() == 1) && in_hardcore())
+	{
+		if(Lx_meatMaid())
+		{
 			return true;
 		}
 	}
@@ -9995,7 +10029,7 @@ boolean doTasks()
 	{
 		if(chateaumantegna_usePainting())
 		{
-			ccAdv(1, $location[Noob Cave]);
+#			ccAdv(1, $location[Noob Cave]);
 			return true;
 		}
 	}
@@ -10003,7 +10037,7 @@ boolean doTasks()
 	{
 		if(chateaumantegna_usePainting())
 		{
-			ccAdv(1, $location[Noob Cave]);
+#			ccAdv(1, $location[Noob Cave]);
 			return true;
 		}
 	}

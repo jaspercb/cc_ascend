@@ -1343,7 +1343,6 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 		{
 			set_property("cc_edCombatStage", 0);
 			print("Starting Ed Battle at " + loc, "blue");
-#			status = adv1(loc, 1, option);
 			status = adv1(loc, 0, option);
 			if(!status && (get_property("lastEncounter") == "Like a Bat Into Hell"))
 			{
@@ -1377,13 +1376,6 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 				return true;
 			}
 
-			# Stop place.php redirected to fight page (issue from KoLAdventure.java?)
-#			if(loc == $location[Inside the Palindome])
-#			{
-#				loc = $location[Noob Cave];
-#			}
-
-#			status = adv1(loc, 1, option);
 			status = adv1(loc, 0, option);
 			if(last_monster() == $monster[Crate])
 			{
@@ -1411,7 +1403,6 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 					return true;
 				}
 
-#				status = adv1(loc, 1, option);
 				status = adv1(loc, 0, option);
 				if(last_monster() == $monster[Crate])
 				{

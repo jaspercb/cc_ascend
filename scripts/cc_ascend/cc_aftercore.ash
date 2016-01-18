@@ -50,7 +50,7 @@ boolean cc_dailyDungeon()
 	equip($slot[acc2], $item[ring of detect boring doors]);
 	while((get_property("_lastDailyDungeonRoom").to_int() != 15) && (my_adventures() > 0) && (item_amount($item[eleven-foot pole]) > 0) && (item_amount($item[pick-o-matic lockpicks]) > 0))
 	{
-		adv1($location[The Daily Dungeon], 1, "cc_combatHandler");
+		ccAdv(1, $location[The Daily Dungeon]);
 	}
 	equip($slot[acc2], lastequip);
 	return true;
