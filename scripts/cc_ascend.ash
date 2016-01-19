@@ -1683,11 +1683,17 @@ void doBedtime()
 
 	ed_terminateSession();
 
-	while(snojoFightAvailable() && (my_adventures() > 0) && (my_inebriety() <= inebriety_limit()))
+	if(my_inebriety() <= inebriety_limit())
 	{
-		handleFamiliar($familiar[Ms. Puck Man]);
-		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
+		while(LX_freeCombats())
+		{
+		}
 	}
+#	while(snojoFightAvailable() && (my_adventures() > 0) && (my_inebriety() <= inebriety_limit()))
+#	{
+#		handleFamiliar($familiar[Ms. Puck Man]);
+#		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
+#	}
 
 	if(my_class() == $class[seal clubber])
 	{
@@ -1716,19 +1722,18 @@ void doBedtime()
 		}
 	}
 
-	while(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && (my_inebriety() <= inebriety_limit()) && !get_property("cc_100familiar").to_boolean())
-	{
-		if(get_property("cc_choice1119") != "")
-		{
-			set_property("choiceAdventure1119", get_property("cc_choice1119"));
-		}
-		set_property("cc_choice1119", get_property("choiceAdventure1119"));
-		set_property("choiceAdventure1119", 1);
-		handleFamiliar($familiar[Machine Elf]);
-		ccAdv(1, $location[The Deep Machine Tunnels]);
-		set_property("choiceAdventure1119", get_property("cc_choice1119"));
-		set_property("cc_choice1119", "");
-	}
+#	while(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && (my_inebriety() <= inebriety_limit()) && !get_property("cc_100familiar").to_boolean())
+#		if(get_property("cc_choice1119") != "")
+#		{
+#			set_property("choiceAdventure1119", get_property("cc_choice1119"));
+#		}
+#		set_property("cc_choice1119", get_property("choiceAdventure1119"));
+#		set_property("choiceAdventure1119", 1);
+#		handleFamiliar($familiar[Machine Elf]);
+#		ccAdv(1, $location[The Deep Machine Tunnels]);
+#		set_property("choiceAdventure1119", get_property("cc_choice1119"));
+#		set_property("cc_choice1119", "");
+#	}
 
 	if((my_inebriety() <= inebriety_limit()) && (my_rain() >= 50) && (my_adventures() >= 1))
 	{
@@ -6075,6 +6080,11 @@ boolean L12_flyerBackup()
 		return false;
 	}
 
+	return LX_freeCombats();
+}
+
+boolean LX_freeCombats()
+{
 	if(snojoFightAvailable() && (my_adventures() > 0))
 	{
 		handleFamiliar($familiar[Ms. Puck Man]);
@@ -7081,7 +7091,7 @@ boolean LX_craftAcquireItems()
 	{
 		if(!possessEquipment($item[Turtle Wax Shield]) && (item_amount($item[Turtle Wax]) > 0))
 		{
-			cli_execute("fold turtle wax shield");
+			visit_url("inv_use.php?pwd=&which=3&whichitem=3914");
 		}
 		if(have_skill($skill[Armorcraftiness]) && !possessEquipment($item[Painted Shield]) && (my_meat() > 3500) && (item_amount($item[Painted Turtle]) > 0) && (item_amount($item[Tenderizing Hammer]) > 0))
 		{
@@ -10256,6 +10266,11 @@ boolean doTasks()
 	}
 
 	if(LX_fancyOilPainting())
+	{
+		return true;
+	}
+
+	if((my_level() >= 7) && (my_daycount() != 2) && LX_freeCombats())
 	{
 		return true;
 	}

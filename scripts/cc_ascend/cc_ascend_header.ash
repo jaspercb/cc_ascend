@@ -41,6 +41,7 @@ boolean LX_attemptPowerLevel();
 boolean LX_bitchinMeatcar();
 boolean LX_meatMaid();
 boolean LX_craftAcquireItems();
+boolean LX_freeCombats();
 
 boolean Lsc_flyerSeals();
 
