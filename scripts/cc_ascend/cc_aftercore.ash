@@ -1060,9 +1060,12 @@ boolean cc_cheesePostCSWalford()
 			print("Could not buy 5-Hour Acrimony, price too high", "red");
 		}
 	}
-	cli_execute("drink 5-hour acrimony");
+	if(item_amount($item[5-hour acrimony]) == 0)
+	{
+		cli_execute("drink 5-hour acrimony");
+	}
 
-	cli_execute("pvp loot 1");
+	cli_execute("pvp loot 4");
 	cli_execute("cc_ascend");
 	return true;
 }

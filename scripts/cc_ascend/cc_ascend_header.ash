@@ -40,6 +40,7 @@ boolean LX_hardcoreFoodFarm();
 boolean LX_attemptPowerLevel();
 boolean LX_bitchinMeatcar();
 boolean LX_meatMaid();
+boolean LX_craftAcquireItems();
 
 boolean Lsc_flyerSeals();
 

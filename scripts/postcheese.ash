@@ -577,7 +577,7 @@ void handlePostAdventure()
 		{
 			useCocoon();
 		}
-		if((my_mp() > 75) && ((my_maxhp()/my_hp()) > 3))
+		if((my_mp() > 75) && ((my_hp() == 0) || ((my_maxhp()/my_hp()) > 3)))
 		{
 			useCocoon();
 		}

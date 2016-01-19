@@ -413,6 +413,7 @@ boolean handleFamiliar(familiar fam)
 	{
 		use_familiar(toEquip);
 	}
+	set_property("cc_familiarChoice", my_familiar());
 
 	if(hr_handleFamiliar(fam))
 	{
@@ -2528,7 +2529,6 @@ boolean L11_aridDesert()
 	if((have_effect($effect[Ultrahydrated]) > 0) || (get_property("desertExploration").to_int() == 0))
 	{
 		print("Searching for the pyramid", "blue");
-		equip(desertBuff);
 		if((cc_my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) > 0))
 		{
 			equip($item[Thor\'s Pliers]);
@@ -2592,7 +2592,10 @@ boolean L11_aridDesert()
 			int expectedOasisTurns = 8 - $location[The Oasis].turns_spent;
 			int equivProgress = expectedOasisTurns * progress;
 			int need = 100 - get_property("desertExploration").to_int();
-			if((need <= 14) && (15 >= equivProgress) && (item_amount($item[Stone Rose]) == 0))
+			print("expectedOasis: " + expectedOasisTurns);
+			print("equivProgress: " + equivProgress);
+			print("need: " + need);
+			if((need <= 15) && (15 >= equivProgress) && (item_amount($item[Stone Rose]) == 0))
 			{
 				print("It seems raisinable to hunt a Stone Rose. Beep", "blue");
 				ccAdv(1, $location[The Oasis]);
@@ -2600,8 +2603,84 @@ boolean L11_aridDesert()
 			}
 		}
 
+		equip(desertBuff);
 		handleInitFamiliar();
 		set_property("choiceAdventure805", 1);
+		int need = 100 - get_property("desertExploration").to_int();
+		print("Need for desert: " + need, "blue");
+		print("Worm riding: " + item_amount($item[worm-riding manual page]), "blue");
+
+		if((need < (100 - (5 * progress))) && (item_amount($item[Stone Rose]) > 0) && ((get_property("gnasirProgress").to_int() & 1) != 1))
+		{
+			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			visit_url("choice.php?whichchoice=805&option=2&pwd=");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			use(1, $item[desert sightseeing pamphlet]);
+			return true;
+		}
+
+		if((need < (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 2) != 2))
+		{
+			if((item_amount($item[Can of Black Paint]) > 0) || (my_meat() >= 1000))
+			{
+				buyUpTo(1, $item[Can of Black Paint]);
+				visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
+				visit_url("choice.php?whichchoice=805&option=1&pwd=");
+				visit_url("choice.php?whichchoice=805&option=2&pwd=");
+				visit_url("choice.php?whichchoice=805&option=1&pwd=");
+				use(1, $item[desert sightseeing pamphlet]);
+				return true;
+			}
+		}
+
+		if((need < (100 - (5 * progress))) && (item_amount($item[Killing Jar]) > 0) && ((get_property("gnasirProgress").to_int() & 4) != 4))
+		{
+			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			visit_url("choice.php?whichchoice=805&option=2&pwd=");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			use(1, $item[desert sightseeing pamphlet]);
+			return true;
+		}
+
+		if((item_amount($item[Worm-Riding Manual Page]) >= 15) && ((get_property("gnasirProgress").to_int() & 8) != 8))
+		{
+			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			visit_url("choice.php?whichchoice=805&option=2&pwd=");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			if(item_amount($item[Worm-Riding Hooks]) == 0)
+			{
+				abort("We messed up in the Desert, get the Worm-Riding Hooks and use them please.");
+			}
+			return true;
+		}
+
+		need = 100 - get_property("desertExploration").to_int();
+		if((item_amount($item[Worm-Riding Hooks]) > 0) && ((get_property("gnasirProgress").to_int() & 16) != 16))
+		{
+			pullXWhenHaveY($item[Drum Machine], 1, 0);
+			if(item_amount($item[Drum Machine]) > 0)
+			{
+				use(1, $item[Drum Machine]);
+				return true;
+			}
+		}
+
+		need = 100 - get_property("desertExploration").to_int();
+		# If we have done the Worm-Riding Hooks or the Killing jar, don\'t do this.
+		if((need <= 15) && ((get_property("gnasirProgress").to_int() & 12) == 0))
+		{
+			pullXWhenHaveY($item[Killing Jar], 1, 0);
+			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			visit_url("choice.php?whichchoice=805&option=2&pwd=");
+			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			use(1, $item[desert sightseeing pamphlet]);
+			return true;
+		}
+
 		ccAdv(1, $location[The Arid\, Extra-Dry Desert]);
 		handleFamiliar($familiar[Adventurous Spelunker]);
 
@@ -2615,76 +2694,6 @@ boolean L11_aridDesert()
 				set_property("cc_nunsTrick", "got");
 				set_property("cc_nunsTrickGland", "start");
 			}
-		}
-
-		int need = 100 - get_property("desertExploration").to_int();
-		print("Need for desert: " + need, "blue");
-		print("Worm riding: " + item_amount($item[worm-riding manual page]), "blue");
-
-		if((need < (100 - (5 * progress))) && (item_amount($item[Stone Rose]) > 0) && ((get_property("gnasirProgress").to_int() & 1) != 1))
-		{
-			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
-			visit_url("choice.php?whichchoice=805&option=1&pwd=");
-			visit_url("choice.php?whichchoice=805&option=2&pwd=");
-			visit_url("choice.php?whichchoice=805&option=1&pwd=");
-			use(1, $item[desert sightseeing pamphlet]);
-		}
-
-		if((need < (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 2) != 2))
-		{
-			if((item_amount($item[Can of Black Paint]) > 0) || (my_meat() >= 1000))
-			{
-				buyUpTo(1, $item[Can of Black Paint]);
-				visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
-				visit_url("choice.php?whichchoice=805&option=1&pwd=");
-				visit_url("choice.php?whichchoice=805&option=2&pwd=");
-				visit_url("choice.php?whichchoice=805&option=1&pwd=");
-				use(1, $item[desert sightseeing pamphlet]);
-			}
-		}
-
-		if((need < (100 - (5 * progress))) && (item_amount($item[Killing Jar]) > 0) && ((get_property("gnasirProgress").to_int() & 4) != 4))
-		{
-			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
-			visit_url("choice.php?whichchoice=805&option=1&pwd=");
-			visit_url("choice.php?whichchoice=805&option=2&pwd=");
-			visit_url("choice.php?whichchoice=805&option=1&pwd=");
-			use(1, $item[desert sightseeing pamphlet]);
-		}
-
-		if((item_amount($item[Worm-Riding Manual Page]) >= 15) && ((get_property("gnasirProgress").to_int() & 8) != 8))
-		{
-			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
-			visit_url("choice.php?whichchoice=805&option=1&pwd=");
-			visit_url("choice.php?whichchoice=805&option=2&pwd=");
-			visit_url("choice.php?whichchoice=805&option=1&pwd=");
-			if(item_amount($item[Worm-Riding Hooks]) == 0)
-			{
-				abort("We messed up in the Desert, get the Worm-Riding Hooks and use them please.");
-			}
-		}
-
-		need = 100 - get_property("desertExploration").to_int();
-		if((item_amount($item[Worm-Riding Hooks]) > 0) && ((get_property("gnasirProgress").to_int() & 16) != 16))
-		{
-			pullXWhenHaveY($item[Drum Machine], 1, 0);
-			if(item_amount($item[Drum Machine]) > 0)
-			{
-				use(1, $item[Drum Machine]);
-			}
-			// Should we go to the Oasis here, this is where the logic is important.
-		}
-
-		need = 100 - get_property("desertExploration").to_int();
-		# If we have done the Worm-Riding Hooks or the Killing jar, don\'t do this.
-		if((need <= 15) && ((get_property("gnasirProgress").to_int() & 12) == 0))
-		{
-			pullXWhenHaveY($item[Killing Jar], 1, 0);
-			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
-			visit_url("choice.php?whichchoice=805&option=1&pwd=");
-			visit_url("choice.php?whichchoice=805&option=2&pwd=");
-			visit_url("choice.php?whichchoice=805&option=1&pwd=");
-			use(1, $item[desert sightseeing pamphlet]);
 		}
 	}
 	else
@@ -5589,6 +5598,12 @@ boolean L12_finalizeWar()
 	{
 		bossFight = $location[The Battlefield (Hippy Uniform)];
 	}
+
+	#
+	#	ccAdvBypass can not handle this yet.
+	#
+
+	handlePreAdventure(bossFight);
 	visit_url("bigisland.php?place=camp&whichcamp=1");
 	visit_url("bigisland.php?place=camp&whichcamp=2");
 	visit_url("bigisland.php?action=bossfight&pwd");
@@ -6548,10 +6563,10 @@ boolean L6_friarsGetParts()
 	{
 		handleBjornify($familiar[grimstone golem]);
 	}
-	if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && (item_amount($item[hot wing]) >= 3) && is_unrestricted($familiar[Artistic Goth Kid]))
-	{
-		handleFamiliar($familiar[Artistic Goth Kid]);
-	}
+#	if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && (item_amount($item[hot wing]) >= 3) && is_unrestricted($familiar[Artistic Goth Kid]))
+#	{
+#		handleFamiliar($familiar[Artistic Goth Kid]);
+#	}
 	buffMaintain($effect[Snow Shoes], 0, 1, 1);
 
 	if(item_amount($item[box of birthday candles]) == 0)
@@ -6999,6 +7014,113 @@ boolean L4_batCave()
 
 	ccAdv(1, $location[Guano Junction]);
 	return true;
+}
+
+boolean LX_craftAcquireItems()
+{
+	if((item_amount($item[snow berries]) == 3) && (my_daycount() == 1) && get_property("cc_grimstoneFancyOilPainting").to_boolean())
+	{
+		cli_execute("make 1 snow cleats");
+	}
+
+	if((item_amount($item[snow berries]) > 0) && (my_daycount() > 1) && (get_property("chasmBridgeProgress").to_int() >= 30))
+	{
+		visit_url("place.php?whichplace=orc_chasm");
+		if(get_property("chasmBridgeProgress").to_int() >= 30)
+		{
+			#if(in_hardcore() && isGuildClass())
+			if(isGuildClass())
+			{
+				if((item_amount($item[Snow Berries]) >= 3) && (item_amount($item[Ice Harvest]) >= 3) && (item_amount($item[Unfinished Ice Sculpture]) == 0))
+				{
+					cli_execute("make 1 Unfinished Ice Sculpture");
+				}
+				if(item_amount($item[Snow Berries]) >= 2)
+				{
+					cli_execute("make 1 Snow Crab");
+				}
+			}
+			#cli_execute("make " + item_amount($item[snow berries]) + " snow cleats");
+		}
+		else
+		{
+			abort("Bridge progress came up as >= 30 but is no longer after viewing the page.");
+		}
+	}
+
+	if(knoll_available() && (item_amount($item[detuned radio]) == 0) && (my_meat() > 300))
+	{
+		buyUpTo(1, $item[detuned radio]);
+		change_mcd(10);
+		visit_url("choice.php?pwd&whichchoice=835&option=2", true);
+	}
+
+	if((my_adventures() <= 3) && (my_daycount() == 1) && in_hardcore())
+	{
+		if(LX_meatMaid())
+		{
+			return true;
+		}
+	}
+
+	#Can we have some other way to check that we have AT skills?
+	if((item_amount($item[antique accordion]) == 0) && (my_meat() > 12500) && (have_skill($skill[The Ode to Booze])))
+	{
+		buyUpTo(1, $item[antique accordion]);
+	}
+
+	while((item_amount($item[Seal Tooth]) == 0) && (item_amount($item[Hermit Permit]) > 0) && (my_meat() > 7500))
+	{
+		if((item_amount($item[Worthless Trinket]) + item_amount($item[Worthless Gewgaw]) + item_amount($item[Worthless Knick-knack])) > 0)
+		{
+			hermit(1, $item[Seal Tooth]);
+		}
+		else
+		{
+			buyUpTo(1, $item[chewing gum on a string]);
+			use(1, $item[chewing gum on a string]);
+		}
+	}
+
+	if(my_class() == $class[Turtle Tamer])
+	{
+		if(!possessEquipment($item[Turtle Wax Shield]) && (item_amount($item[Turtle Wax]) > 0))
+		{
+			cli_execute("fold turtle wax shield");
+		}
+		if(have_skill($skill[Armorcraftiness]) && !possessEquipment($item[Painted Shield]) && (my_meat() > 3500) && (item_amount($item[Painted Turtle]) > 0) && (item_amount($item[Tenderizing Hammer]) > 0))
+		{
+			// Make Painted Shield - Requires an Adventure
+		}
+		if(have_skill($skill[Armorcraftiness]) && !possessEquipment($item[Spiky Turtle Shield]) && (my_meat() > 3500) && (item_amount($item[Hedgeturtle]) > 0) && (item_amount($item[Tenderizing Hammer]) > 0))
+		{
+			// Make Spiky Turtle Shield - Requires an Adventure
+		}
+	}
+	if((get_power(equipped_item($slot[pants])) < 70) && !possessEquipment($item[Demonskin Trousers]) && (my_meat() > 350) && (item_amount($item[Demon Skin]) > 0) && (item_amount($item[Tenderizing Hammer]) > 0) && knoll_available())
+	{
+		buyUpTo(1, $item[Pants Kit]);
+		ccCraft("smith", 1, $item[Pants Kit], $item[Demon Skin]);
+	}
+	if(!possessEquipment($item[Tighty Whiteys]) && (my_meat() > 350) && (item_amount($item[White Snake Skin]) > 0) && (item_amount($item[Tenderizing Hammer]) > 0) && knoll_available())
+	{
+		buyUpTo(1, $item[Pants Kit]);
+		ccCraft("smith", 1, $item[Pants Kit], $item[White Snake Skin]);
+	}
+
+	if(!possessEquipment($item[Grumpy Old Man Charrrm Bracelet]) && (item_amount($item[Jolly Roger Charrrm Bracelet]) > 0) && (item_amount($item[Grumpy Old Man Charrrm]) > 0))
+	{
+		use(1, $item[Jolly Roger Charrrm Bracelet]);
+		use(1, $item[Grumpy Old Man Charrrm]);
+	}
+
+	if(!possessEquipment($item[Booty Chest Charrrm Bracelet]) && (item_amount($item[Jolly Roger Charrrm Bracelet]) > 0) && (item_amount($item[Booty Chest Charrrm]) > 0))
+	{
+		use(1, $item[Jolly Roger Charrrm Bracelet]);
+		use(1, $item[Booty Chest Charrrm]);
+	}
+
+	return false;
 }
 
 
@@ -9895,47 +10017,12 @@ boolean doTasks()
 		handleFamiliar($familiar[Fist Turkey]);
 	}
 
-	if((item_amount($item[snow berries]) == 3) && (my_daycount() == 1) && get_property("cc_grimstoneFancyOilPainting").to_boolean())
-	{
-		cli_execute("make 1 snow cleats");
-	}
-
-	if((item_amount($item[snow berries]) > 0) && (my_daycount() > 1) && (get_property("chasmBridgeProgress").to_int() >= 30))
-	{
-		visit_url("place.php?whichplace=orc_chasm");
-		if(get_property("chasmBridgeProgress").to_int() >= 30)
-		{
-			#if(in_hardcore() && isGuildClass())
-			if(isGuildClass())
-			{
-				if((item_amount($item[Snow Berries]) >= 3) && (item_amount($item[Ice Harvest]) >= 3) && (item_amount($item[Unfinished Ice Sculpture]) == 0))
-				{
-					cli_execute("make 1 Unfinished Ice Sculpture");
-				}
-				if(item_amount($item[Snow Berries]) >= 2)
-				{
-					cli_execute("make 1 Snow Crab");
-				}
-			}
-			#cli_execute("make " + item_amount($item[snow berries]) + " snow cleats");
-		}
-		else
-		{
-			abort("Bridge progress came up as >= 30 but is no longer after viewing the page.");
-		}
-	}
-
 	if(fortuneCookieEvent())
 	{
 		return true;
 	}
 
-	if(knoll_available() && (item_amount($item[detuned radio]) == 0) && (my_meat() > 300))
-	{
-		buyUpTo(1, $item[detuned radio]);
-		change_mcd(10);
-		visit_url("choice.php?pwd&whichchoice=835&option=2", true);
-	}
+	LX_craftAcquireItems();
 
 	consumeStuff();
 	int paintingLevel = 8;
@@ -9961,14 +10048,6 @@ boolean doTasks()
 		if(handleFaxMonster("lobsterfrogman"))
 		{
 #			ccAdv(1, $location[Noob Cave]);
-			return true;
-		}
-	}
-
-	if((my_adventures() <= 3) && (my_daycount() == 1) && in_hardcore())
-	{
-		if(Lx_meatMaid())
-		{
 			return true;
 		}
 	}
@@ -10056,26 +10135,6 @@ boolean doTasks()
 	{
 		return true;
 	}
-
-	#Can we have some other way to check that we have AT skills?
-	if((item_amount($item[antique accordion]) == 0) && (my_meat() > 12500) && (have_skill($skill[The Ode to Booze])))
-	{
-		buyUpTo(1, $item[antique accordion]);
-	}
-
-	while((item_amount($item[Seal Tooth]) == 0) && (item_amount($item[Hermit Permit]) > 0) && (my_meat() > 7500))
-	{
-		if((item_amount($item[Worthless Trinket]) + item_amount($item[Worthless Gewgaw]) + item_amount($item[Worthless Knick-knack])) > 0)
-		{
-			hermit(1, $item[Seal Tooth]);
-		}
-		else
-		{
-			buyUpTo(1, $item[chewing gum on a string]);
-			use(1, $item[chewing gum on a string]);
-		}
-	}
-
 
 	if(L12_flyerFinish())
 	{

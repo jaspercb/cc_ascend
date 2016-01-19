@@ -41,9 +41,13 @@ void handlePreAdventure(location place)
 	}
 
 	familiar famChoice = to_familiar(get_property("cc_familiarChoice"));
-	if(famChoice != $familiar[none])
+	if((famChoice != $familiar[none]) && !get_property("cc_100familiar").to_boolean())
 	{
-		use_familiar(famChoice);
+		if(famChoice != my_familiar())
+		{
+			print("FAMILIAR DIRECTIVE ERROR: Selected " + famChoice + " but have " + my_familiar(), "red");
+		}
+#		use_familiar(famChoice);
 	}
 
 

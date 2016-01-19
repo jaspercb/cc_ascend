@@ -206,13 +206,13 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill summon love stinkbug";
 		}
 
-		if((!contains_text(combatState, "shell up")) && have_skill($skill[Shell Up]) && (my_mp() >= 6) && ((my_hp() * 4) < my_maxhp()) && (round >= 4))
+		if((!contains_text(combatState, "shell up")) && have_skill($skill[Shell Up]) && (my_mp() >= 6) && (round >= 3))
 		{
 			set_property("cc_combatHandler", combatState + "(shell up)");
 			return "skill shell up";
 		}
 
-		if((!contains_text(combatState, "sauceshell")) && have_skill($skill[Sauceshell]) && (my_mp() >= 35) && (round >= 5))
+		if((!contains_text(combatState, "sauceshell")) && have_skill($skill[Sauceshell]) && (my_mp() >= 35) && (round >= 4))
 		{
 			set_property("cc_combatHandler", combatState + "(sauceshell)");
 			return "skill sauceshell";
@@ -903,7 +903,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if((!contains_text(combatState, "shattering punch")) && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && !isFreeMonster(enemy) && !enemy.boss && (get_property("_shatteringPunchUsed").to_int() < 3))
 	{
-		if((my_adventures() < 20) || get_property("kingLiberated").to_boolean())
+		if((my_adventures() < 20) || get_property("kingLiberated").to_boolean() || (my_daycount() >= 3))
 		{
 			set_property("cc_combatHandler", combatState + "(shattering punch)");
 			handleTracker(enemy, $skill[shattering punch], "cc_instakill");
