@@ -801,10 +801,10 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill batter up!";
 		}
 	}
-	#Snokebomb replace Batter Up! pass
-	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])) && (my_class() != $class[Seal Clubber]))
+	#Snokebomb replace Batter Up! pass 
+	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
 	{
-		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Drunk Goat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
+		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(Snokebomb)");
 			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
@@ -1022,23 +1022,29 @@ string cc_combatHandler(int round, string opp, string text)
 
 	string attackMinor = "attack with weapon";
 	string attackMajor = "attack with weapon";
+	int costMinor = 0;
+	int costMajor = 0;
 	string stunner = "";
+	int costStunner = 0;
 
 	switch(my_class())
 	{
 	case $class[Seal Clubber]:
 		attackMinor = "attack with weapon";
-		if(have_skill($skill[lunge smack]) && (my_mp() >= 1))
+		if(have_skill($skill[lunge smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])))
 		{
 			attackMinor = "skill lunge smack";
+			costMinor = mp_cost($skill[Lunge Smack]);
 		}
-		if(have_skill($skill[lunging thrust-smack]) && (my_mp() >= 8))
+		if(have_skill($skill[lunging thrust-smack]) && (my_mp() >= mp_cost($skill[Lunging Thrust-Smack])))
 		{
 			attackMajor = "skill lunging thrust-smack";
+			costMajor = mp_cost($skill[Lunging Thrust-Smack]);
 		}
-		if(have_skill($skill[Club Foot]) && (my_mp() >= 8))
+		if(have_skill($skill[Club Foot]) && (my_mp() >= mp_cost($skill[Club Foot])))
 		{
 			stunner = "skill club foot";
+			costStunner = mp_cost($skill[Club Foot]);
 		}
 		break;
 	case $class[Turtle Tamer]:
@@ -1046,27 +1052,33 @@ string cc_combatHandler(int round, string opp, string text)
 		if((my_mp() > 150) && (have_skill($skill[shieldbutt])) && hasShieldEquipped())
 		{
 			attackMinor = "skill shieldbutt";
+			costMinor = mp_cost($skill[Shieldbutt]);
 		}
 		else if((my_mp() > 80) && ((my_hp() * 2) < my_maxhp()))
 		{
 			attackMinor = "skill kneebutt";
+			costMinor = mp_cost($skill[Kneebutt]);
 		}
 		if((round > 15) || ((my_hp() * 2) < my_maxhp()))
 		{
 			attackMajor = "skill kneebutt";
+			costMajor = mp_cost($skill[Kneebutt]);
 		}
-		if((have_skill($skill[shieldbutt])) && hasShieldEquipped() && (my_mp() >= 10))
+		if((have_skill($skill[shieldbutt])) && hasShieldEquipped() && (my_mp() >= mp_cost($skill[Shieldbutt])))
 		{
 			attackMajor = "skill shieldbutt";
+			costMajor = mp_cost($skill[Shieldbutt]);
 		}
-		if(have_skill($skill[Shell Up]))
+		if(have_skill($skill[Shell Up]) && (my_mp() >= mp_cost($skill[Shell Up])))
 		{
 			stunner = "skill shell up";
+			costStunner = mp_cost($skill[Shell Up]);
 		}
 
 		if(((monster_defense() - my_buffedstat(my_primestat())) > 20) && have_skill($skill[Saucestorm]) && (my_mp() >= mp_cost($skill[Saucestorm])))
 		{
 			attackMajor = "skill " + $skill[Saucestorm];
+			costMajor = mp_cost($skill[Saucestorm]);
 		}
 
 		break;
@@ -1074,15 +1086,19 @@ string cc_combatHandler(int round, string opp, string text)
 		if((my_mp() >= mp_cost($skill[Cannelloni Cannon])) && (have_skill($skill[Cannelloni Cannon])))
 		{
 			attackMinor = "skill Cannelloni Cannon";
+			costMinor = mp_cost($skill[Cannelloni Cannon]);
 		}
 		if((my_mp() >= mp_cost($skill[Weapon of the Pastalord])) && (have_skill($skill[Weapon of the Pastalord])))
 		{
 			attackMajor = "skill Weapon of the Pastalord";
+			costMajor = mp_cost($skill[Weapon of the Pastalord]);
 		}
 		if((my_mp() >= mp_cost($skill[Saucestorm])) && (have_skill($skill[Saucestorm])))
 		{
 			attackMajor = "skill " + $skill[Saucestorm];
 			attackMinor = "skill " + $skill[Saucestorm];
+			costMinor = mp_cost($skill[Saucestorm]);
+			costMajor = mp_cost($skill[Saucestorm]);
 		}
 		if((my_mp() >= 1) && (have_skill($skill[Utensil Twist])) && (item_type(equipped_item($slot[weapon])) == "utensil"))
 		{
@@ -1090,15 +1106,19 @@ string cc_combatHandler(int round, string opp, string text)
 			{
 				attackMajor = "skill " + $skill[Utensil Twist];
 				attackMinor = "skill " + $skill[Utensil Twist];
+				costMinor = mp_cost($skill[Utensil Twist]);
+				costMajor = mp_cost($skill[Utensil Twist]);
 			}
 			else if(enemy.physical_resistance <= 80)
 			{
 				attackMinor = "skill " + $skill[Utensil Twist];
+				costMinor = mp_cost($skill[Utensil Twist]);
 			}
 		}
 		if(have_skill($skill[Entangling Noodles]) && (my_mp() >= mp_cost($skill[Entangling Noodles])))
 		{
 			stunner = "skill entangling noodles";
+			costStunner = mp_cost($skill[Entangling Noodles]);
 		}
 		break;
 	case $class[Sauceror]:
@@ -1106,31 +1126,42 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			attackMinor = "skill saucegeyser";
 			attackMajor = "skill saucegeyser";
+			costMinor = mp_cost($skill[Saucegeyser]);
+			costMajor = mp_cost($skill[Saucegeyser]);
 		}
 		else if((my_mp() >= mp_cost($skill[Saucecicle])) && have_skill($skill[Saucecicle]) && (monster_element(enemy) != $element[cold]))
 		{
 			attackMinor = "skill saucecicle";
 			attackMajor = "skill saucecicle";
+			costMinor = mp_cost($skill[Saucecicle]);
+			costMajor = mp_cost($skill[Saucecicle]);
 		}
 		else if((my_mp() >= mp_cost($skill[Saucestorm])) && (have_skill($skill[Saucestorm])))
 		{
 			attackMinor = "skill saucestorm";
 			attackMajor = "skill saucestorm";
+			costMinor = mp_cost($skill[Saucestorm]);
+			costMajor = mp_cost($skill[Saucestorm]);
 		}
 		else if((my_mp() >= mp_cost($skill[Wave of Sauce])) && have_skill($skill[Wave of Sauce]) && (monster_element(enemy) != $element[hot]))
 		{
 			attackMinor = "skill wave of sauce";
 			attackMajor = "skill wave of sauce";
+			costMinor = mp_cost($skill[Wave of Sauce]);
+			costMajor = mp_cost($skill[Wave of Sauce]);
 		}
 		else if((my_mp() >= mp_cost($skill[Stream of Sauce])) && have_skill($skill[Stream of Sauce]) && (monster_element(enemy) != $element[hot]))
 		{
 			attackMinor = "skill stream of sauce";
 			attackMajor = "skill stream of sauce";
+			costMinor = mp_cost($skill[Stream of Sauce]);
+			costMajor = mp_cost($skill[Stream of Sauce]);
 		}
 
 		if(my_soulsauce() >= 5)
 		{
 			stunner = "skill soul bubble";
+			costStunner = mp_cost($skill[Soul Bubble]);
 		}
 
 
@@ -1153,7 +1184,7 @@ string cc_combatHandler(int round, string opp, string text)
 				return "skill thunderstrike";
 			}
 
-			if((!contains_text(combatState, "stunner")) && (stunner != "") && (monster_level_adjustment() <= 50) && (my_mp() > 10))
+			if((!contains_text(combatState, "stunner")) && (stunner != "") && (monster_level_adjustment() <= 50) && (my_mp() >= costStunner))
 			{
 				set_property("cc_combatHandler", combatState + "(stunner)");
 				return stunner;
@@ -1180,19 +1211,32 @@ string cc_combatHandler(int round, string opp, string text)
 					return "skill " + $skill[Spirit Snap];
 				}
 			}
-			if((!contains_text(combatState, "northern explosion")) && (have_skill($skill[northern explosion])) && (my_mp() >= 16) && (my_class() == $class[Seal Clubber]) && (monster_element(enemy) != $element[cold]))
+			if((!contains_text(combatState, "northern explosion")) && (have_skill($skill[northern explosion])) && (my_mp() >= mp_cost($skill[Northern Explosion])) && (my_class() == $class[Seal Clubber]) && (monster_element(enemy) != $element[cold]))
 			{
 				set_property("cc_combatHandler", combatState + "(northern explosion)");
 				return "skill northern explosion";
 			}
-			if((!contains_text(combatState, "last attempt")) && (my_mp() >= 8))
+			if((!contains_text(combatState, "last attempt")) && (my_mp() >= costMajor))
 			{
 				if((expected_damage() * 1.4) >= my_hp())
 				{
 					set_property("cc_combatHandler", combatState + "(last attempt)");
+					print("Uh oh, I'm having trouble in combat.", "red");
 				}
-				print("Uh oh, I'm having trouble in combat.", "red");
 				return attackMajor;
+			}
+			if((expected_damage() * 2.5) < my_hp())
+			{
+				print("Hmmm, I don't really know what to do in this combat but it looks like I'll live.", "red");
+				if(my_mp() >= costMajor)
+				{
+					return attackMajor;
+				}
+				else if(my_mp() >= costMinor)
+				{
+					return attackMinor;
+				}
+				return "attack with weapon";
 			}
 			if(my_location() != $location[The Slime Tube])
 			{
@@ -1214,15 +1258,19 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 		}
 
-		if((monster_level_adjustment() > 150) && (my_mp() >= 8))
+		if((monster_level_adjustment() > 150) && (my_mp() >= costMajor))
 		{
 			return attackMajor;
 		}
-		if((have_skill($skill[lunge smack])) && (my_mp() >= 1))
+		if((have_skill($skill[lunge smack])) && (my_mp() >= mp_cost($skill[Lunge Smack])))
 		{
 			return attackMinor;
 		}
-		return attackMinor;
+		if(my_mp() >= costMinor)
+		{
+			return attackMinor;
+		}
+		return "attack with weapon";
 	}
 	else
 	{
@@ -1878,7 +1926,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(have_skill($skill[Curse of Vacation]) && (my_mp() >= 35))
+	if(have_skill($skill[Curse of Vacation]) && (my_mp() >= mp_cost($skill[Curse of Vacation])))
 	{
 		if((enemy == $monster[animated mahogany nightstand]) ||
 			(enemy == $monster[coaltergeist]) ||

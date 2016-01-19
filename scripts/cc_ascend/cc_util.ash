@@ -1541,33 +1541,74 @@ boolean haveSpleenFamiliar()
 int [item] cc_get_campground()
 {
 	int [item] campItems = get_campground();
-	string page = visit_url("campground.php");
+#	string page = visit_url("campground.php");
 
-	if(contains_text(page, "A Pumpkin Patch"))
-	{
-		campItems[$item[packet of pumpkin seeds]] = 1;
-	}
-	else if(contains_text(page, "A Peppermint Patch"))
-	{
-		campItems[$item[Peppermint Pip Packet]] = 1;
-	}
-	else if(contains_text(page, "A Bone Garden"))
-	{
-		campItems[$item[packet of dragon\'s teeth]] = 1;
-	}
-	else if(contains_text(page, "A Beer Garden"))
-	{
-		campItems[$item[packet of beer seeds]] = 1;
-	}
-	else if(contains_text(page, "A Winter Garden"))
+	if(campItems contains $item[Ice Harvest])
 	{
 		campItems[$item[packet of winter seeds]] = 1;
 	}
-
-	if(contains_text(page, "Your Haunted Doghouse"))
+	if(campItems contains $item[Frost Flower])
 	{
-		campItems[$item[Haunted Doghouse]] = 1;
+		campItems[$item[packet of winter seeds]] = 1;
 	}
+	if(campItems contains $item[handful of barley])
+	{
+		campItems[$item[packet of beer seeds]] = 1;
+	}
+	if(campItems contains $item[fancy beer label])
+	{
+		campItems[$item[packet of beer seeds]] = 1;
+	}
+	if(campItems contains $item[skeleton])
+	{
+		campItems[$item[packet of dragon\'s teeth]] = 1;
+	}
+	if(campItems contains $item[giant candy cane])
+	{
+		campItems[$item[Peppermint Pip Packet]] = 1;
+	}
+	if(campItems contains $item[peppermint sprout])
+	{
+		campItems[$item[Peppermint Pip Packet]] = 1;
+	}
+	if(campItems contains $item[ginormous pumpkin])
+	{
+		campItems[$item[packet of pumpkin seeds]] = 1;
+	}
+	if(campItems contains $item[huge pumpkin])
+	{
+		campItems[$item[packet of pumpkin seeds]] = 1;
+	}
+	if(campItems contains $item[pumpkin])
+	{
+		campItems[$item[packet of pumpkin seeds]] = 1;
+	}
+
+#	if(contains_text(page, "A Pumpkin Patch"))
+#	{
+#		campItems[$item[packet of pumpkin seeds]] = 1;
+#	}
+#	else if(contains_text(page, "A Peppermint Patch"))
+#	{
+#		campItems[$item[Peppermint Pip Packet]] = 1;
+#	}
+#	else if(contains_text(page, "A Bone Garden"))
+#	{
+#		campItems[$item[packet of dragon\'s teeth]] = 1;
+#	}
+#	else if(contains_text(page, "A Beer Garden"))
+#	{
+#		campItems[$item[packet of beer seeds]] = 1;
+#	}
+#	else if(contains_text(page, "A Winter Garden"))
+#	{
+#		campItems[$item[packet of winter seeds]] = 1;
+#	}
+
+#	if(contains_text(page, "Your Haunted Doghouse"))
+#	{
+#		campItems[$item[Haunted Doghouse]] = 1;
+#	}
 
 	if(!(campItems contains $item[Dramatic&trade; range]) && get_property("cc_haveoven").to_boolean())
 	{

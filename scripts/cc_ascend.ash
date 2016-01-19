@@ -337,6 +337,20 @@ boolean handleFamiliar(string type)
 			}
 		}
 	}
+	else if(type == "init")
+	{
+		if(familiar_weight(my_familiar()) == 20)
+		{
+			if($familiars[Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Baby Gravy Fairy] contains my_familiar())
+			{
+				foreach fam in $familiars[Happy Medium, Xiblaxian Holo-Companion, Oily Woim]
+				if(have_familiar(fam))
+				{
+					return handleFamiliar(fam);
+				}
+			}
+		}
+	}
 
 	return false;
 }
@@ -2145,25 +2159,6 @@ void doBedtime()
 	}
 }
 
-void handleInitFamiliar()
-{
-	if(familiar_weight(my_familiar()) == 20)
-	{
-		if((my_familiar() == $familiar[Angry Jung Man]) || (my_familiar() == $familiar[Adventurous Spelunker]))
-		{
-			if(have_familiar($familiar[Xiblaxian Holo-Companion]))
-			{
-				handleFamiliar($familiar[Xiblaxian Holo-Companion]);
-			}
-			else if(have_familiar($familiar[Oily Woim]))
-			{
-				handleFamiliar($familiar[Oily Woim]);
-			}
-		}
-	}
-}
-
-
 boolean questOverride()
 {
 	// At the start of an ascension, cc_get_campground() displays the wrong info.
@@ -2604,7 +2599,7 @@ boolean L11_aridDesert()
 		}
 
 		equip(desertBuff);
-		handleInitFamiliar();
+		handleFamiliar("init");
 		set_property("choiceAdventure805", 1);
 		int need = 100 - get_property("desertExploration").to_int();
 		print("Need for desert: " + need, "blue");
@@ -3693,7 +3688,7 @@ boolean L12_lastDitchFlyer()
 		{
 			set_property("choiceAdventure677", "2");
 			set_property("choiceAdventure678", "3");
-			handleInitFamiliar();
+			handleFamiliar("init");
 			ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
 			handleFamiliar($familiar[Adventurous Spelunker]);
 		}
@@ -4042,7 +4037,7 @@ boolean L11_hiddenCity()
 
 			try
 			{
-				handleInitFamiliar();
+				handleFamiliar("init");
 				cli_execute("ccs cc_default");
 				if(ccAdv(1, $location[A Massive Ziggurat])) {}
 				handleFamiliar($familiar[Adventurous Spelunker]);
@@ -4513,7 +4508,7 @@ boolean L11_mauriceSpookyraven()
 		}
 		buffMaintain($effect[Snow Shoes], 0, 1, 1);
 
-		handleInitFamiliar();
+		handleFamiliar("init");
 		if(!ccAdv(1, $location[The Haunted Ballroom]))
 		{
 			visit_url("place.php?whichplace=manor2");
@@ -5178,7 +5173,7 @@ boolean L12_gremlins()
 	}
 	useCocoon();
 
-	handleInitFamiliar();
+	handleFamiliar("init");
 	if(item_amount($item[molybdenum hammer]) == 0)
 	{
 		ccAdv(1, $location[Next to that barrel with something burning in it], "ccsJunkyard");
@@ -5858,7 +5853,7 @@ boolean L10_topFloor()
 		set_property("choiceAdventure679", 1);
 	}
 
-	handleInitFamiliar();
+	handleFamiliar("init");
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
 	handleFamiliar($familiar[Adventurous Spelunker]);
 
@@ -6155,7 +6150,7 @@ boolean Lsc_flyerSeals()
 			}
 		}
 
-		handleInitFamiliar();
+		handleFamiliar("init");
 		if(doElement)
 		{
 			if(item_amount($item[imbued seal-blubber candle]) == 0)
@@ -8356,7 +8351,7 @@ boolean L9_oilPeak()
 	buffMaintain($effect[Litterbug], 0, 1, 1);
 	buffMaintain($effect[Tortious], 0, 1, 1);
 	buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
-	handleInitFamiliar();
+	handleFamiliar("init");
 
 	if((my_class() == $class[Ed]) && get_property("cc_dickstab").to_boolean())
 	{
@@ -8521,7 +8516,7 @@ boolean L11_talismanOfNam()
 		set_property("choiceAdventure189", "1");
 		set_property("oceanAction", "continue");
 		set_property("oceanDestination", to_lower_case(my_primestat()));
-		handleInitFamiliar();
+		handleFamiliar("init");
 
 		if(get_property("cc_gaudy") == "")
 		{

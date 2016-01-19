@@ -252,7 +252,7 @@ void handleOffHand()
 	}
 	if(my_class() == $class[Turtle Tamer])
 	{
-		poss = $items[Sewer Turtle, Barskin Buckler, Turtle Wax Shield, Clownskin Buckler, Box Turtle, Demon Buckler, Meat Shield, Gnauga Hide Buckler, Yakskin Buckler, Penguin Skin Buckler, Hippo Skin Buckler, Tortoboggan Shield, Padded Tortoise, Painted Shield, Spiky Turtle Shield, Wicker Shield, Catskin Buckler, Keg Shield, Ouija Board\, Ouija Board, Barrel Lid, Operation Patriot Shield, Fake Washboard];
+		poss = $items[Sewer Turtle, Barskin Buckler, Turtle Wax Shield, Clownskin Buckler, Hot Plate, Box Turtle, Demon Buckler, Meat Shield, Gnauga Hide Buckler, Yakskin Buckler, Penguin Skin Buckler, Hippo Skin Buckler, Tortoboggan Shield, Padded Tortoise, Painted Shield, Spiky Turtle Shield, Wicker Shield, Catskin Buckler, Keg Shield, Ouija Board\, Ouija Board, Barrel Lid, Operation Patriot Shield, Fake Washboard];
 	}
 
 	if(my_class() == $class[Pastamancer])
@@ -355,7 +355,7 @@ void equipBaselineShirt()
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Barskin Cloak, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Lynyrdskin Tunic, Bat-Ass Leather Jacket, Yak Anorak, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
+	boolean[item] poss = $items[Barskin Cloak, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Lynyrdskin Tunic, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -378,11 +378,11 @@ void equipBaselineBack()
 
 	if(my_class() == $class[Ed])
 	{
-		poss = $items[Giant Gym Membership Card, Misty Cloak, Misty Cape, Misty Robe];
+		poss = $items[Black Cloak, Giant Gym Membership Card, Makeshift Cape, Misty Cloak, Misty Cape, Misty Robe, Camp Scout Backpack];
 	}
 	else
 	{
-		poss = $items[Pillow Shell, Oil Shell, Giant Gym Membership Card, Frozen Turtle Shell, Misty Cloak, Misty Cape, Misty Robe, Makeshift Cape, Polyester Parachute, Buddy Bjorn, Camp Scout Backpack];
+		poss = $items[Black Cloak, Pillow Shell, Oil Shell, Giant Gym Membership Card, Frozen Turtle Shell, Misty Cloak, Misty Cape, Misty Robe, Makeshift Cape, Polyester Parachute, Buddy Bjorn, Camp Scout Backpack];
 	}
 	foreach thing in poss
 	{
@@ -615,7 +615,7 @@ void equipBaselineAcc2()
 	}
 	else
 	{
-		poss = $items[Stuffed Shoulder Parrot, imp unity ring, garish pinky ring, batskin belt, Jolly Roger Charrrm Bracelet, Glowing Red Eye, Jangly Bracelet, Pirate Fledges, glow-in-the-dark necklace, Compression Stocking, Wicker Kickers, Iron Beta of Industry, perfume-soaked bandana, World\'s Best Adventurer Sash, Hand In Glove, barrel hoop earring, Gumshoes, Caveman Dan\'s Favorite Rock];
+		poss = $items[Vampire Collar, Stuffed Shoulder Parrot, imp unity ring, garish pinky ring, batskin belt, Jolly Roger Charrrm Bracelet, Glowing Red Eye, Jangly Bracelet, Pirate Fledges, glow-in-the-dark necklace, Compression Stocking, Wicker Kickers, Iron Beta of Industry, perfume-soaked bandana, World\'s Best Adventurer Sash, Hand In Glove, barrel hoop earring, Gumshoes, Caveman Dan\'s Favorite Rock];
 	}
 	foreach thing in poss
 	{
