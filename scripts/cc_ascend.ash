@@ -442,7 +442,7 @@ boolean L1_dnaAcquire()
 	{
 		return false;
 	}
-	if(have_effect($effect[Human-Weird Thing Hybrid]) != 2147483647)
+	if(have_effect($effect[Human-Weird Thing Hybrid]) == 2147483647)
 	{
 		return false;
 	}
@@ -451,7 +451,7 @@ boolean L1_dnaAcquire()
 		return false;
 	}
 
-	if(get_property("dnaSyringe") == "weird")
+	if(get_property("dnaSyringe") == $phylum[weird])
 	{
 		cli_execute("camp dnainject");
 	}
@@ -1683,12 +1683,9 @@ void doBedtime()
 
 	ed_terminateSession();
 
-	if(my_inebriety() <= inebriety_limit())
-	{
-		while(LX_freeCombats())
-		{
-		}
-	}
+	while(LX_freeCombats())
+	{}
+
 #	while(snojoFightAvailable() && (my_adventures() > 0) && (my_inebriety() <= inebriety_limit()))
 #	{
 #		handleFamiliar($familiar[Ms. Puck Man]);
@@ -2577,6 +2574,7 @@ boolean L11_aridDesert()
 		{
 			if(item_amount($item[Drum Machine]) > 0)
 			{
+				print("Found the drums, now we use them!", "blue");
 				use(1, $item[Drum Machine]);
 			}
 			else
@@ -2612,6 +2610,7 @@ boolean L11_aridDesert()
 
 		if((need < (100 - (5 * progress))) && (item_amount($item[Stone Rose]) > 0) && ((get_property("gnasirProgress").to_int() & 1) != 1))
 		{
+			print("Returning the stone rose", "blue");
 			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
 			visit_url("choice.php?whichchoice=805&option=2&pwd=");
@@ -2625,6 +2624,7 @@ boolean L11_aridDesert()
 			if((item_amount($item[Can of Black Paint]) > 0) || (my_meat() >= 1000))
 			{
 				buyUpTo(1, $item[Can of Black Paint]);
+				print("Returning the Can of Black Paint", "blue");
 				visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
 				visit_url("choice.php?whichchoice=805&option=1&pwd=");
 				visit_url("choice.php?whichchoice=805&option=2&pwd=");
@@ -2636,6 +2636,7 @@ boolean L11_aridDesert()
 
 		if((need < (100 - (5 * progress))) && (item_amount($item[Killing Jar]) > 0) && ((get_property("gnasirProgress").to_int() & 4) != 4))
 		{
+			print("Returning the killing jar", "blue");
 			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
 			visit_url("choice.php?whichchoice=805&option=2&pwd=");
@@ -2646,6 +2647,7 @@ boolean L11_aridDesert()
 
 		if((item_amount($item[Worm-Riding Manual Page]) >= 15) && ((get_property("gnasirProgress").to_int() & 8) != 8))
 		{
+			print("Returning the worm-riding manual pages", "blue");
 			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
 			visit_url("choice.php?whichchoice=805&option=2&pwd=");
@@ -2663,6 +2665,7 @@ boolean L11_aridDesert()
 			pullXWhenHaveY($item[Drum Machine], 1, 0);
 			if(item_amount($item[Drum Machine]) > 0)
 			{
+				print("Drum machine desert time!", "blue");
 				use(1, $item[Drum Machine]);
 				return true;
 			}
@@ -2673,12 +2676,16 @@ boolean L11_aridDesert()
 		if((need <= 15) && ((get_property("gnasirProgress").to_int() & 12) == 0))
 		{
 			pullXWhenHaveY($item[Killing Jar], 1, 0);
-			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
-			visit_url("choice.php?whichchoice=805&option=1&pwd=");
-			visit_url("choice.php?whichchoice=805&option=2&pwd=");
-			visit_url("choice.php?whichchoice=805&option=1&pwd=");
-			use(1, $item[desert sightseeing pamphlet]);
-			return true;
+			if(item_amount($item[Killing Jar]) > 0)
+			{
+				print("Secondary killing jar handler", "blue");
+				visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
+				visit_url("choice.php?whichchoice=805&option=1&pwd=");
+				visit_url("choice.php?whichchoice=805&option=2&pwd=");
+				visit_url("choice.php?whichchoice=805&option=1&pwd=");
+				use(1, $item[desert sightseeing pamphlet]);
+				return true;
+			}
 		}
 
 		ccAdv(1, $location[The Arid\, Extra-Dry Desert]);
@@ -2686,9 +2693,9 @@ boolean L11_aridDesert()
 
 		if(contains_text(get_property("lastEncounter"), "He Got His Just Desserts"))
 		{
-			take_closet(1, $item[beer helmet]);
-			take_closet(1, $item[distressed denim pants]);
-			take_closet(1, $item[bejeweled pledge pin]);
+			take_closet(closet_amount($item[Beer Helmet]), $item[Beer Helmet]);
+			take_closet(closet_amount($item[Distressed Denim Pants]), $item[Distressed Denim Pants]);
+			take_closet(closet_amount($item[Bejeweled Pledge Pin]), $item[Bejeweled Pledge Pin]);
 			if(get_property("cc_nunsTrick") != "no")
 			{
 				set_property("cc_nunsTrick", "got");
@@ -2704,15 +2711,12 @@ boolean L11_aridDesert()
 		if((need > (5 * progress)) && (item_amount($item[disassembled clover]) > 2) && !get_property("lovebugsUnlocked").to_boolean())
 		{
 			print("Gonna clover this, yeah, it only saves 2 adventures. So?", "green");
-			use(1, $item[disassembled clover]);
-			if(contains_text(visit_url("adventure.php?snarfblat=122&confirm=on"), "Combat"))
+			use(1, $item[Disassembled Clover]);
+			ccAdvBypass("adventure.php?snarfblat=122&confirm=on", $location[The Oasis]);
+			if(item_amount($item[Ten-Leaf Clover]) > 0)
 			{
-				print("Wandering combat in The Oasis, boo. Gonna have to do this again.");
-				ccAdv(1, $location[The Oasis]);
-				if(item_amount($item[ten-leaf clover]) == 1)
-				{
-					use(1, $item[ten-leaf clover]);
-				}
+				print("Wandering adventure in The Oasis, boo. Gonna have to do this again.");
+				use(item_amount($item[Ten-Leaf Clover]), $item[Ten-Leaf Clover]);
 			}
 		}
 		else
@@ -3288,8 +3292,12 @@ boolean L13_towerNSTower()
 					keepTrying = true;
 				}
 			}
+
 			buffMaintain($effect[Song of Sauce], 0, 1, 1);
-			ccMaximize("myst -equip snow suit", 1500, 0, false);
+			if(item_amount($item[Electric Boning Knife]) == 0)
+			{
+				ccMaximize("myst -equip snow suit", 1500, 0, false);
+			}
 			if(equipped_item($slot[acc1]) == $item[hand in glove])
 			{
 				equip($slot[acc1], $item[Pirate Fledges]);
@@ -6085,6 +6093,11 @@ boolean L12_flyerBackup()
 
 boolean LX_freeCombats()
 {
+	if(my_inebriety() > inebriety_limit())
+	{
+		return false;
+	}
+
 	if(snojoFightAvailable() && (my_adventures() > 0))
 	{
 		handleFamiliar($familiar[Ms. Puck Man]);
@@ -7405,7 +7418,11 @@ boolean L2_spookySapling()
 	set_property("choiceAdventure503", "3");
 	set_property("choiceAdventure504", "3");
 
-#	cli_execute("aa none");
+	#	Can probably use ccAdvBypass here but let us not be hasty
+	#
+	#
+	#
+	handlePreAdventure($location[The Spooky Forest]);
 	if(contains_text(visit_url("adventure.php?snarfblat=15"), "Combat") || lastAdventureSpecialNC())
 	{
 		ccAdv(1, $location[The Spooky Forest]);
@@ -7478,7 +7495,11 @@ boolean LX_handleSpookyravenFirstFloor()
 	}
 
 	boolean delayKitchen = get_property("cc_delayHauntedKitchen").to_boolean();
-	if(get_property("cc_delayHauntedKitchen").to_boolean())
+	if(item_amount($item[Spookyraven Billiards Room Key]) > 0)
+	{
+		delayKitchen = false;
+	}
+	if(delayKitchen)
 	{
 		if((elemental_resist($element[hot]) < 9) || (elemental_resist($element[stench]) < 9))
 		{
@@ -7491,8 +7512,34 @@ boolean LX_handleSpookyravenFirstFloor()
 		{
 			delayKitchen = false;
 		}
+		if(delayKitchen)
+		{
+			int hot = elemental_resist($element[hot]);
+			int stench = elemental_resist($element[stench]);
+			int mpNeed = 0;
+			if((hot < 9) && (stench < 9) && have_skill($skill[Astral Shell]) && (have_effect($effect[Astral Shell]) == 0))
+			{
+				hot += 1;
+				stench += 1;
+				mpNeed += mp_cost($skill[Astral Shell]);
+			}
+			if((hot < 9) && (stench < 9) && have_skill($skill[Elemental Saucesphere]) && (have_effect($effect[Elemental Saucesphere]) == 0))
+			{
+				hot += 2;
+				stench += 2;
+				mpNeed += mp_cost($skill[Elemental Saucesphere]);
+			}
+			if((my_mp() > mpNeed) && (hot >= 9) && (stench >= 9))
+			{
+				buffMaintain($effect[Astral Shell], mp_cost($skill[Astral Shell]), 1, 1);
+				buffMaintain($effect[Elemental Saucesphere], mp_cost($skill[Elemental Saucesphere]), 1, 1);
+			}
+			if((elemental_resist($element[hot]) >= 9) && (elemental_resist($element[stench]) >= 9))
+			{
+				delayKitchen = false;
+			}
+		}
 	}
-
 
 	if(delayKitchen)
 	{
@@ -7970,6 +8017,10 @@ boolean L9_aBooPeak()
 		{
 			spookyResist = spookyResist + 1;
 		}
+		if((item_amount($item[Black Eyedrops]) > 0) && (have_effect($effect[Hyphemariffic]) == 0))
+		{
+			spookyResist = spookyResist + 9;
+		}
 		if((item_amount($item[Cold Powder]) > 0) && (have_effect($effect[Insulated Trousers]) == 0))
 		{
 			coldResist = coldResist + 1;
@@ -8056,15 +8107,13 @@ boolean L9_aBooPeak()
 			}
 			buffMaintain($effect[Astral Shell], 10, 1, 1);
 			buffMaintain($effect[Elemental Saucesphere], 10, 1, 1);
+			buffMaintain($effect[Scarysauce], 10, 1, 1);
 			buffMaintain($effect[Spookypants], 0, 1, 1);
+			buffMaintain($effect[Hyphemariffic], 0, 1, 1);
 			buffMaintain($effect[Insulated Trousers], 0, 1, 1);
 			buffMaintain($effect[Balls of Ectoplasm], 0, 1, 1);
-
-#			if(my_class() == $class[Ed])
-#			{
-				buffMaintain($effect[Red Door Syndrome], 0, 1, 1);
-				buffMaintain($effect[Well-Oiled], 0, 1, 1);
-#			}
+			buffMaintain($effect[Red Door Syndrome], 0, 1, 1);
+			buffMaintain($effect[Well-Oiled], 0, 1, 1);
 
 			set_property("choiceAdventure611", "1");
 			if((my_hp() - 50) < totalDamage)
@@ -8341,6 +8390,25 @@ boolean L9_twinPeak()
 boolean L9_oilPeak()
 {
 	if(get_property("cc_oilpeak") != "")
+	{
+		return false;
+	}
+
+	int expectedML = 10;
+	if(have_skill($skill[Drescher\'s Annoying Noise]))
+	{
+		expectedML += 10;
+	}
+	if(have_skill($skill[Pride of the Puffin]))
+	{
+		expectedML += 10;
+	}
+	if(have_skill($skill[Ur-kel\'s Aria of Annoyance]))
+	{
+		expectedML += (2 * my_level());
+	}
+
+	if((monster_level_adjustment() < expectedML) && (my_level() < 12))
 	{
 		return false;
 	}
@@ -10094,13 +10162,13 @@ boolean doTasks()
 			}
 			break;
 		case 2:
-			if(deck_useScheme("HC2"))
+			if(deck_useScheme("hc2"))
 			{
 				return true;
 			}
 			break;
 		case 3:
-			if(deck_useScheme("HC3"))
+			if(deck_useScheme("hc3"))
 			{
 				return true;
 			}
@@ -10200,6 +10268,7 @@ boolean doTasks()
 		visit_url("place.php?whichplace=woods");
 		print("Got Goofballs", "blue");
 		visit_url("tavern.php?place=susguy&action=buygoofballs", true);
+		put_closet(item_amount($item[Bottle of Goofballs]), $item[Bottle of Goofballs]);
 	}
 
 	if(LX_bitchinMeatcar())
@@ -10529,6 +10598,8 @@ void cc_begin()
 	print("Current Ascension: " + cc_my_path());
 
 	set_property("cc_disableAdventureHandling", "no");
+	set_property("cc_bedroomHandler1", "no");
+	set_property("cc_bedroomHandler2", "no");
 
 	settingFixer();
 

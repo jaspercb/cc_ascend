@@ -116,6 +116,7 @@ boolean ccMaximize(string req, boolean simulate)
 	if(!simulate)
 	{
 		debugMaximize(req, 0);
+#		user_confirm("Beep");
 	}
 	return maximize(req, simulate);
 }
@@ -125,6 +126,7 @@ boolean ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate)
 	if(!simulate)
 	{
 		debugMaximize(req, maxPrice);
+#		user_confirm("Beep");
 	}
 	return maximize(req, maxPrice, priceLevel, simulate);
 }
@@ -134,6 +136,7 @@ aggregate ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate,
 	if(!simulate)
 	{
 		debugMaximize(req, maxPrice);
+#		user_confirm("Beep");
 	}
 	return maximize(req, maxPrice, priceLevel, simulate, includeEquip);
 }
@@ -148,9 +151,18 @@ void debugMaximize(string req, int meat)
 	print("Desired maximize: " + req, "blue");
 	boolean[effect] acquired;
 	acquired[$effect[none]] = true;
+	string tableDo = "<table border=1><tr><td colspan=6>Accepted: Maximizing: " + req + "</td></tr>";
+	string tableDont = "<table border=1><tr><td colspan=6>Rejected: Maximizing: " + req + "</td></tr>";
+	tableDo += "<tr><td>Score</td><td>Effect</td><td>Command</td><td>Skill</td><td>Item</td><td>Display</td></tr>";
+	tableDont += "<tr><td>Score</td><td>Effect</td><td>Command</td><td>Skill</td><td>Item</td><td>Display</td></tr>";
+
 	foreach it, entry in maximize(req, 0, 0, true, true)
 	{
 		string output = "";
+
+		entry.display = replace_string(entry.display, "<html>", "");
+		entry.display = replace_string(entry.display, "</html>", "");
+
 		if(entry.skill != $skill[none])
 		{
 			output += "Skill(" + entry.skill + ") ";
@@ -170,7 +182,6 @@ void debugMaximize(string req, int meat)
 		}
 		output += "Score(" + entry.score + ")";
 
-
 		boolean doThis = true;
 		if(entry.score <= 0)
 		{
@@ -181,6 +192,10 @@ void debugMaximize(string req, int meat)
 			doThis = false;
 		}
 		if(entry.display.index_of("uneffect ") == 0)
+		{
+			doThis = false;
+		}
+		if(entry.display.index_of("<font color=gray>") != -1)
 		{
 			doThis = false;
 		}
@@ -236,6 +251,14 @@ void debugMaximize(string req, int meat)
 				{
 					doThis = false;
 				}
+				if(entry.display.index_of("cast 1 Bind ") == 0)
+				{
+					doThis = false;
+				}
+				if(entry.display.index_of("chew ") == 0)
+				{
+					doThis = false;
+				}
 #				if(entry.display.index_of("...or ") == 0)
 #				{
 #					doThis = false;
@@ -269,9 +292,15 @@ void debugMaximize(string req, int meat)
 			{
 				//Not a skill or item, what is it?
 				if(entry.display.index_of("telescope ") == 0)
-				{
-
-				}
+				{}
+				else if(entry.display.index_of("grim init ") == 0)
+				{}
+				else if(entry.display.index_of("unequip ") == 0)
+				{}
+				else if(entry.display.index_of("familiar ") == 0)
+				{}
+				else if(entry.display.index_of("bjorn ") == 0)
+				{}
 				else
 				{
 					doThis = false;
@@ -288,20 +317,36 @@ void debugMaximize(string req, int meat)
 			doThis = false;
 		}
 
+		string curTable = "<td>" + entry.score + "</td>";
+		curTable += "<td>" + entry.effect + "</td>";
+		curTable += "<td>&nbsp;" + entry.command + "</td>";
+		curTable += "<td>" + entry.skill + "</td>";
+		curTable += "<td>" + entry.item + "</td>";
+		curTable += "<td>&nbsp;" + entry.display + "</td>";
 
 		if(doThis)
 		{
 			#use_skill(1, entry.skill);
 			acquired[entry.effect] = true;
 			output = "USE: " + output;
+			tableDo += "<tr>" + curTable + "</tr>";
 		}
 		else
 		{
 			output = "REJECT: " + output;
+			tableDont += "<tr>" + curTable + "</tr>";
 		}
 		print(output, "blue");
 		print(display, "green");
 	}
+
+
+	print_html(tableDo + "</table>");
+	print_html(tableDont + "</table>");
+
+	//	A successive print will help make the table readable in cases where it is not rendered properly
+	//cli_execute("ashref get_inventory");
+
 }
 
 
@@ -941,11 +986,7 @@ boolean handleFaxMonster(monster enemy)
 		print("Could not acquire fax monster", "red");
 		return false;
 	}
-
 	return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=4873", $location[Noob Cave]);
-
-#	visit_url("inv_use.php?pwd&which=3&whichitem=4873");
-#	return true;
 }
 
 
@@ -956,8 +997,6 @@ boolean handleRainDoh()
 		abort("Rain-doh has no monster so we can't use it");
 	}
 	return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=5564", $location[Noob Cave]);
-#	visit_url("inv_use.php?pwd&which=3&whichitem=5564");
-#	adv1($location[Noob Cave], 1, "cc_combatHandler");
 }
 
 boolean handleSpookyPutty()
@@ -967,8 +1006,6 @@ boolean handleSpookyPutty()
 		abort("Spooky Putty has no monster so we can't use it");
 	}
 	return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=3667", $location[Noob Cave]);
-#	visit_url("inv_use.php?pwd&which=3&whichitem=3667");
-#	adv1($location[Noob Cave], 1, "cc_combatHandler");
 }
 
 boolean handle4dCamera()
@@ -978,8 +1015,6 @@ boolean handle4dCamera()
 		abort("4-D Camera was already used, we don't have another use today");
 	}
 	return ccAdvBypass("inv_use.php?pwd=&whichitem=4170", $location[Noob Cave]);
-#	visit_url("inv_use.php?pwd=&whichitem=4170");
-#	adv1($location[Noob Cave], 1, "cc_combatHandler");
 }
 
 boolean handleIceSculpture()
@@ -987,8 +1022,6 @@ boolean handleIceSculpture()
 	if(item_amount($item[Ice Sculpture]) > 0)
 	{
 		return ccAdvBypass("inv_use.php?pwd=&whichitem=7080", $location[Noob Cave]);
-#		visit_url("inv_use.php?pwd=&whichitem=7080");
-#		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	return false;
 }
@@ -1007,8 +1040,6 @@ boolean handleSealArmored()
 	if((get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of an armored seal]) > 0) && (item_amount($item[seal-blubber candle]) >= 10))
 	{
 		return ccAdvBypass("inv_use.php?pwd=&whichitem=3904&checked=1", $location[Noob Cave]);
-#		visit_url("inv_use.php?pwd=&whichitem=3904&checked=1");
-#		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	else
 	{
@@ -1021,8 +1052,6 @@ boolean handleSealAncient()
 	if((get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of an ancient seal]) > 0) && (item_amount($item[seal-blubber candle]) >= 3))
 	{
 		return ccAdvBypass("inv_use.php?pwd=&whichitem=3905&checked=1", $location[Noob Cave]);
-#		visit_url("inv_use.php?pwd=&whichitem=3905&checked=1");
-#		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	else
 	{
@@ -1036,43 +1065,24 @@ boolean handleSealElement(element flavor)
 	if((flavor == $element[hot]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a charred seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
 		page = "inv_use.php?pwd=&whichitem=3909&checked=1";
-#		page = visit_url("inv_use.php?pwd=&whichitem=3909&checked=1");
-#		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	if((flavor == $element[cold]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a cold seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
 		page = "inv_use.php?pwd=&whichitem=3910&checked=1";
-#		page = visit_url("inv_use.php?pwd=&whichitem=3910&checked=1");
-#		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	if((flavor == $element[sleaze]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a slippery seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
 		page = "inv_use.php?pwd=&whichitem=3911&checked=1";
-#		page = visit_url("inv_use.php?pwd=&whichitem=3911&checked=1");
-#		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	if((flavor == $element[spooky]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a shadowy seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
 		page = "inv_use.php?pwd=&whichitem=3907&checked=1";
-#		page = visit_url("inv_use.php?pwd=&whichitem=3907&checked=1");
-#		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	if((flavor == $element[stench]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a stinking seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
 	{
 		page = "inv_use.php?pwd=&whichitem=3908&checked=1";
-#		page = visit_url("inv_use.php?pwd=&whichitem=3908&checked=1");
-#		adv1($location[Noob Cave], 1, "cc_combatHandler");
 	}
 	return ccAdvBypass(page, $location[Noob Cave]);
-#	if(contains_text(page, "Combat"))
-#	{
-#		adv1($location[Noob Cave], 1, "cc_combatHandler");
-#	}
-#	else
-#	{
-#		abort("Can't use an " + flavor + " Seal for some reason");
-#	}
-#	return false;
 }
 
 
@@ -1244,31 +1254,6 @@ int lumberCount()
 	return base;
 }
 
-
-# playwith and ok_skill came from some snippet that Bale wrote on the forums, I think. But damned if I know.
-# I also don't think we use these.
-boolean playwith(item toy, string prop) {
-	boolean get(item toy) {
-		return item_amount(toy) > 0
-			|| (closet_amount(toy) > 0 && take_closet(1, toy))
-			|| (can_interact() && storage_amount(toy) > 0 && take_storage(1, toy));
-	}
-	if(get(toy) && (prop == "" || get_property(prop) == "false"))
-		return use(1, toy);
-	return false;
-}
-
-boolean ok_skill(skill sk) {
-	return have_skill(sk) && (can_interact() || my_mp() > (mp_cost(sk) + 5) * 2);
-}
-
-boolean playwith(skill sk, string prop) {
-	boolean need(string prop) { return get_property(prop) == "false" || get_property(prop) == "0"; }
-	if(ok_skill(sk) && need(prop))
-		use_skill(1, sk);
-	return !need(prop);
-}
-
 boolean snojoFightAvailable()
 {
 	if(!get_property("snojoAvailable").to_boolean())
@@ -1356,18 +1341,15 @@ int doNumberology(string goal, boolean doIt)
 	numberwang[75] = "booze";
 	numberwang[99] = "booze";
 
-
 	# seed + ascensions + moonsign * (spleen + level) + turns
 	int melancholy = my_spleen_use() + my_level();
 	int score = my_adventures() + (melancholy * (my_ascensions() + signs[my_sign()]));
 
-	# Under the assumption that the result is % 100:
 	score = score % 100;
 	int i=0;
 	while(i < 100)
 	{
 		int current = (score + (melancholy * i)) % 100;
-		#print("Possible(" + i + "): " + current);
 		if(numberwang[current] == goal)
 		{
 			print("Found option for Numberology: " + current, "blue");
@@ -1376,7 +1358,6 @@ int doNumberology(string goal, boolean doIt)
 				return i;
 			}
 			visit_url("runskillz.php?pwd&action=Skillz&whichskill=144&quantity=1", true);
-			#use_skill($skill[Calculate the Universe]);
 			visit_url("choice.php?whichchoice=1103&pwd=&option=1&num=" + i);
 			return i;
 		}
@@ -1467,7 +1448,6 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 		if(storage_amount(it) < howMany)
 		{
 			print("Can not pull what we don't have. Sorry");
-#			abort("Couldn't pull " + it + " and we suck. Boo");
 			return false;
 		}
 
@@ -1483,7 +1463,8 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 }
 
 //From Bale\'s woods.ash relay script.
-void woods_questStart() {
+void woods_questStart()
+{
 	if((item_amount($item[continuum transfunctioner]) > 0) || (equipped_amount($item[Continuum Transfunctioner]) > 0))
 	{
 		return;
@@ -1493,10 +1474,12 @@ void woods_questStart() {
 	visit_url("choice.php?pwd=&whichchoice=664&option=1&choiceform1=Sure%2C+old+man.++Tell+me+all+about+it.");
 	visit_url("choice.php?pwd=&whichchoice=664&option=1&choiceform1=Against+my+better+judgment%2C+yes.");
 	visit_url("choice.php?pwd=&whichchoice=664&option=1&choiceform1=Er,+sure,+I+guess+so...");
-	if(knoll_available()) {
+	if(knoll_available())
+	{
 		visit_url("place.php?whichplace=forestvillage&preaction=screwquest&action=fv_untinker_quest");
 	}
-	if(knoll_available()) {
+	if(knoll_available())
+	{
 		visit_url("place.php?whichplace=knoll_friendly&action=dk_innabox");
 		visit_url("place.php?whichplace=forestvillage&action=fv_untinker");
 	}
@@ -1552,7 +1535,8 @@ boolean buy_item(item it, int quantity, int maxprice)
 }
 
 //Thanks, Rinn!
-string beerPong(string page) {
+string beerPong(string page)
+{
 	record r {
 		string insult;
 		string retort;
@@ -1576,26 +1560,35 @@ string beerPong(string page) {
 	insults[8].insult="Not a single man has faced me and lived to tell the tale!";
 	insults[8].retort="It only seems that way because you haven't learned to count to one.";
 
-	while (!page.contains_text("victory laps"))
+	while(!page.contains_text("victory laps"))
 	{
 		string old_page = page;
 
-		if (!page.contains_text("Insult Beer Pong")) abort("You don't seem to be playing Insult Beer Pong.");
+		if(!page.contains_text("Insult Beer Pong"))
+		{
+			abort("You don't seem to be playing Insult Beer Pong.");
+		}
 
-		if (page.contains_text("Phooey")) {
+		if(page.contains_text("Phooey"))
+		{
 			print("Looks like something went wrong and you lost.", "lime");
 			return page;
 		}
 
-		foreach i in insults {
-			if (page.contains_text(insults[i].insult)) {
-				if (page.contains_text(insults[i].retort)) {
+		foreach i in insults
+		{
+			if(page.contains_text(insults[i].insult))
+			{
+				if(page.contains_text(insults[i].retort))
+				{
 					print("Found appropriate retort for insult.", "lime");
 					print("Insult: " + insults[i].insult, "lime");
 					print("Retort: " + insults[i].retort, "lime");
 					page = visit_url("beerpong.php?value=Retort!&response=" + i);
 					break;
-				} else {
+				}
+				else
+				{
 					print("Looks like you needed a retort you haven't learned.", "red");
 					print("Insult: " + insults[i].insult, "lime");
 					print("Retort: " + insults[i].retort, "lime");
@@ -1607,7 +1600,10 @@ string beerPong(string page) {
 			}
 		}
 
-		if (page == old_page) abort("String not found. There may be an error with one of the insult or retort strings.");
+		if(page == old_page)
+		{
+			abort("String not found. There may be an error with one of the insult or retort strings.");
+		}
 	}
 
 	print("You won a thrilling game of Insult Beer Pong!", "lime");
@@ -1739,7 +1735,6 @@ boolean haveSpleenFamiliar()
 int [item] cc_get_campground()
 {
 	int [item] campItems = get_campground();
-#	string page = visit_url("campground.php");
 
 	if(campItems contains $item[Ice Harvest])
 	{
@@ -1782,32 +1777,6 @@ int [item] cc_get_campground()
 		campItems[$item[packet of pumpkin seeds]] = 1;
 	}
 
-#	if(contains_text(page, "A Pumpkin Patch"))
-#	{
-#		campItems[$item[packet of pumpkin seeds]] = 1;
-#	}
-#	else if(contains_text(page, "A Peppermint Patch"))
-#	{
-#		campItems[$item[Peppermint Pip Packet]] = 1;
-#	}
-#	else if(contains_text(page, "A Bone Garden"))
-#	{
-#		campItems[$item[packet of dragon\'s teeth]] = 1;
-#	}
-#	else if(contains_text(page, "A Beer Garden"))
-#	{
-#		campItems[$item[packet of beer seeds]] = 1;
-#	}
-#	else if(contains_text(page, "A Winter Garden"))
-#	{
-#		campItems[$item[packet of winter seeds]] = 1;
-#	}
-
-#	if(contains_text(page, "Your Haunted Doghouse"))
-#	{
-#		campItems[$item[Haunted Doghouse]] = 1;
-#	}
-
 	if(!(campItems contains $item[Dramatic&trade; range]) && get_property("cc_haveoven").to_boolean())
 	{
 		campItems[$item[Dramatic&trade; range]] = 1;
@@ -1817,11 +1786,12 @@ int [item] cc_get_campground()
 }
 
 //Thanks, Rinn!
-string tryBeerPong() {
+string tryBeerPong()
+{
 	string page = visit_url("adventure.php?snarfblat=157");
 	if(contains_text(page, "Arrr You Man Enough?"))
 	{
-		page = beerPong( visit_url( "choice.php?pwd&whichchoice=187&option=1" ) );
+		page = beerPong(visit_url("choice.php?pwd&whichchoice=187&option=1"));
 	}
 	return page;
 }
@@ -1995,6 +1965,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Human-Machine Hybrid]:			useItem = $item[Gene Tonic: Construct];			break;
 	case $effect[Human-Mer-kin Hybrid]:			useItem = $item[Gene Tonic: Mer-kin];			break;
 	case $effect[Human-Pirate Hybrid]:			useItem = $item[Gene Tonic: Pirate];			break;
+	case $effect[Hyphemariffic]:				useItem = $item[Black Eyedrops];				break;
 	case $effect[Industrial Strength Starch]:	useItem = $item[Industrial Strength Starch];	break;
 	case $effect[Insulated Trousers]:			useItem = $item[Cold Powder];					break;
 	case $effect[Intimidating Mien]:			useSkill = $skill[Intimidating Mien];			break;
@@ -2119,6 +2090,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Spiritually Awake]:			useItem = $item[Holy Spring Water];				break;
 	case $effect[Spiritually Aware]:			useItem = $item[Spirit Beer];					break;
 	case $effect[Spiritually Awash]:			useItem = $item[Sacramental Wine];				break;
+	case $effect[Spooky Hands]:					useItem = $item[Lotion of Spookiness];			break;
 	case $effect[Spookypants]:					useItem = $item[Spooky Powder];					break;
 	case $effect[Springy Fusilli]:				useSkill = $skill[Springy Fusilli];				break;
 	case $effect[Squatting and Thrusting]:		useItem = $item[Squat-Thrust Magazine];			break;

@@ -881,23 +881,23 @@ boolean cc_cheesePostCS()
 	}
 	use_barrels();
 
-	if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean() && get_property("cc_breakstone").to_boolean())
+	if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean() && get_property("cc_pvpEnable").to_boolean())
 	{
 		set_property("choiceAdventure595", 1);
 		use(1, $item[CSA fire-starting kit]);
 	}
 
-	if((item_amount($item[5-hour acrimony]) == 0) && get_property("cc_breakstone").to_boolean())
+	if((item_amount($item[5-hour acrimony]) == 0) && get_property("cc_pvpEnable").to_boolean())
 	{
 		if(!buyUpTo(1, $item[5-Hour Acrimony], 5000))
 		{
 			print("Could not buy 5-Hour Acrimony, price too high", "red");
 		}
 	}
-	if(get_property("cc_breakstone").to_boolean())
+	if(get_property("cc_pvpEnable").to_boolean())
 	{
 		cli_execute("drink 5-hour acrimony");
-		cli_execute("pvp loot 1");
+		cli_execute("pvp loot 4");
 	}
 	cli_execute("cc_ascend");
 	return true;

@@ -209,7 +209,7 @@ boolean deck_useScheme(string action)
 		autosell(1, $item[1952 Mickey Mantle Card]);
 		return true;
 	}
-	if(action == "sc2")
+	if((action == "sc2") || (action == "hc2"))
 	{
 		switch(my_class())
 		{
@@ -249,8 +249,17 @@ boolean deck_useScheme(string action)
 		deck_cheat("stone wool");
 		return true;
 	}
-	if(action == "HC3")
+	if(action == "hc3")
 	{
+		switch(my_class())
+		{
+		case $class[Seal Clubber]:		deck_cheat("Lead Pipe");	break;
+		case $class[Turtle Tamer]:		deck_cheat("Rope");			break;
+		case $class[Pastamancer]:		deck_cheat("Wrench");		break;
+		case $class[Sauceror]:			deck_cheat("Candlestick");	break;
+		case $class[Disco Bandit]:		deck_cheat("Knife");		break;
+		case $class[Accordion Thief]:	deck_cheat("Revolver");		break;
+		}
 		deck_cheat("key");
 		return true;
 	}

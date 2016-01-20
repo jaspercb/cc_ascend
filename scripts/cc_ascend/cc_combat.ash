@@ -791,16 +791,6 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	#Only Batter Up
-	if((!contains_text(combatState, "batter up!")) && (have_skill($skill[batter up!])) && (my_fury() >= 5))
-	{
-		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Drunk Goat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Senile Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
-		{
-			set_property("cc_combatHandler", combatState + "(batter up!)");
-			handleTracker(enemy, $skill[batter up!], "cc_banishes");
-			return "skill batter up!";
-		}
-	}
 	#Snokebomb replace Batter Up! pass 
 	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
 	{
@@ -809,6 +799,17 @@ string cc_combatHandler(int round, string opp, string text)
 			set_property("cc_combatHandler", combatState + "(Snokebomb)");
 			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
 			return "skill " + $skill[Snokebomb];
+		}
+	}
+
+	#Only Batter Up
+	if((!contains_text(combatState, "batter up!")) && (have_skill($skill[batter up!])) && (my_fury() >= 5))
+	{
+		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Drunk Goat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Senile Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(batter up!)");
+			handleTracker(enemy, $skill[batter up!], "cc_banishes");
+			return "skill batter up!";
 		}
 	}
 
