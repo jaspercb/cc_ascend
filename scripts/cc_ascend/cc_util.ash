@@ -4,6 +4,10 @@ import <cc_ascend/cc_chateaumantegna.ash>
 import <cc_ascend/cc_ascend_header.ash>
 
 // Public Prototypes
+void debugMaximize(string req, int meat);			//This function will be removed.
+boolean ccMaximize(string req, boolean simulate);
+boolean ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate);
+aggregate ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate, boolean includeEquip);
 boolean snojoFightAvailable();
 int doNumberology(string goal);
 int doNumberology(string goal, boolean doIt);
@@ -106,6 +110,200 @@ string safeString(item input);
 string safeString(monster input);
 
 // Function Definitions
+
+boolean ccMaximize(string req, boolean simulate)
+{
+	if(!simulate)
+	{
+		debugMaximize(req, 0);
+	}
+	return maximize(req, simulate);
+}
+
+boolean ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate)
+{
+	if(!simulate)
+	{
+		debugMaximize(req, maxPrice);
+	}
+	return maximize(req, maxPrice, priceLevel, simulate);
+}
+
+aggregate ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate, boolean includeEquip)
+{
+	if(!simulate)
+	{
+		debugMaximize(req, maxPrice);
+	}
+	return maximize(req, maxPrice, priceLevel, simulate, includeEquip);
+}
+
+void debugMaximize(string req, int meat)
+{
+	if(req.index_of("-tie") == -1)
+	{
+		req = req + " -tie";
+		print("Added -tie to maximize", "red");
+	}
+	print("Desired maximize: " + req, "blue");
+	boolean[effect] acquired;
+	acquired[$effect[none]] = true;
+	foreach it, entry in maximize(req, 0, 0, true, true)
+	{
+		string output = "";
+		if(entry.skill != $skill[none])
+		{
+			output += "Skill(" + entry.skill + ") ";
+		}
+		if(entry.command != "")
+		{
+			output += "Command(" + entry.command + ") ";
+		}
+		string display = "Display(" + entry.display + ") ";
+		if(entry.item != $item[none])
+		{
+			output += "Item(" + entry.item + ") ";
+		}
+		if(entry.effect != $effect[none])
+		{
+			output += "Effect(" + entry.effect + ") ";
+		}
+		output += "Score(" + entry.score + ")";
+
+
+		boolean doThis = true;
+		if(entry.score <= 0)
+		{
+			doThis = false;
+		}
+		if(entry.command.index_of("uneffect ") == 0)
+		{
+			doThis = false;
+		}
+		if(entry.display.index_of("uneffect ") == 0)
+		{
+			doThis = false;
+		}
+		if(entry.skill != $skill[none])
+		{
+			if(turns_per_cast(entry.skill) <= 0)
+			{
+				doThis = false;
+			}
+			if(adv_cost(entry.skill) > 0)
+			{
+				doThis = false;
+			}
+			if(lightning_cost(entry.skill) > my_lightning())
+			{
+				doThis = false;
+			}
+			if(mp_cost(entry.skill) > my_mp())
+			{
+				doThis = false;
+			}
+			if(rain_cost(entry.skill) > my_rain())
+			{
+				doThis = false;
+			}
+			if(soulsauce_cost(entry.skill) > my_soulsauce())
+			{
+				doThis = false;
+			}
+			if(thunder_cost(entry.skill) > my_thunder())
+			{
+				doThis = false;
+			}
+		}
+		else
+		{
+			//If not a skill, is it an item?
+			if(entry.item != $item[none])
+			{
+				if(entry.display.index_of("drink ") == 0)
+				{
+					doThis = false;
+				}
+				if(entry.display.index_of("eat ") == 0)
+				{
+					doThis = false;
+				}
+				if(entry.display.index_of("play ") == 0)
+				{
+					doThis = false;
+				}
+				if(entry.display.index_of("bind ") == 0)
+				{
+					doThis = false;
+				}
+#				if(entry.display.index_of("...or ") == 0)
+#				{
+#					doThis = false;
+#				}
+
+				//Mafia likes to recommend pirate Ephemera that we can not buy.
+				if(($items[Pirate Tract, Pirate Pamphlet, Pirate Brochure] contains entry.item) && ((my_ascensions() != get_property("lastPirateEphemeraReset").to_int()) || (entry.item != to_item(get_property("lastPirateEphemera"))) ))
+				{
+					doThis = false;
+				}
+
+				if(entry.display.index_of("make ") == 0)
+				{
+					//We can this make item.
+					doThis = false;
+				}
+				if(entry.display.index_of("use ") == 0)
+				{
+					//We have this item
+				}
+				if(entry.display.index_of("buy ") == 0)
+				{
+					//We can buy this item
+					if(npc_price(entry.item) > meat)
+					{
+						doThis = false;
+					}
+				}
+			}
+			else
+			{
+				//Not a skill or item, what is it?
+				if(entry.display.index_of("telescope ") == 0)
+				{
+
+				}
+				else
+				{
+					doThis = false;
+				}
+			}
+		}
+
+		if((acquired contains entry.effect) && (entry.effect != $effect[none]))
+		{
+			dothis = false;
+		}
+		if((entry.effect != $effect[none]) && (have_effect(entry.effect) > 0))
+		{
+			doThis = false;
+		}
+
+
+		if(doThis)
+		{
+			#use_skill(1, entry.skill);
+			acquired[entry.effect] = true;
+			output = "USE: " + output;
+		}
+		else
+		{
+			output = "REJECT: " + output;
+		}
+		print(output, "blue");
+		print(display, "green");
+	}
+}
+
 
 string safeString(string input)
 {
@@ -1700,6 +1898,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Armor-Plated]:					useItem = $item[Bent Scrap Metal];				break;
 	case $effect[Ashen Burps]:					useItem = $item[ash soda];						break;
 	case $effect[Astral Shell]:					useSkill = $skill[Astral Shell];				break;
+	case $effect[Balls of Ectoplasm]:			useItem = $item[Ectoplasmic Orbs];				break;
 	case $effect[Big Meat Big Prizes]:			useItem = $item[Meat-Inflating Powder];			break;
 	case $effect[Biologically Shocked]:			useItem = $item[glowing syringe];				break;
 	case $effect[Bitterskin]:					useItem = $item[Bitter Pill];					break;

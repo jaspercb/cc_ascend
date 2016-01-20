@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16602;
+since r16622;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -483,11 +483,11 @@ void maximize_hedge()
 	element third = ns_hedge3();
 	if((first == $element[none]) || (second == $element[none]) || (third == $element[none]))
 	{
-		maximize("all res -equip snow suit", 2500, 0, false);
+		ccMaximize("all res -equip snow suit", 2500, 0, false);
 	}
 	else
 	{
-		maximize(to_string(first) + " res, " + to_string(second) + " res, " + to_string(third) + " res -equip snow suit", 2500, 0, false);
+		ccMaximize(to_string(first) + " res, " + to_string(second) + " res, " + to_string(third) + " res -equip snow suit", 2500, 0, false);
 	}
 }
 
@@ -3223,11 +3223,11 @@ boolean L13_towerNSTower()
 		}
 		if(get_property("cc_100familiar").to_boolean())
 		{
-			maximize("meat drop, -equip snow suit", 1500, 0, false);
+			ccMaximize("meat drop, -equip snow suit", 1500, 0, false);
 		}
 		else
 		{
-			maximize("meat drop, -equip snow suit, switch Hobo Monkey, switch Grimstone Golem, switch Fist Turkey, switch Unconscious Collective, switch Golden Monkey, switch Angry Jung Man, switch Leprechaun", 1500, 0, false);
+			ccMaximize("meat drop, -equip snow suit, switch Hobo Monkey, switch Grimstone Golem, switch Fist Turkey, switch Unconscious Collective, switch Golden Monkey, switch Angry Jung Man, switch Leprechaun", 1500, 0, false);
 		}
 		if((my_class() == $class[Seal Clubber]) && (item_amount($item[Meat Tenderizer is Murder]) > 0))
 		{
@@ -3289,7 +3289,7 @@ boolean L13_towerNSTower()
 				}
 			}
 			buffMaintain($effect[Song of Sauce], 0, 1, 1);
-			maximize("myst -equip snow suit", 1500, 0, false);
+			ccMaximize("myst -equip snow suit", 1500, 0, false);
 			if(equipped_item($slot[acc1]) == $item[hand in glove])
 			{
 				equip($slot[acc1], $item[Pirate Fledges]);
@@ -3540,11 +3540,11 @@ boolean L13_towerNSContests()
 			case 1:
 				if(get_property("cc_100familiar").to_boolean())
 				{
-					maximize("init, -equip snow suit", 1500, 0, false);
+					ccMaximize("init, -equip snow suit", 1500, 0, false);
 				}
 				else
 				{
-					maximize("init, -equip snow suit, switch xiblaxian holo-companion, switch oily woim ", 1500, 0, false);
+					ccMaximize("init, -equip snow suit, switch xiblaxian holo-companion, switch oily woim ", 1500, 0, false);
 				}
 				if(have_familiar($familiar[Xiblaxian Holo-Companion]))
 				{
@@ -3565,9 +3565,9 @@ boolean L13_towerNSContests()
 		{
 			switch(ns_crowd2())
 			{
-			case $stat[moxie]:		maximize("moxie -equip snow suit", 1500, 0, false);			break;
-			case $stat[muscle]:		maximize("muscle -equip snow suit", 1500, 0, false);			break;
-			case $stat[mysticality]:maximize("myst -equip snow suit", 1500, 0, false);			break;
+			case $stat[moxie]:		ccMaximize("moxie -equip snow suit", 1500, 0, false);			break;
+			case $stat[muscle]:		ccMaximize("muscle -equip snow suit", 1500, 0, false);			break;
+			case $stat[mysticality]:ccMaximize("myst -equip snow suit", 1500, 0, false);			break;
 			}
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=2", true);
@@ -3578,11 +3578,11 @@ boolean L13_towerNSContests()
 		{
 			switch(ns_crowd3())
 			{
-			case $element[cold]:	maximize("cold dmg -equip snow suit", 1500, 0, false);			break;
-			case $element[hot]:		maximize("hot dmg -equip snow suit", 1500, 0, false);			break;
-			case $element[sleaze]:	maximize("sleaze dmg -equip snow suit", 1500, 0, false);			break;
-			case $element[stench]:	maximize("stench dmg -equip snow suit", 1500, 0, false);			break;
-			case $element[spooky]:	maximize("spooky dmg -equip snow suit", 1500, 0, false);			break;
+			case $element[cold]:	ccMaximize("cold dmg -equip snow suit", 1500, 0, false);		break;
+			case $element[hot]:		ccMaximize("hot dmg -equip snow suit", 1500, 0, false);			break;
+			case $element[sleaze]:	ccMaximize("sleaze dmg -equip snow suit", 1500, 0, false);		break;
+			case $element[stench]:	ccMaximize("stench dmg -equip snow suit", 1500, 0, false);		break;
+			case $element[spooky]:	ccMaximize("spooky dmg -equip snow suit", 1500, 0, false);		break;
 			}
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=3", true);
@@ -7091,7 +7091,7 @@ boolean LX_craftAcquireItems()
 	{
 		if(!possessEquipment($item[Turtle Wax Shield]) && (item_amount($item[Turtle Wax]) > 0))
 		{
-			visit_url("inv_use.php?pwd=&which=3&whichitem=3914");
+			use(1, $item[Turtle Wax]);
 		}
 		if(have_skill($skill[Armorcraftiness]) && !possessEquipment($item[Painted Shield]) && (my_meat() > 3500) && (item_amount($item[Painted Turtle]) > 0) && (item_amount($item[Tenderizing Hammer]) > 0))
 		{
@@ -7945,7 +7945,7 @@ boolean L9_aBooPeak()
 			lihcface = "-equip lihc face";
 		}
 
-		maximize("spooky res, cold res " + lihcface + " -equip snow suit", 0, 0, true);
+		ccMaximize("spooky res, cold res " + lihcface + " -equip snow suit", 0, 0, true);
 		int coldResist = numeric_modifier("Generated:_spec", "cold resistance");
 		int spookyResist = numeric_modifier("Generated:_spec", "spooky resistance");
 		int hpDifference = numeric_modifier("Generated:_spec", "Maximum HP") - numeric_modifier("Maximum HP");
@@ -7963,6 +7963,10 @@ boolean L9_aBooPeak()
 		}
 
 		if((item_amount($item[Spooky Powder]) > 0) && (have_effect($effect[Spookypants]) == 0))
+		{
+			spookyResist = spookyResist + 1;
+		}
+		if((item_amount($item[Ectoplasmic Orbs]) > 0) && (have_effect($effect[Balls of Ectoplasm]) == 0))
 		{
 			spookyResist = spookyResist + 1;
 		}
@@ -8043,7 +8047,7 @@ boolean L9_aBooPeak()
 		if(doThisBoo)
 		{
 			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
-			maximize("spooky res, cold res " + lihcface + " -equip snow suit", 0, 0, false);
+			ccMaximize("spooky res, cold res " + lihcface + " -equip snow suit", 0, 0, false);
 			adjustEdHat("ml");
 
 			if(item_amount($item[ghost of a necklace]) > 0)
@@ -8054,6 +8058,7 @@ boolean L9_aBooPeak()
 			buffMaintain($effect[Elemental Saucesphere], 10, 1, 1);
 			buffMaintain($effect[Spookypants], 0, 1, 1);
 			buffMaintain($effect[Insulated Trousers], 0, 1, 1);
+			buffMaintain($effect[Balls of Ectoplasm], 0, 1, 1);
 
 #			if(my_class() == $class[Ed])
 #			{
