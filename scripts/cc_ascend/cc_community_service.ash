@@ -502,6 +502,16 @@ string cs_combatNormal(int round, string opp, string text)
 	phylum current = to_phylum(get_property("dnaSyringe"));
 	phylum type = monster_phylum(enemy);
 
+	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
+	{
+		if($monsters[Swarm of Skulls] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(Snokebomb)");
+			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
+			return "skill " + $skill[Snokebomb];
+		}
+	}
+
 	if((my_location() == $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]) && !contains_text(combatState, "love gnats"))
 	{
 		combatState = combatState + "(love gnats)(love stinkbug)(love mosquito)";
@@ -551,6 +561,15 @@ string cs_combatNormal(int round, string opp, string text)
 	{
 		set_property("cc_combatHandler", combatState + "(love mosquito)");
 		return "skill summon love mosquito";
+	}
+
+
+	if((!contains_text(combatState, "shattering punch")) && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && !isFreeMonster(enemy) && !enemy.boss && (get_property("_shatteringPunchUsed").to_int() < 3))
+	{
+		set_property("cc_combatHandler", combatState + "(shattering punch)");
+		handleTracker(enemy, $skill[shattering punch], "cc_instakill");
+		return "skill " + $skill[shattering punch];
+
 	}
 
 	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 32))
@@ -664,8 +683,24 @@ string cs_combatLTB(int round, string opp, string text)
 		}
 		return "item louder than bomb";
 	}
+	if((!contains_text(combatState, "tennis ball")) && (item_amount($item[Tennis Ball]) > 0))
+	{
+		set_property("cc_combatHandler", combatState + "(tennis ball)");
 
-	abort("Could not LTB our Giant Growth, uh oh.");
+		if((item_amount($item[Seal Tooth]) > 0) && have_skill($skill[Ambidextrous Funkslinging]))
+		{
+			#return "item louder than bomb";
+			return "item tennis ball, seal tooth";
+		}
+		return "item tennis ball";
+	}
+
+	if((my_location() == $location[The Deep Machine Tunnels]) || (my_location() == $location[The X-32-F Combat Training Snowman]))
+	{
+		return cs_combatNormal(round, opp, text);
+	}
+
+	abort("Could not free kill our Giant Growth, uh oh.");
 	return "fail";
 }
 
@@ -1324,7 +1359,6 @@ boolean LA_cs_communityService()
 						{
 							if(handleFaxMonster("black crayon elf"))
 							{
-								ccAdv(1, $location[Noob Cave]);
 								return true;
 							}
 						}
@@ -1547,6 +1581,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
 			buffMaintain($effect[A Few Extra Pounds], 10, 1, 1);
 
+			buffMaintain($effect[Lycanthropy\, Eh?], 0, 1, 1);
 			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
 			buffMaintain($effect[Phorcefullness], 0, 1, 1);
@@ -1715,6 +1750,8 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Tomato Power], 0, 1, 1);
 			buffMaintain($effect[Pill Power], 0, 1, 1);
 			buffMaintain($effect[Glittering Eyelashes], 0, 1, 1);
+			buffMaintain($effect[Liquidy Smoky], 0, 1, 1);
+			buffMaintain($effect[OMG WTF], 0, 1, 1);
 			buffMaintain($effect[Purple Reign], 0, 1, 50);
 			buffMaintain($effect[Purple Reign], 0, 1, 50);
 			buffMaintain($effect[Purple Reign], 0, 1, 50);
@@ -1776,10 +1813,12 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			buffMaintain($effect[Tomato Power], 0, 1, 1);
 			buffMaintain($effect[Pulchritudinous Pressure], 0, 1, 1);
+			buffMaintain($effect[Lycanthropy\, Eh?], 0, 1, 1);
 			buffMaintain($effect[Superhuman Sarcasm], 0, 1, 1);
 			buffMaintain($effect[Notably Lovely], 0, 1, 1);
 			buffMaintain($effect[Pill Power], 0, 1, 1);
 			buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
+			buffMaintain($effect[Liquidy Smoky], 0, 1, 1);
 			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
 			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
 			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);

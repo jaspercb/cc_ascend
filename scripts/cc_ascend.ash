@@ -3543,9 +3543,30 @@ boolean L13_towerNSContests()
 	{
 		if(get_property("nsContestants1").to_int() == -1)
 		{
+			if(!get_property("_grimBuff").to_boolean())
+			{
+				cli_execute("grim init");
+			}
+			if(!get_property("telescopeLookedHigh").to_boolean())
+			{
+				cli_execute("telescope high");
+			}
 			switch(ns_crowd1())
 			{
 			case 1:
+				while((my_mp() < 160) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+				{
+					doRest();
+				}
+				buffMaintain($effect[All Fired Up], 0, 1, 1);
+				buffMaintain($effect[Well-Swabbed Ear], 0, 1, 1);
+				buffMaintain($effect[Ticking Clock], 0, 1, 1);
+				buffMaintain($effect[Sugar Rush], 0, 1, 1);
+				buffMaintain($effect[Sepia Tan], 0, 1, 1);
+				buffMaintain($effect[The Glistening], 0, 1, 1);
+				buffMaintain($effect[Cletus\'s Canticle of Celerity], 10, 1, 1);
+				buffMaintain($effect[Suspicious Gaze], 10, 1, 1);
+				buffMaintain($effect[Song of Slowness], 100, 1, 1);
 				if(get_property("cc_100familiar").to_boolean())
 				{
 					ccMaximize("init, -equip snow suit", 1500, 0, false);
@@ -3564,6 +3585,7 @@ boolean L13_towerNSContests()
 				}
 				break;
 			}
+
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=1", true);
 			visit_url("main.php");
@@ -3571,12 +3593,66 @@ boolean L13_towerNSContests()
 		}
 		if(get_property("nsContestants2").to_int() == -1)
 		{
+			while((my_mp() < 150) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
 			switch(ns_crowd2())
 			{
-			case $stat[moxie]:		ccMaximize("moxie -equip snow suit", 1500, 0, false);			break;
-			case $stat[muscle]:		ccMaximize("muscle -equip snow suit", 1500, 0, false);			break;
-			case $stat[mysticality]:ccMaximize("myst -equip snow suit", 1500, 0, false);			break;
+			case $stat[moxie]:
+				buffMaintain($effect[Pill Power], 0, 1, 1);
+				buffMaintain($effect[Newt Gets In Your Eyes], 0, 1, 1);
+				buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
+				buffMaintain($effect[Liquidy Smoky], 0, 1, 1);
+				buffMaintain($effect[Notably Lovely], 0, 1, 1);
+				buffMaintain($effect[Spiky Hair], 0, 1, 1);
+				buffMaintain($effect[Sugar Rush], 0, 1, 1);
+				buffMaintain($effect[Lycanthropy\, Eh?], 0, 1, 1);
+				buffMaintain($effect[Radiating Black Body&trade;], 0, 1, 1);
+
+				buffMaintain($effect[Disco Smirk], 10, 1, 1);
+				buffMaintain($effect[Song of Bravado], 100, 1, 1);
+				buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
+				ccMaximize("moxie -equip snow suit", 1500, 0, false);
+				break;
+			case $stat[muscle]:
+				buffMaintain($effect[Pill Power], 0, 1, 1);
+				buffMaintain($effect[Temporary Lycanthropy], 0, 1, 1);
+				buffMaintain($effect[Feroci Tea], 0, 1, 1);
+				buffMaintain($effect[Extreme Muscle Relaxation], 0, 1, 1);
+				buffMaintain($effect[Woad Warrior], 0, 1, 1);
+				buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
+				buffMaintain($effect[Football Eyes], 0, 1, 1);
+				buffMaintain($effect[Rainy Soul Miasma], 0, 1, 1);
+				buffMaintain($effect[Browbeaten], 0, 1, 1);
+				buffMaintain($effect[Sugar Rush], 0, 1, 1);
+				buffMaintain($effect[Spiky Hair], 0, 1, 1);
+				buffMaintain($effect[Lycanthropy\, Eh?], 0, 1, 1);
+				buffMaintain($effect[Steroid Boost], 0, 1, 1);
+
+				buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
+				buffMaintain($effect[Song of Bravado], 100, 1, 1);
+				buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
+				ccMaximize("muscle -equip snow suit", 1500, 0, false);
+				break;
+			case $stat[mysticality]:
+				buffMaintain($effect[Pill Power], 0, 1, 1);
+				buffMaintain($effect[Seeing Colors], 0, 1, 1);
+				buffMaintain($effect[Glittering Eyelashes], 0, 1, 1);
+				buffMaintain($effect[Liquidy Smoky], 0, 1, 1);
+				buffMaintain($effect[Rainy Soul Miasma], 0, 1, 1);
+				buffMaintain($effect[OMG WTF], 0, 1, 1);
+				buffMaintain($effect[Rosewater Mark], 0, 1, 1);
+				buffMaintain($effect[Erudite], 0, 1, 1);
+				buffMaintain($effect[Far Out], 0, 1, 1);
+
+				buffMaintain($effect[The Magical Mojomuscular Melody], 10, 1, 1);
+				buffMaintain($effect[Song of Bravado], 100, 1, 1);
+				buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
+				ccMaximize("myst -equip snow suit", 1500, 0, false);
+				break;
 			}
+
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=2", true);
 			visit_url("main.php");
@@ -3584,14 +3660,44 @@ boolean L13_towerNSContests()
 		}
 		if(get_property("nsContestants3").to_int() == -1)
 		{
+			while((my_mp() < 125) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			{
+				doRest();
+			}
+			buffMaintain($effect[All Glory To the Toad], 0, 1, 1);
 			switch(ns_crowd3())
 			{
-			case $element[cold]:	ccMaximize("cold dmg -equip snow suit", 1500, 0, false);		break;
-			case $element[hot]:		ccMaximize("hot dmg -equip snow suit", 1500, 0, false);			break;
-			case $element[sleaze]:	ccMaximize("sleaze dmg -equip snow suit", 1500, 0, false);		break;
-			case $element[stench]:	ccMaximize("stench dmg -equip snow suit", 1500, 0, false);		break;
-			case $element[spooky]:	ccMaximize("spooky dmg -equip snow suit", 1500, 0, false);		break;
+			case $element[cold]:
+				buffMaintain($effect[Cold Hard Skin], 0, 1, 1);
+				buffMaintain($effect[Frostbeard], 15, 1, 1);
+				buffMaintain($effect[Icy Glare], 10, 1, 1);
+				buffMaintain($effect[Song of the North], 100, 1, 1);
+				ccMaximize("cold dmg -equip snow suit", 1500, 0, false);
+				break;
+			case $element[hot]:
+				buffMaintain($effect[Flamibili Tea], 0, 1, 1);
+				buffMaintain($effect[Human-Demon Hybrid], 0, 1, 1);
+				buffMaintain($effect[Lit Up], 0, 1, 1);
+				buffMaintain($effect[Pyromania], 15, 1, 1);
+				buffMaintain($effect[Song of Sauce], 100, 1, 1);
+				ccMaximize("hot dmg -equip snow suit", 1500, 0, false);
+				break;
+			case $element[sleaze]:
+				ccMaximize("sleaze dmg -equip snow suit", 1500, 0, false);
+				break;
+			case $element[stench]:
+				buffMaintain($effect[Drenched With Filth], 0, 1, 1);
+				buffMaintain($effect[Stinky Hands], 0, 1, 1);
+				buffMaintain($effect[Rotten Memories], 15, 1, 1);
+				ccMaximize("stench dmg -equip snow suit", 1500, 0, false);
+				break;
+			case $element[spooky]:
+				buffMaintain($effect[Dirge of Dreadfulness], 10, 1, 1);
+				buffMaintain($effect[Snarl of the Timberwolf], 10, 1, 1);
+				ccMaximize("spooky dmg -equip snow suit", 1500, 0, false);
+				break;
 			}
+
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=3", true);
 			visit_url("main.php");
