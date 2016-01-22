@@ -3881,12 +3881,17 @@ boolean L11_hiddenCity()
 					{
 						if((inebriety_limit() - my_inebriety()) > 0)
 						{
+							buyUpTo(1, $item[Cursed Punch]);
+							if(item_amount($item[Cursed Punch]) == 0)
+							{
+								abort("Could not acquire Cursed Punch, unable to deal with Hidden Apartment Properly");
+							}
 							if(my_mp() > 50)
 							{
 								shrugAT();
 								buffMaintain($effect[Ode to Booze], 50, 1, 1);
 							}
-							buyUpTo(1, $item[Cursed Punch]);
+
 							drink(1, $item[Cursed Punch]);
 						}
 						else
@@ -6808,10 +6813,19 @@ boolean L8_trapperGround()
 
 boolean LX_guildUnlock()
 {
-	if(!in_hardcore() || !isGuildClass() || guild_store_available())
+	if(!in_hardcore())
+
+	{
+		if(my_ascensions() >= 125)
+		{
+			return false;
+		}
+	}
+	if(!isGuildClass() || guild_store_available())
 	{
 		return false;
 	}
+	print("Let's unlock the guild.", "green");
 	location loc = $location[None];
 	item goal = $item[none];
 	switch(my_primestat())

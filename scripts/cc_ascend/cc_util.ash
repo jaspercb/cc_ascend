@@ -15,7 +15,7 @@ boolean handleBarrelFullOfBarrels();
 int solveCookie();
 boolean use_barrels();
 int ccCraft(string mode, int count, item item1, item item2);
-int [item] cc_get_campground();
+int[item] cc_get_campground();
 boolean haveSpleenFamiliar();
 float elemental_resist_value(int resistance);
 float elemental_resist_value(element resistance);
@@ -41,6 +41,7 @@ void tootGetMeat();
 boolean ovenHandle();
 boolean handleFaxMonster(string enemy);
 boolean handleFaxMonster(monster enemy);
+boolean handleFaxMonster(monster enemy, boolean fightIt);
 boolean isGuildClass();
 boolean handleRainDoh();
 boolean handleSpookyPutty();
@@ -965,6 +966,11 @@ boolean handleFaxMonster(string enemy)
 
 boolean handleFaxMonster(monster enemy)
 {
+	return handleFaxMonster(enemy, true);
+}
+
+boolean handleFaxMonster(monster enemy, boolean fightIt)
+{
 	if(get_property("_photocopyUsed").to_boolean())
 	{
 		return false;
@@ -986,7 +992,11 @@ boolean handleFaxMonster(monster enemy)
 		print("Could not acquire fax monster", "red");
 		return false;
 	}
-	return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=4873", $location[Noob Cave]);
+	if(fightIt)
+	{
+		return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=4873", $location[Noob Cave]);
+	}
+	return true;
 }
 
 
