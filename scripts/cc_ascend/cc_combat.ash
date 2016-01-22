@@ -1110,7 +1110,7 @@ string cc_combatHandler(int round, string opp, string text)
 				costMinor = mp_cost($skill[Utensil Twist]);
 				costMajor = mp_cost($skill[Utensil Twist]);
 			}
-			else if(enemy.physical_resistance <= 80)
+			else if((enemy.physical_resistance <= 80) && (attackMinor != ("skill " + $skill[Saucestorm])))
 			{
 				attackMinor = "skill " + $skill[Utensil Twist];
 				costMinor = mp_cost($skill[Utensil Twist]);
@@ -1257,6 +1257,11 @@ string cc_combatHandler(int round, string opp, string text)
 				set_property("cc_combatHandler", combatState + "(love stinkbug)");
 				return "skill " + $skill[Summon Love Stinkbug];
 			}
+		}
+
+		if((my_location() == $location[The X-32-F Combat Training Snowman]) && contains_text(text, "Cattle Prod") && (my_mp() >= costMajor))
+		{
+			return attackMajor;
 		}
 
 		if((monster_level_adjustment() > 150) && (my_mp() >= costMajor))

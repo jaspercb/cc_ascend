@@ -42,6 +42,7 @@ boolean LX_bitchinMeatcar();
 boolean LX_meatMaid();
 boolean LX_craftAcquireItems();
 boolean LX_freeCombats();
+boolean LX_dolphinKingMap();
 
 boolean Lsc_flyerSeals();
 

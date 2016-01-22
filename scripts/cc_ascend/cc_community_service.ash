@@ -1143,14 +1143,7 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if(item_amount($item[Dolphin King\'s Map]) > 0)
-			{
-				buyUpTo(1, $item[Snorkel]);
-				item oldHat = equipped_item($slot[hat]);
-				equip($item[Snorkel]);
-				use(1, $item[Dolphin King\'s Map]);
-				equip(oldHat);
-			}
+			LX_dolphinKingMap();
 
 			if(my_ascensions() > get_property("lastGuildStoreOpen").to_int())
 			{

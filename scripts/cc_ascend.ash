@@ -6345,6 +6345,23 @@ boolean Lsc_flyerSeals()
 	return false;
 }
 
+boolean LX_dolphinKingMap()
+{
+	if(item_amount($item[Dolphin King\'s Map]) > 0)
+	{
+		if(possessEquipment($item[Snorkel]) || (my_meat() >= npc_price($item[Snorkel])))
+		{
+			buyUpTo(1, $item[Snorkel]);
+			item oldHat = equipped_item($slot[hat]);
+			equip($item[Snorkel]);
+			use(1, $item[Dolphin King\'s Map]);
+			equip(oldHat);
+			return true;
+		}
+	}
+	return false;
+}
+
 boolean L0_handleRainDoh()
 {
 	if(item_amount($item[rain-doh box full of monster]) == 0)
@@ -7292,6 +7309,8 @@ boolean LX_craftAcquireItems()
 		use(1, $item[Jolly Roger Charrrm Bracelet]);
 		use(1, $item[Booty Chest Charrrm]);
 	}
+
+	LX_dolphinKingMap();
 
 	return false;
 }
