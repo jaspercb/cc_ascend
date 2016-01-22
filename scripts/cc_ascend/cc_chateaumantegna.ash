@@ -48,7 +48,9 @@ boolean chateaumantegna_havePainting()
 	return false;
 }
 
-boolean chateaumantegna_usePainting()
+
+
+boolean chateaumantegna_usePainting(string option)
 {
 	if(!chateaumantegna_available())
 	{
@@ -105,11 +107,16 @@ boolean chateaumantegna_usePainting()
 	}
 	if(chateaumantegna_available())
 	{
-		return ccAdvBypass("place.php?whichplace=chateau&action=chateau_painting", $location[Noob Cave]);
+		return ccAdvBypass("place.php?whichplace=chateau&action=chateau_painting", $location[Noob Cave], option);
 #		visit_url("place.php?whichplace=chateau&action=chateau_painting");
 #		return contains_text(visit_url("main.php"), "Combat");
 	}
 	return false;
+}
+
+boolean chateaumantegna_usePainting()
+{
+	return chateaumantegna_usePainting("");
 }
 
 boolean[item] chateaumantegna_decorations()

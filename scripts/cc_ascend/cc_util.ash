@@ -39,9 +39,10 @@ string statCard();
 effect whatStatSmile();
 void tootGetMeat();
 boolean ovenHandle();
-boolean handleFaxMonster(string enemy);
 boolean handleFaxMonster(monster enemy);
+boolean handleFaxMonster(monster enemy, string option);
 boolean handleFaxMonster(monster enemy, boolean fightIt);
+boolean handleFaxMonster(monster enemy, boolean fightIt, string option);
 boolean isGuildClass();
 boolean handleRainDoh();
 boolean handleSpookyPutty();
@@ -150,10 +151,19 @@ void debugMaximize(string req, int meat)
 		print("Added -tie to maximize", "red");
 	}
 	print("Desired maximize: " + req, "blue");
+	string situation = " " + my_class() + " " + my_path() + " " + my_sign();
+	if(in_hardcore())
+	{
+		situation = "Hardcore" + situation;
+	}
+	else
+	{
+		situation = "Softcore" + situation;
+	}
 	boolean[effect] acquired;
 	acquired[$effect[none]] = true;
-	string tableDo = "<table border=1><tr><td colspan=6>Accepted: Maximizing: " + req + "</td></tr>";
-	string tableDont = "<table border=1><tr><td colspan=6>Rejected: Maximizing: " + req + "</td></tr>";
+	string tableDo = "<table border=1><tr><td colspan=3>Accepted: Maximizing: " + req + "</td><td colspan=3>" + situation + "</td></tr>";
+	string tableDont = "<table border=1><tr><td colspan=3>Rejected: Maximizing: " + req + "</td><td colspan=3>" + situation + "</td></tr>";
 	tableDo += "<tr><td>Score</td><td>Effect</td><td>Command</td><td>Skill</td><td>Item</td><td>Display</td></tr>";
 	tableDont += "<tr><td>Score</td><td>Effect</td><td>Command</td><td>Skill</td><td>Item</td><td>Display</td></tr>";
 
@@ -341,9 +351,25 @@ void debugMaximize(string req, int meat)
 		print(display, "green");
 	}
 
+	tableDo += "</table>";
+	tableDont += "</table>";
+	print_html(tableDo);
+	print_html(tableDont);
 
-	print_html(tableDo + "</table>");
-	print_html(tableDont + "</table>");
+	if(get_property("cc_shareMaximizer").to_boolean() && get_property("cc_allowSharingData").to_boolean())
+	{
+		print("Sharing Maximizer data.", "blue");
+		#print("http://cheesellc.com/kol/sharing.php?type=maximizer&data="+url_encode(tableDo + tableDont), "red");
+		string temp = visit_url("http://cheesellc.com/kol/sharing.php?type=maximizer&data="+url_encode(tableDo + tableDont));
+		if(contains_text(temp, "success"))
+		{
+			print("Data shared successfully", "green");
+		}
+		else
+		{
+			print("Data share failed", "green");
+		}
+	}
 
 	//	A successive print will help make the table readable in cases where it is not rendered properly
 	//cli_execute("ashref get_inventory");
@@ -959,17 +985,22 @@ boolean cc_deleteMail(kmessage msg)
 	return false;
 }
 
-boolean handleFaxMonster(string enemy)
-{
-	return handleFaxMonster(to_monster(enemy));
-}
-
 boolean handleFaxMonster(monster enemy)
 {
-	return handleFaxMonster(enemy, true);
+	return handleFaxMonster(enemy, true, "");
+}
+
+boolean handleFaxMonster(monster enemy, string option)
+{
+	return handleFaxMonster(enemy, true, option);
 }
 
 boolean handleFaxMonster(monster enemy, boolean fightIt)
+{
+	return handleFaxMonster(enemy, fightIt, "");
+}
+
+boolean handleFaxMonster(monster enemy, boolean fightIt, string option)
 {
 	if(get_property("_photocopyUsed").to_boolean())
 	{
@@ -994,7 +1025,7 @@ boolean handleFaxMonster(monster enemy, boolean fightIt)
 	}
 	if(fightIt)
 	{
-		return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=4873", $location[Noob Cave]);
+		return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=4873", $location[Noob Cave], option);
 	}
 	return true;
 }

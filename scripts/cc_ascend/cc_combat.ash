@@ -335,6 +335,12 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+	if(!contains_text(combatState, "stealaccordion") && (my_class() == $class[Accordion Thief]) && have_skill($skill[Steal Accordion]) && ((expected_damage() * 2) < my_hp()))
+	{
+		set_property("cc_combatHandler", combatState + "(stealaccordion)");
+		return "skill " + $skill[Steal Accordion];
+	}
+
 	if(get_property("cc_useTatter").to_boolean())
 	{
 		if(item_amount($item[Tattered Scrap of Paper]) > 0)
@@ -791,7 +797,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	#Snokebomb replace Batter Up! pass 
+	#Snokebomb replace Batter Up! pass
 	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
 	{
 		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)

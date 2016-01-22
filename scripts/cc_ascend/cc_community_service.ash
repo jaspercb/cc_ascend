@@ -1055,16 +1055,35 @@ boolean LA_cs_communityService()
 				buffMaintain($effect[Walberg\'s Dim Bulb], 5, 1, 1);
 
 				handleFamiliar($familiar[Crimbo Shrub]);
-				if(chateaumantegna_usePainting())
+				if(my_familiar() == $familiar[Crimbo Shrub])
 				{
-					if(my_familiar() == $familiar[Crimbo Shrub])
-					{
-						ccAdv(1, $location[Noob Cave], "cs_combatYR");
-					}
-					else
-					{
-						ccAdv(1, $location[Noob Cave], "cs_combatNormal");
-					}
+					chateaumantegna_usePainting("cs_combatYR");
+				}
+				else
+				{
+					chateaumantegna_usePainting("cs_combatNormal");
+				}
+				if(to_phylum(get_property("dnaSyringe")) == $phylum[beast])
+				{
+					cli_execute("camp dnapotion");
+				}
+				if(item_amount($item[Glass of Goat\'s Milk]) > 0)
+				{
+					cli_execute("make milk of magnesium");
+				}
+				return true;
+			}
+
+			if(chateaumantegna_available() && (get_property("chateauMonster") != $monster[dairy goat]) && (my_fullness() == 0) && !get_property("_photocopyUsed").to_boolean())
+			{
+				handleFamiliar($familiar[Crimbo Shrub]);
+				if(my_familiar() == $familiar[Crimbo Shrub])
+				{
+					handleFaxMonster($monster[Dairy Goat], "cs_combatYR");
+				}
+				else
+				{
+					handleFaxMonster($monster[Dairy Goat], "cs_combatNormal");
 				}
 				if(to_phylum(get_property("dnaSyringe")) == $phylum[beast])
 				{
@@ -1358,7 +1377,7 @@ boolean LA_cs_communityService()
 
 						if(my_familiar() != $familiar[Artistic Goth Kid])
 						{
-							if(handleFaxMonster("black crayon elf"))
+							if(handleFaxMonster($monster[Black Crayon Crimbo Elf], "cs_combatNormal"))
 							{
 								return true;
 							}

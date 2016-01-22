@@ -20,3 +20,5 @@
 20	cc_pullPVPJunk	boolean	ANY	Pull various PVP junk when liberating the King? Mostly avatar potions but other stuff might get added.
 21	cc_diceMode	boolean	ANY	Equip all available Dice (OCRS) gear. This is probably not FUN.
 22	cc_kingLiberation	boolean	ANY	Use the CHEDDAH kingLiberation script?
+23	cc_allowSharingData	boolean	ANY	Allow the script to send information about the ascension to a sad, abused database in hopes of great spades? Specifics will appear (at the bottom) once set to true.
+24	cc_shareMaximizer	boolean	SHARING	Share maximzer data. This includes the maximzer string, class, path, softcore/hardcore and moon sign.

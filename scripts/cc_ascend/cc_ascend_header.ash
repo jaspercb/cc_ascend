@@ -134,14 +134,20 @@ boolean questOverride();
 //	Primary adventuring functions, we need additonal functionality over adv1, so we do it here.
 //	Note that, as of at least Mafia r16560, we can not use run_combat(<combat filter>).
 //	Don\'t even try it, it requires a custom modification that we can not really do an ASH workaround for.
-
-boolean ccAdv(location loc, string option);
-boolean ccAdv(int num, location loc, string option);		//num is ignored
+//	There are all defined in cc_ascend/cc_adventure.ash
+boolean ccAdv(location loc);								//num is ignored
 boolean ccAdv(int num, location loc);						//num is ignored
-boolean ccAdvBypass(string url, location loc);
-boolean ccAdvBypass(int snarfblat, location loc);
-boolean ccAdvBypass(int snarfblat);
+boolean ccAdv(int num, location loc, string option);		//num is ignored
+boolean ccAdv(location loc, string option);
 boolean ccAdvBypass(string url);
+boolean ccAdvBypass(string url, string option);
+boolean ccAdvBypass(string url, location loc);
+boolean ccAdvBypass(string url, location loc, string option);
+boolean ccAdvBypass(int snarfblat);
+boolean ccAdvBypass(int snarfblat, string option);
+boolean ccAdvBypass(int snarfblat, location loc);
+boolean ccAdvBypass(int snarfblat, location loc, string option);
+
 
 
 // Semi-rare Handlers:

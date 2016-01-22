@@ -24,9 +24,8 @@ import <cc_ascend/cc_deckofeverycard.ash>
 import <cc_ascend/cc_community_service.ash>
 import <cc_ascend/cc_clan.ash>
 import <cc_ascend/cc_cooking.ash>
+import <cc_ascend/cc_adventure.ash>
 import <precheese.ash>
-
-
 
 void initializeSettings()
 {
@@ -49,6 +48,13 @@ void initializeSettings()
 
 	set_property("chasmBridgeProgress", 0);
 	set_property("nosyNoseMonster", 0);
+	string pool = visit_url("questlog.php?which=3");
+	matcher my_pool = create_matcher("a skill level of (\\d+) at shooting pool", pool);
+	if(my_pool.find())
+	{
+		set_property("poolSkill", to_int(my_pool.group(1)));
+	}
+
 
 	set_property("cc_abooclover", "");
 	set_property("cc_aboocount", "0");
@@ -200,99 +206,6 @@ void initializeSettings()
 	chateaumantegna_initializeSettings();
 	ocrs_initializeSettings();
 	ed_initializeSettings();
-}
-
-# num is not handled properly anyway, so we'll just reject it.
-boolean ccAdv(location loc, string option)
-{
-	return ccAdv(1, loc, option);
-}
-
-# num is not handled properly anyway, so we'll just reject it.
-boolean ccAdv(int num, location loc, string option)
-{
-	if(option == "")
-	{
-		option = "cc_combatHandler";
-	}
-	if(cc_my_path() == "Actually Ed the Undying")
-	{
-		return ed_ccAdv(num, loc, option);
-	}
-
-#	boolean retval = adv1(loc, num, option);
-	boolean retval = adv1(loc, 0, option);
-	if(cc_my_path() == "One Crazy Random Summer")
-	{
-		if(last_monster().random_modifiers["clingy"])
-		{
-			int oldDesert = get_property("desertExploration").to_int();
-			retval = ccAdv(num, loc, option);
-			if(my_location() == $location[The Arid\, Extra-Dry Desert])
-			{
-				set_property("desertExploration", oldDesert);
-			}
-		}
-	}
-	return retval;
-}
-
-boolean ccAdv(int num, location loc)
-{
-	return ccAdv(num, loc, "");
-}
-
-
-boolean ccAdvBypass(string url, location loc)
-{
-	handlePreAdventure(loc);
-	if(my_class() == $class[Ed])
-	{
-		ed_preAdv(1, loc, "");
-	}
-
-	print("About to start a combat indirectly at " + loc + "...", "blue");
-	string page = visit_url(url);
-	if((my_hp() == 0) || (get_property("_edDefeats").to_int() == 1) || (have_effect($effect[Beaten Up]) > 0))
-	{
-		print("Uh oh! Died when starting a combat indirectly.", "red");
-		if(my_class() == $class[Ed])
-		{
-			return ed_ccAdv(1, loc, "", true);
-		}
-		abort("ccAdvBypass override abort");
-	}
-	if(contains_text(page, "Combat"))
-	{
-		return ccAdv(1, loc);
-	}
-
-	# Encounters that need to generate a false so we handle them manually should go here.
-	if(get_property("lastEncounter") == "Fitting In")
-	{
-		return false;
-	}
-
-	if(contains_text(page, "whichchoice value=") || contains_text(page, "whichchoice="))
-	{
-		return ccAdv(1, loc);
-	}
-
-	return false;
-}
-boolean ccAdvBypass(int snarfblat, location loc)
-{
-	string page = "adventure.php?snarfblat=" + snarfblat + "&confirm=on";
-	return ccAdvBypass(page, loc);
-}
-
-boolean ccAdvBypass(int snarfblat)
-{
-	return ccAdvBypass(snarfblat, $location[Noob Cave]);
-}
-boolean ccAdvBypass(string url)
-{
-	return ccAdvBypass(url, $location[Noob Cave]);
 }
 
 boolean handleFamiliar(string type)
@@ -1454,7 +1367,7 @@ void initializeDay(int day)
 
 			hr_initializeDay(day);
 
-			if(item_amount($item[Antique Accordion]) == 0)
+			if((item_amount($item[Antique Accordion]) == 0) && (my_class() != $class[Accordion Thief]))
 			{
 				buyUpTo(1, $item[toy accordion]);
 			}
@@ -1514,7 +1427,7 @@ void initializeDay(int day)
 				pulverizeThing($item[vicar\'s tutu]);
 			}
 			hermit(10, $item[ten-leaf clover]);
-			if(item_amount($item[antique accordion]) == 0)
+			if((item_amount($item[antique accordion]) == 0) && (my_class() != $class[Accordion Thief]))
 			{
 				buyUpTo(1, $item[antique accordion]);
 			}
@@ -6138,7 +6051,7 @@ boolean L10_basement()
 	{
 		print("Just messed with Gym", "blue");
 		set_property("choiceAdventure670", "5");
-		if(item_amount($item[amulet of extreme plot significance]) == 0)
+		if(!possessEquipment($item[amulet of extreme plot significance]))
 		{
 			if(in_hardcore() && !possessEquipment($item[Amulet of Extreme Plot Significance]))
 			{
@@ -6196,7 +6109,7 @@ boolean L10_airship()
 		handleFamiliar($familiar[Artistic Goth Kid]);
 	}
 
-	if((item_amount($item[mohawk wig]) == 0) && (have_effect($effect[Everything Looks Yellow]) == 0))
+	if(!possessEquipment($item[Mohawk Wig]) && (have_effect($effect[Everything Looks Yellow]) == 0))
 	{
 		handleFamiliar($familiar[Crimbo Shrub]);
 		if((my_familiar() == $familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
@@ -7254,7 +7167,7 @@ boolean LX_craftAcquireItems()
 	}
 
 	#Can we have some other way to check that we have AT skills?
-	if((item_amount($item[antique accordion]) == 0) && (my_meat() > 12500) && (have_skill($skill[The Ode to Booze])))
+	if((item_amount($item[antique accordion]) == 0) && (my_meat() > 12500) && (have_skill($skill[The Ode to Booze])) && (my_class() != $class[Accordion Thief]))
 	{
 		buyUpTo(1, $item[antique accordion]);
 	}
@@ -10292,7 +10205,6 @@ boolean doTasks()
 		{
 			if(chateaumantegna_usePainting())
 			{
-#				ccAdv(1, $location[Noob Cave]);
 				return true;
 			}
 		}
@@ -10301,9 +10213,8 @@ boolean doTasks()
 
 	if((my_level() >= 9) && !get_property("_photocopyUsed").to_boolean() && (my_class() == $class[Ed]) && (my_daycount() < 3))
 	{
-		if(handleFaxMonster("lobsterfrogman"))
+		if(handleFaxMonster($monster[Lobsterfrogman]))
 		{
-#			ccAdv(1, $location[Noob Cave]);
 			return true;
 		}
 	}

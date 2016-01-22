@@ -304,7 +304,7 @@ void consumeStuff()
 	}
 	if(((my_inebriety() + 2) <= inebriety_limit()) && (my_mp() >= mpForOde))
 	{
-		if(item_amount($item[Yellow Pixel]) >= 10)
+		if((item_amount($item[Yellow Pixel]) >= 10) && (item_amount($item[Pixel Daiquiri]) == 0))
 		{
 			cli_execute("make " + $item[Pixel Daiquiri]);
 		}
@@ -853,6 +853,12 @@ void consumeStuff()
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[Pixel Daiquiri]);
+		}
+		if(in_hardcore() && (my_mp() > mpForOde) && (item_amount($item[Dinsey Whinskey]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
+		{
+			shrugAT();
+			buffMaintain($effect[Ode to Booze], 50, 1, 2);
+			drink(1, $item[Dinsey Whinskey]);
 		}
 
 		if((my_level() >= 11) && (my_mp() > mpForOde) && (item_amount($item[Cold One]) > 1) && ((my_inebriety() + 2) <= inebriety_limit()))
