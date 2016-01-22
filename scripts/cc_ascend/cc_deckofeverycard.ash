@@ -220,7 +220,14 @@ boolean deck_useScheme(string action)
 		case $class[Disco Bandit]:		deck_cheat("Knife");		break;
 		case $class[Accordion Thief]:	deck_cheat("Revolver");		break;
 		}
-		deck_cheat("Ancestral Recall");
+		if(item_amount($item[Stone Wool] == 0)
+		{
+			deck_cheat("sheep");
+		}
+		else
+		{
+			deck_cheat("Ancestral Recall");
+		}
 		deck_cheat("ore");
 		return true;
 	}
