@@ -2307,11 +2307,37 @@ boolean questOverride()
 		set_property("cc_hiddenunlock", "finished");
 	}
 
+	if((internalQuestStatus("questL11Black") >= 2) && (get_property("cc_blackmap") == ""))
+	{
+		print("Found an unexpected Black Market (11 - via questL11Black)");
+		set_property("cc_blackmap", "document");
+	}
+	if((get_property("blackForestProgress") >= 5) && (get_property("cc_blackmap") == ""))
+	{
+		print("Found an unexpected Black Market (11 - via blackForestProgress)");
+		set_property("cc_blackmap", "document");
+	}
+
 	if((get_property("questL11Black") == "finished") && (get_property("cc_blackmap") != "finished"))
 	{
-		print("Found completed Black Market (11)");
+		print("Found completed Black Market (11 - via questL11Black)");
 		set_property("cc_blackmap", "finished");
 	}
+	if((internalQuestStatus("questL11MacGuffin") >= 2) && (get_property("cc_blackmap") != "finished"))
+	{
+		print("Found completed Black Market (11 - via questL11MacGuffin)");
+		set_property("cc_blackmap", "finished");
+	}
+
+
+	if((internalQuestStatus("questL11MacGuffin") >= 2) && (get_property("cc_mcmuffin") == ""))
+	{
+		print("Found started McMuffin quest (11)");
+		set_property("cc_mcmuffin", "start");
+	}
+
+
+
 	if((get_property("questL11Palindome") == "finished") && (get_property("cc_palindome") != "finished"))
 	{
 		print("Found completed Palindome (11)");
@@ -3568,6 +3594,8 @@ boolean L13_towerNSContests()
 				buffMaintain($effect[Cletus\'s Canticle of Celerity], 10, 1, 1);
 				buffMaintain($effect[Suspicious Gaze], 10, 1, 1);
 				buffMaintain($effect[Song of Slowness], 100, 1, 1);
+				buffMaintain($effect[Soulerskates], 0, 1, 1);
+
 				if(get_property("cc_100familiar").to_boolean())
 				{
 					ccMaximize("init, -equip snow suit", 1500, 0, false);
@@ -3628,8 +3656,13 @@ boolean L13_towerNSContests()
 				buffMaintain($effect[Browbeaten], 0, 1, 1);
 				buffMaintain($effect[Sugar Rush], 0, 1, 1);
 				buffMaintain($effect[Spiky Hair], 0, 1, 1);
+				buffMaintain($effect[Seriously Mutated], 0, 1, 1);
 				buffMaintain($effect[Lycanthropy\, Eh?], 0, 1, 1);
 				buffMaintain($effect[Steroid Boost], 0, 1, 1);
+				buffMaintain($effect[Truly Gritty], 0, 1, 1);
+				buffMaintain($effect[Fishy Fortification], 0, 1, 1);
+				buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
+				buffMaintain($effect[Slightly Larger Than Usual], 0, 1, 1);
 
 				buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
 				buffMaintain($effect[Song of Bravado], 100, 1, 1);
@@ -3679,6 +3712,7 @@ boolean L13_towerNSContests()
 				buffMaintain($effect[Flamibili Tea], 0, 1, 1);
 				buffMaintain($effect[Human-Demon Hybrid], 0, 1, 1);
 				buffMaintain($effect[Lit Up], 0, 1, 1);
+				buffMaintain($effect[Fire Inside], 0, 1, 1);
 				buffMaintain($effect[Pyromania], 15, 1, 1);
 				buffMaintain($effect[Song of Sauce], 100, 1, 1);
 				ccMaximize("hot dmg -equip snow suit", 1500, 0, false);
@@ -8757,6 +8791,22 @@ boolean L11_mcmuffinDiary()
 	{
 		return false;
 	}
+	if(get_property("cc_mcmuffin") != "")
+	{
+		return false;
+	}
+	if(item_amount($item[Your Father\'s Macguffin Diary]) > 0)
+	{
+		use(item_amount($item[Your Father\'s Macguffin Diary]), $item[Your Father\'s Macguffin Diary]);
+		set_property("cc_mcmuffin", "start");
+		return true;
+	}
+	if(item_amount($item[Copy of a Jerk Adventurer\'s Father\'s Diary]) > 0)
+	{
+		use(item_amount($item[Copy of a Jerk Adventurer\'s Father\'s Diary]), $item[Copy of a Jerk Adventurer\'s Father\'s Diary]);
+		set_property("cc_mcmuffin", "start");
+		return true;
+	}
 	if(my_adventures() <= 4)
 	{
 		return false;
@@ -8789,11 +8839,7 @@ boolean L11_forgedDocuments()
 	{
 		return false;
 	}
-	if(get_property("cc_mcmuffin") != "")
-	{
-		return false;
-	}
-	if(get_property("cc_blackmap") == "finished")
+	if(get_property("cc_mcmuffin") != "document")
 	{
 		return false;
 	}
@@ -8808,10 +8854,9 @@ boolean L11_forgedDocuments()
 
 	print("Getting the McMuffin Book", "blue");
 	buyUpTo(1, $item[forged identification documents]);
-	handleFamiliar($familiar[Adventurous Spelunker]);
 	set_property("cc_blackmap", "finished");
+	handleFamiliar($familiar[Adventurous Spelunker]);
 	return true;
-
 }
 
 
@@ -8828,7 +8873,12 @@ boolean L11_blackMarket()
 	if(black_market_available())
 	{
 		set_property("cc_blackmap", "document");
-		return false;
+		if(my_meat() >= 5000)
+		{
+			buyUpTo(1, $item[forged identification documents]);
+			set_property("cc_blackmap", "finished");
+		}
+		return true;
 	}
 	if($location[The Black Forest].turns_spent > 12)
 	{
@@ -8891,26 +8941,14 @@ boolean L11_blackMarket()
 		handleBjornify($familiar[Grim Brother]);
 	}
 
-	handleFamiliar($familiar[reassembled blackbird]);
-
 	if(!possessEquipment($item[Blackberry Galoshes]) && (item_amount($item[Blackberry]) >= 3))
 	{
 		set_property("choiceAdventure924", "2");
 		set_property("choiceAdventure928", "4");
 	}
 
+	handleFamiliar($familiar[reassembled blackbird]);
 	ccAdv(1, $location[The Black Forest]);
-	if(black_market_available())
-	{
-#		buyUpTo(1, $item[can of black paint]);
-		handleFamiliar($familiar[Adventurous Spelunker]);
-		set_property("cc_blackmap", "document");
-		if(my_meat() >= 5000)
-		{
-			buyUpTo(1, $item[forged identification documents]);
-			set_property("cc_blackmap", "finished");
-		}
-	}
 	handleFamiliar($familiar[Adventurous Spelunker]);
 	return true;
 }

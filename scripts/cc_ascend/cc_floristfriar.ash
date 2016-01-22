@@ -82,6 +82,18 @@ void oldPeoplePlantStuff()
 			cli_execute("florist plant war lily");
 			cli_execute("florist plant arctic moss");
 		}
+		else if(my_location() == $location[The Deep Machine Tunnels])
+		{
+			cli_execute("florist plant blustery puffball");
+			cli_execute("florist plant dis lichen");
+			cli_execute("florist plant loose morels");
+		}
+		else if((my_location() == $location[The X-32-F Combat Training Snowman]) && (my_daycount() == 2))
+		{
+			cli_execute("florist plant canned spinach");
+			cli_execute("florist plant red fern");
+			cli_execute("florist plant spider plant");
+		}
 		return;
 	}
 

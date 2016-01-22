@@ -1827,8 +1827,28 @@ boolean buffMaintain(skill source, effect buff, int mp_min, int casts, int turns
 	{
 		return false;
 	}
-	int cost = mp_cost(source) * casts;
-	if((my_mp() < mp_min) || (my_mp() < cost))
+
+	if((my_mp() < mp_min) || (my_mp() < (casts * mp_cost(source))))
+	{
+		return false;
+	}
+	if(my_adventures() < (casts * adv_cost(source)))
+	{
+		return false;
+	}
+	if(my_lightning() < (casts * lightning_cost(source)))
+	{
+		return false;
+	}
+	if(my_rain() < (casts * rain_cost(source)))
+	{
+		return false;
+	}
+	if(my_soulsauce() < (casts * soulsauce_cost(source)))
+	{
+		return false;
+	}
+	if(my_thunder() < (casts * thunder_cost(source)))
 	{
 		return false;
 	}
@@ -1940,7 +1960,9 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Far Out]:						useItem = $item[Patchouli Incense Stick];		break;
 	case $effect[Fat Leon\'s Phat Loot Lyric]:	useSkill = $skill[Fat Leon\'s Phat Loot Lyric];	break;
 	case $effect[Feroci Tea]:					useItem = $item[cuppa Feroci tea];				break;
+	case $effect[Fire Inside]:					useItem = $item[Hot Coal];						break;
 	case $effect[Fishy\, Oily]:					useItem = $item[Gourmet Gourami Oil];			break;
+	case $effect[Fishy Fortification]:			useItem = $item[Fish-Liver Oil];				break;
 	case $effect[Fishy Whiskers]:				useItem = $item[Catfish Whiskers];				break;
 	case $effect[Flame-Retardant Trousers]:		useItem = $item[Hot Powder];					break;
 	case $effect[Flamibili Tea]:				useItem = $item[cuppa Flamibili Tea];			break;
@@ -2098,6 +2120,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Seeing Colors]:				useItem = $item[Funky Dried Mushroom];			break;
 	case $effect[Sepia Tan]:					useItem = $item[Old Bronzer];					break;
 	case $effect[Serendipi Tea]:				useItem = $item[cuppa Serendipi tea];			break;
+	case $effect[Seriously Mutated]:			useItem = $item[Extra-Potent Gremlin Mutagen];	break;
 	case $effect[Shield of the Pastalord]:		useSkill = $skill[Shield of the Pastalord];		break;
 	case $effect[Shelter of Shed]:				useSkill = $skill[Shelter of Shed];				break;
 	case $effect[Simmering]:					useSkill = $skill[Simmer];						break;
@@ -2106,6 +2129,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Sinuses For Miles]:			useItem = $item[Mick\'s IcyVapoHotness Inhaler];break;
 	case $effect[Sleaze-Resistant Trousers]:	useItem = $item[Sleaze Powder];					break;
 	case $effect[Sleazy Hands]:					useItem = $item[Lotion of Sleaziness];			break;
+	case $effect[Slightly Larger Than Usual]:	useItem = $item[Giant Giant Moth Dust];			break;
 	case $effect[Slinking Noodle Glob]:			useSkill = $skill[none];						break;
 	case $effect[Smelly Pants]:					useItem = $item[Stench Powder];					break;
 	case $effect[Smooth Movements]:				useSkill = $skill[Smooth Movement];				break;
@@ -2118,6 +2142,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Song of Slowness]:				useSkill = $skill[Song of Slowness];			break;
 	case $effect[Song of Starch]:				useSkill = $skill[Song of Starch];				break;
 	case $effect[The Sonata of Sneakiness]:		useSkill = $skill[The Sonata of Sneakiness];	break;
+	case $effect[Soulerskates]:					useSkill = $skill[Soul Rotation];				break;
 	case $effect[Sour Softshoe]:				useItem = $item[pulled yellow taffy];			break;
 	case $effect[Spice Haze]:					useSkill = $skill[Bind Spice Ghost];			break;
 	case $effect[Spiky Hair]:					useItem = $item[Super-Spiky Hair Gel];			break;

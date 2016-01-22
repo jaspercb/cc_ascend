@@ -1032,7 +1032,7 @@ boolean LA_cs_communityService()
 				solveCookie();
 			}
 
-			if(!get_property("_chateauMonsterFought").to_boolean() && chateaumantegna_available() && (item_amount($item[DNA Extraction Syringe]) > 0) && (get_property("chateauMonster") == "dairy goat"))
+			if(!get_property("_chateauMonsterFought").to_boolean() && chateaumantegna_available() && (get_property("chateauMonster") == $monster[dairy goat]))
 			{
 				buffMaintain($effect[Reptilian Fortitude], 8, 1, 1);
 				buffMaintain($effect[Power Ballad of the Arrowsmith], 5, 1, 1);
@@ -1077,9 +1077,12 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if((my_fullness() == 0) && (item_amount($item[Milk of Magnesium]) > 0))
+			if(my_fullness() == 0)
 			{
-				use(1, $item[Milk of Magnesium]);
+				if(item_amount($item[Milk of Magnesium]) > 0)
+				{
+					use(1, $item[Milk of Magnesium]);
+				}
 				if(item_amount($item[Handful of Smithereens]) > 0)
 				{
 					cli_execute("make 1 this charming flan");
@@ -1270,6 +1273,11 @@ boolean LA_cs_communityService()
 				{
 					cli_execute("make 6 tomato juice of powerful power");
 				}
+			}
+
+			if((my_spleen_use() == 12) && (item_amount($item[Abstraction: Category]) > 0))
+			{
+				chew(1, $item[Abstraction: Category]);
 			}
 
 			int pixelsNeed = 30 - (15 * item_amount($item[Miniature Power Pill]));
@@ -1484,7 +1492,11 @@ boolean LA_cs_communityService()
 
 			buffMaintain($effect[Ode to Booze], 50, 1, 10);
 			overdrink(1, $item[Emergency Margarita]);
-			if(my_spleen_use() == 12)
+			if((my_spleen_use() == 12) && (item_amount($item[Handful of Smithereens]) > 0))
+			{
+				chew(1, $item[Handful of Smithereens]);
+			}
+			if((my_spleen_use() == 13) && (item_amount($item[Handful of Smithereens]) > 1))
 			{
 				chew(1, $item[Handful of Smithereens]);
 			}
@@ -1637,6 +1649,11 @@ boolean LA_cs_communityService()
 				deck_cheat("muscle buff");
 			}
 
+			if((my_spleen_use() < 15) && (item_amount($item[Abstraction: Action]) > 0) && (have_effect($effect[Action]) == 0))
+			{
+				chew(1, $item[Abstraction: Action]);
+			}
+
 			if(do_cs_quest(1))
 			{
 				curQuest = 0;
@@ -1716,6 +1733,11 @@ boolean LA_cs_communityService()
 			handleFamiliar($familiar[Machine Elf]);
 			cs_giant_growth();
 
+			if((my_spleen_use() < 15) && (item_amount($item[Abstraction: Action]) > 0) && (have_effect($effect[Action]) == 0))
+			{
+				chew(1, $item[Abstraction: Action]);
+			}
+
 			if(do_cs_quest(2))
 			{
 				cli_execute("refresh inv");
@@ -1771,6 +1793,11 @@ boolean LA_cs_communityService()
 
 			handleFamiliar($familiar[Machine Elf]);
 			cs_giant_growth();
+
+			if((my_spleen_use() < 15) && (item_amount($item[Abstraction: Thought]) > 0) && (have_effect($effect[Thought]) == 0))
+			{
+				chew(1, $item[Abstraction: Thought]);
+			}
 
 			if(do_cs_quest(3))
 			{
@@ -1838,6 +1865,11 @@ boolean LA_cs_communityService()
 			handleFamiliar($familiar[Machine Elf]);
 			cs_giant_growth();
 
+			if((my_spleen_use() < 15) && (item_amount($item[Abstraction: Sensation]) > 0) && (have_effect($effect[Sensation]) == 0))
+			{
+				chew(1, $item[Abstraction: Sensation]);
+			}
+
 			if(do_cs_quest(4))
 			{
 				curQuest = 0;
@@ -1882,6 +1914,10 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Blue Swayed], 0, 1, 50);
 			buffMaintain($effect[Blue Swayed], 0, 1, 50);
 			buffMaintain($effect[Loyal Tea], 0, 1, 1);
+			if((my_spleen_use() < 15) && (item_amount($item[Abstraction: Joy]) > 0) && (have_effect($effect[Joy]) == 0))
+			{
+				chew(1, $item[Abstraction: Joy]);
+			}
 
 			int currentCost = get_cs_questCost(curQuest);
 			if(have_skill($skill[Empathy of the Newt]))
@@ -2028,6 +2064,7 @@ boolean LA_cs_communityService()
 
 			if((item_amount($item[Wasabi Marble Soda]) == 0) && (have_effect($effect[Wasabi With You]) == 0) && (item_amount($item[Ye Wizard\'s Shack snack voucher]) > 0))
 			{
+				cli_execute("make " + $item[Wasabi Marble Soda]);
 				buffMaintain($effect[Wasabi With You], 0, 1, 1);
 			}
 
@@ -2125,6 +2162,7 @@ boolean LA_cs_communityService()
 
 			if((item_amount($item[Tobiko Marble Soda]) == 0) && (have_effect($effect[Pisces in the Skyces]) == 0) && (item_amount($item[Ye Wizard\'s Shack snack voucher]) > 0))
 			{
+				cli_execute("make " + $item[Tobiko Marble Soda]);
 				buffMaintain($effect[Pisces in the Skyces], 0, 1, 1);
 			}
 

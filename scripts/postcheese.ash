@@ -269,7 +269,7 @@ void handlePostAdventure()
 			use_skill(1, $skill[Blood Sugar Sauce Magic]);
 		}
 
-		if((my_level() <= 8) && (my_soulsauce() >= 92))
+		if(((my_level() <= 8) && (my_soulsauce() >= 92)) || (my_soulsauce() >= 100))
 		{
 			use_skill(1, $skill[Soul Rotation]);
 		}
