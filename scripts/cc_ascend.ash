@@ -48,6 +48,7 @@ void initializeSettings()
 	}
 
 	set_property("chasmBridgeProgress", 0);
+	set_property("nosyNoseMonster", 0);
 
 	set_property("cc_abooclover", "");
 	set_property("cc_aboocount", "0");
@@ -10017,6 +10018,15 @@ boolean doTasks()
 		}
 	}
 
+	if(LA_cs_communityService())
+	{
+		return true;
+	}
+	if(cc_my_path() == "Community Service")
+	{
+		abort("Should not have gotten here, aborted LA_cs_communityService method allowed return to caller. Uh oh.");
+	}
+
 	if((my_daycount() == 2) && have_familiar($familiar[Crimbo Shrub]))
 	{
 		//Do we have other Yellow Ray options? We really need a generic YR handler.
@@ -10036,15 +10046,6 @@ boolean doTasks()
 	else
 	{
 		doNumberology("adventures3");
-	}
-
-	if(LA_cs_communityService())
-	{
-		return true;
-	}
-	if(cc_my_path() == "Community Service")
-	{
-		abort("Should not have gotten here, aborted LA_cs_communityService method allowed return to caller. Uh oh.");
 	}
 
 	if(item_amount($item[pulled red taffy]) >= 6)
