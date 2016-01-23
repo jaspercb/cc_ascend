@@ -119,6 +119,7 @@ void initializeSettings()
 	set_property("cc_holeinthesky", false);
 	set_property("cc_ignoreFlyer", false);
 	set_property("cc_instakill", "");
+	set_property("cc_mcmuffin", "");
 	set_property("cc_mistypeak", "");
 	set_property("cc_modernzmobiecount", "");
 	set_property("cc_mosquito", "");
