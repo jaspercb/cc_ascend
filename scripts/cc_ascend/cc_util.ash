@@ -917,7 +917,7 @@ boolean isFreeMonster(monster mon)
 
 	boolean[monster] infernalSeals = $monsters[Broodling Seal, Centurion of Sparky, Hermetic Seal, Spawn of Wally, Heat Seal, Navy Seal, Servant of Grodstank, Shadow of Black Bubbles, Watertight Seal, Wet Seal];
 
-	boolean[monster] other = $monsters[lynyrd, giant rubber spider];
+	boolean[monster] other = $monsters[lynyrd, giant rubber spider, Travoltron];
 
 	if(classRevamp contains mon)
 	{

@@ -8771,7 +8771,7 @@ boolean L11_forgedDocuments()
 	{
 		return false;
 	}
-	if(get_property("cc_mcmuffin") != "document")
+	if(get_property("cc_blackmap") != "document")
 	{
 		return false;
 	}
