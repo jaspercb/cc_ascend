@@ -222,7 +222,7 @@ boolean deck_useScheme(string action)
 		}
 		if(item_amount($item[Stone Wool]) == 0)
 		{
-			deck_cheat("sheep");
+			deck_cheat("Sheep");
 		}
 		else
 		{
