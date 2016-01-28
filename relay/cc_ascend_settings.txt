@@ -22,3 +22,5 @@
 22	cc_kingLiberation	boolean	ANY	Use the CHEDDAH kingLiberation script?
 23	cc_allowSharingData	boolean	ANY	Allow the script to send information about the ascension to a sad, abused database in hopes of great spades? Specifics will appear (at the bottom) once set to true.
 24	cc_shareMaximizer	boolean	SHARING	Share maximzer data. This includes the maximzer string, class, path, softcore/hardcore and moon sign.
+25	cc_stayInRun	boolean	ANY	If true, we stop when the King can be freed but do not free the King. Paths with a choice at liberation time will always stayInRun regardless of this setting.
+26	cc_alwaysGetSteelOrgan	boolean	PRE	If true, get the Steel Organ in the next ascension.

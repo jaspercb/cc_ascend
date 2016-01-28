@@ -2,9 +2,7 @@ script "heavyrains.ash"
 
 import<cc_ascend/cc_util.ash>
 import<cc_ascend/cc_ascend_header.ash>
-import <precheese.ash>
 
-# Code here is supplementary handlers and specialized handlers
 
 void hr_dnaPotions()
 {
@@ -79,9 +77,9 @@ void hr_initializeSettings()
 
 boolean hr_handleFamiliar(familiar fam)
 {
-	if(my_path() == "Heavy Rains")
+	if((my_path() == "Heavy Rains") && (equipped_item($slot[familiar]) != $item[miniature life preserver]) && (my_familiar() != $familiar[none]))
 	{
-		equip($item[miniature life preserver]);
+		equip($slot[familiar], $item[miniature life preserver]);
 		return true;
 	}
 	return false;
@@ -383,7 +381,7 @@ boolean L1_HRstart()
 	return true;
 }
 
-boolean rainManSummon(string monsterName, boolean copy, boolean wink)
+boolean rainManSummon(string monsterName, boolean copy, boolean wink, string option)
 {
 	if(my_path() != "Heavy Rains")
 	{
@@ -569,7 +567,7 @@ boolean rainManSummon(string monsterName, boolean copy, boolean wink)
 	}
 
 
-	if((get_property("_raindohCopiesMade") == "5") || (item_amount($item[Rain-doh box full of monster]) > 0))
+	if((get_property("_raindohCopiesMade").to_int() >= 5) || (item_amount($item[Rain-doh box full of monster]) > 0))
 	{
 		copy = false;
 	}
@@ -582,29 +580,17 @@ boolean rainManSummon(string monsterName, boolean copy, boolean wink)
 	}
 	else
 	{
-		if(have_familiar($familiar[Adventurous Spelunker]))
-		{
-			use_familiar($familiar[Adventurous Spelunker]);
-		}
-		else if(have_familiar($familiar[Angry Jung Man]))
-		{
-			use_familiar($familiar[Angry Jung Man]);
-		}
-		else if(have_familiar($familiar[Piano Cat]))
-		{
-			use_familiar($familiar[Piano Cat]);
-		}
-
+		handleFamiliar("item");
 	}
 
-	if(wink == true)
+	if((wink == true) && have_familiar($familiar[Reanimated Reanimator]))
 	{
 		if(get_property("_badlyRomanticArrows") == "1")
 		{
 			abort("Trying to arrow/wink a monster but we've already done so today.");
 		}
-		use_familiar($familiar[Reanimated Reanimator]);
-#		handleFamiliar($familiar[Reanimated Reanimator]);
+#		use_familiar($familiar[Reanimated Reanimator]);
+		handleFamiliar($familiar[Reanimated Reanimator]);
 	}
 
 	if(copy)
@@ -613,29 +599,19 @@ boolean rainManSummon(string monsterName, boolean copy, boolean wink)
 	}
 	print("Looking to summon: " + monsterName, "blue");
 
-	#
-	#	Because we currently can't use ccAdvBypass with 2 visit_urls
-	#	We will do the important handlePreAdventure here.
-	#
-	handlePreAdventure($location[Noob Cave]);
-	visit_url("runskillz.php?pwd&action=Skillz&whichskill=16011&quantity=1", true);
-	visit_url("choice.php?pwd&whichchoice=970&whichmonster=" + mId + "&option=1&choice2=and+Fight%21");
-	ccAdv(1, $location[Noob Cave]);
+	string[int] pages;
+	pages[0] = "runskillz.php?pwd&action=Skillz&whichskill=16011&quantity=1";
+	pages[1] = "choice.php?pwd&whichchoice=970&whichmonster=" + mId + "&option=1&choice2=and+Fight%21";
+	ccAdvBypass(0, pages, $location[Noob Cave], option);
+
+#	handlePreAdventure($location[Noob Cave]);
+#	visit_url("runskillz.php?pwd&action=Skillz&whichskill=16011&quantity=1", true);
+#	visit_url("choice.php?pwd&whichchoice=970&whichmonster=" + mId + "&option=1&choice2=and+Fight%21");
+#	ccAdv(1, $location[Noob Cave]);
 
 	if(wink == true)
 	{
-		if(have_familiar($familiar[Adventurous Spelunker]))
-		{
-			use_familiar($familiar[Adventurous Spelunker]);
-		}
-		else if(have_familiar($familiar[Angry Jung Man]))
-		{
-			use_familiar($familiar[Angry Jung Man]);
-		}
-		else
-		{
-			use_familiar($familiar[Piano Cat]);
-		}
+		handleFamiliar("item");
 	}
 	if(copy && (item_amount($item[Rain-doh box full of monster]) == 0))
 	{
@@ -643,4 +619,10 @@ boolean rainManSummon(string monsterName, boolean copy, boolean wink)
 	}
 
 	return true;
+}
+
+
+boolean rainManSummon(string monsterName, boolean copy, boolean wink)
+{
+	return rainManSummon(monsterName, copy, wink, "");
 }

@@ -22,7 +22,6 @@ void ed_initializeSettings()
 		set_property("cc_holeinthesky", false);
 		set_property("cc_lashes", "");
 		set_property("cc_renenutet", "");
-		set_property("cc_semisub", "pantry");
 		set_property("cc_useCubeling", false);
 		set_property("cc_wandOfNagamar", false);
 
@@ -32,7 +31,6 @@ void ed_initializeSettings()
 
 		set_property("cc_edCombatCount", 0);
 		set_property("cc_edCombatRoundCount", 0);
-
 
 		set_property("choiceAdventure1002", 1);
 		set_property("choiceAdventure1023", "");
@@ -729,12 +727,9 @@ boolean ed_eatStuff()
 		if(item_amount($item[Xiblaxian 5D Printer]) > 0)
 		{
 			int[item] canMake = eudora_xiblaxian();
-			if(canMake contains $item[Xiblaxian Ultraburrito])
+			if((canMake contains $item[Xiblaxian Ultraburrito]) && (canMake[$item[Xiblaxian Ultraburrito]] > 0))
 			{
-				if(canMake[$item[Xiblaxian Ultraburrito]] > 0)
-				{
-					visit_url("shop.php?pwd=&whichshop=5dprinter&action=buyitem&quantity=1&whichrow=339", true);
-				}
+				visit_url("shop.php?pwd=&whichshop=5dprinter&action=buyitem&quantity=1&whichrow=339", true);
 			}
 		}
 	}
@@ -792,7 +787,7 @@ boolean ed_eatStuff()
 		drink(1, $item[Highest Bitter]);
 	}
 
-	if((!contains_text(get_counters("Fortune Cookie", 0, 200), "Fortune Cookie")) && (get_property("cc_semirare").to_int() < 2))
+	if((!contains_text(get_counters("Fortune Cookie", 0, 200), "Fortune Cookie")) && (get_property("semirareLocation") != $location[The Castle in the Clouds in the Sky (Top Floor)]))
 	{
 		if((item_amount($item[Clan VIP Lounge Key]) > 0) && (my_meat() >= 500) && (inebriety_limit() == 4) && ((my_inebriety() == 0) || (my_inebriety() == 3)))
 		{
@@ -1273,46 +1268,7 @@ boolean ed_handleAdventureServant(int num, location loc, string option)
 boolean ed_preAdv(int num, location loc, string option)
 {
 	ed_handleAdventureServant(num, loc, option);
-
-	if((have_equipped($item[Xiblaxian Holo-Wrist-Puter])) && (howLongBeforeHoloWristDrop() <= 1))
-	{
-		string area = loc.environment;
-		# This is an attempt to farm Ultraburrito stuff.
-
-		item replace = $item[none];
-		if((item_amount($item[Pirate Fledges]) > 0) && (can_equip($item[Pirate Fledges])))
-		{
-			replace = $item[Pirate Fledges];
-		}
-
-		# If we migrate all Ed workaround combats to the bypasser, we don't need to check main.php
-		if(!contains_text(visit_url("main.php"), "Combat"))
-		{
-			if(loc == $location[Noob Cave])
-			{
-				equip($slot[acc3], replace);
-				return true;
-			}
-
-			if((area == "indoor") && (item_amount($item[Xiblaxian Circuitry]) > 0))
-			{
-				equip($slot[acc3], replace);
-			}
-			else if((area == "outdoor") && (item_amount($item[Xiblaxian Polymer]) > 0))
-			{
-				equip($slot[acc3], replace);
-			}
-			else if((area == "underground") && (item_amount($item[Xiblaxian Alloy]) > 2))
-			{
-				equip($slot[acc3], replace);
-			}
-			else
-			{
-				print("We should be getting a Xiblaxian wotsit this combat. Beep boop.", "green");
-			}
-		}
-	}
-	return true;
+	return preAdvXiblaxian(loc);
 }
 
 boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)

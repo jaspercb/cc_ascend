@@ -18,6 +18,9 @@ boolean handleBjornify(familiar fam);
 void makeStartingSmiths();
 
 
+//	Replace the current acc3 item (from baseline) with another. Mostly for our Xiblaxian handling so that is why this is the only one implemented.
+void replaceBaselineAcc3();
+
 void makeStartingSmiths()
 {
 	if(!have_skill($skill[Summon Smithsness]))
@@ -315,6 +318,11 @@ void handleOffHand()
 */
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[off-hand])))
 	{
+		if((weapon_type(toEquip) != $stat[none]) && (equipped_item($slot[weapon]) == $item[none]))
+		{
+			return;
+		}
+
 		if(equipped_item($slot[weapon]) != toEquip)
 		{
 			equip($slot[Off-hand], toEquip);
@@ -347,7 +355,7 @@ void equipBaselinePants()
 
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[pants])))
 	{
-		equip(toEquip);
+		equip($slot[pants],toEquip);
 	}
 }
 
@@ -355,7 +363,7 @@ void equipBaselineShirt()
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Barskin Cloak, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Lynyrdskin Tunic, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
+	boolean[item] poss = $items[Barskin Cloak, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -366,7 +374,7 @@ void equipBaselineShirt()
 
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[shirt])))
 	{
-		equip(toEquip);
+		equip($slot[shirt],toEquip);
 	}
 }
 
@@ -394,7 +402,7 @@ void equipBaselineBack()
 
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[back])))
 	{
-		equip(toEquip);
+		equip($slot[back],toEquip);
 	}
 }
 
@@ -421,7 +429,7 @@ void equipBaselineHat(boolean wantNC)
 
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[hat])))
 	{
-		equip(toEquip);
+		equip($slot[hat],toEquip);
 	}
 }
 
@@ -448,7 +456,7 @@ void equipBaselineWeapon()
 		poss = $items[Knife, Frankly Mr. Shank];
 		break;
 	case $class[Accordion Thief]:
-		poss = $items[Revolver, Shakespeare\'s Sister\'s Accordion];
+		poss = $items[Revolver, accord ion, Shakespeare\'s Sister\'s Accordion];
 		break;
 	case $class[Ed]:
 #		poss = $items[Titanium Assault Umbrella, Staff of Ed];
@@ -488,7 +496,7 @@ void equipBaselineFam()
 	{
 		if(item_amount($item[miniature life preserver]) > 0)
 		{
-			equip($item[miniature life preserver]);
+			equip($slot[familiar], $item[miniature life preserver]);
 			if(!is_familiar_equipment_locked() && (equipped_item($slot[familiar]) != $item[none]))
 			{
 				lock_familiar_equipment(true);
@@ -580,18 +588,17 @@ void equipBaseline()
 		{
 			equip($slot[pants], $item[Dice-Print Pajama Pants]);
 		}
-		if(item_amount($item[Kill Screen]) > 0)
+		if((item_amount($item[Kill Screen]) > 0) && (my_familiar() != $familiar[none]))
 		{
 			equip($slot[familiar], $item[Kill Screen]);
 		}
 	}
-
 }
 
 void equipBaselineAcc1()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Vampire Collar, Infernal Insoles, Batskin Belt, Ghost of a Necklace, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Astral Ring, Astral Bracer, Over-The-Shoulder Folder Holder];
+	boolean[item] poss = $items[Vampire Collar, Infernal Insoles, Batskin Belt, Ghost of a Necklace, Sphygmayomanometer, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Astral Ring, Astral Bracer, Over-The-Shoulder Folder Holder];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -611,11 +618,11 @@ void equipBaselineAcc2()
 	boolean[item] poss;
 	if((my_level() >= 13) && (get_property("flyeredML").to_int() >= 10000))
 	{
-		poss = $items[Stuffed Shoulder Parrot, Glow-in-the-dark necklace, Glowing Red Eye, Bonerdagon Necklace, Batskin Belt, Jangly Bracelet, Pirate Fledges, Iron Beta of Industry, Barrel Hoop Earring, World\'s Best Adventurer Sash];
+		poss = $items[Stuffed Shoulder Parrot, Glow-in-the-dark necklace, Glowing Red Eye, Bonerdagon Necklace, Batskin Belt, Jangly Bracelet, Pirate Fledges, Iron Beta of Industry, Sphygmayomanometer, Barrel Hoop Earring, World\'s Best Adventurer Sash];
 	}
 	else
 	{
-		poss = $items[Vampire Collar, Stuffed Shoulder Parrot, imp unity ring, garish pinky ring, batskin belt, Jolly Roger Charrrm Bracelet, Glowing Red Eye, Jangly Bracelet, Pirate Fledges, glow-in-the-dark necklace, Compression Stocking, Wicker Kickers, Iron Beta of Industry, perfume-soaked bandana, World\'s Best Adventurer Sash, Hand In Glove, barrel hoop earring, Gumshoes, Caveman Dan\'s Favorite Rock];
+		poss = $items[Vampire Collar, Stuffed Shoulder Parrot, imp unity ring, garish pinky ring, batskin belt, Jolly Roger Charrrm Bracelet, Glowing Red Eye, Jangly Bracelet, Pirate Fledges, glow-in-the-dark necklace, Compression Stocking, Wicker Kickers, Iron Beta of Industry, Sphygmayomanometer, perfume-soaked bandana, World\'s Best Adventurer Sash, Hand In Glove, barrel hoop earring, Gumshoes, Caveman Dan\'s Favorite Rock];
 	}
 	foreach thing in poss
 	{
@@ -633,7 +640,7 @@ void equipBaselineAcc2()
 void equipBaselineAcc3()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[ring of telling skeletons what to do, Glowing Red Eye, grumpy old man charrrm bracelet, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Badge Of Authority, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
+	boolean[item] poss = $items[ring of telling skeletons what to do, Glowing Red Eye, grumpy old man charrrm bracelet, Pirate Fledges, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Sphygmayomanometer, Badge Of Authority, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing) && (equipped_item($slot[acc1]) != thing) && (equipped_item($slot[acc2]) != thing))
@@ -642,6 +649,27 @@ void equipBaselineAcc3()
 		}
 	}
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc3])))
+	{
+		equip($slot[acc3], toEquip);
+	}
+}
+
+void replaceBaselineAcc3()
+{
+	item toEquip = $item[none];
+	boolean[item] poss = $items[ring of telling skeletons what to do, Glowing Red Eye, grumpy old man charrrm bracelet, Pirate Fledges, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Badge Of Authority, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
+	foreach thing in poss
+	{
+		if(possessEquipment(thing) && can_equip(thing) && (equipped_item($slot[acc1]) != thing) && (equipped_item($slot[acc2]) != thing) && (equipped_item($slot[acc3]) != thing))
+		{
+			toEquip = thing;
+		}
+	}
+	if(toEquip == $item[none])
+	{
+		equip($slot[acc3], $item[none]);
+	}
+	else if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc3])))
 	{
 		equip($slot[acc3], toEquip);
 	}

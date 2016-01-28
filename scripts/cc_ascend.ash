@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16622;
+since r16639;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -25,7 +25,6 @@ import <cc_ascend/cc_community_service.ash>
 import <cc_ascend/cc_clan.ash>
 import <cc_ascend/cc_cooking.ash>
 import <cc_ascend/cc_adventure.ash>
-import <precheese.ash>
 
 void initializeSettings()
 {
@@ -44,6 +43,12 @@ void initializeSettings()
 	{
 		set_property("cc_useCubeling", true);
 		set_property("cc_100familiar", false);
+	}
+
+	if(!get_property("cc_100familiar").to_boolean() && have_familiar($familiar[Crimbo Shrub]))
+	{
+		use_familiar($familiar[Crimbo Shrub]);
+		use_familiar($familiar[none]);
 	}
 
 	set_property("chasmBridgeProgress", 0);
@@ -78,6 +83,7 @@ void initializeSettings()
 	set_property("cc_chasmBusted", true);
 	set_property("cc_clanstuff", "0");
 	set_property("cc_combatHandler", "");
+	set_property("cc_consumption", "");
 	set_property("cc_cookie", -1);
 	set_property("cc_crackpotjar", "");
 	set_property("cc_crypt", "");
@@ -97,6 +103,7 @@ void initializeSettings()
 	set_property("cc_gaudypiratecount", "");
 	set_property("cc_getBoningKnife", false);
 	set_property("cc_getStarKey", false);
+	set_property("cc_getSteelOrgan", get_property("cc_alwaysGetSteelOrgan").to_boolean());
 	set_property("cc_goblinking", "");
 	set_property("cc_gremlins", "");
 	set_property("cc_gremlinBanishes", "");
@@ -145,8 +152,6 @@ void initializeSettings()
 	set_property("cc_prehippy", "");
 	set_property("cc_pirateoutfit", "");
 	set_property("cc_priorCharpaneMode", "0");
-	set_property("cc_semirare", "");
-	set_property("cc_semisub", "");
 	set_property("cc_skipDesert", 0);
 	set_property("cc_snapshot", "");
 	set_property("cc_sniffs", "");
@@ -173,28 +178,6 @@ void initializeSettings()
 
 	set_property("autoSatisfyWithNPCs", true);
 
-	if(in_hardcore())
-	{
-		if(have_effect($effect[Adventurer\'s Best Friendship]) > 120)
-		{
-			set_property("choiceAdventure1106", 3);
-		}
-		else
-		{
-			set_property("choiceAdventure1106", 2);
-		}
-	}
-	else
-	{
-		if(have_effect($effect[Adventurer\'s Best Friendship]) > 30)
-		{
-			set_property("choiceAdventure1106", 3);
-		}
-		else
-		{
-			set_property("choiceAdventure1106", 2);
-		}
-	}
 	set_property("choiceAdventure1003", 0);
 	beehiveConsider();
 
@@ -224,7 +207,7 @@ boolean handleFamiliar(string type)
 	}
 	else if(type == "item")
 	{
-		foreach fam in $familiars[Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Baby Gravy Fairy]
+		foreach fam in $familiars[Rockin\' Robin, Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Baby Gravy Fairy]
 		{
 			if(have_familiar(fam))
 			{
@@ -236,7 +219,7 @@ boolean handleFamiliar(string type)
 	{
 		if(monster_level_adjustment() > 120)
 		{
-			foreach fam in $familiars[Galloping Grill, Hovering Sombrero, Baby Sandworm]
+			foreach fam in $familiars[Galloping Grill, Rockin\' Robin, Hovering Sombrero, Baby Sandworm]
 			{
 				if(have_familiar(fam))
 				{
@@ -244,7 +227,7 @@ boolean handleFamiliar(string type)
 				}
 			}
 		}
-		foreach fam in $familiars[Grim Brother, Golden Monkey, Reanimated Reanimator, Unconscious Collective, Bloovian Groose, Lil\' Barrel Mimic, Artistic Goth Kid, Happy Medium, Baby Z-Rex, Li\'l Xenomorph, Smiling Rat, Dramatic Hedgehog, Grinning Turtle, Frumious Bandersnatch, Blood-Faced Volleyball]
+		foreach fam in $familiars[Grim Brother, Rockin\' Robin, Golden Monkey, Reanimated Reanimator, Unconscious Collective, Bloovian Groose, Lil\' Barrel Mimic, Artistic Goth Kid, Happy Medium, Baby Z-Rex, Li\'l Xenomorph, Smiling Rat, Dramatic Hedgehog, Grinning Turtle, Frumious Bandersnatch, Blood-Faced Volleyball]
 		{
 			if(have_familiar(fam))
 			{
@@ -267,6 +250,17 @@ boolean handleFamiliar(string type)
 		}
 	}
 
+	else if(type == "yellow ray")
+	{
+#		foreach fam in $familiars[Crimbo Shrub, Nanorhino, He-Boulder]
+		foreach fam in $familiars[Crimbo Shrub]
+		{
+			if(have_familiar(fam))
+			{
+				return handleFamiliar(fam);
+			}
+		}
+	}
 	return false;
 }
 
@@ -338,11 +332,16 @@ boolean handleFamiliar(familiar fam)
 		}
 	}
 
-	if((toEquip != $familiar[none]) && (toEquip != my_familiar()) && (my_bjorned_familiar() != toEquip))
+	if((toEquip != $familiar[none]) && (my_bjorned_familiar() != toEquip))
+	{
+		#use_familiar(toEquip);
+		set_property("cc_familiarChoice", toEquip);
+	}
+	if(get_property("kingLiberated").to_boolean() && (toEquip != $familiar[none]) && (toEquip != my_familiar()) && (my_bjorned_familiar() != toEquip))
 	{
 		use_familiar(toEquip);
 	}
-	set_property("cc_familiarChoice", my_familiar());
+#	set_property("cc_familiarChoice", my_familiar());
 
 	if(hr_handleFamiliar(fam))
 	{
@@ -386,6 +385,10 @@ boolean L1_dnaAcquire()
 		}
 	}
 	set_property("cc_day1_dna", "finished");
+	if(have_effect($effect[Human-Weird Thing Hybrid]) != 2147483647)
+	{
+		print("DNA Hybridization failed, perhaps it was due to ML which is annoying us right now.", "red");
+	}
 	return true;
 }
 
@@ -659,7 +662,7 @@ boolean warOutfit()
 	}
 }
 
-void warAdventure()
+boolean warAdventure()
 {
 	if(!get_property("cc_hippyInstead").to_boolean())
 	{
@@ -669,6 +672,7 @@ void warAdventure()
 	{
 		ccAdv(1, $location[The Battlefield (Hippy Uniform)]);
 	}
+	return true;
 }
 
 //Return false if you should continue, true if it did something
@@ -920,10 +924,10 @@ boolean doThemtharHills(boolean trickMode)
 		case 2:		//Rain-doh box
 			break;
 		case 3:
-			handle4dCamera();
+			handleCopiedMonster($item[Shaking 4-D Camera]);
 			break;
 		case 4:
-			handleIceSculpture();
+			handleCopiedMonster($item[Ice Sculpture]);
 			break;
 		default:
 			abort("Trying nuns trick but unhandled copy case (" + copyAvailable + ")");
@@ -1159,7 +1163,7 @@ int handlePulls(int day)
 			pullXWhenHaveY($item[Unconscious Collective Dream Jar], 1, 0);
 			if(item_amount($item[Unconscious Collective Dream Jar]) > 0)
 			{
-				chew(1, $item[Unconscious Collective Dream Jar]);
+				ccChew(1, $item[Unconscious Collective Dream Jar]);
 			}
 		}
 	}
@@ -1178,72 +1182,65 @@ boolean fortuneCookieEvent()
 {
 	if((cc_my_path() == "Heavy Rains") && (get_property("cc_orchard") == "finished"))
 	{
-		cli_execute("counters");
 		if(get_counters("Fortune Cookie", 0, 200) != "")
 		{
+			cli_execute("counters");
 			cli_execute("counters clear");
 			print("We don't care about the semirares anymore, we are past the orchard. Cancelling.");
 		}
 		return false;
 	}
-	if((my_class() == $class[Ed]) && ((get_property("cc_orchard") == "finished") || (get_property("cc_semirare").to_int() >= 2)))
-	{
-		if(get_counters("Fortune Cookie", 0, 200) != "")
-		{
-			cli_execute("counters clear");
-			print("We don't care about the semirares anymore, we are past the orchard. Cancelling.");
-		}
-		return false;
-	}
+#	if((my_class() == $class[Ed]) && ((get_property("cc_orchard") == "finished") || (get_property("cc_semirare").to_int() >= 2)))
+#	{
+#		if(get_counters("Fortune Cookie", 0, 200) != "")
+#		{
+#			cli_execute("counters clear");
+#			print("We don't care about the semirares anymore, we are past the orchard. Cancelling.");
+#		}
+#		return false;
+#	}
 
 	if(get_counters("Fortune Cookie", 0, 0) == "Fortune Cookie")
 	{
 		print("Semi rare time!", "blue");
 		cli_execute("counters");
 		cli_execute("counters clear");
-		print("Removed all the counters, can we just remove the cookie?");
+		#remove_counter("Fortune Cookie", true);
 
-		if((get_property("cc_semirare") == "") && (item_amount($item[stone wool]) >= 2))
+		location goal = $location[The Hidden Temple];
+
+		if((goal == $location[The Hidden Temple]) && ((item_amount($item[stone wool]) >= 2) || (get_property("cc_hiddenunlock") == "nose") || (get_property("cc_hiddenunlock") == "finished") || (internalQuestStatus("questL11Worship") >= 3) || (get_property("semirareLocation") == goal) || (get_property("lastTempleUnlock").to_int() < my_ascensions()) || (get_property("cc_spookysapling") != "finished")))
 		{
-			set_property("cc_semirare", "1");
-			set_property("cc_semisub", "wool");
+			goal = $location[The Castle in the Clouds in the Sky (Top Floor)];
 		}
 
-		if((get_property("cc_semirare") == "") && (get_property("cc_spookysapling") == "finished"))
+		if((goal == $location[The Castle in the Clouds in the Sky (Top Floor)]) && ((item_amount($item[Mick\'s IcyVapoHotness Inhaler]) > 0) || (get_property("cc_nuns") == "done") || (get_property("cc_nuns") == "finished") || (internalQuestStatus("questL10Garbage") < 9) || (get_property("semirareLocation") == goal) || (get_property("lastCastleTopUnlock").to_int() < my_ascensions()) || (get_property("cc_castleground") != "finished") || (get_property("sidequestNunsCompleted") != "none")))
 		{
-			ccAdv(1, $location[The Hidden Temple]);
-			if(item_amount($item[stone wool]) > 0)
-			{
-				set_property("cc_semirare", "1");
-				set_property("cc_semisub", "wool");
-			}
+			goal = $location[The Limerick Dungeon];
 		}
-		else if((get_property("cc_semirare") == "1") && (get_property("cc_castleground") == "finished") && (get_property("cc_nuns") != "done"))
+
+		if((goal == $location[The Limerick Dungeon]) && ((item_amount($item[Cyclops Eyedrops]) > 0) || (get_property("cc_orchard") == "start") || (get_property("cc_orchard") == "done") || (get_property("cc_orchard") == "finished") || (internalQuestStatus("questL10Garbage") < 9) || (get_property("semirareLocation") == goal) || (get_property("lastFilthClearance").to_int() >= my_ascensions()) || (get_property("sidequestOrchardComplete") != "none") || (get_property("currentHippyStore") != "none")))
 		{
-			ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
-			if(item_amount($item[Mick\'s IcyVapoHotness Inhaler]) > 0)
-			{
-				set_property("cc_castleground", "done");
-				set_property("cc_semisub", "inhaler");
-				set_property("cc_semirare", "2");
-			}
+			goal = $location[The Haunted Pantry];
 		}
-		else if(get_property("cc_semisub") != "limerick")
+
+		if((goal == $location[The Haunted Pantry]) && (get_property("semirareLocation") == goal))
 		{
-			ccAdv(1, $location[The Limerick Dungeon]);
-			set_property("cc_semisub", "limerick");
+			goal = $location[The Sleazy Back Alley];
 		}
-		else if(get_property("cc_semisub") != "pantry")
+
+		if((goal == $location[The Sleazy Back Alley]) && (get_property("semirareLocation") == goal))
 		{
-			ccAdv(1, $location[The Haunted Pantry]);
-			set_property("cc_semisub", "pantry");
+			goal = $location[The Outskirts of Cobb\'s Knob];
 		}
-		else
+
+		if((goal == $location[The Outskirts of Cobb\'s Knob]) && (get_property("semirareLocation") == goal))
 		{
-			ccAdv(1, $location[The Sleazy Back Alley]);
-			set_property("cc_semisub", "alley");
+			print("Do we not have access to either The Haunted Pantry or The Sleazy Back Alley?", "red");
+			goal = $location[The Haunted Pantry];
 		}
-		return true;
+
+		return ccAdv(goal);
 	}
 	return false;
 }
@@ -1315,12 +1312,6 @@ void initializeDay(int day)
 		}
 	}
 
-	if(item_amount($item[Mick\'s IcyVapoHotness Inhaler]) > 0)
-	{
-		set_property("cc_castleground", "done");
-		set_property("cc_semisub", "inhaler");
-	}
-
 	if((item_amount($item[GameInformPowerDailyPro Magazine]) > 0) && (my_daycount() == 1))
 	{
 		visit_url("inv_use.php?pwd=&which=3&whichitem=6174", true);
@@ -1387,11 +1378,11 @@ void initializeDay(int day)
 			handleBjornify($familiar[none]);
 			handleBjornify($familiar[El Vibrato Megadrone]);
 
-			visit_url("guild.php?place=challenge");
+			string temp = visit_url("guild.php?place=challenge");
 
 			if(get_property("cc_breakstone").to_boolean())
 			{
-				visit_url("campground.php?action=stone&smashstone=Yep.&pwd&confirm=on", true);
+				temp = visit_url("campground.php?action=stone&smashstone=Yep.&pwd&confirm=on", true);
 				set_property("cc_breakstone", false);
 			}
 			set_property("cc_day1_init", "finished");
@@ -1474,10 +1465,6 @@ void initializeDay(int day)
 		{
 			handleFamiliar($familiar[Reanimated Reanimator]);
 			chateaumantegna_usePainting();
-#			if(chateaumantegna_usePainting())
-#			{
-#				ccAdv(1, $location[Noob Cave]);
-#			}
 			handleFamiliar($familiar[Angry Jung Man]);
 		}
 	}
@@ -1601,12 +1588,6 @@ void doBedtime()
 	while(LX_freeCombats())
 	{}
 
-#	while(snojoFightAvailable() && (my_adventures() > 0) && (my_inebriety() <= inebriety_limit()))
-#	{
-#		handleFamiliar($familiar[Ms. Puck Man]);
-#		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
-#	}
-
 	if(my_class() == $class[seal clubber])
 	{
 		handleFamiliar("stat");
@@ -1634,19 +1615,6 @@ void doBedtime()
 		}
 	}
 
-#	while(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && (my_inebriety() <= inebriety_limit()) && !get_property("cc_100familiar").to_boolean())
-#		if(get_property("cc_choice1119") != "")
-#		{
-#			set_property("choiceAdventure1119", get_property("cc_choice1119"));
-#		}
-#		set_property("cc_choice1119", get_property("choiceAdventure1119"));
-#		set_property("choiceAdventure1119", 1);
-#		handleFamiliar($familiar[Machine Elf]);
-#		ccAdv(1, $location[The Deep Machine Tunnels]);
-#		set_property("choiceAdventure1119", get_property("cc_choice1119"));
-#		set_property("cc_choice1119", "");
-#	}
-
 	if((my_inebriety() <= inebriety_limit()) && (my_rain() >= 50) && (my_adventures() >= 1))
 	{
 		if(my_daycount() == 1)
@@ -1662,7 +1630,8 @@ void doBedtime()
 			if(item_amount($item[beer helmet]) == 0)
 			{
 				print("Please consider an orcish frat boy spy (You want Frat Warrior Fatigues).", "blue");
-				if((have_effect($effect[Everything Looks Yellow]) == 0) && (my_lightning() >= 5))
+#				if((have_effect($effect[Everything Looks Yellow]) == 0) && (my_lightning() >= 5))
+				if(canYellowRay())
 				{
 					print("Make sure to Ball Lightning the spy!!", "red");
 				}
@@ -1984,7 +1953,8 @@ void doBedtime()
 			if(item_amount($item[beer helmet]) == 0)
 			{
 				print("Please consider an orcish frat boy spy (You want Frat Warrior Fatigues).", "blue");
-				if((have_effect($effect[Everything Looks Yellow]) == 0) && (my_lightning() >= 5))
+#				if((have_effect($effect[Everything Looks Yellow]) == 0) && (my_lightning() >= 5))
+				if(canYellowRay())
 				{
 					print("Make sure to Ball Lightning the spy!!", "red");
 				}
@@ -2047,6 +2017,11 @@ void doBedtime()
 		if(is_unrestricted($item[Chateau Mantegna Room Key]) && !get_property("_chateauMonsterFought").to_boolean() && get_property("chateauAvailable").to_boolean())
 		{
 			print("You can still fight a Chateau Mangtegna Painting today.", "blue");
+		}
+
+		if(stills_available() > 0)
+		{
+			print("You have " + stills_available() + " uses of Nash Crosby's Still left.", "blue");
 		}
 
 		if(is_unrestricted($item[shrine to the Barrel God]) && !get_property("_barrelPrayer").to_boolean() && get_property("barrelShrineUnlocked").to_boolean())
@@ -2165,18 +2140,15 @@ boolean questOverride()
 	{
 		print("Found completed Castle in the Clouds in the Sky with some Pie (10)");
 		set_property("cc_castletop", "finished");
-		if(get_property("cc_castleground") != "done")
-		{
-			set_property("cc_castleground", "finished");
-		}
+		set_property("cc_castleground", "finished");
 		set_property("cc_castlebasement", "finished");
 		set_property("cc_airship", "finished");
 		set_property("cc_bean", "plant");
 	}
-	if((internalQuestStatus("questL10Garbage") >= 9) && (get_property("cc_castleground") != "finished") && (get_property("cc_castleground") != "done"))
+	if((internalQuestStatus("questL10Garbage") >= 9) && (get_property("cc_castleground") != "finished"))
 	{
 		print("Found completed Castle Ground Floor (10)");
-		set_property("cc_castleground", "done");
+		set_property("cc_castleground", "finished");
 	}
 	if((internalQuestStatus("questL10Garbage") >= 8) && (get_property("cc_castlebasement") != "finished"))
 	{
@@ -2814,9 +2786,6 @@ boolean L11_palindome()
 
 		print("War sir is raw!!", "blue");
 		ccAdvBypass("place.php?whichplace=palindome&action=pal_drlabel", $location[Noob Cave]);
-#		visit_url("place.php?whichplace=palindome&action=pal_drlabel");
-#		visit_url("choice.php?pwd&whichchoice=131&option=1&choiceform1=War%2C+sir%2C+is+raw%21");
-#		ccAdv(1, $location[Noob Cave]);
 		if(item_amount($item[2268]) == 1)
 		{
 			set_property("cc_palindome", "finished");
@@ -2935,8 +2904,6 @@ boolean L13_towerNSFinal()
 	{
 		set_property("cc_disableAdventureHandling", "yes");
 		ccAdvBypass("place.php?whichplace=nstower&action=ns_10_sorcfight", $location[Noob Cave]);
-#		visit_url("place.php?whichplace=nstower&action=ns_10_sorcfight");
-#		ccAdv(1, $location[Noob Cave]);
 		if(have_effect($effect[Beaten Up]) > 0)
 		{
 			print("Sorceress beat us up. Wahhh.", "red");
@@ -2959,6 +2926,11 @@ boolean L13_towerNSFinal()
 				set_property("cc_disableAdventureHandling", "no");
 				return true;
 			}
+			if(get_property("cc_stayInRun").to_boolean())
+			{
+				set_property("cc_disableAdventureHandling", "no");
+				abort("User wanted to stay in run (cc_stayInRun), we are done.");
+			}
 			visit_url("place.php?whichplace=nstower&action=ns_11_prism");
 		}
 		set_property("cc_disableAdventureHandling", "no");
@@ -2966,6 +2938,11 @@ boolean L13_towerNSFinal()
 	else
 	{
 		visit_url("place.php?whichplace=nstower&action=ns_11_prism");
+	}
+
+	if(get_property("cc_stayInRun").to_boolean())
+	{
+		abort("User wanted to stay in run (cc_stayInRun), we are done.");
 	}
 
 	visit_url("place.php?whichplace=nstower&action=ns_11_prism");
@@ -3023,6 +3000,7 @@ boolean L13_towerNSTower()
 		{
 			sources = sources + 2;
 			handleFamiliar($familiar[Warbear Drone]);
+			cli_execute("precheese");
 			if(!possessEquipment($item[Warbear Drone Codes]))
 			{
 				pullXWhenHaveY($item[warbear drone codes], 1, 0);
@@ -3122,8 +3100,6 @@ boolean L13_towerNSTower()
 			{
 				useCocoon();
 			}
-#			visit_url("place.php?whichplace=nstower&action=ns_05_monster1");
-#			adv1($location[Noob Cave], 1, "cc_combatHandler");
 			ccAdvBypass("place.php?whichplace=nstower&action=ns_05_monster1", $location[Noob Cave]);
 			if(have_effect($effect[Beaten Up]) > 0)
 			{
@@ -3151,9 +3127,11 @@ boolean L13_towerNSTower()
 	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_06_monster2"))
 	{
 		equipBaseline();
+		shrugAT();
 		buffMaintain($effect[Disco Leer], 0, 1, 1);
 		buffMaintain($effect[Polka of Plenty], 0, 1, 1);
 		buffMaintain($effect[Cranberry Cordiality], 0, 1, 1);
+		buffMaintain($effect[Big Meat Big Prizes], 0, 1, 1);
 		if((get_property("sidequestArenaCompleted") == "fratboy") && !get_property("concertVisited").to_boolean() && (have_effect($effect[Winklered]) == 0))
 		{
 			cli_execute("concert 2");
@@ -3172,13 +3150,13 @@ boolean L13_towerNSTower()
 		}
 		else
 		{
-			ccMaximize("meat drop, -equip snow suit, switch Hobo Monkey, switch Grimstone Golem, switch Fist Turkey, switch Unconscious Collective, switch Golden Monkey, switch Angry Jung Man, switch Leprechaun", 1500, 0, false);
+			ccMaximize("meat drop, -equip snow suit, switch Hobo Monkey, switch adventurous spelunker, switch Grimstone Golem, switch Fist Turkey, switch Unconscious Collective, switch Golden Monkey, switch Angry Jung Man, switch Leprechaun", 1500, 0, false);
+			handleFamiliar(my_familiar());
 		}
 		if((my_class() == $class[Seal Clubber]) && (item_amount($item[Meat Tenderizer is Murder]) > 0))
 		{
 			equip($item[Meat Tenderizer is Murder]);
 		}
-		handleFamiliar($familiar[Adventurous Spelunker]);
 
 		if(my_mp() >= 20)
 		{
@@ -3188,9 +3166,7 @@ boolean L13_towerNSTower()
 		{
 			doHottub();
 		}
-		return ccAdvBypass("place.php?whichplace=nstower&action=ns_06_monster2", $location[Noob Cave]);
-#		visit_url("place.php?whichplace=nstower&action=ns_06_monster2");
-#		ccAdv(1, $location[Noob Cave]);
+		ccAdvBypass("place.php?whichplace=nstower&action=ns_06_monster2", $location[Noob Cave]);
 		return true;
 	}
 
@@ -3254,8 +3230,6 @@ boolean L13_towerNSTower()
 
 			useCocoon();
 			ccAdvBypass("place.php?whichplace=nstower&action=ns_07_monster3", $location[Noob Cave]);
-#			visit_url("place.php?whichplace=nstower&action=ns_07_monster3");
-#			ccAdv(1, $location[Noob Cave]);
 			if(have_effect($effect[Beaten Up]) > 0)
 			{
 				print("Could not towerkill Wall of Bones, reverting to Boning Knife", "red");
@@ -3270,8 +3244,6 @@ boolean L13_towerNSTower()
 		else if(item_amount($item[electric boning knife]) > 0)
 		{
 			return ccAdvBypass("place.php?whichplace=nstower&action=ns_07_monster3", $location[Noob Cave]);
-#			visit_url("place.php?whichplace=nstower&action=ns_07_monster3");
-#			ccAdv(1, $location[Noob Cave]);
 		}
 		else
 		{
@@ -3304,8 +3276,6 @@ boolean L13_towerNSTower()
 		doHottub();
 
 		ccAdvBypass("place.php?whichplace=nstower&action=ns_09_monster5", $location[Noob Cave]);
-#		visit_url("place.php?whichplace=nstower&action=ns_09_monster5");
-#		adv1($location[Noob Cave], 1, "cc_combatHandler");
 		return true;
 	}
 
@@ -3434,52 +3404,6 @@ boolean L13_towerNSContests()
 		return true;
 	}
 
-	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_01_crowd1"))
-	{
-		ccAdv(1, $location[Fastest Adventurer Contest]);
-		return true;
-	}
-
-	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_01_crowd2"))
-	{
-		switch(get_property("nsChallenge1"))
-		{
-		case "Mysticality":
-			ccAdv(1, $location[Smartest Adventurer Contest]);
-			break;
-		case "Moxie":
-			ccAdv(1, $location[Smoothest Adventurer Contest]);
-			break;
-		case "Muscle":
-			ccAdv(1, $location[Strongest Adventurer Contest]);
-			break;
-		}
-		return true;
-	}
-
-	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_01_crowd3"))
-	{
-		switch(get_property("nsChallenge2"))
-		{
-		case "cold":
-			ccAdv(1, $location[Coldest Adventurer Contest]);
-			break;
-		case "hot":
-			ccAdv(1, $location[Hottest Adventurer Contest]);
-			break;
-		case "sleaze":
-			ccAdv(1, $location[Sleaziest Adventurer Contest]);
-			break;
-		case "spooky":
-			ccAdv(1, $location[Spookiest Adventurer Contest]);
-			break;
-		case "stench":
-			ccAdv(1, $location[Stinkiest Adventurer Contest]);
-			break;
-		}
-		return true;
-	}
-
 	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_01_contestbooth"))
 	{
 		if(get_property("nsContestants1").to_int() == -1)
@@ -3488,7 +3412,7 @@ boolean L13_towerNSContests()
 			{
 				cli_execute("grim init");
 			}
-			if(!get_property("telescopeLookedHigh").to_boolean())
+			if((get_property("telescopeUpgrades").to_int() > 0) && (!get_property("telescopeLookedHigh").to_boolean()))
 			{
 				cli_execute("telescope high");
 			}
@@ -3500,6 +3424,8 @@ boolean L13_towerNSContests()
 					doRest();
 				}
 				buffMaintain($effect[All Fired Up], 0, 1, 1);
+				buffMaintain($effect[Fishy\, Oily], 0, 1, 1);
+				buffMaintain($effect[Human-Machine Hybrid], 0, 1, 1);
 				buffMaintain($effect[Well-Swabbed Ear], 0, 1, 1);
 				buffMaintain($effect[Ticking Clock], 0, 1, 1);
 				buffMaintain($effect[Sugar Rush], 0, 1, 1);
@@ -3517,22 +3443,16 @@ boolean L13_towerNSContests()
 				else
 				{
 					ccMaximize("init, -equip snow suit, switch xiblaxian holo-companion, switch oily woim ", 1500, 0, false);
+					handleFamiliar(my_familiar());
 				}
-				if(have_familiar($familiar[Xiblaxian Holo-Companion]))
-				{
-					handleFamiliar($familiar[Xiblaxian Holo-Companion]);
-				}
-				else if(have_familiar($familiar[Oily Woim]))
-				{
-					handleFamiliar($familiar[Oily Woim]);
-				}
+
+				cli_execute("precheese");
 				break;
 			}
 
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=1", true);
 			visit_url("main.php");
-			handleFamiliar($familiar[Adventurous Spelunker]);
 		}
 		if(get_property("nsContestants2").to_int() == -1)
 		{
@@ -3545,6 +3465,9 @@ boolean L13_towerNSContests()
 			case $stat[moxie]:
 				buffMaintain($effect[Pill Power], 0, 1, 1);
 				buffMaintain($effect[Newt Gets In Your Eyes], 0, 1, 1);
+				buffMaintain($effect[Memories of Puppy Love], 0, 1, 1);
+				buffMaintain($effect[Superhuman Sarcasm], 0, 1, 1);
+				buffMaintain($effect[Busy Bein\' Delicious], 0, 1, 1);
 				buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
 				buffMaintain($effect[Liquidy Smoky], 0, 1, 1);
 				buffMaintain($effect[Notably Lovely], 0, 1, 1);
@@ -3553,6 +3476,7 @@ boolean L13_towerNSContests()
 				buffMaintain($effect[Lycanthropy\, Eh?], 0, 1, 1);
 				buffMaintain($effect[Radiating Black Body&trade;], 0, 1, 1);
 
+				buffMaintain($effect[The Moxious Madrigal], 10, 1, 1);
 				buffMaintain($effect[Disco Smirk], 10, 1, 1);
 				buffMaintain($effect[Song of Bravado], 100, 1, 1);
 				buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
@@ -3577,6 +3501,7 @@ boolean L13_towerNSContests()
 				buffMaintain($effect[Fishy Fortification], 0, 1, 1);
 				buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
 				buffMaintain($effect[Slightly Larger Than Usual], 0, 1, 1);
+				buffMaintain($effect[Industrial Strength Starch], 0, 1, 1);
 
 				buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
 				buffMaintain($effect[Song of Bravado], 100, 1, 1);
@@ -3604,7 +3529,6 @@ boolean L13_towerNSContests()
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=2", true);
 			visit_url("main.php");
-			handleFamiliar($familiar[Adventurous Spelunker]);
 		}
 		if(get_property("nsContestants3").to_int() == -1)
 		{
@@ -3636,7 +3560,9 @@ boolean L13_towerNSContests()
 				break;
 			case $element[stench]:
 				buffMaintain($effect[Drenched With Filth], 0, 1, 1);
+				buffMaintain($effect[Musky], 0, 1, 1);
 				buffMaintain($effect[Stinky Hands], 0, 1, 1);
+				buffMaintain($effect[Stinky Weapon], 0, 1, 1);
 				buffMaintain($effect[Rotten Memories], 15, 1, 1);
 				ccMaximize("stench dmg -equip snow suit", 1500, 0, false);
 				break;
@@ -3650,8 +3576,6 @@ boolean L13_towerNSContests()
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=3", true);
 			visit_url("main.php");
-			handleFamiliar($familiar[Adventurous Spelunker]);
-			equipBaseline();
 		}
 
 		set_property("choiceAdventure1003",  4);
@@ -3660,10 +3584,54 @@ boolean L13_towerNSContests()
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=4", true);
 			visit_url("main.php");
+			return true;
 		}
+	}
+
+	handleFamiliar($familiar[Adventurous Spelunker]);
+	equipBaseline();
+
+	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_01_crowd1"))
+	{
+		ccAdv(1, $location[Fastest Adventurer Contest]);
 		return true;
 	}
 
+	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_01_crowd2"))
+	{
+		location toCompete = $location[none];
+		switch(get_property("nsChallenge1"))
+		{
+		case "Mysticality":	toCompete = $location[Smartest Adventurer Contest];		break;
+		case "Moxie":		toCompete = $location[Smoothest Adventurer Contest];	break;
+		case "Muscle":		toCompete = $location[Strongest Adventurer Contest];	break;
+		}
+		if(toCompete == $location[none])
+		{
+			abort("nsChallenge1 is invalid. This is a severe error.");
+		}
+		ccAdv(1, toCompete);
+		return true;
+	}
+
+	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_01_crowd3"))
+	{
+		location toCompete = $location[none];
+		switch(get_property("nsChallenge2"))
+		{
+		case "cold":		toCompete = $location[Coldest Adventurer Contest];		break;
+		case "hot":			toCompete = $location[Hottest Adventurer Contest];		break;
+		case "sleaze":		toCompete = $location[Sleaziest Adventurer Contest];	break;
+		case "spooky":		toCompete = $location[Spookiest Adventurer Contest];	break;
+		case "stench":		toCompete = $location[Stinkiest Adventurer Contest];	break;
+		}
+		if(toCompete == $location[none])
+		{
+			abort("nsChallenge1 is invalid. This is a severe error.");
+		}
+		ccAdv(1, toCompete);
+		return true;
+	}
 	return false;
 }
 
@@ -3947,7 +3915,7 @@ boolean L11_hiddenCity()
 								buffMaintain($effect[Ode to Booze], 50, 1, 1);
 							}
 
-							drink(1, $item[Cursed Punch]);
+							ccDrink(1, $item[Cursed Punch]);
 						}
 						else
 						{
@@ -3989,7 +3957,6 @@ boolean L11_hiddenCity()
 			set_property("autoCraft", false);
 
 			ccAdv(1, $location[The Hidden Office Building]);
-
 
 			if((item_amount($item[Boring Binder Clip]) == 1) && (item_amount($item[McClusky File (Page 5)]) == 1))
 			{
@@ -4453,6 +4420,9 @@ boolean LX_spookyravenSecond()
 		visit_url("place.php?whichplace=manor2&action=manor2_ladys");
 		set_property("cc_ballroomopen", "open");
 		ccAdv(1, $location[The Haunted Ballroom]);
+		#
+		#	Is it possible that some other adventure can interrupt us here? If so, we will need to fix that.
+		#
 		if(contains_text(get_property("lastEncounter"), "Lights Out in the Ballroom"))
 		{
 			ccAdv(1, $location[The Haunted Ballroom]);
@@ -5318,6 +5288,14 @@ boolean L12_sonofaBeach()
 		return true;
 	}
 
+	if(chateaumantegna_havePainting() && !get_property("chateauMonsterFought").to_boolean() && (get_property("chateauMonster") == $monster[Lobsterfrogman]))
+	{
+		if(chateaumantegna_usePainting())
+		{
+			handleFamiliar("item");
+			return true;
+		}
+	}
 
 	if(!uneffect($effect[The Sonata of Sneakiness]))
 	{
@@ -5375,7 +5353,7 @@ boolean L12_sonofaBeach()
 	}
 	ccAdv(1, $location[Sonofa Beach]);
 	set_property("cc_doCombatCopy", "no");
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 
 	if((my_class() == $class[Ed]) && (my_hp() == 0))
 	{
@@ -5400,8 +5378,6 @@ boolean L12_filthworms()
 	}
 	print("Doing the orchard.", "blue");
 
-	handleFamiliar("item");
-
 	if(item_amount($item[Filthworm Hatchling Scent Gland]) > 0)
 	{
 		use(1, $item[Filthworm Hatchling Scent Gland]);
@@ -5417,6 +5393,7 @@ boolean L12_filthworms()
 
 	if(have_effect($effect[Filthworm Guard Stench]) > 0)
 	{
+		handleFamiliar("meat");
 		ccAdv(1, $location[The Filthworm Queen\'s Chamber]);
 		if(item_amount($item[Heart of the Filthworm Queen]) > 0)
 		{
@@ -5457,34 +5434,33 @@ boolean L12_filthworms()
 		equip($item[A Light That Never Goes Out]);
 	}
 
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 	if(item_amount($item[Training Helmet]) > 0)
 	{
 		equip($slot[hat], $item[Training Helmet]);
 	}
 
-	if(have_effect($effect[Everything Looks Yellow]) == 0)
+	if(canYellowRay())
 	{
-		handleFamiliar($familiar[Crimbo Shrub]);
-		if((my_familiar() == $familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
+		if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
 		{
-			visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
-			visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=1&lights=1&garland=1&gift=1");
+			handleFamiliar("yellow ray");
 		}
 	}
 
 	if(have_effect($effect[Filthworm Drone Stench]) > 0)
 	{
 		ccAdv(1, $location[The Royal Guard Chamber]);
-		return true;
 	}
-	if(have_effect($effect[Filthworm Larva Stench]) > 0)
+	else if(have_effect($effect[Filthworm Larva Stench]) > 0)
 	{
 		ccAdv(1, $location[The Feeding Chamber]);
-		return true;
 	}
-	ccAdv(1, $location[The Hatching Chamber]);
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	else
+	{
+		ccAdv(1, $location[The Hatching Chamber]);
+	}
+	handleFamiliar("item");
 	return true;
 }
 
@@ -5513,31 +5489,39 @@ boolean L12_nunsTrickGlandGet()
 	{
 		return false;
 	}
-	if(have_effect($effect[Everything looks yellow]) != 0)
+	if(!canYellowRay())
 	{
 		return false;
 	}
-	if(get_property("cc_100familiar").to_boolean())
-	{
-		return false;
-	}
-	if((my_lightning() < 5) && (cc_my_path() == "Heavy Rains"))
-	{
-		return false;
-	}
+#	if(have_effect($effect[Everything looks yellow]) != 0)
+#	{
+#		return false;
+#	}
+#	if(get_property("cc_100familiar").to_boolean())
+#	{
+#		return false;
+#	}
+#	if((my_lightning() < 5) && (cc_my_path() == "Heavy Rains"))
+#	{
+#		return false;
+#	}
 	if(!outfit("war hippy fatigues"))
 	{
 		abort("Could not wear war hippy fatigues, failing");
 	}
-	if(cc_my_path() != "Heavy Rains")
+	if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
 	{
-		handleFamiliar($familiar[Crimbo Shrub]);
-		if((my_familiar() == $familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
-		{
-			visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
-			visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=1&lights=1&garland=1&gift=1");
-		}
+		handleFamiliar("yellow ray");
 	}
+#	if(cc_my_path() != "Heavy Rains")
+#	{
+#		handleFamiliar($familiar[Crimbo Shrub]);
+#		if((my_familiar() == $familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
+#		{
+#			visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
+#			visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=1&lights=1&garland=1&gift=1");
+#		}
+#	}
 	if(item_amount($item[Filthworm Hatchling Scent Gland]) > 0)
 	{
 		set_property("cc_nunsTrickGland", "done");
@@ -5652,7 +5636,7 @@ boolean L12_finalizeWar()
 		doRest();
 	}
 	warOutfit();
-	cli_execute("refresh equip");
+#	cli_execute("refresh equip");
 	if(my_hp() < my_maxhp())
 	{
 		print("My hp is: " + my_hp());
@@ -5667,18 +5651,22 @@ boolean L12_finalizeWar()
 		bossFight = $location[The Battlefield (Hippy Uniform)];
 	}
 
-	#
-	#	ccAdvBypass can not handle this yet.
-	#
-
-	handlePreAdventure(bossFight);
-	visit_url("bigisland.php?place=camp&whichcamp=1");
-	visit_url("bigisland.php?place=camp&whichcamp=2");
-	visit_url("bigisland.php?action=bossfight&pwd");
-	if(!ccAdv(1, bossFight))
+#	handlePreAdventure(bossFight);
+	string[int] pages;
+	pages[0] = "bigisland.php?place=camp&whichcamp=1";
+	pages[1] = "bigisland.php?place=camp&whichcamp=2";
+	pages[2] = "bigisland.php?action=bossfight&pwd";
+	if(!ccAdvBypass(0, pages, bossFight, ""))
 	{
 		print("Boss already defeated, ignoring", "red");
 	}
+#	visit_url("bigisland.php?place=camp&whichcamp=1");
+#	visit_url("bigisland.php?place=camp&whichcamp=2");
+#	visit_url("bigisland.php?action=bossfight&pwd");
+#	if(!ccAdv(1, bossFight))
+#	{
+#		print("Boss already defeated, ignoring", "red");
+#	}
 	council();
 	set_property("cc_war", "finished");
 	return true;
@@ -5813,8 +5801,8 @@ boolean L12_orchardFinalize()
 		pulverizeThing($item[A Light that Never Goes Out]);
 	}
 	warOutfit();
-	visit_url("bigisland.php?place=orchard&action=stand&pwd");
-	visit_url("bigisland.php?place=orchard&action=stand&pwd");
+	string temp = visit_url("bigisland.php?place=orchard&action=stand&pwd");
+	temp = visit_url("bigisland.php?place=orchard&action=stand&pwd");
 	return true;
 }
 
@@ -6110,15 +6098,24 @@ boolean L10_airship()
 		handleFamiliar($familiar[Artistic Goth Kid]);
 	}
 
-	if(!possessEquipment($item[Mohawk Wig]) && (have_effect($effect[Everything Looks Yellow]) == 0))
+
+	if(!possessEquipment($item[Mohawk Wig]) && canYellowRay())
 	{
-		handleFamiliar($familiar[Crimbo Shrub]);
-		if((my_familiar() == $familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
+		if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
 		{
-			visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
-			visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=1&lights=1&garland=1&gift=1");
+			handleFamiliar("yellow ray");
 		}
 	}
+
+#	if(!possessEquipment($item[Mohawk Wig]) && (have_effect($effect[Everything Looks Yellow]) == 0))
+#	{
+#		handleFamiliar($familiar[Crimbo Shrub]);
+#		if((my_familiar() == $familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
+#		{
+#			visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
+#			visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=1&lights=1&garland=1&gift=1");
+#		}
+#	}
 
 	buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
 	buffMaintain($effect[Snow Shoes], 0, 1, 1);
@@ -6162,6 +6159,7 @@ boolean LX_freeCombats()
 	{
 		handleFamiliar($familiar[Ms. Puck Man]);
 		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
+		handleFamiliar("item");
 		return true;
 	}
 
@@ -6177,6 +6175,7 @@ boolean LX_freeCombats()
 		ccAdv(1, $location[The Deep Machine Tunnels]);
 		set_property("choiceAdventure1119", get_property("cc_choice1119"));
 		set_property("cc_choice1119", "");
+		handleFamiliar("item");
 		return true;
 	}
 	return false;
@@ -6304,7 +6303,7 @@ boolean L0_handleRainDoh()
 		{
 			set_property("cc_doCombatCopy", "yes");
 		}
-		handleRainDoh();
+		handleCopiedMonster($item[Rain-Doh Box Full of Monster]);
 		if(last_monster() != $monster[ninja snowman assassin])
 		{
 			abort("Now sure what exploded, tried to summon copy of " + enemy + " but got " + last_monster() + " instead.");
@@ -6325,7 +6324,7 @@ boolean L0_handleRainDoh()
 		{
 			set_property("cc_doCombatCopy", "yes");
 		}
-		handleRainDoh();
+		handleCopiedMonster($item[Rain-Doh Box Full of Monster]);
 		if(last_monster() != $monster[ghost])
 		{
 			abort("Now sure what exploded, tried to summon copy of " + enemy + " but got " + last_monster() + " instead.");
@@ -6342,7 +6341,7 @@ boolean L0_handleRainDoh()
 		{
 			set_property("cc_doCombatCopy", "yes");
 		}
-		handleRainDoh();
+		handleCopiedMonster($item[Rain-Doh Box Full of Monster]);
 		if(last_monster() != $monster[lobsterfrogman])
 		{
 			abort("Now sure what exploded, tried to summon copy of " + enemy + " but got " + last_monster() + " instead.");
@@ -6359,7 +6358,7 @@ boolean L0_handleRainDoh()
 		{
 			set_property("cc_doCombatCopy", "yes");
 		}
-		handleRainDoh();
+		handleCopiedMonster($item[Rain-Doh Box Full of Monster]);
 		if(last_monster() != $monster[skinflute])
 		{
 			abort("Now sure what exploded, tried to summon copy of " + enemy + " but got " + last_monster() + " instead.");
@@ -6374,7 +6373,7 @@ boolean L0_handleRainDoh()
 	//If doesn\'t match a special condition
 	if(enemy != $monster[none])
 	{
-		handleRainDoh();
+		handleCopiedMonster($item[Rain-Doh Box Full of Monster]);
 		if(last_monster() != enemy)
 		{
 			abort("Now sure what exploded, tried to summon copy of " + enemy + " but got " + last_monster() + " instead.");
@@ -6694,6 +6693,194 @@ boolean L6_friarsGetParts()
 	return true;
 }
 
+boolean LX_steelOrgan()
+{
+	if(!get_property("cc_getSteelOrgan").to_boolean())
+	{
+		return false;
+	}
+	if((get_property("cc_friars") != "done") && (get_property("cc_friars") != "finished"))
+	{
+		return false;
+	}
+	if(my_class() == $class[Ed])
+	{
+		print("Ed can not get a Steel Organ, turning off setting.", "blue");
+		set_property("cc_getSteelOrgan", false);
+		return false;
+	}
+	if(have_skill($skill[Liver of Steel]) || have_skill($skill[Stomach of Steel]) || have_skill($skill[Spleen of Steel]))
+	{
+		print("We have a steel organ, turning off the setting." ,"blue");
+		set_property("cc_getSteelOrgan", false);
+		return false;
+	}
+	print("I am hungry for some steel.", "blue");
+	if(get_property("questM10Azazel") == "unstarted")
+	{
+		string temp = visit_url("pandamonium.php");
+		temp = visit_url("pandamonium.php?action=moan");
+		temp = visit_url("pandamonium.php?action=infe");
+		temp = visit_url("pandamonium.php?action=sven");
+		temp = visit_url("pandamonium.php?action=sven");
+		temp = visit_url("pandamonium.php?action=beli");
+		temp = visit_url("pandamonium.php?action=mourn");
+	}
+	if(get_property("questM10Azazel") == "started")
+	{
+		if(((item_amount($item[Observational Glasses]) == 0) || (item_amount($item[Imp Air]) < 5)) && (item_amount($item[Azazel\'s Tutu]) == 0))
+		{
+			if(item_amount($item[Observational Glasses]) == 0)
+			{
+				uneffect($effect[The Sonata of Sneakiness]);
+				buffMaintain($effect[Hippy Stench], 0, 1, 1);
+				buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 10, 1, 1);
+				buffMaintain($effect[Musk of the Moose], 10, 1, 1);
+				# Should we check for -NC stuff and deal with it?
+				# We need a Combat Modifier controller
+			}
+			if(item_amount($item[Imp Air]) >= 5)
+			{
+				handleFamiliar($familiar[Jumpsuited Hound Dog]);
+			}
+			else
+			{
+				handleFamiliar("item");
+			}
+			ccAdv(1, $location[The Laugh Floor]);
+		}
+		else if(((item_amount($item[Azazel\'s Unicorn]) == 0) || (item_amount($item[Bus Pass]) < 5)) && (item_amount($item[Azazel\'s Tutu]) == 0))
+		{
+			int jim = 0;
+			int flargwurm = 0;
+			int bognort = 0;
+			int stinkface = 0;
+			int need = 4;
+			if(item_amount($item[Comfy Pillow]) > 0)
+			{
+				jim = to_int($item[Comfy Pillow]);
+				need -= 1;
+			}
+			if(item_amount($item[Booze-Soaked Cherry]) > 0)
+			{
+				flargwurm = to_int($item[Booze-Soaked Cherry]);
+				need -= 1;
+			}
+			if(item_amount($item[Giant Marshmallow]) > 0)
+			{
+				bognort = to_int($item[Giant Marshmallow]);
+				need -= 1;
+			}
+			if(item_amount($item[Beer-Scented Teddy Bear]) > 0)
+			{
+				stinkface = to_int($item[Beer-Scented Teddy Bear]);
+				need -= 1;
+			}
+			if(need > 0)
+			{
+				int cake = item_amount($item[Sponge Cake]);
+				if((jim == 0) && (cake > 0))
+				{
+					jim = to_int($item[Sponge Cake]);
+					need -= 1;
+					cake -= 1;
+				}
+				if((flargwurm == 0) && (cake > 0))
+				{
+					flargwurm = to_int($item[Sponge Cake]);
+					need -= 1;
+					cake -= 1;
+				}
+				int paper = item_amount($item[Gin-Soaked Blotter Paper]);
+				if((bognort == 0) && (paper > 0))
+				{
+					bognort = to_int($item[Gin-Soaked Blotter Paper]);
+					need -= 1;
+					paper -= 1;
+				}
+				if((stinkface == 0) && (paper > 0))
+				{
+					stinkface = to_int($item[Gin-Soaked Blotter Paper]);
+					need -= 1;
+					paper -= 1;
+				}
+			}
+
+
+			if((need == 0) && (item_amount($item[Azazel\'s Unicorn]) == 0))
+			{
+				string temp = visit_url("pandamonium.php?action=sven");
+				visit_url("pandamonium.php?action=sven&bandmember=Jim&togive=" + jim + "&preaction=try");
+				temp = visit_url("pandamonium.php?action=sven");
+				visit_url("pandamonium.php?action=sven&bandmember=Flargwurm&togive=" + flargwurm + "&preaction=try");
+				temp = visit_url("pandamonium.php?action=sven");
+				visit_url("pandamonium.php?action=sven&bandmember=Bognort&togive=" + bognort + "&preaction=try");
+				temp = visit_url("pandamonium.php?action=sven");
+				visit_url("pandamonium.php?action=sven&bandmember=Stinkface&togive=" + stinkface + "&preaction=try");
+				return true;
+			}
+
+			if(item_amount($item[Azazel\'s Unicorn]) == 0)
+			{
+				uneffect($effect[Carlweather\'s Cantata of Confrontation]);
+				buffMaintain($effect[The Sonata of Sneakiness], 20, 1, 1);
+				buffMaintain($effect[Smooth Movements], 10, 1, 1);
+			}
+			else
+			{
+				uneffect($effect[The Sonata of Sneakiness]);
+			}
+			handleFamiliar("item");
+			ccAdv(1, $location[Infernal Rackets Backstage]);
+		}
+		else if((item_amount($item[Azazel\'s Lollipop]) == 0) && (item_amount($item[Azazel\'s Tutu]) == 0))
+		{
+			foreach it in $items[Hilarious Comedy Prop, Victor\, the Insult Comic Hellhound Puppet, Observational Glasses]
+			{
+				if(item_amount(it) > 0)
+				{
+					string temp = visit_url("pandamonium.php?action=mourn&whichitem=" + to_int(it) + "&pwd=");
+				}
+				else
+				{
+					abort("Somehow we do not have " + it + " at this point...");
+				}
+			}
+		}
+		else if((item_amount($item[Azazel\'s Tutu]) == 0) && (item_amount($item[Bus Pass]) >= 5) && (item_amount($item[Imp Air]) >= 5))
+		{
+			string temp = visit_url("pandamonium.php?action=moan");
+		}
+		else if((item_amount($item[Azazel\'s Tutu]) > 0) && (item_amount($item[Azazel\'s Lollipop]) > 0) && (item_amount($item[Azazel\'s Unicorn]) > 0))
+		{
+			string temp = visit_url("pandamonium.php?action=temp");
+		}
+		else
+		{
+			print("Stuck in the Steel Organ quest and can't continue, moving on.", "red");
+			set_property("cc_getSteelOrgan", false);
+		}
+		return true;
+	}
+	else if(get_property("questM10Azazel") == "finished")
+	{
+		if((item_amount($item[Steel Lasagna]) > 0) && (my_fullness() > 0) && ((my_fullness() + 5) <= fullness_limit()))
+		{
+			eat(1, $item[Steel Lasagna]);
+		}
+		if((item_amount($item[Steel Margarita]) > 0) && ((my_inebriety() <= 5) || (my_inebriety() >= 12)))
+		{
+			drink(1, $item[Steel Margarita]);
+		}
+		if((item_amount($item[Steel-Scented Air Freshener]) > 0) && ((my_spleen_use() + 5) <= spleen_limit()))
+		{
+			chew(1, $item[Steel-Scented Air Freshener]);
+		}
+	}
+	return false;
+}
+
+
 boolean L6_friarsHotWing()
 {
 	if(get_property("cc_friars") != "done")
@@ -6725,8 +6912,7 @@ boolean L6_friarsHotWing()
 	print("Need more Hot Wings", "blue");
 	if(my_class() == $class[Ed])
 	{
-		boolean status = ccAdv(1, $location[Pandamonium]);
-		if(status == false)
+		if(!ccAdv(1, $location[Pandamonium]))
 		{
 			print("Was unable to go to Pandamonium (438) in Ed. Uh oh. If we did, run me again and report this to the script writer", "blue");
 		}
@@ -6829,6 +7015,7 @@ boolean L8_trapperGround()
 	if(item_amount($item[goat cheese]) < 3)
 	{
 		print("Yay for goat cheese!", "blue");
+		handleFamiliar("item");
 		ccAdv(1, $location[The Goatlet]);
 		return true;
 	}
@@ -6843,6 +7030,7 @@ boolean L8_trapperGround()
 			return true;
 		}
 		print("Yay for goat cheese!", "blue");
+		handleFamiliar("item");
 		ccAdv(1, $location[The Goatlet]);
 		return true;
 	}
@@ -7115,13 +7303,35 @@ boolean L4_batCave()
 		use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
 		return true;
 	}
-
 	ccAdv(1, $location[Guano Junction]);
 	return true;
 }
 
 boolean LX_craftAcquireItems()
 {
+	if(in_hardcore())
+	{
+		if(have_effect($effect[Adventurer\'s Best Friendship]) > 120)
+		{
+			set_property("choiceAdventure1106", 3);
+		}
+		else
+		{
+			set_property("choiceAdventure1106", 2);
+		}
+	}
+	else
+	{
+		if(have_effect($effect[Adventurer\'s Best Friendship]) > 30)
+		{
+			set_property("choiceAdventure1106", 3);
+		}
+		else
+		{
+			set_property("choiceAdventure1106", 2);
+		}
+	}
+
 	if((item_amount($item[snow berries]) == 3) && (my_daycount() == 1) && get_property("cc_grimstoneFancyOilPainting").to_boolean())
 	{
 		cli_execute("make 1 snow cleats");
@@ -7226,15 +7436,28 @@ boolean LX_craftAcquireItems()
 
 	LX_dolphinKingMap();
 
+	if((my_daycount() == 2) && in_hardcore() && !have_familiar($familiar[Crimbo Shrub]) && (cc_get_campground() contains $item[Portable Mayo Clinic]) && (my_meat() > (3 * npc_price($item[Mayo Lance]))) && !get_property("_mayoDeviceRented").to_boolean())
+	{
+		buyUpTo(1, $item[Mayo Lance]);
+	}
+
+	if((my_daycount() == 1) && in_hardcore() && (turns_played() < 3) && (cc_get_campground() contains $item[Portable Mayo Clinic]) && (my_meat() > 9000) && !get_property("_mayoDeviceRented").to_boolean())
+	{
+		buyUpTo(1, $item[Tomayohawk-Style Reflex Hammer]);
+	}
+
+	if((my_daycount() == 3) && (cc_get_campground() contains $item[Portable Mayo Clinic]) && (my_meat() > 9000) && !get_property("_mayoDeviceRented").to_boolean())
+	{
+		buyUpTo(1, $item[Sphygmayomanometer]);
+	}
+
 	return false;
 }
 
 
 boolean LX_meatMaid()
 {
-	# We do not use cC_get_campground due to the page hit and this is probably not needed.
-	# Ok, we might need it if we used this function in an Ed the Undying run but it is pure turnbloat
-	if(get_campground() contains $item[Meat Maid])
+	if(cc_get_campground() contains $item[Meat Maid])
 	{
 		return false;
 	}
@@ -7506,16 +7729,13 @@ boolean L2_spookySapling()
 	set_property("choiceAdventure503", "3");
 	set_property("choiceAdventure504", "3");
 
-	#	Can probably use ccAdvBypass here but let us not be hasty
-	#
-	#
-	#
-	handlePreAdventure($location[The Spooky Forest]);
-	if(contains_text(visit_url("adventure.php?snarfblat=15"), "Combat") || lastAdventureSpecialNC())
-	{
-		ccAdv(1, $location[The Spooky Forest]);
-	}
-	else
+#	handlePreAdventure($location[The Spooky Forest]);
+#	if(contains_text(visit_url("adventure.php?snarfblat=15"), "Combat") || lastAdventureSpecialNC())
+#	{
+#		ccAdv(1, $location[The Spooky Forest]);
+#	}
+#	else
+	if(!ccAdvBypass("adventure.php?snarfblat=15", $location[The Spooky Forest]))
 	{
 		if(contains_text(get_property("lastEncounter"), "Hoom Hah"))
 		{
@@ -7566,7 +7786,6 @@ boolean L2_mosquito()
 	set_property("choiceAdventure502", "2");
 	set_property("choiceAdventure505", "1");
 	ccAdv(1, $location[The Spooky Forest]);
-
 	return true;
 }
 
@@ -7583,6 +7802,10 @@ boolean LX_handleSpookyravenFirstFloor()
 	}
 
 	boolean delayKitchen = get_property("cc_delayHauntedKitchen").to_boolean();
+	if(get_property("cc_gaudy") == "finished")
+	{
+		delayKitchen = false;
+	}
 	if(item_amount($item[Spookyraven Billiards Room Key]) > 0)
 	{
 		delayKitchen = false;
@@ -7657,10 +7880,65 @@ boolean LX_handleSpookyravenFirstFloor()
 		}
 		else if(item_amount($item[Spookyraven Billiards room key]) == 1)
 		{
+			int expectPool = get_property("poolSkill").to_int();
+			if(my_inebriety() >= 10)
+			{
+				expectPool += (30 - (2 * my_inebriety()));
+			}
+			else
+			{
+				expectPool += my_inebriety();
+			}
+			// Staff of Fats (non-Ed and Ed) and Staff of Ed (from Ed)
+			if(have_equipped($item[2268]) || have_equipped($item[7964]) || have_equipped($item[7961]))
+			{
+				expectPool += 5;
+			}
+			if(have_equipped($item[Pool Cue]))
+			{
+				expectPool += 3;
+			}
+			if(have_effect($effect[Chalky Hand]) > 0)
+			{
+				expectPool += 3;
+			}
+			if(have_effect($effect[Chalked Weapon]) > 0)
+			{
+				expectPool += 5;
+			}
+			if(have_effect($effect[Influence of Sphere]) > 0)
+			{
+				expectPool += 5;
+			}
+			if(have_effect($effect[Video... Games?]) > 0)
+			{
+				expectPool += 5;
+			}
+			if(have_effect($effect[Swimming with Sharks]) > 0)
+			{
+				expectPool += 3;
+			}
+
+
+			print("Looking at the billiards room: 14 <= " + expectPool + " <= 18", "green");
 			if((my_inebriety() < 8) && ((my_inebriety() + 2) < inebriety_limit()))
 			{
-				print("Not quite boozed up for the billiards room... we'll be back.", "green");
+				if(expectPool < 18)
+				{
+					print("Not quite boozed up for the billiards room... we'll be back.", "green");
+				}
 				return false;
+			}
+			if((my_inebriety() > 12) && (expectPool < 16))
+			{
+				if(in_hardcore() && (my_daycount() <= 2))
+				{
+					print("Ok, I'm too boozed up for the billards room, I'll be back.", "green");
+				}
+				if(!in_hardcore() && (my_daycount() <= 1))
+				{
+					print("I'm too drunk for pool, at least it is only Monday.", "green");
+				}
 			}
 
 			set_property("choiceAdventure875" , "1");
@@ -7825,7 +8103,7 @@ boolean L12_getOutfit()
 	set_property("choiceAdventure145", "1");
 	set_property("choiceAdventure146", "1");
 
-	if((get_property("cc_orcishfratboyspy") == "done") && (!in_hardcore()))
+	if((get_property("cc_orcishfratboyspy") == "done") && !in_hardcore())
 	{
 		pullXWhenHaveY($item[Beer Helmet], 1, 0);
 		pullXWhenHaveY($item[Bejeweled Pledge Pin], 1, 0);
@@ -7863,8 +8141,11 @@ boolean L12_getOutfit()
 			return true;
 		}
 
-		// 138 is HR Lightning Bolt
-		if((have_effect($effect[everything looks yellow]) > 0) || !have_skill(to_skill(138)))
+#		Huh? I think this was meant to be Ball Lightning.
+#		// 138 is HR Lightning Bolt
+#		if((have_effect($effect[everything looks yellow]) > 0) || !have_skill(to_skill(138)))
+		if(!canYellowRay())
+#		if((have_effect($effect[everything looks yellow]) > 0) || !have_skill(to_skill(138)))
 		{
 			pullXWhenHaveY($item[Beer Helmet], 1, 0);
 			pullXWhenHaveY($item[Bejeweled Pledge Pin], 1, 0);
@@ -7873,7 +8154,6 @@ boolean L12_getOutfit()
 		}
 
 		//We should probably have some kind of backup solution here
-
 		return false;
 	}
 	else
@@ -7924,16 +8204,28 @@ boolean L12_preOutfit()
 		return true;
 	}
 
-	if((my_class() == $class[Ed]) && have_skill($skill[Wrath of Ra]))
+	if(my_class() == $class[Ed])
 	{
-		if(have_effect($effect[Everything Looks Yellow]) != 0)
+		if(!canYellowRay() && (my_level() < 12))
 		{
 			return false;
 		}
-		if(my_mp() < 40)
-		{
-			return false;
-		}
+	}
+
+#	if((my_class() == $class[Ed]) && have_skill($skill[Wrath of Ra]))
+#	{
+#		if(have_effect($effect[Everything Looks Yellow]) != 0)
+#		{
+#			return false;
+#		}
+#		if(my_mp() < 40)
+#		{
+#			return false;
+#		}
+#	}
+	if(have_skill($skill[Calculate the Universe]) && (my_daycount() == 1))
+	{
+		return false;
 	}
 	print("Trying to acquire a filthy hippy outfit", "blue");
 	if(my_level() < 12)
@@ -8211,6 +8503,10 @@ boolean L9_aBooPeak()
 			use(1, $item[A-Boo clue]);
 			#When booPeakProgress <= 0, we want to leave this adventure. Can we?
 			ccAdv(1, $location[A-Boo Peak]);
+			if(get_property("lastEncounter") != "The Horror...")
+			{
+				cli_execute("refresh inv");
+			}
 			useCocoon();
 			if((my_class() == $class[Ed]) && (my_hp() == 0))
 			{
@@ -8595,10 +8891,11 @@ boolean L9_chasmBuild()
 	if((need <= 3) && (need >= 1) && (item_amount($item[Disassembled Clover]) > 0))
 	{
 		use(1, $item[disassembled clover]);
-		visit_url("adventure.php?snarfblat=295&confirm=on");
-		if(contains_text(visit_url("main.php"), "Combat"))
+		ccAdvBypass("adventure.php?snarfblat=295&confirm=on", $location[The Smut Orc Logging Camp]);
+		if(item_amount($item[Ten-Leaf Clover]) > 0)
 		{
-			ccAdv(1, $location[The Smut Orc Logging Camp]);
+			print("Wandering adventure in The Smut Orc Logging Camp, boo. Gonna have to do this again.");
+			use(item_amount($item[Ten-Leaf Clover]), $item[Ten-Leaf Clover]);
 			return true;
 		}
 		visit_url("place.php?whichplace=orc_chasm&action=bridge"+(to_int(get_property("chasmBridgeProgress"))));
@@ -8942,6 +9239,10 @@ boolean L5_haremOutfit()
 		return false;
 	}
 
+#	if(!canYellowRay())
+#	{
+#		return false;
+#	}
 	if(have_effect($effect[Everything Looks Yellow]) > 0)
 	{
 		return false;
@@ -8949,24 +9250,38 @@ boolean L5_haremOutfit()
 
 	if(cc_my_path() == "Heavy Rains")
 	{
-		if(have_skill($skill[Ball Lightning]) && (my_lightning() >= 5))
-		{
-			buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
-			print("Ditch attempt at the Harem Girl", "blue");
-		}
-		else if(!in_hardcore())
-		{
-			return false;
-		}
+		buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
+	}
+	if(!in_hardcore() && !canYellowRay())
+	{
+		return false;
+	}
+#	if(cc_my_path() == "Heavy Rains")
+#	{
+#		if(have_skill($skill[Ball Lightning]) && (my_lightning() >= 5))
+#		{
+#			buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
+#			print("Ditch attempt at the Harem Girl", "blue");
+#		}
+#		else if(!in_hardcore())
+#		{
+#			return false;
+#		}
+#	}
+
+	if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
+	{
+		handleFamiliar("yellow ray");
 	}
 
-	handleFamiliar($familiar[Crimbo Shrub]);
-	if((my_familiar() == $familiar[Crimbo Shrub]) && (!get_property("_shrubDecorated").to_boolean()))
-	{
-		visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
-		visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=1&lights=1&garland=1&gift=1");
-		print("Time to bring Crimbo Fun to the Harem!", "blue");
-	}
+	print("Looking for some sexy lingerie!", "blue");
+#	handleFamiliar($familiar[Crimbo Shrub]);
+#	if((my_familiar() == $familiar[Crimbo Shrub]) && (!get_property("_shrubDecorated").to_boolean()))
+#	{
+#		visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
+#		visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=1&lights=1&garland=1&gift=1");
+#		print("Time to bring Crimbo Fun to the Harem!", "blue");
+#	}
 	ccAdv(1, $location[Cobb\'s Knob Harem]);
 	handleFamiliar($familiar[Adventurous Spelunker]);
 	return true;
@@ -9121,6 +9436,8 @@ boolean LX_pirateBeerPong()
 		abort("Could not put on Swashbuckling Getup, aborting");
 	}
 	LX_getDictionary();
+	#	ccAdvBypass may be a bit trickier here.
+	#	handlePreAdventure($location[Barrrney\'s Barrr]);
 	string page = tryBeerPong();
 	if(contains_text(page, "victory laps"))
 	{
@@ -9564,7 +9881,6 @@ boolean cc_tavern()
 			{
 				print("Tavern handler: You are RL drunk, you should not be here.", "red");
 				ccAdv(1, $location[Noob Cave]);
-#				adv1($location[Noob Cave], 1, "");
 			}
 			if(last_monster() == $monster[Crate])
 			{
@@ -9624,6 +9940,8 @@ boolean L3_tavern()
 		mpNeed = mpNeed + 10;
 	}
 
+	boolean enoughElement = (numeric_modifier("cold damage") >= 20) && (numeric_modifier("hot damage") >= 20) && (numeric_modifier("spooky damage") >= 20) && (numeric_modifier("stench damage") >= 20);
+
 	if(my_class() == $class[Ed])
 	{
 		set_property("choiceAdventure1000", "1");
@@ -9633,7 +9951,7 @@ boolean L3_tavern()
 			return false;
 		}
 	}
-	else if((have_effect($effect[In A Lather]) == 0) || (my_mp() < mpNeed))
+	else if(!enoughElement || (my_mp() < mpNeed))
 	{
 		if((my_daycount() <= 2) && (my_level() <= 11))
 		{
@@ -9863,8 +10181,12 @@ boolean doTasks()
 	}
 	if((my_familiar() == $familiar[Reanimated Reanimator]) && (get_property("_badlyRomanticArrows") == "1"))
 	{
-		print("We have a Reanimator as our familiar but can't winkat anymore. Let's change to our default.", "red");
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		print("We have a Reanimator as our familiar but can't winkat anymore. Let's change to our default.", "green");
+		handleFamiliar("init");
+	}
+	if(my_familiar() == $familiar[Machine Elf])
+	{
+		handleFamiliar("item");
 	}
 	if(my_familiar() == $familiar[Crimbo Shrub])
 	{
@@ -10000,17 +10322,19 @@ boolean doTasks()
 
 	if((my_daycount() == 2) && have_familiar($familiar[Crimbo Shrub]))
 	{
-		//Do we have other Yellow Ray options? We really need a generic YR handler.
-		if((doNumberology("battlefield", false) != -1) && (my_mp() >= mp_cost($skill[Calculate the Universe])) && (have_effect($effect[Everything Looks Yellow]) == 0))
+#		//Do we have other Yellow Ray options? We really need a generic YR handler.
+#		if((doNumberology("battlefield", false) != -1) && (my_mp() >= mp_cost($skill[Calculate the Universe])) && (have_effect($effect[Everything Looks Yellow]) == 0))
+		if((doNumberology("battlefield", false) != -1) && (my_mp() >= mp_cost($skill[Calculate the Universe])) && canYellowRay())
 		{
-			handleFamiliar($familiar[Crimbo Shrub]);
+			if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
+			{
+				handleFamiliar("yellow ray");
+			}
 
-			#
-			#	Can not currently use ccAdvBypass here
-			#
-			handlePreAdventure($location[Noob Cave]);
+#			handleFamiliar($familiar[Crimbo Shrub]);
+#			handlePreAdventure($location[Noob Cave]);
 			doNumberology("battlefield");
-			ccAdv(1, $location[Noob Cave]);
+#			ccAdv(1, $location[Noob Cave]);
 			return true;
 		}
 	}
@@ -10200,9 +10524,10 @@ boolean doTasks()
 	{
 		paintingLevel = 9;
 	}
-	if((my_level() >= paintingLevel) && (chateaumantegna_havePainting()) && (my_class() == $class[Ed]) && (my_daycount() <= 3))
+	if((my_level() >= paintingLevel) && chateaumantegna_havePainting() && (my_class() == $class[Ed]) && (my_daycount() <= 3))
 	{
-		if((have_effect($effect[Everything Looks Yellow]) == 0) && have_skill($skill[Wrath of Ra]) && (my_mp() >= 40))
+		if((have_effect($effect[Everything Looks Yellow]) == 0) && canYellowRay())
+#		if((have_effect($effect[Everything Looks Yellow]) == 0) && have_skill($skill[Wrath of Ra]) && (my_mp() >= 40))
 		{
 			if(chateaumantegna_usePainting())
 			{
@@ -10272,7 +10597,7 @@ boolean doTasks()
 		return true;
 	}
 
-	if(organsFull() && (my_adventures() < 10) && (chateaumantegna_havePainting()) && (my_daycount() == 1) && (my_class() != $class[Ed]))
+	if(organsFull() && (my_adventures() < 10) && chateaumantegna_havePainting() && (my_daycount() == 1) && (my_class() != $class[Ed]))
 	{
 		if(chateaumantegna_usePainting())
 		{
@@ -10280,7 +10605,7 @@ boolean doTasks()
 			return true;
 		}
 	}
-	if((my_level() >= 8) && (chateaumantegna_havePainting()) && (my_daycount() == 2) && (my_class() != $class[Ed]))
+	if((my_level() >= 8) && chateaumantegna_havePainting() && (my_daycount() == 2) && (my_class() != $class[Ed]))
 	{
 		if(chateaumantegna_usePainting())
 		{
@@ -10440,6 +10765,11 @@ boolean doTasks()
 	}
 
 	if(L8_trapperStart() || L8_trapperGround() || L8_trapperYeti())
+	{
+		return true;
+	}
+
+	if(LX_steelOrgan())
 	{
 		return true;
 	}
@@ -10622,33 +10952,33 @@ boolean doTasks()
 	if((get_property("hippiesDefeated").to_int() < 64) && (get_property("fratboysDefeated").to_int() < 64) && (my_level() >= 12))
 	{
 		print("First 64 combats. To orchard/lighthouse", "blue");
+		handleFamiliar("item");
 		warOutfit();
-		warAdventure();
-		return true;
+		return warAdventure();
 	}
 
 	if((get_property("hippiesDefeated").to_int() < 192) && (get_property("fratboysDefeated").to_int() < 192) && (my_level() >= 12))
 	{
 		print("Getting to the nunnery/junkyard", "blue");
+		handleFamiliar("item");
 		warOutfit();
-		warAdventure();
-		return true;
+		return warAdventure();
 	}
 
 	if((get_property("cc_nuns") == "done") && ((get_property("hippiesDefeated").to_int() < 1000) && (get_property("fratboysDefeated").to_int() < 1000)) && (my_level() >= 12))
 	{
 		print("Doing the wars.", "blue");
+		handleFamiliar("item");
 		warOutfit();
-		warAdventure();
-		return true;
+		return warAdventure();
 	}
 
 	if((get_property("cc_nuns") == "finished") && ((get_property("hippiesDefeated").to_int() < 1000) && (get_property("fratboysDefeated").to_int() < 1000)) && (my_level() >= 12))
 	{
 		print("Doing the wars.", "blue");
+		handleFamiliar("item");
 		warOutfit();
-		warAdventure();
-		return true;
+		return warAdventure();
 	}
 
 	if(L13_towerNSEntrance() || L13_towerNSContests() || L13_towerNSHedge() || L13_sorceressDoor() || L13_towerNSTower())
@@ -10776,11 +11106,6 @@ void cc_begin()
 
 	if(get_property("kingLiberated") == "true")
 	{
-		if(get_property("cc_aftercore") != "done")
-		{
-			print("Failed to trigger kingLiberated script on liberation. Doing it manually", "green");
-			cli_execute("scripts/kingcheese.ash");
-		}
 		equipBaseline();
 		handleFamiliar($familiar[Adventurous Spelunker]);
 		if(item_amount($item[hairpiece on fire]) > 0)

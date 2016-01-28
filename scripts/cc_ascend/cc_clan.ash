@@ -9,18 +9,72 @@ int [item] get_clan_furniture();
 int changeClan(int toClan);			//Returns new clan ID (or old one if it failed)
 int changeClan();					//To BAFH
 int doHottub();						//Returns number of usages left.
+boolean handleFaxMonster(monster enemy);
+boolean handleFaxMonster(monster enemy, string option);
+boolean handleFaxMonster(monster enemy, boolean fightIt);
+boolean handleFaxMonster(monster enemy, boolean fightIt, string option);
 
 
+boolean handleFaxMonster(monster enemy)
+{
+	return handleFaxMonster(enemy, true, "");
+}
 
-/****
+boolean handleFaxMonster(monster enemy, string option)
+{
+	return handleFaxMonster(enemy, true, option);
+}
 
-We might consider migrating faxbot stuff here as it is "clan". I dunno....
+boolean handleFaxMonster(monster enemy, boolean fightIt)
+{
+	return handleFaxMonster(enemy, fightIt, "");
+}
 
-****/
+boolean handleFaxMonster(monster enemy, boolean fightIt, string option)
+{
+	if(get_property("_photocopyUsed").to_boolean())
+	{
+		return false;
+	}
+	if(item_amount($item[Clan VIP Lounge Key]) == 0)
+	{
+		return false;
+	}
+	if(!(get_clan_furniture() contains $item[Deluxe Fax Machine]))
+	{
+		return false;
+	}
+
+	print("If you don't have chat open, this could take well over a minute. Beep boop.", "green");
+	cli_execute("faxbot " + enemy);
+	if(item_amount($item[photocopied monster]) == 0)
+	{
+		print("Trying to acquire photocopy manually", "red");
+		visit_url("clan_viplounge.php?preaction=receivefax&whichfloor=2", true);
+	}
+	if(item_amount($item[photocopied monster]) == 0)
+	{
+		print("Could not acquire fax monster", "red");
+		return false;
+	}
+	if(fightIt)
+	{
+		return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=4873", $location[Noob Cave], option);
+	}
+	return true;
+}
 
 int [item] get_clan_furniture()
 {
-    int [item] clanItems;
+	static int lastClanCheck = 0;
+	static int lastCheck = 0;
+	static int [item] clanItems;
+
+	if((get_clan_id() == lastClanCheck) && (lastCheck == my_daycount()))
+	{
+		return clanItems;
+	}
+
     string basic = visit_url("clan_rumpus.php");
 	string vipMain = visit_url("clan_viplounge.php");
 	string vipOld = visit_url("clan_viplounge.php?whichfloor=2");
@@ -34,6 +88,11 @@ int [item] get_clan_furniture()
 
 	matcher speakeasy_matcher = create_matcher("A \"Phone Booth\"", vipMain);
 	if(speakeasy_matcher.find() && is_unrestricted($item[Clan Speakeasy]))
+	{
+		clanItems[$item[Clan Speakeasy]] = 1;
+	}
+	matcher speakeasy_matcher_alt = create_matcher("\"A Speakeasy\"", vipMain);
+	if(speakeasy_matcher_alt.find() && is_unrestricted($item[Clan Speakeasy]))
 	{
 		clanItems[$item[Clan Speakeasy]] = 1;
 	}
@@ -74,6 +133,8 @@ int [item] get_clan_furniture()
 		clanItems[$item[Olympic-Sized Clan Crate]] = 1;
 	}
 
+	lastClanCheck = get_clan_id();
+	lastCheck = my_daycount();
 	return clanItems;
 }
 

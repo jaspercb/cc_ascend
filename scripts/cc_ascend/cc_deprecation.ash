@@ -85,6 +85,10 @@ boolean settingFixer()
 	{
 		set_property("cc_killingjar", "finished");
 	}
+	if(get_property("cc_castleground") == "done")
+	{
+		set_property("cc_castleground", "finished");
+	}
 	if(get_property("cc_useCubeling") == "yes")
 	{
 		set_property("cc_useCubeling", true);

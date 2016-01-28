@@ -10,15 +10,18 @@ boolean ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate);
 aggregate ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate, boolean includeEquip);
 boolean snojoFightAvailable();
 int doNumberology(string goal);
+int doNumberology(string goal, string option);
 int doNumberology(string goal, boolean doIt);
+int doNumberology(string goal, boolean doIt, string option);
 boolean handleBarrelFullOfBarrels();
+boolean canYellowRay();
+string yellowRayCombatString();
 int solveCookie();
 boolean use_barrels();
 int ccCraft(string mode, int count, item item1, item item2);
 int[item] cc_get_campground();
 boolean haveSpleenFamiliar();
 float elemental_resist_value(int resistance);
-float elemental_resist_value(element resistance);
 int elemental_resist(element goal);
 boolean uneffect(effect toRemove);
 boolean organsFull();
@@ -39,15 +42,15 @@ string statCard();
 effect whatStatSmile();
 void tootGetMeat();
 boolean ovenHandle();
-boolean handleFaxMonster(monster enemy);
-boolean handleFaxMonster(monster enemy, string option);
-boolean handleFaxMonster(monster enemy, boolean fightIt);
-boolean handleFaxMonster(monster enemy, boolean fightIt, string option);
 boolean isGuildClass();
-boolean handleRainDoh();
-boolean handleSpookyPutty();
-boolean handle4dCamera();
-boolean handleIceSculpture();
+boolean handleCopiedMonster(item itm);
+boolean handleCopiedMonster(item itm, string option);
+boolean handleSealArmored();
+boolean handleSealArmored(string option);
+boolean handleSealAncient();
+boolean handleSealAncient(string option);
+boolean handleSealElement(element flavor);
+boolean handleSealElement(element flavor, string option);
 int towerKeyCount();
 void handleTracker(monster enemy, string tracker);
 void handleTracker(monster enemy, skill toTrack, string tracker);
@@ -160,6 +163,7 @@ void debugMaximize(string req, int meat)
 	{
 		situation = "Softcore" + situation;
 	}
+	situation += " " + today_to_string() + " " + time_to_string();
 	boolean[effect] acquired;
 	acquired[$effect[none]] = true;
 	string tableDo = "<table border=1><tr><td colspan=3>Accepted: Maximizing: " + req + "</td><td colspan=3>" + situation + "</td></tr>";
@@ -549,6 +553,117 @@ int grimTaleDrops()
 	return get_property("_grimFairyTaleDrops").to_int();
 }
 
+boolean canYellowRay()
+{
+	# Use this to determine if it is safe to enter a yellow ray combat.
+	if(have_effect($effect[Everything Looks Yellow]) > 0)
+	{
+		return false;
+	}
+	if((item_amount($item[Mayo Lance]) > 0) && (get_property("mayoLevel").to_int() > 0))
+	{
+		return true;
+	}
+	if(item_amount($item[Golden Light]) > 0)
+	{
+		return true;
+	}
+	if(item_amount($item[Unbearable Light]) > 0)
+	{
+		return true;
+	}
+	if(item_amount($item[Pumpkin Bomb]) > 0)
+	{
+		return true;
+	}
+	if(item_amount($item[Yellowcake Bomb]) > 0)
+	{
+		return true;
+	}
+#	peteMotorbikeHeadlight needs to be Ultrabright Yellow Light, what does Mafia show this as?
+#	if(have_skill($skill[Flash Headlight]) && (my_mp() >= mp_cost($skill[Flash Headlight])))
+#	{
+#		return true;
+#	}
+	if(have_skill($skill[Wrath of Ra]) && (my_mp() >= mp_cost($skill[Wrath of Ra])))
+	{
+		return true;
+	}
+	if(have_skill($skill[Ball Lightning]) && (my_lightning() >= lightning_cost($skill[Ball Lightning])))
+	{
+		return true;
+	}
+	if((my_familiar() == $familiar[Crimbo Shrub]) || (!get_property("cc_100familiar").to_boolean() && have_familiar($familiar[Crimbo Shrub])))
+	{
+		if(get_property("shrubGifts") == "yellow")
+		{
+			return true;
+		}
+		if(!get_property("_shrubDecorated").to_boolean())
+		{
+			string temp = visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
+			temp = visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=1&lights=1&garland=1&gift=1");
+			if(get_property("shrubGifts") == "yellow")
+			{
+				return true;
+			}
+		}
+	}
+	# Pulled Yellow Taffy	- How do we handle the underwater check?
+	# He-Boulder?			- How do we do this?
+	return false;
+}
+
+string yellowRayCombatString()
+{
+	if(have_effect($effect[Everything Looks Yellow]) > 0)
+	{
+		return "";
+	}
+	if(!canYellowRay())
+	{
+		return "";
+	}
+
+	if(item_amount($item[Yellowcake Bomb]) > 0)
+	{
+		return "item " + $item[Yellowcake Bomb];
+	}
+	if(have_skill($skill[Ball Lightning]) && (my_lightning() >= lightning_cost($skill[Ball Lightning])))
+	{
+		return "skill " + $skill[Ball Lightning];
+	}
+	if(have_skill($skill[Wrath of Ra]) && (my_mp() >= mp_cost($skill[Wrath of Ra])))
+	{
+		return "skill " + $skill[Wrath of Ra];
+	}
+	if((item_amount($item[Mayo Lance]) > 0) && (get_property("mayoLevel").to_int() > 0))
+	{
+		return "item " + $item[Mayo Lance];
+	}
+	if(have_familiar($familiar[Crimbo Shrub]) && (get_property("shrubGifts") == "yellow"))
+	{
+		return "skill " + $skill[Open a Big Yellow Present];
+	}
+#	if(have_skill($skill[Flash Headlight]) && (my_mp() >= mp_cost($skill[Flash Headlight])))
+#	{
+#		return "skill " + $skill[Flash Headlight];
+#	}
+	if(item_amount($item[Golden Light]) > 0)
+	{
+		return "item " + $item[Golden Light];
+	}
+	if(item_amount($item[Pumpkin Bomb]) > 0)
+	{
+		return "item " + $item[Pumpkin Bomb];
+	}
+	if(item_amount($item[Unbearable Light]) > 0)
+	{
+		return "item " + $item[Unbearable Light];
+	}
+	return "";
+}
+
 string statCard()
 {
 	switch(my_primestat())
@@ -630,20 +745,16 @@ float elemental_resist_value(int resistance)
 	return (90.0 - (50.0 * scale) + bonus);
 }
 
-float elemental_resist_value(element resistance)
-{
-	return elemental_resist_value(elemental_resist(resistance));
-}
-
 int elemental_resist(element goal)
 {
-	string page = to_lower_case(visit_url("charsheet.php"));
-	matcher my_element = create_matcher(to_string(goal) + " protection:(.*?)((\\d\+)\)", page);
-	if(my_element.find())
-	{
-		return to_int(my_element.group(2));
-	}
-	return 0;
+	return numeric_modifier(goal + " resistance");
+#	string page = to_lower_case(visit_url("charsheet.php"));
+#	matcher my_element = create_matcher(to_string(goal) + " protection:(.*?)((\\d\+)\)", page);
+#	if(my_element.find())
+#	{
+#		return to_int(my_element.group(2));
+#	}
+#	return 0;
 }
 
 boolean uneffect(effect toRemove)
@@ -770,18 +881,18 @@ int doRest()
 		case $stat[Muscle]:
 			replace = equipped_item($slot[off-hand]);
 			grab = $item[Fake Washboard];
-		break;
+			break;
 		case $stat[Mysticality]:
 			replace = equipped_item($slot[off-hand]);
 			grab = $item[Basaltamander Buckler];
-		break;
+			break;
 		case $stat[Moxie]:
 			replace = equipped_item($slot[weapon]);
 			grab = $item[Backwoods Banjo];
-		break;
+			break;
 		}
 
-		if(possessEquipment(grab) && (replace != grab))
+		if((grab != $item[none]) && possessEquipment(grab) && (replace != grab))
 		{
 			equip(grab);
 		}
@@ -794,13 +905,16 @@ int doRest()
 
 		visit_url("place.php?whichplace=chateau&action=chateau_restbox");
 
-		if(replace != grab)
+		if((replace != grab) && (replace != $item[none]))
 		{
 			equip(replace);
 		}
 		if(closet)
 		{
-			put_closet(1, grab);
+			if(item_amount(grab) > 0)
+			{
+				put_closet(1, grab);
+			}
 		}
 
 	}
@@ -890,7 +1004,7 @@ void tootGetMeat()
 
 boolean ovenHandle()
 {
-	if(cc_get_campground() contains $item[Dramatic&trade; range])
+	if((cc_get_campground() contains $item[Dramatic&trade; range]) && !get_property("cc_haveoven").to_boolean())
 	{
 		print("Oven found! We can cook!", "blue");
 		set_property("cc_haveoven", true);
@@ -954,7 +1068,7 @@ boolean isFreeMonster(monster mon)
 
 	if($monster[X-32-F Combat Training Snowman] == mon)
 	{
-		if(get_property("_snojoFreeFights") < 10)
+		if(get_property("_snojoFreeFights").to_int() < 10)
 		{
 			return true;
 		}
@@ -985,84 +1099,68 @@ boolean cc_deleteMail(kmessage msg)
 	return false;
 }
 
-boolean handleFaxMonster(monster enemy)
+boolean handleCopiedMonster(item itm)
 {
-	return handleFaxMonster(enemy, true, "");
+	return handleCopiedMonster(itm, "");
 }
 
-boolean handleFaxMonster(monster enemy, string option)
+boolean handleCopiedMonster(item itm, string option)
 {
-	return handleFaxMonster(enemy, true, option);
-}
-
-boolean handleFaxMonster(monster enemy, boolean fightIt)
-{
-	return handleFaxMonster(enemy, fightIt, "");
-}
-
-boolean handleFaxMonster(monster enemy, boolean fightIt, string option)
-{
-	if(get_property("_photocopyUsed").to_boolean())
+	int id = 0;
+	switch(itm)
 	{
-		return false;
+	case $item[Rain-Doh Black Box]:
+		return handleCopiedMonster($item[Rain-Doh Box Full of Monster], option);
+	case $item[Spooky Putty Sheet]:
+		return handleCopiedMonster($item[Spooky Putty Monster], option);
+	case $item[4-D Camera]:
+		return handleCopiedMonster($item[Shaking 4-D Camera], option);
+	case $item[Unfinished Ice Sculpture]:
+		return handleCopiedMonster($item[Ice Sculpture], option);
+	case $item[Rain-Doh Box Full of Monster]:
+		if(get_property("rainDohMonster") == "")
+		{
+			abort(itm + " has no monster so we can't use it");
+		}
+		id = to_int(itm);
+		break;
+	case $item[Spooky Putty Monster]:
+		if(get_property("spoookyPuttyMonster") == "")
+		{
+			abort(itm + " has no monster so we can't use it");
+		}
+		id = to_int(itm);
+		break;
+	case $item[Shaking 4-D Camera]:
+		if(get_property("cameraMonster") == "")
+		{
+			abort(itm + " has no monster so we can't use it");
+		}
+		if(get_property("_cameraUsed").to_boolean())
+		{
+			abort(itm + " already used today. We can not continue");
+		}
+		id = to_int(itm);
+		break;
+	case $item[Ice Sculpture]:
+		if(item_amount(itm) == 0)
+		{
+			abort("We do not have any " + itm);
+		}
+		if(get_property("iceSculptureMonster") == "")
+		{
+			abort(itm + " has no monster so we can't use it");
+		}
+		if(get_property("_iceSculptureUsed").to_boolean())
+		{
+			abort(itm + " already used today. We can not continue");
+		}
+		id = to_int(itm);
+		break;
 	}
-	if(item_amount($item[Clan VIP Lounge Key]) == 0)
+	if(id != 0)
 	{
-		return false;
-	}
-
-	print("If you don't have chat open, this could take well over a minute. Beep boop.", "green");
-	cli_execute("faxbot " + enemy);
-	if(item_amount($item[photocopied monster]) == 0)
-	{
-		print("Trying to acquire photocopy manually", "red");
-		visit_url("clan_viplounge.php?preaction=receivefax&whichfloor=2", true);
-	}
-	if(item_amount($item[photocopied monster]) == 0)
-	{
-		print("Could not acquire fax monster", "red");
-		return false;
-	}
-	if(fightIt)
-	{
-		return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=4873", $location[Noob Cave], option);
-	}
-	return true;
-}
-
-
-boolean handleRainDoh()
-{
-	if(get_property("rainDohMonster") == "")
-	{
-		abort("Rain-doh has no monster so we can't use it");
-	}
-	return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=5564", $location[Noob Cave]);
-}
-
-boolean handleSpookyPutty()
-{
-	if(get_property("spookyPuttyMonster") == "")
-	{
-		abort("Spooky Putty has no monster so we can't use it");
-	}
-	return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=3667", $location[Noob Cave]);
-}
-
-boolean handle4dCamera()
-{
-	if(get_property("_cameraUsed").to_boolean())
-	{
-		abort("4-D Camera was already used, we don't have another use today");
-	}
-	return ccAdvBypass("inv_use.php?pwd=&whichitem=4170", $location[Noob Cave]);
-}
-
-boolean handleIceSculpture()
-{
-	if(item_amount($item[Ice Sculpture]) > 0)
-	{
-		return ccAdvBypass("inv_use.php?pwd=&whichitem=7080", $location[Noob Cave]);
+		return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=" + id, $location[Noob Cave], option);
 	}
 	return false;
 }
@@ -1078,9 +1176,14 @@ int maxSealSummons()
 
 boolean handleSealArmored()
 {
+	return handleSealArmored("");
+}
+
+boolean handleSealArmored(string option)
+{
 	if((get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of an armored seal]) > 0) && (item_amount($item[seal-blubber candle]) >= 10))
 	{
-		return ccAdvBypass("inv_use.php?pwd=&whichitem=3904&checked=1", $location[Noob Cave]);
+		return ccAdvBypass("inv_use.php?pwd=&whichitem=3904&checked=1", $location[Noob Cave], option);
 	}
 	else
 	{
@@ -1090,9 +1193,13 @@ boolean handleSealArmored()
 }
 boolean handleSealAncient()
 {
+	return handleSealAncient("");
+}
+boolean handleSealAncient(string option)
+{
 	if((get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of an ancient seal]) > 0) && (item_amount($item[seal-blubber candle]) >= 3))
 	{
-		return ccAdvBypass("inv_use.php?pwd=&whichitem=3905&checked=1", $location[Noob Cave]);
+		return ccAdvBypass("inv_use.php?pwd=&whichitem=3905&checked=1", $location[Noob Cave], option);
 	}
 	else
 	{
@@ -1101,6 +1208,10 @@ boolean handleSealAncient()
 	return false;
 }
 boolean handleSealElement(element flavor)
+{
+	return handleSealElement(flavor, "");
+}
+boolean handleSealElement(element flavor, string option)
 {
 	string page = "";
 	if((flavor == $element[hot]) && (get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of a charred seal]) > 0) && (item_amount($item[imbued seal-blubber candle]) > 0))
@@ -1123,7 +1234,7 @@ boolean handleSealElement(element flavor)
 	{
 		page = "inv_use.php?pwd=&whichitem=3908&checked=1";
 	}
-	return ccAdvBypass(page, $location[Noob Cave]);
+	return ccAdvBypass(page, $location[Noob Cave], option);
 }
 
 
@@ -1311,10 +1422,20 @@ boolean snojoFightAvailable()
 
 int doNumberology(string goal)
 {
-	return doNumberology(goal, true);
+	return doNumberology(goal, true, "");
+}
+
+int doNumberology(string goal, string option)
+{
+	return doNumberology(goal, true, option);
 }
 
 int doNumberology(string goal, boolean doIt)
+{
+	return doNumberology(goal, doIt, "");
+}
+
+int doNumberology(string goal, boolean doIt, string option)
 {
 	if(!have_skill($skill[Calculate the Universe]))
 	{
@@ -1398,8 +1519,19 @@ int doNumberology(string goal, boolean doIt)
 			{
 				return i;
 			}
-			visit_url("runskillz.php?pwd&action=Skillz&whichskill=144&quantity=1", true);
-			visit_url("choice.php?whichchoice=1103&pwd=&option=1&num=" + i);
+
+			if(goal == "battlefield")
+			{
+				string[int] pages;
+				pages[0] = "runskillz.php?pwd&action=Skillz&whichskill=144&quantity=1";
+				pages[1] = "choice.php?whichchoice=1103&pwd=&option=1&num=" + i;
+				ccAdvBypass(0, pages, $location[Noob Cave], option);
+			}
+			else
+			{
+				visit_url("runskillz.php?pwd&action=Skillz&whichskill=144&quantity=1", true);
+				visit_url("choice.php?whichchoice=1103&pwd=&option=1&num=" + i);
+			}
 			return i;
 		}
 		i = i + 1;
@@ -1457,7 +1589,7 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 	{
 		return false;
 	}
-	if(item_amount(it) == whenHave)
+	if((item_amount(it) + equipped_amount(it)) == whenHave)
 	{
 		int lastStorage = storage_amount(it);
 		while(storage_amount(it) < howMany)
@@ -2069,6 +2201,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Merry Smithsness]:				useItem = $item[Flaskfull of Hollow];			break;
 	case $effect[The Moxious Madrigal]:			useSkill = $skill[The Moxious Madrigal];		break;
 	case $effect[Musk of the Moose]:			useSkill = $skill[Musk of the Moose];			break;
+	case $effect[Musky]:						useItem = $item[Lynyrd Musk];					break;
 	case $effect[Mysteriously Handsome]:		useItem = $item[Handsomeness Potion];			break;
 	case $effect[Mystically Oiled]:				useItem = $item[Ointment of the Occult];		break;
 	case $effect[Nearly All-Natural]:			useItem = $item[bag of grain];					break;
@@ -2190,11 +2323,12 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Stevedave\'s Shanty of Superiority]:useSkill = $skill[Stevedave\'s Shanty of Superiority];			break;
 	case $effect[Stickler for Promptness]:		useItem = $item[Potion of Punctual Companionship];	break;
 	case $effect[Stinky Hands]:					useItem = $item[Lotion of Stench];				break;
+	case $effect[Stinky Weapon]:				useItem = $item[Stench Nuggets];				break;
 	case $effect[Stone-Faced]:					useItem = $item[Stone Wool];					break;
 	case $effect[Strong Grip]:					useItem = $item[Finger Exerciser];				break;
 	case $effect[Strong Resolve]:				useItem = $item[Resolution: Be Stronger];		break;
 	case $effect[Sugar Rush]:
-		foreach it in $items[Breath Mint, Tasty Fun Good Rice Candy, That Gum You Like, Angry Farmer Candy]
+		foreach it in $items[Crimbo Fudge, Crimbo Peppermint Bark, Crimbo Candied Pecan, Breath Mint, Tasty Fun Good Rice Candy, That Gum You Like, Angry Farmer Candy]
 		{
 			if(item_amount(it) > 0)
 			{

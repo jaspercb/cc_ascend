@@ -314,7 +314,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!contains_text(combatState, "pickpocket") && ((my_class() == $class[Disco Bandit]) || (my_class() == $class[Accordion Thief])) && contains_text(text, "value=\"Pickpocket") && ((expected_damage() * 2) < my_hp()))
+	if(!contains_text(combatState, "pickpocket") && ((my_class() == $class[Disco Bandit]) || (my_class() == $class[Accordion Thief])) && contains_text(text, "value=\"Pick") && ((expected_damage() * 2) < my_hp()))
 	{
 		boolean tryIt = false;
 		foreach i, drop in item_drops_array(enemy)
@@ -331,6 +331,7 @@ string cc_combatHandler(int round, string opp, string text)
 		if(tryIt)
 		{
 			set_property("cc_combatHandler", combatState + "(pickpocket)");
+			string attemptSteal = steal();
 			return "pickpocket";
 		}
 	}
@@ -410,10 +411,10 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if((enemy == $monster[dirty thieving brigand]) && (!contains_text(combatState, "makeitrain")) && (get_property("cc_nunsTrickReady") == "yes"))
 	{
-		if((my_rain() > 10) && (have_skill($skill[make it rain])))
+		if((my_rain() > rain_cost($skill[Make It Rain])) && (have_skill($skill[make it rain])))
 		{
 			set_property("cc_combatHandler", combatState + "(makeitrain)");
-			return "skill make it rain";
+			return "skill " + $skill[Make It Rain];
 		}
 	}
 
@@ -676,6 +677,58 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+	if(!contains_text(combatState, "yellowray"))
+	{
+		boolean doYellow = false;
+		if((enemy == $monster[burly sidekick]) && !possessEquipment($item[Mohawk Wig]))
+		{
+			doYellow = true;
+		}
+		if((get_property("cc_nunsTrickGland") == "start") && (enemy == $monster[larval filthworm]))
+		{
+			doYellow = true;
+		}
+		if(($monsters[Filthworm Royal Guard, Knob Goblin Harem Girl] contains enemy) ||
+			((enemy == $monster[orcish frat boy spy]) && (my_daycount() == 1)) ||
+			((enemy == $monster[War Frat 151st Infantryman]) && (my_daycount() == 2)))
+		{
+			doYellow = true;
+		}
+
+		if(doYellow)
+		{
+			string combatAction = yellowRayCombatString();
+			if(combatAction != "")
+			{
+				set_property("cc_combatHandler", combatState + "(yellowray)");
+				if(index_of(combatAction, "skill") == 0)
+				{
+					handleTracker(enemy, to_skill(substring(combatAction, 6)), "cc_yellowRays");
+				}
+				else if(index_of(combatAction, "item") == 0)
+				{
+					handleTracker(enemy, to_item(substring(combatAction, 5)), "cc_yellowRays");
+				}
+				else
+				{
+					print("Unable to track yellow ray behavior: " + combatAction, "red");
+				}
+
+				return combatAction;
+			}
+			else
+			{
+				print("Wanted a yellow ray but we can not find one.", "red");
+			}
+		}
+	}
+
+	if(contains_text(combatState, "yellowray"))
+	{
+		abort("Ugh, where is my damn yellowray!!!");
+	}
+
+/*
 	if(have_effect($effect[everything looks yellow]) == 0)
 	{
 		if(contains_text(combatState, "yellowray"))
@@ -719,6 +772,7 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 		}
 	}
+*/
 
 	if((enemy == $monster[animated possessions]) || (enemy == $monster[natural spider]))
 	{
@@ -760,7 +814,7 @@ string cc_combatHandler(int round, string opp, string text)
 			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
 			return "skill thunder clap";
 		}
-		if((enemy == $monster[burly sidekick]) && (item_amount($item[mohawk wig]) > 0))
+		if((enemy == $monster[burly sidekick]) && possessEquipment($item[Mohawk Wig]))
 		{
 			set_property("cc_combatHandler", combatState + "(thunder clap)");
 			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
@@ -974,6 +1028,21 @@ string cc_combatHandler(int round, string opp, string text)
 			set_property("cc_combatHandler", combatState + "(love mosquito)");
 			return "skill summon love mosquito";
 		}
+		if((!contains_text(combatState, "tomayohawk")) && (item_amount($item[Tomayohawk-Style Reflex Hammer]) > 0))
+		{
+			set_property("cc_combatHandler", combatState + "(tomayohawk)");
+			return "item " + $item[Tomayohawk-Style Reflex Hammer];
+		}
+
+		if((!contains_text(combatState, "cadenza")) && (item_type(equipped_item($slot[weapon])) == "accordion") && (my_mp() >= mp_cost($skill[Cadenza])))
+		{
+			if($items[Accordion of Jordion, Accordionoid Rocca, non-Euclidean non-accordion, Shakespeare\'s Sister\'s Accordion, zombie accordion] contains equipped_item($slot[weapon]))
+			{
+				set_property("cc_combatHandler", combatState + "(cadenza)");
+				return "item " + $skill[Cadenza];
+			}
+		}
+
 	}
 
 	#Default behaviors, multi-staggers when chance is 50% or greater
@@ -1179,6 +1248,41 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 
 		break;
+
+	case $class[Accordion Thief]:
+
+		if((!contains_text(combatState, "cadenza")) && (item_type(equipped_item($slot[weapon])) == "accordion") && (my_mp() >= mp_cost($skill[Cadenza])) && ((expected_damage() * 2) < my_hp()))
+		{
+			if($items[accordion file, alarm accordion, autocalliope, bal-musette accordion, baritone accordion, cajun accordion, ghost accordion, peace accordion, pentatonic accordion, pygmy concertinette, skipper\'s accordion, squeezebox of the ages, the trickster\'s trikitixa] contains equipped_item($slot[weapon]))
+			{
+				set_property("cc_combatHandler", combatState + "(cadenza)");
+				return "item " + $skill[Cadenza];
+			}
+		}
+
+		if(have_skill($skill[Accordion Bash]) && (my_mp() >= mp_cost($skill[Accordion Bash])) && (item_type(equipped_item($slot[weapon])) == "accordion"))
+		{
+			stunner = "skill " + $skill[Accordion Bash];
+			costStunner = mp_cost($skill[Accordion Bash]);
+		}
+
+		if(((monster_defense() - my_buffedstat(my_primestat())) > 20) && have_skill($skill[Saucestorm]) && (my_mp() >= mp_cost($skill[Saucestorm])))
+		{
+			attackMajor = "skill " + $skill[Saucestorm];
+			costMajor = mp_cost($skill[Saucestorm]);
+		}
+
+		break;
+
+	case $class[Disco Bandit]:
+
+		// I have no idea how Disco Bandits fight, even less than AT.
+
+		if(((monster_defense() - my_buffedstat(my_primestat())) > 20) && have_skill($skill[Saucestorm]) && (my_mp() >= mp_cost($skill[Saucestorm])))
+		{
+			attackMajor = "skill " + $skill[Saucestorm];
+			costMajor = mp_cost($skill[Saucestorm]);
+		}
 	}
 
 	if(round <= 25)

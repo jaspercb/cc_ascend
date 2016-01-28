@@ -822,7 +822,6 @@ boolean cc_cheesePostCS()
 		equip($item[Snow Suit]);
 	}
 
-#	use(1 + ((my_adventures() + 9)/20), $item[How to Avoid Scams]);
 	while(my_adventures() > 0)
 	{
 		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);

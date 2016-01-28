@@ -9,14 +9,16 @@ import<cc_ascend/cc_util.ash>
 #	Handler for in-run consumption
 #
 #
-#
-#
-#
+
+
 void consumeStuff();
 boolean makePerfectBooze();
 item getAvailablePerfectBooze();
 boolean dealWithMilkOfMagnesium(boolean useAdv);
 boolean ccEat(int howMany, item toEat);
+boolean ccDrink(int howMany, item toDrink);
+boolean ccOverdrink(int howMany, item toOverdrink);
+boolean ccChew(int howMany, item toChew);
 boolean tryPantsEat();
 boolean tryCookies();
 
@@ -161,6 +163,10 @@ boolean tryCookies()
 	{
 		return false;
 	}
+	if((cc_my_path() == "Heavy Rains") && (get_property("cc_orchard") == "finished"))
+	{
+		return false;
+	}
 	while((fullness_limit() - my_fullness()) > 0)
 	{
 		buyUpTo(1, $item[Fortune Cookie]);
@@ -230,6 +236,21 @@ boolean tryPantsEat()
 	return false;
 }
 
+boolean ccDrink(int howMany, item toDrink)
+{
+	return drink(howMany, toDrink);
+}
+
+boolean ccOverdrink(int howMany, item toOverdrink)
+{
+	return overdrink(howMany, toOverdrink);
+}
+
+boolean ccChew(int howMany, item toChew)
+{
+	return chew(howMany, toChew);
+}
+
 boolean ccEat(int howMany, item toEat)
 {
 	boolean retval = false;
@@ -256,13 +277,24 @@ boolean dealWithMilkOfMagnesium(boolean useAdv)
 	ovenHandle();
 	if((item_amount($item[glass of goat\'s milk]) > 0) && have_skill($skill[Advanced Saucecrafting]))
 	{
-		if(useAdv)
+		if((item_amount($item[Scrumptious Reagent]) == 0) && (my_mp() >= mp_cost($skill[Advanced Saucecrafting])))
 		{
-			cli_execute("make milk of magnesium");
+			if(get_property("reagentSummons").to_int() == 0)
+			{
+				use_skill(1, $skill[Advanced Saucecrafting]);
+			}
 		}
-		else if(have_skill($skill[Rapid Prototyping]) && (get_property("_rapidPrototypingUsed").to_int() < 5) && have_skill($skill[Rapid Prototyping]))
+
+		if(item_amount($item[Scrumptious Reagent]) > 0)
 		{
-			cli_execute("make milk of magnesium");
+			if(useAdv)
+			{
+				cli_execute("make milk of magnesium");
+			}
+			else if(have_skill($skill[Rapid Prototyping]) && (get_property("_rapidPrototypingUsed").to_int() < 5) && have_skill($skill[Rapid Prototyping]))
+			{
+				cli_execute("make milk of magnesium");
+			}
 		}
 	}
 	pullXWhenHaveY($item[Milk of Magnesium], 1, 0);
@@ -501,14 +533,14 @@ void consumeStuff()
 				while(haveToEat < canEat)
 				{
 					haveToEat = haveToEat + 1;
-					if((item_amount($item[Goat Cheese]) > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Dry Noodles]) > 0))
+					if((item_amount($item[Bubblin\' Crude]) > 0) && (item_amount($item[Dry Noodles]) > 0))
+					{
+						ccCraft("cook", 1, $item[Dry Noodles], $item[Bubblin\' Crude]);
+					}
+					else if((item_amount($item[Goat Cheese]) > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Dry Noodles]) > 0))
 					{
 						ccCraft("cook", 1, $item[Goat Cheese], $item[Scrumptious Reagent]);
 						ccCraft("cook", 1, $item[Dry Noodles], $item[Fancy Schmancy Cheese Sauce]);
-					}
-					else if((item_amount($item[Bubblin\' Crude]) > 0) && (item_amount($item[Dry Noodles]) > 0))
-					{
-						ccCraft("cook", 1, $item[Dry Noodles], $item[Bubblin\' Crude]);
 					}
 					else if((item_amount($item[Ectoplasmic Orbs]) > 0) && (item_amount($item[Dry Noodles]) > 0))
 					{
@@ -730,14 +762,14 @@ void consumeStuff()
 				while(haveToEat < canEat)
 				{
 					haveToEat = haveToEat + 1;
-					if((item_amount($item[Goat Cheese]) > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Dry Noodles]) > 0))
+					if((item_amount($item[Bubblin\' Crude]) > 0) && (item_amount($item[Dry Noodles]) > 0))
+					{
+						ccCraft("cook", 1, $item[Dry Noodles], $item[Bubblin\' Crude]);
+					}
+					else if((item_amount($item[Goat Cheese]) > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Dry Noodles]) > 0))
 					{
 						ccCraft("cook", 1, $item[Goat Cheese], $item[Scrumptious Reagent]);
 						ccCraft("cook", 1, $item[Dry Noodles], $item[Fancy Schmancy Cheese Sauce]);
-					}
-					else if((item_amount($item[Bubblin\' Crude]) > 0) && (item_amount($item[Dry Noodles]) > 0))
-					{
-						ccCraft("cook", 1, $item[Dry Noodles], $item[Bubblin\' Crude]);
 					}
 					else if((item_amount($item[Ectoplasmic Orbs]) > 0) && (item_amount($item[Dry Noodles]) > 0))
 					{

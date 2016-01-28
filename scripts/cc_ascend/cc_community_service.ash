@@ -38,7 +38,7 @@ void cs_initializeDay(int day)
 		return;
 	}
 
-	set_property("choiceAdventure1106", 3);
+	set_property("choiceAdventure1106", 2);
 	set_property("choiceAdventure1107", 1);
 	set_property("choiceAdventure1108", 3);
 
@@ -46,7 +46,6 @@ void cs_initializeDay(int day)
 	{
 		if(get_property("cc_day1_init") != "finished")
 		{
-			set_property("cc_semirare", "2");
 			set_property("cc_day1_dna", "finished");
 			if(item_amount($item[transmission from planet Xi]) > 0)
 			{
@@ -141,13 +140,11 @@ void cs_initializeDay(int day)
 				run_choice(1);
 			}
 
-			use_familiar($familiar[Crimbo Shrub]);
-			if((my_familiar() == $familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
+			if(have_familiar($familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
 			{
 				visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
 				visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=2&lights=1&garland=3&gift=1");
 			}
-			use_familiar($familiar[none]);
 
 			if(get_property("barrelShrineUnlocked").to_boolean())
 			{
@@ -855,6 +852,10 @@ boolean do_cs_quest(int quest)
 		}
 		else
 		{
+			if(get_property("cc_stayInRun").to_boolean())
+			{
+				abort("User wanted to stay in run (cc_stayInRun), we are done.");
+			}
 			visit_url("choice.php?pwd&whichchoice=1089&option=30");
 			print("Community Service Completed. Beep boop.", "blue");
 		}

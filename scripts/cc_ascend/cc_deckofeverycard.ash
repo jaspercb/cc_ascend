@@ -195,14 +195,25 @@ boolean deck_useScheme(string action)
 	}
 	if((action == "sc1") || (action == "hc1"))
 	{
-		switch(my_class())
+		if(!is_unrestricted($item[The Smith\'s Tome]))
 		{
-		case $class[Seal Clubber]:		deck_cheat("Lead Pipe");	break;
-		case $class[Turtle Tamer]:		deck_cheat("Lead Pipe");	break;
-		case $class[Pastamancer]:		deck_cheat("Wrench");		break;
-		case $class[Sauceror]:			deck_cheat("Candlestick");	break;
-		case $class[Disco Bandit]:		deck_cheat("Knife");		break;
-		case $class[Accordion Thief]:	deck_cheat("Revolver");		break;
+			switch(my_class())
+			{
+			case $class[Seal Clubber]:		deck_cheat("Lead Pipe");	break;
+			case $class[Turtle Tamer]:		deck_cheat("Lead Pipe");	break;
+			case $class[Pastamancer]:		deck_cheat("Wrench");		break;
+			case $class[Sauceror]:			deck_cheat("Candlestick");	break;
+			case $class[Disco Bandit]:		deck_cheat("Knife");		break;
+			case $class[Accordion Thief]:
+				deck_cheat("key");
+				set_property("cc_cubeItems", "done");
+				break;
+			}
+		}
+		else
+		{
+			deck_cheat("key");
+			set_property("cc_cubeItems", "done");
 		}
 		deck_cheat(my_primestat() + " stat");
 		deck_cheat("1952 Mickey Mantle");
@@ -211,14 +222,21 @@ boolean deck_useScheme(string action)
 	}
 	if((action == "sc2") || (action == "hc2"))
 	{
-		switch(my_class())
+		if(!is_unrestricted($item[The Smith\'s Tome]))
 		{
-		case $class[Seal Clubber]:		deck_cheat("Lead Pipe");	break;
-		case $class[Turtle Tamer]:		deck_cheat("Rope");			break;
-		case $class[Pastamancer]:		deck_cheat("Wrench");		break;
-		case $class[Sauceror]:			deck_cheat("Candlestick");	break;
-		case $class[Disco Bandit]:		deck_cheat("Knife");		break;
-		case $class[Accordion Thief]:	deck_cheat("Revolver");		break;
+			switch(my_class())
+			{
+			case $class[Seal Clubber]:		deck_cheat("Lead Pipe");	break;
+			case $class[Turtle Tamer]:		deck_cheat("Rope");			break;
+			case $class[Pastamancer]:		deck_cheat("Wrench");		break;
+			case $class[Sauceror]:			deck_cheat("Candlestick");	break;
+			case $class[Disco Bandit]:		deck_cheat("Knife");		break;
+			case $class[Accordion Thief]:	deck_cheat("key");		break;
+			}
+		}
+		else
+		{
+			deck_cheat("key");
 		}
 		if(item_amount($item[Stone Wool]) == 0)
 		{
@@ -258,16 +276,24 @@ boolean deck_useScheme(string action)
 	}
 	if(action == "hc3")
 	{
-		switch(my_class())
+		if(!is_unrestricted($item[The Smith\'s Tome]))
 		{
-		case $class[Seal Clubber]:		deck_cheat("Lead Pipe");	break;
-		case $class[Turtle Tamer]:		deck_cheat("Rope");			break;
-		case $class[Pastamancer]:		deck_cheat("Wrench");		break;
-		case $class[Sauceror]:			deck_cheat("Candlestick");	break;
-		case $class[Disco Bandit]:		deck_cheat("Knife");		break;
-		case $class[Accordion Thief]:	deck_cheat("Revolver");		break;
+			switch(my_class())
+			{
+			case $class[Seal Clubber]:		deck_cheat("Lead Pipe");	break;
+			case $class[Turtle Tamer]:		deck_cheat("Rope");			break;
+			case $class[Pastamancer]:		deck_cheat("Wrench");		break;
+			case $class[Sauceror]:			deck_cheat("Candlestick");	break;
+			case $class[Disco Bandit]:		deck_cheat("Knife");		break;
+			case $class[Accordion Thief]:	deck_cheat("Island");		break;
+			}
+		}
+		else
+		{
+			deck_cheat("Island");
 		}
 		deck_cheat("key");
+		deck_cheat("Ancestral Recall");
 		return true;
 	}
 
