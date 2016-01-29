@@ -3678,6 +3678,12 @@ boolean L13_towerNSEntrance()
 		else
 		{
 			#need a wand (or substitute a key lime for food earlier)
+			if(my_level() != get_property("cc_powerLevelLastLevel").to_int())
+			{
+				print("Hmmm, we need to stop being so feisty about quests...", "red");
+				set_property("cc_powerLevelLastLevel", my_level());
+				return true;
+			}
 			abort("Some sidequest is not done for some raisin. Some sidequest is missing, or something is missing, or something is not not something. We don't know what to do.");
 		}
 	}
@@ -3751,7 +3757,12 @@ boolean L12_lastDitchFlyer()
 
 boolean LX_attemptPowerLevel()
 {
-	set_property("cc_powerLevelLastLevel", my_level());
+	if(get_property("cc_powerLevelLastLevel").to_int() != my_level())
+	{
+		print("I might have to powerlevel... let's consider the possibilities...", "red");
+		set_property("cc_powerLevelLastLevel", my_level());
+		return true;
+	}
 	set_property("cc_powerLevelAdvCount", get_property("cc_powerLevelAdvCount").to_int() + 1);
 	set_property("cc_powerLevelLastAttempted", my_turncount());
 
@@ -9263,9 +9274,13 @@ boolean L5_haremOutfit()
 	{
 		buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
 	}
+
 	if(!in_hardcore() && !canYellowRay())
 	{
-		return false;
+		if(my_level() != get_property("cc_powerLevelLastLevel").to_int())
+		{
+			return false;
+		}
 	}
 #	if(cc_my_path() == "Heavy Rains")
 #	{
@@ -9756,6 +9771,22 @@ boolean L8_trapperYeti()
 			buffMaintain($effect[Elemental Saucesphere], 10, 1, 1);
 			buffMaintain($effect[Hide of Sobek], 10, 1, 1);
 		}
+		string lihcface = "";
+		if((my_class() == $class[Ed]) && possessEquipment($item[The Crown of Ed the Undying]))
+		{
+			lihcface = "-equip lihc face";
+		}
+
+		if((elemental_resist($element[cold]) < 5) && (my_level() == get_property("cc_powerLevelLastLevel").to_int()))
+		{
+			ccMaximize("cold res " + lihcface + " -equip snow suit", 0, 0, true);
+			int coldResist = numeric_modifier("Generated:_spec", "cold resistance");
+			if(coldResist >= 5)
+			{
+				ccMaximize("cold res " + lihcface + " -equip snow suit", 0, 0, false);
+			}
+		}
+
 		if(elemental_resist($element[cold]) >= 5)
 		{
 			if(get_property("cc_mistypeak") == "")
@@ -9766,7 +9797,7 @@ boolean L8_trapperYeti()
 				set_property("cc_mistypeak", "done");
 			}
 
-			print("Time to take out Gargle", "blue");
+			print("Time to take out Gargle, sure, Gargle (Groar)", "blue");
 			if((item_amount($item[Groar\'s Fur]) == 0) && (item_amount($item[Winged Yeti Fur]) == 0))
 			{
 				//If this returns false, we might have finished already, can we check this?
