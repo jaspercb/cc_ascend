@@ -1412,6 +1412,24 @@ boolean snojoFightAvailable()
 	{
 		return false;
 	}
+
+	if(!get_property("kingLiberated").to_boolean())
+	{
+		if((my_daycount() == 1) && (get_property("snojoSetting") != "MOXIE"))
+		{
+			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
+			temp = run_choice(3);
+		}
+		if(my_daycount() == 2)
+		{
+			# If a player manually changes this, we will not try to adjust for it.
+			if((get_property("snojoSetting") == "MOXIE") && (get_property("snojoMoxieWins").to_int() >= 14))
+			{
+				string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
+				temp = run_choice(2);
+			}
+		}
+	}
 	if(get_property("snojoSetting") == "NONE")
 	{
 		print("Snojo not set, attempting to set to " + my_primestat(), "blue");

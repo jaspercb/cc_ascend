@@ -334,17 +334,57 @@ void consumeStuff()
 			drink(1, booze);
 		}
 	}
-	if(((my_inebriety() + 2) <= inebriety_limit()) && (my_mp() >= mpForOde))
+
+	if((my_inebriety() <= 8) || (my_adventures() < 20) || (item_amount($item[Spookyraven Library Key]) > 0) || (get_property("questM20Necklace") == "finished"))
 	{
-		if((item_amount($item[Yellow Pixel]) >= 10) && (item_amount($item[Pixel Daiquiri]) == 0))
+		if(((my_inebriety() + 2) <= inebriety_limit()) && (my_mp() < mpForOde) && (my_maxmp() > mpForOde))
 		{
-			cli_execute("make " + $item[Pixel Daiquiri]);
+			if((item_amount($item[Yellow Pixel]) >= 10) || (item_amount($item[Pixel Daiquiri]) > 0) || (item_amount($item[Robin\'s Egg]) > 0) | (item_amount($item[Robin Nog]) > 0))
+			{
+				if(my_meat() > 10000)
+				{
+					while(my_mp() < mpForOde)
+					{
+						if(((my_class() == $class[Sauceror]) || (my_class() == $class[Pastamancer])) && guild_store_available() && (my_level() >= 6))
+						{
+							buyUpTo(1, $item[Magical Mystery Juice]);
+							use(1, $item[Magical Mystery Juice]);
+						}
+						else
+						{
+							buyUpTo(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+							use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+						}
+					}
+				}
+			}
 		}
-		if(item_amount($item[Pixel Daiquiri]) > 0)
+
+		if(((my_inebriety() + 2) <= inebriety_limit()) && (my_mp() >= mpForOde))
 		{
-			shrugAT();
-			buffMaintain($effect[Ode to Booze], 50, 1, 3);
-			drink(1, $item[Pixel Daiquiri]);
+			if((item_amount($item[Yellow Pixel]) >= 10) && (item_amount($item[Pixel Daiquiri]) == 0))
+			{
+				cli_execute("make " + $item[Pixel Daiquiri]);
+			}
+			if(item_amount($item[Pixel Daiquiri]) > 0)
+			{
+				shrugAT();
+				buffMaintain($effect[Ode to Booze], 50, 1, 3);
+				drink(1, $item[Pixel Daiquiri]);
+			}
+		}
+		if(((my_inebriety() + 2) <= inebriety_limit()) && (my_mp() >= mpForOde))
+		{
+			if((item_amount($item[Robin\'s Egg]) >= 10) && (item_amount($item[Robin Nog]) == 0) && (my_meat() >= npc_price($item[Fermenting Powder])))
+			{
+				cli_execute("make " + $item[Robin Nog]);
+			}
+			if(item_amount($item[Robin Nog]) > 0)
+			{
+				shrugAT();
+				buffMaintain($effect[Ode to Booze], 50, 1, 3);
+				drink(1, $item[Robin Nog]);
+			}
 		}
 	}
 
@@ -796,31 +836,6 @@ void consumeStuff()
 				}
 			}
 		}
-
-#		if(in_hardcore() && isGuildClass() && have_skill($skill[Pastamastery]))
-#		{
-#			if(((my_fullness() + 6) <= fullness_limit()) && (my_level() >= 6) && ovenHandle())
-#			{
-#				if(item_amount($item[Hell Broth]) == 0)
-#				{
-#					while((item_amount($item[Hellion Cube]) > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Hell Broth]) < 2))
-#					{
-#						cli_execute("make Hell Broth");
-#					}
-#				}
-#				while((item_amount($item[Hell Broth]) > 0) && (item_amount($item[Dry Noodles]) > 0) && (item_amount($item[Hell Ramen]) < 2))
-#				{
-#					cli_execute("make Hell Ramen");
-#				}
-#
-#				while((item_amount($item[Hell Ramen]) > 0) && ((my_fullness() + 6) <= fullness_limit()))
-#				{
-#					dealWithMilkOfMagnesium(true);
-#					ccEat(1, $item[Hell Ramen]);
-#				}
-#			}
-#		}
-
 
 		if((fullness_limit() >= 15) && (my_fullness() < fullness_limit()))
 		{

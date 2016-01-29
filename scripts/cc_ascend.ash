@@ -152,6 +152,9 @@ void initializeSettings()
 	set_property("cc_prehippy", "");
 	set_property("cc_pirateoutfit", "");
 	set_property("cc_priorCharpaneMode", "0");
+	set_property("cc_powerLevelLastLevel", "0");
+	set_property("cc_powerLevelAdvCount", "0");
+	set_property("cc_powerLevelLastAttempted", "0");
 	set_property("cc_skipDesert", 0);
 	set_property("cc_snapshot", "");
 	set_property("cc_sniffs", "");
@@ -3748,6 +3751,10 @@ boolean L12_lastDitchFlyer()
 
 boolean LX_attemptPowerLevel()
 {
+	set_property("cc_powerLevelLastLevel", my_level());
+	set_property("cc_powerLevelAdvCount", get_property("cc_powerLevelAdvCount").to_int() + 1);
+	set_property("cc_powerLevelLastAttempted", my_turncount());
+
 	handleFamiliar("stat");
 	if((elementalPlanes_access($element[stench])) && have_skill($skill[Summon Smithsness]))
 	{
@@ -7810,6 +7817,10 @@ boolean LX_handleSpookyravenFirstFloor()
 	{
 		delayKitchen = false;
 	}
+	if(my_level() == get_property("cc_powerLevelLastLevel").to_int())
+	{
+		delayKitchen = false;
+	}
 	if(delayKitchen)
 	{
 		if((elemental_resist($element[hot]) < 9) || (elemental_resist($element[stench]) < 9))
@@ -10536,7 +10547,6 @@ boolean doTasks()
 		}
 	}
 
-
 	if((my_level() >= 9) && !get_property("_photocopyUsed").to_boolean() && (my_class() == $class[Ed]) && (my_daycount() < 3))
 	{
 		if(handleFaxMonster($monster[Lobsterfrogman]))
@@ -10622,6 +10632,14 @@ boolean doTasks()
 			cli_execute("scripts/postcheese.ash");
 			return true;
 		}
+	}
+
+	if(snojoFightAvailable() && (my_daycount() == 2) && (get_property("snojoMoxieWins").to_int() == 10))
+	{
+		handleFamiliar($familiar[Ms. Puck Man]);
+		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
+		handleFamiliar("item");
+		return true;
 	}
 
 	if(LX_dinseylandfillFunbucks())

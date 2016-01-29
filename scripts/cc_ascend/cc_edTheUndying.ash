@@ -1439,7 +1439,7 @@ boolean L1_ed_island(int dickstabOverride)
 	{
 		return false;
 	}
-	if((my_level() >= 3) && !get_property("controlPanel9").to_boolean())
+	if((my_level() >= 3) && (my_turncount() >= 2) && !get_property("controlPanel9").to_boolean())
 	{
 		visit_url("place.php?whichplace=airport_spooky_bunker&action=si_controlpanel");
 		visit_url("choice.php?pwd=&whichchoice=986&option=9",true);
@@ -1471,6 +1471,14 @@ boolean L1_ed_island(int dickstabOverride)
 	{
 		visit_url("place.php?whichplace=airport_spooky&action=airport2_radio");
 		visit_url("choice.php?pwd&whichchoice=984&option=1", true);
+	}
+
+	if((my_turncount() <= 1) && (my_meat() > 10000))
+	{
+		int need = min(4, (my_maxmp() - my_mp()) / 10);
+		buyUpTo(need, $item[Doc Galaktik\'s Invigorating Tonic]);
+		use(need, $item[Doc Galaktik\'s Invigorating Tonic]);
+		cli_execute("postcheese");
 	}
 
 	buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
