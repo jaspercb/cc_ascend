@@ -410,7 +410,7 @@ void equipBaselineHat(boolean wantNC)
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, Mark III Steam-Hat, Mark IV Steam-Hat, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, The Crown of Ed the Undying];
+	boolean[item] poss = $items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, Mark III Steam-Hat, Mark IV Steam-Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, The Crown of Ed the Undying];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -640,7 +640,7 @@ void equipBaselineAcc2()
 void equipBaselineAcc3()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[ring of telling skeletons what to do, Glowing Red Eye, grumpy old man charrrm bracelet, Pirate Fledges, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Sphygmayomanometer, Badge Of Authority, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
+	boolean[item] poss = $items[ring of telling skeletons what to do, Glowing Red Eye, grumpy old man charrrm bracelet, Pirate Fledges, Mr. Accessory Jr., Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Sphygmayomanometer, Badge Of Authority, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing) && (equipped_item($slot[acc1]) != thing) && (equipped_item($slot[acc2]) != thing))

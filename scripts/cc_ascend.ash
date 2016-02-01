@@ -96,6 +96,7 @@ void initializeSettings()
 	set_property("cc_day4_init", "");
 	set_property("cc_disableAdventureHandling", "no");
 	set_property("cc_doCombatCopy", "no");
+	set_property("cc_familiarChoice", $familiar[none]);
 	set_property("cc_fcle", "");
 	set_property("cc_friars", "");
 	set_property("cc_funTracker", "");
@@ -3426,14 +3427,11 @@ boolean L13_towerNSContests()
 				{
 					doRest();
 				}
-				buffMaintain($effect[All Fired Up], 0, 1, 1);
-				buffMaintain($effect[Fishy\, Oily], 0, 1, 1);
-				buffMaintain($effect[Human-Machine Hybrid], 0, 1, 1);
-				buffMaintain($effect[Well-Swabbed Ear], 0, 1, 1);
-				buffMaintain($effect[Ticking Clock], 0, 1, 1);
-				buffMaintain($effect[Sugar Rush], 0, 1, 1);
-				buffMaintain($effect[Sepia Tan], 0, 1, 1);
-				buffMaintain($effect[The Glistening], 0, 1, 1);
+				foreach eff in $effects[All Fired Up, Fishy\, Oily, The Glistening, Human-Machine Hybrid, Provocative Perkiness, Sepia Tan, Sugar Rush, Ticking Clock, Well-Swabbed Ear]
+				{
+					buffMaintain(eff, 0, 1, 1);
+				}
+
 				buffMaintain($effect[Cletus\'s Canticle of Celerity], 10, 1, 1);
 				buffMaintain($effect[Suspicious Gaze], 10, 1, 1);
 				buffMaintain($effect[Song of Slowness], 100, 1, 1);
@@ -3466,18 +3464,10 @@ boolean L13_towerNSContests()
 			switch(ns_crowd2())
 			{
 			case $stat[moxie]:
-				buffMaintain($effect[Pill Power], 0, 1, 1);
-				buffMaintain($effect[Newt Gets In Your Eyes], 0, 1, 1);
-				buffMaintain($effect[Memories of Puppy Love], 0, 1, 1);
-				buffMaintain($effect[Superhuman Sarcasm], 0, 1, 1);
-				buffMaintain($effect[Busy Bein\' Delicious], 0, 1, 1);
-				buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
-				buffMaintain($effect[Liquidy Smoky], 0, 1, 1);
-				buffMaintain($effect[Notably Lovely], 0, 1, 1);
-				buffMaintain($effect[Spiky Hair], 0, 1, 1);
-				buffMaintain($effect[Sugar Rush], 0, 1, 1);
-				buffMaintain($effect[Lycanthropy\, Eh?], 0, 1, 1);
-				buffMaintain($effect[Radiating Black Body&trade;], 0, 1, 1);
+				foreach eff in $effects[Busy Bein\' Delicious, Butt-Rock Hair, Funky Coal Patina, Liquidy Smoky, Locks Like the Raven,  Lycanthropy\, Eh?, Memories of Puppy Love, Newt Gets In Your Eyes, Notably Lovely, Pill Power, Radiating Black Body&trade;, Seriously Mutated,  Spiky Hair, Sugar Rush, Superhuman Sarcasm, Tomato Power]
+				{
+					buffMaintain(eff, 0, 1, 1);
+				}
 
 				buffMaintain($effect[The Moxious Madrigal], 10, 1, 1);
 				buffMaintain($effect[Disco Smirk], 10, 1, 1);
@@ -3486,25 +3476,10 @@ boolean L13_towerNSContests()
 				ccMaximize("moxie -equip snow suit", 1500, 0, false);
 				break;
 			case $stat[muscle]:
-				buffMaintain($effect[Pill Power], 0, 1, 1);
-				buffMaintain($effect[Temporary Lycanthropy], 0, 1, 1);
-				buffMaintain($effect[Feroci Tea], 0, 1, 1);
-				buffMaintain($effect[Extreme Muscle Relaxation], 0, 1, 1);
-				buffMaintain($effect[Woad Warrior], 0, 1, 1);
-				buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
-				buffMaintain($effect[Football Eyes], 0, 1, 1);
-				buffMaintain($effect[Rainy Soul Miasma], 0, 1, 1);
-				buffMaintain($effect[Browbeaten], 0, 1, 1);
-				buffMaintain($effect[Sugar Rush], 0, 1, 1);
-				buffMaintain($effect[Spiky Hair], 0, 1, 1);
-				buffMaintain($effect[Seriously Mutated], 0, 1, 1);
-				buffMaintain($effect[Lycanthropy\, Eh?], 0, 1, 1);
-				buffMaintain($effect[Steroid Boost], 0, 1, 1);
-				buffMaintain($effect[Truly Gritty], 0, 1, 1);
-				buffMaintain($effect[Fishy Fortification], 0, 1, 1);
-				buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
-				buffMaintain($effect[Slightly Larger Than Usual], 0, 1, 1);
-				buffMaintain($effect[Industrial Strength Starch], 0, 1, 1);
+				foreach eff in $effects[Browbeaten, Extreme Muscle Relaxation, Feroci Tea, Fishy Fortification, Football Eyes, Go Get \'Em\, Tiger!, Human-Human Hybrid, Industrial Strength Starch, Lycanthropy\, Eh?, Marinated, Phorcefullness, Pill Power, Rainy Soul Miasma, Savage Beast Inside, Seriously Mutated, Slightly Larger Than Usual, Steroid Boost, Spiky Hair, Sugar Rush, Superheroic, Temporary Lycanthropy, Tomato Power, Truly Gritty, Woad Warrior]
+				{
+					buffMaintain(eff, 0, 1, 1);
+				}
 
 				buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
 				buffMaintain($effect[Song of Bravado], 100, 1, 1);
@@ -3512,18 +3487,16 @@ boolean L13_towerNSContests()
 				ccMaximize("muscle -equip snow suit", 1500, 0, false);
 				break;
 			case $stat[mysticality]:
-				buffMaintain($effect[Pill Power], 0, 1, 1);
-				buffMaintain($effect[Seeing Colors], 0, 1, 1);
-				buffMaintain($effect[Glittering Eyelashes], 0, 1, 1);
-				buffMaintain($effect[Liquidy Smoky], 0, 1, 1);
-				buffMaintain($effect[Rainy Soul Miasma], 0, 1, 1);
-				buffMaintain($effect[OMG WTF], 0, 1, 1);
-				buffMaintain($effect[Rosewater Mark], 0, 1, 1);
-				buffMaintain($effect[Erudite], 0, 1, 1);
-				buffMaintain($effect[Far Out], 0, 1, 1);
+				# Gothy may have given us a strange bug during one ascension, removing it for now.
+				foreach eff in $effects[Erudite, Far Out, Glittering Eyelashes, Liquidy Smoky, Marinated, Mutated, Mystically Oiled, OMG WTF, Pill Power, Rainy Soul Miasma, Rosewater Mark, Seeing Colors, Sweet\, Nuts, Tomato Power]
+				{
+					buffMaintain(eff, 0, 1, 1);
+				}
 
 				buffMaintain($effect[The Magical Mojomuscular Melody], 10, 1, 1);
 				buffMaintain($effect[Song of Bravado], 100, 1, 1);
+				buffMaintain($effect[Pasta Oneness], 1, 1, 1);
+				buffMaintain($effect[Saucemastery], 1, 1, 1);
 				buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
 				ccMaximize("myst -equip snow suit", 1500, 0, false);
 				break;
@@ -3551,6 +3524,7 @@ boolean L13_towerNSContests()
 				break;
 			case $element[hot]:
 				buffMaintain($effect[Flamibili Tea], 0, 1, 1);
+				buffMaintain($effect[Flaming Weapon], 0, 1, 1);
 				buffMaintain($effect[Human-Demon Hybrid], 0, 1, 1);
 				buffMaintain($effect[Lit Up], 0, 1, 1);
 				buffMaintain($effect[Fire Inside], 0, 1, 1);
@@ -3559,6 +3533,7 @@ boolean L13_towerNSContests()
 				ccMaximize("hot dmg -equip snow suit", 1500, 0, false);
 				break;
 			case $element[sleaze]:
+				buffMaintain($effect[Takin\' It Greasy], 15, 1, 1);
 				ccMaximize("sleaze dmg -equip snow suit", 1500, 0, false);
 				break;
 			case $element[stench]:
@@ -3570,7 +3545,10 @@ boolean L13_towerNSContests()
 				ccMaximize("stench dmg -equip snow suit", 1500, 0, false);
 				break;
 			case $element[spooky]:
+				buffMaintain($effect[Spooky Hands], 0, 1, 1);
+				buffMaintain($effect[Spooky Weapon], 0, 1, 1);
 				buffMaintain($effect[Dirge of Dreadfulness], 10, 1, 1);
+				buffMaintain($effect[Intimidating Mien], 15, 1, 1);
 				buffMaintain($effect[Snarl of the Timberwolf], 10, 1, 1);
 				ccMaximize("spooky dmg -equip snow suit", 1500, 0, false);
 				break;
@@ -4096,13 +4074,14 @@ boolean L11_hiddenCity()
 			try
 			{
 				handleFamiliar("init");
-				cli_execute("ccs cc_default");
-				if(ccAdv(1, $location[A Massive Ziggurat])) {}
-				handleFamiliar($familiar[Adventurous Spelunker]);
+				string[int] pages;
+				pages[0] = "adventure.php?snarfblat=350";
+				pages[1] = "choice.php?pwd&whichchoice=791&option=1";
+				if(ccAdvBypass(0, pages, $location[A Massive Ziggurat], "")) {}
+				handleFamiliar("item");
 			}
 			finally
 			{
-				cli_execute("ccs null");
 				print("If I stopped, just run me again, beep!", "red");
 			}
 
@@ -9199,9 +9178,9 @@ boolean L11_blackMarket()
 		set_property("choiceAdventure928", "4");
 	}
 
-	handleFamiliar($familiar[reassembled blackbird]);
+	handleFamiliar($familiar[Reassembled Blackbird]);
 	ccAdv(1, $location[The Black Forest]);
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 	return true;
 }
 
@@ -10176,7 +10155,7 @@ boolean doTasks()
 		wait(delay);
 	}
 
-	set_property("cc_familiarChoice", $familiar[none]);
+#	set_property("cc_familiarChoice", $familiar[none]);
 
 	if(L1_dnaAcquire())
 	{
@@ -10241,11 +10220,15 @@ boolean doTasks()
 			handleFamiliar($familiar[Angry Jung Man]);
 		}
 	}
+	if(my_familiar() == $familiar[Reassembled Blackbird])
+	{
+		handleFamiliar("item");
+	}
 	if(my_familiar() == $familiar[Angry Jung Man])
 	{
 		if((get_property("_jungDrops").to_int() == 1) || (my_daycount() > 1))
 		{
-			handleFamiliar($familiar[Adventurous Spelunker]);
+			handleFamiliar("item");
 		}
 	}
 	else if((my_familiar() == $familiar[Adventurous Spelunker]) && (get_property("_jungDrops").to_int() == 0) && (my_daycount() == 1))

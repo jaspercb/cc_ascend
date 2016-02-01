@@ -414,11 +414,24 @@ boolean cc_doWalford()
 		use(1, $item[Platinum Yendorian Express Card]);
 	}
 
-	handleFamiliar($familiar[Artistic Goth Kid]);
-	if(equipped_item($slot[Familiar]) != $item[Das Boot])
+
+	if(get_property("_hipsterAdv").to_int() <= 2)
 	{
-		equip($item[Das Boot]);
+		handleFamiliar($familiar[Artistic Goth Kid]);
+		if(equipped_item($slot[Familiar]) != $item[Das Boot])
+		{
+			equip($slot[Familiar], $item[Das Boot]);
+		}
 	}
+	else
+	{
+		handleFamiliar($familiar[Grouper Groupie]);
+		if((equipped_item($slot[Familiar]) != $item[Snow Suit]) && (item_amount($item[Snow Suit]) > 0))
+		{
+			equip($slot[Familiar], $item[Snow Suit]);
+		}
+	}
+
 	if(equipped_item($slot[Hat]) != $item[The Crown of Ed the Undying])
 	{
 		equip($item[The Crown of Ed the Undying]);
@@ -747,7 +760,7 @@ boolean cc_ascendIntoCS()
 
 boolean cc_cheesePostCS()
 {
-	if(!didWePlantHere($location[Barf Mountain]) && florist_available())
+	if(!didWePlantHere($location[Barf Mountain]) && florist_available() && (my_adventures() > 0))
 	{
 		ccAdv(1, $location[Barf Mountain]);
 		cli_execute("florist plant stealing magnolia");
@@ -774,7 +787,7 @@ boolean cc_cheesePostCS()
 	run_choice(7);
 
 
-	if((item_amount($item[Confusing LED Clock]) > 0) && get_property("cc_breakstone").to_boolean())
+	if((item_amount($item[Confusing LED Clock]) > 0) && get_property("cc_breakstone").to_boolean() && (my_adventures() >= 6))
 	{
 		use(1, $item[Confusing LED Clock]);
 		visit_url("campground.php?action=rest");

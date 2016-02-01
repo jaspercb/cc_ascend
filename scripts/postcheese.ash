@@ -733,7 +733,7 @@ void handlePostAdventure()
 		{
 			consider = $thrall[Vermincelli];
 		}
-		if((my_mp() >= (1.2 * mp_cost($skill[Bind Spice Ghost]))) && have_skill($skill[Bind Spice Ghost]) && (my_daycount() > 1))
+		if((my_mp() >= (1.2 * mp_cost($skill[Bind Spice Ghost]))) && have_skill($skill[Bind Spice Ghost]) && (my_daycount() > 1) && (numeric_modifier("MP Regen Min").to_int() > 9))
 		{
 			consider = $thrall[Spice Ghost];
 		}

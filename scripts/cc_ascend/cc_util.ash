@@ -2146,6 +2146,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Fishy Fortification]:			useItem = $item[Fish-Liver Oil];				break;
 	case $effect[Fishy Whiskers]:				useItem = $item[Catfish Whiskers];				break;
 	case $effect[Flame-Retardant Trousers]:		useItem = $item[Hot Powder];					break;
+	case $effect[Flaming Weapon]:				useItem = $item[Hot Nuggets];					break;
 	case $effect[Flamibili Tea]:				useItem = $item[cuppa Flamibili Tea];			break;
 	case $effect[Flexibili Tea]:				useItem = $item[cuppa Flexibili Tea];			break;
 	case $effect[Flimsy Shield of the Pastalord]:useSkill = $skill[Shield of the Pastalord];	break;
@@ -2158,12 +2159,14 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Frost Tea]:					useItem = $item[cuppa Frost tea];				break;
 	case $effect[Frostbeard]:					useSkill = $skill[Beardfreeze];					break;
 	case $effect[Frosty]:						useItem = $item[Frost Flower];					break;
+	case $effect[Funky Coal Patina]:			useItem = $item[Coal Dust];						break;
 	case $effect[Gelded]:						useItem = $item[Chocolate Filthy Lucre];		break;
 	case $effect[Ghostly Shell]:				useSkill = $skill[Ghostly Shell];				break;
 	case $effect[The Glistening]:				useItem = $item[Vial of the Glistening];		break;
 	case $effect[Glittering Eyelashes]:			useItem = $item[Glittery Mascara];				break;
 	case $effect[Go Get \'Em\, Tiger!]:			useItem = $item[Ben-gal&trade; Balm];			break;
 	case $effect[Got Milk]:						useItem = $item[Milk of Magnesium];				break;
+	case $effect[Gothy]:						useItem = $item[Spooky Eyeliner];				break;
 	case $effect[Gr8tness]:						useItem = $item[Potion of Temporary Gr8tness];	break;
 	case $effect[Greedy Resolve]:				useItem = $item[Resolution: Be Wealthier];		break;
 	case $effect[Gummi-Grin]:					useItem = $item[Gummi Turtle];					break;
@@ -2189,6 +2192,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Human-Pirate Hybrid]:			useItem = $item[Gene Tonic: Pirate];			break;
 	case $effect[Hyphemariffic]:				useItem = $item[Black Eyedrops];				break;
 	case $effect[Icy Glare]:					useSkill = $skill[Icy Glare];					break;
+	case $effect[Incredibly Hulking]:			useItem = $item[Ferrigno\'s Elixir of Power];	break;
 	case $effect[Industrial Strength Starch]:	useItem = $item[Industrial Strength Starch];	break;
 	case $effect[Insulated Trousers]:			useItem = $item[Cold Powder];					break;
 	case $effect[Intimidating Mien]:			useSkill = $skill[Intimidating Mien];			break;
@@ -2213,6 +2217,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Majorly Poisoned]:				useSkill = $skill[Disco Nap];					break;
 	case $effect[Manbait]:						useItem = $item[The Most Dangerous Bait];		break;
 	case $effect[Mariachi Mood]:				useSkill = $skill[Moxie of the Mariachi];		break;
+	case $effect[Marinated]:					useItem = $item[Bowl of Marinade];				break;
 	case $effect[Mathematically Precise]:		useSkill = $skill[Mathematical Precision];		break;
 	case $effect[Mayeaugh]:						useItem = $item[Glob of Spoiled Mayo];			break;
 	case $effect[Memories of Puppy Love]:		useItem = $item[Old Love Note];					break;
@@ -2220,6 +2225,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[The Moxious Madrigal]:			useSkill = $skill[The Moxious Madrigal];		break;
 	case $effect[Musk of the Moose]:			useSkill = $skill[Musk of the Moose];			break;
 	case $effect[Musky]:						useItem = $item[Lynyrd Musk];					break;
+	case $effect[Mutated]:						useItem = $item[Gremlin Mutagen];				break;
 	case $effect[Mysteriously Handsome]:		useItem = $item[Handsomeness Potion];			break;
 	case $effect[Mystically Oiled]:				useItem = $item[Ointment of the Occult];		break;
 	case $effect[Nearly All-Natural]:			useItem = $item[bag of grain];					break;
@@ -2264,6 +2270,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Power Ballad of the Arrowsmith]:useSkill = $skill[The Power Ballad of the Arrowsmith];break;
 	case $effect[Power of Heka]:				useSkill = $skill[Power of Heka];				break;
 	case $effect[Protection from Bad Stuff]:	useItem = $item[scroll of Protection from Bad Stuff];break;
+	case $effect[Provocative Perkiness]:		useItem = $item[Libation of Liveliness];		break;
 	case $effect[Puddingskin]:					useItem = $item[scroll of Puddingskin];			break;
 	case $effect[Pulchritudinous Pressure]:		useItem = $item[Pressurized Potion of Pulchritude];break;
 	case $effect[Purity of Spirit]:				useItem = $item[cold-filtered water];			break;
@@ -2333,6 +2340,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Spiritually Aware]:			useItem = $item[Spirit Beer];					break;
 	case $effect[Spiritually Awash]:			useItem = $item[Sacramental Wine];				break;
 	case $effect[Spooky Hands]:					useItem = $item[Lotion of Spookiness];			break;
+	case $effect[Spooky Weapon]:				useItem = $item[Spooky Nuggets];				break;
 	case $effect[Spookypants]:					useItem = $item[Spooky Powder];					break;
 	case $effect[Springy Fusilli]:				useSkill = $skill[Springy Fusilli];				break;
 	case $effect[Squatting and Thrusting]:		useItem = $item[Squat-Thrust Magazine];			break;

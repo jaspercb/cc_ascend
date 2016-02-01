@@ -200,11 +200,11 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			return "item beehive";
 		}
-		if((!contains_text(combatState, "love stinkbug")) && have_skill($skill[Summon Love Stinkbug]))
-		{
-			set_property("cc_combatHandler", combatState + "(love stinkbug1)");
-			return "skill summon love stinkbug";
-		}
+#		if((!contains_text(combatState, "love stinkbug")) && have_skill($skill[Summon Love Stinkbug]))
+#		{
+#			set_property("cc_combatHandler", combatState + "(love stinkbug)");
+#			return "skill summon love stinkbug";
+#		}
 
 		if((!contains_text(combatState, "shell up")) && have_skill($skill[Shell Up]) && (my_mp() >= 6) && (round >= 3))
 		{

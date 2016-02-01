@@ -253,6 +253,11 @@ boolean ccChew(int howMany, item toChew)
 
 boolean ccEat(int howMany, item toEat)
 {
+	if(toEat == $item[none])
+	{
+		return false;
+	}
+
 	boolean retval = false;
 	while(howMany > 0)
 	{
