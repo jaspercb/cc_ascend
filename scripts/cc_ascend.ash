@@ -7979,6 +7979,7 @@ boolean LX_handleSpookyravenFirstFloor()
 			}
 			buffMaintain($effect[Hide of Sobek], 10, 1, 1);
 			ccAdv(1, $location[The Haunted Kitchen]);
+			handleFamiliar("item");
 		}
 		return true;
 	}
@@ -8372,11 +8373,18 @@ boolean L9_aBooPeak()
 		{
 			lihcface = "-equip lihc face";
 		}
+		string parrot = ", switch exotic parrot";
+		if(get_property("cc_100familiar").to_boolean())
+		{
+			parrot = "";
+		}
 
-		ccMaximize("spooky res, cold res " + lihcface + " -equip snow suit", 0, 0, true);
+		ccMaximize("spooky res, cold res " + lihcface + " -equip snow suit" + parrot, 0, 0, true);
 		int coldResist = numeric_modifier("Generated:_spec", "cold resistance");
 		int spookyResist = numeric_modifier("Generated:_spec", "spooky resistance");
 		int hpDifference = numeric_modifier("Generated:_spec", "Maximum HP") - numeric_modifier("Maximum HP");
+
+		//	Do we need to manually adjust for the parrot?
 
 		if(black_market_available() && (item_amount($item[Can of Black Paint]) == 0) && (have_effect($effect[Red Door Syndrome]) == 0) && (my_meat() >= 1000))
 		{
@@ -8479,7 +8487,7 @@ boolean L9_aBooPeak()
 		if(doThisBoo)
 		{
 			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
-			ccMaximize("spooky res, cold res " + lihcface + " -equip snow suit", 0, 0, false);
+			ccMaximize("spooky res, cold res " + lihcface + " -equip snow suit" + parrot, 0, 0, false);
 			adjustEdHat("ml");
 
 			if(item_amount($item[ghost of a necklace]) > 0)
@@ -8502,6 +8510,7 @@ boolean L9_aBooPeak()
 				useCocoon();
 			}
 			use(1, $item[A-Boo clue]);
+			handleFamiliar($familiar[Exotic Parrot]);
 			#When booPeakProgress <= 0, we want to leave this adventure. Can we?
 			ccAdv(1, $location[A-Boo Peak]);
 			if(get_property("lastEncounter") != "The Horror...")
@@ -8517,6 +8526,7 @@ boolean L9_aBooPeak()
 			{
 				use(1, $item[Scroll of Drastic Healing]);
 			}
+			handleFamiliar("item");
 			handleBjornify(priorBjorn);
 			return true;
 		}
