@@ -25,22 +25,26 @@ void handlePreAdventure(location place)
 		set_property("cc_bedroomHandler2", "no");
 		if(contains_text(visit_url("main.php"), "choice.php"))
 		{
+			print("Preadventure skipped by bedroom handler.", "green");
 			return;
 		}
 	}
 
 	if(get_property("cc_disableAdventureHandling") == "yes")
 	{
+		print("Preadventure skipped by standard adventure handler.", "green");
 		return;
 	}
 
 	if(last_monster().random_modifiers["clingy"])
 	{
+		print("Preadventure skipped by clingy modifier.", "green");
 		return;
 	}
 
 	if(place == $location[The Lower Chambers])
 	{
+		print("Preadventure skipped by Ed the Undying!", "green");
 		return;
 	}
 

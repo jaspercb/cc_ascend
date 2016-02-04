@@ -22,12 +22,14 @@ void handlePostAdventure()
 		set_property("cc_bedroomHandler1", "no");
 		if(contains_text(visit_url("main.php"), "choice.php"))
 		{
+			print("Postadventure skipped by bedroom handler.", "green");
 			return;
 		}
 	}
 
 	if(get_property("cc_disableAdventureHandling") == "yes")
 	{
+		print("Postadventure skipped by standard adventure handler.", "green");
 		return;
 	}
 
@@ -47,12 +49,14 @@ void handlePostAdventure()
 
 	if((my_location() == $location[The Lower Chambers]) && (item_amount($item[2334]) == 0))
 	{
+		print("Postadventure skipped by Ed the Undying!", "green");
 		return;
 	}
 
 	ocrs_postHelper();
 	if(last_monster().random_modifiers["clingy"])
 	{
+		print("Postadventure skipped by clingy modifier.", "green");
 		return;
 	}
 

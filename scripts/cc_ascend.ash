@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16639;
+since r16645;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1255,6 +1255,11 @@ void initializeDay(int day)
 	if(get_property("kingLiberated").to_boolean())
 	{
 		return;
+	}
+
+	if(!possessEquipment($item[Your Cowboy Boots]) && get_property("telegraphOfficeAvailable").to_boolean())
+	{
+		string temp = visit_url("place.php?whichplace=town_right&action=townright_ltt");
 	}
 
 	cli_execute("ccs null");
@@ -6178,6 +6183,28 @@ boolean LX_freeCombats()
 	return false;
 }
 
+
+boolean Lx_resolveSixthDMT()
+{
+	if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 10) && !get_property("cc_100familiar").to_boolean() && ($location[The Deep Machine Tunnels].turns_spent == 5) && (my_daycount() == 2))
+	{
+		if(get_property("cc_choice1119") != "")
+		{
+			set_property("choiceAdventure1119", get_property("cc_choice1119"));
+		}
+		set_property("cc_choice1119", get_property("choiceAdventure1119"));
+		set_property("choiceAdventure1119", 1);
+		handleFamiliar($familiar[Machine Elf]);
+		ccAdv(1, $location[The Deep Machine Tunnels]);
+		set_property("choiceAdventure1119", get_property("cc_choice1119"));
+		set_property("cc_choice1119", "");
+		handleFamiliar("item");
+		return true;
+	}
+	return false;
+}
+
+
 boolean Lsc_flyerSeals()
 {
 	if(my_class() != $class[Seal Clubber])
@@ -6482,14 +6509,7 @@ boolean L7_crypt()
 
 	if((get_property("cyrptAlcoveEvilness").to_int() > 0) && ((get_property("cyrptAlcoveEvilness").to_int() <= get_property("cc_waitingArrowAlcove").to_int()) || (get_property("cyrptAlcoveEvilness").to_int() <= 25)) && edAlcove)
 	{
-		if(have_familiar($familiar[Xiblaxian Holo-Companion]))
-		{
-			handleFamiliar($familiar[Xiblaxian Holo-Companion]);
-		}
-		else
-		{
-			handleFamiliar($familiar[Oily Woim]);
-		}
+		handleFamiliar("init");
 
 		if((get_property("_badlyRomanticArrows").to_int() == 0) && have_familiar($familiar[Reanimated Reanimator]) && (my_daycount() == 1))
 		{
@@ -8968,9 +8988,23 @@ boolean L11_talismanOfNam()
 	{
 		if(!possessEquipment($item[Talisman O\' Namsilat]))
 		{
+			print("We should have a talisman o' namsilat but we don't know about it, attempting to create?", "red");
+			if(item_amount($item[Snakehead Charrrm]) > 1)
+			{
+				cli_execute("make " + $item[Talisman O\' Namsilat]);
+			}
+			if(possessEquipment($item[Talisman O\' Namsilat]))
+			{
+				print("Found my Talisman o' Namsilat!", "blue");
+				return true;
+			}
+		}
+		if(!possessEquipment($item[Talisman O\' Namsilat]))
+		{
 			print("We should have a talisman o' namsilat but we don't know about it, refreshing inventory", "red");
 			cli_execute("refresh inv");
 		}
+
 		return false;
 	}
 	if(get_property("cc_mcmuffin") != "start")
@@ -10165,7 +10199,7 @@ boolean doTasks()
 		wait(delay);
 	}
 
-#	set_property("cc_familiarChoice", $familiar[none]);
+	handleFamiliar("item");
 
 	if(L1_dnaAcquire())
 	{
@@ -10663,6 +10697,11 @@ boolean doTasks()
 		handleFamiliar($familiar[Ms. Puck Man]);
 		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
 		handleFamiliar("item");
+		return true;
+	}
+
+	if(Lx_resolveSixthDMT())
+	{
 		return true;
 	}
 

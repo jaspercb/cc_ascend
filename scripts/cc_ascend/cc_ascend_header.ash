@@ -44,6 +44,7 @@ boolean LX_craftAcquireItems();
 boolean LX_freeCombats();
 boolean LX_dolphinKingMap();
 boolean LX_steelOrgan();
+boolean Lx_resolveSixthDMT();
 
 boolean Lsc_flyerSeals();
 

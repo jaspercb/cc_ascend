@@ -1444,7 +1444,7 @@ boolean L1_ed_island(int dickstabOverride)
 		visit_url("place.php?whichplace=airport_spooky_bunker&action=si_controlpanel");
 		visit_url("choice.php?pwd=&whichchoice=986&option=9",true);
 	}
-	if((my_level() >= 3) && !get_property("controlPanel9").to_boolean())
+	if((my_level() >= 3) && !get_property("controlPanel9").to_boolean() && (my_turncount() >= 2))
 	{
 		abort("Damn control panel is not set, WTF!!!");
 	}
@@ -1453,8 +1453,6 @@ boolean L1_ed_island(int dickstabOverride)
 	if((my_hp() > 20) && !possessEquipment($item[Gore Bucket]) && !possessEquipment($item[Encrypted Micro-Cassette Recorder]) && !possessEquipment($item[Military-Grade Fingernail Clippers]))
 	{
 		elementalPlanes_takeJob($element[spooky]);
-		#visit_url("place.php?whichplace=airport_spooky&action=airport2_radio");
-		#visit_url("choice.php?pwd&whichchoice=984&option=1", true);
 		set_property("choiceAdventure988", 2);
 	}
 

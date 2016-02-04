@@ -597,16 +597,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
 	{
-		if((enemy == $monster[blooper]) ||
-			(enemy == $monster[bob racecar]) ||
-			(enemy == $monster[dairy goat]) ||
-			(enemy == $monster[racecar bob]) ||
-#			(enemy == $monster[cubist bull]) ||
-			(enemy == $monster[pygmy bowler]) ||
-			(enemy == $monster[pygmy witch surgeon]) ||
-			(enemy == $monster[quiet healer]) ||
-			(enemy == $monster[Tomb Rat]) ||
-			(enemy == $monster[morbid skull]))
+		if($monsters[Blooper, Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
 			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
@@ -859,6 +850,17 @@ string cc_combatHandler(int round, string opp, string text)
 			set_property("cc_combatHandler", combatState + "(Snokebomb)");
 			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
 			return "skill " + $skill[Snokebomb];
+		}
+	}
+
+	#Minimal Tennis Ball usage
+	if((!contains_text(combatState, "tennisball")) && (item_amount($item[Tennis Ball]) > 0))
+	{
+		if($monsters[Tomb Servant] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(tennisball)");
+			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
+			return "item " + $item[Tennis Ball];
 		}
 	}
 

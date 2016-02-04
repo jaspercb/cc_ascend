@@ -227,11 +227,11 @@ boolean deck_useScheme(string action)
 			switch(my_class())
 			{
 			case $class[Seal Clubber]:		deck_cheat("Lead Pipe");	break;
-			case $class[Turtle Tamer]:		deck_cheat("Rope");			break;
+			case $class[Turtle Tamer]:		deck_cheat("Lead Pipe");	break;
 			case $class[Pastamancer]:		deck_cheat("Wrench");		break;
 			case $class[Sauceror]:			deck_cheat("Candlestick");	break;
 			case $class[Disco Bandit]:		deck_cheat("Knife");		break;
-			case $class[Accordion Thief]:	deck_cheat("key");		break;
+			case $class[Accordion Thief]:	deck_cheat("key");			break;
 			}
 		}
 		else
