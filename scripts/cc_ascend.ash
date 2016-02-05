@@ -296,7 +296,7 @@ boolean handleFamiliar(familiar fam)
 	}
 	else
 	{
-		boolean[familiar] poss = $familiars[Mosquito, Leprechaun, Baby Gravy Fairy, Golden Monkey, Hobo Monkey, Crimbo Shrub, Galloping Grill, Fist Turkey, Piano Cat, Angry Jung Man, Grimstone Golem, Adventurous Spelunker];
+		boolean[familiar] poss = $familiars[Mosquito, Leprechaun, Baby Gravy Fairy, Golden Monkey, Hobo Monkey, Crimbo Shrub, Galloping Grill, Fist Turkey, Rockin\' Robin, Piano Cat, Angry Jung Man, Grimstone Golem, Adventurous Spelunker];
 
 		int spleen_hold = 4;
 		if(item_amount($item[Astral Energy Drink]) > 0)
@@ -884,7 +884,7 @@ boolean doThemtharHills(boolean trickMode)
 				set_property("cc_nuns", "done");
 				set_property("cc_nunsTrick", "no");
 				set_property("cc_nunsTrickReady", "done");
-				handleFamiliar($familiar[Adventurous Spelunker]);
+				handleFamiliar("item");
 				return true;
 			}
 		}
@@ -1001,7 +1001,7 @@ boolean doThemtharHills(boolean trickMode)
 			ccAdv(1, $location[The Hidden Temple]);
 		}
 	}
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 	return true;
 }
 
@@ -2611,7 +2611,7 @@ boolean L11_aridDesert()
 		}
 
 		ccAdv(1, $location[The Arid\, Extra-Dry Desert]);
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 
 		if(contains_text(get_property("lastEncounter"), "He Got His Just Desserts"))
 		{
@@ -2992,6 +2992,10 @@ boolean L13_towerNSTower()
 		{
 			equip($item[astral shirt]);
 		}
+		if((my_class() == $class[Turtle Tamer]) && (item_amount($item[Shocked Shell]) > 0))
+		{
+			equip($slot[shirt], $item[Shocked Shell]);
+		}
 		if(equipped_item($slot[shirt]) == $item[astral shirt])
 		{
 			sources = 6;
@@ -3009,6 +3013,7 @@ boolean L13_towerNSTower()
 		{
 			sources = sources + 2;
 			handleFamiliar($familiar[Warbear Drone]);
+			use_familiar($familiar[Warbear Drone]);
 			cli_execute("precheese");
 			if(!possessEquipment($item[Warbear Drone Codes]))
 			{
@@ -3019,6 +3024,10 @@ boolean L13_towerNSTower()
 				equip($item[warbear drone codes]);
 				sources = sources + 2;
 			}
+		}
+		else if(have_familiar($familiar[Sludgepuppy]))
+		{
+			handleFamiliar($familiar[Sludgepuppy]);
 		}
 		if(item_amount($item[hippy protest button]) > 0)
 		{
@@ -3117,7 +3126,7 @@ boolean L13_towerNSTower()
 			}
 			else
 			{
-				handleFamiliar($familiar[Adventurous Spelunker]);
+				handleFamiliar("item");
 				if(item_amount(familiarEquip) > 0)
 				{
 					equip(familiarEquip);
@@ -3159,7 +3168,7 @@ boolean L13_towerNSTower()
 		}
 		else
 		{
-			ccMaximize("meat drop, -equip snow suit, switch Hobo Monkey, switch adventurous spelunker, switch Grimstone Golem, switch Fist Turkey, switch Unconscious Collective, switch Golden Monkey, switch Angry Jung Man, switch Leprechaun", 1500, 0, false);
+			ccMaximize("meat drop, -equip snow suit, switch Hobo Monkey, switch rockin' robin, switch adventurous spelunker, switch Grimstone Golem, switch Fist Turkey, switch Unconscious Collective, switch Golden Monkey, switch Angry Jung Man, switch Leprechaun", 1500, 0, false);
 			handleFamiliar(my_familiar());
 		}
 		if((my_class() == $class[Seal Clubber]) && (item_amount($item[Meat Tenderizer is Murder]) > 0))
@@ -3247,7 +3256,7 @@ boolean L13_towerNSTower()
 			}
 			else
 			{
-				handleFamiliar($familiar[Adventurous Spelunker]);
+				handleFamiliar("item");
 			}
 		}
 		else if(item_amount($item[electric boning knife]) > 0)
@@ -3574,7 +3583,7 @@ boolean L13_towerNSContests()
 		}
 	}
 
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 	equipBaseline();
 
 	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_01_crowd1"))
@@ -3718,7 +3727,7 @@ boolean L12_lastDitchFlyer()
 			set_property("choiceAdventure678", "3");
 			handleFamiliar("init");
 			ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
-			handleFamiliar($familiar[Adventurous Spelunker]);
+			handleFamiliar("item");
 		}
 		else
 		{
@@ -3828,7 +3837,7 @@ boolean L11_hiddenCity()
 		}
 		else
 		{
-			handleFamiliar($familiar[Adventurous Spelunker]);
+			handleFamiliar("item");
 		}
 
 		if((get_property("cc_hiddenapartment") == "finished") || (item_amount($item[Moss-Covered Stone Sphere]) > 0))
@@ -4274,7 +4283,7 @@ boolean L11_hiddenCityZones()
 			set_property("choiceAdventure783", "2");
 			set_property("choiceAdventure787", "2");
 			set_property("cc_hiddenzones", "finished");
-			handleFamiliar($familiar[Adventurous Spelunker]);
+			handleFamiliar("item");
 			handleBjornify($familiar[El Vibrato Megadrone]);
 		}
 		if(contains_text(get_property("lastEncounter"), "Temple of the Legend in the Hidden City"))
@@ -4503,7 +4512,7 @@ boolean LX_spookyravenSecond()
 			set_property("choiceAdventure892", "1");
 			ccAdv(1, $location[The Haunted Bathroom]);
 
-			handleFamiliar($familiar[Adventurous Spelunker]);
+			handleFamiliar("item");
 			return true;
 		}
 	}
@@ -4559,7 +4568,7 @@ boolean L11_mauriceSpookyraven()
 			visit_url("place.php?whichplace=manor2");
 			print("If 'That Area is not available', mafia isn't recognizing it without a visit to manor2, not sure why.", "red");
 		}
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 		if(contains_text(get_property("lastEncounter"), "We\'ll All Be Flat"))
 		{
 			set_property("cc_ballroomflat", "finished");
@@ -5242,7 +5251,7 @@ boolean L12_gremlins()
 		ccAdv(1, $location[near an abandoned refrigerator], "ccsJunkyard");
 		return true;
 	}
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 	warOutfit();
 	visit_url("bigisland.php?action=junkman&pwd");
 	set_property("cc_gremlins", "finished");
@@ -5876,7 +5885,7 @@ boolean L10_holeInTheSkyUnlock()
 		handleFamiliar($familiar[Puck Man]);
 	}
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 
 	return true;
 }
@@ -5918,7 +5927,7 @@ boolean L10_topFloor()
 
 	handleFamiliar("init");
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 
 	if(contains_text(get_property("lastEncounter"), "Keep On Turnin\' the Wheel in the Sky"))
 	{
@@ -5978,7 +5987,7 @@ boolean L10_ground()
 		handleFamiliar($familiar[Puck Man]);
 	}
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Ground Floor)]);
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 
 	if(contains_text(get_property("lastEncounter"), "Top of the Castle, Ma"))
 	{
@@ -6028,7 +6037,7 @@ boolean L10_basement()
 		handleFamiliar($familiar[Puck Man]);
 	}
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 
 	if((contains_text(get_property("lastEncounter"), "The Fast and the Furry-ous")) && (item_amount($item[titanium assault umbrella]) == 1))
 	{
@@ -6124,7 +6133,7 @@ boolean L10_airship()
 	buffMaintain($effect[Fishy\, Oily], 0, 1, 1);
 
 	ccAdv(1, $location[The Penultimate Fantasy Airship]);
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 	return true;
 }
 
@@ -6276,7 +6285,7 @@ boolean Lsc_flyerSeals()
 		{
 			use(1, $item[ingot of seal-iron]);
 		}
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 		return true;
 	}
 	return false;
@@ -6534,7 +6543,7 @@ boolean L7_crypt()
 
 		print("The Alcove! (" + initiative_modifier() + ")", "blue");
 		ccAdv(1, $location[The Defiled Alcove]);
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 		return true;
 	}
 
@@ -6559,7 +6568,7 @@ boolean L7_crypt()
 		print("The Niche!", "blue");
 		ccAdv(1, $location[The Defiled Niche]);
 
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 		return true;
 	}
 
@@ -6684,7 +6693,7 @@ boolean L6_friarsGetParts()
 	{
 		print("Getting Box of Birthday Candles", "blue");
 		ccAdv(1, $location[The Dark Heart of the Woods]);
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 		return true;
 	}
 
@@ -6692,17 +6701,17 @@ boolean L6_friarsGetParts()
 	{
 		print("Getting Dodecagram", "blue");
 		ccAdv(1, $location[The Dark Neck of the Woods]);
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 		return true;
 	}
 	if(item_amount($item[eldritch butterknife]) == 0)
 	{
 		print("Getting Eldritch Butterknife", "blue");
 		ccAdv(1, $location[The Dark Elbow of the Woods]);
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 		return true;
 	}
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 	print("Finishing friars", "blue");
 	visit_url("friars.php?action=ritual&pwd");
 	council();
@@ -8856,7 +8865,7 @@ boolean L9_oilPeak()
 		buffMaintain($effect[The Dinsey Look], 0, 1, 1);
 	}
 	ccAdv(1, $location[Oil Peak]);
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 	return true;
 }
 
@@ -9046,7 +9055,7 @@ boolean L11_talismanOfNam()
 			{
 				print("Well, need to farm gaudy keys I suppose... sigh.", "blue");
 				ccAdv(1, $location[Belowdecks]);
-				handleFamiliar($familiar[Adventurous Spelunker]);
+				handleFamiliar("item");
 				return true;
 			}
 			set_property("cc_gaudy", "finished");
@@ -9054,7 +9063,7 @@ boolean L11_talismanOfNam()
 			use(1, $item[gaudy key]);
 			use(1, $item[gaudy key]);
 		}
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 		return true;
 	}
 	return false;
@@ -9130,7 +9139,7 @@ boolean L11_forgedDocuments()
 	print("Getting the McMuffin Book", "blue");
 	buyUpTo(1, $item[forged identification documents]);
 	set_property("cc_blackmap", "finished");
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 	return true;
 }
 
@@ -9324,15 +9333,8 @@ boolean L5_haremOutfit()
 	}
 
 	print("Looking for some sexy lingerie!", "blue");
-#	handleFamiliar($familiar[Crimbo Shrub]);
-#	if((my_familiar() == $familiar[Crimbo Shrub]) && (!get_property("_shrubDecorated").to_boolean()))
-#	{
-#		visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
-#		visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=1&lights=1&garland=1&gift=1");
-#		print("Time to bring Crimbo Fun to the Harem!", "blue");
-#	}
 	ccAdv(1, $location[Cobb\'s Knob Harem]);
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 	return true;
 }
 
@@ -9468,7 +9470,7 @@ boolean LX_fcle()
 		handleFamiliar($familiar[Puck Man]);
 	}
 	ccAdv(1, $location[The F\'c\'le]);
-	handleFamiliar($familiar[Adventurous Spelunker]);
+	handleFamiliar("item");
 
 	return true;
 }
@@ -9658,7 +9660,7 @@ boolean LX_pirateInsults()
 			handleFamiliar($familiar[Puck Man]);
 		}
 		ccAdv(1, $location[barrrney\'s barrr]);
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 		return true;
 	}
 	set_property("cc_pirateoutfit", "blueprint");
@@ -9895,7 +9897,7 @@ boolean L8_trapperYeti()
 			print("Seems like we failed the Ninja Snowmen unlock, reverting trapper setting", "red");
 			set_property("cc_trapper", "start");
 		}
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 		return true;
 	}
 	return false;
@@ -10247,7 +10249,7 @@ boolean doTasks()
 	if((my_familiar() == $familiar[Reanimated Reanimator]) && (get_property("_badlyRomanticArrows") == "1"))
 	{
 		print("We have a Reanimator as our familiar but can't winkat anymore. Let's change to our default.", "green");
-		handleFamiliar("init");
+		handleFamiliar("item");
 	}
 	if(my_familiar() == $familiar[Machine Elf])
 	{
@@ -10257,7 +10259,7 @@ boolean doTasks()
 	{
 		if((get_property("_jungDrops").to_int() == 1) || (my_daycount() > 1))
 		{
-			handleFamiliar($familiar[Adventurous Spelunker]);
+			handleFamiliar("item");
 		}
 		else
 		{
@@ -10275,12 +10277,12 @@ boolean doTasks()
 			handleFamiliar("item");
 		}
 	}
-	else if((my_familiar() == $familiar[Adventurous Spelunker]) && (get_property("_jungDrops").to_int() == 0) && (my_daycount() == 1))
+	else if(($familiars[Adventurous Spelunker, Rockin\' Robin] contains my_familiar()) && (get_property("_jungDrops").to_int() == 0) && (my_daycount() == 1))
 	{
 		handleFamiliar($familiar[Angry Jung Man]);
 	}
 
-	if((my_familiar() == $familiar[Adventurous Spelunker]) && have_familiar($familiar[Grimstone Golem]) && (in_hardcore() || !possessEquipment($item[Buddy Bjorn])))
+	if(($familiars[Adventurous Spelunker, Rockin\' Robin] contains my_familiar()) && have_familiar($familiar[Grimstone Golem]) && (in_hardcore() || !possessEquipment($item[Buddy Bjorn])))
 	{
 		if((item_amount($item[Ornate Dowsing Rod]) == 0) && (item_amount($item[Odd Silver Coin]) < 5) && (item_amount($item[Grimstone Mask]) == 0))
 		{
@@ -10315,25 +10317,25 @@ boolean doTasks()
 
 	if((my_familiar() == $familiar[Unconscious Collective]) && (dreamJarDrops() >= 1))
 	{
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 	}
 	if((my_familiar() == $familiar[Golden Monkey]) && (powderedGoldDrops() >= 1))
 	{
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 	}
 	if((my_familiar() == $familiar[Grim Brother]) && (grimTaleDrops() >= 1))
 	{
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 	}
 	if((my_familiar() == $familiar[Puck Man]) && (item_amount($item[Yellow Pixel]) > 20))
 	{
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 	}
 	if((my_familiar() == $familiar[Ms. Puck Man]) && (item_amount($item[Yellow Pixel]) > 20))
 	{
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 	}
-	if(in_hardcore() && (my_familiar() == $familiar[Adventurous Spelunker]) && (my_mp() < 50))
+	if(in_hardcore() && ($familiars[Adventurous Spelunker, Rockin\' Robin] contains my_familiar()) && (my_mp() < 50))
 	{
 		handleFamiliar($familiar[Galloping Grill]);
 	}
@@ -11188,7 +11190,7 @@ void cc_begin()
 	if(get_property("kingLiberated") == "true")
 	{
 		equipBaseline();
-		handleFamiliar($familiar[Adventurous Spelunker]);
+		handleFamiliar("item");
 		if(item_amount($item[hairpiece on fire]) > 0)
 		{
 			equip($item[hairpiece on fire]);
