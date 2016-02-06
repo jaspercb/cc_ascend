@@ -1408,6 +1408,10 @@ int lumberCount()
 
 boolean snojoFightAvailable()
 {
+	if(!is_unrestricted($item[X-32-F Snowman Crate]))
+	{
+		return false;
+	}
 	if(!get_property("snojoAvailable").to_boolean())
 	{
 		return false;

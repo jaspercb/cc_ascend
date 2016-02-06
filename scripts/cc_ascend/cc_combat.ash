@@ -1001,11 +1001,26 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill pocket crumbs";
 		}
 
+		if((!contains_text(combatState, $item[Western-Style Skinning Knife])) && (item_amount($item[Western-Style Skinning Knife]) > 0))
+		{
+			if($monsters[Caugr, Coal Snake, Diamondback Rattler, Frontwinder, Grizzled Bear, Mountain Lion] contains enemy)
+			{
+				set_property("cc_combatHandler", combatState + "(" + $item[Western-Style Skinning Knife] + ")");
+				return "item " + $item[Western-Style Skinning Knife];
+			}
+		}
+
 		if((!contains_text(combatState, "air dirty laundry")) && (have_skill($skill[air dirty laundry])))
 		{
 			set_property("cc_combatHandler", combatState + "(air dirty laundry)");
 			return "skill air dirty laundry";
 		}
+
+//		if((!contains_text(combatState, "cowboy kick")) && (have_skill($skill[Cowboy Kick])))
+//		{
+//			set_property("cc_combatHandler", combatState + "(cowboy kick)");
+//			return "skill " + $skill[Cowboy Kick];
+//		}
 
 		if((!contains_text(combatState, "fire death ray")) && (have_skill($skill[Fire Death Ray])))
 		{
@@ -2432,6 +2447,12 @@ string cc_edCombatHandler(int round, string opp, string text)
 	{
 		return "attack with weapon";
 	}
+
+//	if((!contains_text(combatState, "cowboy kick")) && (have_skill($skill[Cowboy Kick])))
+//	{
+//		set_property("cc_combatHandler", combatState + "(cowboy kick)");
+//		return "skill " + $skill[Cowboy Kick];
+//	}
 
 
 	if((item_amount($item[ice-cold Cloaca Zero]) > 0) && (my_mp() < 15) && (my_maxmp() > 200))

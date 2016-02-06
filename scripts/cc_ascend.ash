@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16645;
+since r16659;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1257,9 +1257,13 @@ void initializeDay(int day)
 		return;
 	}
 
-	if(!possessEquipment($item[Your Cowboy Boots]) && get_property("telegraphOfficeAvailable").to_boolean())
+	if(!possessEquipment($item[Your Cowboy Boots]) && get_property("telegraphOfficeAvailable").to_boolean() && is_unrestricted($item[LT&T Telegraph Office Deed]))
 	{
-		string temp = visit_url("place.php?whichplace=town_right&action=townright_ltt");
+		string temp = visit_url("desc_item.php?whichitem=529185925");
+		if(contains_text(temp, "Item Drops from Monsters"))
+		{
+			temp = visit_url("place.php?whichplace=town_right&action=townright_ltt");
+		}
 	}
 
 	cli_execute("ccs null");
@@ -10391,27 +10395,17 @@ boolean doTasks()
 		abort("Should not have gotten here, aborted LA_cs_communityService method allowed return to caller. Uh oh.");
 	}
 
-	if((my_daycount() == 2) && have_familiar($familiar[Crimbo Shrub]))
+	if(my_daycount() == 2)
 	{
-#		//Do we have other Yellow Ray options? We really need a generic YR handler.
-#		if((doNumberology("battlefield", false) != -1) && (my_mp() >= mp_cost($skill[Calculate the Universe])) && (have_effect($effect[Everything Looks Yellow]) == 0))
 		if((doNumberology("battlefield", false) != -1) && (my_mp() >= mp_cost($skill[Calculate the Universe])) && canYellowRay())
 		{
 			if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
 			{
 				handleFamiliar("yellow ray");
 			}
-
-#			handleFamiliar($familiar[Crimbo Shrub]);
-#			handlePreAdventure($location[Noob Cave]);
 			doNumberology("battlefield");
-#			ccAdv(1, $location[Noob Cave]);
 			return true;
 		}
-	}
-	else
-	{
-		doNumberology("adventures3");
 	}
 
 	if(item_amount($item[pulled red taffy]) >= 6)

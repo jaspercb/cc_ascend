@@ -618,7 +618,7 @@ void equipBaselineAcc2()
 	boolean[item] poss;
 	if((my_level() >= 13) && (get_property("flyeredML").to_int() >= 10000))
 	{
-		poss = $items[Stuffed Shoulder Parrot, Glow-in-the-dark necklace, Glowing Red Eye, Bonerdagon Necklace, Batskin Belt, Jangly Bracelet, Pirate Fledges, Iron Beta of Industry, Sphygmayomanometer, Barrel Hoop Earring, World\'s Best Adventurer Sash];
+		poss = $items[Stuffed Shoulder Parrot, Glow-in-the-dark necklace, Glowing Red Eye, Bonerdagon Necklace, Batskin Belt, Jangly Bracelet, Pirate Fledges, Iron Beta of Industry, Your Cowboy Boots, Sphygmayomanometer, Barrel Hoop Earring, World\'s Best Adventurer Sash];
 	}
 	else
 	{
