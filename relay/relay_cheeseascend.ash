@@ -263,7 +263,6 @@ void main()
 
 #	writeln("<br>Handle <a href=\"ccascend_quests.php\">Quest Tracker</a><br>");
 
-
 	writeln("<h2>Banishes</h2>");
 	generateTrackingData("cc_banishes", true);
 

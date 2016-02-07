@@ -3445,13 +3445,15 @@ boolean L13_towerNSContests()
 				{
 					doRest();
 				}
-				foreach eff in $effects[All Fired Up, Fishy\, Oily, The Glistening, Human-Machine Hybrid, Provocative Perkiness, Sepia Tan, Sugar Rush, Ticking Clock, Well-Swabbed Ear]
+				foreach eff in $effects[Adorable Lookout, Alacri Tea, All Fired Up, Fishy\, Oily, The Glistening, Human-Machine Hybrid, Provocative Perkiness, Sepia Tan, Sugar Rush, Ticking Clock, Well-Swabbed Ear]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
 
 				buffMaintain($effect[Cletus\'s Canticle of Celerity], 10, 1, 1);
 				buffMaintain($effect[Suspicious Gaze], 10, 1, 1);
+				buffMaintain($effect[Springy Fusilli], 10, 1, 1);
+				buffMaintain($effect[Walberg\'s Dim Bulb], 5, 1, 1);
 				buffMaintain($effect[Song of Slowness], 100, 1, 1);
 				buffMaintain($effect[Soulerskates], 0, 1, 1);
 
@@ -3482,7 +3484,7 @@ boolean L13_towerNSContests()
 			switch(ns_crowd2())
 			{
 			case $stat[moxie]:
-				foreach eff in $effects[Busy Bein\' Delicious, Butt-Rock Hair, Funky Coal Patina, Liquidy Smoky, Locks Like the Raven,  Lycanthropy\, Eh?, Memories of Puppy Love, Newt Gets In Your Eyes, Notably Lovely, Pill Power, Radiating Black Body&trade;, Seriously Mutated,  Spiky Hair, Sugar Rush, Superhuman Sarcasm, Tomato Power]
+				foreach eff in $effects[Busy Bein\' Delicious, Butt-Rock Hair, Funky Coal Patina, Liquidy Smoky, Locks Like the Raven, Lycanthropy\, Eh?, Memories of Puppy Love, Newt Gets In Your Eyes, Notably Lovely, Pill Power, Radiating Black Body&trade;, Seriously Mutated,  Spiky Hair, Sugar Rush, Superhuman Sarcasm, Tomato Power]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
@@ -3506,7 +3508,7 @@ boolean L13_towerNSContests()
 				break;
 			case $stat[mysticality]:
 				# Gothy may have given us a strange bug during one ascension, removing it for now.
-				foreach eff in $effects[Erudite, Far Out, Glittering Eyelashes, Liquidy Smoky, Marinated, Mutated, Mystically Oiled, OMG WTF, Pill Power, Rainy Soul Miasma, Rosewater Mark, Seeing Colors, Sweet\, Nuts, Tomato Power]
+				foreach eff in $effects[Baconstoned, Erudite, Far Out, Glittering Eyelashes, Industrial Strength Starch, Liquidy Smoky, Marinated, Mutated, Mystically Oiled, OMG WTF, Pill Power, Rainy Soul Miasma, Rosewater Mark, Seeing Colors, Slightly Larger Than Usual, Sweet\, Nuts, Tomato Power]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
@@ -3531,14 +3533,14 @@ boolean L13_towerNSContests()
 				doRest();
 			}
 			buffMaintain($effect[All Glory To the Toad], 0, 1, 1);
-			switch(ns_crowd3())
+			element challenge = ns_crowd3();
+			switch(challenge)
 			{
 			case $element[cold]:
 				buffMaintain($effect[Cold Hard Skin], 0, 1, 1);
 				buffMaintain($effect[Frostbeard], 15, 1, 1);
 				buffMaintain($effect[Icy Glare], 10, 1, 1);
 				buffMaintain($effect[Song of the North], 100, 1, 1);
-				ccMaximize("cold dmg -equip snow suit", 1500, 0, false);
 				break;
 			case $element[hot]:
 				buffMaintain($effect[Flamibili Tea], 0, 1, 1);
@@ -3548,11 +3550,9 @@ boolean L13_towerNSContests()
 				buffMaintain($effect[Fire Inside], 0, 1, 1);
 				buffMaintain($effect[Pyromania], 15, 1, 1);
 				buffMaintain($effect[Song of Sauce], 100, 1, 1);
-				ccMaximize("hot dmg -equip snow suit", 1500, 0, false);
 				break;
 			case $element[sleaze]:
 				buffMaintain($effect[Takin\' It Greasy], 15, 1, 1);
-				ccMaximize("sleaze dmg -equip snow suit", 1500, 0, false);
 				break;
 			case $element[stench]:
 				buffMaintain($effect[Drenched With Filth], 0, 1, 1);
@@ -3560,7 +3560,6 @@ boolean L13_towerNSContests()
 				buffMaintain($effect[Stinky Hands], 0, 1, 1);
 				buffMaintain($effect[Stinky Weapon], 0, 1, 1);
 				buffMaintain($effect[Rotten Memories], 15, 1, 1);
-				ccMaximize("stench dmg -equip snow suit", 1500, 0, false);
 				break;
 			case $element[spooky]:
 				buffMaintain($effect[Spooky Hands], 0, 1, 1);
@@ -3568,10 +3567,13 @@ boolean L13_towerNSContests()
 				buffMaintain($effect[Dirge of Dreadfulness], 10, 1, 1);
 				buffMaintain($effect[Intimidating Mien], 15, 1, 1);
 				buffMaintain($effect[Snarl of the Timberwolf], 10, 1, 1);
-				ccMaximize("spooky dmg -equip snow suit", 1500, 0, false);
 				break;
 			}
 
+			if(challenge != $element[none])
+			{
+				ccMaximize(challenge + " dmg, " + challenge + " spell dmg -equip snow suit", 1500, 0, false);
+			}
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=3", true);
 			visit_url("main.php");
@@ -10406,6 +10408,10 @@ boolean doTasks()
 			doNumberology("battlefield");
 			return true;
 		}
+	}
+	else
+	{
+		doNumberology("adventures3");
 	}
 
 	if(item_amount($item[pulled red taffy]) >= 6)

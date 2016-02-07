@@ -41,6 +41,15 @@ boolean ccAdv(int num, location loc)
 	return ccAdv(num, loc, "");
 }
 
+boolean ccAdv()
+{
+	if(my_location() == $location[none])
+	{
+		return ccAdv(1, $location[Noob Cave], "");
+	}
+	return ccAdv(1, my_location(), "");
+}
+
 boolean ccAdv(location loc)
 {
 	return ccAdv(1, loc, "");

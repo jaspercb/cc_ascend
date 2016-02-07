@@ -2075,6 +2075,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[A Few Extra Pounds]:			useSkill = $skill[Holiday Weight Gain];			break;
 	case $effect[A Little Bit Poisoned]:		useSkill = $skill[Disco Nap];					break;
 	case $effect[Adorable Lookout]:				useItem = $item[Giraffe-Necked Turtle];			break;
+	case $effect[Alacri Tea]:					useItem = $item[cuppa Alacri Tea];				break;
 	case $effect[All Fired Up]:					useItem = $item[Ant Agonist];					break;
 	case $effect[All Glory To The Toad]:		useItem = $item[Colorful Toad];					break;
 	case $effect[Aloysius\' Antiphon of Aptitude]:useSkill = $skill[Aloysius\' Antiphon of Aptitude];break;
@@ -2084,6 +2085,19 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Armor-Plated]:					useItem = $item[Bent Scrap Metal];				break;
 	case $effect[Ashen Burps]:					useItem = $item[ash soda];						break;
 	case $effect[Astral Shell]:					useSkill = $skill[Astral Shell];				break;
+	case $effect[Baconstoned]:
+		if(item_amount($item[Vial of Baconstone Juice]) > 0)
+		{
+			useItem = $item[Vial of Baconstone Juice];
+		}
+		else if(item_amount($item[Flask of Baconstone Juice]) > 0)
+		{
+			useItem = $item[Flask of Baconstone Juice];
+		}
+		else
+		{
+			useItem = $item[Jug of Baconstone Juice];
+		}																						break;
 	case $effect[Balls of Ectoplasm]:			useItem = $item[Ectoplasmic Orbs];				break;
 	case $effect[Big Meat Big Prizes]:			useItem = $item[Meat-Inflating Powder];			break;
 	case $effect[Biologically Shocked]:			useItem = $item[glowing syringe];				break;

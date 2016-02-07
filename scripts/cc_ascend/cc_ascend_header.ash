@@ -137,6 +137,7 @@ boolean questOverride();
 //	Note that, as of at least Mafia r16560, we can not use run_combat(<combat filter>).
 //	Don\'t even try it, it requires a custom modification that we can not really do an ASH workaround for.
 //	They are all defined in cc_ascend/cc_adventure.ash
+boolean ccAdv();
 boolean ccAdv(location loc);								//num is ignored
 boolean ccAdv(int num, location loc);						//num is ignored
 boolean ccAdv(int num, location loc, string option);		//num is ignored
