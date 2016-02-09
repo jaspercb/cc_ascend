@@ -350,12 +350,12 @@ void consumeStuff()
 				{
 					while(my_mp() < mpForOde)
 					{
-						if(((my_class() == $class[Sauceror]) || (my_class() == $class[Pastamancer])) && guild_store_available() && (my_level() >= 6))
+						if(((my_class() == $class[Sauceror]) || (my_class() == $class[Pastamancer])) && guild_store_available() && (my_level() >= 6) && (my_meat() > npc_price($item[Magical Mystery Juice])))
 						{
 							buyUpTo(1, $item[Magical Mystery Juice]);
 							use(1, $item[Magical Mystery Juice]);
 						}
-						else
+						else if(my_meat() > npc_price($item[Magical Mystery Juice]))
 						{
 							buyUpTo(1, $item[Doc Galaktik\'s Invigorating Tonic]);
 							use(1, $item[Doc Galaktik\'s Invigorating Tonic]);

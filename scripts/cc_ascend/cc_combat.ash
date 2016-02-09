@@ -433,6 +433,11 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill lunging thrust-smack";
 	}
 
+	if((enemy == $monster[French Guard Turtle]) && have_equipped($item[Fouet de tortue-dressage]) && (my_mp() >= mp_cost($skill[Apprivoisez La Tortue])))
+	{
+		return "skill " + $skill[Apprivoisez La Tortue];
+	}
+
 	#Do not accidentally charge the nanorhino with a non-banisher
 	if((my_familiar() == $familiar[Nanorhino]) && (have_effect($effect[Nanobrawny]) == 0))
 	{
@@ -1000,6 +1005,16 @@ string cc_combatHandler(int round, string opp, string text)
 			set_property("cc_combatHandler", combatState + "(pocket crumbs)");
 			return "skill pocket crumbs";
 		}
+
+		if((!contains_text(combatState, $item[Cow Poker])) && (item_amount($item[Cow Poker]) > 0))
+		{
+			if($monsters[Caugr, Moomy, Pharaoh Amoon-Ra Cowtep, Pyrobove, Spidercow] contains enemy)
+			{
+				set_property("cc_combatHandler", combatState + "(" + $item[Cow Poker] + ")");
+				return "item " + $item[Cow Poker];
+			}
+		}
+
 
 		if((!contains_text(combatState, $item[Western-Style Skinning Knife])) && (item_amount($item[Western-Style Skinning Knife]) > 0))
 		{
