@@ -908,7 +908,10 @@ boolean cc_cheesePostCS()
 	}
 	if(get_property("cc_pvpEnable").to_boolean())
 	{
-		cli_execute("drink 5-hour acrimony");
+		if(item_amount($item[5-hour acrimony]) > 0)
+		{
+			cli_execute("drink 5-hour acrimony");
+		}
 		cli_execute("pvp loot 4");
 	}
 	cli_execute("cc_ascend");

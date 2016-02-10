@@ -1031,11 +1031,11 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill air dirty laundry";
 		}
 
-//		if((!contains_text(combatState, "cowboy kick")) && (have_skill($skill[Cowboy Kick])))
-//		{
-//			set_property("cc_combatHandler", combatState + "(cowboy kick)");
-//			return "skill " + $skill[Cowboy Kick];
-//		}
+		if((!contains_text(combatState, "cowboy kick")) && (have_skill($skill[Cowboy Kick])))
+		{
+			set_property("cc_combatHandler", combatState + "(cowboy kick)");
+			return "skill " + $skill[Cowboy Kick];
+		}
 
 		if((!contains_text(combatState, "fire death ray")) && (have_skill($skill[Fire Death Ray])))
 		{
@@ -2463,12 +2463,11 @@ string cc_edCombatHandler(int round, string opp, string text)
 		return "attack with weapon";
 	}
 
-//	if((!contains_text(combatState, "cowboy kick")) && (have_skill($skill[Cowboy Kick])))
-//	{
-//		set_property("cc_combatHandler", combatState + "(cowboy kick)");
-//		return "skill " + $skill[Cowboy Kick];
-//	}
-
+	if((!contains_text(combatState, "cowboy kick")) && (have_skill($skill[Cowboy Kick])))
+	{
+		set_property("cc_combatHandler", combatState + "(cowboy kick)");
+		return "skill " + $skill[Cowboy Kick];
+	}
 
 	if((item_amount($item[ice-cold Cloaca Zero]) > 0) && (my_mp() < 15) && (my_maxmp() > 200))
 	{
