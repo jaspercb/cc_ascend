@@ -8575,6 +8575,7 @@ boolean L9_aBooPeak()
 		}
 		print("Nevermind, that peak is too scary!", "green");
 		equipBaseline();
+		handleFamiliar("item");
 		handleBjornify(priorBjorn);
 	}
 	else if((get_property("cc_abooclover") == "") && (get_property("booPeakProgress").to_int() >= 40))
@@ -8706,6 +8707,7 @@ boolean L9_twinPeak()
 		if(elemental_resist($element[stench]) < 4)
 		{
 			handleFamiliar($familiar[Exotic Parrot]);
+			#We need to account for this in the resistance check
 		}
 		if(elemental_resist($element[stench]) < 4)
 		{
@@ -8817,6 +8819,7 @@ boolean L9_twinPeak()
 	else
 	{
 		ccAdv(1, $location[Twin Peak]);
+		handleFamiliar("item");
 	}
 	return true;
 }
@@ -10277,6 +10280,10 @@ boolean doTasks()
 		}
 	}
 	if(my_familiar() == $familiar[Reassembled Blackbird])
+	{
+		handleFamiliar("item");
+	}
+	if(my_familiar() == $familiar[Exotic Parrot])
 	{
 		handleFamiliar("item");
 	}
