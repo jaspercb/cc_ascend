@@ -10259,15 +10259,16 @@ boolean doTasks()
 			}
 		}
 	}
-	if((my_familiar() == $familiar[Reanimated Reanimator]) && (get_property("_badlyRomanticArrows") == "1"))
-	{
-		print("We have a Reanimator as our familiar but can't winkat anymore. Let's change to our default.", "green");
-		handleFamiliar("item");
-	}
-	if(my_familiar() == $familiar[Machine Elf])
-	{
-		handleFamiliar("item");
-	}
+	handleFamiliar("item");
+//	if((my_familiar() == $familiar[Reanimated Reanimator]) && (get_property("_badlyRomanticArrows") == "1"))
+//	{
+//		print("We have a Reanimator as our familiar but can't winkat anymore. Let's change to our default.", "green");
+//		handleFamiliar("item");
+//	}
+//	if(my_familiar() == $familiar[Machine Elf])
+//	{
+//		handleFamiliar("item");
+//	}
 	if(my_familiar() == $familiar[Crimbo Shrub])
 	{
 		if((get_property("_jungDrops").to_int() == 1) || (my_daycount() > 1))
@@ -10279,14 +10280,14 @@ boolean doTasks()
 			handleFamiliar($familiar[Angry Jung Man]);
 		}
 	}
-	if(my_familiar() == $familiar[Reassembled Blackbird])
-	{
-		handleFamiliar("item");
-	}
-	if(my_familiar() == $familiar[Exotic Parrot])
-	{
-		handleFamiliar("item");
-	}
+//	if(my_familiar() == $familiar[Reassembled Blackbird])
+//	{
+//		handleFamiliar("item");
+//	}
+//	if(my_familiar() == $familiar[Exotic Parrot])
+//	{
+//		handleFamiliar("item");
+///	}
 	if(my_familiar() == $familiar[Angry Jung Man])
 	{
 		if((get_property("_jungDrops").to_int() == 1) || (my_daycount() > 1))
