@@ -1076,9 +1076,9 @@ boolean LA_cs_communityService()
 				buffMaintain($effect[Cletus\'s Canticle of Celerity], 4, 1, 1);
 				buffMaintain($effect[Walberg\'s Dim Bulb], 5, 1, 1);
 
-				handleFamiliar($familiar[Crimbo Shrub]);
-				if(my_familiar() == $familiar[Crimbo Shrub])
+				if(have_familiar($familiar[Crimbo Shrub]))
 				{
+					handleFamiliar($familiar[Crimbo Shrub]);
 					chateaumantegna_usePainting("cs_combatYR");
 				}
 				else
@@ -2293,7 +2293,10 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Empathy], 15, 1, 1);
 			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
 			buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 11, 1, 1);
+			print("Cost before Steely: " + get_cs_questCost(9), "green");
 			buffMaintain($effect[Steely-Eyed Squint], 101, 1, 1);
+			print("Cost after Steely: " + get_cs_questCost(9), "green");
+
 			buffMaintain($effect[Spice Haze], 250, 1, 1);
 
 			buffMaintain($effect[Human-Pirate Hybrid], 0, 1, 1);
