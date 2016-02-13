@@ -2363,6 +2363,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Springy Fusilli]:				useSkill = $skill[Springy Fusilli];				break;
 	case $effect[Squatting and Thrusting]:		useItem = $item[Squat-Thrust Magazine];			break;
 	case $effect[Stabilizing Oiliness]:			useItem = $item[Oil of Stability];				break;
+	case $effect[Steely-Eyed Squint]:			useSkill = $skill[Steely-Eyed Squint];			break;
 	case $effect[Steroid Boost]:				useItem = $item[Knob Goblin Steroids];			break;
 	case $effect[Stevedave\'s Shanty of Superiority]:useSkill = $skill[Stevedave\'s Shanty of Superiority];			break;
 	case $effect[Stickler for Promptness]:		useItem = $item[Potion of Punctual Companionship];	break;

@@ -142,8 +142,11 @@ void cs_initializeDay(int day)
 
 			if(have_familiar($familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
 			{
+				familiar last = my_familiar();
+				use_familiar($familiar[Crimbo Shrub]);
 				visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
 				visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=2&lights=1&garland=3&gift=1");
+				use_familiar(last);
 			}
 
 			if(get_property("barrelShrineUnlocked").to_boolean())
@@ -276,8 +279,12 @@ void cs_make_stuff()
 			cli_execute("make 3 louder than bomb");
 		}
 
-		if(item_amount($item[Scrumptious Reagent]) == 5)
+		if(item_amount($item[Scrumptious Reagent]) >= 5)
 		{
+			if((item_amount($item[gr8ps]) > 0) && (item_amount($item[Potion of Temporary Gr8tness]) == 0) && (npc_price($item[Delectable Catalyst]) > my_meat()))
+			{
+				cli_execute("make " + $item[Potion of Temporary Gr8tness]);
+			}
 			if((item_amount($item[grapefruit]) > 0) && (item_amount($item[Ointment of the Occult]) == 0))
 			{
 				cli_execute("make ointment of the occult");
@@ -618,7 +625,7 @@ string cs_combatYR(int round, string opp, string text)
 			return "item DNA extraction syringe";
 		}
 	}
-	boolean [monster] lookFor = $monsters[Dairy Goat, factory overseer (female), factory worker (female), mine overseer (male), mine overseer (female), mine worker (male), mine worker (female)];
+	boolean [monster] lookFor = $monsters[Dairy Goat, factory overseer (female), factory worker (female), mine overseer (male), mine overseer (female), mine worker (male), mine worker (female), sk8 gnome];
 	if((have_effect($effect[Everything Looks Yellow]) == 0) && (lookFor contains enemy))
 	{
 		if((!contains_text(combatState, "yellowray")) && (my_familiar() == $familiar[Crimbo Shrub]))
@@ -669,13 +676,18 @@ string cs_combatLTB(int round, string opp, string text)
 		set_property("cc_combatHandler", combatState + "(giant growth)");
 		return "skill giant growth";
 	}
+
+	if(isFreeMonster(last_monster()))
+	{
+		return cs_combatNormal(round, opp, text);
+	}
+
 	if((!contains_text(combatState, "louder than bomb")) && (item_amount($item[Louder Than Bomb]) > 0))
 	{
 		set_property("cc_combatHandler", combatState + "(louder than bomb)");
 
 		if((item_amount($item[Seal Tooth]) > 0) && have_skill($skill[Ambidextrous Funkslinging]))
 		{
-			#return "item louder than bomb";
 			return "item louder than bomb, seal tooth";
 		}
 		return "item louder than bomb";
@@ -686,16 +698,11 @@ string cs_combatLTB(int round, string opp, string text)
 
 		if((item_amount($item[Seal Tooth]) > 0) && have_skill($skill[Ambidextrous Funkslinging]))
 		{
-			#return "item louder than bomb";
 			return "item tennis ball, seal tooth";
 		}
 		return "item tennis ball";
 	}
 
-	if((my_location() == $location[The Deep Machine Tunnels]) || (my_location() == $location[The X-32-F Combat Training Snowman]))
-	{
-		return cs_combatNormal(round, opp, text);
-	}
 
 	abort("Could not free kill our Giant Growth, uh oh.");
 	return "fail";
@@ -1376,13 +1383,13 @@ boolean LA_cs_communityService()
 							handleFamiliar($familiar[Artistic Goth Kid]);
 						}
 
-						if(my_familiar() != $familiar[Artistic Goth Kid])
-						{
-							if(handleFaxMonster($monster[Black Crayon Crimbo Elf], "cs_combatNormal"))
-							{
-								return true;
-							}
-						}
+//						if(my_familiar() != $familiar[Artistic Goth Kid])
+//						{
+//							if(handleFaxMonster($monster[Black Crayon Crimbo Elf], "cs_combatNormal"))
+//							{
+//								return true;
+//							}
+//						}
 
 						ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice], "cs_combatNormal");
 						return true;
@@ -1465,6 +1472,15 @@ boolean LA_cs_communityService()
 					cli_execute("make miniature power pill");
 				}
 				return true;
+			}
+
+			if(have_familiar($familiar[Crimbo Shrub]) && (have_effect($effect[Everything Looks Yellow]) == 0) && !get_property("_photocopyUsed").to_boolean())
+			{
+				handleFamiliar($familiar[Crimbo Shrub]);
+				if(handleFaxMonster($monster[Sk8 gnome], "cs_combatYR"))
+				{
+					return true;
+				}
 			}
 
 			if(have_skill($skill[Advanced Saucecrafting]))
@@ -1620,6 +1636,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Pill Power], 0, 1, 1);
 			buffMaintain($effect[Frog in Your Throat], 0, 1, 1);
 			buffMaintain($effect[Feroci Tea], 0, 1, 1);
+			buffMaintain($effect[Gr8tness], 0, 1, 1);
 			buffMaintain($effect[Vitali Tea], 0, 1, 1);
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
 			buffMaintain($effect[Purity of Spirit], 0, 1, 1);
@@ -1732,6 +1749,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Tomato Power], 0, 1, 1);
 			buffMaintain($effect[Savage Beast Inside], 0, 1, 1);
 			buffMaintain($effect[Extra Backbone], 0, 1, 1);
+			buffMaintain($effect[Gr8tness], 0, 1, 1);
 			buffMaintain($effect[Pill Power], 0, 1, 1);
 			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
 			buffMaintain($effect[Seal Clubbing Frenzy], 1, 1, 1);
@@ -1786,6 +1804,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Pill Power], 0, 1, 1);
 			buffMaintain($effect[Glittering Eyelashes], 0, 1, 1);
 			buffMaintain($effect[Liquidy Smoky], 0, 1, 1);
+			buffMaintain($effect[Gr8tness], 0, 1, 1);
 			buffMaintain($effect[OMG WTF], 0, 1, 1);
 			buffMaintain($effect[Purple Reign], 0, 1, 50);
 			buffMaintain($effect[Purple Reign], 0, 1, 50);
@@ -1858,6 +1877,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Notably Lovely], 0, 1, 1);
 			buffMaintain($effect[Pill Power], 0, 1, 1);
 			buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
+			buffMaintain($effect[Gr8tness], 0, 1, 1);
 			buffMaintain($effect[Liquidy Smoky], 0, 1, 1);
 			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
 			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
@@ -2132,25 +2152,27 @@ boolean LA_cs_communityService()
 				ccAdv(1, $location[The X-32-F Combat Training Snowman]);
 				return true;
 			}
+//			Do not let this trigger an adventure loss, do not waste these for later.
+//			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0))
+//			{
+//				if(get_property("cc_choice1119") != "")
+//				{
+//					set_property("choiceAdventure1119", get_property("cc_choice1119"));
+//				}
+//				set_property("cc_choice1119", get_property("choiceAdventure1119"));
+//				set_property("choiceAdventure1119", 1);
+//				handleFamiliar($familiar[Machine Elf]);
+//				ccAdv(1, $location[The Deep Machine Tunnels]);
+//				set_property("choiceAdventure1119", get_property("cc_choice1119"));
+//				set_property("cc_choice1119", "");
+//				return true;
+//			}
+
+
 
 			if((have_effect($effect[Half-Blooded]) > 0) || (have_effect($effect[Half-Drained]) > 0) || (have_effect($effect[Bruised]) > 0) || (have_effect($effect[Relaxed Muscles]) > 0) || (have_effect($effect[Hypnotized]) > 0) || (have_effect($effect[Bad Haircut]) > 0))
 			{
 				doHottub();
-			}
-
-			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0))
-			{
-				if(get_property("cc_choice1119") != "")
-				{
-					set_property("choiceAdventure1119", get_property("cc_choice1119"));
-				}
-				set_property("cc_choice1119", get_property("choiceAdventure1119"));
-				set_property("choiceAdventure1119", 1);
-				handleFamiliar($familiar[Machine Elf]);
-				ccAdv(1, $location[The Deep Machine Tunnels]);
-				set_property("choiceAdventure1119", get_property("cc_choice1119"));
-				set_property("cc_choice1119", "");
-				return true;
 			}
 
 			while((my_mp() < 200) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
@@ -2248,7 +2270,7 @@ boolean LA_cs_communityService()
 	case 9:		#item/booze drops
 			cs_eat_stuff(curQuest);
 
-			while((my_mp() < 53) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			while((my_mp() < 154) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
 				doRest();
 			}
@@ -2257,6 +2279,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Empathy], 15, 1, 1);
 			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
 			buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 11, 1, 1);
+			buffMaintain($effect[Steely-Eyed Squint], 101, 1, 1);
 			buffMaintain($effect[Spice Haze], 250, 1, 1);
 
 			buffMaintain($effect[Human-Pirate Hybrid], 0, 1, 1);
@@ -2300,6 +2323,11 @@ boolean LA_cs_communityService()
 				return true;
 			}
 			handleFamiliar($familiar[Exotic Parrot]);
+
+			if(Lx_resolveSixthDMT())
+			{
+				return true;
+			}
 
 			if(possessEquipment($item[lava-proof pants]))
 			{

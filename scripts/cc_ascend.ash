@@ -1296,7 +1296,7 @@ void initializeDay(int day)
 	}
 
 
-	if(!get_property("_barrelPrayer").to_boolean() && get_property("barrelShrineUnlocked").to_boolean() && !get_property("kingLiberated").to_boolean())
+	if(!get_property("_barrelPrayer").to_boolean() && get_property("barrelShrineUnlocked").to_boolean() && !get_property("kingLiberated").to_boolean() && (my_path() != "Community Service"))
 	{
 		if((day == 1) && !get_property("prayedForProtection").to_boolean())
 		{
