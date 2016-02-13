@@ -817,8 +817,6 @@ string what_cs_quest(int quest)
 	case 11:	return "Community Service Quest: Coiling Wire";
 	default:	return "Community Service Quest: NULL";
 	}
-
-
 }
 
 
@@ -848,6 +846,22 @@ boolean do_cs_quest(int quest)
 	{
 		return false;
 	}
+
+	switch(quest)
+	{
+	case 1:		ccMaximize("hp, -equip snow suit", 1500, 0, false);					break;
+	case 2:		ccMaximize("muscle, -equip snow suit", 1500, 0, false);				break;
+	case 3:		ccMaximize("myst, -equip snow suit", 1500, 0, false);				break;
+	case 4:		ccMaximize("moxie, -equip snow suit", 1500, 0, false);				break;
+	case 5:		ccMaximize("familiar weight, -equip snow suit", 1500, 0, false);	break;
+#	case 6:		ccMaximize("melee damage, -equip snow suit", 1500, 0, false);		break;
+	case 7:		ccMaximize("spell damage, -equip snow suit", 1500, 0, false);		break;
+	case 8:		ccMaximize("-combat, -equip snow suit", 1500, 0, false);			break;
+	case 9:		ccMaximize("item, -equip snow suit", 1500, 0, false);				break;
+	case 10:	ccMaximize("hot res, -equip snow suit", 1500, 0, false);			break;
+	}
+
+
 	int [int] questList = get_cs_questList();
 	if(((questList contains quest) && (my_adventures() >= questList[quest])) || (quest == 30))
 	{
