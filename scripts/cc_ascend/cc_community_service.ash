@@ -123,13 +123,9 @@ void cs_initializeDay(int day)
 			}
 
 			visit_url("da.php");
-			if(get_property("barrelShrineUnlocked").to_boolean())
+			if(get_property("barrelShrineUnlocked").to_boolean() && !get_property("_barrelPrayer").to_boolean())
 			{
-				visit_url("da.php?barrelshrine=1");
-				if(!get_property("_barrelPrayer").to_boolean())
-				{
-					visit_url("choice.php?whichchoice=1100&pwd&option=2", true);
-				}
+				boolean buff = cli_execute("barrelprayer Glamour");
 			}
 
 			if(get_property("questM23Meatsmith") == "unstarted")
@@ -1608,15 +1604,14 @@ boolean LA_cs_communityService()
 					return true;
 				}
 			}
-			if((item_amount($item[Potion of Temporary Gr8tness]) == 0) && (have_effect($effect[Gr8tness]) == 0) && (npc_price($item[Delectable Catalyst]) < my_meat()) && (get_property("_rapidPrototypingUsed").to_int() < 5))
+			if((item_amount($item[Gr8ps]) > 0) && (item_amount($item[Potion of Temporary Gr8tness]) == 0) && (have_effect($effect[Gr8tness]) == 0) && (npc_price($item[Delectable Catalyst]) < my_meat()) && (get_property("_rapidPrototypingUsed").to_int() < 5))
 			{
 				cli_execute("make " + $item[Potion of Temporary Gr8tness]);
 			}
 
-			if(!possessEquipment($item[Barrel Lid]))
+			if(!possessEquipment($item[Barrel Lid]) && get_property("barrelShrineUnlocked").to_boolean() && !get_property("_barrelPrayer").to_boolean())
 			{
-				visit_url("da.php?barrelshrine=1");
-				visit_url("choice.php?whichchoice=1100&pwd&option=1", true);
+				boolean buff = cli_execute("barrelprayer Protection");
 			}
 
 			if(possessEquipment($item[Barrel Lid]))
@@ -1672,6 +1667,12 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
 			buffMaintain($effect[Purity of Spirit], 0, 1, 1);
 			buffMaintain($effect[Peppermint Bite], 0, 1 , 1);
+			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
+
+			if(!get_property("_grimBuff").to_boolean())
+			{
+				cli_execute("grim hpmp");
+			}
 			if(is_unrestricted($item[Colorful Plastic Ball]))
 			{
 				cli_execute("ballpit");
@@ -1898,6 +1899,8 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
 			buffMaintain($effect[The Moxious Madrigal], 2, 1, 1);
 			buffMaintain($effect[Disco Smirk], 10, 1, 1);
+			buffMaintain($effect[Disco Fever], 10, 1, 1);
+			buffMaintain($effect[Blubbered Up], 10, 1, 1);
 
 			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
 			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
@@ -2075,7 +2078,8 @@ boolean LA_cs_communityService()
 				}
 			}
 
-			handleFamiliar(toFam);
+			#handleFamiliar(toFam);
+			use_familiar(toFam);
 			if(can_equip($item[Pet Rock &quot;Snooty&quot; Disguise]) && possessEquipment($item[Pet Rock &quot;Snooty&quot; Disguise]))
 			{
 				equip($item[Pet Rock &quot;Snooty&quot; Disguise]);
@@ -2335,7 +2339,8 @@ boolean LA_cs_communityService()
 					itemFam = fam;
 				}
 			}
-			handleFamiliar(itemFam);
+			#handleFamiliar(itemFam);
+			use_familiar(itemFam);
 
 			if(do_cs_quest(9))
 			{
@@ -2352,11 +2357,26 @@ boolean LA_cs_communityService()
 	case 10:	#Hot Resistance
 			if((have_effect($effect[Everything Looks Yellow]) == 0) && have_familiar($familiar[Crimbo Shrub]))
 			{
-				handleFamiliar($familiar[Crimbo Shrub]);
-				ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatYR");
-				return true;
+				if(is_unrestricted($item[Deluxe Fax Machine]))
+				{
+					handleFamiliar($familiar[Crimbo Shrub]);
+					if(handleFaxMonster($monster[Sk8 gnome], "cs_combatYR"))
+					{
+						return true;
+					}
+				}
+				else
+				{
+					handleFamiliar($familiar[Crimbo Shrub]);
+					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatYR");
+					return true;
+				}
 			}
-			handleFamiliar($familiar[Exotic Parrot]);
+			if(have_familiar($familiar[Exotic Parrot]))
+			{
+				#handleFamiliar($familiar[Exotic Parrot]);
+				use_familiar($familiar[Exotic Parrot]);
+			}
 
 			if(Lx_resolveSixthDMT())
 			{
@@ -2406,6 +2426,7 @@ boolean LA_cs_communityService()
 
 			buffMaintain($effect[Protection from Bad Stuff], 0, 1, 1);
 			buffMaintain($effect[Human-Elemental Hybrid], 0, 1, 1);
+			buffMaintain($effect[Elemental Saucesphere], 10, 1, 1);
 			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
 			buffMaintain($effect[Empathy], 15, 1, 1);
 			buffMaintain($effect[Astral Shell], 10, 1, 1);

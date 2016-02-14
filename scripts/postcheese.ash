@@ -556,6 +556,10 @@ void handlePostAdventure()
 		}
 
 		boolean doML = true;
+		if(get_property("kingLiberated").to_boolean())
+		{
+			doML = false;
+		}
 		if(equipped_amount($item[Space Trip Safety Headphones]) > 0)
 		{
 			doML = false;
