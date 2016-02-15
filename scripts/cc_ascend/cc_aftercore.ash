@@ -821,7 +821,11 @@ boolean cc_cheesePostCS()
 	{
 		equip($slot[acc1], $item[Cheap Sunglasses]);
 	}
-	if(item_amount($item[Sister Accessory]) > 0)
+	if(item_amount($item[Incredibly Dense Meat Gem]) > 0)
+	{
+		equip($slot[acc2], $item[Incredibly Dense Meat Gem]);
+	}
+	else if(item_amount($item[Sister Accessory]) > 0)
 	{
 		equip($slot[acc2], $item[Sister Accessory]);
 	}

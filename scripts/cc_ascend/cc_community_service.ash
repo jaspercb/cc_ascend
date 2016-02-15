@@ -2328,6 +2328,11 @@ boolean LA_cs_communityService()
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=3");
 			}
+			if(is_unrestricted($item[Clan Pool Table]))
+			{
+				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
+			}
+
 
 
 			boolean [familiar] itemFams = $familiars[Gelatinous Cubeling, Syncopated Turtle, Slimeling, Angry Jung Man, Grimstone Golem, Adventurous Spelunker, Jumpsuited Hound Dog, Steam-Powered Cheerleader];
@@ -2357,7 +2362,7 @@ boolean LA_cs_communityService()
 	case 10:	#Hot Resistance
 			if((have_effect($effect[Everything Looks Yellow]) == 0) && have_familiar($familiar[Crimbo Shrub]))
 			{
-				if(is_unrestricted($item[Deluxe Fax Machine]))
+				if(is_unrestricted($item[Deluxe Fax Machine]) && (item_amount($item[Potion of Temporary Gr8tness]) == 0))
 				{
 					handleFamiliar($familiar[Crimbo Shrub]);
 					if(handleFaxMonster($monster[Sk8 gnome], "cs_combatYR"))

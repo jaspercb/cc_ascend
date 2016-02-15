@@ -338,7 +338,6 @@ boolean picky_buyskills()
 		{
 			visit_url("guild.php?action=buyskill&skillid=41", true);
 		}
-
 		break;
 	}
 	return false;
