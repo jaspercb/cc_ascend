@@ -7385,7 +7385,7 @@ boolean LX_craftAcquireItems()
 				{
 					cli_execute("make 1 Unfinished Ice Sculpture");
 				}
-				if(item_amount($item[Snow Berries]) >= 2)
+				if((item_amount($item[Snow Berries]) >= 2) && (item_amount($item[Snow Crab]) == 0))
 				{
 					cli_execute("make 1 Snow Crab");
 				}
