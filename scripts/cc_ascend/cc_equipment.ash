@@ -14,6 +14,7 @@ void equipBaselineFam();
 void equipBaselineHat(boolean wantNC);
 void equipRollover();
 void handleOffHand();
+void removeNonCombat();
 boolean handleBjornify(familiar fam);
 void makeStartingSmiths();
 
@@ -675,6 +676,17 @@ void replaceBaselineAcc3()
 	}
 }
 
+
+void removeNonCombat()
+{
+	foreach sl in $slots[Hat, Weapon, Off-Hand, Back, Shirt, Pants, Acc1, Acc2, Acc3]
+	{
+		if(numeric_modifier(equipped_item(sl), "Combat Rate") < 0.0)
+		{
+			equip(sl, $item[none]);
+		}
+	}
+}
 
 void equipRollover()
 {

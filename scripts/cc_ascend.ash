@@ -9475,21 +9475,7 @@ boolean LX_fcle()
 		equip($slot[acc1], $item[numberwang]);
 	}
 
-	if(have_equipped($item[Bram\'s Choker]))
-	{
-		if(equipped_item($slot[acc1]) == $item[Bram\'s Choker])
-		{
-			equip($slot[acc1], $item[none]);
-		}
-		if(equipped_item($slot[acc2]) == $item[Bram\'s Choker])
-		{
-			equip($slot[acc2], $item[none]);
-		}
-		if(equipped_item($slot[acc3]) == $item[Bram\'s Choker])
-		{
-			equip($slot[acc3], $item[none]);
-		}
-	}
+	removeNonCombat();
 
 	if(have_familiar($familiar[Jumpsuited Hound Dog]))
 	{
@@ -9889,21 +9875,7 @@ boolean L8_trapperYeti()
 			return false;
 		}
 
-		if(have_equipped($item[Bram\'s Choker]))
-		{
-			if(equipped_item($slot[acc1]) == $item[Bram\'s Choker])
-			{
-				equip($slot[acc1], $item[none]);
-			}
-			if(equipped_item($slot[acc2]) == $item[Bram\'s Choker])
-			{
-				equip($slot[acc2], $item[none]);
-			}
-			if(equipped_item($slot[acc3]) == $item[Bram\'s Choker])
-			{
-				equip($slot[acc3], $item[none]);
-			}
-		}
+		removeNonCombat();
 
 		if(have_familiar($familiar[Jumpsuited Hound Dog]))
 		{
