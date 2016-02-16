@@ -1673,10 +1673,11 @@ boolean LA_cs_communityService()
 			{
 				cli_execute("grim hpmp");
 			}
-#			if(is_unrestricted($item[Colorful Plastic Ball]))
-#			{
+			if(is_unrestricted($item[Colorful Plastic Ball]))
+			{
+				# Can not beu used in Ronin/Hardcore, derp....
 				cli_execute("ballpit");
-#			}
+			}
 			if((item_amount($item[Ancient Medicinal Herbs]) > 0) && (have_effect($effect[Ancient Fortitude]) == 0))
 			{
 				chew(1, $item[Ancient Medicinal Herbs]);

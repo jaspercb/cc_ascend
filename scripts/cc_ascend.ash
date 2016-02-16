@@ -1698,7 +1698,7 @@ void doBedtime()
 		visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 		visit_url("clan_viplounge.php?preaction=poolgame&stance=3");
 	}
-	if((is_unrestricted($item[Colorful Plastic Ball])) && !get_property("_ballpit").to_boolean())
+	if(is_unrestricted($item[Colorful Plastic Ball]) && !get_property("_ballpit").to_boolean())
 	{
 		cli_execute("ballpit");
 	}
@@ -9474,13 +9474,30 @@ boolean LX_fcle()
 	{
 		equip($slot[acc1], $item[numberwang]);
 	}
-	if(have_familiar($familiar[Ms. Puck Man]))
+
+	if(have_equipped($item[Bram\'s Choker]))
 	{
-		handleFamiliar($familiar[Ms. Puck Man]);
+		if(equipped_item($slot[acc1]) == $item[Bram\'s Choker])
+		{
+			equip($slot[acc1], $item[none]);
+		}
+		if(equipped_item($slot[acc2]) == $item[Bram\'s Choker])
+		{
+			equip($slot[acc2], $item[none]);
+		}
+		if(equipped_item($slot[acc3]) == $item[Bram\'s Choker])
+		{
+			equip($slot[acc3], $item[none]);
+		}
 	}
-	else if(have_familiar($familiar[Puck Man]))
+
+	if(have_familiar($familiar[Jumpsuited Hound Dog]))
 	{
-		handleFamiliar($familiar[Puck Man]);
+		handleFamiliar($familiar[Jumpsuited Hound Dog]);
+	}
+	else
+	{
+		handleFamiliar("item");
 	}
 	ccAdv(1, $location[The F\'c\'le]);
 	handleFamiliar("item");
@@ -9870,6 +9887,31 @@ boolean L8_trapperYeti()
 		if((have_effect($effect[Thrice-Cursed]) > 0) || (have_effect($effect[Twice-Cursed]) > 0) || (have_effect($effect[Once-Cursed]) > 0))
 		{
 			return false;
+		}
+
+		if(have_equipped($item[Bram\'s Choker]))
+		{
+			if(equipped_item($slot[acc1]) == $item[Bram\'s Choker])
+			{
+				equip($slot[acc1], $item[none]);
+			}
+			if(equipped_item($slot[acc2]) == $item[Bram\'s Choker])
+			{
+				equip($slot[acc2], $item[none]);
+			}
+			if(equipped_item($slot[acc3]) == $item[Bram\'s Choker])
+			{
+				equip($slot[acc3], $item[none]);
+			}
+		}
+
+		if(have_familiar($familiar[Jumpsuited Hound Dog]))
+		{
+			handleFamiliar($familiar[Jumpsuited Hound Dog]);
+		}
+		else
+		{
+			handleFamiliar("item");
 		}
 
 
