@@ -139,9 +139,9 @@ string cc_combatHandler(int round, string opp, string text)
 
 	phylum type = monster_phylum(enemy);
 
-	phylum fish = to_phylum("fish");
-	phylum construct = to_phylum("construct");
-	phylum constellation = to_phylum("constellation");
+	phylum fish = $phylum[fish];
+	phylum construct = $phylum[construct];
+	phylum constellation = $phylum[constellation];
 	phylum current = to_phylum(get_property("dnaSyringe"));
 
 	string combatState = get_property("cc_combatHandler");
@@ -1128,6 +1128,7 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill curse of weaksauce";
 	}
 
+
 	string attackMinor = "attack with weapon";
 	string attackMajor = "attack with weapon";
 	int costMinor = 0;
@@ -1315,7 +1316,52 @@ string cc_combatHandler(int round, string opp, string text)
 			attackMajor = "skill " + $skill[Saucestorm];
 			costMajor = mp_cost($skill[Saucestorm]);
 		}
+		break;
+
+	case $class[Cow Puncher]:
+		if(have_skill($skill[One-Two Punch]) && (my_mp() >= mp_cost($skill[One-Two Punch])))
+		{
+			attackMajor = "skill " + $skill[One-Two Punch];
+			attackMinor = "skill " + $skill[One-Two Punch];
+			costMajor = mp_cost($skill[One-Two Punch]);
+			costMinor = mp_cost($skill[One-Two Punch]);
+		}
+		if(have_skill($skill[Cowcall]) && (my_mp() >= mp_cost($skill[Cowcall])) && (type != $phylum[undead]))
+		{
+			attackMajor = "skill " + $skill[Cowcall];
+			attackMinor = "skill " + $skill[Cowcall];
+			costMajor = mp_cost($skill[Cowcall]);
+			costMinor = mp_cost($skill[Cowcall]);
+		}
+		break;
+	case $class[Beanslinger]:
+		break;
+	case $class[Snake Oiler]:
+		if(!contains_text(combatState, "extractSnakeOil") && (my_hp() > 80) && have_skill($skill[Extract Oil]) && (my_mp() >= (3 * mp_cost($skill[Extract Oil]))))
+		{
+			set_property("cc_combatHandler", combatState + "(extractSnakeOil)");
+			return "skill " + $skill[Extract Oil];
+		}
+		if(!contains_text(combatState, "goodMedicine") && have_skill($skill[Good Medicine]) && (my_mp() >= (3 * mp_cost($skill[Good Medicine]))))
+		{
+			set_property("cc_combatHandler", combatState + "(goodMedicine)");
+			return "skill " + $skill[Good Medicine];
+		}
+		if(!contains_text(combatState, "badMedicine") && have_skill($skill[Bad Medicine]) && (my_mp() >= (3 * mp_cost($skill[Bad Medicine]))))
+		{
+			set_property("cc_combatHandler", combatState + "(badMedicine)");
+			return "skill " + $skill[Bad Medicine];
+		}
+		if(have_skill($skill[Fan Hammer]) && (my_mp() >= mp_cost($skill[Fan Hammer])))
+		{
+			attackMajor = "skill " + $skill[Fan Hammer];
+			attackMinor = "skill " + $skill[Fan Hammer];
+			costMajor = mp_cost($skill[Fan Hammer]);
+			costMinor = mp_cost($skill[Fan Hammer]);
+		}
+		break;
 	}
+
 
 	if(round <= 25)
 	{
@@ -2403,7 +2449,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		return "item short writ of habeas corpus";
 	}
 
-	if(!ed_needShop() && (my_level() >= 10) && (item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[jam Band Flyers]) == 0) && (my_location() != $location[The Hidden Apartment Building]) && (type != to_phylum("Undead")) && (my_mp() > 20) && (my_location() != $location[Barrrney\'s Barrr]))
+	if(!ed_needShop() && (my_level() >= 10) && (item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[jam Band Flyers]) == 0) && (my_location() != $location[The Hidden Apartment Building]) && (type != $phylum[undead]) && (my_mp() > 20) && (my_location() != $location[Barrrney\'s Barrr]))
 	{
 		set_property("cc_edStatus", "dying");
 	}

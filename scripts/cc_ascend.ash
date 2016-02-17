@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16691;
+since r16713;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -243,7 +243,7 @@ boolean handleFamiliar(string type)
 	{
 		if(familiar_weight(my_familiar()) == 20)
 		{
-			if($familiars[Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Baby Gravy Fairy] contains my_familiar())
+			if($familiars[Rockin\' Robin, Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Baby Gravy Fairy] contains my_familiar())
 			{
 				foreach fam in $familiars[Happy Medium, Xiblaxian Holo-Companion, Oily Woim]
 				if(have_familiar(fam))
@@ -296,7 +296,7 @@ boolean handleFamiliar(familiar fam)
 	}
 	else
 	{
-		boolean[familiar] poss = $familiars[Mosquito, Leprechaun, Baby Gravy Fairy, Golden Monkey, Hobo Monkey, Crimbo Shrub, Galloping Grill, Fist Turkey, Rockin\' Robin, Piano Cat, Angry Jung Man, Grimstone Golem, Adventurous Spelunker];
+		boolean[familiar] poss = $familiars[Mosquito, Leprechaun, Baby Gravy Fairy, Golden Monkey, Hobo Monkey, Crimbo Shrub, Galloping Grill, Fist Turkey, Rockin\' Robin, Piano Cat, Angry Jung Man, Grimstone Golem, Adventurous Spelunker, Rockin\' Robin];
 
 		int spleen_hold = 4;
 		if(item_amount($item[Astral Energy Drink]) > 0)
@@ -1065,14 +1065,17 @@ int handlePulls(int day)
 
 		if(!possessEquipment($item[Astral Shirt]))
 		{
-			pullXWhenHaveY($item[Sneaky Pete\'s Leather Jacket], 1, 0);
-			if(item_amount($item[Sneaky Pete\'s Leather Jacket]) == 0)
+			if(have_skill($skill[Torso Awaregness]))
 			{
-				pullXWhenHaveY($item[Sneaky Pete\'s Leather Jacket (Collar Popped)], 1, 0);
-			}
-			else
-			{
-				cli_execute("fold " + $item[Sneaky Pete\'s Leather Jacket (Collar Popped)]);
+				pullXWhenHaveY($item[Sneaky Pete\'s Leather Jacket], 1, 0);
+				if(item_amount($item[Sneaky Pete\'s Leather Jacket]) == 0)
+				{
+					pullXWhenHaveY($item[Sneaky Pete\'s Leather Jacket (Collar Popped)], 1, 0);
+				}
+				else
+				{
+					cli_execute("fold " + $item[Sneaky Pete\'s Leather Jacket (Collar Popped)]);
+				}
 			}
 		}
 
@@ -1104,7 +1107,7 @@ int handlePulls(int day)
 			{
 				if(get_property("barrelShrineUnlocked").to_boolean())
 				{
-					put_closet(1, $item[Fake Washboard]);
+					put_closet(item_amount($item[Fake Washboard]), $item[Fake Washboard]);
 				}
 			}
 		}
@@ -5366,6 +5369,8 @@ boolean L12_sonofaBeach()
 	{
 		equip($slot[acc2], $item[portable cassette player]);
 	}
+
+	removeNonCombat();
 	handleFamiliar($familiar[Jumpsuited Hound Dog]);
 
 	if(item_amount($item[barrel of gunpowder]) < 4)
@@ -6049,13 +6054,20 @@ boolean L10_basement()
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
 	handleFamiliar("item");
 
-	if((contains_text(get_property("lastEncounter"), "The Fast and the Furry-ous")) && (item_amount($item[titanium assault umbrella]) == 1))
+	if(contains_text(get_property("lastEncounter"), "The Fast and the Furry-ous") && (item_amount($item[titanium assault umbrella]) == 1))
 	{
 		print("We was fast and furry-ous!", "blue");
 		equip($item[titanium assault umbrella]);
 		set_property("choiceAdventure669", "1");
 		ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
-		set_property("cc_castlebasement", "finished");
+		if(contains_text(get_property("lastEncounter"), "The Fast and the Furry-ous"))
+		{
+			set_property("cc_castlebasement", "finished");
+		}
+		else
+		{
+			print("Got interrupted trying to unlock the Ground Floor of the Castle", "red");
+		}
 	}
 	else if(contains_text(get_property("lastEncounter"), "You Don\'t Mess Around with Gym"))
 	{
@@ -6077,7 +6089,14 @@ boolean L10_basement()
 		equip($slot[acc3], $item[amulet of extreme plot significance]);
 		set_property("choiceAdventure670", "4");
 		ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
-		set_property("cc_castlebasement", "finished");
+		if(contains_text(get_property("lastEncounter"), "You Don\'t Mess Around with Gym"))
+		{
+			set_property("cc_castlebasement", "finished");
+		}
+		else
+		{
+			print("Got interrupted trying to unlock the Ground Floor of the Castle", "red");
+		}
 	}
 	return true;
 }

@@ -727,6 +727,11 @@ boolean cs_giant_growth()
 	}
 
 #	print("Starting LTBs: " + item_amount($item[Louder Than Bomb]), "blue");
+	if(have_familiar($familiar[Machine Elf]))
+	{
+		use_familiar($familiar[Machine Elf]);
+	}
+
 
 	if(my_familiar() == $familiar[Machine Elf])
 	{
@@ -2188,23 +2193,6 @@ boolean LA_cs_communityService()
 				ccAdv(1, $location[The X-32-F Combat Training Snowman]);
 				return true;
 			}
-//			Do not let this trigger an adventure loss, do not waste these for later.
-//			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0))
-//			{
-//				if(get_property("cc_choice1119") != "")
-//				{
-//					set_property("choiceAdventure1119", get_property("cc_choice1119"));
-//				}
-//				set_property("cc_choice1119", get_property("choiceAdventure1119"));
-//				set_property("choiceAdventure1119", 1);
-//				handleFamiliar($familiar[Machine Elf]);
-//				ccAdv(1, $location[The Deep Machine Tunnels]);
-//				set_property("choiceAdventure1119", get_property("cc_choice1119"));
-//				set_property("cc_choice1119", "");
-//				return true;
-//			}
-
-
 
 			if((have_effect($effect[Half-Blooded]) > 0) || (have_effect($effect[Half-Drained]) > 0) || (have_effect($effect[Bruised]) > 0) || (have_effect($effect[Relaxed Muscles]) > 0) || (have_effect($effect[Hypnotized]) > 0) || (have_effect($effect[Bad Haircut]) > 0))
 			{
@@ -2219,6 +2207,10 @@ boolean LA_cs_communityService()
 			{
 				equip($slot[weapon], $item[Staff of the Headmaster\'s Victuals]);
 			}
+			else if(item_amount($item[Obsidian Nutcracker]) > 0)
+			{
+				equip($slot[weapon], $item[Obsidian Nutcracker]);
+			}
 			if(possessEquipment($item[Astral Statuette]))
 			{
 				equip($item[Astral Statuette]);
@@ -2226,6 +2218,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Song of Sauce], 100, 1, 1);
 			buffMaintain($effect[Arched Eyebrow of the Archmage], 10, 1, 1);
 			buffMaintain($effect[Jackasses\' Symphony of Destruction], 8, 1, 1);
+			buffMaintain($effect[Puzzle Fury], 0, 1, 1);
 			if(is_unrestricted($item[Clan Pool Table]))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=2");
@@ -2235,6 +2228,23 @@ boolean LA_cs_communityService()
 			{
 				cli_execute("make " + $item[Tobiko Marble Soda]);
 				buffMaintain($effect[Pisces in the Skyces], 0, 1, 1);
+			}
+
+			if(have_familiar($familiar[Disembodied Hand]))
+			{
+				use_familiar($familiar[Disembodied Hand]);
+				if(equipped_item($slot[familiar]) != $item[Obsidian Nutcracker])
+				{
+					if((item_amount($item[Obsidian Nutcracker]) > 0) || (npc_price($item[Obsidian Nutcracker]) < my_meat()))
+					{
+						buyUpTo(1, $item[Obsidian Nutcracker]);
+					}
+					equip($slot[familiar], $item[Obsidian Nutcracker]);
+				}
+#				if(equipped_item($slot[familiar]) == $item[Obsidian Nutcracker])
+#				{
+#					use_familiar($familiar[Disembodied Hand]);
+#				}
 			}
 
 
@@ -2315,9 +2325,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Empathy], 15, 1, 1);
 			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
 			buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 11, 1, 1);
-			print("Cost before Steely: " + get_cs_questCost(9), "green");
 			buffMaintain($effect[Steely-Eyed Squint], 101, 1, 1);
-			print("Cost after Steely: " + get_cs_questCost(9), "green");
 
 			buffMaintain($effect[Spice Haze], 250, 1, 1);
 
@@ -2415,7 +2423,7 @@ boolean LA_cs_communityService()
 				doRest();
 			}
 
-			boolean [item] toSmash = $items[asparagus knife, plastic nunchaku, Staff of the Headmaster\'s Victuals, heavy-duty clipboard, dirty hobo gloves, dirty rigging rope, sewage-clogged pistol];
+			boolean [item] toSmash = $items[asparagus knife, dirty hobo gloves, dirty rigging rope, heavy-duty clipboard, Microplushie: Sororitrate, plastic nunchaku, sewage-clogged pistol, Staff of the Headmaster\'s Victuals];
 			foreach it in toSmash
 			{
 				pulverizeThing(it);

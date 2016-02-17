@@ -230,6 +230,12 @@ void handleOffHand()
 	item toEquip = $item[none];
 	boolean[item] poss;
 
+	if(my_path() == "Avatar of West of Loathing")
+	{
+		equip($slot[off-hand], $item[none]);
+		return;
+	}
+
 	if((my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) == 1))
 	{
 		equip($slot[off-hand], $item[Thor\'s Pliers]);
@@ -411,7 +417,15 @@ void equipBaselineHat(boolean wantNC)
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, Mark III Steam-Hat, Mark IV Steam-Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, The Crown of Ed the Undying];
+	boolean[item] poss;
+	poss = $items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, Mark III Steam-Hat, Mark IV Steam-Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, The Crown of Ed the Undying];
+
+	if(my_path() == "Avatar of West of Loathing")
+	{
+/*
+		poss = $items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, one-gallon hat, two-gallon hat, three-gallon hat, four-gallon hat, five-gallon hat, six-gallon hat, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, Mark III Steam-Hat, Mark IV Steam-Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, The Crown of Ed the Undying];
+*/
+	}
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -466,6 +480,12 @@ void equipBaselineWeapon()
 	case $class[Avatar of Jarlsberg]:
 		poss = $items[Staff of the Standalone Cheese];
 		break;
+	case $class[Snake Oiler]:
+		poss = $items[Knife, Thor\'s Pliers, Frankly Mr. Shank];
+		break;
+	case $class[Cow Puncher]:
+		poss = $items[];
+		break;
 	default:
 		abort("You don't have a valid class for this equipper, must be an avatar path or something.");
 		break;
@@ -498,7 +518,7 @@ void equipBaselineFam()
 		if(item_amount($item[miniature life preserver]) > 0)
 		{
 			equip($slot[familiar], $item[miniature life preserver]);
-			if(!is_familiar_equipment_locked() && (equipped_item($slot[familiar]) != $item[none]))
+			if(!is_familiar_equipment_locked() && boolean_modifier(equipped_item($slot[familiar]), "Generic"))
 			{
 				lock_familiar_equipment(true);
 			}
@@ -519,14 +539,14 @@ void equipBaselineFam()
 
 		if((toEquip != $item[none]) && (toEquip != equipped_item($slot[familiar])))
 		{
-			if(is_familiar_equipment_locked() && (equipped_item($slot[familiar]) != $item[none]))
+			if(is_familiar_equipment_locked() && boolean_modifier(equipped_item($slot[familiar]), "Generic"))
 			{
 				lock_familiar_equipment(false);
 			}
 			equip($slot[familiar], toEquip);
 		}
 	}
-	if(!is_familiar_equipment_locked() && (equipped_item($slot[familiar]) != $item[none]))
+	if(!is_familiar_equipment_locked() && boolean_modifier(equipped_item($slot[familiar]), "Generic"))
 	{
 		lock_familiar_equipment(true);
 	}
