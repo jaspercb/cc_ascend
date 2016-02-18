@@ -119,45 +119,12 @@ boolean possessEquipment(item equipment)
 //	{
 //		return true;
 //	}
-	if(equipped_item($slot[hat]) == equipment)
+	foreach mySlot in $slots[]
 	{
-		return true;
-	}
-	if(equipped_item($slot[back]) == equipment)
-	{
-		return true;
-	}
-	if(equipped_item($slot[shirt]) == equipment)
-	{
-		return true;
-	}
-	if(equipped_item($slot[weapon]) == equipment)
-	{
-		return true;
-	}
-	if(equipped_item($slot[off-hand]) == equipment)
-	{
-		return true;
-	}
-	if(equipped_item($slot[pants]) == equipment)
-	{
-		return true;
-	}
-	if(equipped_item($slot[acc1]) == equipment)
-	{
-		return true;
-	}
-	if(equipped_item($slot[acc2]) == equipment)
-	{
-		return true;
-	}
-	if(equipped_item($slot[acc3]) == equipment)
-	{
-		return true;
-	}
-	if(equipped_item($slot[familiar]) == equipment)
-	{
-		return true;
+		if(equipped_item(mySlot) == equipment)
+		{
+			return true;
+		}
 	}
 	return false;
 }
@@ -229,12 +196,6 @@ void handleOffHand()
 {
 	item toEquip = $item[none];
 	boolean[item] poss;
-
-	if(my_path() == "Avatar of West of Loathing")
-	{
-		equip($slot[off-hand], $item[none]);
-		return;
-	}
 
 	if((my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) == 1))
 	{

@@ -6764,6 +6764,16 @@ boolean LX_steelOrgan()
 		set_property("cc_getSteelOrgan", false);
 		return false;
 	}
+	if(my_path() == "Avatar of West of Loathing")
+	{
+		if(!user_confirm("You probably do not want to get Steel Organ. We are turning it off unless you click yes every single turn. Because then you'll realize how bad we are at getting a steel organ in West of Loathing. By default, this will go away in 15 seconds (you won't have finished reading this in time) and turn off steel organ.", 15000, false))
+		{
+			set_property("cc_getSteelOrgan", false);
+			return false;
+		}
+	}
+
+
 	if(have_skill($skill[Liver of Steel]) || have_skill($skill[Stomach of Steel]) || have_skill($skill[Spleen of Steel]))
 	{
 		print("We have a steel organ, turning off the setting." ,"blue");
@@ -9524,6 +9534,7 @@ boolean LX_pirateBeerPong()
 	LX_getDictionary();
 	#	ccAdvBypass may be a bit trickier here.
 	#	handlePreAdventure($location[Barrrney\'s Barrr]);
+	#	We can get a Doghouse adventure here....
 	string page = tryBeerPong();
 	if(contains_text(page, "victory laps"))
 	{
