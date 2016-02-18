@@ -383,9 +383,8 @@ void equipBaselineHat(boolean wantNC)
 
 	if(my_path() == "Avatar of West of Loathing")
 	{
-/*
-		poss = $items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, one-gallon hat, two-gallon hat, three-gallon hat, four-gallon hat, five-gallon hat, six-gallon hat, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, Mark III Steam-Hat, Mark IV Steam-Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, The Crown of Ed the Undying];
-*/
+
+		poss = $items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, one-gallon hat, two-gallon hat, three-gallon hat, four-gallon hat, five-gallon hat, six-gallon hat, seven-gallon hat, eight-gallon hat, nine-gallon hat, ten-gallon hat, eleven-gallon hat, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, Mark III Steam-Hat, Mark IV Steam-Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, The Crown of Ed the Undying];
 	}
 	foreach thing in poss
 	{

@@ -1319,7 +1319,7 @@ string cc_combatHandler(int round, string opp, string text)
 		break;
 
 	case $class[Cow Puncher]:
-		if(have_skill($skill[One-Two Punch]) && (my_mp() >= mp_cost($skill[One-Two Punch])))
+		if(have_skill($skill[One-Two Punch]) && (my_mp() >= mp_cost($skill[One-Two Punch])) && (equipped_item($slot[Weapon]) == $item[none]))
 		{
 			attackMajor = "skill " + $skill[One-Two Punch];
 			attackMinor = "skill " + $skill[One-Two Punch];

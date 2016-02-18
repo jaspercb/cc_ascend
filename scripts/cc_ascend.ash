@@ -8134,7 +8134,11 @@ boolean L12_startWar()
 	}
 
 	print("Must save the ferret!!", "blue");
-	outfit("frat warrior fatigues");
+	if(!outfit("frat warrior fatigues"))
+	{
+		print("Meh, can't save the ferret yet.", "red");
+		return false;
+	}
 	if(my_mp() > 60)
 	{
 		handleBjornify($familiar[grimstone golem]);
