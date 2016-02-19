@@ -8732,6 +8732,7 @@ boolean L9_twinPeak()
 		}
 	}
 
+	familiar last = get_property("cc_familiarChoice").to_familiar();
 	if(!attempt && needStench)
 	{
 		buffMaintain($effect[Astral Shell], 10, 1, 1);
@@ -8763,6 +8764,8 @@ boolean L9_twinPeak()
 
 	if(!attempt)
 	{
+		print("Still lagging at Twin Peak...", "red");
+		handleFamiliar(last);
 		return false;
 	}
 
