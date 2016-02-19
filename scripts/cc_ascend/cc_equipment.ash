@@ -444,13 +444,12 @@ void equipBaselineWeapon()
 		poss = $items[Knife, Thor\'s Pliers, Frankly Mr. Shank];
 		break;
 	case $class[Cow Puncher]:
-		poss = $items[];
+		poss = $items[none];
 		break;
 	default:
 		abort("You don't have a valid class for this equipper, must be an avatar path or something.");
 		break;
 	}
-
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))

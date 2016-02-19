@@ -8134,11 +8134,7 @@ boolean L12_startWar()
 	}
 
 	print("Must save the ferret!!", "blue");
-	if(!outfit("frat warrior fatigues"))
-	{
-		print("Meh, can't save the ferret yet.", "red");
-		return false;
-	}
+	outfit("frat warrior fatigues");
 	if(my_mp() > 60)
 	{
 		handleBjornify($familiar[grimstone golem]);
@@ -8713,14 +8709,16 @@ boolean L9_twinPeak()
 
 	if(!attempt && needFood)
 	{
-		if(item_drop_modifier() < 50)
+		float food_drop = item_drop_modifier();
+		food_drop -= numeric_modifier(my_familiar(), "Item Drop", familiar_weight(my_familiar()), equipped_item($slot[familiar]));
+
+		if((food_drop < 50) && (food_drop >= 20))
 		{
 			if((friars_available()) && (!get_property("friarsBlessingReceived").to_boolean()))
 			{
 				cli_execute("friars food");
 			}
 		}
-		float food_drop = item_drop_modifier();
 		if(have_effect($effect[Brother Flying Burrito\'s Blessing]) > 0)
 		{
 			food_drop = food_drop + 30;
@@ -8732,17 +8730,11 @@ boolean L9_twinPeak()
 		}
 	}
 
-	familiar last = get_property("cc_familiarChoice").to_familiar();
 	if(!attempt && needStench)
 	{
 		buffMaintain($effect[Astral Shell], 10, 1, 1);
 		buffMaintain($effect[Elemental Saucesphere], 10, 1, 1);
 		buffMaintain($effect[Hide of Sobek], 10, 1, 1);
-		if(elemental_resist($element[stench]) < 4)
-		{
-			handleFamiliar($familiar[Exotic Parrot]);
-			#We need to account for this in the resistance check
-		}
 		if(elemental_resist($element[stench]) < 4)
 		{
 			buffMaintain($effect[Neutered Nostrils], 0, 1, 1);
@@ -8755,8 +8747,17 @@ boolean L9_twinPeak()
 		{
 			buffMaintain($effect[Well-Oiled], 0, 1, 1);
 		}
-		if(elemental_resist($element[stench]) >= 4)
+		int parrotOffset = 0;
+		if(elemental_resist($element[stench]) < 4)
 		{
+			parrotOffset = numeric_modifier($familiar[Exotic Parrot], "Stench Resistance", familiar_weight($familiar[Exotic Parrot]), equipped_item($slot[familiar]));
+		}
+		if((elemental_resist($element[stench]) + parrotOffset) >= 4)
+		{
+			if(elemental_resist($element[stench]) < 4)
+			{
+				handleFamiliar($familiar[Exotic Parrot]);
+			}
 			attemptNum = 1;
 			attempt = true;
 		}
@@ -8764,8 +8765,6 @@ boolean L9_twinPeak()
 
 	if(!attempt)
 	{
-		print("Still lagging at Twin Peak...", "red");
-		handleFamiliar(last);
 		return false;
 	}
 
@@ -10331,14 +10330,7 @@ boolean doTasks()
 			handleFamiliar($familiar[Angry Jung Man]);
 		}
 	}
-//	if(my_familiar() == $familiar[Reassembled Blackbird])
-//	{
-//		handleFamiliar("item");
-//	}
-//	if(my_familiar() == $familiar[Exotic Parrot])
-//	{
-//		handleFamiliar("item");
-///	}
+
 	if(my_familiar() == $familiar[Angry Jung Man])
 	{
 		if((get_property("_jungDrops").to_int() == 1) || (my_daycount() > 1))
@@ -10521,6 +10513,7 @@ boolean doTasks()
 
 	tophatMaker();
 	equipBaseline();
+
 
 	if(doHRSkills())
 	{

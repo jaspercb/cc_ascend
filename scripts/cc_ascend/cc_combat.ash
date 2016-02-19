@@ -153,7 +153,8 @@ string cc_combatHandler(int round, string opp, string text)
 
 	boolean doBanisher = !get_property("kingLiberated").to_boolean();
 
-	if(enemy == $monster[Your Shadow])
+//	if(enemy == $monster[Your Shadow])
+	if((enemy == $monster[Your Shadow]) || (opp == "shadow cow puncher") || (opp == "shadow snake oiler") || (opp == "shadow beanslinger"))
 	{
 		if(have_skill($skill[Ambidextrous Funkslinging]))
 		{
@@ -1342,15 +1343,15 @@ string cc_combatHandler(int round, string opp, string text)
 			set_property("cc_combatHandler", combatState + "(extractSnakeOil)");
 			return "skill " + $skill[Extract Oil];
 		}
-		if(!contains_text(combatState, "goodMedicine") && have_skill($skill[Good Medicine]) && (my_mp() >= (3 * mp_cost($skill[Good Medicine]))))
-		{
-			set_property("cc_combatHandler", combatState + "(goodMedicine)");
-			return "skill " + $skill[Good Medicine];
-		}
 		if(!contains_text(combatState, "badMedicine") && have_skill($skill[Bad Medicine]) && (my_mp() >= (3 * mp_cost($skill[Bad Medicine]))))
 		{
 			set_property("cc_combatHandler", combatState + "(badMedicine)");
 			return "skill " + $skill[Bad Medicine];
+		}
+		if(!contains_text(combatState, "goodMedicine") && have_skill($skill[Good Medicine]) && (my_mp() >= (3 * mp_cost($skill[Good Medicine]))))
+		{
+			set_property("cc_combatHandler", combatState + "(goodMedicine)");
+			return "skill " + $skill[Good Medicine];
 		}
 		if(have_skill($skill[Fan Hammer]) && (my_mp() >= mp_cost($skill[Fan Hammer])))
 		{
