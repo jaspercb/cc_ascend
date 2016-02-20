@@ -4,6 +4,7 @@ import <cc_ascend/cc_equipment.ash>
 import <cc_ascend/cc_edTheUndying.ash>
 
 monster ocrs_helper(string page);
+void awol_helper(string page);
 
 monster ocrs_helper(string page)
 {
@@ -109,6 +110,26 @@ monster ocrs_helper(string page)
 	return last_monster();
 }
 
+void awol_helper(string page)
+{
+	//Let us self-contain this so it is quick to remove later.
+	if((my_daycount() == 1) && (my_turncount() < 10))
+	{
+		set_property("cc_noSnakeOil", 0);
+	}
+
+	string combatState = get_property("cc_combatHandler");
+	if(contains_text(page, "Your oil extractor is completely clogged up at this point"))
+	{
+		set_property("cc_noSnakeOil", my_daycount());
+	}
+
+	if((!contains_text(combatState, "extractSnakeOil")) && (get_property("cc_noSnakeOil").to_int() == my_daycount()))
+	{
+		set_property("cc_combatHandler", combatState + "(extractSnakeOil)");
+	}
+}
+
 string cc_combatHandler(int round, string opp, string text)
 {
 	#print("cc_combatHandler: " + round, "brown");
@@ -135,6 +156,10 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		enemy = ocrs_helper(text);
 		enemy = last_monster();
+	}
+	if(my_path() == "Avatar of West of Loathing")
+	{
+		awol_helper(text);
 	}
 
 	phylum type = monster_phylum(enemy);
