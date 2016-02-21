@@ -5369,7 +5369,7 @@ boolean L12_sonofaBeach()
 	{
 		equip($slot[acc2], $item[portable cassette player]);
 	}
-
+	buffMaintain($effect[Patent Aggression], 0, 1, 1);
 	removeNonCombat();
 	handleFamiliar($familiar[Jumpsuited Hound Dog]);
 
@@ -5437,6 +5437,7 @@ boolean L12_filthworms()
 		buffMaintain($effect[Human-Fish Hybrid], 0, 1, 1);
 		buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
 		buffMaintain($effect[Human-Machine Hybrid], 0, 1, 1);
+		buffMaintain($effect[Unusual Perspective], 0, 1, 1);
 
 		if(get_property("cc_dickstab").to_boolean())
 		{
@@ -6557,6 +6558,7 @@ boolean L7_crypt()
 		buffMaintain($effect[Sepia Tan], 0, 1, 1);
 		buffMaintain($effect[Walberg\'s Dim Bulb], 5, 1, 1);
 		buffMaintain($effect[Springy Fusilli], 10, 1, 1);
+		buffMaintain($effect[Patent Alacrity], 0, 1, 1);
 		if((my_class() == $class[Seal Clubber]) || (my_class() == $class[Turtle Tamer]))
 		{
 			buyUpTo(1, $item[Cheap Wind-up Clock]);
@@ -9499,7 +9501,7 @@ boolean LX_fcle()
 		print("Could not uneffect Shelter of Shed for F'C'le, delaying");
 		return false;
 	}
-	buffMaintain($effect[Taunt of Horus], 0, 1, 1);
+
 	print("Fcle time!", "blue");
 	if(!outfit("swashbuckling getup"))
 	{
@@ -9509,6 +9511,8 @@ boolean LX_fcle()
 	{
 		equip($slot[acc1], $item[numberwang]);
 	}
+	buffMaintain($effect[Taunt of Horus], 0, 1, 1);
+	buffMaintain($effect[Patent Aggression], 0, 1, 1);
 
 	removeNonCombat();
 
@@ -9910,7 +9914,7 @@ boolean L8_trapperYeti()
 		{
 			return false;
 		}
-
+		buffMaintain($effect[Patent Aggression], 0, 1, 1);
 		removeNonCombat();
 
 		if(have_familiar($familiar[Jumpsuited Hound Dog]))

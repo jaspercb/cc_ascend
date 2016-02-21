@@ -1648,7 +1648,7 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 
 		print("Trying to pull " + howMany + " of " + it, "blue");
 		boolean retval = take_storage(howMany, it);
-		if(item_amount(it) != howMany)
+		if(item_amount(it) != (howMany + whenHave))
 		{
 			print("Failed pulling " + howMany + " of " + it, "red");
 		}
@@ -2260,6 +2260,12 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Orange Crusher]:				useItem = $item[Pulled Orange Taffy];			break;
 	case $effect[Pasta Eyeball]:				useSkill = $skill[none];						break;
 	case $effect[Pasta Oneness]:				useSkill = $skill[Manicotti Meditation];		break;
+	case $effect[Patent Aggression]:			useItem = $item[Patent Aggression Tonic];		break;
+	case $effect[Patent Alacrity]:				useItem = $item[Patent Alacrity Tonic];			break;
+	case $effect[Patent Avarice]:				useItem = $item[Patent Avarice Tonic];			break;
+	case $effect[Patent Invisiblity]:			useItem = $item[Patent Invisibility Tonic];		break;
+	case $effect[Patent Prevention]:			useItem = $item[Patent Preventative Tonic];		break;
+	case $effect[Patent Sallowness]:			useItem = $item[Patent Sallowness Tonic];		break;
 	case $effect[Patience of the Tortoise]:		useSkill = $skill[Patience of the Tortoise];	break;
 	case $effect[Patient Smile]:				useSkill = $skill[Patient Smile];				break;
 	case $effect[Penne Fedora]:					useSkill = $skill[none];						break;
@@ -2396,6 +2402,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Tortious]:						useItem = $item[Mocking Turtle];				break;
 	case $effect[Truly Gritty]:					useItem = $item[True Grit];						break;
 	case $effect[Twen Tea]:						useItem = $item[cuppa Twen tea];				break;
+	case $effect[Unusual Perspective]:			useItem = $item[Unusual Oil];					break;
 	case $effect[Ur-Kel\'s Aria of Annoyance]:	useSkill = $skill[Ur-Kel\'s Aria of Annoyance];	break;
 	case $effect[Using Protection]:				useItem = $item[Orcish Rubber];					break;
 	case $effect[Vitali Tea]:					useItem = $item[cuppa Vitali tea];				break;

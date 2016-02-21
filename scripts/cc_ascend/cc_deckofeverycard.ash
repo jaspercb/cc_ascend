@@ -244,7 +244,7 @@ boolean deck_useScheme(string action)
 		}
 		else
 		{
-			deck_cheat("Ancestral Recall");
+			deck_cheat("Island");
 		}
 		deck_cheat("ore");
 		return true;

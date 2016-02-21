@@ -137,6 +137,7 @@ void handlePreAdventure(location place)
 		uneffect($effect[Carlweather\'s Cantata Of Confrontation]);
 		buffMaintain($effect[Smooth Movements], 15, 1, 2);
 		buffMaintain($effect[The Sonata of Sneakiness], 25, 1, 2);
+		buffMaintain($effect[Patent Invisiblity], 0, 1, 1);
 	}
 
 	if((monster_level_adjustment() > 120) && ((my_hp() * 10) < (my_maxhp() * 8)) && (my_mp() >= 20))

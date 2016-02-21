@@ -635,6 +635,17 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill transcendent olfaction";
 		}
 	}
+	if((get_property("cc_longConMonster") != enemy) && (have_skill($skill[Long Con])) && (my_mp() >= mp_cost($skill[Long Con])))
+	{
+		if($monsters[Blooper, Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Gaudy Pirate, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat, Writing Desk] contains enemy)
+		{
+			set_property("cc_longConMonster", enemy);
+			set_property("cc_combatHandler", combatState + "(longcon)");
+			handleTracker(enemy, $skill[Long Con], "cc_sniffs");
+			return "skill " + $skill[Long Con];
+		}
+	}
+
 
 	if(contains_text(combatState, "insults"))
 	{
@@ -1005,6 +1016,12 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+	if(!contains_text(combatState, "badMedicine") && have_skill($skill[Bad Medicine]) && (my_mp() >= (3 * mp_cost($skill[Bad Medicine]))))
+	{
+		set_property("cc_combatHandler", combatState + "(badMedicine)");
+		return "skill " + $skill[Bad Medicine];
+	}
+
 	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 60) && have_skill($skill[Itchy Curse Finger]))
 	{
 		set_property("cc_combatHandler", combatState + "(weaksauce)");
@@ -1368,11 +1385,6 @@ string cc_combatHandler(int round, string opp, string text)
 			set_property("cc_combatHandler", combatState + "(extractSnakeOil)");
 			return "skill " + $skill[Extract Oil];
 		}
-		if(!contains_text(combatState, "badMedicine") && have_skill($skill[Bad Medicine]) && (my_mp() >= (3 * mp_cost($skill[Bad Medicine]))))
-		{
-			set_property("cc_combatHandler", combatState + "(badMedicine)");
-			return "skill " + $skill[Bad Medicine];
-		}
 		if(!contains_text(combatState, "goodMedicine") && have_skill($skill[Good Medicine]) && (my_mp() >= (3 * mp_cost($skill[Good Medicine]))))
 		{
 			set_property("cc_combatHandler", combatState + "(goodMedicine)");
@@ -1384,6 +1396,13 @@ string cc_combatHandler(int round, string opp, string text)
 			attackMinor = "skill " + $skill[Fan Hammer];
 			costMajor = mp_cost($skill[Fan Hammer]);
 			costMinor = mp_cost($skill[Fan Hammer]);
+		}
+		if(have_skill($skill[Snakewhip]) && (my_mp() >= mp_cost($skill[Snakewhip])))
+		{
+			attackMajor = "skill " + $skill[Snakewhip];
+			attackMinor = "skill " + $skill[Snakewhip];
+			costMajor = mp_cost($skill[Snakewhip]);
+			costMinor = mp_cost($skill[Snakewhip]);
 		}
 		break;
 	}
@@ -1687,6 +1706,19 @@ string ccsJunkyard(int round, string opp, string text)
 		set_property("cc_combatHandler", combatState + "(love gnats)");
 		return "skill summon love gnats";
 	}
+
+	if(!contains_text(combatState, "badMedicine") && have_skill($skill[Bad Medicine]) && (my_mp() >= mp_cost($skill[Bad Medicine])))
+	{
+		set_property("cc_combatHandler", combatState + "(badMedicine)");
+		return "skill " + $skill[Bad Medicine];
+	}
+
+	if(!contains_text(combatState, "goodMedicine") && have_skill($skill[Good Medicine]) && (my_mp() >= mp_cost($skill[Good Medicine])) && (expected_damage() * 2.1) >= my_hp())
+	{
+		set_property("cc_combatHandler", combatState + "(goodMedicine)");
+		return "skill " + $skill[Good Medicine];
+	}
+
 
 	if(!get_property("cc_gremlinMoly").to_boolean() && (my_class() == $class[Ed]))
 	{
