@@ -91,7 +91,7 @@ boolean awol_buyskills()
 				{
 					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=6", true);
 				}
-				else if(!have_skill($skill[Bean Screen]))
+				else if(!have_skill($skill[Beanscreen]))
 				{
 					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=3", true);
 				}
@@ -119,7 +119,7 @@ boolean awol_buyskills()
 				{
 					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=9", true);
 				}
-				else if(!have_skill($skill[Bean Weaver]))
+				else if(!have_skill($skill[Beanweaver]))
 				{
 					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=5", true);
 				}
