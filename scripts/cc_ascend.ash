@@ -7,6 +7,7 @@ since r16713;
 ***/
 
 import <cc_ascend/cc_ascend_header.ash>
+import <cc_ascend/cc_awol.ash>
 import <cc_ascend/cc_deprecation.ash>
 import <cc_ascend/cc_combat.ash>
 import <cc_ascend/cc_util.ash>
@@ -189,6 +190,7 @@ void initializeSettings()
 	eudora_initializeSettings();
 	hr_initializeSettings();
 	picky_initializeSettings();
+	awol_initializeSettings();
 	standard_initializeSettings();
 	florist_initializeSettings();
 	chateaumantegna_initializeSettings();
@@ -10411,6 +10413,7 @@ boolean doTasks()
 	# This function buys missing skills in general, not just for Picky.
 	# It should be moved.
 	picky_buyskills();
+	awol_buyskills();
 
 	oldPeoplePlantStuff();
 	use_barrels();
