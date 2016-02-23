@@ -403,6 +403,7 @@ void maximize_hedge()
 	element first = ns_hedge1();
 	element second = ns_hedge2();
 	element third = ns_hedge3();
+	buffMaintain($effect[Patent Prevention], 0, 1, 1);
 	if((first == $element[none]) || (second == $element[none]) || (third == $element[none]))
 	{
 		ccMaximize("all res -equip snow suit", 2500, 0, false);
@@ -809,6 +810,7 @@ boolean doThemtharHills(boolean trickMode)
 	buffMaintain($effect[Human-Humanoid Hybrid], 0, 1, 1);
 	buffMaintain($effect[Human-Fish Hybrid], 0, 1, 1);
 	buffMaintain($effect[Cranberry Cordiality], 0, 1, 1);
+	buffMaintain($effect[Patent Avarice], 0, 1, 1);
 
 	handleFamiliar("meat");
 
@@ -3161,6 +3163,7 @@ boolean L13_towerNSTower()
 		buffMaintain($effect[Polka of Plenty], 0, 1, 1);
 		buffMaintain($effect[Cranberry Cordiality], 0, 1, 1);
 		buffMaintain($effect[Big Meat Big Prizes], 0, 1, 1);
+		buffMaintain($effect[Patent Avarice], 0, 1, 1);
 		if((get_property("sidequestArenaCompleted") == "fratboy") && !get_property("concertVisited").to_boolean() && (have_effect($effect[Winklered]) == 0))
 		{
 			cli_execute("concert 2");
@@ -3452,7 +3455,7 @@ boolean L13_towerNSContests()
 				{
 					doRest();
 				}
-				foreach eff in $effects[Adorable Lookout, Alacri Tea, All Fired Up, Fishy\, Oily, The Glistening, Human-Machine Hybrid, Provocative Perkiness, Sepia Tan, Sugar Rush, Ticking Clock, Well-Swabbed Ear]
+				foreach eff in $effects[Adorable Lookout, Alacri Tea, All Fired Up, Fishy\, Oily, The Glistening, Human-Machine Hybrid, Patent Alacrity, Provocative Perkiness, Sepia Tan, Sugar Rush, Ticking Clock, Well-Swabbed Ear]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
@@ -10473,29 +10476,35 @@ boolean doTasks()
 		doNumberology("adventures3");
 	}
 
-	if(item_amount($item[pulled red taffy]) >= 6)
-	{
-		buffMaintain($effect[Cinnamon Challenger], 0, 6, 10);
-	}
-	if(item_amount($item[pulled orange taffy]) >= 6)
-	{
-		buffMaintain($effect[Orange Crusher], 0, 6, 10);
-	}
-	if(item_amount($item[pulled violet taffy]) >= 6)
-	{
-		buffMaintain($effect[Purple Reign], 0, 6, 10);
-	}
 	buyableMaintain($item[Ben-gal&trade; Balm], 1, 200);
 	buyableMaintain($item[Turtle Pheromones], 1, 800, my_class() == $class[Turtle Tamer]);
 	buyableMaintain($item[Hair Spray], 1, 200, my_class() != $class[Turtle Tamer]);
 	buyableMaintain($item[Blood of the Wereseal], 1, 3500, (monster_level_adjustment() > 135));
-	buffMaintain($effect[Gummi-Grin], 0, 1, 1);
-	buffMaintain($effect[Strong Resolve], 0, 1, 1);
-	buffMaintain($effect[Irresistible Resolve], 0, 1, 1);
-	buffMaintain($effect[Brilliant Resolve], 0, 1, 1);
-	buffMaintain($effect[From Nantucket], 0, 1, 1);
-	buffMaintain($effect[Squatting and Thrusting], 0, 1, 1);
-	buffMaintain($effect[You Read the Manual], 0, 1, 1);
+
+	if(my_level() < 13)
+	{
+		if(item_amount($item[pulled red taffy]) >= 6)
+		{
+			buffMaintain($effect[Cinnamon Challenger], 0, 6, 10);
+		}
+		if(item_amount($item[pulled orange taffy]) >= 6)
+		{
+			buffMaintain($effect[Orange Crusher], 0, 6, 10);
+		}
+		if(item_amount($item[pulled violet taffy]) >= 6)
+		{
+			buffMaintain($effect[Purple Reign], 0, 6, 10);
+		}
+
+
+		buffMaintain($effect[Gummi-Grin], 0, 1, 1);
+		buffMaintain($effect[Strong Resolve], 0, 1, 1);
+		buffMaintain($effect[Irresistible Resolve], 0, 1, 1);
+		buffMaintain($effect[Brilliant Resolve], 0, 1, 1);
+		buffMaintain($effect[From Nantucket], 0, 1, 1);
+		buffMaintain($effect[Squatting and Thrusting], 0, 1, 1);
+		buffMaintain($effect[You Read the Manual], 0, 1, 1);
+	}
 
 	if(my_level() > get_property("lastCouncilVisit").to_int())
 	{
