@@ -64,6 +64,7 @@ void initializeSettings()
 
 	set_property("cc_abooclover", "");
 	set_property("cc_aboocount", "0");
+	set_property("cc_aboopending", 0);
 	set_property("cc_aftercore", "");
 	set_property("cc_airship", "");
 	set_property("cc_ballroom", "");
@@ -8430,7 +8431,8 @@ boolean L9_aBooPeak()
 	}
 
 	print("A-Boo Peak: " + get_property("booPeakProgress"), "blue");
-	if((item_amount($item[a-boo clue]) > 0) && (get_property("booPeakProgress").to_int() > 2))
+	boolean clueCheck = ((item_amount($item[A-Boo Clue]) > 0) || (get_property("cc_aboopending").to_int() != 0));
+	if(clueCheck && (get_property("booPeakProgress").to_int() > 2))
 	{
 		boolean doThisBoo = false;
 
@@ -8584,13 +8586,22 @@ boolean L9_aBooPeak()
 			{
 				useCocoon();
 			}
-			use(1, $item[A-Boo clue]);
+			if(get_property("cc_aboopending").to_int() == 0)
+			{
+				use(1, $item[A-Boo clue]);
+				set_property("cc_aboopending", my_turncount());
+			}
 			handleFamiliar($familiar[Exotic Parrot]);
 			#When booPeakProgress <= 0, we want to leave this adventure. Can we?
 			ccAdv(1, $location[A-Boo Peak]);
 			if(get_property("lastEncounter") != "The Horror...")
 			{
+				print("Wandering adventure interrupt of A-Boo Peak, refreshing inventory.", "red");
 				cli_execute("refresh inv");
+			}
+			else
+			{
+				set_property("cc_aboopending", 0);
 			}
 			useCocoon();
 			if((my_class() == $class[Ed]) && (my_hp() == 0))
