@@ -8592,7 +8592,11 @@ boolean L9_aBooPeak()
 				set_property("cc_aboopending", my_turncount());
 			}
 			handleFamiliar($familiar[Exotic Parrot]);
-			#When booPeakProgress <= 0, we want to leave this adventure. Can we?
+			# When booPeakProgress <= 0, we want to leave this adventure. Can we?
+			# I can not figure out how to do this via ASH since the adventure completes itself?
+			# However, in mafia, (src/net/sourceforge/kolmafia/session/ChoiceManager.java)
+			# upon case 611, if booPeakProgress <= 0, set choiceAdventure611 to 2
+			# If lastDecision was 2, revert choiceAdventure611 to 1 (or perhaps unset it?)
 			ccAdv(1, $location[A-Boo Peak]);
 			if(get_property("lastEncounter") != "The Horror...")
 			{
