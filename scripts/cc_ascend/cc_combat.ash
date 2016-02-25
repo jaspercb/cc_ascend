@@ -1589,10 +1589,12 @@ string findBanisher(string opp)
 string ccsJunkyard(int round, string opp, string text)
 {
 	monster enemy = to_monster(opp);
-	if(enemy == $monster[gourmet gourami])
+
+	if(!($monsters[A.M.C. gremlin, batwinged gremlin, erudite gremlin, spider gremlin, vegetable gremlin] contains enemy))
 	{
-		return "attack with weapon";
+		return cc_combatHandler(round, opp, text);
 	}
+
 
 	if(round == 0)
 	{

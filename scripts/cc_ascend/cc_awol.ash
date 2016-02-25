@@ -5,7 +5,14 @@ import<cc_ascend/cc_ascend_header.ash>
 
 boolean awol_initializeSettings()
 {
-	set_property("cc_awolLastSkill", 0);
+	if(my_path() == "Avatar of West of Loathing")
+	{
+		set_property("cc_awolLastSkill", 0);
+		set_property("cc_getBeehive", true);
+		set_property("cc_getStarKey", true);
+		set_property("cc_holeinthesky", true);
+		set_property("cc_wandOfNagamar", true);
+	}
 	return false;
 }
 
@@ -20,6 +27,10 @@ boolean awol_buyskills()
 	if(get_property("cc_awolLastSkill").to_int() < my_level())
 	{
 		set_property("cc_awolLastSkill", my_level());
+	}
+	else
+	{
+		return false;
 	}
 
 	if(item_amount($item[Tales of the West: Cow Punching]) > 0)

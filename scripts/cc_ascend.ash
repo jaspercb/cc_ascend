@@ -380,8 +380,17 @@ boolean L1_dnaAcquire()
 	{
 		if((have_familiar($familiar[Machine Elf])) && !get_property("cc_100familiar").to_boolean())
 		{
+			familiar bjorn = my_bjorned_familiar();
+			if(bjorn == $familiar[Machine Elf])
+			{
+				handleBjornify($familiar[Grinning Turtle]);
+			}
 			handleFamiliar($familiar[Machine Elf]);
 			ccAdv(1, $location[The Deep Machine Tunnels]);
+			if(bjorn == $familiar[Machine Elf])
+			{
+				handleBjornify(bjorn);
+			}
 			cli_execute("camp dnainject");
 		}
 		else if(elementalPlanes_access($element[sleaze]))
@@ -6218,8 +6227,20 @@ boolean LX_freeCombats()
 		}
 		set_property("cc_choice1119", get_property("choiceAdventure1119"));
 		set_property("choiceAdventure1119", 1);
+
+
+		familiar bjorn = my_bjorned_familiar();
+		if(bjorn == $familiar[Machine Elf])
+		{
+			handleBjornify($familiar[Grinning Turtle]);
+		}
 		handleFamiliar($familiar[Machine Elf]);
 		ccAdv(1, $location[The Deep Machine Tunnels]);
+		if(bjorn == $familiar[Machine Elf])
+		{
+			handleBjornify(bjorn);
+		}
+
 		set_property("choiceAdventure1119", get_property("cc_choice1119"));
 		set_property("cc_choice1119", "");
 		handleFamiliar("item");
@@ -6239,8 +6260,20 @@ boolean Lx_resolveSixthDMT()
 		}
 		set_property("cc_choice1119", get_property("choiceAdventure1119"));
 		set_property("choiceAdventure1119", 1);
+
+
+		familiar bjorn = my_bjorned_familiar();
+		if(bjorn == $familiar[Machine Elf])
+		{
+			handleBjornify($familiar[Grinning Turtle]);
+		}
 		handleFamiliar($familiar[Machine Elf]);
 		ccAdv(1, $location[The Deep Machine Tunnels]);
+		if(bjorn == $familiar[Machine Elf])
+		{
+			handleBjornify(bjorn);
+		}
+
 		set_property("choiceAdventure1119", get_property("cc_choice1119"));
 		set_property("cc_choice1119", "");
 		handleFamiliar("item");
