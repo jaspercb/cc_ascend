@@ -440,12 +440,17 @@ void equipBaselineWeapon()
 	case $class[Avatar of Jarlsberg]:
 		poss = $items[Staff of the Standalone Cheese];
 		break;
-	case $class[Snake Oiler]:
-		poss = $items[Knife, Thor\'s Pliers, Frankly Mr. Shank];
-		break;
 	case $class[Cow Puncher]:
 		poss = $items[none];
 		break;
+	case $class[Beanslinger]:
+		poss = $items[Knife, Thor\'s Pliers];
+		break;
+	case $class[Snake Oiler]:
+		poss = $items[Knife, Thor\'s Pliers, Frankly Mr. Shank];
+		break;
+
+
 	default:
 		abort("You don't have a valid class for this equipper, must be an avatar path or something.");
 		break;

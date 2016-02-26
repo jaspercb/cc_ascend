@@ -674,6 +674,12 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if((!contains_text(combatState, "flyers")) && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]))
 	{
+		if(!contains_text(combatState, "beanscreen") && have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
+		{
+			set_property("cc_combatHandler", combatState + "(beanscreen)");
+			return "skill " + $skill[Beanscreen];
+		}
+
 		if((item_amount($item[rock band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
 		{
 			set_property("cc_combatHandler", combatState + "(flyers)");
@@ -1378,6 +1384,32 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 		break;
 	case $class[Beanslinger]:
+		if(have_skill($skill[Lavafava]) && (my_mp() >= mp_cost($skill[Lavafava])))
+		{
+			attackMajor = "skill " + $skill[Lavafava];
+			attackMinor = "skill " + $skill[Lavafava];
+			costMajor = mp_cost($skill[Lavafava]);
+			costMinor = mp_cost($skill[Lavafava]);
+		}
+		if(have_skill($skill[Beanstorm]) && (my_mp() >= mp_cost($skill[Beanstorm])))
+		{
+			attackMajor = "skill " + $skill[Beanstorm];
+			attackMinor = "skill " + $skill[Beanstorm];
+			costMajor = mp_cost($skill[Beanstorm]);
+			costMinor = mp_cost($skill[Beanstorm]);
+		}
+		if(have_skill($skill[Pungent Mung]) && (my_mp() >= mp_cost($skill[Pungent Mung])))
+		{
+			attackMajor = "skill " + $skill[Pungent Mung];
+			attackMinor = "skill " + $skill[Pungent Mung];
+			costMajor = mp_cost($skill[Pungent Mung]);
+			costMinor = mp_cost($skill[Pungent Mung]);
+		}
+		if(have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
+		{
+			stunner = "skill " + $skill[Beanscreen];
+			costStunner = mp_cost($skill[Beanscreen]);
+		}
 		break;
 	case $class[Snake Oiler]:
 		if(!contains_text(combatState, "extractSnakeOil") && (my_hp() > 80) && have_skill($skill[Extract Oil]) && (my_mp() >= (3 * mp_cost($skill[Extract Oil]))))
@@ -2013,6 +2045,12 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 	if((item_amount($item[The Big Book of Pirate Insults]) > 0) && (!contains_text(combatState, "insults")) && (numPirateInsults() < 8))
 	{
+		if(!contains_text(combatState, "beanscreen") && have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
+		{
+			set_property("cc_combatHandler", combatState + "(beanscreen)");
+			return "skill " + $skill[Beanscreen];
+		}
+
 		if((my_location() == $location[The Obligatory Pirate\'s Cove]) || (my_location() == $location[barrrney\'s barrr]) ||
 			(enemy == $monster[gaudy pirate]))
 		{
