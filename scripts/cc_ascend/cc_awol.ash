@@ -43,47 +43,92 @@ boolean awol_buyskills()
 			print("Cow points found: " + skillPoints);
 			while(skillPoints > 0)
 			{
-				if(!have_skill($skill[Hard Drinker]))
+				if(my_class() == $class[Cow Puncher])
 				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=8", true);
+					if(!have_skill($skill[Rugged Survivalist]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=5", true);
+					}
+					else if(!have_skill($skill[Larger Than Life]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=6", true);
+					}
+					else if(!have_skill($skill[Cowcall]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=1", true);
+					}
+					else if(!have_skill($skill[Hard Drinker]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=8", true);
+					}
+					else if(!have_skill($skill[One-Two Punch]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=0", true);
+					}
+					else if(!have_skill($skill[Pistolwhip]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=2", true);
+					}
+					else if(!have_skill($skill[Walk: Cautious Prowl]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=9", true);
+					}
+					else if(!have_skill($skill[Hogtie]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=3", true);
+					}
+					else if(!have_skill($skill[True Outdoorsperson]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=4", true);
+					}
+					else if(!have_skill($skill[Unleash Cowrruption]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=7", true);
+					}
 				}
-				else if(!have_skill($skill[Rugged Survivalist]))
+				else
 				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=5", true);
+					if(!have_skill($skill[Hard Drinker]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=8", true);
+					}
+					else if(!have_skill($skill[Rugged Survivalist]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=5", true);
+					}
+					else if(!have_skill($skill[Walk: Cautious Prowl]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=9", true);
+					}
+					else if(!have_skill($skill[Larger Than Life]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=6", true);
+					}
+					else if(!have_skill($skill[Cowcall]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=1", true);
+					}
+					else if(!have_skill($skill[One-Two Punch]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=0", true);
+					}
+					else if(!have_skill($skill[Pistolwhip]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=2", true);
+					}
+					else if(!have_skill($skill[Hogtie]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=3", true);
+					}
+					else if(!have_skill($skill[True Outdoorsperson]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=4", true);
+					}
+					else if(!have_skill($skill[Unleash Cowrruption]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=7", true);
+					}
 				}
-				else if(!have_skill($skill[Walk: Cautious Prowl]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=9", true);
-				}
-				else if(!have_skill($skill[Larger Than Life]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=6", true);
-				}
-				else if(!have_skill($skill[Cowcall]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=1", true);
-				}
-				else if(!have_skill($skill[One-Two Punch]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=0", true);
-				}
-				else if(!have_skill($skill[Pistolwhip]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=2", true);
-				}
-				else if(!have_skill($skill[Hogtie]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=3", true);
-				}
-				else if(!have_skill($skill[True Outdoorsperson]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=4", true);
-				}
-				else if(!have_skill($skill[Unleash Cowrruption]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=7", true);
-				}
-
 				skillPoints -= 1;
 			}
 		}
@@ -98,47 +143,92 @@ boolean awol_buyskills()
 			print("Bean points found: " + skillPoints);
 			while(skillPoints > 0)
 			{
-				if(!have_skill($skill[Beanstorm]))
+				if(my_class() == $class[Beanslinger])
 				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=6", true);
+					if(!have_skill($skill[Beanstorm]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=6", true);
+					}
+					else if(!have_skill($skill[Beanscreen]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=3", true);
+					}
+					else if(!have_skill($skill[Canhandle]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=2", true);
+					}
+					else if(!have_skill($skill[Prodigious Appetite]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=8", true);
+					}
+					else if(!have_skill($skill[Lavafava]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=0", true);
+					}
+					else if(!have_skill($skill[Bean Runner]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=4", true);
+					}
+					else if(!have_skill($skill[Beancannon]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=7", true);
+					}
+					else if(!have_skill($skill[Walk: Prideful Strut]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=9", true);
+					}
+					else if(!have_skill($skill[Beanweaver]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=5", true);
+					}
+					else if(!have_skill($skill[Pungent Mung]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=1", true);
+					}
 				}
-				else if(!have_skill($skill[Beanscreen]))
+				else
 				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=3", true);
+					if(!have_skill($skill[Prodigious Appetite]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=8", true);
+					}
+					else if(!have_skill($skill[Walk: Prideful Strut]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=9", true);
+					}
+					else if(!have_skill($skill[Beanstorm]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=6", true);
+					}
+					else if(!have_skill($skill[Beanscreen]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=3", true);
+					}
+					else if(!have_skill($skill[Canhandle]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=2", true);
+					}
+					else if(!have_skill($skill[Lavafava]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=0", true);
+					}
+					else if(!have_skill($skill[Bean Runner]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=4", true);
+					}
+					else if(!have_skill($skill[Beancannon]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=7", true);
+					}
+					else if(!have_skill($skill[Beanweaver]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=5", true);
+					}
+					else if(!have_skill($skill[Pungent Mung]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=1", true);
+					}
 				}
-				else if(!have_skill($skill[Canhandle]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=2", true);
-				}
-				else if(!have_skill($skill[Prodigious Appetite]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=8", true);
-				}
-				else if(!have_skill($skill[Lavafava]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=0", true);
-				}
-				else if(!have_skill($skill[Bean Runner]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=4", true);
-				}
-				else if(!have_skill($skill[Beancannon]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=7", true);
-				}
-				else if(!have_skill($skill[Walk: Prideful Strut]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=9", true);
-				}
-				else if(!have_skill($skill[Beanweaver]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=5", true);
-				}
-				else if(!have_skill($skill[Pungent Mung]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=1", true);
-				}
-
 				skillPoints -= 1;
 			}
 		}
@@ -153,52 +243,95 @@ boolean awol_buyskills()
 			print("Snake points found: " + skillPoints);
 			while(skillPoints > 0)
 			{
-				if(!have_skill($skill[Good Medicine]))
+				if(my_class() == $class[Snake Oiler])
 				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=6", true);
+					if(!have_skill($skill[Good Medicine]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=6", true);
+					}
+					else if(!have_skill($skill[Bad Medicine]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=3", true);
+					}
+					else if(!have_skill($skill[Extract Oil]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=2", true);
+					}
+					else if(!have_skill($skill[Tolerant Constitution]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=8", true);
+					}
+					else if(!have_skill($skill[Snakewhip]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=0", true);
+					}
+					else if(!have_skill($skill[Patent Medicine]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=4", true);
+					}
+					else if(!have_skill($skill[Long Con]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=7", true);
+					}
+					else if(!have_skill($skill[Walk: Leisurely Amble]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=9", true);
+					}
+					else if(!have_skill($skill[Well-Oiled Guns]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=5", true);
+					}
+					else if(!have_skill($skill[Fan Hammer]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=1", true);
+					}
 				}
-				else if(!have_skill($skill[Bad Medicine]))
+				else
 				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=3", true);
+					if(!have_skill($skill[Tolerant Constitution]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=8", true);
+					}
+					else if(!have_skill($skill[Long Con]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=7", true);
+					}
+					else if(!have_skill($skill[Good Medicine]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=6", true);
+					}
+					else if(!have_skill($skill[Bad Medicine]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=3", true);
+					}
+					else if(!have_skill($skill[Extract Oil]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=2", true);
+					}
+					else if(!have_skill($skill[Snakewhip]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=0", true);
+					}
+					else if(!have_skill($skill[Patent Medicine]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=4", true);
+					}
+					else if(!have_skill($skill[Walk: Leisurely Amble]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=9", true);
+					}
+					else if(!have_skill($skill[Well-Oiled Guns]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=5", true);
+					}
+					else if(!have_skill($skill[Fan Hammer]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=1", true);
+					}
 				}
-				else if(!have_skill($skill[Extract Oil]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=2", true);
-				}
-				else if(!have_skill($skill[Tolerant Constitution]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=8", true);
-				}
-				else if(!have_skill($skill[Snakewhip]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=0", true);
-				}
-				else if(!have_skill($skill[Patent Medicine]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=4", true);
-				}
-				else if(!have_skill($skill[Long Con]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=7", true);
-				}
-				else if(!have_skill($skill[Walk: Leisurely Amble]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=9", true);
-				}
-				else if(!have_skill($skill[Well-Oiled Guns]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=5", true);
-				}
-				else if(!have_skill($skill[Fan Hammer]))
-				{
-					page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=1", true);
-				}
-
 				skillPoints -= 1;
 			}
-
 		}
-
 	}
 
 	return false;

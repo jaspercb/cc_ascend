@@ -1363,6 +1363,7 @@ void initializeDay(int day)
 	{
 		if(get_property("cc_day1_init") != "finished")
 		{
+			set_property("_beancannonUsed", 0);
 			if(item_amount($item[transmission from planet Xi]) > 0)
 			{
 				use(1, $item[transmission from planet xi]);
@@ -1431,6 +1432,7 @@ void initializeDay(int day)
 
 		if(get_property("cc_day2_init") == "")
 		{
+			set_property("_beancannonUsed", 0);
 			if(item_amount($item[tonic djinn]) > 0)
 			{
 				set_property("choiceAdventure778", "2");
@@ -1502,6 +1504,7 @@ void initializeDay(int day)
 	{
 		if(get_property("cc_day3_init") == "")
 		{
+			set_property("_beancannonUsed", 0);
 			hermit(10, $item[ten-leaf clover]);
 
 			picky_pulls();
@@ -1510,23 +1513,18 @@ void initializeDay(int day)
 			set_property("cc_day3_init", "finished");
 		}
 	}
+	else if(day == 4)
+	{
+		if(get_property("cc_day4_init") == "")
+		{
+			set_property("_beancannonUsed", 0);
+			hermit(10, $item[ten-leaf clover]);
+			set_property("cc_day4_init", "finished");
+		}
+	}
 	if(day >= 2)
 	{
-		if(get_property("cc_guildmeat") == "")
-		{
-			if(my_class() == $class[seal clubber])
-			{
-				visit_url("guild.php?place=scg");
-				visit_url("guild.php?place=scg");
-			}
-			if(my_class() == $class[turtle tamer])
-			{
-				visit_url("guild.php?place=scg");
-				visit_url("guild.php?place=scg");
-			}
-			set_property("cc_guildmeat", "got");
-			ovenHandle();
-		}
+		ovenHandle();
 	}
 	if(get_property("kingLiberated") == "false")
 	{
@@ -2306,7 +2304,7 @@ boolean questOverride()
 	{
 		print("Found completed Hidden Hopickle (11)");
 		set_property("cc_hiddenhospital", "finished");
-		if((get_property("cc_hiddenzones").to_int() < 4) && (get_property("cc_hiddenzones") != "finished"))
+		if((get_property("cc_hiddenzones") != "finished") && (get_property("cc_hiddenzones").to_int() < 4))
 		{
 			set_property("cc_hiddenzones", 4);
 		}
@@ -5482,16 +5480,15 @@ boolean L12_filthworms()
 		equip($slot[hat], $item[Training Helmet]);
 	}
 
-	if(canYellowRay())
-	{
-		if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
-		{
-			handleFamiliar("yellow ray");
-		}
-	}
-
 	if(have_effect($effect[Filthworm Drone Stench]) > 0)
 	{
+		if(canYellowRay())
+		{
+			if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
+			{
+				handleFamiliar("yellow ray");
+			}
+		}
 		ccAdv(1, $location[The Royal Guard Chamber]);
 	}
 	else if(have_effect($effect[Filthworm Larva Stench]) > 0)

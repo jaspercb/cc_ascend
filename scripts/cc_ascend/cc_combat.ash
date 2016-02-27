@@ -637,7 +637,7 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 	if((get_property("cc_longConMonster") != enemy) && (have_skill($skill[Long Con])) && (my_mp() >= mp_cost($skill[Long Con])))
 	{
-		if($monsters[Blooper, Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Gaudy Pirate, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat, Writing Desk] contains enemy)
+		if($monsters[Blooper, Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Dirty Old Lihc, Gaudy Pirate, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat, Writing Desk] contains enemy)
 		{
 			set_property("cc_longConMonster", enemy);
 			set_property("cc_combatHandler", combatState + "(longcon)");
@@ -895,9 +895,25 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
 		{
-			set_property("cc_combatHandler", combatState + "(Snokebomb)");
+			set_property("cc_combatHandler", combatState + "(snokebomb)");
 			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
 			return "skill " + $skill[Snokebomb];
+		}
+	}
+
+
+	#Beancannon
+	if((!contains_text(combatState, "beancannon")) && (have_skill($skill[Beancannon])) && (get_property("_beancannonUsed").to_int() < 5) && ((my_mp() - 20) >= mp_cost($skill[Beancannon])))
+	{
+		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
+		{
+			if($items[Frigid Northern Beans, Heimz Fortified Kidney Beans, Hellfire Spicy Beans, Mixed Garbanzos and Chickpeas, Pork \'n\' Pork \'n\' Pork \'n\' Beans, Shrub\'s Premium Baked Beans, Tesla\'s Electroplated Beans, Trader Olaf\'s Exotic Stinkbeans, World\'s Blackest-Eyed Peas] contains equipped_item($slot[Off-hand]))
+			{
+				set_property("_beancannonUsed", get_property("_beancannonUsed").to_int() + 1);
+				set_property("cc_combatHandler", combatState + "(beancannon)");
+				handleTracker(enemy, $skill[Beancannon], "cc_banishes");
+				return "skill " + $skill[Beancannon];
+			}
 		}
 	}
 
@@ -1041,6 +1057,15 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			set_property("cc_combatHandler", combatState + "(weaksauce)");
 			return "skill curse of weaksauce";
+		}
+
+		if(!contains_text(combatState, "canhandle") && have_skill($skill[Canhandle]))
+		{
+			if($items[Frigid Northern Beans, Heimz Fortified Kidney Beans, Hellfire Spicy Beans, Mixed Garbanzos and Chickpeas, Pork \'n\' Pork \'n\' Pork \'n\' Beans, Shrub\'s Premium Baked Beans, Tesla\'s Electroplated Beans, Trader Olaf\'s Exotic Stinkbeans, World\'s Blackest-Eyed Peas] contains equipped_item($slot[Off-hand]))
+			{
+				set_property("cc_combatHandler", combatState + "(canhandle)");
+				return "skill " + $skill[Canhandle];
+			}
 		}
 
 		if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_class() == $class[Sauceror]) && (my_mp() >= 20))
@@ -1561,7 +1586,7 @@ string cc_combatHandler(int round, string opp, string text)
 #	return get_ccs_action(round);
 }
 
-string findBanisher(string opp)
+string findBanisher(int round, string opp, string text)
 {
 	print("In findBanisher for: " + opp, "green");
 	monster enemy = to_monster(opp);
@@ -1576,7 +1601,7 @@ string findBanisher(string opp)
 		}
 	}
 
-	foreach act in $skills[Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Snokebomb]
+	foreach act in $skills[Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Snokebomb, Beancannon]
 	{
 		if((!contains_text(get_property("cc_gremlinBanishes"), act)) && have_skill(act) && (my_mp() >= mp_cost(act)) && (my_thunder() >= thunder_cost(act)) && have_skill(act))
 		{
@@ -1588,9 +1613,22 @@ string findBanisher(string opp)
 			{
 				continue;
 			}
+			if((act == $skill[Beancannon]) && (get_property("_beancannonUsed").to_int() >= 5))
+			{
+				continue;
+			}
+			if((act == $skill[Beancannon]) && !($items[Frigid Northern Beans, Heimz Fortified Kidney Beans, Hellfire Spicy Beans, Mixed Garbanzos and Chickpeas, Pork \'n\' Pork \'n\' Pork \'n\' Beans, Shrub\'s Premium Baked Beans, Tesla\'s Electroplated Beans, Trader Olaf\'s Exotic Stinkbeans, World\'s Blackest-Eyed Peas] contains equipped_item($slot[Off-hand])))
+			{
+				continue;
+			}
 			if((act == $skill[Snokebomb]) && (get_property("_snokebombUsed").to_int() >= 3))
 			{
 				continue;
+			}
+
+			if(act == $skill[Beancannon])
+			{
+				set_property("_beancannonUsed", get_property("_beancannonUsed").to_int() + 1);
 			}
 			set_property("cc_gremlinBanishes", get_property("cc_gremlinBanishes") + "(" + act + ")");
 			handleTracker(enemy, act, "cc_banishes");
@@ -1598,24 +1636,20 @@ string findBanisher(string opp)
 		}
 	}
 
-	if((my_thunder() >= thunder_cost($skill[Thunder Clap])) && have_skill($skill[thunder clap]))
-	{
-		return "skill thunder clap";
-	}
-
-	if(have_skill($skill[Lunging Thrust-Smack]) && (my_mp() >= mp_cost($skill[Lunging Thrust-Smack])))
-	{
-		return "skill lunging thrust-smack";
-	}
+//	if(have_skill($skill[Lunging Thrust-Smack]) && (my_mp() >= mp_cost($skill[Lunging Thrust-Smack])))
+//	{
+//		return "skill lunging thrust-smack";
+//	}
 	if(have_skill($skill[Storm of the Scarab]) && (my_mp() >= mp_cost($skill[Storm of the Scarab])))
 	{
 		return "skill Storm of the Scarab";
 	}
-	if(have_skill($skill[Lunge Smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])))
-	{
-		return "skill lunge smack";
-	}
-	return "attack with weapon";
+	return cc_combatHandler(round, opp, text);
+//	if(have_skill($skill[Lunge Smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])))
+//	{
+//		return "skill lunge smack";
+//	}
+//	return "attack with weapon";
 }
 
 string ccsJunkyard(int round, string opp, string text)
@@ -1626,7 +1660,6 @@ string ccsJunkyard(int round, string opp, string text)
 	{
 		return cc_combatHandler(round, opp, text);
 	}
-
 
 	if(round == 0)
 	{
@@ -1758,7 +1791,7 @@ string ccsJunkyard(int round, string opp, string text)
 	{
 		if(get_property("cc_edCombatStage").to_int() >= 2)
 		{
-			string banisher = findBanisher(opp);
+			string banisher = findBanisher(round, opp, text);
 			if(banisher != "attack with weapon")
 			{
 				return banisher;
@@ -1793,7 +1826,7 @@ string ccsJunkyard(int round, string opp, string text)
 		{
 			if(get_property("cc_edCombatStage").to_int() >= 2)
 			{
-				return findBanisher(opp);
+				return findBanisher(round, opp, text);
 			}
 			else if(item_amount($item[dictionary]) > 0)
 			{
@@ -1806,7 +1839,7 @@ string ccsJunkyard(int round, string opp, string text)
 		}
 		else
 		{
-			return findBanisher(opp);
+			return findBanisher(round, opp, text);
 		}
 	}
 
