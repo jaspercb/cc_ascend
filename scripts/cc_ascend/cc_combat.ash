@@ -1437,7 +1437,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 		break;
 	case $class[Snake Oiler]:
-		if(!contains_text(combatState, "extractSnakeOil") && (my_hp() > 80) && have_skill($skill[Extract Oil]) && (my_mp() >= (3 * mp_cost($skill[Extract Oil]))))
+		if(!contains_text(combatState, "extractSnakeOil") && (my_hp() > 80) && have_skill($skill[Extract Oil]) && (my_mp() >= (3 * mp_cost($skill[Extract Oil]))) && (my_level() >= 8))
 		{
 			set_property("cc_combatHandler", combatState + "(extractSnakeOil)");
 			return "skill " + $skill[Extract Oil];

@@ -513,15 +513,20 @@ void consumeStuff()
 		if((my_adventures() < 4) && (my_fullness() == 0) && (my_level() >= 7) && !in_hardcore())
 		{
 			dealWithMilkOfMagnesium(true);
-			buffMaintain($effect[Got Milk], 0, 1, 1);
 			if(item_amount($item[Spaghetti Breakfast]) > 0)
 			{
+				buffMaintain($effect[Got Milk], 0, 1, 1);
 				ccEat(1, $item[Spaghetti Breakfast]);
 			}
 			pullXWhenHaveY(whatHiMein(), 2, 0);
-			ccEat(2, whatHiMein());
+			if(item_amount(whatHiMein()) >= 2)
+			{
+				buffMaintain($effect[Got Milk], 0, 1, 1);
+				ccEat(2, whatHiMein());
+			}
 			if(item_amount($item[digital key lime pie]) > 0)
 			{
+				buffMaintain($effect[Got Milk], 0, 1, 1);
 				ccEat(1, $item[digital key lime pie]);
 				tryPantsEat();
 			}
@@ -530,12 +535,20 @@ void consumeStuff()
 				if(my_fullness() == 10)
 				{
 					pullXWhenHaveY(whatHiMein(), 1, 0);
-					ccEat(1, whatHiMein());
+					if(item_amount(whatHiMein()) > 0)
+					{
+						buffMaintain($effect[Got Milk], 0, 1, 1);
+						ccEat(1, whatHiMein());
+					}
 				}
 				else
 				{
 					pullXWhenHaveY($item[Digital Key Lime Pie], 1, 0);
-					ccEat(1, $item[Digital Key Lime Pie]);
+					if(item_amount($item[Digital Key Lime Pie]) > 0)
+					{
+						buffMaintain($effect[Got Milk], 0, 1, 1);
+						ccEat(1, $item[Digital Key Lime Pie]);
+					}
 				}
 			}
 		}
@@ -601,11 +614,11 @@ void consumeStuff()
 					}
 				}
 				dealWithMilkOfMagnesium(!in_hardcore());
-				buffMaintain($effect[Got Milk], 0, 1, 1);
 				foreach it in toEat
 				{
 					while((canEat > 0) && (item_amount(it) > 0))
 					{
+						buffMaintain($effect[Got Milk], 0, 1, 1);
 						ccEat(1, it);
 						canEat = canEat - 1;
 					}
@@ -703,11 +716,14 @@ void consumeStuff()
 		if((my_level() >= 7) && (my_fullness() == 0) && ((my_adventures() < 10) || (get_counters("Fortune Cookie", 0, 5) == "Fortune Cookie") || (get_counters("Fortune Cookie", 0, 200) != "Fortune Cookie") || (get_property("middleChamberUnlock").to_boolean())) && !in_hardcore())
 		{
 			dealWithMilkOfMagnesium(true);
-			buffMaintain($effect[Got Milk], 0, 1, 1);
 
 			if(towerKeyCount() == 3)
 			{
-				ccEat(3, whatHiMein());
+				if(item_amount(whatHiMein()) >= 3)
+				{
+					buffMaintain($effect[Got Milk], 0, 1, 1);
+					ccEat(3, whatHiMein());
+				}
 			}
 			if(get_property("cc_useCubeling").to_boolean())
 			{
@@ -720,6 +736,7 @@ void consumeStuff()
 				{
 					if(item_amount($item[Spaghetti Breakfast]) > 0)
 					{
+						buffMaintain($effect[Got Milk], 0, 1, 1);
 						if(item_amount($item[Mayoflex]) > 0)
 						{
 							use(1, $item[Mayoflex]);
@@ -729,6 +746,7 @@ void consumeStuff()
 					pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
 					if(item_amount($item[Boris\'s Key Lime Pie]) > 0)
 					{
+						buffMaintain($effect[Got Milk], 0, 1, 1);
 						if(item_amount($item[Mayoflex]) > 0)
 						{
 							use(1, $item[Mayoflex]);
@@ -738,6 +756,7 @@ void consumeStuff()
 					pullXWhenHaveY(whatHiMein(), 2, 0);
 					if(item_amount(whatHiMein()) > 0)
 					{
+						buffMaintain($effect[Got Milk], 0, 1, 1);
 						if(item_amount($item[Mayoflex]) > 0)
 						{
 							use(1, $item[Mayoflex]);
@@ -746,6 +765,7 @@ void consumeStuff()
 					}
 					if(item_amount(whatHiMein()) > 0)
 					{
+						buffMaintain($effect[Got Milk], 0, 1, 1);
 						if(item_amount($item[Mayoflex]) > 0)
 						{
 							use(1, $item[Mayoflex]);
@@ -756,6 +776,10 @@ void consumeStuff()
 			}
 			else if(!get_property("cc_useCubeling").to_boolean())
 			{
+				if((item_amount($item[Boris\'s Key Lime Pie]) > 0) || (item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) || (item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0))
+				{
+					buffMaintain($effect[Got Milk], 0, 1, 1);
+				}
 				ccEat(1, $item[Boris\'s Key Lime Pie]);
 				ccEat(1, $item[Jarlsberg\'s Key Lime Pie]);
 				ccEat(1, $item[Sneaky Pete\'s Key Lime Pie]);
@@ -830,11 +854,11 @@ void consumeStuff()
 					}
 				}
 				dealWithMilkOfMagnesium(true);
-				buffMaintain($effect[Got Milk], 0, 1, 1);
 				foreach it in toEat
 				{
 					while((canEat > 0) && (item_amount(it) > 0))
 					{
+						buffMaintain($effect[Got Milk], 0, 1, 1);
 						ccEat(1, it);
 						canEat = canEat - 1;
 					}

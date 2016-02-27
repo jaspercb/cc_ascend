@@ -15,6 +15,16 @@ boolean ocrs_initializeSettings()
 	return true;
 }
 
+boolean ocrs_postHelper()
+{
+	if(my_path() != "One Crazy Random Summer")
+	{
+		return false;
+	}
+
+	set_property("cc_useCleesh", false);
+	return true;
+}
 
 boolean ocrs_postCombatResolve()
 {

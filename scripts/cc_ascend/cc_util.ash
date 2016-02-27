@@ -2118,6 +2118,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Busy Bein\' Delicious]:		useItem = $item[Crimbo fudge];					break;
 	case $effect[Butt-Rock Hair]:				useItem = $item[Hair Spray];					break;
 	case $effect[Carlweather\'s Cantata of Confrontation]:useSkill = $skill[Carlweather\'s Cantata of Confrontation];break;
+	case $effect[Cautious Prowl]:				useSkill = $skill[Walk: Cautious Prowl];		break;
 	case $effect[Celestial Camouflage]:			useItem = $item[Celestial Squid Ink];			break;
 	case $effect[Celestial Saltiness]:			useItem = $item[Celestial Au Jus];				break;
 	case $effect[Celestial Sheen]:				useItem = $item[Celestial Olive Oil];			break;
@@ -2221,6 +2222,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Joyful Resolve]:				useItem = $item[Resolution: Be Happier];		break;
 	case $effect[Juiced and Jacked]:			useItem = $item[Pumpkin Juice];					break;
 	case $effect[Leash of Linguini]:			useSkill = $skill[Leash of Linguini];			break;
+	case $effect[Leisurely Amblin\']:			useSkill = $skill[Walk: Leisurely Amble];		break;
 	case $effect[Liquidy Smoky]:				useItem = $item[Liquid Smoke];					break;
 	case $effect[Lit Up]:						useItem = $item[Bottle of Lighter Fluid];		break;
 	case $effect[Litterbug]:					useItem = $item[Old Candy Wrapper];				break;
@@ -2293,6 +2295,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Polonoia]:						useItem = $item[Polo Trophy];					break;
 	case $effect[Power Ballad of the Arrowsmith]:useSkill = $skill[The Power Ballad of the Arrowsmith];break;
 	case $effect[Power of Heka]:				useSkill = $skill[Power of Heka];				break;
+	case $effect[Prideful Strut]:				useSkill = $skill[Walk: Prideful Strut];		break;
 	case $effect[Protection from Bad Stuff]:	useItem = $item[scroll of Protection from Bad Stuff];break;
 	case $effect[Provocative Perkiness]:		useItem = $item[Libation of Liveliness];		break;
 	case $effect[Puddingskin]:					useItem = $item[scroll of Puddingskin];			break;

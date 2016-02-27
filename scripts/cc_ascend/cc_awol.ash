@@ -16,6 +16,73 @@ boolean awol_initializeSettings()
 	return false;
 }
 
+
+effect awol_walkBuff()
+{
+	//We have none Walk Buffs
+	if(!have_skill($skill[Walk: Leisurely Amble]) && !have_skill($skill[Walk: Prideful Strut]) && !have_skill($skill[Walk: Cautious Prowl]))
+	{
+		return $effect[none];
+	}
+
+	//If we only have one skill, might as well use that one
+	if(have_skill($skill[Walk: Leisurely Amble]) && !have_skill($skill[Walk: Prideful Strut]) && !have_skill($skill[Walk: Cautious Prowl]))
+	{
+		return $effect[Leisurely Amblin\'];
+	}
+	if(!have_skill($skill[Walk: Leisurely Amble]) && have_skill($skill[Walk: Prideful Strut]) && !have_skill($skill[Walk: Cautious Prowl]))
+	{
+		return $effect[Prideful Strut];
+	}
+	if(!have_skill($skill[Walk: Leisurely Amble]) && !have_skill($skill[Walk: Prideful Strut]) && have_skill($skill[Walk: Cautious Prowl]))
+	{
+		return $effect[Cautious Prowl];
+	}
+
+	if(have_skill($skill[Walk: Leisurely Amble]) && have_skill($skill[Walk: Prideful Strut]) && !have_skill($skill[Walk: Cautious Prowl]))
+	{
+		if($locations[The Boss Bat\'s Lair, The Hidden Temple, The Themthar Hills] contains my_location())
+		{
+			return $effect[Leisurely Amblin\'];
+		}
+		if(my_level() < 13)
+		{
+			return $effect[Prideful Strut];
+		}
+		return $effect[Leisurely Amblin\'];
+	}
+
+	if(have_skill($skill[Walk: Leisurely Amble]) && !have_skill($skill[Walk: Prideful Strut]) && have_skill($skill[Walk: Cautious Prowl]))
+	{
+		if($locations[The Boss Bat\'s Lair, The Hidden Temple, The Themthar Hills] contains my_location())
+		{
+			return $effect[Leisurely Amblin\'];
+		}
+		return $effect[Cautious Prowl];
+	}
+
+	if(!have_skill($skill[Walk: Leisurely Amble]) && have_skill($skill[Walk: Prideful Strut]) && have_skill($skill[Walk: Cautious Prowl]))
+	{
+		if(my_level() <= 6)
+		{
+			return $effect[Prideful Strut];
+		}
+		return $effect[Cautious Prowl];
+	}
+
+	//We have all three skills
+
+	if($locations[The Boss Bat\'s Lair, The Hidden Temple, The Themthar Hills] contains my_location())
+	{
+		return $effect[Leisurely Amblin\'];
+	}
+	if(my_level() <= 6)
+	{
+		return $effect[Prideful Strut];
+	}
+	return $effect[Cautious Prowl];
+}
+
 boolean awol_buyskills()
 {
 	if(get_property("cc_awolLastSkill").to_int() == 0)

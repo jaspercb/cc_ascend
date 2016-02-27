@@ -1,18 +1,7 @@
 script "postcheese.ash";
 import <cc_ascend/cc_util.ash>
-
-boolean ocrs_postHelper();
-
-boolean ocrs_postHelper()
-{
-	if(my_path() != "One Crazy Random Summer")
-	{
-		return false;
-	}
-
-	set_property("cc_useCleesh", false);
-	return true;
-}
+import <cc_ascend/cc_summerfun.ash>
+import <cc_ascend/cc_awol.ash>
 
 
 void handlePostAdventure()
@@ -60,6 +49,10 @@ void handlePostAdventure()
 		return;
 	}
 
+	if((have_effect($effect[Cunctatitis]) > 0) && (my_mp() >= 12) && have_skill($skill[Disco Nap]))
+	{
+		use_skill(1, $skill[Disco Nap]);
+	}
 
 	if(my_path() == "Actually Ed the Undying")
 	{
@@ -174,18 +167,12 @@ void handlePostAdventure()
 			}
 			buffMaintain($effect[Shelter of Shed], 15, 1, 1);
 		}
-
 		return;
 	}
 
 	skill libram = preferredLibram();
 
 	buffMaintain($effect[Merry Smithsness], 0, 1, 10);
-
-	if((have_effect($effect[Cunctatitis]) > 0) && (my_mp() >= 12) && have_skill($skill[Disco Nap]))
-	{
-		use_skill(1, $skill[Disco Nap]);
-	}
 
 	#Deal with Poison, (should do all of them actually)
 	if((have_effect($effect[Really Quite Poisoned]) > 0) || (have_effect($effect[A Little Bit Poisoned]) > 0) || (have_effect($effect[Majorly Poisoned]) > 0))
@@ -369,6 +356,25 @@ void handlePostAdventure()
 		buffMaintain($effect[Smooth Movements], 15, 1, 2);
 		buffMaintain($effect[The Sonata of Sneakiness], 25, 1, 2);
 	}
+
+	effect awolDesired = awol_walkBuff();
+	if(awolDesired != $effect[none])
+	{
+		if(!get_property("kingLiberated").to_boolean())
+		{
+			int awolMP = 85;
+			if(my_class() == $class[Beanslinger])
+			{
+				awolMP = 95;
+			}
+			buffMaintain(awolDesired, awolMP, 1, 20);
+		}
+		else
+		{
+			buffMaintain(awolDesired, 120, 1, 1);
+		}
+	}
+
 
 
 	if(have_skill($skill[Summon Smithsness]) && (my_mp() > 20))
