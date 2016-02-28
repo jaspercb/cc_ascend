@@ -8084,6 +8084,7 @@ boolean LX_handleSpookyravenFirstFloor()
 				}
 			}
 			buffMaintain($effect[Hide of Sobek], 10, 1, 1);
+
 			ccAdv(1, $location[The Haunted Kitchen]);
 			handleFamiliar("item");
 		}

@@ -1437,10 +1437,27 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 		break;
 	case $class[Snake Oiler]:
-		if(!contains_text(combatState, "extractSnakeOil") && (my_hp() > 80) && have_skill($skill[Extract Oil]) && (my_mp() >= (3 * mp_cost($skill[Extract Oil]))) && (my_level() >= 8))
+		if(!contains_text(combatState, "extractSnakeOil") && (my_hp() > 80) && have_skill($skill[Extract Oil]) && (my_mp() >= (3 * mp_cost($skill[Extract Oil]))))
 		{
-			set_property("cc_combatHandler", combatState + "(extractSnakeOil)");
-			return "skill " + $skill[Extract Oil];
+			if($monsters[Aggressive grass snake, Bacon snake, Batsnake, Black adder, Burning Snake of Fire, Coal snake, Diamondback rattler, Frontwinder, Frozen Solid Snake, King snake, Licorice snake, Mutant rattlesnake, Prince snake, Sewer snake with a sewer snake in it, Snakeleton, The Snake with Like Ten Heads, Tomb asp, Trouser Snake, Whitesnake] contains enemy)
+			{
+
+			}
+			else if(($phylums[beast, dude, hippy, humanoid, orc, pirate] contains type) && (item_amount($item[Skin Oil]) < 3))
+			{
+				set_property("cc_combatHandler", combatState + "(extractSnakeOil)");
+				return "skill " + $skill[Extract Oil];
+			}
+			else if(($phylums[bug, construct, constellation, demon, elemental, elf, fish, goblin, hobo, horror, mer-kin, penguin, plant, slime, weird] contains type) && (item_amount($item[Unusual Oil]) < 4))
+			{
+				set_property("cc_combatHandler", combatState + "(extractSnakeOil)");
+				return "skill " + $skill[Extract Oil];
+			}
+			else if(($phylums[undead] contains type) && (item_amount($item[Skin Oil]) < 5))
+			{
+				set_property("cc_combatHandler", combatState + "(extractSnakeOil)");
+				return "skill " + $skill[Extract Oil];
+			}
 		}
 		if(!contains_text(combatState, "goodMedicine") && have_skill($skill[Good Medicine]) && (my_mp() >= (3 * mp_cost($skill[Good Medicine]))))
 		{

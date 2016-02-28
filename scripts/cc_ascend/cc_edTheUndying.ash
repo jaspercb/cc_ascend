@@ -6,6 +6,19 @@ import <cc_ascend/cc_clan.ash>
 import <cc_ascend/cc_ascend_header.ash>
 import <cc_ascend/cc_elementalPlanes.ash>
 
+int ed_spleen_limit()
+{
+	int limit = 5;
+	foreach sk in $skills[Extra Spleen, Another Extra Spleen, Yet Another Extra Spleen, Still Another Extra Spleen, Just One More Extra Spleen, Okay Seriously\, This is the Last Spleen]
+	{
+		if(have_skill(sk))
+		{
+			limit += 5;
+		}
+	}
+	return limit;
+}
+
 void ed_initializeSettings()
 {
 	if(my_path() == "Actually Ed the Undying")
@@ -868,10 +881,13 @@ boolean ed_shopping()
 		set_property("cc_breakstone", false);
 	}
 
+	//Limit mode: edunder
 	int coins = item_amount($item[Ka Coin]);
-	if((my_spleen_use() + 5) <= spleen_limit())
+//	if((my_spleen_use() + 5) <= spleen_limit())
+	if((my_spleen_use() + 5) <= ed_spleen_limit())
 	{
-		int canEat = (spleen_limit() - my_spleen_use()) / 5;
+//		int canEat = (spleen_limit() - my_spleen_use()) / 5;
+		int canEat = (ed_spleen_limit() - my_spleen_use()) / 5;
 		canEat = canEat - item_amount($item[Mummified Beef Haunch]);
 		while((coins >= 15) && (canEat > 0))
 		{

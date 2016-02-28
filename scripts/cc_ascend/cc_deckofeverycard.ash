@@ -212,8 +212,15 @@ boolean deck_useScheme(string action)
 		}
 		else
 		{
-			deck_cheat("key");
-			set_property("cc_cubeItems", "done");
+			if(my_class() == $class[Ed])
+			{
+				deck_cheat("ore");
+			}
+			else
+			{
+				deck_cheat("key");
+				set_property("cc_cubeItems", "done");
+			}
 		}
 		deck_cheat(my_primestat() + " stat");
 		deck_cheat("1952 Mickey Mantle");
@@ -233,6 +240,10 @@ boolean deck_useScheme(string action)
 			case $class[Disco Bandit]:		deck_cheat("Knife");		break;
 			case $class[Accordion Thief]:	deck_cheat("key");			break;
 			}
+		}
+		else if(my_class() == $class[Ed])
+		{
+			deck_cheat("ore");
 		}
 		else
 		{
