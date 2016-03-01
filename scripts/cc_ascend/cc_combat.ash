@@ -923,7 +923,7 @@ string cc_combatHandler(int round, string opp, string text)
 		if($monsters[Tomb Servant] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(tennisball)");
-			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
+			handleTracker(enemy, $item[Tennis Ball], "cc_banishes");
 			return "item " + $item[Tennis Ball];
 		}
 	}
