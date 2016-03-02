@@ -3,6 +3,8 @@ import <zlib.ash>
 import <cc_ascend/cc_chateaumantegna.ash>
 import <cc_ascend/cc_ascend_header.ash>
 
+import <cc_ascend/cc_monsterparts.ash>
+
 // Public Prototypes
 void debugMaximize(string req, int meat);			//This function will be removed.
 boolean ccMaximize(string req, boolean simulate);

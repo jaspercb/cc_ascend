@@ -88,7 +88,7 @@ boolean awol_buyskills()
 	if(get_property("cc_awolLastSkill").to_int() == 0)
 	{
 		//Catch that Mafia does not see our second/third skillbook at ascension start
-		cli_execute("refresh inv");
+		//cli_execute("refresh inv");
 	}
 
 	if(get_property("cc_awolLastSkill").to_int() < my_level())
@@ -367,6 +367,10 @@ boolean awol_buyskills()
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=6", true);
 					}
+					else if(!have_skill($skill[Snakewhip]))
+					{
+						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=0", true);
+					}
 					else if(!have_skill($skill[Bad Medicine]))
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=3", true);
@@ -374,10 +378,6 @@ boolean awol_buyskills()
 					else if(!have_skill($skill[Extract Oil]))
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=2", true);
-					}
-					else if(!have_skill($skill[Snakewhip]))
-					{
-						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=0", true);
 					}
 					else if(!have_skill($skill[Patent Medicine]))
 					{

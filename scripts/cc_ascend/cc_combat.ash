@@ -1393,49 +1393,7 @@ string cc_combatHandler(int round, string opp, string text)
 		break;
 
 	case $class[Cow Puncher]:
-		if(have_skill($skill[One-Two Punch]) && (my_mp() >= mp_cost($skill[One-Two Punch])) && (equipped_item($slot[Weapon]) == $item[none]))
-		{
-			attackMajor = "skill " + $skill[One-Two Punch];
-			attackMinor = "skill " + $skill[One-Two Punch];
-			costMajor = mp_cost($skill[One-Two Punch]);
-			costMinor = mp_cost($skill[One-Two Punch]);
-		}
-		if(have_skill($skill[Cowcall]) && (my_mp() >= mp_cost($skill[Cowcall])) && (type != $phylum[undead]))
-		{
-			attackMajor = "skill " + $skill[Cowcall];
-			attackMinor = "skill " + $skill[Cowcall];
-			costMajor = mp_cost($skill[Cowcall]);
-			costMinor = mp_cost($skill[Cowcall]);
-		}
-		break;
 	case $class[Beanslinger]:
-		if(have_skill($skill[Lavafava]) && (my_mp() >= mp_cost($skill[Lavafava])))
-		{
-			attackMajor = "skill " + $skill[Lavafava];
-			attackMinor = "skill " + $skill[Lavafava];
-			costMajor = mp_cost($skill[Lavafava]);
-			costMinor = mp_cost($skill[Lavafava]);
-		}
-		if(have_skill($skill[Beanstorm]) && (my_mp() >= mp_cost($skill[Beanstorm])))
-		{
-			attackMajor = "skill " + $skill[Beanstorm];
-			attackMinor = "skill " + $skill[Beanstorm];
-			costMajor = mp_cost($skill[Beanstorm]);
-			costMinor = mp_cost($skill[Beanstorm]);
-		}
-		if(have_skill($skill[Pungent Mung]) && (my_mp() >= mp_cost($skill[Pungent Mung])))
-		{
-			attackMajor = "skill " + $skill[Pungent Mung];
-			attackMinor = "skill " + $skill[Pungent Mung];
-			costMajor = mp_cost($skill[Pungent Mung]);
-			costMinor = mp_cost($skill[Pungent Mung]);
-		}
-		if(have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
-		{
-			stunner = "skill " + $skill[Beanscreen];
-			costStunner = mp_cost($skill[Beanscreen]);
-		}
-		break;
 	case $class[Snake Oiler]:
 		if(!contains_text(combatState, "extractSnakeOil") && (my_hp() > 80) && have_skill($skill[Extract Oil]) && (my_mp() >= (3 * mp_cost($skill[Extract Oil]))))
 		{
@@ -1464,6 +1422,36 @@ string cc_combatHandler(int round, string opp, string text)
 			set_property("cc_combatHandler", combatState + "(goodMedicine)");
 			return "skill " + $skill[Good Medicine];
 		}
+
+		if(!contains_text(combatState, "hogtie") && have_skill($skill[Hogtie]) && (my_mp() >= (6 * mp_cost($skill[Hogtie]))) && hasLeg(enemy))
+		{
+			set_property("cc_combatHandler", combatState + "(hogtie)");
+			return  "skill " + $skill[Hogtie];
+		}
+
+		if(have_skill($skill[Lavafava]) && (my_mp() >= mp_cost($skill[Lavafava])))
+		{
+			attackMajor = "skill " + $skill[Lavafava];
+			attackMinor = "skill " + $skill[Lavafava];
+			costMajor = mp_cost($skill[Lavafava]);
+			costMinor = mp_cost($skill[Lavafava]);
+		}
+		if(have_skill($skill[Beanstorm]) && (my_mp() >= mp_cost($skill[Beanstorm])))
+		{
+			attackMajor = "skill " + $skill[Beanstorm];
+			attackMinor = "skill " + $skill[Beanstorm];
+			costMajor = mp_cost($skill[Beanstorm]);
+			costMinor = mp_cost($skill[Beanstorm]);
+		}
+
+		if(have_skill($skill[One-Two Punch]) && (my_mp() >= mp_cost($skill[One-Two Punch])) && (equipped_item($slot[Weapon]) == $item[none]))
+		{
+			attackMajor = "skill " + $skill[One-Two Punch];
+			attackMinor = "skill " + $skill[One-Two Punch];
+			costMajor = mp_cost($skill[One-Two Punch]);
+			costMinor = mp_cost($skill[One-Two Punch]);
+		}
+
 		if(have_skill($skill[Fan Hammer]) && (my_mp() >= mp_cost($skill[Fan Hammer])))
 		{
 			attackMajor = "skill " + $skill[Fan Hammer];
@@ -1471,13 +1459,42 @@ string cc_combatHandler(int round, string opp, string text)
 			costMajor = mp_cost($skill[Fan Hammer]);
 			costMinor = mp_cost($skill[Fan Hammer]);
 		}
-		if(have_skill($skill[Snakewhip]) && (my_mp() >= mp_cost($skill[Snakewhip])))
+		if(have_skill($skill[Snakewhip]) && (my_mp() >= mp_cost($skill[Snakewhip])) && (enemy.physical_resistance < 80))
 		{
 			attackMajor = "skill " + $skill[Snakewhip];
 			attackMinor = "skill " + $skill[Snakewhip];
 			costMajor = mp_cost($skill[Snakewhip]);
 			costMinor = mp_cost($skill[Snakewhip]);
 		}
+
+		if(have_skill($skill[Pungent Mung]) && (my_mp() >= mp_cost($skill[Pungent Mung])))
+		{
+			attackMajor = "skill " + $skill[Pungent Mung];
+			attackMinor = "skill " + $skill[Pungent Mung];
+			costMajor = mp_cost($skill[Pungent Mung]);
+			costMinor = mp_cost($skill[Pungent Mung]);
+		}
+
+		if(have_skill($skill[Cowcall]) && (my_mp() >= mp_cost($skill[Cowcall])) && (type != $phylum[undead]))
+		{
+			attackMajor = "skill " + $skill[Cowcall];
+			attackMinor = "skill " + $skill[Cowcall];
+			costMajor = mp_cost($skill[Cowcall]);
+			costMinor = mp_cost($skill[Cowcall]);
+		}
+
+		if(have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
+		{
+			stunner = "skill " + $skill[Beanscreen];
+			costStunner = mp_cost($skill[Beanscreen]);
+		}
+
+		if(have_skill($skill[Hogtie]) && (my_mp() >= (3 * mp_cost($skill[Hogtie]))) && hasLeg(enemy))
+		{
+			stunner = "skill " + $skill[Hogtie];
+			costStunner = mp_cost($skill[Hogtie]);
+		}
+
 		break;
 	}
 

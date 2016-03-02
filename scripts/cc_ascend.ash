@@ -567,8 +567,11 @@ int pullsNeeded(string data)
 
 	if(adv > 0)
 	{
-		print("Estimated adventure need is: " + adv + ".", "orange");
-		print("You need " + count + " pulls.", "orange");
+		print("Estimated adventure need (tower) is: " + adv + ".", "orange");
+		if(!in_hardcore())
+		{
+			print("You need " + count + " pulls.", "orange");
+		}
 	}
 	if(pulls_remaining() > 0)
 	{
@@ -5390,6 +5393,17 @@ boolean L12_sonofaBeach()
 	{
 		set_property("cc_doCombatCopy", "yes");
 	}
+
+	//Seriously? http://alliancefromhell.com/viewtopic.php?t=1338
+	if(item_amount($item[Wool Hat]) == 1)
+	{
+		pulverizeThing($item[Wool Hat]);
+	}
+	if(item_amount($item[Goatskin Umbrella]) == 1)
+	{
+		pulverizeThing($item[Goatskin Umbrella]);
+	}
+
 	ccAdv(1, $location[Sonofa Beach]);
 	set_property("cc_doCombatCopy", "no");
 	handleFamiliar("item");
