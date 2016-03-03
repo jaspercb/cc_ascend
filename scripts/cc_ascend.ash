@@ -8979,6 +8979,10 @@ boolean L9_oilPeak()
 	{
 		buffMaintain($effect[The Dinsey Look], 0, 1, 1);
 	}
+	if(monster_level_adjustment() < 50)
+	{
+		buffMaintain($effect[The Dinsey Look], 0, 1, 1);
+	}
 	ccAdv(1, $location[Oil Peak]);
 	handleFamiliar("item");
 	return true;
