@@ -10478,6 +10478,7 @@ boolean doTasks()
 	# It should be moved.
 	picky_buyskills();
 	awol_buyskills();
+	awol_useStuff();
 
 	oldPeoplePlantStuff();
 	use_barrels();
