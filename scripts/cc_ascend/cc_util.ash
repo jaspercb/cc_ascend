@@ -2267,7 +2267,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Patent Aggression]:			useItem = $item[Patent Aggression Tonic];		break;
 	case $effect[Patent Alacrity]:				useItem = $item[Patent Alacrity Tonic];			break;
 	case $effect[Patent Avarice]:				useItem = $item[Patent Avarice Tonic];			break;
-	case $effect[Patent Invisiblity]:			useItem = $item[Patent Invisibility Tonic];		break;
+	case $effect[Patent Invisibility]:			useItem = $item[Patent Invisibility Tonic];		break;
 	case $effect[Patent Prevention]:			useItem = $item[Patent Preventative Tonic];		break;
 	case $effect[Patent Sallowness]:			useItem = $item[Patent Sallowness Tonic];		break;
 	case $effect[Patience of the Tortoise]:		useSkill = $skill[Patience of the Tortoise];	break;

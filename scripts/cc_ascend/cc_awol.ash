@@ -58,6 +58,14 @@ void awol_useStuff()
 				use(1, $item[Snake Oil]);
 			}
 		}
+
+		if((my_class() == $class[Cow Puncher]) && (have_effect($effect[Cowrruption]) < 150))
+		{
+			if(item_amount($item[Corrupted Marrow]) > 0)
+			{
+				use(1, $item[Corrupted Marrow]);
+			}
+		}
 	}
 }
 
