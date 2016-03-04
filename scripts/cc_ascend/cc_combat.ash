@@ -680,6 +680,12 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Beanscreen];
 		}
 
+		if(!contains_text(combatState, "hogtie") && !contains_text(combatState, "beanscreen") && have_skill($skill[Hogtie]) && (my_mp() >= (6 * mp_cost($skill[Hogtie]))) && hasLeg(enemy))
+		{
+			set_property("cc_combatHandler", combatState + "(hogtie)");
+			return  "skill " + $skill[Hogtie];
+		}
+
 		if((item_amount($item[rock band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
 		{
 			set_property("cc_combatHandler", combatState + "(flyers)");
