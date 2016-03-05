@@ -141,7 +141,7 @@ boolean awol_buyskills()
 	if(get_property("cc_awolLastSkill").to_int() == 0)
 	{
 		//Catch that Mafia does not see our second/third skillbook at ascension start
-		//cli_execute("refresh inv");
+		cli_execute("refresh inv");
 	}
 
 	if(get_property("cc_awolLastSkill").to_int() < my_level())

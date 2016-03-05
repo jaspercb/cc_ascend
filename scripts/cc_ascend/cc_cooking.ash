@@ -671,7 +671,7 @@ void consumeStuff()
 
 		if(((my_spleen_use() >= 4) && (my_spleen_use() < 7)) || ((my_spleen_use() >= 12) && (my_spleen_use() < 15)))
 		{
-			if(item_amount($item[tenderizing hammer]) == 0)
+			if((item_amount($item[tenderizing hammer]) == 0) && have_skill($skill[Pulverize]))
 			{
 				buyUpTo(1, $item[tenderizing hammer]);
 			}
