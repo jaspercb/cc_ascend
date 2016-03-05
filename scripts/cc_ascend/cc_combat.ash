@@ -637,7 +637,16 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 	if((get_property("cc_longConMonster") != enemy) && (have_skill($skill[Long Con])) && (my_mp() >= mp_cost($skill[Long Con])))
 	{
-		if($monsters[Blooper, Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Dirty Old Lihc, Gaudy Pirate, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat, Writing Desk] contains enemy)
+		if($monsters[Blooper, cabinet of Dr. Limpieza, Dairy Goat, Dirty Old Lihc, Gaudy Pirate, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Tomb Rat, Writing Desk] contains enemy)
+		{
+			set_property("cc_longConMonster", enemy);
+			set_property("cc_combatHandler", combatState + "(longcon)");
+			handleTracker(enemy, $skill[Long Con], "cc_sniffs");
+			return "skill " + $skill[Long Con];
+		}
+
+
+		if(($monsters[Bob Racecar, Racecar Bob] contains enemy) && (get_property("palindomeDudesDefeated").to_int() < 5))
 		{
 			set_property("cc_longConMonster", enemy);
 			set_property("cc_combatHandler", combatState + "(longcon)");

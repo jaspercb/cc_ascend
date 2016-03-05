@@ -2738,7 +2738,8 @@ boolean L11_palindome()
 		visit_url("place.php?whichplace=palindome&action=pal_mrlabel");
 	}
 
-	if((total == 0) && !possessEquipment($item[Mega Gem]) && lovemeDone && in_hardcore() && isGuildClass() && (item_amount($item[Wet Stunt Nut Stew]) == 0))
+#	if((total == 0) && !possessEquipment($item[Mega Gem]) && lovemeDone && in_hardcore() && isGuildClass() && (item_amount($item[Wet Stunt Nut Stew]) == 0))
+	if((total == 0) && !possessEquipment($item[Mega Gem]) && lovemeDone && in_hardcore() && (item_amount($item[Wet Stunt Nut Stew]) == 0))
 	{
 		if(item_amount($item[Wet Stunt Nut Stew]) == 0)
 		{
@@ -10016,7 +10017,8 @@ boolean L8_trapperYeti()
 			return true;
 		}
 	}
-	else if(in_hardcore() && isGuildClass())
+#	else if(in_hardcore() && isGuildClass())
+	else if(in_hardcore())
 	{
 		if((have_effect($effect[Thrice-Cursed]) > 0) || (have_effect($effect[Twice-Cursed]) > 0) || (have_effect($effect[Once-Cursed]) > 0))
 		{
