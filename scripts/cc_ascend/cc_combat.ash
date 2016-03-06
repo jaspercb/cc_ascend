@@ -646,7 +646,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 
 
-		if(($monsters[Bob Racecar, Racecar Bob] contains enemy) && (get_property("palindomeDudesDefeated").to_int() < 5))
+		if(($monsters[Bob Racecar, Racecar Bob] contains enemy) && (get_property("palindomeDudesDefeated").to_int() < 5) && (get_property("cc_longConMonster") != $monster[Racecar Bob]) && (get_property("cc_longConMonster") != $monster[Bob Racecar]))
 		{
 			set_property("cc_longConMonster", enemy);
 			set_property("cc_combatHandler", combatState + "(longcon)");

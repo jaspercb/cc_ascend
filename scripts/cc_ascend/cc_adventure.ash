@@ -72,7 +72,12 @@ boolean ccAdvBypass(string url, location loc, string option)
 	return ccAdvBypass(0, urlConvert, loc, option);
 }
 
-boolean ccAdvBypass(int becauseStringIntIsSomehowJustString, string[int] url, location loc, string option)
+# Preserved to remind us of this issue.
+#boolean ccAdvBypass(int becauseStringIntIsSomehowJustString, string[int] url, location loc, string option)
+#
+#	urlGetFlags allows us to force visit_url(X, false). It is a bit field.
+#
+boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string option)
 {
 	set_property("nextAdventure", loc);
 	cli_execute("precheese");
@@ -86,7 +91,15 @@ boolean ccAdvBypass(int becauseStringIntIsSomehowJustString, string[int] url, lo
 	string page;
 	foreach idx, it in url
 	{
-		page = visit_url(it);
+		if((urlGetFlags & 1) == 1)
+		{
+			page = visit_url(it, false);
+		}
+		else
+		{
+			page = visit_url(it);
+		}
+		urlGetFlags /= 2;
 	}
 	if((my_hp() == 0) || (get_property("_edDefeats").to_int() == 1) || (have_effect($effect[Beaten Up]) > 0))
 	{

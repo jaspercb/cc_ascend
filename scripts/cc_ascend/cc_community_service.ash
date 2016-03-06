@@ -1409,11 +1409,21 @@ boolean LA_cs_communityService()
 //							}
 //						}
 
-						ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice], "cs_combatNormal");
-						return true;
+						if(elementalPlanes_access($element[stench]))
+						{
+							ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice], "cs_combatNormal");
+							return true;
+						}
 					}
 				}
-				ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
+				if(elementalPlanes_access($element[hot]))
+				{
+					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
+				}
+				else
+				{
+					ccAdv(1, $location[8-bit Realm], "cs_combatNormal");
+				}
 				return true;
 			}
 
@@ -2379,7 +2389,7 @@ boolean LA_cs_communityService()
 						return true;
 					}
 				}
-				else
+				else if(elementalPlanes_access($element[hot]))
 				{
 					handleFamiliar($familiar[Crimbo Shrub]);
 					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatYR");

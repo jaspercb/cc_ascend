@@ -3789,7 +3789,7 @@ boolean LX_attemptPowerLevel()
 	set_property("cc_powerLevelLastAttempted", my_turncount());
 
 	handleFamiliar("stat");
-	if((elementalPlanes_access($element[stench])) && have_skill($skill[Summon Smithsness]))
+	if(elementalPlanes_access($element[stench]) && have_skill($skill[Summon Smithsness]))
 	{
 		ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]);
 	}
