@@ -1832,7 +1832,7 @@ boolean LA_cs_communityService()
 	case 3:		#Myst Quest
 			buyUpTo(1, $item[Glittery Mascara]);
 
-			if(item_amount($item[Saucepanic]) > 0)
+			if((item_amount($item[Saucepanic]) > 0) && have_skill($skill[Double-Fisted Skull Smashing]))
 			{
 				equip($slot[off-hand], $item[Saucepanic]);
 			}
