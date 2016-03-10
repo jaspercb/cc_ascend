@@ -230,7 +230,7 @@ void cs_make_stuff()
 			cli_execute("make skeleton key");
 		}
 	}
-	if((item_amount($item[Milk of Magnesium]) == 0) && (item_amount($item[Glass of Goat\'s Milk]) > 0) && have_skill($skill[Advanced Saucecrafting]) && (get_property("_rapidPrototypingUsed").to_int() < 5))
+	if((item_amount($item[Milk of Magnesium]) == 0) && (item_amount($item[Glass of Goat\'s Milk]) > 0) && have_skill($skill[Advanced Saucecrafting]) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
 	{
 		cli_execute("make milk of magnesium");
 	}
@@ -1093,7 +1093,7 @@ boolean LA_cs_communityService()
 				{
 					cli_execute("camp dnapotion");
 				}
-				if((item_amount($item[Glass of Goat\'s Milk]) > 0) && (get_property("_rapidPrototypingUsed").to_int() < 5))
+				if((item_amount($item[Glass of Goat\'s Milk]) > 0) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
 				{
 					cli_execute("make milk of magnesium");
 				}
@@ -1115,7 +1115,7 @@ boolean LA_cs_communityService()
 				{
 					cli_execute("camp dnapotion");
 				}
-				if((item_amount($item[Glass of Goat\'s Milk]) > 0) && (get_property("_rapidPrototypingUsed").to_int() < 5))
+				if((item_amount($item[Glass of Goat\'s Milk]) > 0) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
 				{
 					cli_execute("make milk of magnesium");
 				}
@@ -1307,7 +1307,7 @@ boolean LA_cs_communityService()
 
 			if(have_skill($skill[Advanced Saucecrafting]))
 			{
-				if((item_amount($item[Tomato Juice of Powerful Power]) < 4) && (get_property("_rapidPrototypingUsed").to_int() < 5))
+				if((item_amount($item[Tomato Juice of Powerful Power]) < 4) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) >= 2))
 				{
 					cli_execute("make 6 tomato juice of powerful power");
 				}
@@ -1513,28 +1513,28 @@ boolean LA_cs_communityService()
 
 			if(have_skill($skill[Advanced Saucecrafting]))
 			{
-				if((item_amount($item[Oil of Expertise]) < 2) && (get_property("_rapidPrototypingUsed").to_int() < 5))
+				if((item_amount($item[Oil of Expertise]) < 2) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
 				{
 					cli_execute("make 3 oil of expertise");
 				}
-				if((item_amount($item[Tomato Juice of Powerful Power]) < 4) && (get_property("_rapidPrototypingUsed").to_int() < 5))
+				if((item_amount($item[Tomato Juice of Powerful Power]) < 4) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 1))
 				{
 					cli_execute("make 6 tomato juice of powerful power");
 				}
 
-				if((item_amount($item[grapefruit]) > 0) && (item_amount($item[Ointment of the Occult]) == 0))
+				if((item_amount($item[grapefruit]) > 0) && (item_amount($item[Ointment of the Occult]) == 0) && (item_amount($item[Scrumptious Reagent]) > 0))
 				{
 					cli_execute("make ointment of the occult");
 				}
-				else if((item_amount($item[squashed frog]) > 0) && (item_amount($item[Frogade]) == 0))
+				else if((item_amount($item[squashed frog]) > 0) && (item_amount($item[Frogade]) == 0) && (item_amount($item[Scrumptious Reagent]) > 0))
 				{
 					cli_execute("make frogade");
 				}
-				else if((item_amount($item[eye of newt]) > 0) && (item_amount($item[Eyedrops of Newt]) == 0))
+				else if((item_amount($item[eye of newt]) > 0) && (item_amount($item[Eyedrops of Newt]) == 0) && (item_amount($item[Scrumptious Reagent]) > 0))
 				{
 					cli_execute("make eyedrops of newt");
 				}
-				else if((item_amount($item[salamander spleen]) > 0) && (item_amount($item[Salamander Slurry]) == 0))
+				else if((item_amount($item[salamander spleen]) > 0) && (item_amount($item[Salamander Slurry]) == 0) && (item_amount($item[Scrumptious Reagent]) > 0))
 				{
 					cli_execute("make salamander slurry");
 				}
@@ -1619,7 +1619,7 @@ boolean LA_cs_communityService()
 					return true;
 				}
 			}
-			if((item_amount($item[Gr8ps]) > 0) && (item_amount($item[Potion of Temporary Gr8tness]) == 0) && (have_effect($effect[Gr8tness]) == 0) && (npc_price($item[Delectable Catalyst]) < my_meat()) && (get_property("_rapidPrototypingUsed").to_int() < 5))
+			if((item_amount($item[Gr8ps]) > 0) && (item_amount($item[Potion of Temporary Gr8tness]) == 0) && (have_effect($effect[Gr8tness]) == 0) && (npc_price($item[Delectable Catalyst]) < my_meat()) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
 			{
 				cli_execute("make " + $item[Potion of Temporary Gr8tness]);
 			}
@@ -2439,11 +2439,11 @@ boolean LA_cs_communityService()
 				pulverizeThing(it);
 			}
 
-			if((item_amount($item[Sleaze Powder]) > 0) && (item_amount($item[Lotion of Sleaziness]) == 0) && (have_effect($effect[Sleazy Hands]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5))
+			if((item_amount($item[Sleaze Powder]) > 0) && (item_amount($item[Lotion of Sleaziness]) == 0) && (have_effect($effect[Sleazy Hands]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
 			{
 				cli_execute("make lotion of sleaziness");
 			}
-			if((item_amount($item[Stench Powder]) > 0) && (item_amount($item[Lotion of Stench]) == 0) && (have_effect($effect[Stinky Hands]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5))
+			if((item_amount($item[Stench Powder]) > 0) && (item_amount($item[Lotion of Stench]) == 0) && (have_effect($effect[Stinky Hands]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
 			{
 				cli_execute("make lotion of stench");
 			}

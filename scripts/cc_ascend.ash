@@ -10424,7 +10424,7 @@ boolean doTasks()
 		{
 			handleFamiliar($familiar[Grimstone Golem]);
 		}
-	}
+	} 
 
 	int spleen_hold = 4;
 	if(item_amount($item[Astral Energy Drink]) > 0)
@@ -10450,7 +10450,6 @@ boolean doTasks()
 	{
 		handleFamiliar($familiar[Ms. Puck Man]);
 	}
-
 	if((my_familiar() == $familiar[Unconscious Collective]) && (dreamJarDrops() >= 1))
 	{
 		handleFamiliar("item");
