@@ -1033,7 +1033,11 @@ boolean isFreeMonster(monster mon)
 
 	boolean[monster] infernalSeals = $monsters[Broodling Seal, Centurion of Sparky, Hermetic Seal, Spawn of Wally, Heat Seal, Navy Seal, Servant of Grodstank, Shadow of Black Bubbles, Watertight Seal, Wet Seal];
 
+	boolean[monster] witchess = $monsters[Witchess Bishop, Witchess King, Witchess Knight, Witchess Ox, Witchess Pawn, Witchess Queen, Witchess Rook, Witchess Witch];
+
 	boolean[monster] other = $monsters[lynyrd, giant rubber spider, Travoltron];
+
+
 
 	if(classRevamp contains mon)
 	{
@@ -1052,6 +1056,10 @@ boolean isFreeMonster(monster mon)
 		return true;
 	}
 	if(infernalSeals contains mon)
+	{
+		return true;
+	}
+	if(witchess contains mon)
 	{
 		return true;
 	}

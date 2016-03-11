@@ -26,6 +26,7 @@ import <cc_ascend/cc_community_service.ash>
 import <cc_ascend/cc_clan.ash>
 import <cc_ascend/cc_cooking.ash>
 import <cc_ascend/cc_adventure.ash>
+import <cc_ascend/cc_mr2016.ash>
 
 void initializeSettings()
 {

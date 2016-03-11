@@ -572,7 +572,6 @@ string cs_combatNormal(int round, string opp, string text)
 		set_property("cc_combatHandler", combatState + "(shattering punch)");
 		handleTracker(enemy, $skill[shattering punch], "cc_instakill");
 		return "skill " + $skill[shattering punch];
-
 	}
 
 	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 32))
@@ -681,6 +680,13 @@ string cs_combatLTB(int round, string opp, string text)
 		return cs_combatNormal(round, opp, text);
 	}
 
+	if((!contains_text(combatState, "shattering punch")) && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && !isFreeMonster(enemy) && !enemy.boss && (get_property("_shatteringPunchUsed").to_int() < 3))
+	{
+		set_property("cc_combatHandler", combatState + "(shattering punch)");
+		handleTracker(enemy, $skill[shattering punch], "cc_instakill");
+		return "skill " + $skill[shattering punch];
+	}
+
 	if((!contains_text(combatState, "louder than bomb")) && (item_amount($item[Louder Than Bomb]) > 0))
 	{
 		set_property("cc_combatHandler", combatState + "(louder than bomb)");
@@ -702,6 +708,17 @@ string cs_combatLTB(int round, string opp, string text)
 		return "item tennis ball";
 	}
 
+
+	if((!contains_text(combatState, "power pill")) && (item_amount($item[Power Pill]) > 0))
+	{
+		set_property("cc_combatHandler", combatState + "(power pill)");
+
+		if((item_amount($item[Seal Tooth]) > 0) && have_skill($skill[Ambidextrous Funkslinging]))
+		{
+			return "item power pill, seal tooth";
+		}
+		return "item power pill";
+	}
 
 	abort("Could not free kill our Giant Growth, uh oh.");
 	return "fail";
