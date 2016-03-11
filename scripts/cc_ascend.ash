@@ -2875,9 +2875,21 @@ boolean L13_towerNSNagamar()
 	else
 	{
 		pullXWhenHaveY($item[disassembled clover], 1, 0);
-		use(1, $item[disassembled clover]);
-		visit_url("adventure.php?snarfblat=322&confirm=on");
-		cli_execute("make wand of nagamar");
+
+		if(item_amount($item[Disassembled Clover]) > 0)
+		{
+			use(1, $item[Disassembled Clover]);
+			if(ccAdvBypass(322, $location[The Castle in the Clouds in the Sky (Basement)]))
+			{
+				print("Wandering monster interrupt at Castle in the Clouds (Basement)", "red");
+				return true;
+			}
+			use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+			cli_execute("make wand of nagamar");
+			return true;
+		}
+		
+		abort("Could not make Wand of Nagamar for some raisin. Make it manually please and thank you.");
 		return true;
 	}
 }
