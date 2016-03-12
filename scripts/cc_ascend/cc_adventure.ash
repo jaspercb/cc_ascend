@@ -93,7 +93,7 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 	{
 		if((urlGetFlags & 1) == 1)
 		{
-			print("Visit_url(" + it + ") override to false", "red");
+			#print("Visit_url(" + it + ") override to false", "red");
 			//When using this, you may have to add my_hash yourself.
 			//We can probably do this (but is it possible that a search for "pwd" can cause false positives?)
 			page = visit_url(it, false);

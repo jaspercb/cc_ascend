@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16765;
+since r16781;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1281,9 +1281,10 @@ void initializeDay(int day)
 	if(!possessEquipment($item[Your Cowboy Boots]) && get_property("telegraphOfficeAvailable").to_boolean() && is_unrestricted($item[LT&T Telegraph Office Deed]))
 	{
 		string temp = visit_url("desc_item.php?whichitem=529185925");
+		#if(equipped_item($slot[bootspur]) == $item[Nicksilver spurs])
 		if(contains_text(temp, "Item Drops from Monsters"))
 		{
-			temp = visit_url("place.php?whichplace=town_right&action=townright_ltt");
+			string temp = visit_url("place.php?whichplace=town_right&action=townright_ltt");
 		}
 	}
 
@@ -2461,6 +2462,7 @@ boolean L11_aridDesert()
 	{
 		if((my_level() >= 12) && !in_hardcore())
 		{
+			print("Do you actually have a UV-resistant compass? Try 'refresh inv' in the CLI!", "green");
 			abort("I can't do the Oasis without an Ornate Dowsing Rod. You can manually get a UV-resistant compass and I'll use that if you really hate me that much.");
 		}
 		else

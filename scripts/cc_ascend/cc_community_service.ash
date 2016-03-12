@@ -2151,12 +2151,13 @@ boolean LA_cs_communityService()
 			}
 
 
-			while((my_mp() < 152) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			while((my_mp() < 207) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
 				doRest();
 			}
 
 			buffMaintain($effect[Song of the North], 100, 1, 1);
+			buffMaintain($effect[Bow-Legged Swagger], 100, 1, 1);
 			buffMaintain($effect[Jackasses\' Symphony of Destruction], 9, 1, 1);
 			buffMaintain($effect[Rage of the Reindeer], 10, 1, 1);
 			buffMaintain($effect[Scowl of the Auk], 10, 1, 1);
@@ -2226,7 +2227,7 @@ boolean LA_cs_communityService()
 				doHottub();
 			}
 
-			while((my_mp() < 200) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			while((my_mp() < 250) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
 				doRest();
 			}
@@ -2243,6 +2244,7 @@ boolean LA_cs_communityService()
 				equip($item[Astral Statuette]);
 			}
 			buffMaintain($effect[Song of Sauce], 100, 1, 1);
+			buffMaintain($effect[Bendin\' Hell], 100, 1, 1);
 			buffMaintain($effect[Arched Eyebrow of the Archmage], 10, 1, 1);
 			buffMaintain($effect[Jackasses\' Symphony of Destruction], 8, 1, 1);
 			buffMaintain($effect[Puzzle Fury], 0, 1, 1);

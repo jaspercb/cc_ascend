@@ -2109,6 +2109,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 			useItem = $item[Jug of Baconstone Juice];
 		}																						break;
 	case $effect[Balls of Ectoplasm]:			useItem = $item[Ectoplasmic Orbs];				break;
+	case $effect[Bendin\' Hell]:					useSkill = $skill[Bend Hell];					break;
 	case $effect[Big Meat Big Prizes]:			useItem = $item[Meat-Inflating Powder];			break;
 	case $effect[Biologically Shocked]:			useItem = $item[glowing syringe];				break;
 	case $effect[Bitterskin]:					useItem = $item[Bitter Pill];					break;
@@ -2122,6 +2123,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Boon of the Storm Tortoise]:	useSkill = $skill[Spirit Boon];					break;
 	case $effect[Boon of the War Snapper]:		useSkill = $skill[Spirit Boon];					break;
 	case $effect[Bounty of Renenutet]:			useSkill = $skill[Bounty of Renenutet];			break;
+	case $effect[Bow-Legged Swagger]:			useSkill = $skill[Bow-Legged Swagger];			break;
 	case $effect[Brawnee\'s Anthem of Absorption]:useSkill = $skill[Brawnee\'s Anthem of Absorption];break;
 	case $effect[Brilliant Resolve]:			useItem = $item[Resolution: Be Smarter];		break;
 	case $effect[Browbeaten]:					useItem = $item[Old Eyebrow Pencil];			break;
