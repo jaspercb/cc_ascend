@@ -3776,6 +3776,7 @@ boolean L12_lastDitchFlyer()
 		}
 		else
 		{
+			handleFamiliar("item");
 			ccAdv(1, $location[The Hole in the Sky]);
 		}
 		return true;
@@ -9409,6 +9410,7 @@ boolean L10_holeInTheSky()
 			return false;
 		}
 	}
+	handleFamiliar("item");
 	ccAdv(1, $location[The Hole In The Sky]);
 	return true;
 }

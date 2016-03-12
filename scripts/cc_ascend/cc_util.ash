@@ -2160,6 +2160,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Drescher\'s Annoying Noise]:	useSkill = $skill[Drescher\'s Annoying Noise];	break;
 	case $effect[Eau D\'enmity]:				useItem = $item[Perfume of Prejudice];			break;
 	case $effect[Eau de Tortue]:				useItem = $item[Turtle Pheromones];				break;
+	case $effect[Egged On]:						useItem = $item[Robin\'s Egg];					break;
 	case $effect[Elemental Saucesphere]:		useSkill = $skill[Elemental Saucesphere];		break;
 	case $effect[Empathy]:						useSkill = $skill[Empathy of the Newt];			break;
 	case $effect[Erudite]:						useItem = $item[Black Sheepskin Diploma];		break;

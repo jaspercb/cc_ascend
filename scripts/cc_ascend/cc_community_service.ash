@@ -2474,6 +2474,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Empathy], 15, 1, 1);
 			buffMaintain($effect[Astral Shell], 10, 1, 1);
 			buffMaintain($effect[Sleazy Hands], 0, 1, 1);
+			buffMaintain($effect[Egged On], 0, 1, 1);
 			buffMaintain($effect[Stinky Hands], 0, 1, 1);
 			buffMaintain($effect[Human-Machine Hybrid], 0, 1, 1);
 			buffMaintain($effect[Frost Tea], 0, 1, 1);
