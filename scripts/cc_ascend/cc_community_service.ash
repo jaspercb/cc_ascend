@@ -629,11 +629,34 @@ string cs_combatYR(int round, string opp, string text)
 	boolean [monster] lookFor = $monsters[Dairy Goat, factory overseer (female), factory worker (female), mine overseer (male), mine overseer (female), mine worker (male), mine worker (female), sk8 gnome];
 	if((have_effect($effect[Everything Looks Yellow]) == 0) && (lookFor contains enemy))
 	{
-		if((!contains_text(combatState, "yellowray")) && (my_familiar() == $familiar[Crimbo Shrub]))
+		#if((!contains_text(combatState, "yellowray")) && (my_familiar() == $familiar[Crimbo Shrub]))
+		if(!contains_text(combatState, "yellowray"))
 		{
-			set_property("cc_combatHandler", combatState + "(yellowray)");
-			handleTracker(enemy, $skill[Open a Big Yellow Present], "cc_yellowRays");
-			return "skill Open a Big Yellow Present";
+			string combatAction = yellowRayCombatString();
+			if(combatAction != "")
+			{
+				set_property("cc_combatHandler", combatState + "(yellowray)");
+				if(index_of(combatAction, "skill") == 0)
+				{
+					handleTracker(enemy, to_skill(substring(combatAction, 6)), "cc_yellowRays");
+				}
+				else if(index_of(combatAction, "item") == 0)
+				{
+					handleTracker(enemy, to_item(substring(combatAction, 5)), "cc_yellowRays");
+				}
+				else
+				{
+					print("Unable to track yellow ray behavior: " + combatAction, "red");
+				}
+				return combatAction;
+			}
+			else
+			{
+				abort("Wanted a yellow ray but we can not find one.");
+			}
+			#set_property("cc_combatHandler", combatState + "(yellowray)");
+			#handleTracker(enemy, $skill[Open a Big Yellow Present], "cc_yellowRays");
+			#return "skill Open a Big Yellow Present";
 		}
 	}
 
@@ -1100,9 +1123,12 @@ boolean LA_cs_communityService()
 				buffMaintain($effect[Cletus\'s Canticle of Celerity], 4, 1, 1);
 				buffMaintain($effect[Walberg\'s Dim Bulb], 5, 1, 1);
 
-				if(have_familiar($familiar[Crimbo Shrub]))
+				if(canYellowRay())
 				{
-					handleFamiliar($familiar[Crimbo Shrub]);
+					if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
+					{
+						handleFamiliar("yellow ray");
+					}
 					chateaumantegna_usePainting("cs_combatYR");
 				}
 				else
@@ -1122,9 +1148,12 @@ boolean LA_cs_communityService()
 
 			if(chateaumantegna_available() && (get_property("chateauMonster") != $monster[dairy goat]) && (my_fullness() == 0) && !get_property("_photocopyUsed").to_boolean())
 			{
-				handleFamiliar($familiar[Crimbo Shrub]);
-				if(my_familiar() == $familiar[Crimbo Shrub])
+				if(canYellowRay())
 				{
+					if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
+					{
+						handleFamiliar("yellow ray");
+					}
 					handleFaxMonster($monster[Dairy Goat], "cs_combatYR");
 				}
 				else
@@ -1302,9 +1331,12 @@ boolean LA_cs_communityService()
 		}
 		else if((curQuest == 7) && (item_amount($item[Emergency Margarita]) > 0))
 		{
-			if((have_effect($effect[Everything Looks Yellow]) == 0) && have_familiar($familiar[Crimbo Shrub]) && elementalPlanes_access($element[hot]))
+			if(canYellowRay() && elementalPlanes_access($element[hot]))
 			{
-				handleFamiliar($familiar[Crimbo Shrub]);
+				if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
+				{
+					handleFamiliar("yellow ray");
+				}
 				ccAdv(1, $location[LavaCo&trade; Lamp Factory], "cs_combatYR");
 				return true;
 			}
@@ -1522,9 +1554,12 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if(have_familiar($familiar[Crimbo Shrub]) && (have_effect($effect[Everything Looks Yellow]) == 0) && !get_property("_photocopyUsed").to_boolean())
+			if(canYellowRay() && !get_property("_photocopyUsed").to_boolean())
 			{
-				handleFamiliar($familiar[Crimbo Shrub]);
+				if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
+				{
+					handleFamiliar("yellow ray");
+				}
 				if(handleFaxMonster($monster[Sk8 gnome], "cs_combatYR"))
 				{
 					return true;
@@ -1630,10 +1665,12 @@ boolean LA_cs_communityService()
 		}
 		break;
 	case 1:		#HP Quest
-
-			if(have_familiar($familiar[Crimbo Shrub]) && (have_effect($effect[Everything Looks Yellow]) == 0) && !get_property("_photocopyUsed").to_boolean())
+			if(canYellowRay() && !get_property("_photocopyUsed").to_boolean())
 			{
-				handleFamiliar($familiar[Crimbo Shrub]);
+				if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
+				{
+					handleFamiliar("yellow ray");
+				}
 				if(handleFaxMonster($monster[Sk8 gnome], "cs_combatYR"))
 				{
 					return true;
@@ -2401,19 +2438,21 @@ boolean LA_cs_communityService()
 
 
 	case 10:	#Hot Resistance
-			if((have_effect($effect[Everything Looks Yellow]) == 0) && have_familiar($familiar[Crimbo Shrub]))
+			if(canYellowRay())
 			{
+				if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
+				{
+					handleFamiliar("yellow ray");
+				}
 				if(is_unrestricted($item[Deluxe Fax Machine]) && (item_amount($item[Potion of Temporary Gr8tness]) == 0))
 				{
-					handleFamiliar($familiar[Crimbo Shrub]);
 					if(handleFaxMonster($monster[Sk8 gnome], "cs_combatYR"))
 					{
 						return true;
 					}
 				}
-				else if(elementalPlanes_access($element[hot]))
+				if(elementalPlanes_access($element[hot]))
 				{
-					handleFamiliar($familiar[Crimbo Shrub]);
 					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatYR");
 					return true;
 				}

@@ -767,7 +767,6 @@ string cc_combatHandler(int round, string opp, string text)
 				{
 					print("Unable to track yellow ray behavior: " + combatAction, "red");
 				}
-
 				return combatAction;
 			}
 			else

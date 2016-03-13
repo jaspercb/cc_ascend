@@ -8063,7 +8063,8 @@ boolean LX_handleSpookyravenFirstFloor()
 				expectPool += my_inebriety();
 			}
 			// Staff of Fats (non-Ed and Ed) and Staff of Ed (from Ed)
-			if(have_equipped($item[2268]) || have_equipped($item[7964]) || have_equipped($item[7961]))
+			#if(have_equipped($item[2268]) || have_equipped($item[7964]) || have_equipped($item[7961]))
+			if(possessEquipment($item[2268]) || possessEquipment($item[7964]) || possessEquipment($item[7961]))
 			{
 				expectPool += 5;
 			}
@@ -8150,6 +8151,7 @@ boolean LX_handleSpookyravenFirstFloor()
 				}
 			}
 			buffMaintain($effect[Hide of Sobek], 10, 1, 1);
+			buffMaintain($effect[Patent Prevention], 0, 1, 1);
 
 			ccAdv(1, $location[The Haunted Kitchen]);
 			handleFamiliar("item");
@@ -8854,23 +8856,25 @@ boolean L9_twinPeak()
 		buffMaintain($effect[Astral Shell], 10, 1, 1);
 		buffMaintain($effect[Elemental Saucesphere], 10, 1, 1);
 		buffMaintain($effect[Hide of Sobek], 10, 1, 1);
-		if(elemental_resist($element[stench]) < 4)
+		int possibleGain = 0;
+		if(item_amount($item[Polysniff Perfume]) > 0)
 		{
-			buffMaintain($effect[Neutered Nostrils], 0, 1, 1);
+			possibleGain += 2;
 		}
-		if(elemental_resist($element[stench]) < 4)
+		if(item_amount($item[Pec Oil]) > 0)
 		{
-			buffMaintain($effect[Oiled-Up], 0, 1, 1);
+			possibleGain += 2;
 		}
-		if(elemental_resist($element[stench]) < 4)
+		if(item_amount($item[Oil of Parrrlay]) > 0)
 		{
-			buffMaintain($effect[Well-Oiled], 0, 1, 1);
+			possibleGain += 1;
 		}
 		int parrotOffset = 0;
-		if(elemental_resist($element[stench]) < 4)
+		if((elemental_resist($element[stench]) < 4) && have_familiar($familiar[Exotic Parrot]))
 		{
 			parrotOffset = numeric_modifier($familiar[Exotic Parrot], "Stench Resistance", familiar_weight($familiar[Exotic Parrot]), equipped_item($slot[familiar]));
 		}
+
 		if((elemental_resist($element[stench]) + parrotOffset) >= 4)
 		{
 			if(elemental_resist($element[stench]) < 4)
@@ -8880,6 +8884,29 @@ boolean L9_twinPeak()
 			attemptNum = 1;
 			attempt = true;
 		}
+		else if((elemental_resist($element[stench]) + possibleGain + parrotOffset) >= 4)
+		{
+			if(elemental_resist($element[stench]) < 4)
+			{
+				buffMaintain($effect[Neutered Nostrils], 0, 1, 1);
+			}
+			if(elemental_resist($element[stench]) < 4)
+			{
+				buffMaintain($effect[Oiled-Up], 0, 1, 1);
+			}
+			if(elemental_resist($element[stench]) < 4)
+			{
+				buffMaintain($effect[Well-Oiled], 0, 1, 1);
+			}
+			if(elemental_resist($element[stench]) < 4)
+			{
+				handleFamiliar($familiar[Exotic Parrot]);
+			}
+			attemptNum = 1;
+			attempt = true;
+		}
+
+
 	}
 
 	if(!attempt)
