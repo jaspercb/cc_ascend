@@ -358,6 +358,36 @@ boolean handleFamiliar(familiar fam)
 	return false;
 }
 
+boolean LX_witchess()
+{
+	if(!cc_haveWitchess())
+	{
+		return false;
+	}
+
+	switch(my_daycount())
+	{
+	case 1:
+		if(item_amount($item[Greek Fire]) == 0)
+		{
+			return cc_advWitchess("ml");
+		}
+		return cc_advWitchess("booze");
+	case 2:
+		if(item_amount($item[Jumping Horseradish]) == 0)
+		{
+			return cc_advWitchess("meat");
+		}
+	case 3:
+	case 4:
+		return cc_advWitchess("booze");
+
+	default:
+		return cc_advWitchess("booze");
+	}
+	return false;
+}
+
 boolean L1_dnaAcquire()
 {
 	if((get_property("cc_day1_dna") == "finished") || (my_daycount() != 1))
@@ -2885,13 +2915,13 @@ boolean L13_towerNSNagamar()
 			if(ccAdvBypass(322, $location[The Castle in the Clouds in the Sky (Basement)]))
 			{
 				print("Wandering monster interrupt at Castle in the Clouds (Basement)", "red");
+				use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
 				return true;
 			}
 			use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
 			cli_execute("make wand of nagamar");
 			return true;
 		}
-		
 		abort("Could not make Wand of Nagamar for some raisin. Make it manually please and thank you.");
 		return true;
 	}
@@ -5363,6 +5393,11 @@ boolean L12_sonofaBeach()
 		return false;
 	}
 
+	if(!uneffect($effect[Patent Invisibility]))
+	{
+		print("Could not uneffect Patent Invisibility for Lobsterfrogman, delaying");
+		return false;
+	}
 	if(!uneffect($effect[Shelter of Shed]))
 	{
 		print("Can not uneffect Shelter of Shed for the Lobsterfrogman, delaying");
@@ -8036,7 +8071,7 @@ boolean LX_handleSpookyravenFirstFloor()
 			{
 				expectPool += 3;
 			}
-			if(have_effect($effect[Chalky Hand]) > 0)
+			if((have_effect($effect[Chalky Hand]) > 0) || (item_amount($item[Handful of Hand Chalk]) > 0))
 			{
 				expectPool += 3;
 			}
@@ -9583,6 +9618,12 @@ boolean LX_fcle()
 			return false;
 		}
 	}
+
+	if(!uneffect($effect[Patent Invisibility]))
+	{
+		print("Could not uneffect Patent Invisibility for F'C'le, delaying");
+		return false;
+	}
 	if(!uneffect($effect[Shelter Of Shed]))
 	{
 		print("Could not uneffect Shelter of Shed for F'C'le, delaying");
@@ -10014,6 +10055,11 @@ boolean L8_trapperYeti()
 		}
 
 
+		if(!uneffect($effect[Patent Invisibility]))
+		{
+			print("Could not uneffect Patent Invisibility for ninja snowmen, delaying");
+			return false;
+		}
 		if(!uneffect($effect[Shelter Of Shed]))
 		{
 			print("Could not uneffect Shelter of Shed for ninja snowmen, delaying");
@@ -10356,18 +10402,6 @@ boolean doTasks()
 		wait(delay);
 	}
 
-	handleFamiliar("item");
-
-	if(L1_dnaAcquire())
-	{
-		return true;
-	}
-
-	if(L1_HRstart())
-	{
-		return true;
-	}
-
 	if((monster_level_adjustment() > 150) && (monster_level_adjustment() <= 160))
 	{
 		int base = (monster_level_adjustment() - current_mcd());
@@ -10402,15 +10436,7 @@ boolean doTasks()
 		}
 	}
 	handleFamiliar("item");
-//	if((my_familiar() == $familiar[Reanimated Reanimator]) && (get_property("_badlyRomanticArrows") == "1"))
-//	{
-//		print("We have a Reanimator as our familiar but can't winkat anymore. Let's change to our default.", "green");
-//		handleFamiliar("item");
-//	}
-//	if(my_familiar() == $familiar[Machine Elf])
-//	{
-//		handleFamiliar("item");
-//	}
+
 	if(my_familiar() == $familiar[Crimbo Shrub])
 	{
 		if((get_property("_jungDrops").to_int() == 1) || (my_daycount() > 1))
@@ -10500,6 +10526,21 @@ boolean doTasks()
 
 	oldPeoplePlantStuff();
 	use_barrels();
+
+	if(L1_dnaAcquire())
+	{
+		return true;
+	}
+
+	if(L1_HRstart())
+	{
+		return true;
+	}
+
+	if(LX_witchess())
+	{
+		return true;
+	}
 
 	if(get_property("cc_doCombatCopy") == "yes")
 	{

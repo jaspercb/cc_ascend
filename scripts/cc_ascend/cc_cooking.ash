@@ -344,7 +344,8 @@ void consumeStuff()
 	{
 		if(((my_inebriety() + 2) <= inebriety_limit()) && (my_mp() < mpForOde) && (my_maxmp() > mpForOde))
 		{
-			if((item_amount($item[Yellow Pixel]) >= 10) || (item_amount($item[Pixel Daiquiri]) > 0) || (item_amount($item[Robin\'s Egg]) > 0) | (item_amount($item[Robin Nog]) > 0))
+			if((item_amount($item[Yellow Pixel]) >= 10) || (item_amount($item[Pixel Daiquiri]) > 0) || (item_amount($item[Robin Nog]) > 0) || (item_amount($item[Sacramento Wine]) > 0))
+//			if((item_amount($item[Yellow Pixel]) >= 10) || (item_amount($item[Pixel Daiquiri]) > 0) || (item_amount($item[Robin\'s Egg]) > 0) || (item_amount($item[Robin Nog]) > 0) || (item_amount($item[Sacramento Wine]) > 0)))
 			{
 				if(my_meat() > 10000)
 				{
@@ -365,6 +366,15 @@ void consumeStuff()
 			}
 		}
 
+		if(((my_inebriety() + item_amount($item[Sacramento Wine])) <= inebriety_limit()) && (my_mp() >= mpForOde))
+		{
+			if(item_amount($item[Sacramento Wine]) > 0)
+			{
+				shrugAT();
+				buffMaintain($effect[Ode to Booze], 50, 1, 3);
+				drink(item_amount($item[Sacramento Wine]), $item[Sacramento Wine]);
+			}
+		}
 		if(((my_inebriety() + 2) <= inebriety_limit()) && (my_mp() >= mpForOde))
 		{
 			if((item_amount($item[Yellow Pixel]) >= 10) && (item_amount($item[Pixel Daiquiri]) == 0))

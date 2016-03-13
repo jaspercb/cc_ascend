@@ -45,6 +45,7 @@ boolean LX_freeCombats();
 boolean LX_dolphinKingMap();
 boolean LX_steelOrgan();
 boolean Lx_resolveSixthDMT();
+boolean LX_witchess();
 
 boolean Lsc_flyerSeals();
 

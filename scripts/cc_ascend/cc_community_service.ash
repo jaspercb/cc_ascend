@@ -1,11 +1,14 @@
 script "cc_community_service.ash"
 
+#	Some details derived some yojimbos_law's forum post:
+#	http://forums.kingdomofloathing.com/vb/showpost.php?p=4769933&postcount=345
+
+
 import <cc_ascend/cc_clan.ash>
 import <cc_ascend/cc_util.ash>
 import <cc_ascend/cc_ascend_header.ash>
+import <cc_ascend/cc_mr2016.ash>
 
-#	Some details derived some yojimbos_law's forum post:
-#	http://forums.kingdomofloathing.com/vb/showpost.php?p=4769933&postcount=345
 
 
 int get_cs_questNum(string input);
@@ -22,7 +25,7 @@ void cs_make_stuff();
 boolean cs_eat_stuff(int quest);
 boolean cs_giant_growth();
 boolean cs_eat_spleen();
-
+boolean cs_witchess();
 
 
 # Internal
@@ -2525,3 +2528,8 @@ boolean LA_cs_communityService()
 	return true;
 }
 
+
+boolean cs_witchess()
+{
+	return cc_advWitchess("booze");
+}

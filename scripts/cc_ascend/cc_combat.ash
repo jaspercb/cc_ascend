@@ -782,52 +782,6 @@ string cc_combatHandler(int round, string opp, string text)
 		abort("Ugh, where is my damn yellowray!!!");
 	}
 
-/*
-	if(have_effect($effect[everything looks yellow]) == 0)
-	{
-		if(contains_text(combatState, "yellowray"))
-		{
-			abort("Ugh, where is my damn yellowray!!!");
-		}
-		if((my_lightning() >= 5) || (item_amount($item[golden light]) > 0) || (my_familiar() == $familiar[Crimbo Shrub]))
-		{
-			boolean doYellow = false;
-			if((enemy == $monster[burly sidekick]) && (item_amount($item[mohawk wig]) == 0))
-			{
-				doYellow = true;
-			}
-			if((enemy == $monster[filthworm royal guard]) ||
-				((enemy == $monster[orcish frat boy spy]) && (my_daycount() == 1)) ||
-				((enemy == $monster[War Frat 151st Infantryman]) && (my_daycount() == 2)) ||
-				(enemy == $monster[knob goblin harem girl]))
-			{
-				doYellow = true;
-			}
-			if((get_property("cc_nunsTrickGland") == "start") && (enemy == $monster[larval filthworm]))
-			{
-				doYellow = true;
-			}
-			if(doYellow)
-			{
-				set_property("cc_combatHandler", combatState + "(yellowray)");
-				if(my_familiar() == $familiar[Crimbo Shrub])
-				{
-					print("Trying to Open a Big Yellow Present", "red");
-					handleTracker(enemy, $skill[Open a Big Yellow Present], "cc_yellowRays");
-					return "skill Open a Big Yellow Present";
-				}
-				if(my_lightning() >= 5)
-				{
-					handleTracker(enemy, $skill[Ball Lightning], "cc_yellowRays");
-					return "skill ball lightning";
-				}
-				handleTracker(enemy, $item[Golden Light], "cc_yellowRays");
-				return "item golden light";
-			}
-		}
-	}
-*/
-
 	if((enemy == $monster[animated possessions]) || (enemy == $monster[natural spider]))
 	{
 		if(item_amount($item[green smoke bomb]) > 0)
@@ -1015,43 +969,45 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!enemy.boss)
+	# Instakill handler
+	if(!enemy.boss && !isFreeMonster(enemy))
 	{
-		if((my_lightning() > 89) && !isFreeMonster(enemy))
+		if((my_lightning() >= 25) && have_skill($skill[Lightning Strike]))
 		{
 			if(have_skill($skill[lightning strike]))
 			{
 				handleTracker(enemy, $skill[lightning strike], "cc_instakill");
-				return "skill lightning strike";
+				return "skill " + $skill[lightning strike];
 			}
 		}
-		if(my_lightning() >= 25)
+
+		if(!contains_text(combatState, "shattering punch") && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && (get_property("_shatteringPunchUsed").to_int() < 3))
 		{
-			if((my_daycount() == 2) && (get_property("desertExploration").to_int() < 100))
+			if((my_adventures() < 20) || get_property("kingLiberated").to_boolean() || (my_daycount() >= 3))
 			{
-				if((my_familiar() == $familiar[Artistic Goth Kid]) && (have_skill($skill[lightning strike])))
-				{
-					handleTracker(enemy, $skill[lightning strike], "cc_instakill");
-					return "skill lightning strike";
-				}
+				set_property("cc_combatHandler", combatState + "(shattering punch)");
+				handleTracker(enemy, $skill[shattering punch], "cc_instakill");
+				return "skill " + $skill[shattering punch];
 			}
-			else if((have_skill($skill[lightning strike])) && !isFreeMonster(enemy))
+		}
+
+		if(!contains_text(combatState, "batoomerang") && (item_amount($item[Replica Bat-oomerang]) > 0))
+		{
+			if(get_property("cc_batoomerangDay").to_int() != my_daycount())
 			{
-				handleTracker(enemy, $skill[lightning strike], "cc_instakill");
-				return "skill lightning strike";
+				set_property("cc_batoomerangDay", my_daycount());
+				set_property("cc_batoomerangUse", 0);
+			}
+			if(get_property("cc_batoomerangUse").to_int() < 3)
+			{
+				set_property("cc_batoomerangUse", get_property("cc_batoomerangUse").to_int() + 1);
+				set_property("cc_combatHandler", combatState + "(batoomerang)");
+				handleTracker(enemy, $item[Replica Bat-oomerang], "cc_instakill");
+				return "item " + $item[Replica Bat-oomerang];
 			}
 		}
 	}
 
-	if((!contains_text(combatState, "shattering punch")) && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && !isFreeMonster(enemy) && !enemy.boss && (get_property("_shatteringPunchUsed").to_int() < 3))
-	{
-		if((my_adventures() < 20) || get_property("kingLiberated").to_boolean() || (my_daycount() >= 3))
-		{
-			set_property("cc_combatHandler", combatState + "(shattering punch)");
-			handleTracker(enemy, $skill[shattering punch], "cc_instakill");
-			return "skill " + $skill[shattering punch];
-		}
-	}
 
 	if(!contains_text(combatState, "badMedicine") && have_skill($skill[Bad Medicine]) && (my_mp() >= (3 * mp_cost($skill[Bad Medicine]))))
 	{
@@ -1179,6 +1135,12 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			set_property("cc_combatHandler", combatState + "(love gnats)");
 			return "skill summon love gnats";
+		}
+
+		if(!contains_text(combatState, "love stinkbug") && contains_text(combatState, "love gnats") && !contains_text(text, "STUN RESIST") && have_skill($skill[Summon Love Stinkbug]))
+		{
+			set_property("cc_combatHandler", combatState + "(love stinkbug)");
+			return "skill " + $skill[Summon Love Stinkbug];
 		}
 	}
 
