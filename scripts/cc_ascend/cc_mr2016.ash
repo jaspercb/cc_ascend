@@ -72,12 +72,12 @@ int cc_advWitchessTargets(string target)
 	}
 	if((target == "rook") || (target == "ml") || (target == "stats"))
 	{
-		return 1935;
+		return 1938;
 	}
 
 	if((target == "ox") || (target == "ox-head shield") || (target == "shield") || (target == "pvp") || (target == "hp") || (target == "resist") || (target == "resistance"))
 	{
-		return 1935;
+		return 1937;
 	}
 
 	if((target == "king") || (target == "dented scepter") || (target == "scepter") || (target == "club") || (target == "muscle") || (target == "hpregen"))
@@ -85,15 +85,17 @@ int cc_advWitchessTargets(string target)
 		return 1940;
 	}
 
+	if((target == "witch") || (target == "battle broom") || (target == "broom") || (target == "myst") || (target == "mpregen") || (target == "spell"))
+	{
+		return 1941;
+	}
+
 	if((target == "queen") || (target == "very pointy crown") || (target == "crown") || (target == "adv") || (target == "moxie") || (target == "nc") || (target == "noncombat") || (target == "non-combat"))
 	{
 		return 1939;
 	}
 
-	if((target == "witch") || (target == "battle broom") || (target == "broom") || (target == "myst") || (target == "mpregen") || (target == "spell"))
-	{
-		return 1941;
-	}
+
 
 	return 0;
 }
