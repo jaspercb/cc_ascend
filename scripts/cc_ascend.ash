@@ -384,6 +384,10 @@ boolean LX_witchess()
 			return cc_advWitchess("meat");
 		}
 	case 4:
+		if((get_property("sidequestNunsCompleted") == "none") && (item_amount($item[Jumping Horseradish]) == 0))
+		{
+			return cc_advWitchess("meat");
+		}
 		return cc_advWitchess("booze");
 
 	default:
@@ -1340,11 +1344,8 @@ void initializeDay(int day)
 
 	if(item_amount($item[Telegram From Lady Spookyraven]) > 0)
 	{
+		print("Lady Spookyraven quest not detected as started should have been auto-started. Starting it", "red");
 		use(1, $item[Telegram From Lady Spookyraven]);
-	}
-	else
-	{
-		print("Lady Spookyraven quest not detected as started but we don't have the telegram, assuming it is...", "red");
 		set_property("questM20Necklace", "started");
 	}
 

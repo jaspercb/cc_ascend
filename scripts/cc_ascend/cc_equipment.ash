@@ -10,6 +10,7 @@ void equipBaselineHat();
 void equipBaselineAcc1();
 void equipBaselineAcc2();
 void equipBaselineAcc3();
+void equipBaselineHolster();
 void equipBaselineFam();
 void equipBaselineHat(boolean wantNC);
 void equipRollover();
@@ -532,6 +533,7 @@ void equipBaseline()
 	equipBaselineAcc2();
 	equipBaselineAcc3();
 	equipBaselineFam();
+	equipBaselineHolster();
 
 	if(my_daycount() == 1)
 	{
@@ -668,6 +670,29 @@ void replaceBaselineAcc3()
 	else if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc3])))
 	{
 		equip($slot[acc3], toEquip);
+	}
+}
+
+void equipBaselineHolster()
+{
+	if(my_path() != "Avatar of West of Loathing")
+	{
+		return;
+	}
+
+	item toEquip = $item[none];
+	boolean[item] poss = $items[toy sixgun, rinky-dink sixgun, reliable sixgun, makeshift sixgun, custom sixgun, porquoise-handled sixgun, hamethyst-handled sixgun, baconstone-handled sixgun, Pecos Dave\'s sixgun];
+	foreach thing in poss
+	{
+		if(possessEquipment(thing) && can_equip(thing))
+		{
+			toEquip = thing;
+		}
+	}
+
+	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[holster])))
+	{
+		equip($slot[holster], toEquip);
 	}
 }
 
