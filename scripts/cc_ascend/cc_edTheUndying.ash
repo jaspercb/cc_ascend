@@ -16,6 +16,14 @@ int ed_spleen_limit()
 			limit += 5;
 		}
 	}
+	if(spleen_limit() == limit)
+	{
+		print("Correct spleen limit obtained", "green");
+	}
+	else
+	{
+		print("Incorrect spleen limit (" + spleen_limit() + ") but actually: " + limit + " overriding.", "red");
+	}
 	return limit;
 }
 

@@ -110,6 +110,7 @@ void handleKingLiberation()
 		visit_url("place.php?whichplace=arcade");
 		visit_url("place.php?whichplace=arcade&action=arcade_plumber");
 		visit_url("place.php?whichplace=arcade&action=arcade_plumber");
+		visit_url("place.php?pwd=" + my_hash() + "whichplace=arcade&action=arcade_plumber", false);
 		if(item_amount($item[defective game grid token]) > oldToken)
 		{
 			abort("Woohoo!!! You got a game grid tokON!!");

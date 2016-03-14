@@ -1334,6 +1334,16 @@ void initializeDay(int day)
 		pullXWhenHaveY($item[Talking Spade], 1, 0);
 	}
 
+	if(item_amount($item[Telegram From Lady Spookyraven]) > 0)
+	{
+		use(1, $item[Telegram From Lady Spookyraven]);
+	}
+	else
+	{
+		print("Lady Spookyraven quest not detected as started but we don't have the telegram, assuming it is...", "red");
+		set_property("questM20Necklace", "started");
+	}
+
 	if(internalQuestStatus("questM20Necklace") == -1)
 	{
 		if(item_amount($item[Telegram From Lady Spookyraven]) > 0)
