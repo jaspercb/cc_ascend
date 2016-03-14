@@ -51,12 +51,10 @@ void awol_useStuff()
 				}
 			}
 		}
-		else
+
+		if((item_amount($item[Snake Oil]) > 0) && (get_property("awolMedicine").to_int() < 60) && (get_property("awolVenom").to_int() < 60))
 		{
-			if((item_amount($item[Snake Oil]) > 0) && (item_amount($item[Snake Oil]) < 5))
-			{
-				use(1, $item[Snake Oil]);
-			}
+			use(1, $item[Snake Oil]);
 		}
 
 		if((my_class() == $class[Cow Puncher]) && (have_effect($effect[Cowrruption]) < 150))

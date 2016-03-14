@@ -1299,10 +1299,9 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 		ed_preAdv(num, loc, option);
 	}
 
-	if(my_hp() == 0)
+	if((my_hp() == 0) || (get_property("_edDefeats").to_int() > get_property("edDefeatAbort").to_int()))
 	{
-		print("If you are using that custom mafia build I suggested when the path came out, stop using it. It actually causes a regression issue with the change in Limit Mode behavior in mafia.", "red");
-		abort("How are you here? You can't be here. Bloody Limit Mode!!");
+		abort("How are you here? You can't be here. Bloody Limit Mode (probably, maybe?)!!");
 	}
 
 	boolean status = false;
