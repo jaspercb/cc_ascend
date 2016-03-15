@@ -1354,7 +1354,11 @@ void initializeDay(int day)
 
 	if(!get_property("_pottedTeaTreeUsed").to_boolean() && (cc_get_campground() contains $item[Potted Tea Tree]) && !get_property("kingLiberated").to_boolean())
 	{
-		if(day == 1)
+		if(get_property("cc_teaChoice") != "")
+		{
+			boolean buff = cli_execute("teatree " + to_item(get_property("cc_teaChoice")));
+		}
+		else if(day == 1)
 		{
 			boolean buff = cli_execute("teatree " + $item[Cuppa Voraci Tea]);
 		}

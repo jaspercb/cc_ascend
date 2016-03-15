@@ -24,3 +24,4 @@
 24	cc_shareMaximizer	boolean	SHARING	Share maximzer data. This includes the maximzer string, class, path, softcore/hardcore and moon sign.
 25	cc_stayInRun	boolean	ANY	If true, we stop when the King can be freed but do not free the King. Paths with a choice at liberation time will always stayInRun regardless of this setting.
 26	cc_alwaysGetSteelOrgan	boolean	PRE	If true, get the Steel Organ in the next ascension.
+27	cc_teaChoice	string	ANY	When using the tea tree, grab this 'tea'. Must use a string that acceptable to Mafia's 'teatree' command.
