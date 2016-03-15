@@ -56,7 +56,7 @@ void handlePostAdventure()
 
 	if(my_path() == "Actually Ed the Undying")
 	{
-		int maxBuff = min(5, 660 - my_turncount());
+		int maxBuff = max(5, 660 - my_turncount());
 		if(my_level() < 13)
 		{
 			buffMaintain($effect[Prayer of Seshat], 5, 1, maxBuff);

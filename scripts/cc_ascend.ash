@@ -15,13 +15,11 @@ import <cc_ascend/cc_heavyrains.ash>
 import <cc_ascend/cc_picky.ash>
 import <cc_ascend/cc_standard.ash>
 import <cc_ascend/cc_floristfriar.ash>
-import <cc_ascend/cc_chateaumantegna.ash>
 import <cc_ascend/cc_equipment.ash>
 import <cc_ascend/cc_edTheUndying.ash>
 import <cc_ascend/cc_eudora.ash>
 import <cc_ascend/cc_summerfun.ash>
 import <cc_ascend/cc_elementalPlanes.ash>
-import <cc_ascend/cc_deckofeverycard.ash>
 import <cc_ascend/cc_community_service.ash>
 import <cc_ascend/cc_clan.ash>
 import <cc_ascend/cc_cooking.ash>
@@ -4667,6 +4665,10 @@ boolean L11_mauriceSpookyraven()
 		ovenHandle();
 		ccCraft("cook", 1, $item[bottle of Chateau de Vinegar], $item[blasting soda]);
 		set_property("cc_winebomb", "partial");
+		if(item_amount($item[Unstable Fulminate]) == 0)
+		{
+			print("We could not make an Unstable Fulminate but we think we have an oven. Do this manually and resume?", "red");
+		}
 	}
 
 	if(get_property("spookyravenRecipeUsed") != "with_glasses")

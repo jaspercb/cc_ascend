@@ -1,6 +1,6 @@
 script "cc_util.ash";
 import <zlib.ash>
-import <cc_ascend/cc_chateaumantegna.ash>
+import <cc_ascend/cc_mr2015.ash>
 import <cc_ascend/cc_ascend_header.ash>
 
 import <cc_ascend/cc_monsterparts.ash>

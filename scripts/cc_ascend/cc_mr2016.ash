@@ -1,6 +1,9 @@
 script "cc_mr2016.ash"
-
 import<cc_ascend/cc_adventure.ash>
+
+#	This is meant for items that have a date of 2016.
+#	Handling: Witchess Set
+#
 
 boolean cc_advWitchess(string target);
 boolean cc_haveWitchess();
@@ -8,6 +11,9 @@ boolean cc_haveWitchess();
 
 //Supplemental
 int cc_advWitchessTargets(string target);
+
+
+
 
 
 boolean cc_haveWitchess()

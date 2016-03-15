@@ -1943,7 +1943,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 {
 	if(my_path() != "Actually Ed the Undying")
 	{
-		abort("Not in Actually Ed the Undying, this ccs will result in massive suckage.");
+		abort("Not in Actually Ed the Undying, this combat filter will result in massive suckage.");
 	}
 	if(round == 0)
 	{
@@ -2007,7 +2007,10 @@ string cc_edCombatHandler(int round, string opp, string text)
 		return "skill summon love scarabs";
 	}
 
-
+	if((get_property("edPoints").to_int() <= 4) && (my_daycount() == 1))
+	{
+		set_property("cc_edStatus", "dying");
+	}
 
 	if(get_property("cc_edStatus") == "UNDYING!")
 	{
