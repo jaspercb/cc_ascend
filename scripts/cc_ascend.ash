@@ -26,6 +26,7 @@ import <cc_ascend/cc_community_service.ash>
 import <cc_ascend/cc_clan.ash>
 import <cc_ascend/cc_cooking.ash>
 import <cc_ascend/cc_adventure.ash>
+import <cc_ascend/cc_mr2015.ash>
 import <cc_ascend/cc_mr2016.ash>
 
 void initializeSettings()
@@ -195,7 +196,6 @@ void initializeSettings()
 	awol_initializeSettings();
 	standard_initializeSettings();
 	florist_initializeSettings();
-	chateaumantegna_initializeSettings();
 	ocrs_initializeSettings();
 	ed_initializeSettings();
 }
@@ -1253,22 +1253,12 @@ boolean fortuneCookieEvent()
 		}
 		return false;
 	}
-#	if((my_class() == $class[Ed]) && ((get_property("cc_orchard") == "finished") || (get_property("cc_semirare").to_int() >= 2)))
-#	{
-#		if(get_counters("Fortune Cookie", 0, 200) != "")
-#		{
-#			cli_execute("counters clear");
-#			print("We don't care about the semirares anymore, we are past the orchard. Cancelling.");
-#		}
-#		return false;
-#	}
 
 	if(get_counters("Fortune Cookie", 0, 0) == "Fortune Cookie")
 	{
 		print("Semi rare time!", "blue");
 		cli_execute("counters");
 		cli_execute("counters clear");
-		#remove_counter("Fortune Cookie", true);
 
 		location goal = $location[The Hidden Temple];
 
@@ -1362,18 +1352,7 @@ void initializeDay(int day)
 		}
 	}
 
-
-	if(!get_property("_barrelPrayer").to_boolean() && get_property("barrelShrineUnlocked").to_boolean() && !get_property("kingLiberated").to_boolean() && (my_path() != "Community Service"))
-	{
-		if((day == 1) && !get_property("prayedForProtection").to_boolean())
-		{
-			boolean buff = cli_execute("barrelprayer Protection");
-		}
-		else if((day == 2) && !get_property("prayedForGlamour").to_boolean())
-		{
-			boolean buff = cli_execute("barrelprayer Glamour");
-		}
-	}
+	cc_barrelPrayers();
 
 	if(!get_property("_pottedTeaTreeUsed").to_boolean() && (cc_get_campground() contains $item[Potted Tea Tree]) && !get_property("kingLiberated").to_boolean())
 	{
@@ -9715,6 +9694,16 @@ boolean LX_pirateBeerPong()
 	#	ccAdvBypass may be a bit trickier here.
 	#	handlePreAdventure($location[Barrrney\'s Barrr]);
 	#	We can get a Doghouse adventure here....
+	if(numPirateInsults() < 6)
+	{
+		set_property("choiceAdventure187", "2");
+		ccAdv(1, $location[barrrney\'s barrr]);
+		return true;
+	}
+	else
+	{
+		set_property("choiceAdventure187", "0");
+	}
 	string page = tryBeerPong();
 	if(contains_text(page, "victory laps"))
 	{
@@ -10651,6 +10640,12 @@ boolean doTasks()
 		}
 	}
 
+	if(my_daycount() != 2)
+	{
+		doNumberology("adventures3");
+	}
+
+
 	if(LA_cs_communityService())
 	{
 		return true;
@@ -10672,10 +10667,7 @@ boolean doTasks()
 			return true;
 		}
 	}
-	else
-	{
-		doNumberology("adventures3");
-	}
+
 
 	buyableMaintain($item[Ben-gal&trade; Balm], 1, 200);
 	buyableMaintain($item[Turtle Pheromones], 1, 800, my_class() == $class[Turtle Tamer]);

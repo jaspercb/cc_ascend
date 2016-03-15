@@ -3,20 +3,15 @@ import "cc_ascend/cc_ascend_header.ash"
 
 boolean chateaumantegna_available()
 {
-	if((contains_text(visit_url("mountains.php"),"whichplace=chateau")) && is_unrestricted($item[Chateau Mantegna Room Key]))
+	if(get_property("chateauAvailable").to_boolean() && is_unrestricted($item[Chateau Mantegna Room Key]))
+	{
+		return true;
+	}
+	if(contains_text(visit_url("mountains.php"),"whichplace=chateau") && is_unrestricted($item[Chateau Mantegna Room Key]))
 	{
 		return true;
 	}
 	return false;
-}
-
-void chateaumantegna_initializeSettings()
-{
-	if(chateaumantegna_available())
-	{
-		set_property("cc_chateaumantegna", "true");
-	}
-	set_property("cc_chateaumantegna", "false");
 }
 
 void chateaumantegna_useDesk()

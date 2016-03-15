@@ -125,11 +125,11 @@ void cs_initializeDay(int day)
 				cli_execute("make ice island long tea");
 			}
 
-			visit_url("da.php");
-			if(get_property("barrelShrineUnlocked").to_boolean() && !get_property("_barrelPrayer").to_boolean())
-			{
-				boolean buff = cli_execute("barrelprayer Glamour");
-			}
+#			visit_url("da.php");
+#			if(get_property("barrelShrineUnlocked").to_boolean() && !get_property("_barrelPrayer").to_boolean())
+#			{
+#				boolean buff = cli_execute("barrelprayer Glamour");
+#			}
 
 			if(get_property("questM23Meatsmith") == "unstarted")
 			{
@@ -1681,10 +1681,10 @@ boolean LA_cs_communityService()
 				cli_execute("make " + $item[Potion of Temporary Gr8tness]);
 			}
 
-			if(!possessEquipment($item[Barrel Lid]) && get_property("barrelShrineUnlocked").to_boolean() && !get_property("_barrelPrayer").to_boolean())
-			{
-				boolean buff = cli_execute("barrelprayer Protection");
-			}
+#			if(!possessEquipment($item[Barrel Lid]) && get_property("barrelShrineUnlocked").to_boolean() && !get_property("_barrelPrayer").to_boolean())
+#			{
+#				boolean buff = cli_execute("barrelprayer Protection");
+#			}
 
 			if(possessEquipment($item[Barrel Lid]))
 			{
