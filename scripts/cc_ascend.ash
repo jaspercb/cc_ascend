@@ -10569,6 +10569,38 @@ boolean doTasks()
 	oldPeoplePlantStuff();
 	use_barrels();
 
+	if(!in_hardcore() || !isGuildClass())
+	{
+		if(deck_useScheme("sc" + my_daycount()))
+		{
+			return true;
+		}
+	}
+	if(in_hardcore() && isGuildClass())
+	{
+		switch(my_daycount())
+		{
+		case 1:
+			if(deck_useScheme("hc1"))
+			{
+				return true;
+			}
+			break;
+		case 2:
+			if(deck_useScheme("hc2"))
+			{
+				return true;
+			}
+			break;
+		case 3:
+			if(deck_useScheme("hc3"))
+			{
+				return true;
+			}
+			break;
+		}
+	}
+
 	if(L1_dnaAcquire())
 	{
 		return true;
@@ -10865,38 +10897,6 @@ boolean doTasks()
 		}
 		use(1, $item[Cobb\'s Knob Map]);
 		return true;
-	}
-
-	if(!in_hardcore() || !isGuildClass())
-	{
-		if(deck_useScheme("sc" + my_daycount()))
-		{
-			return true;
-		}
-	}
-	if(in_hardcore() && isGuildClass())
-	{
-		switch(my_daycount())
-		{
-		case 1:
-			if(deck_useScheme("hc1"))
-			{
-				return true;
-			}
-			break;
-		case 2:
-			if(deck_useScheme("hc2"))
-			{
-				return true;
-			}
-			break;
-		case 3:
-			if(deck_useScheme("hc3"))
-			{
-				return true;
-			}
-			break;
-		}
 	}
 
 	//Handle most quests, if we are Actually Ed the Undying

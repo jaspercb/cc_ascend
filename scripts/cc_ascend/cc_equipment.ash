@@ -684,7 +684,8 @@ void equipBaselineHolster()
 	boolean[item] poss = $items[toy sixgun, rinky-dink sixgun, reliable sixgun, makeshift sixgun, custom sixgun, porquoise-handled sixgun, hamethyst-handled sixgun, baconstone-handled sixgun, Pecos Dave\'s sixgun];
 	foreach thing in poss
 	{
-		if(possessEquipment(thing) && can_equip(thing))
+#		if(possessEquipment(thing) && can_equip(thing))
+		if(possessEquipment(thing))
 		{
 			toEquip = thing;
 		}
