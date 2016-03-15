@@ -13,6 +13,10 @@ int deck_draws_left()
 	{
 		return 0;
 	}
+	if(my_hp() == 0)
+	{
+		return 0;
+	}
 	return 15 - get_property("_deckCardsDrawn").to_int();
 }
 
@@ -24,6 +28,10 @@ boolean deck_draw()
 		return false;
 	}
 	if(deck_draws_left() <= 0)
+	{
+		return false;
+	}
+	if(my_hp() == 0)
 	{
 		return false;
 	}
@@ -39,6 +47,10 @@ boolean deck_cheat(string cheat)
 		return false;
 	}
 	if(deck_draws_left() <= 0)
+	{
+		return false;
+	}
+	if(my_hp() == 0)
 	{
 		return false;
 	}
@@ -176,6 +188,10 @@ boolean deck_useScheme(string action)
 		return false;
 	}
 	if(deck_draws_left() < 15)
+	{
+		return false;
+	}
+	if(my_hp() == 0)
 	{
 		return false;
 	}
