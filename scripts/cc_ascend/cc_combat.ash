@@ -1443,7 +1443,7 @@ string cc_combatHandler(int round, string opp, string text)
 			costMinor = mp_cost($skill[Snakewhip]);
 		}
 
-		if(have_skill($skill[Pungent Mung]) && (my_mp() >= mp_cost($skill[Pungent Mung])))
+		if(have_skill($skill[Pungent Mung]) && (my_mp() >= mp_cost($skill[Pungent Mung])) && (enemy.defense_element != $element[stench]))
 		{
 			attackMajor = "skill " + $skill[Pungent Mung];
 			attackMinor = "skill " + $skill[Pungent Mung];
