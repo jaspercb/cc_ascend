@@ -106,22 +106,14 @@ void cs_initializeDay(int day)
 
 			if(have_skill($skill[Summon Smithsness]))
 			{
-				if(my_mp() >= mp_cost($skill[Summon Smithsness]))
-				{
-					use_skill(1, $skill[Summon Smithsness]);
-				}
-				if(my_mp() >= mp_cost($skill[Summon Smithsness]))
-				{
-					use_skill(1, $skill[Summon Smithsness]);
-				}
-				if(my_mp() >= mp_cost($skill[Summon Smithsness]))
+				while((my_mp() >= mp_cost($skill[Summon Smithsness])) && (get_property("tomeSummons").to_int() < 3))
 				{
 					use_skill(1, $skill[Summon Smithsness]);
 				}
 			}
 
 			cli_execute("garden pick");
-			if(item_amount($item[Ice Harvest]) > 0)
+			if((item_amount($item[Ice Harvest]) >= 3) && (item_amount($item[Snow Berries]) >= 1))
 			{
 				cli_execute("make ice island long tea");
 			}
@@ -180,11 +172,7 @@ void cs_initializeDay(int day)
 
 			if(have_skill($skill[Summon Smithsness]))
 			{
-				if((my_mp() >= mp_cost($skill[Summon Smithsness])) && (get_property("tomeSummons").to_int() < 3))
-				{
-					use_skill(1, $skill[Summon Smithsness]);
-				}
-				if((my_mp() >= mp_cost($skill[Summon Smithsness])) && (get_property("tomeSummons").to_int() < 3))
+				while((my_mp() >= mp_cost($skill[Summon Smithsness])) && (get_property("tomeSummons").to_int() < 2))
 				{
 					use_skill(1, $skill[Summon Smithsness]);
 				}
