@@ -363,10 +363,11 @@ boolean LX_witchess()
 		return false;
 	}
 
+
 	switch(my_daycount())
 	{
 	case 1:
-		if(item_amount($item[Greek Fire]) == 0)
+		if((item_amount($item[Greek Fire]) == 0) && (my_path() != "Community Service"))
 		{
 			return cc_advWitchess("ml");
 		}
@@ -4942,15 +4943,15 @@ boolean L11_unlockEd()
 			cli_execute("make sugar fairy");
 			buffMaintain($effect[Dance of the Sugar Fairy], 0, 1, 1);
 		}
-	}
-	if((have_effect($effect[On The Trail]) > 0) && (get_property("olfactedMonster") != $monster[Tomb Rat]))
-	{
-		if(item_amount($item[soft green echo eyedrop antidote]) > 0)
+		if((have_effect($effect[On The Trail]) > 0) && (get_property("olfactedMonster") != $monster[Tomb Rat]))
 		{
-			uneffect($effect[On The Trail]);
+			if(item_amount($item[soft green echo eyedrop antidote]) > 0)
+			{
+				uneffect($effect[On The Trail]);
+			}
 		}
+		handleFamiliar("item");
 	}
-	handleFamiliar("item");
 
 	ccAdv(1, $location[The Middle Chamber]);
 	return true;

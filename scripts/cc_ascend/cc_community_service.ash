@@ -113,9 +113,12 @@ void cs_initializeDay(int day)
 			}
 
 			cli_execute("garden pick");
-			if((item_amount($item[Ice Harvest]) >= 3) && (item_amount($item[Snow Berries]) >= 1))
+			if(!cc_haveWitchess())
 			{
-				cli_execute("make ice island long tea");
+				if((item_amount($item[Ice Harvest]) >= 3) && (item_amount($item[Snow Berries]) >= 1))
+				{
+					cli_execute("make ice island long tea");
+				}
 			}
 
 #			visit_url("da.php");
@@ -1030,9 +1033,14 @@ boolean LA_cs_communityService()
 				doRest();
 				buffMaintain($effect[Ode to Booze], 50, 1, 1);
 				cli_execute("drink lucky lindy");
-				if(item_amount($item[Ice Island Long Tea]) > 0)
+
+				if(item_amount($item[Sacramento Wine]) >= 4)
 				{
-					cli_execute("drink Ice Island Long Tea");
+					drink(4, $item[Sacramento Wine]);
+				}
+				else if(item_amount($item[Ice Island Long Tea]) > 0)
+				{
+					drink(1, $item[Ice Island Long Tea]);
 				}
 				solveCookie();
 			}
@@ -1971,7 +1979,7 @@ boolean LA_cs_communityService()
 			{
 				lastQuestCost = lastQuestCost - 3;
 			}
-			if((item_amount($item[Snow Berries]) > 0) || (item_amount($item[Snow Cleats]) == 0))
+			if((item_amount($item[Snow Berries]) >= 1) || (item_amount($item[Snow Cleats]) == 0))
 			{
 				lastQuestCost = lastQuestCost - 3;
 			}
