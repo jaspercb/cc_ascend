@@ -9999,26 +9999,28 @@ boolean L8_trapperYeti()
 			return true;
 		}
 	}
-	else if(my_class() == $class[Ed])
+	else if(in_hardcore())
 	{
 		if(get_property("questL08Trapper") == "step1")
 		{
 			set_property("questL08Trapper", "step2");
 		}
-		if(item_amount($item[Talisman of Horus]) == 0)
+		if(my_class() == $class[Ed])
 		{
-			return false;
+			if(item_amount($item[Talisman of Horus]) == 0)
+			{
+				return false;
+			}
+			if((have_effect($effect[Taunt of Horus]) == 0) && (item_amount($item[Talisman of Horus]) == 0))
+			{
+				return false;
+			}
 		}
-
-		if((have_effect($effect[Taunt of Horus]) == 0) && (item_amount($item[Talisman of Horus]) == 0))
-		{
-			return false;
-		}
-
 		if((have_effect($effect[Thrice-Cursed]) > 0) || (have_effect($effect[Twice-Cursed]) > 0) || (have_effect($effect[Once-Cursed]) > 0))
 		{
 			return false;
 		}
+
 		buffMaintain($effect[Patent Aggression], 0, 1, 1);
 		removeNonCombat();
 
@@ -10031,7 +10033,7 @@ boolean L8_trapperYeti()
 			handleFamiliar("item");
 		}
 
-
+		uneffect($effect[The Sonata of Sneakiness]);
 		if(!uneffect($effect[Patent Invisibility]))
 		{
 			print("Could not uneffect Patent Invisibility for ninja snowmen, delaying");
@@ -10042,42 +10044,23 @@ boolean L8_trapperYeti()
 			print("Could not uneffect Shelter of Shed for ninja snowmen, delaying");
 			return false;
 		}
-		buffMaintain($effect[Taunt of Horus], 0, 1, 1);
-		if(have_effect($effect[Taunt of Horus]) > 0)
-		{
-			if(!elementalPlanes_access($element[spooky]))
-			{
-				adjustEdHat("myst");
-			}
-			if(!ccAdv(1, $location[Lair of the Ninja Snowmen]))
-			{
-				print("Seems like we failed the Ninja Snowmen unlock, reverting trapper setting", "red");
-				set_property("cc_trapper", "start");
-			}
-			return true;
-		}
-	}
-#	else if(in_hardcore() && isGuildClass())
-	else if(in_hardcore())
-	{
-		if((have_effect($effect[Thrice-Cursed]) > 0) || (have_effect($effect[Twice-Cursed]) > 0) || (have_effect($effect[Once-Cursed]) > 0))
-		{
-			return false;
-		}
-
-		uneffect($effect[The Sonata of Sneakiness]);
 		buffMaintain($effect[Hippy Stench], 0, 1, 1);
 		buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 10, 1, 1);
 		buffMaintain($effect[Musk of the Moose], 10, 1, 1);
-		handleFamiliar($familiar[Jumpsuited Hound Dog]);
+		buffMaintain($effect[Taunt of Horus], 0, 1, 1);
+
+		if((my_class() == $class[Ed]) && (!elementalPlanes_access($element[spooky])))
+		{
+			adjustEdHat("myst");
+		}
 		if(!ccAdv(1, $location[Lair of the Ninja Snowmen]))
 		{
 			print("Seems like we failed the Ninja Snowmen unlock, reverting trapper setting", "red");
 			set_property("cc_trapper", "start");
 		}
-		handleFamiliar("item");
 		return true;
 	}
+
 	return false;
 }
 
