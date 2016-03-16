@@ -186,5 +186,31 @@ boolean settingFixer()
 	{
 		set_property("betweenBattleScript", "precheese.ash");
 	}
+
+	if(get_property("cc_abooclover") == "")
+	{
+		set_property("cc_abooclover", true);
+	}
+	if(get_property("cc_abooclover") == "used")
+	{
+		set_property("cc_abooclover", false);
+	}
+	if(get_property("cc_aftercore") == "")
+	{
+		set_property("cc_aftercore", false);
+	}
+	if(get_property("cc_aftercore") == "done")
+	{
+		set_property("cc_aftercore", true);
+	}
+	if(get_property("cc_bean") == "")
+	{
+		set_property("cc_bean", false);
+	}
+	if(get_property("cc_bean") == "plant")
+	{
+		set_property("cc_bean", true);
+	}
+
 	return true;
 }

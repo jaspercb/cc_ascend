@@ -1675,7 +1675,6 @@ string ccsJunkyard(int round, string opp, string text)
 	{
 		print("ccsJunkyard: " + round, "brown");
 		set_property("cc_gremlinMoly", true);
-		set_property("cc_combatJunkyard", "clear");
 		set_property("cc_combatHandler", "");
 	}
 	else

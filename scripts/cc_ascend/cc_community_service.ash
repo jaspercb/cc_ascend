@@ -4,10 +4,11 @@ script "cc_community_service.ash"
 #	http://forums.kingdomofloathing.com/vb/showpost.php?p=4769933&postcount=345
 
 
-import <cc_ascend/cc_clan.ash>
-import <cc_ascend/cc_util.ash>
-import <cc_ascend/cc_ascend_header.ash>
-import <cc_ascend/cc_mr2016.ash>
+import<cc_ascend/cc_clan.ash>
+import<cc_ascend/cc_util.ash>
+import<cc_ascend/cc_ascend_header.ash>
+import<cc_ascend/cc_mr2016.ash>
+import<cc_ascend/cc_mr2014.ash>
 
 
 
@@ -179,20 +180,20 @@ void cs_initializeDay(int day)
 
 			if(have_skill($skill[Summon Smithsness]))
 			{
-				if(my_mp() >= mp_cost($skill[Summon Smithsness]))
+				if((my_mp() >= mp_cost($skill[Summon Smithsness])) && (get_property("tomeSummons").to_int() < 3))
 				{
 					use_skill(1, $skill[Summon Smithsness]);
 				}
-				if(my_mp() >= mp_cost($skill[Summon Smithsness]))
+				if((my_mp() >= mp_cost($skill[Summon Smithsness])) && (get_property("tomeSummons").to_int() < 3))
 				{
 					use_skill(1, $skill[Summon Smithsness]);
 				}
 
-				if(have_skill($skill[Summon Clip Art]) && (my_mp() >= mp_cost($skill[Summon Clip Art])))
+				if(have_skill($skill[Summon Clip Art]) && (my_mp() >= mp_cost($skill[Summon Clip Art])) && (get_property("tomeSummons").to_int() < 3))
 				{
 					cli_execute("make cold-filtered water");
 				}
-				else if(my_mp() >= mp_cost($skill[Summon Smithsness]))
+				else if((my_mp() >= mp_cost($skill[Summon Smithsness])) && (get_property("tomeSummons").to_int() < 3))
 				{
 					use_skill(1, $skill[Summon Smithsness]);
 				}
@@ -423,29 +424,7 @@ void cs_dnaPotions()
 	{
 		return;
 	}
-	if(get_property("dnaSyringe") == $phylum[beast])
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 0) && (my_daycount() == 1))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
-
-	if(get_property("dnaSyringe") == $phylum[pirate])
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 1) && (my_daycount() == 1))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
-
-	if(get_property("dnaSyringe") == $phylum[elemental])
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 2) && (my_daycount() == 1))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
+	dna_generic();
 
 	if((get_property("dnaSyringe") == $phylum[fish]) && !get_property("_dnaHybrid").to_boolean())
 	{
@@ -455,37 +434,6 @@ void cs_dnaPotions()
 		}
 	}
 
-	if(get_property("dnaSyringe") == $phylum[construct])
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 0) && (my_daycount() == 2))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
-
-	if(get_property("dnaSyringe") == $phylum[dude])
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 1) && (my_daycount() == 2))
-		{
-			cli_execute("camp dnapotion");
-		}
-		if((get_property("_dnaPotionsMade").to_int() == 2) && (my_daycount() == 2))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
-
-	if(get_property("dnaSyringe") == $phylum[humanoid])
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 1) && (my_daycount() == 2))
-		{
-			cli_execute("camp dnapotion");
-		}
-		if((get_property("_dnaPotionsMade").to_int() == 2) && (my_daycount() == 2))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
 }
 
 string cs_combatNormal(int round, string opp, string text)

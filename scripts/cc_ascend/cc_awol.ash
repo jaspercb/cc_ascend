@@ -22,7 +22,7 @@ void awol_useStuff()
 	{
 		if(have_skill($skill[Patent Medicine]))
 		{
-			if(item_amount($item[Patent Invisibility Tonic]) == 0)
+			if(item_amount($item[Patent Invisibility Tonic]) < 3)
 			{
 				if((item_amount($item[Eldritch Oil]) > 0) && (item_amount($item[Snake Oil]) > 0))
 				{

@@ -1,55 +1,8 @@
 script "heavyrains.ash"
 
 import<cc_ascend/cc_util.ash>
+import<cc_ascend/cc_mr2014.ash>
 import<cc_ascend/cc_ascend_header.ash>
-
-
-void hr_dnaPotions()
-{
-	if(my_path() != "Heavy Rains")
-	{
-		return;
-	}
-	if(get_property("dnaSyringe") == "construct")
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 0) && (my_daycount() == 1))
-		{
-			cli_execute("camp dnapotion");
-		}
-		if((get_property("_dnaPotionsMade").to_int() == 1) && (my_daycount() == 1))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
-
-	if(get_property("dnaSyringe") == "fish")
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 2) && (my_daycount() == 1))
-		{
-			cli_execute("camp dnapotion");
-		}
-		if((get_property("_dnaPotionsMade").to_int() == 0) && (my_daycount() == 2))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
-
-	if(get_property("dnaSyringe") == "constellation")
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 1) && (my_daycount() == 2))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
-
-	if(get_property("dnaSyringe") == "dude")
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 2) && (my_daycount() == 2))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
-}
 
 boolean rainManSummon(string monsterName, boolean copy, boolean wink);
 
@@ -376,7 +329,7 @@ boolean L1_HRstart()
 	{
 		doHottub();
 	}
-	hr_dnaPotions();
+	dna_generic();
 	set_property("cc_day1_desk", "finished");
 	return true;
 }

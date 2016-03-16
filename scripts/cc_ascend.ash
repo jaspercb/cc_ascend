@@ -24,6 +24,7 @@ import <cc_ascend/cc_community_service.ash>
 import <cc_ascend/cc_clan.ash>
 import <cc_ascend/cc_cooking.ash>
 import <cc_ascend/cc_adventure.ash>
+import <cc_ascend/cc_mr2014.ash>
 import <cc_ascend/cc_mr2015.ash>
 import <cc_ascend/cc_mr2016.ash>
 
@@ -62,10 +63,10 @@ void initializeSettings()
 	}
 
 
-	set_property("cc_abooclover", "");
+	set_property("cc_abooclover", true);
 	set_property("cc_aboocount", "0");
 	set_property("cc_aboopending", 0);
-	set_property("cc_aftercore", "");
+	set_property("cc_aftercore", false);
 	set_property("cc_airship", "");
 	set_property("cc_ballroom", "");
 	set_property("cc_ballroomflat", "");
@@ -73,7 +74,7 @@ void initializeSettings()
 	set_property("cc_ballroomsong", "");
 	set_property("cc_banishes", "");
 	set_property("cc_bat", "");
-	set_property("cc_bean", "");
+	set_property("cc_bean", false);
 	set_property("cc_getBeehive", false);
 	set_property("cc_blackfam", true);
 	set_property("cc_blackmap", "");
@@ -113,7 +114,6 @@ void initializeSettings()
 	set_property("cc_grimfairytale", "");
 	set_property("cc_grimstoneFancyOilPainting", true);
 	set_property("cc_grimstoneOrnateDowsingRod", true);
-	set_property("cc_guildmeat", "");
 	set_property("cc_gunpowder", "");
 	set_property("cc_haveoven", false);
 	set_property("cc_hedge", "fast");
@@ -392,57 +392,6 @@ boolean LX_witchess()
 		return cc_advWitchess("booze");
 	}
 	return false;
-}
-
-boolean L1_dnaAcquire()
-{
-	if((get_property("cc_day1_dna") == "finished") || (my_daycount() != 1))
-	{
-		return false;
-	}
-	if(have_effect($effect[Human-Weird Thing Hybrid]) == 2147483647)
-	{
-		return false;
-	}
-	if(item_amount($item[DNA Extraction Syringe]) == 0)
-	{
-		return false;
-	}
-
-	if(get_property("dnaSyringe") == $phylum[weird])
-	{
-		cli_execute("camp dnainject");
-	}
-	else
-	{
-		if((have_familiar($familiar[Machine Elf])) && !get_property("cc_100familiar").to_boolean())
-		{
-			familiar bjorn = my_bjorned_familiar();
-			if(bjorn == $familiar[Machine Elf])
-			{
-				handleBjornify($familiar[Grinning Turtle]);
-			}
-			handleFamiliar($familiar[Machine Elf]);
-			ccAdv(1, $location[The Deep Machine Tunnels]);
-			if(bjorn == $familiar[Machine Elf])
-			{
-				handleBjornify(bjorn);
-			}
-			cli_execute("camp dnainject");
-		}
-		else if(elementalPlanes_access($element[sleaze]))
-		{
-			ccAdv(1, $location[Sloppy Seconds Diner]);
-			ccAdv(1, $location[Sloppy Seconds Diner]);
-			cli_execute("camp dnainject");
-		}
-	}
-	set_property("cc_day1_dna", "finished");
-	if(have_effect($effect[Human-Weird Thing Hybrid]) != 2147483647)
-	{
-		print("DNA Hybridization failed, perhaps it was due to ML which is annoying us right now.", "red");
-	}
-	return true;
 }
 
 void maximize_hedge()
@@ -1804,17 +1753,7 @@ void doBedtime()
 		}
 	}
 
-	//We can also use int[item] cc_get_campground()
-	int lastDNA = get_property("_dnaPotionsMade").to_int();
-	while((get_property("_dnaPotionsMade") != "3") && (get_property("dnaSyringe") != ""))
-	{
-		cli_execute("camp dnapotion");
-		int thisDNA = get_property("_dnaPotionsMade").to_int();
-		if(thisDNA == lastDNA)
-		{
-			break;
-		}
-	}
+	dna_bedtime();
 
 	if((get_property("_grimBuff") == "false") && have_familiar($familiar[Grim Brother]))
 	{
@@ -2206,7 +2145,7 @@ boolean questOverride()
 		set_property("cc_castleground", "finished");
 		set_property("cc_castlebasement", "finished");
 		set_property("cc_airship", "finished");
-		set_property("cc_bean", "plant");
+		set_property("cc_bean", true);
 	}
 	if((internalQuestStatus("questL10Garbage") >= 9) && (get_property("cc_castleground") != "finished"))
 	{
@@ -2223,10 +2162,10 @@ boolean questOverride()
 		print("Found completed Airship (10)");
 		set_property("cc_airship", "finished");
 	}
-	if((internalQuestStatus("questL10Garbage") >= 2) && (get_property("cc_bean") != "plant"))
+	if((internalQuestStatus("questL10Garbage") >= 2) && !get_property("cc_bean").to_boolean())
 	{
 		print("Found completed Planted Beanstalk (10)");
-		set_property("cc_bean", "plant");
+		set_property("cc_bean", true);
 	}
 
 	if((internalQuestStatus("questL11Manor") >= 11) && (get_property("cc_ballroom") != "finished"))
@@ -4992,6 +4931,7 @@ boolean L11_unlockEd()
 		buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
 		buffMaintain($effect[Human-Fish Hybrid], 0, 1, 1);
 		buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
+		buffMaintain($effect[Unusual Perspective], 0, 1, 1);
 		if(get_property("cc_dickstab").to_boolean())
 		{
 			buffMaintain($effect[Wet and Greedy], 0, 1, 1);
@@ -5914,7 +5854,7 @@ boolean L12_orchardFinalize()
 
 boolean L10_plantThatBean()
 {
-	if((my_level() < 10) || (get_property("cc_bean") != ""))
+	if((my_level() < 10) || get_property("cc_bean").to_boolean())
 	{
 		return false;
 	}
@@ -5924,12 +5864,12 @@ boolean L10_plantThatBean()
 	if(contains_text(page, "place.php?whichplace=beanstalk"))
 	{
 		print("I have no bean but I see a stalk here. Okies. I'm ok with that", "blue");
-		set_property("cc_bean", "plant");
+		set_property("cc_bean", true);
 		visit_url("place.php?whichplace=beanstalk");
 		return true;
 	}
 	use(1, $item[enchanted bean]);
-	set_property("cc_bean", "plant");
+	set_property("cc_bean", true);
 	return true;
 }
 
@@ -7416,7 +7356,7 @@ boolean L4_batCave()
 
 	if(batStatus >= 4)
 	{
-		if((item_amount($item[enchanted bean]) == 0) && (get_property("cc_bean") != "plant"))
+		if((item_amount($item[enchanted bean]) == 0) && !get_property("cc_bean").to_boolean())
 		{
 			ccAdv(1, $location[The Beanbat Chamber]);
 			return true;
@@ -7432,7 +7372,7 @@ boolean L4_batCave()
 	}
 	if(batStatus >= 2)
 	{
-		if((item_amount($item[Enchanted Bean]) == 0) && (get_property("cc_bean") != "plant"))
+		if((item_amount($item[Enchanted Bean]) == 0) && !get_property("cc_bean").to_boolean())
 		{
 			ccAdv(1, $location[The Beanbat Chamber]);
 			return true;
@@ -8728,7 +8668,7 @@ boolean L9_aBooPeak()
 		handleFamiliar("item");
 		handleBjornify(priorBjorn);
 	}
-	else if((get_property("cc_abooclover") == "") && (get_property("booPeakProgress").to_int() >= 40))
+	else if(get_property("cc_abooclover").to_boolean() && (get_property("booPeakProgress").to_int() >= 40))
 	{
 		if(item_amount($item[disassembled clover]) > 0)
 		{
@@ -8743,7 +8683,7 @@ boolean L9_aBooPeak()
 			}
 			else
 			{
-				set_property("cc_abooclover", "used");
+				set_property("cc_abooclover", false);
 			}
 			return true;
 		}
@@ -9377,7 +9317,7 @@ boolean L11_blackMarket()
 	if(get_property("cc_blackfam").to_boolean())
 	{
 		council();
-		if(!have_equipped($item[Blackberry Galoshes]))
+		if(!possessEquipment($item[Blackberry Galoshes]))
 		{
 			pullXWhenHaveY($item[blackberry galoshes], 1, 0);
 		}
@@ -10596,7 +10536,7 @@ boolean doTasks()
 		}
 	}
 
-	if(L1_dnaAcquire())
+	if(dna_startAcquire())
 	{
 		return true;
 	}
@@ -10757,81 +10697,8 @@ boolean doTasks()
 		}
 	}
 
-
-	hr_dnaPotions();
-	picky_dnaPotions();
-	standard_dnaPotions();
-
-
-	# FIXME: Can we do this earlier? This isn't even all that useful, to be fair.
-	# When is the last time we encounter each of these types?
-	if((my_level() >= 13) && (get_property("_dnaPotionsMade").to_int() == 3) && (get_property("choiceAdventure1003").to_int() < 3) && (!get_property("_dnaHybrid").to_boolean()))
-	{
-		if((get_property("nsChallenge2") == "") && (get_property("telescopeUpgrades").to_int() >= 2))
-		{
-			ns_crowd3();
-		}
-		if((get_property("dnaSyringe") == "plant") && (get_property("nsChallenge2") == "cold"))
-		{
-			cli_execute("camp dnainject");
-		}
-		if((get_property("dnaSyringe") == "demon") && (get_property("nsChallenge2") == "hot"))
-		{
-			cli_execute("camp dnainject");
-		}
-		if((get_property("dnaSyringe") == "slime") && (get_property("nsChallenge2") == "sleaze"))
-		{
-			cli_execute("camp dnainject");
-		}
-		if((get_property("dnaSyringe") == "undead") && (get_property("nsChallenge2") == "spooky"))
-		{
-			cli_execute("camp dnainject");
-		}
-		if((get_property("dnaSyringe") == "hobo") && (get_property("nsChallenge2") == "stench"))
-		{
-			cli_execute("camp dnainject");
-		}
-	}
-
-	if(get_property("dnaSyringe") == "construct")
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 0) && (my_daycount() == 1))
-		{
-			cli_execute("camp dnapotion");
-		}
-		if((get_property("_dnaPotionsMade").to_int() == 1) && (my_daycount() == 1))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
-
-	if(get_property("dnaSyringe") == "fish")
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 2) && (my_daycount() == 1))
-		{
-			cli_execute("camp dnapotion");
-		}
-		if((get_property("_dnaPotionsMade").to_int() == 0) && (my_daycount() == 2))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
-
-	if(get_property("dnaSyringe") == "constellation")
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 1) && (my_daycount() == 2))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
-
-	if(get_property("dnaSyringe") == "dude")
-	{
-		if((get_property("_dnaPotionsMade").to_int() == 2) && (my_daycount() == 2))
-		{
-			cli_execute("camp dnapotion");
-		}
-	}
+	dna_sorceressTest();
+	dna_generic();
 
 	if(get_property("cc_useCubeling").to_boolean())
 	{

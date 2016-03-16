@@ -117,7 +117,7 @@ void handleKingLiberation()
 		}
 	}
 
-	if((get_property("kingLiberated") == "true") && (get_property("cc_aftercore") == ""))
+	if((get_property("kingLiberated") == "true") && !get_property("cc_aftercore").to_boolean())
 	{
 		buy_item($item[4-d camera], 1, 10000);
 		buy_item($item[mojo filter], 2, 3500);
@@ -156,7 +156,7 @@ void handleKingLiberation()
 		{
 			use_skill(1, $skill[Iron Palm Technique]);
 		}
-		set_property("cc_aftercore", "done");
+		set_property("cc_aftercore", true);
 	}
 
 	print("King Liberation Complete. Thank you for playing", "blue");

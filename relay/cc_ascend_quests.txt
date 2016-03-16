@@ -1,0 +1,101 @@
+1	cc_abooclover	boolean	ANY	Are we considering using a clover at A-Boo Peak?
+2	cc_aboocount	integer	ANY	(5 - Number of turns) left at A-Boo Peak before we consider using our Clues.
+3	cc_aboopending	integer	ANY	The last turn of a pending A-Boo Clue. 0 if no clue active.
+4	cc_aftercore	boolean	ANY	Do we think we are in aftercore?
+5	cc_airship	string	ANY	'finished' if we have access to the Castle in the Clouds (S.O.C.K. equivalence)
+6	cc_ballroom	string	ANY	-
+7	cc_ballroomflat	string	ANY	-
+8	cc_ballroomopen	string	ANY -
+9	cc_ballroomsong	string	ANY	-
+10	cc_bat	string	ANY -
+11	cc_bean	boolean	ANY	Have we planted a beanstalk bean?
+12	cc_blackfam	boolean	ANY	True when we have not yet initialized The Black Forest. False once it has been set up.
+13	cc_blackmap	string	ANY	-
+14	cc_boopeak	string	ANY	'finished' is A-Boo Peak is completed.
+15	cc_castlebasement	string	ANY	-
+16	cc_castleground	string	ANY	-
+17	cc_castletop	string	ANY	-
+18	cc_chasmBusted	boolean	ANY	-
+19	cc_clanstuff	string	ANY	-
+20	cc_cookie	integer	ANY	HCCS Only: Tracks fortune cookie.
+21	cc_crackpotjar	string	ANY	-
+22	cc_crypt	string	ANY	-
+23	cc_cubeItems	string	ANY	-
+24	cc_day1_cobb	string	ANY	'finished' if we have found the Knob Goblin Encryption Key.
+25	cc_day1_dna	string	ANY	'finished' if we have hybridized ourselves at the start of Ascension.
+26	cc_day1_init	string	ANY	'finished' if we properly initialized on day 1.
+27	cc_day2_init	string	ANY	'finished' if we properly initialized on day 2.
+28	cc_day3_init	string	ANY	'finished' if we properly initialized on day 3.
+29	cc_day4_init	string	ANY	'finished' if we properly initialized on day 4. :(
+30	cc_disableAdventureHAndling	string	ANY	-
+31	cc_familiarChoice	string	ANY	-
+32	cc_fcle	string	ANY	-
+33	cc_friars	string	ANY	-
+34	cc_gaudy	string	ANY	-
+35	cc_getBoningKnife	boolean	ANY	-
+36	cc_goblinking	string	ANY	-
+37	cc_gremlins	string	ANY	-
+38	cc_grimfairytale	string	ANY	-
+39	cc_grimstoneFancyOilPainting	boolean	ANY	-
+40	cc_grimstoneOrnateDowsingRod	boolean	ANY	-
+41	cc_gunpowder	string	ANY	-
+42	cc_hedge	string ANY	-
+43	cc_hiddenapartment	string	ANY	-
+44	cc_hiddenbowling	string	ANY	-
+45	cc_hiddencity	string	ANY	-
+46	cc_hiddenhospital	string	ANY	-
+47	cc_hiddenoffice	string	ANY	-
+48	cc_hiddenunlock	string	ANY	-
+49	cc_hiddenzones	string	ANY	-
+50	cc_highlandlord	string	ANY	-
+51	cc_mcmuffin	string	ANY	-
+52	cc_mistypeak	string	ANY	-
+53	cc_mosquito	string	ANY	-
+54	cc_nuns	string	ANY	-
+55	cc_nunsTrick	string	ANY	-
+56	cc_nunsTrickActive	string	ANY	-
+57	cc_nunsTrickGland	string	ANY	-
+58	cc_nunsTrickCount	string	ANY	-
+59	cc_nunsTrickReady	string	ANY	-
+60	cc_oilpeak	string	ANY	'finished' if The Oil Peak is completed.
+61	cc_orchard	string	ANY	-
+62	cc_palindome	string	ANY	-
+63	cc_phatloot	string	ANY	-
+64	cc_prewar	string	ANY	-
+65	cc_prehippy	string	ANY	-
+66	cc_pirateoutfit	string	ANY	-
+67	cc_powerLevelLastLevel	string	ANY	-
+68	cc_powerLevelAdvCount	string	ANY	-
+69	cc_powerLevelLastAttempted	string	ANY	-
+70	cc_skipDesert	string	ANY	-
+71	cc_spookyfertilizer	string	ANY	-
+72	cc_spookyravensecond	string	ANY	-
+73	cc_spookysapling	string	ANY	-
+74	cc_sonofa	string	ANY	-
+75	cc_sorceress	string	ANY	-
+76	cc_swordfish	string	ANY	-
+77	cc_tavern	string	ANY	-
+78	cc_trytower	string	ANY	-
+79	cc_trapper	string	ANY	-
+80	cc_treecoin	string	ANY	-
+81	cc_twinpeak	string	ANY	'finished' if Twin Peak is completed.
+82	cc_twinpeakprogress	string	ANY	-
+83	cc_waitingArrowAlcove	string	ANY	-
+84	cc_war	string	ANY	-
+85	cc_winebomb	string	ANY	-
+86	cc_100familiar	boolean	PRE	If true, do not allow familiar switching (for 100% runs).
+87	cc_autoCraft	string	PRE	Handler for the Boring Binder Clip AutoCraft bug.
+88	cc_awolLastSkill	integer	PRE	Last level we handled AWOL skills
+89	cc_beatenUpCount	integer	PRE	?? Something to do with ML disabling?
+90	cc_bedroomHandler1	string	PRE	Part of Multi-adventure Bedroom handling
+91	cc_bedroomHandler2	string	PRE	Part of Multi-adventure Bedroom handling
+92	cc_dinseyGarbageMoney	string	PRE	Tracks when we last depositing a Bag of Park Garbage (can we remove this?)
+93	cc_doneInitialize	integer	PRE	Indicates last ascension that we initialized with the script.
+94	cc_lastABooConsider	integer	PRE	Last adventure that we considered A-Boo Peak.
+95	cc_lastABooCycleFix	integer	PRE	Duration of current A-Boo Peak cycle.
+96	cc_noSnakeOil	integer	PRE	Last day that we could no longer Extract Oil.
+97	cc_renenutetBought	integer	PRE	Number of Talisman of Renenutet's bought on last tracking.
+98	cc_batoomerangDay	integer	PRE	Part of Replica Bat-oomerang Tracker
+99	cc_batoomerangUse	integer	PRE	Part of Replica Bat-oomerang Tracker
+100	cc_longConMonster	string	PRE	Last Monster hit by Long Con
+101	cc_noSleepingDog	boolean	PRE	When true, do not eat a Sleeping Dog.
