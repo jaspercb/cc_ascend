@@ -80,7 +80,7 @@ boolean cc_barrelPrayers()
 	}
 	else if(my_path() == "Actually Ed the Undying")
 	{
-		if(elementalPlanes_access($element[spooky]))
+		if((elementalPlanes_access($element[spooky])) && (get_property("edPoints").to_int() >= 2))
 		{
 			switch(my_daycount())
 			{
