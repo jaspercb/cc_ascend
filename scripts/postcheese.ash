@@ -57,6 +57,10 @@ void handlePostAdventure()
 	if(my_path() == "Actually Ed the Undying")
 	{
 		int maxBuff = max(5, 660 - my_turncount());
+		if(my_mp() < 30)
+		{
+			maxBuff = 5;
+		}
 		if(my_level() < 13)
 		{
 			buffMaintain($effect[Prayer of Seshat], 5, 1, maxBuff);
@@ -70,6 +74,12 @@ void handlePostAdventure()
 		{
 			buffMaintain($effect[Wisdom of Thoth], 150, 1, maxBuff);
 			buffMaintain($effect[Power of Heka], 100, 1, maxBuff);
+		}
+
+		if(get_property("edPoints").to_int() <= 6)
+		{
+			buffMaintain($effect[Wisdom of Thoth], 5, 1, 10);
+			buffMaintain($effect[Power of Heka], 10, 1, 10);
 		}
 
 		buffMaintain($effect[Hide of Sobek], 200, 1, maxBuff);
@@ -97,20 +107,20 @@ void handlePostAdventure()
 		}
 
 
-		while(my_mp() > 100)
+		if(my_mp() > 100)
 		{
-			int start = my_mp();
-			int maxBuff = 750 - my_turncount();
+			#int start = my_mp();
+			int maxBuff = max(5, 750 - my_turncount());
 			buffMaintain($effect[Prayer of Seshat], 5, 1, maxBuff);
 			buffMaintain($effect[Wisdom of Thoth], 5, 1, maxBuff);
 			#buffMaintain($effect[Power of Heka], 10, 1, maxBuff);
 			#buffMaintain($effect[Purr of the Feline], 10, 1, maxBuff);
 			buffMaintain($effect[Hide of Sobek], 10, 1, maxBuff);
 			buffMaintain($effect[Bounty of Renenutet], 20, 1, maxBuff);
-			if(start == my_mp())
-			{
-				break;
-			}
+			#if(start == my_mp())
+			#{
+			#	break;
+			#}
 		}
 
 		if((my_level() < 13) && (my_level() > 3))

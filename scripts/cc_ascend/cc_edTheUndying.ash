@@ -1309,6 +1309,7 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 
 	if((my_hp() == 0) || (get_property("_edDefeats").to_int() > get_property("edDefeatAbort").to_int()))
 	{
+		print("Defeats detected: " + get_property("_edDefeats") + ", Defeat threshold: " + get_property("edDefeatAbort"), "green");
 		abort("How are you here? You can't be here. Bloody Limit Mode (probably, maybe?)!!");
 	}
 
@@ -1397,6 +1398,12 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 		}
 		set_property("cc_edCombatStage", 0);
 		set_property("cc_disableAdventureHandling", "no");
+
+		if(get_property("_edDefeats").to_int() > get_property("edDefeatAbort").to_int())
+		{
+			abort("Manually forcing edDefeatAborts. We can't handle the battle.");
+		}
+
 		cli_execute("postcheese.ash");
 	}
 	return status;

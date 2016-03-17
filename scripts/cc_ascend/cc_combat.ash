@@ -2008,7 +2008,10 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 	if((get_property("edPoints").to_int() <= 4) && (my_daycount() == 1))
 	{
-		set_property("cc_edStatus", "dying");
+		if(!ed_needShop() || (get_property("cc_edCombatStage").to_int() > 1))
+		{
+			set_property("cc_edStatus", "dying");
+		}
 	}
 
 	if(get_property("cc_edStatus") == "UNDYING!")

@@ -52,7 +52,7 @@ void awol_useStuff()
 			}
 		}
 
-		if((item_amount($item[Snake Oil]) > 0) && (get_property("awolMedicine").to_int() < 60) && (get_property("awolVenom").to_int() < 60))
+		if((item_amount($item[Snake Oil]) > 0) && (get_property("awolMedicine").to_int() < 30) && (get_property("awolVenom").to_int() < 30))
 		{
 			use(1, $item[Snake Oil]);
 		}
