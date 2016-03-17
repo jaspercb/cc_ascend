@@ -463,7 +463,7 @@ boolean rainManSummon(string monsterName, boolean copy, boolean wink, string opt
 		#already have the subgoal, don't summon
 		return false;
 	}
-	if(((get_property("cc_gunpowder") == "done") || (item_amount($item[barrel of gunpowder]) >= 5)) && (monsterName == "lobsterfrogman"))
+	if(((get_property("cc_gunpowder") == "finished") || (item_amount($item[barrel of gunpowder]) >= 5)) && (monsterName == "lobsterfrogman"))
 	{
 		#already have the subgoal, don't summon
 		return false;

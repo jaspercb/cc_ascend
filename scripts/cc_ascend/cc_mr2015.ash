@@ -609,7 +609,7 @@ boolean deck_useScheme(string action)
 			case $class[Disco Bandit]:		deck_cheat("Knife");		break;
 			case $class[Accordion Thief]:
 				deck_cheat("key");
-				set_property("cc_cubeItems", "done");
+				set_property("cc_cubeItems", false);
 				break;
 			}
 		}
@@ -622,7 +622,7 @@ boolean deck_useScheme(string action)
 			else
 			{
 				deck_cheat("key");
-				set_property("cc_cubeItems", "done");
+				set_property("cc_cubeItems", false);
 			}
 		}
 		deck_cheat(my_primestat() + " stat");

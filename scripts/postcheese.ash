@@ -779,12 +779,12 @@ void handlePostAdventure()
 		}
 	}
 
-	if((get_property("cc_cubeItems") == "") && (item_amount($item[ring of detect boring doors]) == 1) && (item_amount($item[eleven-foot pole]) == 1) && (item_amount($item[pick-o-matic lockpicks]) == 1))
+	if(get_property("cc_cubeItems").to_boolean() && (item_amount($item[ring of detect boring doors]) == 1) && (item_amount($item[eleven-foot pole]) == 1) && (item_amount($item[pick-o-matic lockpicks]) == 1))
 	{
-		set_property("cc_cubeItems", "done");
+		set_property("cc_cubeItems", false);
 	}
 
-	if((get_property("cc_cubeItems") == "done") && (my_familiar() == $familiar[Gelatinous cubeling]) && !get_property("cc_100familiar").to_boolean())
+	if(!get_property("cc_cubeItems").to_boolean() && (my_familiar() == $familiar[Gelatinous cubeling]) && !get_property("cc_100familiar").to_boolean())
 	{
 		if(have_familiar($familiar[Fist Turkey]))
 		{

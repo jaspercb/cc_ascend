@@ -90,7 +90,7 @@ void initializeSettings()
 	set_property("cc_cookie", -1);
 	set_property("cc_crackpotjar", "");
 	set_property("cc_crypt", "");
-	set_property("cc_cubeItems", "");
+	set_property("cc_cubeItems", true);
 	set_property("cc_day1_cobb", "");
 	set_property("cc_day1_dna", "");
 	set_property("cc_day1_init", "");
@@ -8199,7 +8199,7 @@ boolean L12_startWar()
 			visit_url("bigisland.php?place=concert&pwd");
 			visit_url("bigisland.php?place=lighthouse&action=pyro&pwd=");
 			visit_url("bigisland.php?place=lighthouse&action=pyro&pwd=");
-			set_property("cc_gunpowder", "done");
+			set_property("cc_gunpowder", "finished");
 		}
 	}
 	return true;
@@ -9981,7 +9981,7 @@ boolean L8_trapperYeti()
 				set_property("cc_ninjasnowmanassassin", "1");
 				visit_url("place.php?whichplace=mclargehuge&action=trappercabin");
 				visit_url("place.php?whichplace=mclargehuge&action=cloudypeak");
-				set_property("cc_mistypeak", "done");
+				set_property("cc_mistypeak", "finished");
 			}
 
 			print("Time to take out Gargle, sure, Gargle (Groar)", "blue");
@@ -10488,6 +10488,9 @@ boolean doTasks()
 	oldPeoplePlantStuff();
 	use_barrels();
 
+	tophatMaker();
+	equipBaseline();
+
 	if(!in_hardcore() || !isGuildClass())
 	{
 		if(deck_useScheme("sc" + my_daycount()))
@@ -10647,9 +10650,6 @@ boolean doTasks()
 		}
 	}
 
-	tophatMaker();
-	equipBaseline();
-
 
 	if(doHRSkills())
 	{
@@ -10688,9 +10688,9 @@ boolean doTasks()
 	{
 		if((item_amount($item[ring of detect boring doors]) == 1) && (item_amount($item[eleven-foot pole]) == 1) && (item_amount($item[pick-o-matic lockpicks]) == 1))
 		{
-			set_property("cc_cubeItems", "done");
+			set_property("cc_cubeItems", false);
 		}
-		if((get_property("cc_cubeItems") == "") && (my_familiar() != $familiar[Gelatinous Cubeling]))
+		if(get_property("cc_cubeItems").to_boolean() && (my_familiar() != $familiar[Gelatinous Cubeling]))
 		{
 			handleFamiliar($familiar[Gelatinous Cubeling]);
 		}

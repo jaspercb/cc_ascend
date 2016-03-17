@@ -15,20 +15,20 @@
 15	cc_castlebasement	string	ANY	-
 16	cc_castleground	string	ANY	-
 17	cc_castletop	string	ANY	-
-18	cc_chasmBusted	boolean	ANY	-
-19	cc_clanstuff	string	ANY	-
+18	cc_chasmBusted	boolean	ANY	Has the orc chasm bridge been 'trolled yet? Ed only.
+19	cc_clanstuff	string	ANY	What was the last day we did 'end of day' clan stuff.
 20	cc_cookie	integer	ANY	HCCS Only: Tracks fortune cookie.
-21	cc_crackpotjar	string	ANY	-
+21	cc_crackpotjar	string	ANY	Status of Crackpot Mystic Jar of Psychoses
 22	cc_crypt	string	ANY	-
-23	cc_cubeItems	string	ANY	-
+23	cc_cubeItems	boolean	ANY	Do we need to use the Gelatinous Cube for Phat Loot Tokens?
 24	cc_day1_cobb	string	ANY	'finished' if we have found the Knob Goblin Encryption Key.
 25	cc_day1_dna	string	ANY	'finished' if we have hybridized ourselves at the start of Ascension.
 26	cc_day1_init	string	ANY	'finished' if we properly initialized on day 1.
 27	cc_day2_init	string	ANY	'finished' if we properly initialized on day 2.
 28	cc_day3_init	string	ANY	'finished' if we properly initialized on day 3.
 29	cc_day4_init	string	ANY	'finished' if we properly initialized on day 4. :(
-30	cc_disableAdventureHAndling	string	ANY	-
-31	cc_familiarChoice	string	ANY	-
+30	cc_disableAdventureHandling	string	ANY	When set this prevents post/preadventure behavior. This is necessary for multi-adventure situations and 'a choice follows this' situations.
+31	cc_familiarChoice	string	ANY	The current familiar we are planning to take. This changes a lot.
 32	cc_fcle	string	ANY	-
 33	cc_friars	string	ANY	-
 34	cc_gaudy	string	ANY	-
@@ -38,7 +38,7 @@
 38	cc_grimfairytale	string	ANY	-
 39	cc_grimstoneFancyOilPainting	boolean	ANY	-
 40	cc_grimstoneOrnateDowsingRod	boolean	ANY	-
-41	cc_gunpowder	string	ANY	-
+41	cc_gunpowder	string	ANY	Did we initiate the Sonofa Beach quest?
 42	cc_hedge	string ANY	-
 43	cc_hiddenapartment	string	ANY	-
 44	cc_hiddenbowling	string	ANY	-
@@ -78,7 +78,7 @@
 78	cc_trytower	string	ANY	-
 79	cc_trapper	string	ANY	-
 80	cc_treecoin	string	ANY	-
-81	cc_twinpeak	string	ANY	'finished' if Twin Peak is completed.
+81	cc_twinpeak	string	ANY	'finished' if Twin Peak is completed. (Not really).
 82	cc_twinpeakprogress	string	ANY	-
 83	cc_waitingArrowAlcove	string	ANY	-
 84	cc_war	string	ANY	-

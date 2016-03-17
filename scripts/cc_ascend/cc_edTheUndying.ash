@@ -33,7 +33,7 @@ void ed_initializeSettings()
 	{
 		set_property("cc_100familiar", true);
 		set_property("cc_crackpotjar", "done");
-		set_property("cc_cubeItems", "done");
+		set_property("cc_cubeItems", false);
 		set_property("cc_day1_dna", "finished");
 		set_property("cc_getBeehive", false);
 		set_property("cc_getStarKey", false);

@@ -212,5 +212,25 @@ boolean settingFixer()
 		set_property("cc_bean", true);
 	}
 
+
+	if(get_property("cc_cubeItems") == "")
+	{
+		set_property("cc_cubeItems", true);
+	}
+	if(get_property("cc_cubeItems") == "done")
+	{
+		set_property("cc_cubeItems", false);
+	}
+
+	if(get_property("cc_gunpowder") == "done")
+	{
+		set_property("cc_gunpowder", "finished");
+	}
+
+	if(get_property("cc_mistypeak") == "done")
+	{
+		set_property("cc_mistypeak", "finished");
+	}
+
 	return true;
 }
