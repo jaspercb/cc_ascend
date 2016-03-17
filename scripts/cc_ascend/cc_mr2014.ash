@@ -83,12 +83,13 @@ boolean dna_generic()
 	}
 	if(get_property("dnaSyringe") == $phylum[none])
 	{
+	
 		return false;
 	}
 
 	boolean[phylum] potion;
 
-	if(cc_my_path() == "standard")
+	if(cc_my_path() == "Standard")
 	{
 		switch(my_daycount())
 		{
