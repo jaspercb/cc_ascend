@@ -3742,7 +3742,10 @@ boolean L12_lastDitchFlyer()
 		}
 		else
 		{
-			handleFamiliar("item");
+			if((item_amount($item[star]) < 8) || (item_amount($item[line]) < 7))
+			{
+				handleFamiliar("item");
+			}
 			ccAdv(1, $location[The Hole in the Sky]);
 		}
 		return true;
@@ -8057,6 +8060,10 @@ boolean LX_handleSpookyravenFirstFloor()
 			}
 
 			set_property("choiceAdventure875" , "1");
+			if(expectPool < 14)
+			{
+				set_property("choiceAdventure875", "2");
+			}
 			buffMaintain($effect[Chalky Hand], 0, 1, 1);
 
 			# Staff of Fats
@@ -8068,12 +8075,12 @@ boolean LX_handleSpookyravenFirstFloor()
 			{
 				equip($item[2268]);
 			}
-
 			#Staff of Ed
 			if(item_amount($item[7961]) > 0)
 			{
 				equip($item[7961]);
 			}
+
 			print("It's billiards time!", "blue");
 			ccAdv(1, $location[The Haunted Billiards Room]);
 
@@ -9413,7 +9420,10 @@ boolean L10_holeInTheSky()
 			return false;
 		}
 	}
-	handleFamiliar("item");
+	else
+	{
+		handleFamiliar("item");
+	}
 	ccAdv(1, $location[The Hole In The Sky]);
 	return true;
 }

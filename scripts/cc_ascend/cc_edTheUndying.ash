@@ -43,6 +43,7 @@ void ed_initializeSettings()
 		set_property("cc_holeinthesky", false);
 		set_property("cc_lashes", "");
 		set_property("cc_renenutet", "");
+		set_property("cc_servantChoice", "");
 		set_property("cc_useCubeling", false);
 		set_property("cc_wandOfNagamar", false);
 

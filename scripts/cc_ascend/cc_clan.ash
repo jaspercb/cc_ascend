@@ -45,6 +45,19 @@ boolean handleFaxMonster(monster enemy, boolean fightIt, string option)
 		return false;
 	}
 
+	if(item_amount($item[Photocopied Monster]) != 0)
+	{
+		if(get_property("photocopyMonster") == enemy)
+		{
+			print("We already have the copy! Let's jam!", "blue");
+			return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=4873", $location[Noob Cave], option);
+		}
+		else
+		{
+			print("We already have a photocopy and not the one we wanted.... this may fail. Let me know.", "red");
+		}
+	}
+
 	print("If you don't have chat open, this could take well over a minute. Beep boop.", "green");
 	int count = 0;
 	while(!can_faxbot(enemy))
