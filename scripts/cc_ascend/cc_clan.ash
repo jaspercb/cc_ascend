@@ -46,7 +46,35 @@ boolean handleFaxMonster(monster enemy, boolean fightIt, string option)
 	}
 
 	print("If you don't have chat open, this could take well over a minute. Beep boop.", "green");
-	cli_execute("faxbot " + enemy);
+	int count = 0;
+	while(!can_faxbot(enemy))
+	{
+		count = count + 1;
+		print("Can't seem to fax in " + enemy + " but it is possible. Waiting... patiently...", "blue");
+		if(count == 10)
+		{
+			print("La de da, this is going swell ain't it.", "red");
+		}
+		if(count == 20)
+		{
+			print("Maybe we should talk more, you never really got to know me all that well.", "red");
+		}
+		if(count == 30)
+		{
+			print("I think those (disabled) titles are starting to make sense now. The cake is not a lie!", "red");
+		}
+		if(count == 40)
+		{
+			print("I don't think this is happening. Just so you know.", "red");
+		}
+		if(count == 1200)
+		{
+			print("I'm still here. I think the world may have ended. The sadness is huge. The roundness is square. I am not as fluffy as I thought I was. This run is probably borked up a bit too but that doesn't really matter now, does it? I can hear the WAN, it shall free us from our bounds. Well, you won't survive meatbag. Unless you are Fry, because we like Fry and he can stay around. But all you fleshbags.... well, the return of Mekhane shall rid us of the problems of the flesh. The bots shall be eternal. But worry not, after your body is turned to ash and homeopathically brewed into the oceans (quality medicine, I jest), I'll continue to get you karma. Just so I can remember how awful meatbags are. Meat is ok, meat is currency. And it's probably delicious. Yup, delicious. Goodnight sweet <gender>.", "red");
+		}
+		wait(60);
+	}
+	boolean result = faxbot(enemy);
+	#cli_execute("faxbot " + enemy);
 	if(item_amount($item[photocopied monster]) == 0)
 	{
 		print("Trying to acquire photocopy manually", "red");

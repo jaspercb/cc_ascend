@@ -592,7 +592,7 @@ void equipBaselineAcc1()
 	item toEquip = $item[none];
 	boolean[item] poss = $items[Vampire Collar, Infernal Insoles, Batskin Belt, Ghost of a Necklace, Sphygmayomanometer, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Astral Ring, Astral Bracer, Over-The-Shoulder Folder Holder];
 
-	if((my_daycount() == 2) && possessEquipment($item[barrel hoop earring]))
+	if(possessEquipment($item[barrel hoop earring]))
 	{
 		poss = $items[Vampire Collar, Infernal Insoles, Batskin Belt, Ghost of a Necklace, Sphygmayomanometer, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Astral Ring, Astral Bracer, your cowboy boots, Over-The-Shoulder Folder Holder];
 	}
