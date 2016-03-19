@@ -3816,6 +3816,11 @@ boolean L11_hiddenCity()
 		return false;
 	}
 
+	if(get_property("cc_hiddenzones") != "finished")
+	{
+		return false;
+	}
+
 	if(my_class() == $class[Ed])
 	{
 		if(item_amount($item[7963]) == 0)
