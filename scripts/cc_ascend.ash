@@ -9700,6 +9700,7 @@ boolean LX_pirateBlueprint()
 	{
 		if((item_amount($item[Cap\'m Caronch\'s Map]) != 0) && (item_amount($item[Cap\'m Caronch\'s Nasty Booty]) == 0))
 		{
+			print("Looks like that Booty Crab will beat me up, I suppose I can walk the other way...", "green");
 			return false;
 		}
 	}

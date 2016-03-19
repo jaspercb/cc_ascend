@@ -219,7 +219,7 @@ boolean L13_ed_towerHandler()
 			return true;
 		}
 		print("Please check your quests, but you might just not be at level 13 yet in order to continue.", "red");
-		if((my_level() < 13) && get_property("spookyAirportAlways").to_boolean())
+		if((my_level() < 13) && elementalPlanes_access($element[spooky]))
 		{
 			boolean tryJungle = false;
 			if(have_effect($effect[Jungle Juiced]) > 0)
@@ -256,9 +256,14 @@ boolean L13_ed_towerHandler()
 			}
 			return true;
 		}
+		else if((my_level() < 13) && elementalPlanes_access($element[stench]))
+		{
+			ccAdv(1, $location[Pirates of the Garbage Barges]);
+			return true;
+		}
 		else
 		{
-			abort("We must be missing a sidequest. We can't find the jerk adventurer.");
+			print("We must be missing a sidequest. We can't find the jerk adventurer. Must pretend we are alive...", "blue");
 		}
 	}
 

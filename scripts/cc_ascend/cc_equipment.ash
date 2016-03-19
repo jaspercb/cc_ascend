@@ -453,7 +453,7 @@ void equipBaselineWeapon()
 		poss = $items[Knife, Thor\'s Pliers];
 		break;
 	case $class[Snake Oiler]:
-		poss = $items[Knife, Thor\'s Pliers, Frankly Mr. Shank];
+		poss = $items[Finger Cymbals, Double-Barreled Sling, Hilarious Comedy Prop, Space Tourist Phaser, Knife, Thor\'s Pliers, Frankly Mr. Shank];
 		break;
 
 
