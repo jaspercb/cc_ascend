@@ -7,19 +7,19 @@
 7	cc_ballroomflat	string	ANY	-
 8	cc_ballroomopen	string	ANY -
 9	cc_ballroomsong	string	ANY	-
-10	cc_bat	string	ANY -
+10	cc_bat	string	ANY 'finished' if we have completed the Bat Quest.
 11	cc_bean	boolean	ANY	Have we planted a beanstalk bean?
 12	cc_blackfam	boolean	ANY	True when we have not yet initialized The Black Forest. False once it has been set up.
 13	cc_blackmap	string	ANY	-
 14	cc_boopeak	string	ANY	'finished' is A-Boo Peak is completed.
-15	cc_castlebasement	string	ANY	-
-16	cc_castleground	string	ANY	-
-17	cc_castletop	string	ANY	-
+15	cc_castlebasement	string	ANY	'finished' if we have finished the Castle in the Clouds Basement.
+16	cc_castleground	string	ANY	'finished' if we have finished the Castle in the Clouds Ground Floor.
+17	cc_castletop	string	ANY	'finished' if we have finished the Castle in the Clouds Top Floor.
 18	cc_chasmBusted	boolean	ANY	Has the orc chasm bridge been 'trolled yet? Ed only.
 19	cc_clanstuff	string	ANY	What was the last day we did 'end of day' clan stuff.
 20	cc_cookie	integer	ANY	HCCS Only: Tracks fortune cookie.
 21	cc_crackpotjar	string	ANY	Status of Crackpot Mystic Jar of Psychoses
-22	cc_crypt	string	ANY	-
+22	cc_crypt	string	ANY	'finished' if the Bonerdagon (or equivalent) has been defeated.
 23	cc_cubeItems	boolean	ANY	Do we need to use the Gelatinous Cube for Phat Loot Tokens?
 24	cc_day1_cobb	string	ANY	'finished' if we have found the Knob Goblin Encryption Key.
 25	cc_day1_dna	string	ANY	'finished' if we have hybridized ourselves at the start of Ascension.
@@ -29,8 +29,8 @@
 29	cc_day4_init	string	ANY	'finished' if we properly initialized on day 4. :(
 30	cc_disableAdventureHandling	string	ANY	When set this prevents post/preadventure behavior. This is necessary for multi-adventure situations and 'a choice follows this' situations.
 31	cc_familiarChoice	string	ANY	The current familiar we are planning to take. This changes a lot.
-32	cc_fcle	string	ANY	-
-33	cc_friars	string	ANY	-
+32	cc_fcle	string	ANY	'finished' if we got the Pirate Fledges, or equivalent.
+33	cc_friars	string	ANY	'finished' if we completed the Friars Quest. Only 'done' if we don't/didn't have enough hot wings.
 34	cc_gaudy	string	ANY	-
 35	cc_getBoningKnife	boolean	ANY	-
 36	cc_goblinking	string	ANY	-
@@ -39,7 +39,7 @@
 39	cc_grimstoneFancyOilPainting	boolean	ANY	-
 40	cc_grimstoneOrnateDowsingRod	boolean	ANY	-
 41	cc_gunpowder	string	ANY	Did we initiate the Sonofa Beach quest?
-42	cc_hedge	string ANY	-
+42	cc_hedge	string	ANY	'fast' or 'slow', determining how quickly we want to finish the Hedge Maze.
 43	cc_hiddenapartment	string	ANY	-
 44	cc_hiddenbowling	string	ANY	-
 45	cc_hiddencity	string	ANY	-
@@ -50,7 +50,7 @@
 50	cc_highlandlord	string	ANY	-
 51	cc_mcmuffin	string	ANY	-
 52	cc_mistypeak	string	ANY	-
-53	cc_mosquito	string	ANY	-
+53	cc_mosquito	string	ANY	'finished' if we have completed the Mosquito Larva quest.
 54	cc_nuns	string	ANY	-
 55	cc_nunsTrick	string	ANY	-
 56	cc_nunsTrickActive	string	ANY	-
@@ -59,30 +59,30 @@
 59	cc_nunsTrickReady	string	ANY	-
 60	cc_oilpeak	string	ANY	'finished' if The Oil Peak is completed.
 61	cc_orchard	string	ANY	-
-62	cc_palindome	string	ANY	-
-63	cc_phatloot	string	ANY	-
+62	cc_palindome	string	ANY	'finished' if the Palindome is finished.
+63	cc_phatloot	integer	ANY	Last day that we completed our Phat Loot Token handling.
 64	cc_prewar	string	ANY	-
 65	cc_prehippy	string	ANY	-
-66	cc_pirateoutfit	string	ANY	-
-67	cc_powerLevelLastLevel	string	ANY	-
-68	cc_powerLevelAdvCount	string	ANY	-
-69	cc_powerLevelLastAttempted	string	ANY	-
+66	cc_pirateoutfit	string	ANY	Pirate Sidequest Tracker: '', 'insults', 'blueprint', 'almost', 'finished'
+67	cc_powerLevelLastLevel	string	ANY	Last Level that we had nothing to do.
+68	cc_powerLevelAdvCount	string	ANY	Adventures count of times we had nothing to do.
+69	cc_powerLevelLastAttempted	string	ANY	Last adventure that we did nothing on.
 70	cc_skipDesert	string	ANY	-
-71	cc_spookyfertilizer	string	ANY	-
+71	cc_spookyfertilizer	string	ANY	'finished' if we've dealt with the Spooky-Gro Fertilizer
 72	cc_spookyravensecond	string	ANY	-
-73	cc_spookysapling	string	ANY	-
-74	cc_sonofa	string	ANY	-
-75	cc_sorceress	string	ANY	-
-76	cc_swordfish	string	ANY	-
-77	cc_tavern	string	ANY	-
+73	cc_spookysapling	string	ANY	'finished' if we've dealt with the Spooky Sapling
+74	cc_sonofa	string	ANY	'finished' if we've finished or skipped The Lighthouse side quest.
+75	cc_sorceress	string	ANY	Sorceress Tower tracker: '', 'start', 'hedge', 'door', 'tower', 'top', 'final', 'finished'
+76	cc_swordfish	string	ANY	'finished' if we've finished the Poop Deck. Heh, poop.
+77	cc_tavern	string	ANY	'finished' if we've completed the Tavern Quest
 78	cc_trytower	string	ANY	-
-79	cc_trapper	string	ANY	-
-80	cc_treecoin	string	ANY	-
+79	cc_trapper	string	ANY	Trapper Quest Tracker: '', 'start', 'yeti', 'finished'
+80	cc_treecoin	string	ANY	'finished' if we've dealt with the Tree-Holed Coin
 81	cc_twinpeak	string	ANY	'finished' if Twin Peak is completed. (Not really).
 82	cc_twinpeakprogress	string	ANY	-
-83	cc_waitingArrowAlcove	string	ANY	-
+83	cc_waitingArrowAlcove	integer	ANY	If we arrowed a modern zmobie, this tells us when to return to the Alcove (cyrptAlcoveEvilness value).
 84	cc_war	string	ANY	-
-85	cc_winebomb	string	ANY	-
+85	cc_winebomb	string	ANY	'partial' if we have a fulminate, 'finished' if we've made it into a wine bomb
 86	cc_100familiar	boolean	PRE	If true, do not allow familiar switching (for 100% runs).
 87	cc_autoCraft	string	PRE	Handler for the Boring Binder Clip AutoCraft bug.
 88	cc_awolLastSkill	integer	PRE	Last level we handled AWOL skills

@@ -582,11 +582,11 @@ boolean canYellowRay()
 	{
 		return true;
 	}
-#	peteMotorbikeHeadlight needs to be Ultrabright Yellow Light, what does Mafia show this as?
-#	if(have_skill($skill[Flash Headlight]) && (my_mp() >= mp_cost($skill[Flash Headlight])))
-#	{
-#		return true;
-#	}
+	# We might not have Flash Headlight outside of combat, will need to check that.
+	if((get_property("peteMotorbikeHeadlight") == "Ultrabright Yellow Bulb") && have_skill($skill[Flash Headlight]) && (my_mp() >= mp_cost($skill[Flash Headlight])))
+	{
+		return true;
+	}
 	if(have_skill($skill[Wrath of Ra]) && (my_mp() >= mp_cost($skill[Wrath of Ra])))
 	{
 		return true;
@@ -647,10 +647,10 @@ string yellowRayCombatString()
 	{
 		return "skill " + $skill[Open a Big Yellow Present];
 	}
-#	if(have_skill($skill[Flash Headlight]) && (my_mp() >= mp_cost($skill[Flash Headlight])))
-#	{
-#		return "skill " + $skill[Flash Headlight];
-#	}
+	if((get_property("peteMotorbikeHeadlight") == "Ultrabright Yellow Bulb") && have_skill($skill[Flash Headlight]) && (my_mp() >= mp_cost($skill[Flash Headlight])))
+	{
+		return "skill " + $skill[Flash Headlight];
+	}
 	if(item_amount($item[Golden Light]) > 0)
 	{
 		return "item " + $item[Golden Light];
@@ -998,9 +998,9 @@ item whatHiMein()
 
 void tootGetMeat()
 {
-	autosell(item_amount($item[hamethyst]), $item[hamethyst]);
-	autosell(item_amount($item[baconstone]), $item[baconstone]);
-	autosell(item_amount($item[porquoise]), $item[porquoise]);
+	autosell(min(5, item_amount($item[hamethyst])), $item[hamethyst]);
+	autosell(min(5, item_amount($item[baconstone])), $item[baconstone]);
+	autosell(min(5, item_amount($item[porquoise])), $item[porquoise]);
 }
 
 

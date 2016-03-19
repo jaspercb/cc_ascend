@@ -362,6 +362,10 @@ boolean LX_witchess()
 	{
 		return false;
 	}
+	if(my_turncount() < 5)
+	{
+		return false;
+	}
 
 
 	switch(my_daycount())
@@ -996,7 +1000,7 @@ boolean doThemtharHills(boolean trickMode)
 			set_property("cc_nunsTrickReady", "yes");
 			print("Attempting nuns trick, beep boop!! No more auto-aborting!");
 		}
-		if((item_amount($item[stone wool]) > 0) && (get_property("cc_nunsTrickCount").to_int() > 2) && (get_property("lastTempleAdventures") != my_ascensions()))
+		if(((item_amount($item[stone wool]) > 0) || (have_effect($effect[Stone-Faced]) > 0)) && (get_property("cc_nunsTrickCount").to_int() > 2) && (get_property("lastTempleAdventures") != my_ascensions()))
 		{
 			set_property("choiceAdventure582", "1");
 			set_property("choiceAdventure579", "3");
@@ -4335,7 +4339,7 @@ boolean L11_unlockHiddenCity()
 	}
 
 	print("Searching for the Hidden City", "blue");
-	if((item_amount($item[Stone Wool]) == 0) && (have_effect($effect[stone-faced]) == 0))
+	if((item_amount($item[Stone Wool]) == 0) && (have_effect($effect[Stone-Faced]) == 0))
 	{
 		pullXWhenHaveY($item[Stone Wool], 1, 0);
 	}
@@ -6169,16 +6173,6 @@ boolean L10_airship()
 			handleFamiliar("yellow ray");
 		}
 	}
-
-#	if(!possessEquipment($item[Mohawk Wig]) && (have_effect($effect[Everything Looks Yellow]) == 0))
-#	{
-#		handleFamiliar($familiar[Crimbo Shrub]);
-#		if((my_familiar() == $familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
-#		{
-#			visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
-#			visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=1&lights=1&garland=1&gift=1");
-#		}
-#	}
 
 	buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
 	buffMaintain($effect[Snow Shoes], 0, 1, 1);

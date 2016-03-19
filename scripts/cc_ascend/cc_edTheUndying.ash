@@ -1287,6 +1287,7 @@ boolean ed_handleAdventureServant(int num, location loc, string option)
 	{
 		handleServant($servant[Cat]);
 	}
+
 	return false;
 }
 
