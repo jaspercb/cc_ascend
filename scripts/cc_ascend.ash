@@ -281,6 +281,10 @@ boolean handleFamiliar(familiar fam)
 	{
 		return true;
 	}
+	if(!is_unrestricted(fam))
+	{
+		return false;
+	}
 
 	if((fam == $familiar[Ms. Puck Man]) && !have_familiar($familiar[Ms. Puck Man]) && have_familiar($familiar[Puck Man]))
 	{
@@ -2711,8 +2715,7 @@ boolean L11_palindome()
 		visit_url("place.php?whichplace=palindome&action=pal_mrlabel");
 	}
 
-#	if((total == 0) && !possessEquipment($item[Mega Gem]) && lovemeDone && in_hardcore() && isGuildClass() && (item_amount($item[Wet Stunt Nut Stew]) == 0))
-	if((total == 0) && !possessEquipment($item[Mega Gem]) && lovemeDone && in_hardcore() && (item_amount($item[Wet Stunt Nut Stew]) == 0))
+	if((total == 0) && !possessEquipment($item[Mega Gem]) && lovemeDone && in_hardcore() && (item_amount($item[Wet Stunt Nut Stew]) == 0) && ((internalQuestStatus("questL11Palindome") >= 3) || isGuildClass()))
 	{
 		if(item_amount($item[Wet Stunt Nut Stew]) == 0)
 		{
@@ -2721,6 +2724,7 @@ boolean L11_palindome()
 			{
 				print("Off to the grove for some doofy food!", "blue");
 				ccAdv(1, $location[Whitey\'s Grove]);
+			
 			}
 			else if(item_amount($item[Stunt Nuts]) == 0)
 			{
@@ -2789,6 +2793,12 @@ boolean L11_palindome()
 		if(!possessEquipment($item[Mega Gem]))
 		{
 			visit_url("place.php?whichplace=palindome&action=pal_mrlabel");
+		}
+
+		if(!possessEquipment($item[Mega Gem]))
+		{
+			print("No mega gem for us. Well, no reason to go further here....", "red");
+			return false;
 		}
 		equip($slot[acc2], $item[Mega Gem]);
 		set_property("choiceAdventure131", 1);
@@ -5367,13 +5377,13 @@ boolean L12_sonofaBeach()
 	{
 		handleBjornify($familiar[Grim Brother]);
 	}
-	if(equipped_item($slot[hat]) == $item[Xiblaxian stealth cowl])
+	if((equipped_item($slot[hat]) == $item[Xiblaxian stealth cowl]) && possessEquipment($item[Beer Helmet]))
 	{
 		equip($item[Beer Helmet]);
 	}
-	if(have_equipped($item[Xiblaxian Stealth Trousers]))
+	if((have_equipped($item[Xiblaxian Stealth Trousers])) && possessEquipment($item[Distressed Denim Pants]))
 	{
-		equip($slot[Pants], $item[Xiblaxian Stealth Trousers]);
+		equip($slot[Pants], $item[Distressed Denim Pants]);
 	}
 	if(equipped_item($slot[acc1]) == $item[over-the-shoulder folder holder])
 	{
@@ -5390,8 +5400,10 @@ boolean L12_sonofaBeach()
 	{
 		equip($slot[acc2], $item[portable cassette player]);
 	}
+
 	buffMaintain($effect[Patent Aggression], 0, 1, 1);
 	removeNonCombat();
+
 	handleFamiliar($familiar[Jumpsuited Hound Dog]);
 
 	if(item_amount($item[barrel of gunpowder]) < 4)
