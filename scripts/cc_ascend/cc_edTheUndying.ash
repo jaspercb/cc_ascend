@@ -5,6 +5,7 @@ import <cc_ascend/cc_eudora.ash>
 import <cc_ascend/cc_clan.ash>
 import <cc_ascend/cc_ascend_header.ash>
 import <cc_ascend/cc_elementalPlanes.ash>
+import <cc_ascend/cc_mr2014.ash>
 
 int ed_spleen_limit()
 {
@@ -741,25 +742,26 @@ boolean ed_eatStuff()
 	{
 		chew(canEat, $item[Mummified Beef Haunch]);
 	}
-	if((my_daycount() == 2) && (eudora_current() == $item[Xi Receiver Unit]) && possessEquipment($item[Xiblaxian holo-wrist-puter]) && ((my_fullness() + 4) <= fullness_limit()) && (item_amount($item[Xiblaxian Circuitry]) >= 1) && (item_amount($item[Xiblaxian Polymer]) >= 1) && (item_amount($item[Xiblaxian Alloy]) >= 3))
-	{
-		if(item_amount($item[Xiblaxian 5D Printer]) == 0)
-		{
-			if(item_amount($item[transmission from planet Xi]) > 0)
-			{
-				use(1, $item[transmission from planet xi]);
-				use(1, $item[Xiblaxian Cache Locator Simcode]);
-			}
-		}
-		if(item_amount($item[Xiblaxian 5D Printer]) > 0)
-		{
-			int[item] canMake = eudora_xiblaxian();
-			if((canMake contains $item[Xiblaxian Ultraburrito]) && (canMake[$item[Xiblaxian Ultraburrito]] > 0))
-			{
-				visit_url("shop.php?pwd=&whichshop=5dprinter&action=buyitem&quantity=1&whichrow=339", true);
-			}
-		}
-	}
+	xiblaxian_makeStuff();
+#	if((my_daycount() == 2) && (eudora_current() == $item[Xi Receiver Unit]) && possessEquipment($item[Xiblaxian holo-wrist-puter]) && ((my_fullness() + 4) <= fullness_limit()) && (item_amount($item[Xiblaxian Circuitry]) >= 1) && (item_amount($item[Xiblaxian Polymer]) >= 1) && (item_amount($item[Xiblaxian Alloy]) >= 3))
+#	{
+#		if(item_amount($item[Xiblaxian 5D Printer]) == 0)
+#		{
+#			if(item_amount($item[transmission from planet Xi]) > 0)
+#			{
+#				use(1, $item[transmission from planet xi]);
+#				use(1, $item[Xiblaxian Cache Locator Simcode]);
+#			}
+#		}
+#		if(item_amount($item[Xiblaxian 5D Printer]) > 0)
+#		{
+#			int[item] canMake = eudora_xiblaxian();
+#			if((canMake contains $item[Xiblaxian Ultraburrito]) && (canMake[$item[Xiblaxian Ultraburrito]] > 0))
+#			{
+#				visit_url("shop.php?pwd=&whichshop=5dprinter&action=buyitem&quantity=1&whichrow=339", true);
+#			}
+#		}
+#	}
 
 	if((item_amount($item[Limp Broccoli]) > 0) && (my_level() >= 5) && ((my_fullness() == 0) || (my_fullness() == 3)) && (fullness_limit() >= 2))
 	{

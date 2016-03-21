@@ -54,7 +54,9 @@ boolean handleFaxMonster(monster enemy, boolean fightIt, string option)
 		}
 		else
 		{
-			print("We already have a photocopy and not the one we wanted.... this may fail. Let me know.", "red");
+			print("We already have a photocopy and not the one we wanted.... Disposing of bad copy.", "blue");
+			string temp = visit_url("clan_viplounge.php?action=faxmachine&whichfloor=2");
+			temp = visit_url("clan_viplounge.php?preaction=sendfax&whichfloor=2", true);
 		}
 	}
 
@@ -91,7 +93,7 @@ boolean handleFaxMonster(monster enemy, boolean fightIt, string option)
 	if(item_amount($item[photocopied monster]) == 0)
 	{
 		print("Trying to acquire photocopy manually", "red");
-		visit_url("clan_viplounge.php?preaction=receivefax&whichfloor=2", true);
+		string temp = visit_url("clan_viplounge.php?preaction=receivefax&whichfloor=2", true);
 	}
 	if(item_amount($item[photocopied monster]) == 0)
 	{

@@ -2322,7 +2322,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		{
 			doLash = true;
 		}
-		if((enemy == $monster[Funky Pirate]) && !possessEquipment($item[Sewage-Clogged Pistol]))
+		if((enemy == $monster[Funky Pirate]) && !possessEquipment($item[Sewage-Clogged Pistol]) && elementalPlanes_access($element[spooky]))
 		{
 			doLash = true;
 		}

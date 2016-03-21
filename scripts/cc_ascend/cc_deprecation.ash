@@ -47,6 +47,9 @@ boolean settingFixer()
 		This will be removed at some point once a reasonable amount of time has
 		passed such that anyone who used the script before a conversion in here
 		should have had it fix them.
+
+		Maybe it won\t. It doesn't really need to be I guess.
+		Backwards compatibility forever!!!
 	***/
 	trackingSplitterFixer("cc_banishes_day1", 1, "cc_banishes");
 	trackingSplitterFixer("cc_banishes_day2", 2, "cc_banishes");
@@ -230,6 +233,11 @@ boolean settingFixer()
 	if(get_property("cc_mistypeak") == "done")
 	{
 		set_property("cc_mistypeak", "finished");
+	}
+
+	if(get_property("cc_xiblaxianChoice") == "")
+	{
+		set_property("cc_xiblaxianChoice", $item[Xiblaxian Ultraburrito]);
 	}
 
 	return true;

@@ -93,7 +93,7 @@ void handlePostAdventure()
 			buffMaintain($effect[Bounty of Renenutet], 20, 1, maxBuff);
 		}
 
-		if((my_servant() == $servant[Priest]) && ($servant[Priest].experience < 196))
+		if((my_servant() == $servant[Priest]) && ($servant[Priest].experience < 196) && ($servant[Priest].experience >= 81))
 		{
 			buffMaintain($effect[Purr of the Feline], 10, 1, maxBuff);
 		}

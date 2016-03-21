@@ -185,13 +185,12 @@ boolean preAdvXiblaxian(location loc)
 	if((equipped_item($slot[acc3]) == $item[Xiblaxian Holo-Wrist-Puter]) && (howLongBeforeHoloWristDrop() <= 1))
 	{
 		string area = loc.environment;
-		# This is an attempt to farm Ultraburrito stuff.
-
-#		item replace = $item[none];
-#		if((item_amount($item[Pirate Fledges]) > 0) && (can_equip($item[Pirate Fledges])))
-#		{
-#			replace = $item[Pirate Fledges];
-#		}
+		# This is an attempt to farm Xiblaxian food/booze stuff.
+		item toMake = to_item(get_property("cc_xiblaxianChoice"));
+		if(toMake == $item[none])
+		{
+			toMake = $item[Xiblaxian Ultraburrito];
+		}
 
 		# If we migrate all Ed workaround combats to the bypasser, we don't need to check main.php
 		if(my_class() == $class[Ed])
@@ -208,28 +207,46 @@ boolean preAdvXiblaxian(location loc)
 		if(loc == $location[Noob Cave])
 		{
 			replaceBaselineAcc3();
-			#equip($slot[acc3], replace);
 			return true;
 		}
 
-		if((area == "indoor") && (item_amount($item[Xiblaxian Circuitry]) > 0))
+		if(toMake == $item[Xiblaxian Ultraburrito])
 		{
-			replaceBaselineAcc3();
-#			equip($slot[acc3], replace);
+			if((area == "indoor") && (item_amount($item[Xiblaxian Circuitry]) > 0))
+			{
+				replaceBaselineAcc3();
+			}
+			else if((area == "outdoor") && (item_amount($item[Xiblaxian Polymer]) > 0))
+			{
+				replaceBaselineAcc3();
+			}
+			else if((area == "underground") && (item_amount($item[Xiblaxian Alloy]) > 2))
+			{
+				replaceBaselineAcc3();
+			}
+			else
+			{
+				print("We should be getting a Xiblaxian wotsit this combat. Beep boop.", "green");
+			}
 		}
-		else if((area == "outdoor") && (item_amount($item[Xiblaxian Polymer]) > 0))
+		else if(toMake == $item[Xiblaxian Space-Whiskey])
 		{
-			replaceBaselineAcc3();
-#			equip($slot[acc3], replace);
-		}
-		else if((area == "underground") && (item_amount($item[Xiblaxian Alloy]) > 2))
-		{
-			replaceBaselineAcc3();
-#			equip($slot[acc3], replace);
-		}
-		else
-		{
-			print("We should be getting a Xiblaxian wotsit this combat. Beep boop.", "green");
+			if((area == "indoor") && (item_amount($item[Xiblaxian Circuitry]) > 2))
+			{
+				replaceBaselineAcc3();
+			}
+			else if((area == "outdoor") && (item_amount($item[Xiblaxian Polymer]) > 0))
+			{
+				replaceBaselineAcc3();
+			}
+			else if((area == "underground") && (item_amount($item[Xiblaxian Alloy]) > 0))
+			{
+				replaceBaselineAcc3();
+			}
+			else
+			{
+				print("We should be getting a Xiblaxian wotsit this combat. Beep boop.", "green");
+			}
 		}
 	}
 	return true;

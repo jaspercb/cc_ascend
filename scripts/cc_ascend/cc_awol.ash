@@ -154,6 +154,11 @@ boolean awol_buyskills()
 	if(item_amount($item[Tales of the West: Cow Punching]) > 0)
 	{
 		string page = visit_url("inv_use.php?pwd=&which=3&whichitem=8955");
+
+		#The rest of the book is too filled<br>with jargon for you to be able<br>to understand it.
+		matcher slang = create_matcher("The rest of the book is too filled", page);
+		boolean cowSlang = !slang.find();
+
 		matcher my_skillPoints = create_matcher("You can learn (\\d\+) more skill", page);
 		if(my_skillPoints.find())
 		{
@@ -175,7 +180,7 @@ boolean awol_buyskills()
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=1", true);
 					}
-					else if(!have_skill($skill[Hard Drinker]))
+					else if(!have_skill($skill[Hard Drinker]) && cowSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=8", true);
 					}
@@ -187,7 +192,7 @@ boolean awol_buyskills()
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=2", true);
 					}
-					else if(!have_skill($skill[Walk: Cautious Prowl]))
+					else if(!have_skill($skill[Walk: Cautious Prowl]) && cowSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=9", true);
 					}
@@ -199,14 +204,14 @@ boolean awol_buyskills()
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=4", true);
 					}
-					else if(!have_skill($skill[Unleash Cowrruption]))
+					else if(!have_skill($skill[Unleash Cowrruption]) && cowSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=7", true);
 					}
 				}
 				else
 				{
-					if(!have_skill($skill[Hard Drinker]))
+					if(!have_skill($skill[Hard Drinker]) && cowSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=8", true);
 					}
@@ -214,7 +219,7 @@ boolean awol_buyskills()
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=5", true);
 					}
-					else if(!have_skill($skill[Walk: Cautious Prowl]))
+					else if(!have_skill($skill[Walk: Cautious Prowl]) && cowSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=9", true);
 					}
@@ -242,7 +247,7 @@ boolean awol_buyskills()
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=4", true);
 					}
-					else if(!have_skill($skill[Unleash Cowrruption]))
+					else if(!have_skill($skill[Unleash Cowrruption]) && cowSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1177&whichskill=7", true);
 					}
@@ -254,6 +259,10 @@ boolean awol_buyskills()
 	if(item_amount($item[Tales of the West: Beanslinging]) > 0)
 	{
 		string page = visit_url("inv_use.php?pwd=&which=3&whichitem=8956");
+
+		matcher slang = create_matcher("The rest of the book is too filled", page);
+		boolean beanSlang = !slang.find();
+
 		matcher my_skillPoints = create_matcher("You can learn (\\d\+) more skill", page);
 		if(my_skillPoints.find())
 		{
@@ -275,7 +284,7 @@ boolean awol_buyskills()
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=2", true);
 					}
-					else if(!have_skill($skill[Prodigious Appetite]))
+					else if(!have_skill($skill[Prodigious Appetite]) && beanSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=8", true);
 					}
@@ -287,11 +296,11 @@ boolean awol_buyskills()
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=4", true);
 					}
-					else if(!have_skill($skill[Beancannon]))
+					else if(!have_skill($skill[Beancannon]) && beanSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=7", true);
 					}
-					else if(!have_skill($skill[Walk: Prideful Strut]))
+					else if(!have_skill($skill[Walk: Prideful Strut]) && beanSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=9", true);
 					}
@@ -306,11 +315,11 @@ boolean awol_buyskills()
 				}
 				else
 				{
-					if(!have_skill($skill[Prodigious Appetite]))
+					if(!have_skill($skill[Prodigious Appetite]) && beanSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=8", true);
 					}
-					else if(!have_skill($skill[Walk: Prideful Strut]))
+					else if(!have_skill($skill[Walk: Prideful Strut]) && beanSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=9", true);
 					}
@@ -334,7 +343,7 @@ boolean awol_buyskills()
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=6", true);
 					}
-					else if(!have_skill($skill[Beancannon]))
+					else if(!have_skill($skill[Beancannon]) && beanSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1178&whichskill=7", true);
 					}
@@ -354,6 +363,10 @@ boolean awol_buyskills()
 	if(item_amount($item[Tales of the West: Snake Oiling]) > 0)
 	{
 		string page = visit_url("inv_use.php?pwd=&which=3&whichitem=8957");
+
+		matcher slang = create_matcher("The rest of the book is too filled", page);
+		boolean snakeSlang = !slang.find();
+
 		matcher my_skillPoints = create_matcher("You can learn (\\d\+) more skill", page);
 		if(my_skillPoints.find())
 		{
@@ -375,7 +388,7 @@ boolean awol_buyskills()
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=2", true);
 					}
-					else if(!have_skill($skill[Tolerant Constitution]))
+					else if(!have_skill($skill[Tolerant Constitution]) && snakeSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=8", true);
 					}
@@ -387,11 +400,11 @@ boolean awol_buyskills()
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=4", true);
 					}
-					else if(!have_skill($skill[Long Con]))
+					else if(!have_skill($skill[Long Con]) && snakeSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=7", true);
 					}
-					else if(!have_skill($skill[Walk: Leisurely Amble]))
+					else if(!have_skill($skill[Walk: Leisurely Amble]) && snakeSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=9", true);
 					}
@@ -406,11 +419,11 @@ boolean awol_buyskills()
 				}
 				else
 				{
-					if(!have_skill($skill[Tolerant Constitution]))
+					if(!have_skill($skill[Tolerant Constitution]) && snakeSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=8", true);
 					}
-					else if(!have_skill($skill[Long Con]))
+					else if(!have_skill($skill[Long Con]) && snakeSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=7", true);
 					}
@@ -434,7 +447,7 @@ boolean awol_buyskills()
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=4", true);
 					}
-					else if(!have_skill($skill[Walk: Leisurely Amble]))
+					else if(!have_skill($skill[Walk: Leisurely Amble]) && snakeSlang)
 					{
 						page = visit_url("choice.php?pwd=&option=1&whichchoice=1179&whichskill=9", true);
 					}

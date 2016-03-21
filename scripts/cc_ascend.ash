@@ -366,7 +366,7 @@ boolean LX_witchess()
 	{
 		return false;
 	}
-	if(my_turncount() < 5)
+	if(my_turncount() < 20)
 	{
 		return false;
 	}
@@ -10512,6 +10512,7 @@ boolean doTasks()
 
 	tophatMaker();
 	equipBaseline();
+	xiblaxian_makeStuff();
 
 	if(!in_hardcore() || !isGuildClass())
 	{
