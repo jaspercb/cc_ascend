@@ -34,6 +34,7 @@ void initializeSettings()
 	{
 		return;
 	}
+	cli_execute("refresh all");
 	set_property("cc_doneInitialize", my_ascensions());
 
 	if(my_familiar() != $familiar[none])
