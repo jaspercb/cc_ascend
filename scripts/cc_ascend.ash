@@ -6066,10 +6066,21 @@ boolean L10_basement()
 	{
 		return false;
 	}
+	if(my_adventures() < 3)
+	{
+		return false;
+	}
 	print("Basement Search", "blue");
 	set_property("choiceAdventure669", "1");
 	set_property("choiceAdventure670", "5");
-	set_property("choiceAdventure671", "4");
+	if(item_amount($item[Massive Dumbbell]) > 0)
+	{
+		set_property("choiceAdventure671", "1");
+	}
+	else
+	{
+		set_property("choiceAdventure671", "4");
+	}
 
 	if(my_primestat() == $stat[Muscle])
 	{
@@ -6099,7 +6110,12 @@ boolean L10_basement()
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
 	handleFamiliar("item");
 
-	if(contains_text(get_property("lastEncounter"), "The Fast and the Furry-ous") && (item_amount($item[titanium assault umbrella]) == 1))
+	if(contains_text(get_property("lastEncounter"), "Out in the Open Source") && (get_property("choiceAdventure671").to_int() == 1))
+	{
+		print("Dumbbell + Dumbwaiter means we fly!", "green");
+		set_property("cc_castlebasement", "finished");
+	}
+	else if(contains_text(get_property("lastEncounter"), "The Fast and the Furry-ous") && (item_amount($item[titanium assault umbrella]) == 1))
 	{
 		print("We was fast and furry-ous!", "blue");
 		equip($item[titanium assault umbrella]);
@@ -6122,8 +6138,25 @@ boolean L10_basement()
 		{
 			if(in_hardcore() && !possessEquipment($item[Amulet of Extreme Plot Significance]))
 			{
-				print("Backfarming an Amulet of Extreme Plot Significance, sigh :(", "blue");
-				ccAdv(1, $location[The Penultimate Fantasy Airship]);
+				if($location[The Penultimate Fantasy Airship].turns_spent >= 48)
+				{
+					print("Well, we don't seem to be able to find an Amulet...", "red");
+					print("I suppose we will get the Massive Dumbbell... Beefcake!", "red");
+					if(item_amount($item[Massive Dumbbell]) == 0)
+					{
+						set_property("choiceAdventure670", "1");
+					}
+					else
+					{
+						set_property("choiceAdventure670", "2");
+					}
+					ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
+				}
+				else
+				{
+					print("Backfarming an Amulet of Extreme Plot Significance, sigh :(", "blue");
+					ccAdv(1, $location[The Penultimate Fantasy Airship]);
+				}
 				return true;
 			}
 			else
@@ -9022,6 +9055,10 @@ boolean L9_oilPeak()
 	{
 		buffMaintain($effect[The Dinsey Look], 0, 1, 1);
 	}
+	if(monster_level_adjustment() < 50)
+	{
+		buffMaintain($effect[Sweetbreads Flamb&eacute;], 0, 1, 1);
+	}
 	ccAdv(1, $location[Oil Peak]);
 	handleFamiliar("item");
 	return true;
@@ -10458,6 +10495,11 @@ boolean doTasks()
 	{
 		spleen_hold = spleen_hold + 8;
 	}
+	spleen_hold += 4 * item_amount($item[Grim Fairy Tale]);
+	spleen_hold += 4 * item_amount($item[Powdered Gold]);
+	spleen_hold += 4 * item_amount($item[Agua de Vida]);
+	spleen_hold += 4 * item_amount($item[Unconscious Collective Dream Jar]);
+	spleen_hold += 4 * item_amount($item[Groose Grease]);
 	if(in_hardcore() && ((my_spleen_use() + spleen_hold) <= spleen_limit()))
 	{
 		if((dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))

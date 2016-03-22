@@ -305,7 +305,7 @@ boolean dealWithMilkOfMagnesium(boolean useAdv)
 	pullXWhenHaveY($item[Milk of Magnesium], 1, 0);
 	return true;
 }
-
+		
 void consumeStuff()
 {
 	if(ed_eatStuff())
@@ -327,6 +327,27 @@ void consumeStuff()
 	{
 		mpForOde = 0;
 	}
+
+	if(!have_skill($skill[Advanced Saucecrafting]))
+	{
+		if(((my_fullness() + 5) <= fullness_limit()) && ((my_inebriety() + 2) >= inebriety_limit()))
+		{
+			if((item_amount($item[Yellow Pixel]) >= 10) && (item_amount($item[Pixel Lemon]) == 0))
+			{
+				cli_execute("make " + $item[Pixel Lemon]);
+			}
+			if(item_amount($item[Pixel Lemon]) > 0)
+			{
+				eat(1, $item[Pixel Lemon]);
+			}
+		}
+	}
+
+	if((my_spleen_use() <= 7) && (my_level() >= 11) && (my_adventures() < 3) && (item_amount($item[astral energy drink]) > 0))
+	{
+		chew(1, $item[astral energy drink]);
+	}
+
 
 	if(((my_inebriety() + 3) <= inebriety_limit()) && (my_mp() >= mpForOde))
 	{

@@ -57,7 +57,7 @@ void handlePostAdventure()
 	if(my_path() == "Actually Ed the Undying")
 	{
 		int maxBuff = max(5, 660 - my_turncount());
-		if(my_mp() < 30)
+		if(my_mp() < 40)
 		{
 			maxBuff = 5;
 		}
@@ -101,7 +101,7 @@ void handlePostAdventure()
 		{
 			buffMaintain($effect[Purr of the Feline], 10, 1, maxBuff);
 		}
-		if((my_servant() == $servant[Belly-Dancer]) && ($servant[Belly-Dancer].experience < 196))
+		if((my_servant() == $servant[Belly-Dancer]) && ($servant[Belly-Dancer].experience < 196) && ($servant[Belly-Dancer].experience >= 81))
 		{
 			buffMaintain($effect[Purr of the Feline], 10, 1, maxBuff);
 		}

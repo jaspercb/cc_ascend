@@ -2406,6 +2406,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Superhuman Sarcasm]:			useItem = $item[Serum of Sarcasm];				break;
 	case $effect[Suspicious Gaze]:				useSkill = $skill[Suspicious Gaze];				break;
 	case $effect[Sweet\, Nuts]:					useItem = $item[Crimbo Candied Pecan];			break;
+	case $effect[Sweetbreads Flamb&eacute;]:	useItem = $item[Greek Fire];					break;
 	case $effect[Takin\' It Greasy]:			useSkill = $skill[Grease Up];					break;
 	case $effect[Taunt of Horus]:				useItem = $item[Talisman of Horus];				break;
 	case $effect[Temporary Lycanthropy]:		useItem = $item[Blood of the Wereseal];			break;
