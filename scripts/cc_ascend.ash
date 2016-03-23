@@ -420,6 +420,12 @@ void maximize_hedge()
 	{
 		ccMaximize(to_string(first) + " res, " + to_string(second) + " res, " + to_string(third) + " res -equip snow suit", 2500, 0, false);
 	}
+
+	foreach eff in $effects[Egged On, Patent Prevention]
+	{
+		buffMaintain(eff, 0, 1, 1);
+	}
+
 }
 
 int pullsNeeded(string data)
@@ -3504,7 +3510,7 @@ boolean L13_towerNSContests()
 			switch(ns_crowd2())
 			{
 			case $stat[moxie]:
-				foreach eff in $effects[Busy Bein\' Delicious, Butt-Rock Hair, Funky Coal Patina, Liquidy Smoky, Locks Like the Raven, Lycanthropy\, Eh?, Memories of Puppy Love, Newt Gets In Your Eyes, Notably Lovely, Pill Power, Radiating Black Body&trade;, Seriously Mutated,  Spiky Hair, Sugar Rush, Superhuman Sarcasm, Tomato Power]
+				foreach eff in $effects[Busy Bein\' Delicious, Butt-Rock Hair, Funky Coal Patina, Liquidy Smoky, Locks Like the Raven, Lycanthropy\, Eh?, Memories of Puppy Love, Newt Gets In Your Eyes, Notably Lovely, Oiled Skin, Pill Power, Radiating Black Body&trade;, Seriously Mutated,  Spiky Hair, Sugar Rush, Superhuman Sarcasm, Tomato Power]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
@@ -4635,6 +4641,15 @@ boolean L11_mauriceSpookyraven()
 		if(item_amount($item[Unstable Fulminate]) == 0)
 		{
 			print("We could not make an Unstable Fulminate but we think we have an oven. Do this manually and resume?", "red");
+			print("Speculating that get_campground() was incorrect at ascension start...", "red");
+			// This issue is valid as of mafia r16799
+			set_property("cc_haveoven", false);
+			ovenHandle();
+			ccCraft("cook", 1, $item[bottle of Chateau de Vinegar], $item[blasting soda]);
+			if(item_amount($item[Unstable Fulminate]) == 0)
+			{
+				abort("Could not make an Unstable Fulminate, make it manually and resume");
+			}
 		}
 	}
 
