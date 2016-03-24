@@ -75,6 +75,7 @@ void initializeSettings()
 	set_property("cc_ballroomsong", "");
 	set_property("cc_banishes", "");
 	set_property("cc_bat", "");
+	set_property("cc_batoomerangDay", 0);
 	set_property("cc_bean", false);
 	set_property("cc_getBeehive", false);
 	set_property("cc_blackfam", true);
@@ -2865,7 +2866,7 @@ boolean L13_towerNSNagamar()
 	else
 	{
 		pullXWhenHaveY($item[disassembled clover], 1, 0);
-
+		use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
 		if(item_amount($item[Disassembled Clover]) > 0)
 		{
 			use(1, $item[Disassembled Clover]);
@@ -7229,6 +7230,7 @@ boolean L8_trapperGround()
 	}
 	else if((my_level() >= 12) && in_hardcore())
 	{
+		use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
 		if(item_amount($item[Disassembled Clover]) > 1)
 		{
 			use(1, $item[Disassembled Clover]);
@@ -7638,6 +7640,7 @@ boolean LX_meatMaid()
 	{
 		return false;
 	}
+	use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
 	if(item_amount($item[Disassembled Clover]) == 0)
 	{
 		return false;
@@ -8738,6 +8741,7 @@ boolean L9_aBooPeak()
 	}
 	else if(get_property("cc_abooclover").to_boolean() && (get_property("booPeakProgress").to_int() >= 40))
 	{
+		use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
 		if(item_amount($item[disassembled clover]) > 0)
 		{
 			use(1, $item[disassembled clover]);

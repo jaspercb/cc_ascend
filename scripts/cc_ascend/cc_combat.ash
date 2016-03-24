@@ -1213,12 +1213,12 @@ string cc_combatHandler(int round, string opp, string text)
 			attackMinor = "skill shieldbutt";
 			costMinor = mp_cost($skill[Shieldbutt]);
 		}
-		else if((my_mp() > 80) && ((my_hp() * 2) < my_maxhp()))
+		else if((my_mp() > 80) && ((my_hp() * 2) < my_maxhp()) && have_skill($skill[Kneebutt]))
 		{
 			attackMinor = "skill kneebutt";
 			costMinor = mp_cost($skill[Kneebutt]);
 		}
-		if((round > 15) || ((my_hp() * 2) < my_maxhp()))
+		if((round > 15) || ((my_hp() * 2) < my_maxhp()) && have_skill($skill[Kneebutt]))
 		{
 			attackMajor = "skill kneebutt";
 			costMajor = mp_cost($skill[Kneebutt]);
