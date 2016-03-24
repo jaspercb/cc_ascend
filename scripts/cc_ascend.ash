@@ -6876,7 +6876,7 @@ boolean LX_steelOrgan()
 
 	if(my_path() == "Avatar of West of Loathing")
 	{
-		if(!user_confirm("You probably do not want to get Steel Organ. We are turning it off unless you click yes every single turn. Because then you'll realize how bad we are at getting a steel organ in West of Loathing. By default, this will go away in 15 seconds (you won't have finished reading this in time) and turn off steel organ.", 15000, false))
+		if((get_property("awolPointsCowpuncher").to_int() < 7) || (get_property("awolPointsBeanslinger").to_int() < 1) || (get_property("awolPointsSnakeoiler").to_int() < 5))
 		{
 			set_property("cc_getSteelOrgan", false);
 			return false;

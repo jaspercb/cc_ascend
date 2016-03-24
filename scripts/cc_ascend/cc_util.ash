@@ -1008,8 +1008,15 @@ boolean ovenHandle()
 {
 	if((cc_get_campground() contains $item[Dramatic&trade; range]) && !get_property("cc_haveoven").to_boolean())
 	{
-		print("Oven found! We can cook!", "blue");
-		set_property("cc_haveoven", true);
+		if((cc_get_campground() contains $item[Certificate of Participation]) && (my_class() == $class[Ed]))
+		{
+			print("Mafia reports we have an oven but we do not. Logging back in will resolve this.", "red");
+		}
+		else
+		{
+			print("Oven found! We can cook!", "blue");
+			set_property("cc_haveoven", true);
+		}
 	}
 
 	if(!get_property("cc_haveoven").to_boolean() && (my_meat() > 4000))

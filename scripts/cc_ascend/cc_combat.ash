@@ -2629,7 +2629,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		return "skill Mild Curse";
 	}
 
-	if((my_mp() >= 15) && (my_location() == $location[The Secret Government Laboratory]) && have_skill($skill[Roar of the Lion]))
+	if((my_mp() >= mp_cost($skill[Roar of the Lion])) && (my_location() == $location[The Secret Government Laboratory]) && have_skill($skill[Roar of the Lion]))
 	{
 		if(have_skill($skill[Storm of the Scarab]) && (my_buffedstat($stat[Mysticality]) >= 60))
 		{
@@ -2637,6 +2637,11 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 		return "skill Roar of the Lion";
 	}
+	if((my_mp() >= mp_cost($skill[Storm of the Scarab])) && (my_location() == $location[Pirates of the Garbage Barges]) && have_skill($skill[Storm of the Scarab]))
+	{
+		return "skill Storm of the Scarab";
+	}
+
 
 #	if((!contains_text(combatState, "love stinkbug")) && have_skill($skill[Summon Love Stinkbug]) && (mcd <= 50))
 #	{
