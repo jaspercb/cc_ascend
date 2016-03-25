@@ -40,7 +40,10 @@ void initializeSettings()
 	if(my_familiar() != $familiar[none])
 	{
 		set_property("cc_100familiar", user_confirm("Familiar already set, is this a 100% familiar run? Will default to 'No' in 15 seconds.", 15000, false));
-		set_property("cc_useCubeling", false);
+		if(get_property("cc_100familiar").to_boolean())
+		{
+			set_property("cc_useCubeling", false);
+		}
 	}
 	else
 	{

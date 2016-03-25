@@ -74,6 +74,10 @@ boolean haveGuitar();
 boolean haveAccordion();
 boolean haveDrum();
 int spleen_left();
+int stomach_left();
+int fullness_left();
+int drunk_left();
+int inebriety_left();
 void pullAll(item it);
 void pullAndUse(item it, int uses);
 boolean pullXWhenHaveY(item it, int howMany, int whenHave);
@@ -559,6 +563,27 @@ int grimTaleDrops()
 int spleen_left()
 {
 	return spleen_limit() - my_spleen_use();
+}
+
+
+int stomach_left()
+{
+	return fullness_limit() - my_fullness();
+}
+
+int fullness_left()
+{
+	return stomach_left();
+}
+
+int drunk_left()
+{
+	return inebriety_limit() - my_inebriety();
+}
+
+int inebriety_left()
+{
+	return drunk_left();
 }
 
 boolean canYellowRay()
