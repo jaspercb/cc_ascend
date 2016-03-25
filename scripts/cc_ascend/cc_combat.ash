@@ -1451,7 +1451,8 @@ string cc_combatHandler(int round, string opp, string text)
 			costMinor = mp_cost($skill[Pungent Mung]);
 		}
 
-		if(have_skill($skill[Cowcall]) && (my_mp() >= mp_cost($skill[Cowcall])) && (type != $phylum[undead]))
+		if(have_skill($skill[Cowcall]) && (my_mp() >= mp_cost($skill[Cowcall])) && (type != $phylum[undead]) && (enemy.defense_element != $element[spooky]))
+
 		{
 			attackMajor = "skill " + $skill[Cowcall];
 			attackMinor = "skill " + $skill[Cowcall];
@@ -2091,7 +2092,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((item_amount($item[The Big Book of Pirate Insults]) > 0) && (!contains_text(combatState, "insults")) && (numPirateInsults() < 8))
+	if((item_amount($item[The Big Book of Pirate Insults]) > 0) && (!contains_text(combatState, "insults")) && (numPirateInsults() < 8) && (get_property("cc_edStatus") != "dying"))
 	{
 		if(!contains_text(combatState, "beanscreen") && have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
 		{

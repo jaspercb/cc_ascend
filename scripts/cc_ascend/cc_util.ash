@@ -73,6 +73,7 @@ boolean haveAny(boolean[item] array);
 boolean haveGuitar();
 boolean haveAccordion();
 boolean haveDrum();
+int spleen_left();
 void pullAll(item it);
 void pullAndUse(item it, int uses);
 boolean pullXWhenHaveY(item it, int howMany, int whenHave);
@@ -553,6 +554,11 @@ int powderedGoldDrops()
 int grimTaleDrops()
 {
 	return get_property("_grimFairyTaleDrops").to_int();
+}
+
+int spleen_left()
+{
+	return spleen_limit() - my_spleen_use();
 }
 
 boolean canYellowRay()

@@ -343,7 +343,7 @@ void consumeStuff()
 		}
 	}
 
-	if((my_spleen_use() <= 7) && (my_level() >= 11) && (my_adventures() < 3) && (item_amount($item[astral energy drink]) > 0))
+	if((spleen_left() >= 8) && (my_level() >= 11) && (my_adventures() < 40) && (item_amount($item[astral energy drink]) > 0))
 	{
 		chew(1, $item[astral energy drink]);
 	}
@@ -453,7 +453,7 @@ void consumeStuff()
 			drink(1, $item[Cold One]);
 		}
 
-		if((my_spleen_use() <= 7) && (my_level() >= 10) && (my_adventures() < 3) && (item_amount($item[astral energy drink]) > 0))
+		if((spleen_left() >= 8) && (my_level() >= 10) && (my_adventures() < 3) && (item_amount($item[astral energy drink]) > 0))
 		{
 			chew(1, $item[astral energy drink]);
 		}
@@ -672,13 +672,13 @@ void consumeStuff()
 		if((fullness_limit() > 15) && (my_fullness() < fullness_limit()))
 		{
 			tryCookies();
-			if((my_adventures() < 5) && (my_spleen_use() == 15) && (my_inebriety() >= 14))
+			if((my_adventures() < 5) && (spleen_left() <= 3) && (my_inebriety() >= 14))
 			{
 				tryPantsEat();
 			}
 		}
 
-		if((my_spleen_use() == 4) && (item_amount($item[carrot nose]) > 0))
+		if((my_spleen_use() == 4) && (spleen_left() == 11) && (item_amount($item[carrot nose]) > 0))
 		{
 			use(1, $item[carrot nose]);
 			chew(1, $item[carrot juice]);
@@ -686,22 +686,23 @@ void consumeStuff()
 
 		if(in_hardcore())
 		{
-			while((my_spleen_use() <= 11) && (item_amount($item[Unconscious Collective Dream Jar]) > 0))
+			while((spleen_left() >= 4) && (item_amount($item[Unconscious Collective Dream Jar]) > 0))
 			{
 				chew(1, $item[Unconscious Collective Dream Jar]);
 			}
-			while((my_spleen_use() <= 11) && (item_amount($item[Powdered Gold]) > 0))
+			while((spleen_left() >= 4) && (item_amount($item[Powdered Gold]) > 0))
 			{
 				chew(1, $item[Powdered Gold]);
 			}
-			while((my_spleen_use() <= 11) && (item_amount($item[Grim Fairy Tale]) > 0))
+			while((spleen_left() >= 4) && (item_amount($item[Grim Fairy Tale]) > 0))
 			{
 				chew(1, $item[Grim Fairy Tale]);
 			}
 		}
 
-		if(((my_spleen_use() >= 4) && (my_spleen_use() < 7)) || ((my_spleen_use() >= 12) && (my_spleen_use() < 15)))
+		if((((my_spleen_use() >= 4) && (my_spleen_use() < 7)) || ((my_spleen_use() >= 12) && (my_spleen_use() < 15))) && (spleen_left() >= 3))
 		{
+			# Reconsider this in light of the new dimensions of Spleen.
 			if((item_amount($item[tenderizing hammer]) == 0) && have_skill($skill[Pulverize]))
 			{
 				buyUpTo(1, $item[tenderizing hammer]);
@@ -734,9 +735,9 @@ void consumeStuff()
 			}
 		}
 
-		if((my_fullness() >= 15) && ((my_spleen_use() == 7) || (my_level() == 10)) && (my_inebriety() >= 14) && (my_adventures() < 5))
+		if((my_fullness() >= 15) && ((spleen_left() == 8) || (my_level() == 10)) && (my_inebriety() >= 14) && (my_adventures() < 5))
 		{
-			if((item_amount($item[astral energy drink]) > 0) && (my_spleen_use() <= 7))
+			if((item_amount($item[astral energy drink]) > 0) && (spleen_left() >= 8))
 			{
 				chew(1, $item[astral energy drink]);
 			}
@@ -900,7 +901,7 @@ void consumeStuff()
 		if((fullness_limit() >= 15) && (my_fullness() < fullness_limit()))
 		{
 			tryCookies();
-			if((my_adventures() < 5) && (my_spleen_use() == 15) && (my_inebriety() >= 14))
+			if((my_adventures() < 5) && (spleen_left() == 0) && (my_inebriety() >= 14))
 			{
 				tryPantsEat();
 			}
@@ -1081,7 +1082,7 @@ void consumeStuff()
 /*****	End of Standard equivalent secton								*****/
 
 
-		if((my_level() >= 11) && (my_spleen_use() == 0) && (item_amount($item[astral energy drink]) >= 2))
+		if((my_level() >= 11) && (spleen_left() == 15) && (item_amount($item[astral energy drink]) >= 2))
 		{
 			chew(1, $item[astral energy drink]);
 			if(item_amount($item[mojo filter]) > 0)
