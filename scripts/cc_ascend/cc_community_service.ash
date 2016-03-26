@@ -1537,8 +1537,13 @@ boolean LA_cs_communityService()
 			uneffect($effect[Brawnee\'s Anthem of Absorption]);
 			uneffect($effect[Power Ballad of the Arrowsmith]);
 
+			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 10);
-			overdrink(1, $item[Emergency Margarita]);
+
+			if(!get_property("cc_saveMargarita").to_boolean())
+			{
+				overdrink(1, $item[Emergency Margarita]);
+			}
 			if((my_spleen_use() == 12) && (item_amount($item[Handful of Smithereens]) > 0))
 			{
 				chew(1, $item[Handful of Smithereens]);
@@ -1764,6 +1769,7 @@ boolean LA_cs_communityService()
 			}
 			if((my_inebriety() == 0) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 			{
+				shrugAT();
 				use_skill(1, $skill[The Ode to Booze]);
 				cli_execute("drink 1 bee's knees");
 			}
@@ -1895,6 +1901,7 @@ boolean LA_cs_communityService()
 			}
 			if((my_inebriety() == 2) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 			{
+				shrugAT();
 				use_skill(1, $skill[The Ode to Booze]);
 				cli_execute("drink 1 bee's knees");
 			}
@@ -1995,6 +2002,8 @@ boolean LA_cs_communityService()
 				chew(1, $item[Abstraction: Joy]);
 			}
 
+			# Add Witchess Familiar Buff here.
+
 			int currentCost = get_cs_questCost(curQuest);
 			if(have_skill($skill[Empathy of the Newt]))
 			{
@@ -2034,6 +2043,7 @@ boolean LA_cs_communityService()
 
 					if((my_adventures() + extraAdv) > needCost)
 					{
+						shrugAT();
 						use_skill(1, $skill[The Ode to Booze]);
 						if((my_meat() > 5000) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 						{
@@ -2050,6 +2060,7 @@ boolean LA_cs_communityService()
 					}
 					else
 					{
+						shrugAT();
 						use_skill(1, $skill[The Ode to Booze]);
 						drink(1, $item[Vintage Smart Drink]);
 					}
@@ -2120,8 +2131,7 @@ boolean LA_cs_communityService()
 			}
 			if((my_inebriety() == 5) || (my_inebriety() == 11))
 			{
-				uneffect($effect[Cletus\'s Canticle of Celerity]);
-				uneffect($effect[The Moxious Madrigal]);
+				shrugAT();
 				buffMaintain($effect[Ode to Booze], 50, 1, 1);
 				cli_execute("drink sockdollager");
 				cli_execute("drink cup of tea");
@@ -2162,6 +2172,7 @@ boolean LA_cs_communityService()
 			}
 			if((my_level() >= 8) && (item_amount($item[Astral Pilsner]) > 0))
 			{
+				shrugAT();
 				buffMaintain($effect[Ode to Booze], 50, 1, 6);
 				drink(item_amount($item[Astral Pilsner]), $item[Astral Pilsner]);
 			}

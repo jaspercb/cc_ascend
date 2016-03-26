@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16789;
+since r16821;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -5441,6 +5441,12 @@ boolean L12_sonofaBeach()
 		pulverizeThing($item[Goatskin Umbrella]);
 	}
 
+	if(numeric_modifier("Combat Rate") < 0.0)
+	{
+		print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Lobsterfrogmen.", "red");
+		return false;
+	}
+
 	ccAdv(1, $location[Sonofa Beach]);
 	set_property("cc_doCombatCopy", "no");
 	handleFamiliar("item");
@@ -9701,6 +9707,11 @@ boolean LX_fcle()
 	{
 		handleFamiliar("item");
 	}
+
+	if(numeric_modifier("Combat Rate") < 0.0)
+	{
+		print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and F'c'le, continuning but not happy about it..", "red");
+	}
 	ccAdv(1, $location[The F\'c\'le]);
 	handleFamiliar("item");
 
@@ -10136,6 +10147,12 @@ boolean L8_trapperYeti()
 		{
 			adjustEdHat("myst");
 		}
+		if(numeric_modifier("Combat Rate") < 0.0)
+		{
+			print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Ninja Snowmen.", "red");
+			return false;
+		}
+
 		if(!ccAdv(1, $location[Lair of the Ninja Snowmen]))
 		{
 			print("Seems like we failed the Ninja Snowmen unlock, reverting trapper setting", "red");

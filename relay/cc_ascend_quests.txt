@@ -99,3 +99,4 @@
 99	cc_batoomerangUse	integer	PRE	Part of Replica Bat-oomerang Tracker
 100	cc_longConMonster	string	PRE	Last Monster hit by Long Con
 101	cc_noSleepingDog	boolean	PRE	When true, do not eat a Sleeping Dog.
+101	cc_saveMargarita	boolean	PRE	Save Emergency Margarita in HCCS run.
