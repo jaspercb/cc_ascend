@@ -121,12 +121,6 @@ void cs_initializeDay(int day)
 				}
 			}
 
-#			visit_url("da.php");
-#			if(get_property("barrelShrineUnlocked").to_boolean() && !get_property("_barrelPrayer").to_boolean())
-#			{
-#				boolean buff = cli_execute("barrelprayer Glamour");
-#			}
-
 			if(get_property("questM23Meatsmith") == "unstarted")
 			{
 				set_property("choiceAdventure1059", 1);
@@ -138,9 +132,14 @@ void cs_initializeDay(int day)
 			if(have_familiar($familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
 			{
 				familiar last = my_familiar();
+				int gift = 1;
+				if(get_property("cc_100familiar").to_boolean() && (my_familiar() != $familiar[Crimbo Shrub]))
+				{
+					gift = 2;
+				}
 				use_familiar($familiar[Crimbo Shrub]);
 				visit_url("inv_use.php?pwd=&which=3&whichitem=7958");
-				visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=2&lights=1&garland=3&gift=1");
+				visit_url("choice.php?pwd=&whichchoice=999&option=1&topper=2&lights=1&garland=3&gift=" + gift);
 				use_familiar(last);
 			}
 
@@ -265,7 +264,7 @@ void cs_make_stuff()
 			cli_execute("make Staff of the Headmaster\'s Victuals");
 		}
 
-		if(!have_familiar($familiar[Machine Elf]))
+		if(!have_familiar($familiar[Machine Elf]) && !get_property("cc_100familiar").to_boolean())
 		{
 			if(item_amount($item[Handful of Smithereens]) >= 3)
 			{
@@ -568,7 +567,6 @@ string cs_combatYR(int round, string opp, string text)
 	boolean [monster] lookFor = $monsters[Dairy Goat, factory overseer (female), factory worker (female), mine overseer (male), mine overseer (female), mine worker (male), mine worker (female), sk8 gnome];
 	if((have_effect($effect[Everything Looks Yellow]) == 0) && (lookFor contains enemy))
 	{
-		#if((!contains_text(combatState, "yellowray")) && (my_familiar() == $familiar[Crimbo Shrub]))
 		if(!contains_text(combatState, "yellowray"))
 		{
 			string combatAction = yellowRayCombatString();
@@ -593,9 +591,6 @@ string cs_combatYR(int round, string opp, string text)
 			{
 				abort("Wanted a yellow ray but we can not find one.");
 			}
-			#set_property("cc_combatHandler", combatState + "(yellowray)");
-			#handleTracker(enemy, $skill[Open a Big Yellow Present], "cc_yellowRays");
-			#return "skill Open a Big Yellow Present";
 		}
 	}
 
@@ -709,7 +704,7 @@ boolean cs_giant_growth()
 	}
 
 #	print("Starting LTBs: " + item_amount($item[Louder Than Bomb]), "blue");
-	if(have_familiar($familiar[Machine Elf]))
+	if(have_familiar($familiar[Machine Elf]) && !get_property("cc_100familiar").to_boolean())
 	{
 		use_familiar($familiar[Machine Elf]);
 	}
@@ -970,7 +965,11 @@ boolean LA_cs_communityService()
 
 	if(get_property("cc_100familiar").to_boolean())
 	{
-		abort("100% familiar is not compatible, to disable: set cc_100familiar=false");
+		if((my_familiar() != $familiar[Puck Man]) && (my_familiar() != $familiar[Ms. Puck Man]))
+		{
+			abort("100% familiar is not compatible, to disable: set cc_100familiar=false");
+		}
+		print("In 100% familiar mode with a Puck Person... well, good luck!", "red");
 	}
 
 	static int curQuest = 0;
@@ -1397,14 +1396,6 @@ boolean LA_cs_communityService()
 							handleFamiliar($familiar[Artistic Goth Kid]);
 						}
 
-//						if(my_familiar() != $familiar[Artistic Goth Kid])
-//						{
-//							if(handleFaxMonster($monster[Black Crayon Crimbo Elf], "cs_combatNormal"))
-//							{
-//								return true;
-//							}
-//						}
-
 						if(elementalPlanes_access($element[stench]))
 						{
 							ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice], "cs_combatNormal");
@@ -1454,7 +1445,7 @@ boolean LA_cs_communityService()
 				doHottub();
 			}
 
-			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0))
+			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && !get_property("cc_100familiar").to_boolean())
 			{
 				if(get_property("cc_choice1119") != "")
 				{
@@ -1577,6 +1568,7 @@ boolean LA_cs_communityService()
 		return true;
 	}
 
+	familiar prior = my_familiar();
 	switch(curQuest)
 	{
 	case 0:
@@ -2105,17 +2097,18 @@ boolean LA_cs_communityService()
 			#This is probably not all that effective here....
 			if(item_amount($item[Ghost Dog Chow]) > 0)
 			{
-				use(item_amount($item[Ghost Dog Chow]), $item[Ghost Dog Chow]);
+				use(max(5,item_amount($item[Ghost Dog Chow])), $item[Ghost Dog Chow]);
 			}
-
 
 			if(do_cs_quest(5))
 			{
 				curQuest = 0;
+				use_familiar(prior);
 			}
 			else
 			{
 				curQuest = 0;
+				use_familiar(prior);
 				abort("Could not handle our quest and can not recover");
 			}
 		break;
@@ -2254,20 +2247,18 @@ boolean LA_cs_communityService()
 					}
 					equip($slot[familiar], $item[Obsidian Nutcracker]);
 				}
-#				if(equipped_item($slot[familiar]) == $item[Obsidian Nutcracker])
-#				{
-#					use_familiar($familiar[Disembodied Hand]);
-#				}
 			}
 
 
 			if(do_cs_quest(7))
 			{
 				curQuest = 0;
+				use_familiar(prior);
 			}
 			else
 			{
 				curQuest = 0;
+				use_familiar(prior);
 				abort("Could not handle our quest and can not recover");
 			}
 		}
@@ -2355,8 +2346,6 @@ boolean LA_cs_communityService()
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 			}
 
-
-
 			boolean [familiar] itemFams = $familiars[Gelatinous Cubeling, Syncopated Turtle, Slimeling, Angry Jung Man, Grimstone Golem, Adventurous Spelunker, Jumpsuited Hound Dog, Steam-Powered Cheerleader];
 			familiar itemFam = $familiar[Cocoabo];
 			foreach fam in itemFams
@@ -2372,10 +2361,12 @@ boolean LA_cs_communityService()
 			if(do_cs_quest(9))
 			{
 				curQuest = 0;
+				use_familiar(prior);
 			}
 			else
 			{
 				curQuest = 0;
+				use_familiar(prior);
 				abort("Could not handle our quest and can not recover");
 			}
 		break;
@@ -2401,6 +2392,7 @@ boolean LA_cs_communityService()
 					return true;
 				}
 			}
+
 			if(have_familiar($familiar[Exotic Parrot]))
 			{
 				#handleFamiliar($familiar[Exotic Parrot]);
@@ -2475,6 +2467,7 @@ boolean LA_cs_communityService()
 				equip($slot[off-hand], $item[none]);
 				equip($slot[acc1], $item[none]);
 				equip($slot[acc3], $item[none]);
+				use_familiar(prior);
 			}
 			else
 			{
@@ -2484,6 +2477,7 @@ boolean LA_cs_communityService()
 				equip($slot[off-hand], $item[none]);
 				equip($slot[acc1], $item[none]);
 				equip($slot[acc3], $item[none]);
+				use_familiar(prior);
 				abort("Could not handle our quest and can not recover");
 			}
 		break;
