@@ -13,7 +13,6 @@ void handleKingLiberation()
 			set_property("cc_snapshot", "aborted");
 			return;
 		}
-		#visit_url("storage.php?action=pullall&pwd&");
 		visit_url("storage.php?action=takemeat&pwd&amt=" + my_storage_meat());
 		visit_url("storage.php?pwd&");
 
@@ -71,7 +70,10 @@ void handleKingLiberation()
 //		visit_url("lair2.php?preaction=key&whichkey=436");
 
 		visit_url("place.php?whichplace=desertbeach&action=db_nukehouse");
-		visit_url("shop.php?whichshop=hippy");
+		if((get_property("sidequestOrchardCompleted") != "none") && !get_property("_hippyMeatCollected").to_boolean())
+		{
+			visit_url("shop.php?whichshop=hippy");
+		}
 		visit_url("clan_rumpus.php?action=click&spot=3&furni=3");
 		visit_url("clan_rumpus.php?action=click&spot=3&furni=3");
 		visit_url("clan_rumpus.php?action=click&spot=3&furni=3");
