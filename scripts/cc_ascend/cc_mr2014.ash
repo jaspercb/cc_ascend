@@ -84,7 +84,6 @@ boolean dna_generic()
 	}
 	if(get_property("dnaSyringe") == $phylum[none])
 	{
-	
 		return false;
 	}
 
@@ -221,16 +220,16 @@ boolean dna_bedtime()
 
 boolean xiblaxian_makeStuff()
 {
-	if((my_daycount() >= 2) && (eudora_current() == $item[Xi Receiver Unit]) && possessEquipment($item[Xiblaxian holo-wrist-puter]))
+	if((my_daycount() >= 2) && possessEquipment($item[Xiblaxian holo-wrist-puter]))
 	{
 		item toMake = to_item(get_property("cc_xiblaxianChoice"));
 
 		boolean canMake = false;
-		if((toMake == $item[Xiblaxian Ultraburrito]) && ((my_fullness() + 4) <= fullness_limit()) && (item_amount($item[Xiblaxian Circuitry]) >= 1) && (item_amount($item[Xiblaxian Polymer]) >= 1) && (item_amount($item[Xiblaxian Alloy]) >= 3))
+		if((toMake == $item[Xiblaxian Ultraburrito]) && (fullness_left() >= 4) && (item_amount($item[Xiblaxian Circuitry]) >= 1) && (item_amount($item[Xiblaxian Polymer]) >= 1) && (item_amount($item[Xiblaxian Alloy]) >= 3))
 		{
 			canMake = true;
 		}
-		if((toMake == $item[Xiblaxian Space-Whiskey]) && ((my_inebriety() + 4) <= inebriety_limit()) && (item_amount($item[Xiblaxian Circuitry]) >= 3) && (item_amount($item[Xiblaxian Polymer]) >= 1) && (item_amount($item[Xiblaxian Alloy]) >= 1))
+		if((toMake == $item[Xiblaxian Space-Whiskey]) && (inebriety_left() >= 4) && (item_amount($item[Xiblaxian Circuitry]) >= 3) && (item_amount($item[Xiblaxian Polymer]) >= 1) && (item_amount($item[Xiblaxian Alloy]) >= 1))
 		{
 			canMake = true;
 		}
