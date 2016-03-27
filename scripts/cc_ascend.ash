@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16821;
+since r16823;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -113,6 +113,7 @@ void initializeSettings()
 	set_property("cc_getBoningKnife", false);
 	set_property("cc_getStarKey", false);
 	set_property("cc_getSteelOrgan", get_property("cc_alwaysGetSteelOrgan").to_boolean());
+	set_property("cc_gnasirUnlocked", false);
 	set_property("cc_goblinking", "");
 	set_property("cc_gremlins", "");
 	set_property("cc_gremlinBanishes", "");
@@ -2544,7 +2545,14 @@ boolean L11_aridDesert()
 		print("Need for desert: " + need, "blue");
 		print("Worm riding: " + item_amount($item[worm-riding manual page]), "blue");
 
-		if((need < (100 - (5 * progress))) && (item_amount($item[Stone Rose]) > 0) && ((get_property("gnasirProgress").to_int() & 1) != 1))
+		if(!get_property("cc_gnasirUnlocked").to_boolean() && ($location[The Arid\, Extra-Dry Desert].turns_spent > 10))
+		{
+			print("Did not appear to notice that Gnasir unlocked, assuming so at this point.", "green");
+			set_property("cc_gnasirUnlocked", true);
+		}
+
+
+		if(get_property("cc_gnasirUnlocked").to_boolean() && (item_amount($item[Stone Rose]) > 0) && ((get_property("gnasirProgress").to_int() & 1) != 1))
 		{
 			print("Returning the stone rose", "blue");
 			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
@@ -2555,7 +2563,7 @@ boolean L11_aridDesert()
 			return true;
 		}
 
-		if((need < (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 2) != 2))
+		if(get_property("cc_gnasirUnlocked").to_boolean() && ((get_property("gnasirProgress").to_int() & 2) != 2))
 		{
 			if((item_amount($item[Can of Black Paint]) > 0) || (my_meat() >= 1000))
 			{
@@ -2570,7 +2578,7 @@ boolean L11_aridDesert()
 			}
 		}
 
-		if((need < (100 - (5 * progress))) && (item_amount($item[Killing Jar]) > 0) && ((get_property("gnasirProgress").to_int() & 4) != 4))
+		if(get_property("cc_gnasirUnlocked").to_boolean() && (item_amount($item[Killing Jar]) > 0) && ((get_property("gnasirProgress").to_int() & 4) != 4))
 		{
 			print("Returning the killing jar", "blue");
 			visit_url("place.php?whichplace=desertbeach&action=db_gnasir");
@@ -2626,6 +2634,12 @@ boolean L11_aridDesert()
 
 		ccAdv(1, $location[The Arid\, Extra-Dry Desert]);
 		handleFamiliar("item");
+
+		if(contains_text(get_property("lastEncounter"), "A Sietch in Time"))
+		{
+			print("We've found the gnome!! Sightseeing pamphlets for everyone!", "green");
+			set_property("cc_gnasirUnlocked", true);
+		}
 
 		if(contains_text(get_property("lastEncounter"), "He Got His Just Desserts"))
 		{
@@ -10147,7 +10161,7 @@ boolean L8_trapperYeti()
 		{
 			adjustEdHat("myst");
 		}
-		if(numeric_modifier("Combat Rate") < 0.0)
+		if(numeric_modifier("Combat Rate") <= 0.0)
 		{
 			print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Ninja Snowmen.", "red");
 			return false;
