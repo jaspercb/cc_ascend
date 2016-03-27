@@ -38,18 +38,10 @@ boolean cc_advWitchess(string target)
 		return false;
 	}
 
-	//Tracking Stuff (Someday we can remove this).
-	if(my_daycount() != get_property("cc_witchessBattleDay").to_int())
-	{
-		set_property("cc_witchessBattles", 0);
-		set_property("cc_witchessBattleDay", my_daycount());
-	}
-
-	if(get_property("cc_witchessBattles").to_int() >= 5)
+	if(get_property("_witchessFights").to_int() >= 5)
 	{
 		return false;
 	}
-	set_property("cc_witchessBattles", get_property("cc_witchessBattles").to_int() + 1);
 
 	string[int] pages;
 	pages[0] = "campground.php?action=witchess";

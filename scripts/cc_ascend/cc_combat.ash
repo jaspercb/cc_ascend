@@ -635,20 +635,18 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill transcendent olfaction";
 		}
 	}
-	if((get_property("cc_longConMonster") != enemy) && (have_skill($skill[Long Con])) && (my_mp() >= mp_cost($skill[Long Con])))
+	if(!contains_text(get_property("longConMonster"),enemy) && have_skill($skill[Long Con]) && (my_mp() >= mp_cost($skill[Long Con])) && (get_property("_longConUsed").to_int() < 5))
 	{
 		if($monsters[Blooper, cabinet of Dr. Limpieza, Dairy Goat, Dirty Old Lihc, Gaudy Pirate, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Tomb Rat, Writing Desk] contains enemy)
 		{
-			set_property("cc_longConMonster", enemy);
 			set_property("cc_combatHandler", combatState + "(longcon)");
 			handleTracker(enemy, $skill[Long Con], "cc_sniffs");
 			return "skill " + $skill[Long Con];
 		}
 
 
-		if(($monsters[Bob Racecar, Racecar Bob] contains enemy) && (get_property("palindomeDudesDefeated").to_int() < 5) && (get_property("cc_longConMonster") != $monster[Racecar Bob]) && (get_property("cc_longConMonster") != $monster[Bob Racecar]))
+		if(($monsters[Bob Racecar, Racecar Bob] contains enemy) && (get_property("palindomeDudesDefeated").to_int() < 5) && !contains_text(get_property("longConMonster"), $monster[Racecar Bob]) && !contains_text(get_property("longConMonster"), $monster[Bob Racecar]))
 		{
-			set_property("cc_longConMonster", enemy);
 			set_property("cc_combatHandler", combatState + "(longcon)");
 			handleTracker(enemy, $skill[Long Con], "cc_sniffs");
 			return "skill " + $skill[Long Con];

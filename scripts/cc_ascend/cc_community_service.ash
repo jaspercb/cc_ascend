@@ -1537,30 +1537,32 @@ boolean LA_cs_communityService()
 			uneffect($effect[Brawnee\'s Anthem of Absorption]);
 			uneffect($effect[Power Ballad of the Arrowsmith]);
 
+			if((spleen_left() >= 3) && (item_amount($item[Handful of Smithereens]) > 0))
+			{
+				chew(1, $item[Handful of Smithereens]);
+			}
+			if((spleen_left() >= 2) && (item_amount($item[Handful of Smithereens]) > 1))
+			{
+				chew(1, $item[Handful of Smithereens]);
+			}
+			while((spleen_left() >= 2) && (item_amount($item[cuppa Activi tea]) > 0))
+			{
+				chew(1, $item[cuppa Activi tea]);
+			}
+			while((spleen_left() >= 1) && (item_amount($item[Nasty Snuff]) > 0))
+			{
+				chew(1, $item[Nasty Snuff]);
+			}
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 10);
-
 			if(!get_property("cc_saveMargarita").to_boolean())
 			{
 				overdrink(1, $item[Emergency Margarita]);
 			}
-			if((my_spleen_use() == 12) && (item_amount($item[Handful of Smithereens]) > 0))
+			else
 			{
-				chew(1, $item[Handful of Smithereens]);
+				abort("Saving Emergency Margarita, forcing abort, done with day. Overdrink and run again.");
 			}
-			if((my_spleen_use() == 13) && (item_amount($item[Handful of Smithereens]) > 1))
-			{
-				chew(1, $item[Handful of Smithereens]);
-			}
-			while(((my_spleen_use() + 2) <= spleen_limit()) && (item_amount($item[cuppa Activi tea]) > 0))
-			{
-				chew(1, $item[cuppa Activi tea]);
-			}
-			while(((my_spleen_use() + 1) <= spleen_limit()) && (item_amount($item[Nasty Snuff]) > 0))
-			{
-				chew(1, $item[Nasty Snuff]);
-			}
-
 			return true;
 		}
 	}
@@ -2134,7 +2136,18 @@ boolean LA_cs_communityService()
 				shrugAT();
 				buffMaintain($effect[Ode to Booze], 50, 1, 1);
 				cli_execute("drink sockdollager");
-				cli_execute("drink cup of tea");
+				if(item_amount($item[Iced Plum Wine]) > 0)
+				{
+					drink(1, $item[Iced Plum Wine]);
+				}
+				if(item_amount($item[Sacramento Wine]) > 0)
+				{
+					drink(1, $item[Sacramento Wine]);
+				}
+				else
+				{
+					cli_execute("drink cup of tea");
+				}
 			}
 
 
