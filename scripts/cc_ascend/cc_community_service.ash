@@ -1561,6 +1561,7 @@ boolean LA_cs_communityService()
 			}
 			else
 			{
+				put_closet(item_amount($item[Emergency Margarita]), $item[Emergency Margarita]);
 				abort("Saving Emergency Margarita, forcing abort, done with day. Overdrink and run again.");
 			}
 			return true;
