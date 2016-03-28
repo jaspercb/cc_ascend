@@ -2006,6 +2006,10 @@ boolean LA_cs_communityService()
 			}
 
 			# Add Witchess Familiar Buff here.
+			if(get_property("cc_pauseForWitchess").to_boolean())
+			{
+				user_confirm("Get the Witchess Familiar Buff and then click this away. Beep boop.");
+			}
 
 			int currentCost = get_cs_questCost(curQuest);
 			if(have_skill($skill[Empathy of the Newt]))
@@ -2025,18 +2029,40 @@ boolean LA_cs_communityService()
 				{
 					//Is it possible for us to drink some other stuff?
 					int extraAdv = 0;
-					if(my_meat() > 5000)
+
+					int drunkLeft = 10;
+					if((item_amount($item[Sacramento Wine]) >= 4) && (drunkLeft >= 4))
+					{
+						extraAdv = extraAdv + 24;
+						drunkLeft -= 4;
+					}
+					if((item_amount($item[Sacramento Wine]) >= 5) && (drunkLeft >= 1))
+					{
+						extraAdv = extraAdv + 6;
+						drunkLeft -= 1;
+					}
+					if((item_amount($item[Iced Plum Wine]) >= 1) && (drunkLeft >= 1))
+					{
+						extraAdv = extraAdv + 7;
+						drunkLeft -= 1;
+					}
+
+					if((my_meat() > 5000) && (drunkLeft >= 3) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 					{
 						extraAdv = extraAdv + 13;
 						needCost = needCost - 2;
+						drunkLeft -= 3;
 					}
-					if(item_amount($item[Asbestos Thermos]) > 0)
+					if((item_amount($item[Asbestos Thermos]) > 0) && (drunkLeft >= 4))
 					{
 						extraAdv = extraAdv + 16;
+						drunkLeft -= 4;
 					}
-					if(item_amount($item[Cold One]) > 0)
+
+					if((item_amount($item[Cold One]) > 0) && (drunkLeft >= 1))
 					{
 						extraAdv = extraAdv + 5;
+						drunkLeft -= 1;
 					}
 
 					if(item_amount($item[Blood-Drive Sticker]) > 0)
@@ -2048,18 +2074,32 @@ boolean LA_cs_communityService()
 					{
 						shrugAT();
 						use_skill(1, $skill[The Ode to Booze]);
-						if((my_meat() > 5000) && (item_amount($item[Clan VIP Lounge Key]) > 0))
+						if((item_amount($item[Sacramento Wine]) >= 4) && (inebriety_left() >= 4))
+						{
+							drink(4, $item[Sacramento Wine]);
+						}
+						if((item_amount($item[Sacramento Wine]) >= 1) && (inebriety_left() >= 1))
+						{
+							drink(1, $item[Sacramento Wine]);
+						}
+						if((item_amount($item[Iced Plum Wine]) >= 1) && (inebriety_left() >= 1))
+						{
+							drink(1, $item[Iced Plum Wine]);
+						}
+
+						if((my_meat() > 5000) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (inebriety_left() >= 3))
 						{
 							cli_execute("drink 1 hot socks");
 						}
-						if(item_amount($item[Asbestos Thermos]) > 0)
+						if((item_amount($item[Asbestos Thermos]) > 0) && (inebriety_left() >= 4))
 						{
 							drink(1, $item[Asbestos Thermos]);
 						}
-						if(item_amount($item[Cold One]) > 0)
+						if((item_amount($item[Cold One]) > 0) && (inebriety_left() >= 1))
 						{
 							drink(1, $item[Cold One]);
 						}
+
 					}
 					else
 					{
@@ -2478,6 +2518,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Astral Shell], 10, 1, 1);
 			buffMaintain($effect[Sleazy Hands], 0, 1, 1);
 			buffMaintain($effect[Egged On], 0, 1, 1);
+			buffMaintain($effect[Flame-Retardant Trousers], 0, 1, 1);
 			buffMaintain($effect[Stinky Hands], 0, 1, 1);
 			buffMaintain($effect[Human-Machine Hybrid], 0, 1, 1);
 			buffMaintain($effect[Frost Tea], 0, 1, 1);
@@ -2533,5 +2574,9 @@ boolean LA_cs_communityService()
 
 boolean cs_witchess()
 {
+	if(my_path() != "Community Service")
+	{
+		return false;
+	}
 	return cc_advWitchess("booze");
 }

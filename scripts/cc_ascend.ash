@@ -368,6 +368,10 @@ boolean handleFamiliar(familiar fam)
 
 boolean LX_witchess()
 {
+	if(cs_witchess())
+	{
+		return true;
+	}
 	if(!cc_haveWitchess())
 	{
 		return false;
@@ -1229,6 +1233,11 @@ boolean fortuneCookieEvent()
 		cli_execute("counters clear");
 
 		location goal = $location[The Hidden Temple];
+
+		if((my_path() == "Community Service") && (my_daycount() == 1))
+		{
+			goal = $location[The Limerick Dungeon];
+		}
 
 		if((goal == $location[The Hidden Temple]) && ((item_amount($item[stone wool]) >= 2) || (get_property("cc_hiddenunlock") == "nose") || (get_property("cc_hiddenunlock") == "finished") || (internalQuestStatus("questL11Worship") >= 3) || (get_property("semirareLocation") == goal) || (get_property("lastTempleUnlock").to_int() < my_ascensions()) || (get_property("cc_spookysapling") != "finished")))
 		{
