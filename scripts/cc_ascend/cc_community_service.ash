@@ -999,10 +999,19 @@ boolean LA_cs_communityService()
 	}
 	else
 	{
-		useFam = $familiars[Galloping Grill, Fist Turkey, Puck Man, Ms. Puck Man];
+		if(have_familiar($familiar[Rockin\' Robin]) && ($familiar[Rockin\' Robin].drops_today == 0))
+		{
+			useFam = $familiars[Galloping Grill, Fist Turkey, Rockin\' Robin, Puck Man, Ms. Puck Man];
+		}
+		else
+		{
+			useFam = $familiars[Galloping Grill, Fist Turkey, Puck Man, Ms. Puck Man];
+		}
 	}
 
-	familiar toFam = $familiar[Cocoabo];
+	handleFamiliar("item");
+	#familiar toFam = $familiar[Cocoabo];
+	familiar toFam = get_property("cc_familiarChoice").to_familiar();
 	foreach fam in useFam
 	{
 		if(have_familiar(fam))
