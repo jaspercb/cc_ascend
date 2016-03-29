@@ -1898,6 +1898,13 @@ void doBedtime()
 		visit_url("place.php?whichplace=desertbeach&action=db_nukehouse");
 	}
 
+	if(get_property("puzzleChampBonus").to_int() == 20)
+	{
+		visit_url("campground.php?action=witchess");
+		visit_url("choice.php?whichchoice=1181&pwd=&option=3");
+		visit_url("choice.php?whichchoice=1183&pwd=&option=2");
+	}
+
 	if(item_amount($item[rain-doh indigo cup]) > 0)
 	{
 		print("Copies left: " + (5 - get_property("_raindohCopiesMade").to_int()), "olive");

@@ -2015,7 +2015,18 @@ boolean LA_cs_communityService()
 			}
 
 			# Add Witchess Familiar Buff here.
-			if(get_property("cc_pauseForWitchess").to_boolean())
+			if(get_property("puzzleChampBonus").to_int() == 20)
+			{
+				visit_url("campground.php?action=witchess");
+				visit_url("choice.php?whichchoice=1181&pwd=&option=3");
+				visit_url("choice.php?whichchoice=1183&pwd=&option=2");
+			}
+			else if(get_property("cc_pauseForWitchess").to_boolean())
+			{
+				user_confirm("Get the Witchess Familiar Buff and then click this away. Beep boop.");
+			}
+
+			if((have_effect($effect[Puzzle Champ]) == 0) && get_property("cc_pauseForWitchess").to_boolean())
 			{
 				user_confirm("Get the Witchess Familiar Buff and then click this away. Beep boop.");
 			}
