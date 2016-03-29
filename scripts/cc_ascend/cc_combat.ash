@@ -736,6 +736,10 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			doYellow = true;
 		}
+		if((enemy == $monster[Quiet Healer]) && !possessEquipment($item[Amulet of Extreme Plot Significance]) && (get_property("cc_airship") == "finished"))
+		{
+			doYellow = true;
+		}
 		if((get_property("cc_nunsTrickGland") == "start") && (enemy == $monster[larval filthworm]))
 		{
 			doYellow = true;

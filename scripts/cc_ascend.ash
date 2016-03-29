@@ -6230,6 +6230,13 @@ boolean L10_basement()
 				}
 				else
 				{
+					if(canYellowRay())
+					{
+						if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
+						{
+							handleFamiliar("yellow ray");
+						}
+					}
 					print("Backfarming an Amulet of Extreme Plot Significance, sigh :(", "blue");
 					ccAdv(1, $location[The Penultimate Fantasy Airship]);
 				}
