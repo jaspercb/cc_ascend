@@ -1311,7 +1311,7 @@ void initializeDay(int day)
 
 	if(item_amount($item[Telegram From Lady Spookyraven]) > 0)
 	{
-		print("Lady Spookyraven quest not detected as started should have been auto-started. Starting it", "red");
+		print("Lady Spookyraven quest not detected as started should have been auto-started. Starting it. If you are not in an Ed run, report this. Otherwise, it is expected.", "red");
 		use(1, $item[Telegram From Lady Spookyraven]);
 		set_property("questM20Necklace", "started");
 	}
@@ -1324,7 +1324,7 @@ void initializeDay(int day)
 		}
 		else
 		{
-			print("Lady Spookyraven quest not detected as started but we don't have the telegram, assuming it is...", "red");
+			print("Lady Spookyraven quest not detected as started but we don't have the telegram, assuming it is... If you are not in an Ed run, report this. Otherwise, it is expected.", "red");
 			set_property("questM20Necklace", "started");
 		}
 	}
@@ -6004,6 +6004,12 @@ boolean L10_topFloor()
 	{
 		return false;
 	}
+
+	if(get_property("cc_castleground") != "finished")
+	{
+		return false;
+	}
+
 	if(get_property("cc_castletop") != "")
 	{
 		return false;
@@ -6060,6 +6066,12 @@ boolean L10_ground()
 	{
 		set_property("cc_castleground", "finished");
 	}
+
+	if(get_property("cc_castlebasement") != "finished")
+	{
+		return false;
+	}
+
 	if(get_property("cc_castleground") != "")
 	{
 		return false;
@@ -6119,7 +6131,6 @@ boolean L10_basement()
 		return false;
 	}
 	print("Basement Search", "blue");
-	set_property("choiceAdventure669", "1");
 	set_property("choiceAdventure670", "5");
 	if(item_amount($item[Massive Dumbbell]) > 0)
 	{
@@ -6138,7 +6149,7 @@ boolean L10_basement()
 	buyUpTo(1, $item[Hair Spray]);
 	buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
 
-	if(item_amount($item[titanium assault umbrella]) == 1)
+	if(possessEquipment($item[Titanium Assault Umbrella]) && can_equip($item[Titanium Assault Umbrella]))
 	{
 		set_property("choiceAdventure669", "4");
 	}
@@ -6163,10 +6174,10 @@ boolean L10_basement()
 		print("Dumbbell + Dumbwaiter means we fly!", "green");
 		set_property("cc_castlebasement", "finished");
 	}
-	else if(contains_text(get_property("lastEncounter"), "The Fast and the Furry-ous") && (item_amount($item[titanium assault umbrella]) == 1))
+	else if(contains_text(get_property("lastEncounter"), "The Fast and the Furry-ous"))
 	{
 		print("We was fast and furry-ous!", "blue");
-		equip($item[titanium assault umbrella]);
+		equip($item[Titanium Assault Umbrella]);
 		set_property("choiceAdventure669", "1");
 		ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
 		if(contains_text(get_property("lastEncounter"), "The Fast and the Furry-ous"))
@@ -6181,12 +6192,29 @@ boolean L10_basement()
 	else if(contains_text(get_property("lastEncounter"), "You Don\'t Mess Around with Gym"))
 	{
 		print("Just messed with Gym", "blue");
-		set_property("choiceAdventure670", "5");
-		if(!possessEquipment($item[amulet of extreme plot significance]))
+		if(!can_equip($item[Amulet of Extreme Plot Significance]) || (item_amount($item[Massive Dumbbell]) > 0))
 		{
-			if(in_hardcore() && !possessEquipment($item[Amulet of Extreme Plot Significance]))
+			print("Can't equip an Amulet of Extreme Plot Signifcance...", "red");
+			print("I suppose we will try the Massive Dumbbell... Beefcake!", "red");
+			if(item_amount($item[Massive Dumbbell]) == 0)
 			{
-				if($location[The Penultimate Fantasy Airship].turns_spent >= 48)
+				set_property("choiceAdventure670", "1");
+			}
+			else
+			{
+				set_property("choiceAdventure670", "2");
+			}
+			ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
+			return true;
+		}
+
+		set_property("choiceAdventure670", "5");
+		if(!possessEquipment($item[Amulet Of Extreme Plot Significance]))
+		{
+			pullXWhenHaveY($item[Amulet of Extreme Plot Significance], 1, 0);
+			if(!possessEquipment($item[Amulet of Extreme Plot Significance]))
+			{
+				if($location[The Penultimate Fantasy Airship].turns_spent >= 45)
 				{
 					print("Well, we don't seem to be able to find an Amulet...", "red");
 					print("I suppose we will get the Massive Dumbbell... Beefcake!", "red");
@@ -6207,12 +6235,8 @@ boolean L10_basement()
 				}
 				return true;
 			}
-			else
-			{
-				pullXWhenHaveY($item[Amulet of Extreme Plot Significance], 1, 0);
-			}
 		}
-		equip($slot[acc3], $item[amulet of extreme plot significance]);
+		equip($slot[acc3], $item[Amulet Of Extreme Plot Significance]);
 		set_property("choiceAdventure670", "4");
 		ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
 		if(contains_text(get_property("lastEncounter"), "You Don\'t Mess Around with Gym"))
@@ -10803,7 +10827,7 @@ boolean doTasks()
 
 	if(my_location().turns_spent > 50)
 	{
-		if(($locations[The Secret Government Laboratory, The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), Noob Cave, Pirates of the Garbage Barges, Sloppy Seconds Diner] contains my_location()) == false)
+		if(($locations[Hippy Camp, Noob Cave, Pirates of the Garbage Barges, Sloppy Seconds Diner, The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), The Secret Government Laboratory] contains my_location()) == false)
 		{
 			abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
 		}

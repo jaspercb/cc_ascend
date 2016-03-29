@@ -43,6 +43,7 @@ void ed_initializeSettings()
 		set_property("cc_grimstoneOrnateDowsingRod", false);
 		set_property("cc_holeinthesky", false);
 		set_property("cc_lashes", "");
+		set_property("cc_needLegs", false);
 		set_property("cc_renenutet", "");
 		set_property("cc_servantChoice", "");
 		set_property("cc_useCubeling", false);
@@ -897,8 +898,22 @@ boolean ed_shopping()
 		set_property("cc_breakstone", false);
 	}
 
-	//Limit mode: edunder
+	int skillBuy = 0;
 	int coins = item_amount($item[Ka Coin]);
+	//Handler for low-powered accounts
+	if(!have_skill($skill[Upgraded Legs]) && get_property("cc_needLegs").to_boolean())
+	{
+		if(coins >= 10)
+		{
+			print("Buying Upgraded Legs", "green");
+			set_property("cc_needLegs", false);
+			skillBuy = 36;
+		}
+		//Prevent other purchases from interrupting us.
+		coins = 0;
+	}
+
+	//Limit mode: edunder
 //	if((my_spleen_use() + 5) <= spleen_limit())
 	if((my_spleen_use() + 5) <= ed_spleen_limit())
 	{
@@ -914,7 +929,6 @@ boolean ed_shopping()
 		}
 	}
 
-	int skillBuy = 0;
 	if(!have_skill($skill[Extra Spleen]))
 	{
 		if(coins >= 5)
@@ -1567,7 +1581,15 @@ boolean L1_ed_islandFallback()
 		return true;
 	}
 
-	return ccAdv(1, $location[Hippy Camp]);
+	boolean haveLegs = have_skill($skill[Upgraded Legs]);
+	#Consider trying to get Upgraded legs first
+
+	if(haveLegs)
+	{
+		return ccAdv(1, $location[Hippy Camp]);
+	}
+	set_property("cc_needLegs", true);
+	return ccAdv(1, $location[The Outskirts of Cobb\'s Knob]);
 }
 
 boolean L9_ed_chasmStart()
