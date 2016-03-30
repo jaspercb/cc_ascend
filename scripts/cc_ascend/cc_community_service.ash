@@ -1323,6 +1323,8 @@ boolean LA_cs_communityService()
 			}
 
 			int pixelsNeed = 30 - (15 * item_amount($item[Miniature Power Pill]));
+			# Account for possible pixels from Snojo?
+			# Make sure for tryPowerLevel not to go too high in ML (75).
 
 			if(((item_amount($item[Power Pill]) < 2) || (item_amount($item[Yellow Pixel]) < pixelsNeed)) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{

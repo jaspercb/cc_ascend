@@ -24,6 +24,10 @@ boolean dna_startAcquire()
 	{
 		return false;
 	}
+	if(my_path() == "Community Service")
+	{
+		return false;
+	}
 	if((get_property("cc_day1_dna") == "finished") || (my_daycount() != 1))
 	{
 		return false;
