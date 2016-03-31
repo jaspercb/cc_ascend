@@ -679,7 +679,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "flyers")) && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]))
+	if((!contains_text(combatState, "flyers")) && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]) && ((item_amount($item[rock band flyers]) > 0) || (item_amount($item[jam band flyers]) > 0)))
 	{
 		if(!contains_text(combatState, "beanscreen") && have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
 		{
@@ -1453,8 +1453,7 @@ string cc_combatHandler(int round, string opp, string text)
 			costMinor = mp_cost($skill[Pungent Mung]);
 		}
 
-		if(have_skill($skill[Cowcall]) && (my_mp() >= mp_cost($skill[Cowcall])) && (type != $phylum[undead]) && (enemy.defense_element != $element[spooky]))
-
+		if(have_skill($skill[Cowcall]) && (my_mp() >= mp_cost($skill[Cowcall])) && (type != $phylum[undead]) && (enemy.defense_element != $element[spooky]) && (have_effect($effect[Cowrruption]) >= 60))
 		{
 			attackMajor = "skill " + $skill[Cowcall];
 			attackMinor = "skill " + $skill[Cowcall];
@@ -1462,7 +1461,15 @@ string cc_combatHandler(int round, string opp, string text)
 			costMinor = mp_cost($skill[Cowcall]);
 		}
 
-		if(have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
+		if(have_skill($skill[Cowcall]) && (my_mp() >= mp_cost($skill[Cowcall])) && (type != $phylum[undead]) && (enemy.defense_element != $element[spooky]) && (my_class() == $class[Cow Puncher]))
+		{
+			attackMajor = "skill " + $skill[Cowcall];
+			attackMinor = "skill " + $skill[Cowcall];
+			costMajor = mp_cost($skill[Cowcall]);
+			costMinor = mp_cost($skill[Cowcall]);
+		}
+
+		if(have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])) && ((expected_damage() * 2) > my_hp()))
 		{
 			stunner = "skill " + $skill[Beanscreen];
 			costStunner = mp_cost($skill[Beanscreen]);

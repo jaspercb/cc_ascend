@@ -170,9 +170,21 @@ void handlePostAdventure()
 				{
 					use(1, $item[Tiny House]);
 				}
+				else if(item_amount($item[Grogpagne]) > 0)
+				{
+					use(1, $item[Grogpagne]);
+				}
 				else if(item_amount($item[Holy Spring Water]) > 0)
 				{
 					use(1, $item[Holy Spring Water]);
+				}
+				else if(item_amount($item[Spirit Beer]) > 0)
+				{
+					use(1, $item[Spirit Beer]);
+				}
+				else if(item_amount($item[Sacramental Wine]) > 0)
+				{
+					use(1, $item[Sacramental Wine]);
 				}
 			}
 			buffMaintain($effect[Shelter of Shed], 15, 1, 1);
