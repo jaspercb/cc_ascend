@@ -2575,6 +2575,10 @@ boolean L11_aridDesert()
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
 			visit_url("choice.php?whichchoice=805&option=2&pwd=");
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			if(item_amount($item[Desert Sightseeing Pamphlet]) == 0)
+			{
+				abort("We should have returned the Stone Rose but mafia does not recognize our Sightseeing Pamphlet, use manually and resume");
+			}
 			use(1, $item[desert sightseeing pamphlet]);
 			return true;
 		}
@@ -2589,6 +2593,10 @@ boolean L11_aridDesert()
 				visit_url("choice.php?whichchoice=805&option=1&pwd=");
 				visit_url("choice.php?whichchoice=805&option=2&pwd=");
 				visit_url("choice.php?whichchoice=805&option=1&pwd=");
+				if(item_amount($item[Desert Sightseeing Pamphlet]) == 0)
+				{
+					abort("We should have returned the Can of Black Paint but mafia does not recognize our Sightseeing Pamphlet, use manually and resume");
+				}
 				use(1, $item[desert sightseeing pamphlet]);
 				return true;
 			}
@@ -2601,6 +2609,10 @@ boolean L11_aridDesert()
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
 			visit_url("choice.php?whichchoice=805&option=2&pwd=");
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
+			if(item_amount($item[Desert Sightseeing Pamphlet]) == 0)
+			{
+				abort("We should have returned the Killing Jar but mafia does not recognize our Sightseeing Pamphlet, use manually and resume");
+			}
 			use(1, $item[desert sightseeing pamphlet]);
 			return true;
 		}
@@ -2643,6 +2655,10 @@ boolean L11_aridDesert()
 				visit_url("choice.php?whichchoice=805&option=1&pwd=");
 				visit_url("choice.php?whichchoice=805&option=2&pwd=");
 				visit_url("choice.php?whichchoice=805&option=1&pwd=");
+				if(item_amount($item[Desert Sightseeing Pamphlet]) == 0)
+				{
+					abort("We should have returned the Killing Jar (secondardy) but mafia does not recognize our Sightseeing Pamphlet, use manually and resume");
+				}
 				use(1, $item[desert sightseeing pamphlet]);
 				return true;
 			}
