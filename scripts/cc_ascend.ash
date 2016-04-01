@@ -2523,7 +2523,8 @@ boolean L11_aridDesert()
 			useCocoon();
 		}
 
-		if(in_hardcore() && isGuildClass() && (item_amount($item[Worm-Riding Hooks]) > 0) && (get_property("desertExploration").to_int() <= (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 16) != 16))
+#		if(in_hardcore() && isGuildClass() && (item_amount($item[Worm-Riding Hooks]) > 0) && (get_property("desertExploration").to_int() <= (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 16) != 16))
+		if(in_hardcore() && (item_amount($item[Worm-Riding Hooks]) > 0) && (get_property("desertExploration").to_int() <= (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 16) != 16))
 		{
 			if(item_amount($item[Drum Machine]) > 0)
 			{
@@ -2577,7 +2578,19 @@ boolean L11_aridDesert()
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
 			if(item_amount($item[Desert Sightseeing Pamphlet]) == 0)
 			{
-				abort("We should have returned the Stone Rose but mafia does not recognize our Sightseeing Pamphlet, use manually and resume");
+				cli_execute("refresh inv");
+				if(item_amount($item[Desert Sightseeing Pamphlet]) == 0)
+				{
+					abort("Returned stone rose but did not return stone rose.");
+				}
+				else
+				{
+					if((get_property("gnasirProgress").to_int() & 1) != 1)
+					{
+						print("Mafia did not track gnasir Stone Rose (0x1). Fixing.", "red");
+						set_property("gnasirProgress", get_property("gnasirProgress").to_int() | 1);
+					}
+				}
 			}
 			use(1, $item[desert sightseeing pamphlet]);
 			return true;
@@ -2595,7 +2608,19 @@ boolean L11_aridDesert()
 				visit_url("choice.php?whichchoice=805&option=1&pwd=");
 				if(item_amount($item[Desert Sightseeing Pamphlet]) == 0)
 				{
-					abort("We should have returned the Can of Black Paint but mafia does not recognize our Sightseeing Pamphlet, use manually and resume");
+					cli_execute("refresh inv");
+					if(item_amount($item[Desert Sightseeing Pamphlet]) == 0)
+					{
+						abort("Returned can of black paint but did not return can of black paint.");
+					}
+					else
+					{
+						if((get_property("gnasirProgress").to_int() & 2) != 2)
+						{
+							print("Mafia did not track gnasir Can of Black Paint (0x2). Fixing.", "red");
+							set_property("gnasirProgress", get_property("gnasirProgress").to_int() | 2);
+						}
+					}
 				}
 				use(1, $item[desert sightseeing pamphlet]);
 				return true;
@@ -2611,7 +2636,19 @@ boolean L11_aridDesert()
 			visit_url("choice.php?whichchoice=805&option=1&pwd=");
 			if(item_amount($item[Desert Sightseeing Pamphlet]) == 0)
 			{
-				abort("We should have returned the Killing Jar but mafia does not recognize our Sightseeing Pamphlet, use manually and resume");
+				cli_execute("refresh inv");
+				if(item_amount($item[Desert Sightseeing Pamphlet]) == 0)
+				{
+					abort("Returned killing jar but did not return killing jar.");
+				}
+				else
+				{
+					if((get_property("gnasirProgress").to_int() & 4) != 4)
+					{
+						print("Mafia did not track gnasir Killing Jar (0x4). Fixing.", "red");
+						set_property("gnasirProgress", get_property("gnasirProgress").to_int() | 4);
+					}
+				}
 			}
 			use(1, $item[desert sightseeing pamphlet]);
 			return true;
@@ -2632,6 +2669,11 @@ boolean L11_aridDesert()
 			{
 				print("Mafia doesn't realize that we've returned the worm-riding manual pages... fixing", "red");
 				cli_execute("refresh all");
+				if((get_property("gnasirProgress").to_int() & 8) != 8)
+				{
+					print("Mafia did not track gnasir Worm-Riding Manual Pages (0x8). Fixing.", "red");
+					set_property("gnasirProgress", get_property("gnasirProgress").to_int() | 8);
+				}
 			}
 			return true;
 		}
@@ -2662,7 +2704,19 @@ boolean L11_aridDesert()
 				visit_url("choice.php?whichchoice=805&option=1&pwd=");
 				if(item_amount($item[Desert Sightseeing Pamphlet]) == 0)
 				{
-					abort("We should have returned the Killing Jar (secondardy) but mafia does not recognize our Sightseeing Pamphlet, use manually and resume");
+					cli_execute("refresh inv");
+					if(item_amount($item[Desert Sightseeing Pamphlet]) == 0)
+					{
+						abort("Returned killing jar (secondard) but did not return killing jar.");
+					}
+					else
+					{
+						if((get_property("gnasirProgress").to_int() & 4) != 4)
+						{
+							print("Mafia did not track gnasir Killing Jar (0x4). Fixing.", "red");
+							set_property("gnasirProgress", get_property("gnasirProgress").to_int() | 4);
+						}
+					}
 				}
 				use(1, $item[desert sightseeing pamphlet]);
 				return true;
