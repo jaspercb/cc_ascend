@@ -2628,6 +2628,11 @@ boolean L11_aridDesert()
 			{
 				abort("We messed up in the Desert, get the Worm-Riding Hooks and use them please.");
 			}
+			if(item_amount($item[Worm-Riding Manual Page]) >= 15)
+			{
+				print("Mafia doesn't realize that we've returned the worm-riding manual pages... fixing", "red");
+				cli_execute("refresh all");
+			}
 			return true;
 		}
 
