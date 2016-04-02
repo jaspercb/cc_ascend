@@ -458,6 +458,7 @@ void equipBaselineWeapon()
 
 
 	default:
+		print("If you just started an ascension (Ed primarily) enter 'refresh all' and then restart", "red");
 		abort("You don't have a valid class for this equipper, must be an avatar path or something.");
 		break;
 	}
