@@ -1393,7 +1393,7 @@ void initializeDay(int day)
 				use_skill(1, $skill[Iron Palm Technique]);
 			}
 
-			if((get_clan_furniture() contains $item[Clan Floundary]) && (item_amount($item[Fishin\' Pole]) == 0))
+			if((get_clan_furniture() contains $item[Clan Floundry]) && (item_amount($item[Fishin\' Pole]) == 0))
 			{
 				visit_url("clan_viplounge.php?action=floundry");
 			}
