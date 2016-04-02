@@ -139,6 +139,11 @@ int [item] get_clan_furniture()
 	{
 		clanItems[$item[Clan Speakeasy]] = 1;
 	}
+	matcher floundry_matcher_alt = create_matcher("\"Clan Floundry\"", vipMain);
+	if(floundry_matcher_alt.find() && is_unrestricted($item[Clan Floundry]))
+	{
+		clanItems[$item[Clan Floundry]] = 1;
+	}
 	matcher hotdog_matcher = create_matcher("Hot Dog Stand", vipMain);
 	if(hotdog_matcher.find() && is_unrestricted($item[Clan Hot Dog Stand]))
 	{
