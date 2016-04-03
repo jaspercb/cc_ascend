@@ -6,6 +6,7 @@ boolean eatFancyDog(string dog);
 boolean drinkSpeakeasyDrink(item drink);
 boolean drinkSpeakeasyDrink(string drink);
 int [item] get_clan_furniture();
+boolean [location] get_floundry_locations();
 int changeClan(int toClan);			//Returns new clan ID (or old one if it failed)
 int changeClan();					//To BAFH
 int doHottub();						//Returns number of usages left.
@@ -107,13 +108,58 @@ boolean handleFaxMonster(monster enemy, boolean fightIt, string option)
 	return true;
 }
 
+boolean [location] get_floundry_locations()
+{
+	static int lastClanCheck = 0;
+	static int lastCheck = 0;
+	static int lastLiberation = 0;
+	static boolean [location] floundryLocations;
+
+	int currentLiberation = 1;
+	if(get_property("kingLiberated").to_boolean())
+	{
+		currentLiberation = 2;
+	}
+
+	if((get_clan_id() == lastClanCheck) && (lastCheck == my_daycount()) && (currentLiberation == lastLiberation))
+	{
+		return floundryLocations;
+	}
+
+	if(!(get_clan_furniture() contains $item[Clan Floundry]))
+	{
+		return floundryLocations;
+	}
+
+	string page = visit_url("clan_viplounge.php?action=floundry");
+	print("Generating Floundry Locations for the session...", "blue");
+
+	matcher place_matcher = create_matcher("(?:carp|cod|trout|bass|hatchetfish|tuna):</b>\\s(.*?)<(?:br|/td)>", page);
+	while(place_matcher.find())
+	{
+		floundryLocations[to_location(place_matcher.group(1))] = true;
+	}
+
+	lastClanCheck = get_clan_id();
+	lastCheck = my_daycount();
+	lastLiberation = currentLiberation;
+	return floundryLocations;
+}
+
 int [item] get_clan_furniture()
 {
 	static int lastClanCheck = 0;
 	static int lastCheck = 0;
+	static int lastLiberation = 0;
 	static int [item] clanItems;
 
-	if((get_clan_id() == lastClanCheck) && (lastCheck == my_daycount()))
+	int currentLiberation = 1;
+	if(get_property("kingLiberated").to_boolean())
+	{
+		currentLiberation = 2;
+	}
+
+	if((get_clan_id() == lastClanCheck) && (lastCheck == my_daycount()) && (currentLiberation == lastLiberation))
 	{
 		return clanItems;
 	}
@@ -121,7 +167,7 @@ int [item] get_clan_furniture()
     string basic = visit_url("clan_rumpus.php");
 	string vipMain = visit_url("clan_viplounge.php");
 	string vipOld = visit_url("clan_viplounge.php?whichfloor=2");
-
+	print("Generating clan furniture for the session...", "blue");
 
 	matcher ball_matcher = create_matcher("An Awesome Ball Pit", basic);
     if(ball_matcher.find() && is_unrestricted($item[Colorful Plastic Ball]))
@@ -183,6 +229,7 @@ int [item] get_clan_furniture()
 
 	lastClanCheck = get_clan_id();
 	lastCheck = my_daycount();
+	lastLiberation = currentLiberation;
 	return clanItems;
 }
 

@@ -2147,6 +2147,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 			useItem = $item[Jug of Baconstone Juice];
 		}																						break;
 	case $effect[Balls of Ectoplasm]:			useItem = $item[Ectoplasmic Orbs];				break;
+	case $effect[Baited Hook]:					useItem = $item[Wriggling Worm];				break;
 	case $effect[Bendin\' Hell]:					useSkill = $skill[Bend Hell];					break;
 	case $effect[Big Meat Big Prizes]:			useItem = $item[Meat-Inflating Powder];			break;
 	case $effect[Biologically Shocked]:			useItem = $item[glowing syringe];				break;

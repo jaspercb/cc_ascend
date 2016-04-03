@@ -60,6 +60,11 @@ void handlePreAdventure(location place)
 
 	preAdvXiblaxian(place);
 
+	if(get_floundry_locations() contains place)
+	{
+		buffMaintain($effect[Baited Hook], 0, 1, 1);
+	}
+
 	if((get_property("_bittycar") == "") && (item_amount($item[Bittycar Meatcar]) > 0))
 	{
 		use(1, $item[bittycar meatcar]);
