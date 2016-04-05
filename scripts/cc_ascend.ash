@@ -706,9 +706,12 @@ boolean warAdventure()
 	return true;
 }
 
-//Return false if you should continue, true if it did something
 boolean doThemtharHills(boolean trickMode)
 {
+	if(get_property("cc_nuns") == "done")
+	{
+		return false;
+	}
 	if((get_property("currentNunneryMeat").to_int() >= 100000) || (get_property("sidequestNunsCompleted") != "none"))
 	{
 		handleBjornify($familiar[el vibrato megadrone]);
@@ -733,13 +736,13 @@ boolean doThemtharHills(boolean trickMode)
 	boolean fightCopy = false;
 	if(trickMode && (get_property("cc_nunsTrickReady") == "yes") && (get_property("hippiesDefeated").to_int() < 192))
 	{
-		if((my_rain() >= 60) && (have_skill($skill[Rain Man])))
-		{
-			copyAvailable = 1;
-		}
 		if(have_skill($skill[Rain Man]))
 		{
 			copyPossible = true;
+			if(my_rain() >= 60)
+			{
+				copyAvailable = 1;
+			}
 		}
 
 #		Sample for allowed Rain-Doh usage.
@@ -749,40 +752,33 @@ boolean doThemtharHills(boolean trickMode)
 #			copyPossible = true;
 #		}
 
-		if((item_amount($item[shaking 4-d camera]) > 0) && (get_property("_cameraUsed").to_boolean() != true))
+		if((item_amount($item[shaking 4-d camera]) > 0) && !get_property("_cameraUsed").to_boolean())
 		{
 			copyAvailable = 3;
 			copyPossible = true;
 		}
 
-		if(item_amount($item[Unfinished Ice Sculpture]) > 0)
+		if(item_amount($item[Unfinished Ice Sculpture]) > 0) 
 		{
 			copyAvailable = 4;
 			copyPossible = true;
 		}
 
-
 		if(copyAvailable == 0)
 		{
 			return false;
-#			if(!copyPossible)
-#			{
-#				set_property("cc_nunsTrickReady", "done");
-#				set_property("cc_nunsTrick", "finished");
-#			}
 		}
 		fightCopy = true;
 	}
 
-	if((get_property("sidequestArenaCompleted") == "fratboy") && (get_property("concertVisited") == "false") && (have_effect($effect[Winklered]) == 0))
+	if((get_property("sidequestArenaCompleted") == "fratboy") && !get_property("concertVisited").to_boolean() && (have_effect($effect[Winklered]) == 0))
 	{
 		outfit("frat warrior fatigues");
 		cli_execute("concert 2");
-#		outfit("war hippy fatigues");
 	}
 
 	handleBjornify($familiar[Hobo Monkey]);
-	if((equipped_item($slot[off-hand]) != $item[Half a Purse]) && (item_amount($item[Half a Purse]) == 0) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+	if((equipped_item($slot[off-hand]) != $item[Half a Purse]) && !possessEquipment($item[Half a Purse]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
 	{
 		buyUpTo(1, $item[Loose Purse Strings]);
 		ccCraft("smith", 1, $item[Lump of Brituminous Coal], $item[Loose purse strings]);
@@ -792,38 +788,50 @@ boolean doThemtharHills(boolean trickMode)
 	{
 		equip($item[Half a Purse]);
 	}
-	if(possessEquipment($item[Miracle Whip]))
-	{
-		equip($item[Miracle Whip]);
-	}
 	if((cc_my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) > 0))
 	{
 		equip($item[Thor\'s Pliers]);
+	}
+	if(possessEquipment($item[Miracle Whip]))
+	{
+		equip($item[Miracle Whip]);
 	}
 
 	shrugAT();
 
 	if(my_class() == $class[Ed])
 	{
-		visit_url("charsheet.php");
-		adjustEdHat("meat");
+		if(fightCopy)
+		{
+			adjustEdHat("meat");
+		}
+
+		if(!have_skill($skill[Gift of the Maid]) && ($servant[Maid].experience >= 441))
+		{
+			visit_url("charsheet.php");
+			if(have_skill($skill[Gift of the Maid]))
+			{
+				print("Gift of the Maid not properly detected until charsheet refresh.", "red");
+			}
+		}
 		handleServant($servant[maid]);
 	}
 	buffMaintain($effect[Purr of the Feline], 10, 1, 1);
 	float meatDropHave = meat_drop_modifier();
 
-#	if((my_class() == $class[Ed]) && (meatDropHave > 350.0))
-#	{
-#		buffMaintain($effect[Sinuses For Miles], 0, 1, 1);
-#	}
-	#if((item_amount($item[Resolution: Be Wealthier]) > 0) && (have_effect($effect[Greedy Resolve]) == 0))
-	#{
-	#	meatDropHave = meatDropHave + 30.0;
-	#}
-	#if((item_amount($item[Resolution: Be Luckier]) > 0) && (have_effect($effect[Fortunate Resolve]) == 0))
-	#{
-	#	meatDropHave = meatDropHave + 5.0;
-	#}
+/*
+	if(get_property("cc_100familiar").to_boolean())
+	{
+		ccMaximize("meat drop, -equip snow suit", 1500, 0, false);
+	}
+	else
+	{
+		ccMaximize("meat drop, -equip snow suit, switch Hobo Monkey, switch rockin' robin, switch adventurous spelunker, switch Grimstone Golem, switch Fist Turkey, switch Unconscious Collective, switch Golden Monkey, switch Angry Jung Man, switch Leprechaun", 1500, 0, false);
+		handleFamiliar(my_familiar());
+	}
+	int expectedMeat = numeric_modifier("Generated:_spec", "meat drop");
+*/
+
 	buffMaintain($effect[Greedy Resolve], 0, 1, 1);
 	buffMaintain($effect[Disco Leer], 10, 1, 1);
 	buffMaintain($effect[Polka of Plenty], 8, 1, 1);
@@ -2934,9 +2942,9 @@ boolean L11_palindome()
 	}
 	else
 	{
-		if(my_mp() > 60)
+		if((my_mp() > 60) || considerGrimstoneGolem(true))
 		{
-			handleBjornify($familiar[grimstone golem]);
+			handleBjornify($familiar[Grimstone Golem]);
 		}
 		if(internalQuestStatus("questL11Palindome") >= 2)
 		{
@@ -4110,9 +4118,9 @@ boolean L11_hiddenCity()
 			}
 
 			print("Hidden Office Progress: " + get_property("hiddenOfficeProgress"), "blue");
-			if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+			if(considerGrimstoneGolem(true))
 			{
-				handleBjornify($familiar[grimstone golem]);
+				handleBjornify($familiar[Grimstone Golem]);
 			}
 
 			if(get_property("cc_autoCraft") == "")
@@ -4208,9 +4216,9 @@ boolean L11_hiddenCity()
 				equip($slot[acc2], $item[surgical mask]);
 			}
 			print("Hidden Hospital Progress: " + get_property("hiddenHospitalProgress"), "blue");
-			if(my_mp() > 60)
+			if((my_mp() > 60) || considerGrimstoneGolem(true))
 			{
-				handleBjornify($familiar[grimstone golem]);
+				handleBjornify($familiar[Grimstone Golem]);
 			}
 			ccAdv(1, $location[The Hidden Hospital]);
 
@@ -4305,7 +4313,7 @@ boolean L11_hiddenCityZones()
 		}
 		else
 		{
-			if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+			if((my_mp() > 60) || considerGrimstoneGolem(true))
 			{
 				handleBjornify($familiar[Grimstone Golem]);
 			}
@@ -4331,9 +4339,9 @@ boolean L11_hiddenCityZones()
 			handleFamiliar($familiar[Fist Turkey]);
 		}
 		handleBjornify($familiar[Grinning Turtle]);
-		if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+		if(considerGrimstoneGolem(true))
 		{
-			handleBjornify($familiar[grimstone golem]);
+			handleBjornify($familiar[Grimstone Golem]);
 		}
 
 		ccAdv(1, $location[An Overgrown Shrine (Northwest)]);
@@ -4357,9 +4365,9 @@ boolean L11_hiddenCityZones()
 			handleFamiliar($familiar[Fist Turkey]);
 		}
 		handleBjornify($familiar[Grinning Turtle]);
-		if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+		if(considerGrimstoneGolem(true))
 		{
-			handleBjornify($familiar[grimstone golem]);
+			handleBjornify($familiar[Grimstone Golem]);
 		}
 		ccAdv(1, $location[An Overgrown Shrine (Northeast)]);
 		if(contains_text(get_property("lastEncounter"), "Air Apparent"))
@@ -4382,9 +4390,9 @@ boolean L11_hiddenCityZones()
 			handleFamiliar($familiar[Fist Turkey]);
 		}
 		handleBjornify($familiar[Grinning Turtle]);
-		if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+		if(considerGrimstoneGolem(true))
 		{
-			handleBjornify($familiar[grimstone golem]);
+			handleBjornify($familiar[Grimstone Golem]);
 		}
 		ccAdv(1, $location[An Overgrown Shrine (Southwest)]);
 		if(contains_text(get_property("lastEncounter"), "Water You Dune"))
@@ -4407,9 +4415,9 @@ boolean L11_hiddenCityZones()
 			handleFamiliar($familiar[Fist Turkey]);
 		}
 		handleBjornify($familiar[Grinning Turtle]);
-		if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+		if(considerGrimstoneGolem(true))
 		{
-			handleBjornify($familiar[grimstone golem]);
+			handleBjornify($familiar[Grimstone Golem]);
 		}
 		ccAdv(1, $location[An Overgrown Shrine (Southeast)]);
 		if(contains_text(get_property("lastEncounter"), "Fire When Ready"))
@@ -4425,9 +4433,9 @@ boolean L11_hiddenCityZones()
 		equip($item[antique machete]);
 		handleFamiliar($familiar[Fist Turkey]);
 		handleBjornify($familiar[Grinning Turtle]);
-		if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+		if(considerGrimstoneGolem(true))
 		{
-			handleBjornify($familiar[grimstone golem]);
+			handleBjornify($familiar[Grimstone Golem]);
 		}
 		ccAdv(1, $location[A Massive Ziggurat]);
 		if(contains_text(get_property("lastEncounter"), "Legend of the Temple in the Hidden City"))
@@ -4598,9 +4606,9 @@ boolean LX_spookyravenSecond()
 		return true;
 	}
 
-	if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+	if(considerGrimstoneGolem(true))
 	{
-		handleBjornify($familiar[grimstone golem]);
+		handleBjornify($familiar[Grimstone Golem]);
 	}
 
 	if(item_amount($item[Lord Spookyraven\'s Spectacles]) == 0)
@@ -4707,13 +4715,10 @@ boolean L11_mauriceSpookyraven()
 		print("Searching for the basement of Spookyraven", "blue");
 		set_property("choiceAdventure106", "2");
 		set_property("choiceAdventure90", "3");
-		if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+
+		if((my_mp() > 60) || considerGrimstoneGolem(true))
 		{
-			handleBjornify($familiar[grimstone golem]);
-		}
-		if(my_mp() > 60)
-		{
-			handleBjornify($familiar[grimstone golem]);
+			handleBjornify($familiar[Grimstone Golem]);
 		}
 		buffMaintain($effect[Snow Shoes], 0, 1, 1);
 
@@ -4780,9 +4785,9 @@ boolean L11_mauriceSpookyraven()
 	if((item_amount($item[bottle of Chateau de Vinegar]) == 0) && (get_property("cc_winebomb") == ""))
 	{
 		print("Searching for vinegar", "blue");
-		if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+		if(considerGrimstoneGolem(true))
 		{
-			handleBjornify($familiar[grimstone golem]);
+			handleBjornify($familiar[Grimstone Golem]);
 		}
 		buffMaintain($effect[Joyful Resolve], 0, 1, 1);
 		ccAdv(1, $location[The Haunted Wine Cellar]);
@@ -4791,9 +4796,9 @@ boolean L11_mauriceSpookyraven()
 	if((item_amount($item[blasting soda]) == 0) && (get_property("cc_winebomb") == ""))
 	{
 		print("Searching for baking soda, I mean, blasting pop.", "blue");
-		if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+		if(considerGrimstoneGolem(true))
 		{
-			handleBjornify($familiar[grimstone golem]);
+			handleBjornify($familiar[Grimstone Golem]);
 		}
 		ccAdv(1, $location[The Haunted Laundry Room]);
 		return true;
@@ -5962,7 +5967,7 @@ boolean L11_getBeehive()
 	set_property("choiceAdventure1018", "1");
 	set_property("choiceAdventure1019", "1");
 
-	handleBjornify($familiar[grimstone golem]);
+	handleBjornify($familiar[Grimstone Golem]);
 	buffMaintain($effect[The Sonata of Sneakiness], 20, 1, 1);
 	buffMaintain($effect[Smooth Movements], 10, 1, 1);
 
@@ -6362,12 +6367,12 @@ boolean L10_airship()
 
 	visit_url("clan_viplounge.php?preaction=goswimming&subaction=submarine");
 	print("Fantasy Airship Fly Fly time", "blue");
-	if(my_mp() > 60)
+	if((my_mp() > 60) || considerGrimstoneGolem(true))
 	{
-		handleBjornify($familiar[grimstone golem]);
+		handleBjornify($familiar[Grimstone Golem]);
 	}
 
-	if(item_amount($item[model airship]) == 0)
+	if(item_amount($item[Model Airship]) == 0)
 	{
 		set_property("choiceAdventure182", "4");
 	}
@@ -6717,6 +6722,12 @@ boolean LX_ornateDowsingRod()
 		set_property("cc_grimstoneOrnateDowsingRod", false);
 		return false;
 	}
+	if(possessEquipment($item[Ornate Dowsing Rod]))
+	{
+		print("Hey, we have the dowsing rod already, yippie!", "blue");
+		set_property("cc_grimstoneOrnateDowsingRod", false);
+		return false;
+	}
 	if(my_adventures() <= 6)
 	{
 		return false;
@@ -6785,10 +6796,11 @@ boolean L7_crypt()
 	}
 	oldPeoplePlantStuff();
 
-	if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+	if(my_mp() > 60)
 	{
-		handleBjornify($familiar[grimstone golem]);
+		handleBjornify($familiar[Grimstone Golem]);
 	}
+
 	buffMaintain($effect[Browbeaten], 0, 1, 1);
 	buffMaintain($effect[Rosewater Mark], 0, 1, 1);
 
@@ -6867,7 +6879,7 @@ boolean L7_crypt()
 
 		if(my_mp() > 60)
 		{
-			handleBjornify($familiar[grimstone golem]);
+			handleBjornify($familiar[Grimstone Golem]);
 		}
 
 		ccAdv(1, $location[The Defiled Cranny]);
@@ -6963,14 +6975,11 @@ boolean L6_friarsGetParts()
 	{
 		return false;
 	}
-	if(my_mp() > 50)
+	if((my_mp() > 50) || considerGrimstoneGolem(true))
 	{
-		handleBjornify($familiar[grimstone golem]);
+		handleBjornify($familiar[Grimstone Golem]);
 	}
-	if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
-	{
-		handleBjornify($familiar[grimstone golem]);
-	}
+
 #	if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && (item_amount($item[hot wing]) >= 3) && is_unrestricted($familiar[Artistic Goth Kid]))
 #	{
 #		handleFamiliar($familiar[Artistic Goth Kid]);
@@ -7229,9 +7238,9 @@ boolean L6_friarsHotWing()
 		return true;
 	}
 
-	if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+	if(considerGrimstoneGolem(true))
 	{
-		handleBjornify($familiar[grimstone golem]);
+		handleBjornify($familiar[Grimstone Golem]);
 	}
 	print("Need more Hot Wings", "blue");
 	if(my_class() == $class[Ed])
@@ -7557,9 +7566,9 @@ boolean L4_batCave()
 	}
 
 	print("In the bat hole!", "blue");
-	if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+	if(considerGrimstoneGolem(true))
 	{
-		handleBjornify($familiar[grimstone golem]);
+		handleBjornify($familiar[Grimstone Golem]);
 	}
 	buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
 
@@ -8403,9 +8412,9 @@ boolean L12_startWar()
 
 	print("Must save the ferret!!", "blue");
 	outfit("frat warrior fatigues");
-	if(my_mp() > 60)
+	if((my_mp() > 60) || considerGrimstoneGolem(true))
 	{
-		handleBjornify($familiar[grimstone golem]);
+		handleBjornify($familiar[Grimstone Golem]);
 	}
 	buffMaintain($effect[Snow Shoes], 0, 1, 1);
 
@@ -8952,9 +8961,9 @@ boolean L9_twinPeak()
 		return true;
 	}
 
-	if(my_mp() > 60)
+	if((my_mp() > 60) || considerGrimstoneGolem(true))
 	{
-		handleBjornify($familiar[grimstone golem]);
+		handleBjornify($familiar[Grimstone Golem]);
 	}
 
 	int progress = get_property("twinPeakProgress").to_int();
@@ -9391,14 +9400,11 @@ boolean L11_talismanOfNam()
 	if((get_property("cc_war") == "finished") || (get_property("cc_prewar") == ""))
 	{
 		equip($slot[acc3], $item[pirate fledges]);
-		if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+		if((my_mp() > 60) || considerGrimstoneGolem(true))
 		{
-			handleBjornify($familiar[grimstone golem]);
+			handleBjornify($familiar[Grimstone Golem]);
 		}
-		if(my_mp() > 60)
-		{
-			handleBjornify($familiar[grimstone golem]);
-		}
+
 		set_property("choiceAdventure189", "1");
 		set_property("oceanAction", "continue");
 		set_property("oceanDestination", to_lower_case(my_primestat()));
@@ -9580,9 +9586,9 @@ boolean L11_blackMarket()
 		equip($slot[acc3], $item[Blackberry Galoshes]);
 	}
 
-	if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+	if(considerGrimstoneGolem(true))
 	{
-		handleBjornify($familiar[grimstone golem]);
+		handleBjornify($familiar[Grimstone Golem]);
 	}
 	else
 	{
@@ -10443,9 +10449,9 @@ boolean L3_tavern()
 		set_property("choiceAdventure496", "1");
 	}
 
-	if(get_property("_grimstoneMaskDropsCrown").to_int() == 0)
+	if((my_mp() > 60) || considerGrimstoneGolem(true))
 	{
-		handleBjornify($familiar[grimstone golem]);
+		handleBjornify($familiar[Grimstone Golem]);
 	}
 
 	buffMaintain($effect[The Sonata of Sneakiness], 20, 1, 1);
@@ -10487,9 +10493,9 @@ boolean LX_setBallroomSong()
 		return false;
 	}
 
-	if(my_mp() > 60)
+	if((my_mp() > 60) || considerGrimstoneGolem(true))
 	{
-		handleBjornify($familiar[grimstone golem]);
+		handleBjornify($familiar[Grimstone Golem]);
 	}
 	set_property("choiceAdventure90", "3");
 
@@ -10664,22 +10670,29 @@ boolean doTasks()
 
 	if(($familiars[Adventurous Spelunker, Rockin\' Robin] contains my_familiar()) && have_familiar($familiar[Grimstone Golem]) && (in_hardcore() || !possessEquipment($item[Buddy Bjorn])))
 	{
-		if((item_amount($item[Ornate Dowsing Rod]) == 0) && (item_amount($item[Odd Silver Coin]) < 5) && (item_amount($item[Grimstone Mask]) == 0))
+		if(!possessEquipment($item[Ornate Dowsing Rod]) && (item_amount($item[Odd Silver Coin]) < 5) && (item_amount($item[Grimstone Mask]) == 0) && considerGrimstoneGolem(false))
 		{
 			handleFamiliar($familiar[Grimstone Golem]);
 		}
 	} 
 
 	int spleen_hold = 4;
-	if(item_amount($item[Astral Energy Drink]) > 0)
+	if(!haveSpleenFamiliar())
 	{
-		spleen_hold = spleen_hold + 8;
+		spleen_hold += 20;
 	}
-	spleen_hold += 4 * item_amount($item[Grim Fairy Tale]);
-	spleen_hold += 4 * item_amount($item[Powdered Gold]);
-	spleen_hold += 4 * item_amount($item[Agua de Vida]);
-	spleen_hold += 4 * item_amount($item[Unconscious Collective Dream Jar]);
-	spleen_hold += 4 * item_amount($item[Groose Grease]);
+	else
+	{
+		if(item_amount($item[Astral Energy Drink]) > 0)
+		{
+			spleen_hold = spleen_hold + 8;
+		}
+		spleen_hold += 4 * item_amount($item[Grim Fairy Tale]);
+		spleen_hold += 4 * item_amount($item[Powdered Gold]);
+		spleen_hold += 4 * item_amount($item[Agua de Vida]);
+		spleen_hold += 4 * item_amount($item[Unconscious Collective Dream Jar]);
+		spleen_hold += 4 * item_amount($item[Groose Grease]);
+	}
 	if(in_hardcore() && ((my_spleen_use() + spleen_hold) <= spleen_limit()))
 	{
 		if((dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))

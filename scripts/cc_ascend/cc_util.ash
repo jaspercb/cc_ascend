@@ -23,6 +23,7 @@ boolean use_barrels();
 int ccCraft(string mode, int count, item item1, item item2);
 int[item] cc_get_campground();
 boolean haveSpleenFamiliar();
+boolean considerGrimstoneGolem(boolean bjornCrown);
 float elemental_resist_value(int resistance);
 int elemental_resist(element goal);
 boolean uneffect(effect toRemove);
@@ -1959,6 +1960,42 @@ string cc_my_path()
 	// Most of the time, it is just a pointless wrapper.
 	// This is only needed in mainline files, path specific files have already been supported.
 	return my_path();
+}
+
+boolean considerGrimstoneGolem(boolean bjornCrown)
+{
+	if(!have_familiar($familiar[Grimstone Golem]))
+	{
+		return false;
+	}
+
+	if(bjornCrown && (get_property("_grimstoneMaskDropsCrown").to_int() != 0))
+	{
+		return false;
+	}
+
+	if((get_property("desertExploration").to_int() >= 70) && (get_property("chasmBridgeProgress").to_int() >= 29))
+	{
+		return false;
+	}
+
+	if(get_property("chasmBridgeProgress").to_int() >= 29)
+	{
+		if(!get_property("cc_grimstoneOrnateDowsingRod").to_boolean())
+		{
+			return false;
+		}
+	}
+
+	if(get_property("desertExploration").to_int() >= 70)
+	{
+		if(!get_property("cc_grimstoneFancyOilPainting").to_boolean())
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 boolean haveSpleenFamiliar()

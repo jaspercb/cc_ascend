@@ -1407,7 +1407,19 @@ string cc_combatHandler(int round, string opp, string text)
 			return  "skill " + $skill[Hogtie];
 		}
 
-		if(have_skill($skill[Lavafava]) && (my_mp() >= mp_cost($skill[Lavafava])))
+
+		if(have_skill($skill[One-Two Punch]) && (my_mp() >= mp_cost($skill[One-Two Punch])) && (equipped_item($slot[Weapon]) == $item[none]))
+		{
+//			attackMajor = "skill " + $skill[One-Two Punch];
+//			attackMinor = "skill " + $skill[One-Two Punch];
+//			costMajor = mp_cost($skill[One-Two Punch]);
+//			costMinor = mp_cost($skill[One-Two Punch]);
+			//This does not seem to work.
+		}
+
+
+
+		if(have_skill($skill[Lavafava]) && (my_mp() >= mp_cost($skill[Lavafava])) && (enemy.defense_element != $element[hot]))
 		{
 			attackMajor = "skill " + $skill[Lavafava];
 			attackMinor = "skill " + $skill[Lavafava];
@@ -1420,14 +1432,6 @@ string cc_combatHandler(int round, string opp, string text)
 			attackMinor = "skill " + $skill[Beanstorm];
 			costMajor = mp_cost($skill[Beanstorm]);
 			costMinor = mp_cost($skill[Beanstorm]);
-		}
-
-		if(have_skill($skill[One-Two Punch]) && (my_mp() >= mp_cost($skill[One-Two Punch])) && (equipped_item($slot[Weapon]) == $item[none]))
-		{
-			attackMajor = "skill " + $skill[One-Two Punch];
-			attackMinor = "skill " + $skill[One-Two Punch];
-			costMajor = mp_cost($skill[One-Two Punch]);
-			costMinor = mp_cost($skill[One-Two Punch]);
 		}
 
 		if(have_skill($skill[Fan Hammer]) && (my_mp() >= mp_cost($skill[Fan Hammer])))
@@ -1480,10 +1484,8 @@ string cc_combatHandler(int round, string opp, string text)
 			stunner = "skill " + $skill[Hogtie];
 			costStunner = mp_cost($skill[Hogtie]);
 		}
-
 		break;
 	}
-
 
 	if(round <= 25)
 	{
@@ -1509,8 +1511,7 @@ string cc_combatHandler(int round, string opp, string text)
 			{
 				return "skill thousand-yard stare";
 			}
-			if((enemy == $monster[Aquagoblin]) ||
-				(enemy == $monster[Lord Soggyraven]))
+			if($monsters[Aquagoblin, Lord Soggyraven] contains enemy)
 			{
 				return attackMajor;
 			}
