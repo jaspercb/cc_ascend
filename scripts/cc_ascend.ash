@@ -10262,6 +10262,18 @@ boolean L8_trapperYeti()
 			return false;
 		}
 
+		uneffect($effect[The Sonata of Sneakiness]);
+		if(!uneffect($effect[Patent Invisibility]))
+		{
+			print("Could not uneffect Patent Invisibility for ninja snowmen, delaying");
+			return false;
+		}
+		if(!uneffect($effect[Shelter Of Shed]))
+		{
+			print("Could not uneffect Shelter of Shed for ninja snowmen, delaying");
+			return false;
+		}
+
 		buffMaintain($effect[Patent Aggression], 0, 1, 1);
 		removeNonCombat();
 
@@ -10274,17 +10286,6 @@ boolean L8_trapperYeti()
 			handleFamiliar("item");
 		}
 
-		uneffect($effect[The Sonata of Sneakiness]);
-		if(!uneffect($effect[Patent Invisibility]))
-		{
-			print("Could not uneffect Patent Invisibility for ninja snowmen, delaying");
-			return false;
-		}
-		if(!uneffect($effect[Shelter Of Shed]))
-		{
-			print("Could not uneffect Shelter of Shed for ninja snowmen, delaying");
-			return false;
-		}
 		buffMaintain($effect[Hippy Stench], 0, 1, 1);
 		buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 10, 1, 1);
 		buffMaintain($effect[Musk of the Moose], 10, 1, 1);

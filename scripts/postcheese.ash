@@ -88,7 +88,7 @@ void handlePostAdventure()
 			buffMaintain($effect[Hide of Sobek], 20, 1, maxBuff);
 		}
 
-		if(my_location() != $location[The Secret Government Laboratory])
+		if(!($locations[The Secret Government Laboratory, Pirates of the Garbage Barges, Hippy Camp] contains my_location()))
 		{
 			buffMaintain($effect[Bounty of Renenutet], 20, 1, maxBuff);
 		}
