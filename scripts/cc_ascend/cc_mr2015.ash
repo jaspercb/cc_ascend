@@ -553,15 +553,17 @@ boolean deck_cheat(string cheat)
 
 	string page = visit_url("inv_use.php?cheat=1&pwd=&whichitem=8382");
 
-	//	Check that a valid card was selected, otherwise this wastes 5 draws.
+	// Check that a valid card was selected, otherwise this wastes 5 draws.
 	int card = cards[cheat];
 	if(card != 0)
 	{
 		string page = visit_url("choice.php?pwd=&option=1&whichchoice=1086&which=" + card, true);
 		page = visit_url("choice.php?pwd=&whichchoice=1085&option=1", true);
-		//	Check if a combat has been started and try to resolve it? Can we resolve it here?
-		//	If we had #includes, we probably could resolve it here... hmm...
-		#print(page, "red");
+		if(contains_text(page, "Combat"))
+		{
+			// Can we resolve this combat here? Should we?
+			// Do we need to accept a combat filter?
+		}
 		return true;
 	}
 	return false;

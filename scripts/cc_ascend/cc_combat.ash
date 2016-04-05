@@ -610,7 +610,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= 40) && (!have_skill($skill[Rain Man]) || get_property("cc_100familiar").to_boolean()))
 	{
-		if((enemy == $monster[writing desk]) && (my_location() == $location[The Haunted Library]))
+		if((enemy == $monster[writing desk]) && (my_location() == $location[The Haunted Library]) && (get_property("cc_spookyravennecklace") != "done"))
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
 			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");

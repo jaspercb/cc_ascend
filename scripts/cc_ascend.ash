@@ -2968,7 +2968,7 @@ boolean L13_towerNSNagamar()
 	{
 		return false;
 	}
-	if(item_amount($item[wand of nagamar]) > 0)
+	if(item_amount($item[Wand of Nagamar]) > 0)
 	{
 		set_property("cc_wandOfNagamar", false);
 		return true;
@@ -11435,6 +11435,14 @@ void cc_begin()
 	if(contains_text(visit_url("main.php"), "Being Picky"))
 	{
 		picky_startAscension();
+	}
+
+#	if(my_class() == $class[Astral Spirit])
+	if(to_string(my_class()) == "Astral Spirit")
+	{
+		# my_class() can report Astral Spirit even though it is not a valid class....
+		print("We think we are an Astral Spirit, if you actually are that's bad!", "red");
+		cli_execute("refresh all");
 	}
 
 #	cli_execute("spookyraven on");

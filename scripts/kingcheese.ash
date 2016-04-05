@@ -109,6 +109,7 @@ void handleKingLiberation()
 		}
 
 		int oldToken = item_amount($item[Defective Game Grid Token]);
+		visit_url("place.php?whichplace=arcade&action=arcade_plumber", false);
 		visit_url("place.php?whichplace=arcade");
 		visit_url("place.php?whichplace=arcade&action=arcade_plumber");
 		visit_url("place.php?whichplace=arcade&action=arcade_plumber");
