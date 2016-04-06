@@ -219,7 +219,7 @@ boolean handleFamiliar(string type)
 	}
 	else if(type == "item")
 	{
-		foreach fam in $familiars[Rockin\' Robin, Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Baby Gravy Fairy]
+		foreach fam in $familiars[Slimeling, Rockin\' Robin, Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Baby Gravy Fairy]
 		{
 			if(have_familiar(fam))
 			{
@@ -308,7 +308,7 @@ boolean handleFamiliar(familiar fam)
 	}
 	else
 	{
-		boolean[familiar] poss = $familiars[Mosquito, Leprechaun, Baby Gravy Fairy, Golden Monkey, Hobo Monkey, Crimbo Shrub, Galloping Grill, Fist Turkey, Rockin\' Robin, Piano Cat, Angry Jung Man, Grimstone Golem, Adventurous Spelunker, Rockin\' Robin];
+		boolean[familiar] poss = $familiars[Mosquito, Leprechaun, Baby Gravy Fairy, Slimeling, Golden Monkey, Hobo Monkey, Crimbo Shrub, Galloping Grill, Fist Turkey, Rockin\' Robin, Piano Cat, Angry Jung Man, Grimstone Golem, Adventurous Spelunker, Rockin\' Robin];
 
 		int spleen_hold = 4;
 		if(item_amount($item[Astral Energy Drink]) > 0)
