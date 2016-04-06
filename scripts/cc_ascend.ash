@@ -219,7 +219,7 @@ boolean handleFamiliar(string type)
 	}
 	else if(type == "item")
 	{
-		foreach fam in $familiars[Slimeling, Rockin\' Robin, Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Baby Gravy Fairy]
+		foreach fam in $familiars[Rockin\' Robin, Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Slimeling, Baby Gravy Fairy]
 		{
 			if(have_familiar(fam))
 			{
