@@ -1032,7 +1032,10 @@ boolean doThemtharHills(boolean trickMode)
 		{
 			set_property("choiceAdventure582", "1");
 			set_property("choiceAdventure579", "3");
-			use(1, $item[stone wool]);
+			if(have_effect($effect[Stone-Faced]) == 0)
+			{
+				use(1, $item[stone wool]);
+			}
 			put_closet(item_amount($item[stone wool]), $item[stone wool]);
 			ccAdv(1, $location[The Hidden Temple]);
 		}
@@ -1692,7 +1695,7 @@ void doBedtime()
 				print("If you have the Frat Warrior Fatigues, rain man an Astronomer? Skinflute?", "blue");
 			}
 		}
-		if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5))
+		if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (inebriety_left() >= 0) && (my_adventures() > 0))
 		{
 			print("You have " + (5 - get_property("_machineTunnelsAdv").to_int()) + " fights in The Deep Machine Tunnels that you should use!", "blue");
 		}
@@ -2410,6 +2413,10 @@ boolean questOverride()
 	{
 		print("Found completed Prism Recovery (13)");
 		set_property("cc_sorceress", "finished");
+		if(my_class() == $class[Ed])
+		{
+			council();
+		}
 	}
 
 
@@ -10935,7 +10942,7 @@ boolean doTasks()
 
 	if(my_location().turns_spent > 50)
 	{
-		if(($locations[Hippy Camp, Noob Cave, Pirates of the Garbage Barges, Sloppy Seconds Diner, The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), The Secret Government Laboratory] contains my_location()) == false)
+		if(($locations[The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), Hippy Camp, Noob Cave, Pirates of the Garbage Barges, The Secret Government Laboratory, Sloppy Seconds Diner, The X-32-F Combat Training Snowman] contains my_location()) == false)
 		{
 			abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
 		}
