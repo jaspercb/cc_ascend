@@ -472,11 +472,18 @@ void consumeStuff()
 		if((my_mp() > mpForOde) && get_property("cc_100familiar").to_boolean() && (my_inebriety() == 0) && (my_meat() >= 500) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 		{
 			shrugAT();
-			buffMaintain($effect[Ode to Booze], 50, 1, 1);
-			cli_execute("drink 1 lucky lindy");
 
-			pullXWhenHaveY($item[ice island long tea], 1, 0);
-			drink(1, $item[Ice Island Long Tea]);
+			if(inebriety_left() >= 1)
+			{
+				buffMaintain($effect[Ode to Booze], 50, 1, 1);
+				cli_execute("drink 1 lucky lindy");
+			}
+
+			if(inebriety_left() >= 4)
+			{
+				pullXWhenHaveY($item[ice island long tea], 1, 0);
+				drink(1, $item[Ice Island Long Tea]);
+			}
 		}
 
 		if((my_mp() > mpForOde) && get_property("cc_100familiar").to_boolean() && (my_inebriety() == 13) && (item_amount($item[Cold One]) > 0) && (my_level() >= 10))

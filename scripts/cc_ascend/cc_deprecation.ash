@@ -240,5 +240,16 @@ boolean settingFixer()
 		set_property("cc_xiblaxianChoice", $item[Xiblaxian Ultraburrito]);
 	}
 
+	if(get_property("lastPlusSignUnlock") == "true")
+	{
+		print("lastPlusSignUnlock was changed to a boolean, fixing...", "red");
+		set_property("lastPlusSignUnlock", my_ascensions());
+	}
+	if(get_property("lastTempleUnlock") == "true")
+	{
+		print("lastTempleUnlock was changed to a boolean, fixing...", "red");
+		set_property("lastTempleUnlock", my_ascensions());
+	}
+
 	return true;
 }

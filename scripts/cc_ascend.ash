@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16834;
+since r16867;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -17,6 +17,7 @@ import <cc_ascend/cc_standard.ash>
 import <cc_ascend/cc_floristfriar.ash>
 import <cc_ascend/cc_equipment.ash>
 import <cc_ascend/cc_edTheUndying.ash>
+import <cc_ascend/cc_boris.ash>
 import <cc_ascend/cc_eudora.ash>
 import <cc_ascend/cc_summerfun.ash>
 import <cc_ascend/cc_elementalPlanes.ash>
@@ -202,6 +203,7 @@ void initializeSettings()
 	florist_initializeSettings();
 	ocrs_initializeSettings();
 	ed_initializeSettings();
+	boris_initializeSettings();
 }
 
 boolean handleFamiliar(string type)
@@ -1378,6 +1380,7 @@ void initializeDay(int day)
 
 	chateaumantegna_useDesk();
 	ed_initializeDay(day);
+	boris_initializeDay(day);
 	cs_initializeDay(day);
 
 	if(day == 1)
@@ -7204,15 +7207,15 @@ boolean LX_steelOrgan()
 	}
 	else if(get_property("questM10Azazel") == "finished")
 	{
-		if((item_amount($item[Steel Lasagna]) > 0) && (my_fullness() > 0) && ((my_fullness() + 5) <= fullness_limit()))
+		if((item_amount($item[Steel Lasagna]) > 0) && (fullness_left() >= 5))
 		{
 			eat(1, $item[Steel Lasagna]);
 		}
-		if((item_amount($item[Steel Margarita]) > 0) && ((my_inebriety() <= 5) || (my_inebriety() >= 12)))
+		if((item_amount($item[Steel Margarita]) > 0) && ((my_inebriety() <= 5) || (my_inebriety() >= 12)) && (inebriety_left() >= 5))
 		{
 			drink(1, $item[Steel Margarita]);
 		}
-		if((item_amount($item[Steel-Scented Air Freshener]) > 0) && ((my_spleen_use() + 5) <= spleen_limit()))
+		if((item_amount($item[Steel-Scented Air Freshener]) > 0) && (spleen_left() >= 5))
 		{
 			chew(1, $item[Steel-Scented Air Freshener]);
 		}
@@ -11017,6 +11020,10 @@ boolean doTasks()
 
 	//Handle most quests, if we are Actually Ed the Undying
 	if(LM_edTheUndying())
+	{
+		return true;
+	}
+	if(LM_boris())
 	{
 		return true;
 	}

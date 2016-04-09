@@ -1568,6 +1568,11 @@ string cc_combatHandler(int round, string opp, string text)
 				set_property("cc_combatHandler", combatState + "(love stinkbug)");
 				return "skill " + $skill[Summon Love Stinkbug];
 			}
+			if((!contains_text(combatState, "mighty axing")) && have_skill($skill[Mighty Axing]) && (equipped_item($slot[Weapon]) != $item[none]))
+			{
+				set_property("cc_combatHandler", combatState + "(might axing)");
+				return "skill " + $skill[Mighty Axing];
+			}
 		}
 
 		if((my_location() == $location[The X-32-F Combat Training Snowman]) && contains_text(text, "Cattle Prod") && (my_mp() >= costMajor))
