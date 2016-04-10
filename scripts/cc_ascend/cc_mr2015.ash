@@ -30,8 +30,19 @@ boolean deck_useScheme(string action);
 //Supplemental
 
 
-
-
+boolean mayo_acquireMayo(item it)
+{
+	if(!is_unrestricted($item[Portable Mayo Clinic]))
+	{
+		return false;
+	}
+	if(!(cc_get_campground() contains $item[Portable Mayo Clinic]))
+	{
+		return false;
+	}
+	
+	return true;
+}
 
 boolean cc_barrelPrayers()
 {

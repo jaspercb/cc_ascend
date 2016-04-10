@@ -146,10 +146,6 @@ boolean boris_buySkills()
 			{
 				tree = 3;
 			}
-			if(!have_skill($skill[Heroic Belch]))
-			{
-				tree = 3;
-			}
 			if(!have_skill($skill[Banishing Shout]))
 			{
 				tree = 2;
@@ -169,6 +165,14 @@ boolean boris_buySkills()
 			if(!have_skill($skill[Good Singing Voice]))
 			{
 				tree = 2;
+			}
+			if(!have_skill($skill[Bifurcating Blow]))
+			{
+				tree = 1;
+			}
+			if(!have_skill($skill[Legendary Impatience]))
+			{
+				tree = 1;
 			}
 			if(!have_skill($skill[Song of Solitude]))
 			{
@@ -190,13 +194,9 @@ boolean boris_buySkills()
 			{
 				tree = 2;
 			}
-			if(!have_skill($skill[Bifurcating Blow]))
+			if(!have_skill($skill[Heroic Belch]))
 			{
-				tree = 1;
-			}
-			if(!have_skill($skill[Legendary Impatience]))
-			{
-				tree = 1;
+				tree = 3;
 			}
 			if(!have_skill($skill[Song of Cockiness]))
 			{

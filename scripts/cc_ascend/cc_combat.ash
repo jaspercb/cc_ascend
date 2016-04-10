@@ -687,6 +687,12 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Beanscreen];
 		}
 
+		if(!contains_text(combatState, "broadside") && have_skill($skill[Broadside]) && (my_mp() >= mp_cost($skill[Broadside])))
+		{
+			set_property("cc_combatHandler", combatState + "(broadside)");
+			return "skill " + $skill[Broadside];
+		}
+
 		if(!contains_text(combatState, "hogtie") && !contains_text(combatState, "beanscreen") && have_skill($skill[Hogtie]) && (my_mp() >= (6 * mp_cost($skill[Hogtie]))) && hasLeg(enemy))
 		{
 			set_property("cc_combatHandler", combatState + "(hogtie)");
@@ -1022,6 +1028,13 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill curse of weaksauce";
 	}
 
+
+	if((!contains_text(combatState, "intimidating bellow")) && (have_skill($skill[Intimidating Bellow])) && (my_mp() >= 25) && have_skill($skill[Louder Bellows]))
+	{
+		set_property("cc_combatHandler", combatState + "(intimidating bellow)");
+		return "skill " + $skill[Intimidating Bellow];
+	}
+
 	#Default behaviors:
 	if(mcd <= 150)
 	{
@@ -1334,6 +1347,14 @@ string cc_combatHandler(int round, string opp, string text)
 
 		break;
 
+	case $class[Avatar of Boris]:
+		if((my_mp() >= mp_cost($skill[Broadside])) && have_skill($skill[Broadside]))
+		{
+			stunner = "skill " + $skill[Broadside];
+			costStunner = mp_cost($skill[Broadside]);
+		}
+		break;
+
 	case $class[Accordion Thief]:
 
 		if((!contains_text(combatState, "cadenza")) && (item_type(equipped_item($slot[weapon])) == "accordion") && (my_mp() >= mp_cost($skill[Cadenza])) && ((expected_damage() * 2) < my_hp()))
@@ -1568,9 +1589,8 @@ string cc_combatHandler(int round, string opp, string text)
 				set_property("cc_combatHandler", combatState + "(love stinkbug)");
 				return "skill " + $skill[Summon Love Stinkbug];
 			}
-			if((!contains_text(combatState, "mighty axing")) && have_skill($skill[Mighty Axing]) && (equipped_item($slot[Weapon]) != $item[none]))
+			if(have_skill($skill[Mighty Axing]) && (equipped_item($slot[Weapon]) != $item[none]))
 			{
-				set_property("cc_combatHandler", combatState + "(might axing)");
 				return "skill " + $skill[Mighty Axing];
 			}
 		}

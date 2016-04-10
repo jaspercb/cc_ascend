@@ -143,6 +143,7 @@ void handlePreAdventure(location place)
 		buffMaintain($effect[Smooth Movements], 15, 1, 2);
 		buffMaintain($effect[The Sonata of Sneakiness], 25, 1, 2);
 		buffMaintain($effect[Patent Invisibility], 0, 1, 1);
+		buffMaintain($effect[Song of Solitude], 22, 1, 1);
 	}
 
 	if((monster_level_adjustment() > 120) && ((my_hp() * 10) < (my_maxhp() * 8)) && (my_mp() >= 20))

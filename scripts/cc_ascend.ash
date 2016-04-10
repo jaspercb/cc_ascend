@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16867;
+since r16873;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -136,6 +136,7 @@ void initializeSettings()
 	set_property("cc_holeinthesky", false);
 	set_property("cc_ignoreFlyer", false);
 	set_property("cc_instakill", "");
+	set_property("cc_masonryWall", false);
 	set_property("cc_mcmuffin", "");
 	set_property("cc_mistypeak", "");
 	set_property("cc_modernzmobiecount", "");
@@ -1087,9 +1088,13 @@ int handlePulls(int day)
 				put_closet(1, $item[empty rain-doh can]);
 			}
 		}
-		if(storage_amount($item[buddy bjorn]) > 0)
+		if((storage_amount($item[Buddy Bjorn]) > 0) && !($classes[Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()))
 		{
-			pullXWhenHaveY($item[buddy bjorn], 1, 0);
+			pullXWhenHaveY($item[Buddy Bjorn], 1, 0);
+		}
+		if((storage_amount($item[Camp Scout Backpack]) > 0) && !possessEquipment($item[Buddy Bjorn]))
+		{
+			pullXWhenHaveY($item[Camp Scout Backpack], 1, 0);
 		}
 
 		if(is_unrestricted($item[Pantsgiving]))
@@ -1124,9 +1129,18 @@ int handlePulls(int day)
 
 		if((cc_my_path() == "Picky") || get_property("cc_100familiar").to_boolean())
 		{
-			pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
-			pullXWhenHaveY($item[Sneaky Pete\'s Key Lime Pie], 1, 0);
-			pullXWhenHaveY($item[Jarlsberg\'s Key Lime Pie], 1, 0);
+			if(item_amount($item[Boris\'s Key]) == 0)
+			{
+				pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
+			}
+			if(item_amount($item[Sneaky Pete\'s Key]) == 0)
+			{
+				pullXWhenHaveY($item[Sneaky Pete\'s Key Lime Pie], 1, 0);
+			}
+			if(item_amount($item[Jarlsberg\'s Key]) == 0)
+			{
+				pullXWhenHaveY($item[Jarlsberg\'s Key Lime Pie], 1, 0);
+			}
 		}
 		else if(cc_my_path() == "Standard")
 		{
@@ -1506,9 +1520,18 @@ void initializeDay(int day)
 
 			if(!get_property("cc_useCubeling").to_boolean() && (towerKeyCount() == 0))
 			{
-				pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
-				pullXWhenHaveY($item[Sneaky Pete\'s Key Lime Pie], 1, 0);
-				pullXWhenHaveY($item[Jarlsberg\'s Key Lime Pie], 1, 0);
+				if(item_amount($item[Boris\'s Key]) == 0)
+				{
+					pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
+				}
+				if(item_amount($item[Sneaky Pete\'s Key]) == 0)
+				{
+					pullXWhenHaveY($item[Sneaky Pete\'s Key Lime Pie], 1, 0);
+				}
+				if(item_amount($item[Jarlsberg\'s Key]) == 0)
+				{
+					pullXWhenHaveY($item[Jarlsberg\'s Key Lime Pie], 1, 0);
+				}
 			}
 			else
 			{
@@ -1896,7 +1919,7 @@ void doBedtime()
 
 	if(my_daycount() == 1)
 	{
-		if((pulls_remaining() > 1) && !possessEquipment($item[antique machete]))
+		if((pulls_remaining() > 1) && !possessEquipment($item[antique machete]) && (my_class() != $class[Avatar of Boris]))
 		{
 			if(item_amount($item[antique machete]) == 0)
 			{
@@ -2036,14 +2059,19 @@ void doBedtime()
 			print(get_property("cc_banishes_day" + my_daycount()));
 			print(get_property("cc_yellowRay_day" + my_daycount()));
 			pullsNeeded("evaluate");
-			if((get_property("_photocopyUsed") == "false") && (is_unrestricted($item[Deluxe Fax Machine])) && (my_adventures() > 0))
+			if((get_property("_photocopyUsed") == "false") && (is_unrestricted($item[Deluxe Fax Machine])) && (my_adventures() > 0) && (my_class() != $class[Avatar of Boris]))
 			{
 				print("You may have a fax that you can use. Check it out!", "blue");
 			}
 			if((pulls_remaining() > 0) && (my_daycount() == 1))
 			{
 				string consider = "";
-				boolean[item] cList = $items[antique machete, wet stew, blackberry galoshes, drum machine, killing jar];
+				boolean[item] cList;
+				cList = $items[antique machete, wet stew, blackberry galoshes, drum machine, killing jar];
+				if(my_class() == $class[Avatar of Boris])
+				{
+					cList = $items[wet stew, blackberry galoshes, drum machine, killing jar];
+				}
 				foreach it in cList
 				{
 					if(item_amount(it) == 0)
@@ -2236,6 +2264,7 @@ boolean questOverride()
 	{
 		print("Found completed Spookyraven Manor Organ Music (11)");
 		set_property("cc_winebomb", "finished");
+		set_property("cc_masonryWall", true);
 		set_property("cc_ballroomflat", "finished");
 	}
 
@@ -2483,7 +2512,7 @@ boolean L11_aridDesert()
 		progress = 3;
 	}
 
-	if(!possessEquipment(desertBuff))
+	if((!possessEquipment(desertBuff)) && (my_class() != $class[Avatar of Boris]))
 	{
 		if((my_level() >= 12) && !in_hardcore())
 		{
@@ -2578,7 +2607,10 @@ boolean L11_aridDesert()
 			}
 		}
 
-		equip(desertBuff);
+		if((desertBuff != $item[none]) && can_equip(desertBuff))
+		{
+			equip(desertBuff);
+		}
 		handleFamiliar("init");
 		set_property("choiceAdventure805", 1);
 		int need = 100 - get_property("desertExploration").to_int();
@@ -3821,6 +3853,10 @@ boolean L13_towerNSEntrance()
 			{
 				doRest();
 				cli_execute("scripts/postcheese.ash");
+				if(get_property("cc_lastABooCycleFix").to_int() >= 3)
+				{
+					set_property("cc_lastABooCycleFix", get_property("cc_lastABooCycleFix").to_int()-1);
+				}
 				return true;
 			}
 
@@ -4209,7 +4245,7 @@ boolean L11_hiddenCity()
 			{
 				equip($item[bloodied surgical dungarees]);
 			}
-			if(item_amount($item[half-size scalpel]) > 0)
+			if((item_amount($item[half-size scalpel]) > 0) && can_equip($item[half-size scalpel]))
 			{
 				equip($item[half-size scalpel]);
 			}
@@ -4309,7 +4345,7 @@ boolean L11_hiddenCityZones()
 		set_property("choiceAdventure789", "2");
 		set_property("choiceAdventure791", "6");
 		set_property("cc_hiddenzones", "0");
-		if(possessEquipment($item[Antique Machete]))
+		if(possessEquipment($item[Antique Machete]) || (my_class() == $class[Avatar of Boris]))
 		{
 			set_property("cc_hiddenzones", "1");
 		}
@@ -4317,7 +4353,7 @@ boolean L11_hiddenCityZones()
 
 	if(get_property("cc_hiddenzones") == "0")
 	{
-		if(possessEquipment($item[antique machete]))
+		if((possessEquipment($item[antique machete])) || (my_class() == $class[Avatar of Boris]))
 		{
 			set_property("cc_hiddenzones", "1");
 		}
@@ -4338,7 +4374,15 @@ boolean L11_hiddenCityZones()
 
 	if(get_property("cc_hiddenzones") == "1")
 	{
-		equip($item[antique machete]);
+		if(internalQuestStatus("questL11Curses") >= 0)
+		{
+			set_property("cc_hiddenzones", "2");
+			return true;
+		}
+		if(can_equip($item[Antique Machete]))
+		{
+			equip($item[antique machete]);
+		}
 		# Add provision for Golden Monkey, or even more so, "Do we need spleen item"
 		if((dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))
 		{
@@ -4365,7 +4409,15 @@ boolean L11_hiddenCityZones()
 
 	if(get_property("cc_hiddenzones") == "2")
 	{
-		equip($item[antique machete]);
+		if(internalQuestStatus("questL11Business") >= 0)
+		{
+			set_property("cc_hiddenzones", "3");
+			return true;
+		}
+		if(can_equip($item[Antique Machete]))
+		{
+			equip($item[antique machete]);
+		}
 		if((dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))
 		{
 			handleFamiliar($familiar[Unconscious Collective]);
@@ -4390,7 +4442,16 @@ boolean L11_hiddenCityZones()
 
 	if(get_property("cc_hiddenzones") == "3")
 	{
-		equip($item[antique machete]);
+		if(internalQuestStatus("questL11Doctor") >= 0)
+		{
+			set_property("cc_hiddenzones", "4");
+			return true;
+		}
+		if(can_equip($item[Antique Machete]))
+		{
+			equip($item[antique machete]);
+		}
+
 		if((dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))
 		{
 			handleFamiliar($familiar[Unconscious Collective]);
@@ -4415,7 +4476,16 @@ boolean L11_hiddenCityZones()
 
 	if(get_property("cc_hiddenzones") == "4")
 	{
-		equip($item[antique machete]);
+		if(internalQuestStatus("questL11Spare") >= 0)
+		{
+			set_property("cc_hiddenzones", "5");
+			return true;
+		}
+		if(can_equip($item[Antique Machete]))
+		{
+			equip($item[antique machete]);
+		}
+
 		if((dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))
 		{
 			handleFamiliar($familiar[Unconscious Collective]);
@@ -4440,7 +4510,11 @@ boolean L11_hiddenCityZones()
 
 	if(get_property("cc_hiddenzones") == "5")
 	{
-		equip($item[antique machete]);
+		if(can_equip($item[Antique Machete]))
+		{
+			equip($item[antique machete]);
+		}
+
 		handleFamiliar($familiar[Fist Turkey]);
 		handleBjornify($familiar[Grinning Turtle]);
 		if(considerGrimstoneGolem(true))
@@ -4621,7 +4695,8 @@ boolean LX_spookyravenSecond()
 		handleBjornify($familiar[Grimstone Golem]);
 	}
 
-	if(item_amount($item[Lord Spookyraven\'s Spectacles]) == 0)
+	//Convert Spookyraven Spectacles to a toggle
+	if((item_amount($item[Lord Spookyraven\'s Spectacles]) == 0) && (my_class() != $class[Avatar of Boris]))
 	{
 		set_property("choiceAdventure878", "3");
 	}
@@ -4646,7 +4721,7 @@ boolean LX_spookyravenSecond()
 
 	if((get_property("cc_ballroomopen") == "open") || (get_property("questM21Dance") == "finished") || (get_property("questM21Dance") == "step3"))
 	{
-		if(item_amount($item[Lord Spookyraven\'s Spectacles]) == 1)
+		if((item_amount($item[Lord Spookyraven\'s Spectacles]) == 1) || (my_class() == $class[Avatar of Boris]))
 		{
 			set_property("cc_spookyravensecond", "finished");
 		}
@@ -4747,7 +4822,10 @@ boolean L11_mauriceSpookyraven()
 	}
 	if(item_amount($item[recipe: mortar-dissolving solution]) == 0)
 	{
-		equip($slot[acc3], $item[Lord Spookyraven\'s Spectacles]);
+		if(possessEquipment($item[Lord Spookyraven\'s Spectacles]))
+		{
+			equip($slot[acc3], $item[Lord Spookyraven\'s Spectacles]);
+		}
 		visit_url("place.php?whichplace=manor4&action=manor4_chamberwall");
 		use(1, $item[recipe: mortar-dissolving solution]);
 
@@ -4759,6 +4837,84 @@ boolean L11_mauriceSpookyraven()
 		#Cellar, laundry room Lights out ignore
 		set_property("choiceAdventure901", "2");
 		set_property("choiceAdventure891", "1");
+	}
+
+	if((get_property("cc_winebomb") == "finished") || get_property("cc_masonryWall").to_boolean())
+	{
+		print("Down with the tyrant of Spookyraven!", "blue");
+		if(my_mp() >= 20)
+		{
+			useCocoon();
+		}
+		buffMaintain($effect[Astral Shell], 10, 1, 1);
+		buffMaintain($effect[Elemental Saucesphere], 10, 1, 1);
+
+
+		# The ccAdvBypass case is probably suitable for Ed but we'd need to verify it.
+		if(my_class() == $class[Ed])
+		{
+			visit_url("place.php?whichplace=manor4&action=manor4_chamberboss");
+		}
+		else
+		{
+			ccAdvBypass("place.php?whichplace=manor4&action=manor4_chamberboss", $location[Noob Cave]);
+		}
+
+		if(have_effect($effect[beaten up]) == 0)
+		{
+			set_property("cc_ballroom", "finished");
+		}
+		return true;
+	}
+
+
+	if((!possessEquipment($item[Lord Spookyraven\'s Spectacles])) || (my_class() == $class[Avatar of Boris]))
+	{
+		# I suppose we can let anyone in without the Spectacles.
+		while(item_amount($item[Loosening Powder]) == 0)
+		{
+			ccAdv($location[The Haunted Kitchen]);
+			return true;
+		}
+		while(item_amount($item[Powdered Castoreum]) == 0)
+		{
+			ccAdv($location[The Haunted Conservatory]);
+			return true;
+		}
+		while(item_amount($item[Drain Dissolver]) == 0)
+		{
+			if(get_property("cc_towelChoice") == "")
+			{
+				set_property("cc_towelChoice", get_property("choiceAdventure882"));
+				set_property("choiceAdventure882", 2);
+			}
+			ccAdv($location[The Haunted Bathroom]);
+			if(get_property("cc_towelChoice") != "")
+			{
+				set_property("choiceAdventure882", get_property("cc_towelChoice"));
+				set_property("cc_towelChoice", "");
+			}
+			return true;
+		}
+		while(item_amount($item[Triple-Distilled Turpentine]) == 0)
+		{
+			ccAdv($location[The Haunted Gallery]);
+			return true;
+		}
+		while(item_amount($item[Detartrated Anhydrous Sublicalc]) == 0)
+		{
+			ccAdv($location[The Haunted Laboratory]);
+			return true;
+		}
+		while(item_amount($item[Triatomaceous Dust]) == 0)
+		{
+			ccAdv($location[The Haunted Storage Room]);
+			return true;
+		}
+
+		visit_url("place.php?whichplace=manor4&action=manor4_chamberwall");
+		set_property("cc_masonryWall", true);
+		return true;
 	}
 
 	if((item_amount($item[blasting soda]) == 1) && (item_amount($item[bottle of Chateau de Vinegar]) == 1))
@@ -4849,37 +5005,11 @@ boolean L11_mauriceSpookyraven()
 		{
 			set_property("cc_winebomb", "finished");
 			visit_url("place.php?whichplace=manor4&action=manor4_chamberwall");
+			set_property("cc_masonryWall", true);
 		}
 		return true;
 	}
 
-	if(get_property("cc_winebomb") == "finished")
-	{
-		print("Down with the tyrant of Spookyraven!", "blue");
-		if(my_mp() >= 20)
-		{
-			useCocoon();
-		}
-		buffMaintain($effect[Astral Shell], 10, 1, 1);
-		buffMaintain($effect[Elemental Saucesphere], 10, 1, 1);
-
-
-		# The ccAdvBypass case is probably suitable for Ed but we'd need to verify it.
-		if(my_class() == $class[Ed])
-		{
-			visit_url("place.php?whichplace=manor4&action=manor4_chamberboss");
-		}
-		else
-		{
-			ccAdvBypass("place.php?whichplace=manor4&action=manor4_chamberboss", $location[Noob Cave]);
-		}
-
-		if(have_effect($effect[beaten up]) == 0)
-		{
-			set_property("cc_ballroom", "finished");
-		}
-		return true;
-	}
 	return false;
 }
 
@@ -5566,6 +5696,7 @@ boolean L12_sonofaBeach()
 		pulverizeThing($item[Goatskin Umbrella]);
 	}
 
+	buffMaintain($effect[Song of Battle], 10, 1, 1);
 	if(numeric_modifier("Combat Rate") < 0.0)
 	{
 		print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Lobsterfrogmen.", "red");
@@ -7209,7 +7340,7 @@ boolean LX_steelOrgan()
 	{
 		if((item_amount($item[Steel Lasagna]) > 0) && (fullness_left() >= 5))
 		{
-			eat(1, $item[Steel Lasagna]);
+			eatsilent(1, $item[Steel Lasagna]);
 		}
 		if((item_amount($item[Steel Margarita]) > 0) && ((my_inebriety() <= 5) || (my_inebriety() >= 12)) && (inebriety_left() >= 5))
 		{
@@ -8891,7 +9022,7 @@ boolean L9_aBooPeak()
 			{
 				use(1, $item[Linen Bandages]);
 			}
-			if(((my_hp() * 4) < my_maxhp()) && (item_amount($item[Scroll of Drastic Healing]) > 0))
+			if(((my_hp() * 4) < my_maxhp()) && (item_amount($item[Scroll of Drastic Healing]) > 0) && (my_class() != $class[Ed]))
 			{
 				use(1, $item[Scroll of Drastic Healing]);
 			}
@@ -10300,6 +10431,7 @@ boolean L8_trapperYeti()
 		buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 10, 1, 1);
 		buffMaintain($effect[Musk of the Moose], 10, 1, 1);
 		buffMaintain($effect[Taunt of Horus], 0, 1, 1);
+		buffMaintain($effect[Song of Battle], 10, 1, 1);
 
 		if((my_class() == $class[Ed]) && (!elementalPlanes_access($element[spooky])))
 		{

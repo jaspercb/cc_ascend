@@ -174,6 +174,7 @@ boolean tryCookies()
 		{
 			use(1, $item[Mayoflex]);
 		}
+		buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 		eatsilent(1, $item[Fortune Cookie]);
 		cookie = get_counters("Fortune Cookie", 0, 200);
 		if(contains_text(cookie, "Fortune Cookie"))
@@ -186,51 +187,27 @@ boolean tryCookies()
 
 boolean tryPantsEat()
 {
-	if((fullness_limit() - my_fullness()) > 0)
+	if(fullness_left() > 0)
 	{
-		if(item_amount($item[Mayoflex]) > 0)
+		foreach it in $items[Tasty Tart, Deviled Egg, Actual Tapas, Cold Mashed Potatoes, Dinner Roll, Whole Turkey Leg, Can of Sardines, High-Calorie Sugar Substitute, Pat of Butter]
 		{
-			use(1, $item[Mayoflex]);
-		}
-		if(item_amount($item[tasty tart]) > 0)
-		{
-			eatsilent(1, $item[tasty tart]);
-			return true;
-		}
-		if(item_amount($item[deviled egg]) > 0)
-		{
-			eatsilent(1, $item[deviled egg]);
-			return true;
-		}
-		if(item_amount($item[cold mashed potatoes]) > 0)
-		{
-			eatsilent(1, $item[cold mashed potatoes]);
-			return true;
-		}
-		if(item_amount($item[dinner roll]) > 0)
-		{
-			eatsilent(1, $item[dinner roll]);
-			return true;
-		}
-		if(item_amount($item[whole turkey leg]) > 0)
-		{
-			eatsilent(1, $item[whole turkey leg]);
-			return true;
-		}
-		if(item_amount($item[can of sardines]) > 0)
-		{
-			eatsilent(1, $item[can of sardines]);
-			return true;
-		}
-		if(item_amount($item[high-calorie sugar substitute]) > 0)
-		{
-			eatsilent(1, $item[high-calorie sugar substitute]);
-			return true;
-		}
-		if(item_amount($item[pat of butter]) > 0)
-		{
-			eatsilent(1, $item[pat of butter]);
-			return true;
+			if(item_amount(it) > 0)
+			{
+				if((get_property("mayoInMouth") == "") && (cc_get_campground() contains $item[Portable Mayo Clinic]))
+				{
+					if((item_amount($item[Mayoflex]) == 0) && (my_meat() > 12000))
+					{
+						buy(1, $item[Mayoflex]);
+					}
+					if(item_amount($item[Mayoflex]) > 0)
+					{
+						use(1, $item[Mayoflex]);
+					}
+				}
+				buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
+				eatsilent(1, it);
+				return true;
+			}
 		}
 	}
 	return false;
@@ -554,16 +531,19 @@ void consumeStuff()
 			if(item_amount($item[Spaghetti Breakfast]) > 0)
 			{
 				buffMaintain($effect[Got Milk], 0, 1, 1);
+				buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 				ccEat(1, $item[Spaghetti Breakfast]);
 			}
 			pullXWhenHaveY(whatHiMein(), 2, 0);
 			if(item_amount(whatHiMein()) >= 2)
 			{
+				buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 				buffMaintain($effect[Got Milk], 0, 1, 1);
 				ccEat(2, whatHiMein());
 			}
 			if(item_amount($item[digital key lime pie]) > 0)
 			{
+				buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 				buffMaintain($effect[Got Milk], 0, 1, 1);
 				ccEat(1, $item[digital key lime pie]);
 				tryPantsEat();
@@ -575,6 +555,7 @@ void consumeStuff()
 					pullXWhenHaveY(whatHiMein(), 1, 0);
 					if(item_amount(whatHiMein()) > 0)
 					{
+						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
 						ccEat(1, whatHiMein());
 					}
@@ -585,6 +566,7 @@ void consumeStuff()
 					if(item_amount($item[Digital Key Lime Pie]) > 0)
 					{
 						buffMaintain($effect[Got Milk], 0, 1, 1);
+						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						ccEat(1, $item[Digital Key Lime Pie]);
 					}
 				}
@@ -657,6 +639,7 @@ void consumeStuff()
 					while((canEat > 0) && (item_amount(it) > 0))
 					{
 						buffMaintain($effect[Got Milk], 0, 1, 1);
+						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						ccEat(1, it);
 						canEat = canEat - 1;
 					}
@@ -668,6 +651,7 @@ void consumeStuff()
 		{
 			dealWithMilkOfMagnesium(true);
 			buffMaintain($effect[Got Milk], 0, 1, 1);
+			buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 			ccEat(1, $item[Boris\'s Key Lime Pie]);
 			ccEat(1, $item[Jarlsberg\'s Key Lime Pie]);
 			ccEat(1, $item[Sneaky Pete\'s Key Lime Pie]);
@@ -760,6 +744,7 @@ void consumeStuff()
 			{
 				if(item_amount(whatHiMein()) >= 3)
 				{
+					buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 					buffMaintain($effect[Got Milk], 0, 1, 1);
 					ccEat(3, whatHiMein());
 				}
@@ -775,6 +760,7 @@ void consumeStuff()
 				{
 					if(item_amount($item[Spaghetti Breakfast]) > 0)
 					{
+						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
 						if(item_amount($item[Mayoflex]) > 0)
 						{
@@ -785,6 +771,7 @@ void consumeStuff()
 					pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
 					if(item_amount($item[Boris\'s Key Lime Pie]) > 0)
 					{
+						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
 						if(item_amount($item[Mayoflex]) > 0)
 						{
@@ -795,6 +782,7 @@ void consumeStuff()
 					pullXWhenHaveY(whatHiMein(), 2, 0);
 					if(item_amount(whatHiMein()) > 0)
 					{
+						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
 						if(item_amount($item[Mayoflex]) > 0)
 						{
@@ -804,6 +792,7 @@ void consumeStuff()
 					}
 					if(item_amount(whatHiMein()) > 0)
 					{
+						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
 						if(item_amount($item[Mayoflex]) > 0)
 						{
@@ -817,6 +806,7 @@ void consumeStuff()
 			{
 				if((item_amount($item[Boris\'s Key Lime Pie]) > 0) || (item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) || (item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0))
 				{
+					buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 					buffMaintain($effect[Got Milk], 0, 1, 1);
 				}
 				ccEat(1, $item[Boris\'s Key Lime Pie]);
@@ -897,6 +887,7 @@ void consumeStuff()
 				{
 					while((canEat > 0) && (item_amount(it) > 0))
 					{
+						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
 						ccEat(1, it);
 						canEat = canEat - 1;
@@ -1107,6 +1098,7 @@ void consumeStuff()
 
 			if(item_amount($item[Star Key Lime Pie]) >= 3)
 			{
+				buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 				buffMaintain($effect[Got Milk], 0, 1, 1);
 				ccEat(3, $item[Star Key Lime Pie]);
 				tryPantsEat();
@@ -1118,6 +1110,7 @@ void consumeStuff()
 				pullXWhenHaveY(whatHiMein(), 3, 0);
 				if(item_amount(whatHiMein()) >= 3)
 				{
+					buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 					buffMaintain($effect[Got Milk], 0, 1, 1);
 					eatsilent(3, whatHiMein());
 				}

@@ -101,3 +101,4 @@
 101	cc_noSleepingDog	boolean	PRE	When true, do not eat a Sleeping Dog.
 101	cc_saveMargarita	boolean	PRE	Save Emergency Margarita in HCCS run.
 102	cc_gnasirUnlocked	boolean	ANY	Have we found gnasir in the Desert?
+103	cc_masonryWall		boolean	ANY	If true, we've destroyed the Masonry Wall in Spookyraven Manor

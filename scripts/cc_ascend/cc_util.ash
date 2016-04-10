@@ -2,7 +2,6 @@ script "cc_util.ash";
 import <zlib.ash>
 import <cc_ascend/cc_mr2015.ash>
 import <cc_ascend/cc_ascend_header.ash>
-
 import <cc_ascend/cc_monsterparts.ash>
 
 // Public Prototypes
@@ -926,11 +925,11 @@ int doRest()
 			break;
 		}
 
-		if((grab != $item[none]) && possessEquipment(grab) && (replace != grab))
+		if((grab != $item[none]) && possessEquipment(grab) && (replace != grab) && can_equip(grab))
 		{
 			equip(grab);
 		}
-		if(!possessEquipment(grab) && (replace != grab) && (closet_amount(grab) > 0))
+		if(!possessEquipment(grab) && (replace != grab) && (closet_amount(grab) > 0) && can_equip(grab))
 		{
 			closet = true;
 			take_closet(1, grab);
@@ -2442,10 +2441,13 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Snarl of the Timberwolf]:		useSkill = $skill[Snarl of the Timberwolf];		break;
 	case $effect[Snow Shoes]:					useItem = $item[Snow Cleats];					break;
 	case $effect[Somewhat Poisoned]:			useSkill = $skill[Disco Nap];					break;
+	case $effect[Song of Battle]:				useSkill = $skill[Song of Battle];				break;
 	case $effect[Song of Bravado]:				useSkill = $skill[Song of Bravado];				break;
+	case $effect[Song of the Glorious Lunch]:	useSkill = $skill[Song of the Glorious Lunch];	break;
 	case $effect[Song of the North]:			useSkill = $skill[Song of the North];			break;
 	case $effect[Song of Sauce]:				useSkill = $skill[Song of Sauce];				break;
 	case $effect[Song of Slowness]:				useSkill = $skill[Song of Slowness];			break;
+	case $effect[Song of Solitude]:				useSkill = $skill[Song of Solitude];			break;
 	case $effect[Song of Starch]:				useSkill = $skill[Song of Starch];				break;
 	case $effect[The Sonata of Sneakiness]:		useSkill = $skill[The Sonata of Sneakiness];	break;
 	case $effect[Soulerskates]:					useSkill = $skill[Soul Rotation];				break;
