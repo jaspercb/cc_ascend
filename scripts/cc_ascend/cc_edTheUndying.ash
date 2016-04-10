@@ -838,6 +838,12 @@ boolean ed_needShop()
 	{
 		return false;
 	}
+
+	if(get_property("cc_needLegs").to_boolean() && (item_amount($item[Ka Coin]) >= 10))
+	{
+		return true;
+	}
+
 	if(item_amount($item[Ka Coin]) < 15)
 	{
 		return false;
