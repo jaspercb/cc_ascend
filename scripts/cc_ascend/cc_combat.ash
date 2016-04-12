@@ -123,6 +123,10 @@ void awol_helper(string page)
 	{
 		set_property("cc_noSnakeOil", my_daycount());
 	}
+	if(get_property("_oilExtracted").to_int() >= 100)
+	{
+		set_property("cc_noSnakeOil", my_daycount());
+	}
 
 	if((!contains_text(combatState, "extractSnakeOil")) && (get_property("cc_noSnakeOil").to_int() == my_daycount()))
 	{

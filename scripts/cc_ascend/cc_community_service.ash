@@ -2016,8 +2016,7 @@ boolean LA_cs_communityService()
 				chew(1, $item[Abstraction: Joy]);
 			}
 
-			# Add Witchess Familiar Buff here.
-			if(get_property("puzzleChampBonus").to_int() == 20)
+			if((get_property("puzzleChampBonus").to_int() == 20) && !get_property("_witchessBuff").to_boolean())
 			{
 				visit_url("campground.php?action=witchess");
 				visit_url("choice.php?whichchoice=1181&pwd=&option=3");
