@@ -19,14 +19,18 @@ void boris_initializeSettings()
 		set_property("cc_cubeItems", false);
 #		set_property("cc_day1_dna", "finished");
 #		set_property("cc_getBeehive", false);
-#		set_property("cc_getStarKey", false);
+		set_property("cc_getStarKey", true);
 #		set_property("cc_grimfairytale", "1");
 #		set_property("cc_grimstoneFancyOilPainting", false);
 		set_property("cc_grimstoneOrnateDowsingRod", false);
-		set_property("cc_holeinthesky", false);
+		set_property("cc_holeinthesky", true);
 		set_property("cc_useCubeling", false);
 		set_property("cc_wandOfNagamar", false);
 
+		# Mafia r16876 does not see the Boris Helms in storage and will not pull them.
+		# We have to force the issue.
+		string temp = visit_url("storage.php?action=pull&whichitem1=5648&howmany1=1&pwd");
+		temp = visit_url("storage.php?action=pull&whichitem1=5650&howmany1=1&pwd");
 
 
 		set_property("nsTowerDoorKeysUsed", "Boris's key,Jarlsberg's key,Sneaky Pete's key,Richard's star key,skeleton key,digital key");

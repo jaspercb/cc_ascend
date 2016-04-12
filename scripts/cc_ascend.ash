@@ -1099,7 +1099,10 @@ int handlePulls(int day)
 
 		if(is_unrestricted($item[Pantsgiving]))
 		{
-			pullXWhenHaveY($item[xiblaxian stealth cowl], 1, 0);
+			if(my_class() != $class[Avatar of Boris])
+			{
+				pullXWhenHaveY($item[xiblaxian stealth cowl], 1, 0);
+			}
 			pullXWhenHaveY($item[Pantsgiving], 1, 0);
 		}
 		else
@@ -1203,7 +1206,7 @@ int handlePulls(int day)
 			//Possibly pull other smiths gear?
 		}
 
-		if(cc_my_path() != "Heavy Rains")
+		if((cc_my_path() != "Heavy Rains") && !($classes[Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()))
 		{
 			if(!possessEquipment($item[Snow Suit]))
 			{
@@ -3147,6 +3150,16 @@ boolean L13_towerNSFinal()
 		abort("User wanted to stay in run (cc_stayInRun), we are done.");
 	}
 
+	if($classes[Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete] contains my_class())
+	{
+		if(get_property("cc_sorceress") == "finished")
+		{
+			abort("Freeing the king will result in a path change and we can barely handle The Sleazy Back Alley. Aborting, run the script again after selecting your aftercore path in order for it to clean up.");
+		}
+		set_property("cc_sorceress", "finished");
+		return true;
+	}
+
 	visit_url("place.php?whichplace=nstower&action=ns_11_prism");
 	if(get_property("kingLiberated") == "false")
 	{
@@ -3236,12 +3249,12 @@ boolean L13_towerNSTower()
 			buffMaintain($effect[Mayeaugh], 0, 1, 1);
 			sources = sources + 1;
 		}
-		if(item_amount($item[smirking shrunken head]) > 0)
+		if((item_amount($item[smirking shrunken head]) > 0) && can_equip($item[smirking shrunken head]))
 		{
 			equip($item[smirking shrunken head]);
 			sources = sources + 1;
 		}
-		else if(item_amount($item[hot plate]) > 0)
+		else if((item_amount($item[hot plate]) > 0) && can_equip($item[hot plate]))
 		{
 			equip($item[hot plate]);
 			sources = sources + 1;
@@ -4758,6 +4771,7 @@ boolean LX_spookyravenSecond()
 			}
 			print("Spookyraven: Bathroom", "blue");
 			set_property("choiceAdventure892", "1");
+
 			ccAdv(1, $location[The Haunted Bathroom]);
 
 			handleFamiliar("item");
