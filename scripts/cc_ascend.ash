@@ -2335,7 +2335,7 @@ boolean questOverride()
 	{
 		print("Found completed Hidden Office Building (11)");
 		set_property("cc_hiddenoffice", "finished");
-		if((get_property("cc_hiddenzones").to_int() < 3) && (get_property("cc_hiddenzones") != "finished"))
+		if((get_property("cc_hiddenzones") != "finished") && (get_property("cc_hiddenzones").to_int() < 3))
 		{
 			set_property("cc_hiddenzones", 3);
 		}
@@ -2344,7 +2344,7 @@ boolean questOverride()
 	{
 		print("Found completed Hidden Apartment Building (11)");
 		set_property("cc_hiddenapartment", "finished");
-		if((get_property("cc_hiddenzones").to_int() < 2) && (get_property("cc_hiddenzones") != "finished"))
+		if((get_property("cc_hiddenzones") != "finished") && (get_property("cc_hiddenzones").to_int() < 2))
 		{
 			set_property("cc_hiddenzones", 2);
 		}
@@ -2353,7 +2353,7 @@ boolean questOverride()
 	{
 		print("Found completed Hidden Bowling Alley (11)");
 		set_property("cc_hiddenbowling", "finished");
-		if((get_property("cc_hiddenzones").to_int() < 5) && (get_property("cc_hiddenzones") != "finished"))
+		if((get_property("cc_hiddenzones") != "finished") && (get_property("cc_hiddenzones").to_int() < 5))
 		{
 			set_property("cc_hiddenzones", 5);
 		}
@@ -3146,6 +3146,16 @@ boolean L13_towerNSFinal()
 				set_property("cc_disableAdventureHandling", "no");
 				abort("User wanted to stay in run (cc_stayInRun), we are done.");
 			}
+
+			if($classes[Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete] contains my_class())
+			{
+				if(get_property("cc_sorceress") == "finished")
+				{
+					abort("Freeing the king will result in a path change and we can barely handle The Sleazy Back Alley. Aborting, run the script again after selecting your aftercore path in order for it to clean up.");
+				}
+				set_property("cc_sorceress", "finished");
+				return true;
+			}
 			visit_url("place.php?whichplace=nstower&action=ns_11_prism");
 		}
 		set_property("cc_disableAdventureHandling", "no");
@@ -3160,15 +3170,6 @@ boolean L13_towerNSFinal()
 		abort("User wanted to stay in run (cc_stayInRun), we are done.");
 	}
 
-	if($classes[Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete] contains my_class())
-	{
-		if(get_property("cc_sorceress") == "finished")
-		{
-			abort("Freeing the king will result in a path change and we can barely handle The Sleazy Back Alley. Aborting, run the script again after selecting your aftercore path in order for it to clean up.");
-		}
-		set_property("cc_sorceress", "finished");
-		return true;
-	}
 
 	visit_url("place.php?whichplace=nstower&action=ns_11_prism");
 	if(get_property("kingLiberated") == "false")

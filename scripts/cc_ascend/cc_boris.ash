@@ -31,9 +31,6 @@ void boris_initializeSettings()
 		# We have to force the issue.
 		string temp = visit_url("storage.php?action=pull&whichitem1=5648&howmany1=1&pwd");
 		temp = visit_url("storage.php?action=pull&whichitem1=5650&howmany1=1&pwd");
-
-
-		set_property("nsTowerDoorKeysUsed", "Boris's key,Jarlsberg's key,Sneaky Pete's key,Richard's star key,skeleton key,digital key");
 	}
 }
 
@@ -134,21 +131,34 @@ boolean boris_buySkills()
 		{
 			skillPoints = skillPoints - 1;
 			int tree = 1;
-			if(!have_skill($skill[Gourmand]))
+
+			if(!have_skill($skill[Bifurcating Blow]))
 			{
-				tree = 3;
+				tree = 1;
 			}
-			if(!have_skill($skill[Barrel Chested]))
+			if(!have_skill($skill[Legendary Impatience]))
 			{
-				tree = 3;
+				tree = 1;
 			}
-			if(!have_skill($skill[More to Love]))
+			if(!have_skill($skill[Song of Cockiness]))
 			{
-				tree = 3;
+				tree = 1;
 			}
-			if(!have_skill($skill[Hungry Eyes]))
+			if(!have_skill($skill[Legendary Luck]))
 			{
-				tree = 3;
+				tree = 1;
+			}
+			if(!have_skill($skill[Throw Trusty]))
+			{
+				tree = 1;
+			}
+			if(!have_skill($skill[Pep Talk]))
+			{
+				tree = 1;
+			}
+			if(!have_skill($skill[Sick Pythons]))
+			{
+				tree = 1;
 			}
 			if(!have_skill($skill[Banishing Shout]))
 			{
@@ -170,13 +180,21 @@ boolean boris_buySkills()
 			{
 				tree = 2;
 			}
-			if(!have_skill($skill[Bifurcating Blow]))
+			if(!have_skill($skill[Gourmand]))
 			{
-				tree = 1;
+				tree = 3;
 			}
-			if(!have_skill($skill[Legendary Impatience]))
+			if(!have_skill($skill[Barrel Chested]))
 			{
-				tree = 1;
+				tree = 3;
+			}
+			if(!have_skill($skill[More to Love]))
+			{
+				tree = 3;
+			}
+			if(!have_skill($skill[Hungry Eyes]))
+			{
+				tree = 3;
 			}
 			if(!have_skill($skill[Song of Solitude]))
 			{
@@ -202,18 +220,6 @@ boolean boris_buySkills()
 			{
 				tree = 3;
 			}
-			if(!have_skill($skill[Song of Cockiness]))
-			{
-				tree = 1;
-			}
-			if(!have_skill($skill[Legendary Luck]))
-			{
-				tree = 1;
-			}
-			if(!have_skill($skill[Throw Trusty]))
-			{
-				tree = 1;
-			}
 			if(!have_skill($skill[Legendary Appetite]))
 			{
 				tree = 3;
@@ -234,14 +240,7 @@ boolean boris_buySkills()
 			{
 				tree = 3;
 			}
-			if(!have_skill($skill[Pep Talk]))
-			{
-				tree = 1;
-			}
-			if(!have_skill($skill[Sick Pythons]))
-			{
-				tree = 1;
-			}
+
 			if(!have_skill($skill[Broadside]))
 			{
 				tree = 1;

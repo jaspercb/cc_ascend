@@ -576,7 +576,7 @@ boolean ed_buySkills()
 	}
 
 	#adding this after skill purchase, is mafia not detecting our skills?
-	visit_url("charsheet.php");
+	//visit_url("charsheet.php");
 
 
 	page = visit_url("place.php?whichplace=edbase&action=edbase_door");

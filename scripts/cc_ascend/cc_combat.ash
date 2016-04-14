@@ -1352,6 +1352,14 @@ string cc_combatHandler(int round, string opp, string text)
 		break;
 
 	case $class[Avatar of Boris]:
+		if((my_mp() >= mp_cost($skill[Heroic Belch])) && have_skill($skill[Heroic Belch]) && (enemy.physical_resistance >= 100) && (my_fullness() >= 5))
+		{
+			attackMinor = "skill " + $skill[Heroic Belch];
+			attackMajor = "skill " + $skill[Heroic Belch];
+			costMinor = mp_cost($skill[Heroic Belch]);
+			costMajor = mp_cost($skill[Heroic Belch]);
+		}
+
 		if((my_mp() >= mp_cost($skill[Broadside])) && have_skill($skill[Broadside]))
 		{
 			stunner = "skill " + $skill[Broadside];
