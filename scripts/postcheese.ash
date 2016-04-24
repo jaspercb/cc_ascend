@@ -49,9 +49,16 @@ void handlePostAdventure()
 		return;
 	}
 
-	if((have_effect($effect[Cunctatitis]) > 0) && (my_mp() >= 12) && have_skill($skill[Disco Nap]))
+	if(have_effect($effect[Cunctatitis]) > 0)
 	{
-		use_skill(1, $skill[Disco Nap]);
+		if((my_mp() >= 12) && have_skill($skill[Disco Nap]))
+		{
+			use_skill(1, $skill[Disco Nap]);
+		}
+		else
+		{
+			uneffect($effect[Cunctatitis]);
+		}
 	}
 
 	if(my_path() == "Actually Ed the Undying")
@@ -188,6 +195,37 @@ void handlePostAdventure()
 				}
 			}
 			buffMaintain($effect[Shelter of Shed], 15, 1, 1);
+		}
+		if((my_mp() + 100) < my_maxmp())
+		{
+			if(item_amount($item[Magical Mystery Juice]) > 0)
+			{
+				use(1, $item[Magical Mystery Juice]);
+			}
+			else if(item_amount($item[Grogpagne]) > 0)
+			{
+				use(1, $item[Grogpagne]);
+			}
+			else if(item_amount($item[Phonics Down]) > 0)
+			{
+				use(1, $item[Phonics Down]);
+			}
+			else if(item_amount($item[Tiny House]) > 0)
+			{
+				use(1, $item[Tiny House]);
+			}
+			else if(item_amount($item[Holy Spring Water]) > 0)
+			{
+				use(1, $item[Holy Spring Water]);
+			}
+			else if(item_amount($item[Spirit Beer]) > 0)
+			{
+				use(1, $item[Spirit Beer]);
+			}
+			else if(item_amount($item[Sacramental Wine]) > 0)
+			{
+				use(1, $item[Sacramental Wine]);
+			}
 		}
 		return;
 	}
@@ -397,7 +435,10 @@ void handlePostAdventure()
 		}
 	}
 
-
+	if(have_skill($skill[Demand Sandwich]) && (my_mp() > 85) && (my_level() >= 9) && (get_property("_demandSandwich").to_int() < 3))
+	{
+		use_skill(1, $skill[Demand Sandwich]);
+	}
 
 	if(have_skill($skill[Summon Smithsness]) && (my_mp() > 20))
 	{

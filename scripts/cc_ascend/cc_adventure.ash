@@ -22,7 +22,6 @@ boolean ccAdv(int num, location loc, string option)
 	{
 		return ed_ccAdv(num, loc, option);
 	}
-
 #	boolean retval = adv1(loc, num, option);
 	boolean retval = adv1(loc, 0, option);
 	if(cc_my_path() == "One Crazy Random Summer")
@@ -132,9 +131,44 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 		return false;
 	}
 
+
+	boolean inChoice = false;
 	if(contains_text(page, "whichchoice value=") || contains_text(page, "whichchoice="))
 	{
-		return ccAdv(1, loc, option);
+		print("Override hit a choice adventure (" + loc + "), trying....", "red");
+		inChoice = true;
+	}
+
+	matcher choice_matcher = create_matcher("(?:whichchoice value=(\\d+))|(?:whichchoice=(\\d+))", page);
+	if(choice_matcher.find())
+	{
+		//If we come in from an unknown adventure type, mafia does not handle the choice adventure properly
+		int choice = choice_matcher.group(1).to_int();
+		if(choice == 0)
+		{
+			choice = choice_matcher.group(2).to_int();
+		}
+
+		boolean retval = false;
+		if(!retval)
+		{
+			run_choice(get_property("choiceAdventure" + choice).to_int());
+			cli_execute("postcheese");
+			//We can no longer return an adventure return value here... is false acceptable?
+		}
+		else
+		{
+			set_property("cc_disableAdventureHandling", "yes");
+			boolean retval = ccAdv(1, loc, option);
+			set_property("cc_disableAdventureHandling", "no");
+			cli_execute("postcheese");
+		}
+		return retval;
+	}
+
+	if(inChoice)
+	{
+		abort("Detected we are in a choice adventure but the matcher was done incorrectly.");
 	}
 
 	return false;

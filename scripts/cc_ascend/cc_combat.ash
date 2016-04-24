@@ -756,7 +756,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 		if(($monsters[Filthworm Royal Guard, Knob Goblin Harem Girl] contains enemy) ||
 			((enemy == $monster[orcish frat boy spy]) && (my_daycount() == 1)) ||
-			((enemy == $monster[War Frat 151st Infantryman]) && (my_daycount() == 2)))
+			((enemy == $monster[War Frat 151st Infantryman]) && (my_daycount() == 4)))
 		{
 			doYellow = true;
 		}
@@ -1352,7 +1352,7 @@ string cc_combatHandler(int round, string opp, string text)
 		break;
 
 	case $class[Avatar of Boris]:
-		if((my_mp() >= mp_cost($skill[Heroic Belch])) && have_skill($skill[Heroic Belch]) && (enemy.physical_resistance >= 100) && (my_fullness() >= 5))
+		if((my_mp() >= mp_cost($skill[Heroic Belch])) && have_skill($skill[Heroic Belch]) && (enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[stench]) && (my_fullness() >= 5))
 		{
 			attackMinor = "skill " + $skill[Heroic Belch];
 			attackMajor = "skill " + $skill[Heroic Belch];

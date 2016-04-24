@@ -21,6 +21,7 @@ int solveCookie();
 boolean use_barrels();
 int ccCraft(string mode, int count, item item1, item item2);
 int[item] cc_get_campground();
+int towerKeyCount();
 boolean haveSpleenFamiliar();
 boolean considerGrimstoneGolem(boolean bjornCrown);
 float elemental_resist_value(int resistance);
@@ -53,7 +54,6 @@ boolean handleSealAncient();
 boolean handleSealAncient(string option);
 boolean handleSealElement(element flavor);
 boolean handleSealElement(element flavor, string option);
-int towerKeyCount();
 void handleTracker(monster enemy, string tracker);
 void handleTracker(monster enemy, skill toTrack, string tracker);
 void handleTracker(monster enemy, string toTrack, string tracker);
@@ -110,6 +110,14 @@ int howLongBeforeHoloWristDrop();
 boolean is_avatar_potion(item it);	//From Veracity\'s "avatar potion" post
 string cc_my_path();
 boolean lastAdventureSpecialNC();
+//boolean zoneNonCombat(location loc);
+//boolean zoneCombat(location loc);
+//boolean zoneMeat(location loc);
+//boolean zoneItem(location loc);
+boolean backupSetting(string setting, string newValue);
+boolean restoreSetting(string setting);
+boolean restoreAllSettings();
+
 
 // Private Prototypes
 boolean buffMaintain(item source, effect buff, int uses, int turns);
@@ -470,6 +478,61 @@ boolean organsFull()
 	return true;
 }
 
+boolean backupSetting(string setting, string newValue)
+{
+	string[string,string] defaults;
+	file_to_map("defaults.txt", defaults);
+
+	int found = 0;
+	string oldValue = "";
+	foreach domain, name, value in defaults
+	{
+		if(name == setting)
+		{
+			found += 1;
+			oldValue = get_property(name);
+			#print(domain + " " + name + " " + value);
+		}
+	}
+	if(found == 1)
+	{
+		if(get_property(setting) == newValue)
+		{
+			return false;
+		}
+
+		set_property("cc_backup_" + setting, oldValue);
+		set_property(setting, newValue);
+		return true;
+	}
+	return false;
+}
+
+boolean restoreAllSettings()
+{
+	string[string,string] defaults;
+	file_to_map("defaults.txt", defaults);
+
+	boolean retval = false;
+	foreach domain, name, value in defaults
+	{
+		retval |= restoreSetting(name);
+	}
+
+	return retval;
+}
+
+boolean restoreSetting(string setting)
+{
+	if(get_property("cc_backup_" + setting) != "")
+	{
+		set_property(setting, get_property("cc_backup_" + setting));
+		set_property("cc_backup_" + setting, "");
+		return true;
+	}
+	return false;
+}
+
 boolean is_avatar_potion(item it)
 {
 	#From Veracity\'s "avatar potion" post
@@ -819,17 +882,26 @@ boolean uneffect(effect toRemove)
 
 int ns_crowd1()
 {
-	print("Default Test: Initiative", "red");
+	if(get_property("nsContestants1").to_int() != 0)
+	{
+		print("Default Test: Initiative", "red");
+	}
 	return 1;
 }
 stat ns_crowd2()
 {
-	print("Off-Stat Test: " + get_property("nsChallenge1"), "red");
+	if(get_property("nsContestants2").to_int() != 0)
+	{
+		print("Off-Stat Test: " + get_property("nsChallenge1"), "red");
+	}
 	return to_stat(get_property("nsChallenge1"));
 }
 element ns_crowd3()
 {
-	print("Elemental Test: " + get_property("nsChallenge2"), "red");
+	if(get_property("nsContestants3").to_int() != 0)
+	{
+		print("Elemental Test: " + get_property("nsChallenge2"), "red");
+	}
 	return to_element(get_property("nsChallenge2"));
 }
 element ns_hedge1()
@@ -1289,6 +1361,11 @@ boolean handleSealElement(element flavor, string option)
 
 int towerKeyCount()
 {
+	if(my_class() == $class[Ed])
+	{
+		return 3;
+	}
+
 	int tokens = item_amount($item[fat loot token]);
 	if(item_amount($item[boris\'s key]) > 0)
 	{
@@ -1358,7 +1435,7 @@ boolean use_barrels()
 	}
 	return retval;
 }
-
+/*
 string runChoice(string page_text)
 {
 	while(contains_text(page_text , "choice.php"))
@@ -1379,6 +1456,24 @@ string runChoice(string page_text)
 		page_text = visit_url(url);
 	}
 	return page_text;
+}
+*/
+
+boolean zoneNonCombat(location loc)
+{
+	return false;
+}
+boolean zoneCombat(location loc)
+{
+	return false;
+}
+boolean zoneMeat(location loc)
+{
+	return false;
+}
+boolean zoneItem(location loc)
+{
+	return false;
 }
 
 boolean set_property_ifempty(string setting, string change)
@@ -1467,20 +1562,41 @@ boolean snojoFightAvailable()
 
 	if(!get_property("kingLiberated").to_boolean())
 	{
-		if((my_daycount() == 1) && (get_property("snojoSetting") != "MOXIE"))
+#		if((my_daycount() == 1) && (get_property("snojoSetting") != "MOXIE"))
+#		{
+#			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
+#			temp = run_choice(3);
+#		}
+		if((get_property("snojoMoxieWins").to_int() < 14) && (get_property("snojoSetting") != "MOXIE"))
 		{
 			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
 			temp = run_choice(3);
 		}
-		if(my_daycount() == 2)
+		if((get_property("snojoSetting") == "MOXIE") && (get_property("snojoMoxieWins").to_int() >= 14) && (get_property("snojoSetting") != "MYSTICALITY") && (get_property("snojoMysticalityWins").to_int() < 14))
 		{
-			# If a player manually changes this, we will not try to adjust for it.
-			if((get_property("snojoSetting") == "MOXIE") && (get_property("snojoMoxieWins").to_int() >= 14))
-			{
-				string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
-				temp = run_choice(2);
-			}
+			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
+			temp = run_choice(2);
 		}
+		if((get_property("snojoSetting") == "MYSTICALITY") && (get_property("snojoMysticalityWins").to_int() >= 14) && (get_property("snojoSetting") != "MUSCLE") && (get_property("snojoMuscleWins").to_int() < 14))
+		{
+			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
+			temp = run_choice(1);
+		}
+		if((get_property("snojoSetting") == "MUSCLE") && (get_property("snojoMuscleWins").to_int() >= 11) && (get_property("snojoSetting") != "MOXIE"))
+		{
+			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
+			temp = run_choice(3);
+		}
+
+#		if(my_daycount() == 2)
+#		{
+#			# If a player manually changes this, we will not try to adjust for it.
+#			if((get_property("snojoSetting") == "MOXIE") && (get_property("snojoMoxieWins").to_int() >= 14))
+#			{
+#				string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
+#				temp = run_choice(2);
+#			}
+#		}
 	}
 	if(get_property("snojoSetting") == "NONE")
 	{
@@ -2189,6 +2305,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Biologically Shocked]:			useItem = $item[glowing syringe];				break;
 	case $effect[Bitterskin]:					useItem = $item[Bitter Pill];					break;
 	case $effect[Black Eyes]:					useItem = $item[Black Eye Shadow];				break;
+	case $effect[Blackberry Politeness]:		useItem = $item[Blackberry Polite];				break;
 	case $effect[Blessing of Serqet]:			useSkill = $skill[Blessing of Serqet];			break;
 	case $effect[Bloody Potato Bits]:			useSkill = $skill[none];						break;
 	case $effect[Bloodstain-Resistant]:			useItem = $item[Bloodstain Stick];				break;
@@ -2441,8 +2558,11 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Snarl of the Timberwolf]:		useSkill = $skill[Snarl of the Timberwolf];		break;
 	case $effect[Snow Shoes]:					useItem = $item[Snow Cleats];					break;
 	case $effect[Somewhat Poisoned]:			useSkill = $skill[Disco Nap];					break;
+	case $effect[Song of Accompaniment]:		useSkill = $skill[Song of Accompaniment];		break;
 	case $effect[Song of Battle]:				useSkill = $skill[Song of Battle];				break;
 	case $effect[Song of Bravado]:				useSkill = $skill[Song of Bravado];				break;
+	case $effect[Song of Cockiness]:			useSkill = $skill[Song of Cockiness];			break;
+	case $effect[Song of Fortune]:				useSkill = $skill[Song of Fortune];				break;
 	case $effect[Song of the Glorious Lunch]:	useSkill = $skill[Song of the Glorious Lunch];	break;
 	case $effect[Song of the North]:			useSkill = $skill[Song of the North];			break;
 	case $effect[Song of Sauce]:				useSkill = $skill[Song of Sauce];				break;
@@ -2464,6 +2584,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Springy Fusilli]:				useSkill = $skill[Springy Fusilli];				break;
 	case $effect[Squatting and Thrusting]:		useItem = $item[Squat-Thrust Magazine];			break;
 	case $effect[Stabilizing Oiliness]:			useItem = $item[Oil of Stability];				break;
+	case $effect[Standard Issue Bravery]:		useItem = $item[CSA Bravery Badge];				break;
 	case $effect[Steely-Eyed Squint]:			useSkill = $skill[Steely-Eyed Squint];			break;
 	case $effect[Steroid Boost]:				useItem = $item[Knob Goblin Steroids];			break;
 	case $effect[Stevedave\'s Shanty of Superiority]:useSkill = $skill[Stevedave\'s Shanty of Superiority];			break;

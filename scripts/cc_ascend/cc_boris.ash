@@ -14,14 +14,12 @@ void boris_initializeSettings()
 	if(my_path() == "Avatar of Boris")
 	{
 		set_property("cc_100familiar", true);
+		set_property("cc_ballroomsong", "finished");
 		set_property("cc_borisSkills", -1);
 #		set_property("cc_crackpotjar", "done");
+		set_property("cc_clancy", $item[Clancy\'s Sackbut]);
 		set_property("cc_cubeItems", false);
-#		set_property("cc_day1_dna", "finished");
-#		set_property("cc_getBeehive", false);
 		set_property("cc_getStarKey", true);
-#		set_property("cc_grimfairytale", "1");
-#		set_property("cc_grimstoneFancyOilPainting", false);
 		set_property("cc_grimstoneOrnateDowsingRod", false);
 		set_property("cc_holeinthesky", true);
 		set_property("cc_useCubeling", false);

@@ -9,6 +9,7 @@ import<cc_ascend/cc_elementalPlanes.ash>
 
 
 boolean cc_barrelPrayers();
+boolean cc_mayoItems();
 
 boolean chateaumantegna_available();
 void chateaumantegna_useDesk();
@@ -89,6 +90,16 @@ boolean cc_barrelPrayers()
 		case 4:				prayers = $strings[Protection, Glamour, Vigor];		break;
 		}
 	}
+	else if(my_path() == "Avatar of Boris")
+	{
+		switch(my_daycount())
+		{
+		case 1:				prayers = $strings[none];							break;
+		case 2:				prayers = $strings[Glamour, Vigor];					break;
+		case 3:				prayers = $strings[Glamour, Vigor];					break;
+		case 4:				prayers = $strings[Glamour, Vigor];					break;
+		}
+	}
 	else if(my_path() == "Actually Ed the Undying")
 	{
 		if((elementalPlanes_access($element[spooky])) && (get_property("edPoints").to_int() >= 2))
@@ -125,6 +136,10 @@ boolean cc_barrelPrayers()
 
 	foreach prayer in prayers
 	{
+		if(prayer == "none")
+		{
+			return false;
+		}
 		if(!get_property("prayedFor" + prayer).to_boolean())
 		{
 			boolean buff = cli_execute("barrelprayer " + prayer);
@@ -136,6 +151,82 @@ boolean cc_barrelPrayers()
 }
 
 
+boolean cc_mayoItems()
+{
+	if(!is_unrestricted($item[Portable Mayo Clinic]))
+	{
+		return false;
+	}
+	if(get_property("__mayoDeviceRented").to_boolean())
+	{
+		return false;
+	}
+	if(get_property("kingLiberated").to_boolean())
+	{
+		return false;
+	}
+	if(!(cc_get_campground() contains $item[Portable Mayo Clinic]))
+	{
+		return false;
+	}
+	if(my_meat() < 10000)
+	{
+		return false;
+	}
+
+	boolean haveYR = false;
+	if(have_familiar($familiar[Crimbo Shrub]))
+	{
+		haveYR = true;
+	}
+
+	boolean[item] mayos;
+	if(my_path() == "Avatar of Boris")
+	{
+		switch(my_daycount())
+		{
+		case 1:				mayos = $items[Tomayohawk-Style Reflex Hammer];		break;
+		case 2:				mayos = $items[Mayo Lance];							break;
+		case 3:				mayos = $items[Mayo Lance];							break;
+		case 4:				mayos = $items[Mayo Lance];							break;
+		}
+	}
+	else if((my_path() == "Heavy Rains") && !in_hardcore())
+	{
+		switch(my_daycount())
+		{
+		case 1:				mayos = $items[none];								break;
+		case 2:				mayos = $items[Miracle Whip];						break;
+		case 3:				mayos = $items[Sphygmayomanometer];					break;
+		case 4:				mayos = $items[Sphygmayomanometer];					break;
+		}
+	}
+	else
+	{
+		switch(my_daycount())
+		{
+		case 1:				mayos = $items[Tomayohawk-Style Reflex Hammer];		break;
+		case 2:				mayos = $items[Mayo Lance];							break;
+		case 3:				mayos = $items[Sphygmayomanometer];					break;
+		case 4:				mayos = $items[Mayo Lance];							break;
+		}
+	}
+
+	foreach mayo in mayos
+	{
+		if(mayo == $item[none])
+		{
+			return false;
+		}
+		if(item_amount(mayo) == 0)
+		{
+			buy(1, mayo);
+			return true;
+		}
+	}
+
+	return false;
+}
 
 
 
@@ -595,134 +686,242 @@ boolean deck_useScheme(string action)
 	{
 		return false;
 	}
-	if((action == "turns") && (my_daycount() <= 2))
+
+	boolean[string] cards;
+
+	if(action == "farming")
 	{
-		deck_cheat("Ancestral Recall");
-		deck_cheat("Island");
+		cards = $strings[Ancestral Recall, Island, 1952 Mickey Mante];
+	}
+	else if(action == "turns")
+	{
+		cards = $strings[Ancestral Recall, Island];
 		if((get_property("cc_trapper") == "") || (get_property("cc_trapper") == "start"))
 		{
-			deck_cheat("Mine");
+			cards = $strings[Ancestral Recall, Island, Mine];
 		}
-		while(item_amount($item[Blue Mana]) > 0)
-		{
-			use_skill(1, $skill[Ancestral Recall]);
-		}
-		return true;
 	}
-	if((action == "sc1") || (action == "hc1"))
+#	else if((action == "") && !in_hardcore() && !isGuildClass())
+#	{
+#		switch(my_daycount())
+#		{
+#		case 1:				cards = $strings[none];		break;
+#		}
+#	}
+#	else if((action == "") && !in_hardcore() && isGuildClass())
+#	{
+#		switch(my_daycount())
+#		{
+#		case 1:				cards = $strings[none];		break;
+#		}
+#	}
+#	else if((action == "") && in_hardcore() && !isGuildClass())
+	else
 	{
-		if(!is_unrestricted($item[The Smith\'s Tome]))
+		switch(my_class())
 		{
-			switch(my_class())
+		case $class[Seal Clubber]:
+			if(!is_unrestricted($item[The Smith\'s Tome]))
 			{
-			case $class[Seal Clubber]:		deck_cheat("Lead Pipe");	break;
-			case $class[Turtle Tamer]:		deck_cheat("Lead Pipe");	break;
-			case $class[Pastamancer]:		deck_cheat("Wrench");		break;
-			case $class[Sauceror]:			deck_cheat("Candlestick");	break;
-			case $class[Disco Bandit]:		deck_cheat("Knife");		break;
-			case $class[Accordion Thief]:
-				deck_cheat("key");
-				set_property("cc_cubeItems", false);
-				break;
-			}
-		}
-		else
-		{
-			if(my_class() == $class[Ed])
-			{
-				deck_cheat("ore");
+				switch(my_daycount())
+				{
+				case 1:				cards["Lead Pipe"] = true;		break;
+				case 2:				cards["Lead Pipe"] = true;		break;
+				case 3:				cards["Lead Pipe"] = true;		break;
+				}
 			}
 			else
 			{
-				deck_cheat("key");
+				switch(my_daycount())
+				{
+				case 1:				cards["key"] = true;						break;
+				case 2:				cards["key"] = true;						break;
+				case 3:				cards["key"] = true;		break;
+				}
+			}
+			break;
+		case $class[Turtle Tamer]:
+			if(!is_unrestricted($item[The Smith\'s Tome]))
+			{
+				switch(my_daycount())
+				{
+				case 1:				cards["Lead Pipe"] = true;		break;
+				case 2:				cards["Lead Pipe"] = true;		break;
+				case 3:				cards["Lead Pipe"] = true;		break;
+				}
+			}
+			else
+			{
+				switch(my_daycount())
+				{
+				case 1:				cards["key"] = true;						break;
+				case 2:				cards["key"] = true;						break;
+				case 3:				cards["key"] = true;		break;
+				}
+			}
+			break;
+		case $class[Pastamancer]:
+			if(!is_unrestricted($item[The Smith\'s Tome]))
+			{
+				switch(my_daycount())
+				{
+				case 1:				cards["Wrench"] = true;		break;
+				case 2:				cards["Wrench"] = true;		break;
+				case 3:				cards["Wrench"] = true;		break;
+				}
+			}
+			else
+			{
+				switch(my_daycount())
+				{
+				case 1:				cards["key"] = true;						break;
+				case 2:				cards["key"] = true;						break;
+				case 3:				cards["key"] = true;		break;
+				}
+			}
+			break;
+		case $class[Sauceror]:
+			if(!is_unrestricted($item[The Smith\'s Tome]))
+			{
+				switch(my_daycount())
+				{
+				case 1:				cards["Candlestick"] = true;		break;
+				case 2:				cards["Candlestick"] = true;		break;
+				case 3:				cards["Candlestick"] = true;		break;
+				}
+			}
+			else
+			{
+				switch(my_daycount())
+				{
+				case 1:				cards["key"] = true;						break;
+				case 2:				cards["key"] = true;						break;
+				case 3:				cards["key"] = true;		break;
+				}
+			}
+			break;
+		case $class[Disco Bandit]:
+			if(!is_unrestricted($item[The Smith\'s Tome]))
+			{
+				switch(my_daycount())
+				{
+				case 1:				cards["Knife"] = true;		break;
+				case 2:				cards["Knife"] = true;		break;
+				case 3:				cards["Knife"] = true;		break;
+				}
+			}
+			else
+			{
+				switch(my_daycount())
+				{
+				case 1:				cards["key"] = true;						break;
+				case 2:				cards["key"] = true;						break;
+				case 3:				cards["key"] = true;		break;
+				}
+			}
+			break;
+		case $class[Accordion Thief]:
+			if(!is_unrestricted($item[The Smith\'s Tome]))
+			{
+				switch(my_daycount())
+				{
+				case 1:				cards["key"] = true;						break;
+				case 2:				cards["key"] = true;						break;
+				case 3:				cards["key"] = true;		break;
+				}
+			}
+			else
+			{
+				switch(my_daycount())
+				{
+				case 1:				cards["key"] = true;						break;
+				case 2:				cards["key"] = true;						break;
+				case 3:				cards["key"] = true;		break;
+				}
+			}
+			break;
+		case $class[Avatar of Boris]:
+			switch(my_daycount())
+			{
+			case 1:				cards["key"] = true;						break;
+			case 2:				cards["key"] = true;						break;
+			case 3:				cards["1952 Mickey Mantle"] = true;						break;
+			}
+			break;
+		case $class[Ed]:
+			switch(my_daycount())
+			{
+			case 1:				cards["ore"] = true;						break;
+			case 2:				cards["ore"] = true;						break;
+			}
+			break;
+		}
+
+		switch(my_daycount())
+		{
+		case 1:
+			cards[my_primestat() + " stat"] = true;
+			cards["1952 Mickey Mantle"] = true;
+			break;
+		case 2:
+			if(item_amount($item[Stone Wool]) == 0)
+			{
+				cards["Sheep"] = true;
+			}
+			cards["ore"] = true;
+			break;
+		case 3:
+			cards["key"] = true;
+			#cards["Ancestral Recall"] = true;
+			break;
+		}
+
+	}
+#	else if((action == "") && in_hardcore() && isGuildClass())
+#	{
+#		cards = $strings[none];
+#	}
+#	else
+#	{
+#		switch(my_daycount())
+#		{
+#		default:				cards = $strings[none];							break;
+#		}
+#	}
+
+	if(count(cards) == 0)
+	{
+		return false;
+	}
+
+	foreach card in cards
+	{
+		if(card == "key")
+		{
+			if(my_daycount() == 1)
+			{
 				set_property("cc_cubeItems", false);
 			}
-		}
-		deck_cheat(my_primestat() + " stat");
-		deck_cheat("1952 Mickey Mantle");
-		autosell(1, $item[1952 Mickey Mantle Card]);
-		return true;
-	}
-	if((action == "sc2") || (action == "hc2"))
-	{
-		if(!is_unrestricted($item[The Smith\'s Tome]))
-		{
-			switch(my_class())
+			if(towerKeyCount() >= 3)
 			{
-			case $class[Seal Clubber]:		deck_cheat("Lead Pipe");	break;
-			case $class[Turtle Tamer]:		deck_cheat("Lead Pipe");	break;
-			case $class[Pastamancer]:		deck_cheat("Wrench");		break;
-			case $class[Sauceror]:			deck_cheat("Candlestick");	break;
-			case $class[Disco Bandit]:		deck_cheat("Knife");		break;
-			case $class[Accordion Thief]:	deck_cheat("key");			break;
+				continue;
 			}
 		}
-		else if(my_class() == $class[Ed])
-		{
-			deck_cheat("ore");
-		}
-		else
-		{
-			deck_cheat("key");
-		}
-		if(item_amount($item[Stone Wool]) == 0)
-		{
-			deck_cheat("Sheep");
-		}
-		else
-		{
-			deck_cheat("Island");
-		}
-		deck_cheat("ore");
-		return true;
+		deck_cheat(card);
 	}
-	if(action == "farming")
+
+	if(action == "")
 	{
-		deck_cheat("Ancestral Recall");
-		deck_cheat("Island");
-		deck_cheat("1952 Mickey Mantle");
+		autosell(min(1, item_amount($item[1952 Mickey Mantle Card])), $item[1952 Mickey Mantle Card]);
+	}
+
+	if((action == "farming") || (action == "turns"))
+	{
 		while(item_amount($item[Blue Mana]) > 0)
 		{
 			use_skill(1, $skill[Ancestral Recall]);
 		}
-		return true;
-	}
-	if(action == "HC1stats")
-	{
-		deck_cheat("key");
-		deck_cheat("ore");
-		deck_cheat("" + my_primestat() + " stat");
-		return true;
-	}
-	if(action == "HC2")
-	{
-		deck_cheat("ore");
-		deck_cheat("key");
-		deck_cheat("stone wool");
-		return true;
-	}
-	if(action == "hc3")
-	{
-		if(!is_unrestricted($item[The Smith\'s Tome]))
-		{
-			switch(my_class())
-			{
-			case $class[Seal Clubber]:		deck_cheat("Lead Pipe");	break;
-			case $class[Turtle Tamer]:		deck_cheat("Lead Pipe");	break;
-			case $class[Pastamancer]:		deck_cheat("Wrench");		break;
-			case $class[Sauceror]:			deck_cheat("Candlestick");	break;
-			case $class[Disco Bandit]:		deck_cheat("Knife");		break;
-			case $class[Accordion Thief]:	deck_cheat("Island");		break;
-			}
-		}
-		else
-		{
-			deck_cheat("Island");
-		}
-		deck_cheat("key");
-		deck_cheat("Ancestral Recall");
-		return true;
 	}
 
-	return false;
+	return true;
 }

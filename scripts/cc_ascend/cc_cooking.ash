@@ -238,7 +238,8 @@ boolean ccEat(int howMany, item toEat)
 	boolean retval = false;
 	while(howMany > 0)
 	{
-		if((cc_get_campground() contains $item[Portable Mayo Clinic]) && (my_meat() > 11000))
+		buffMaintain($effect[Song of the Glorious Lunch], 10, 1, toEat.fullness);
+		if((cc_get_campground() contains $item[Portable Mayo Clinic]) && (my_meat() > 11000) && (get_property("mayoInMouth") == ""))
 		{
 			buyUpTo(1, $item[Mayoflex], 1000);
 			use(1, $item[Mayoflex]);
@@ -513,7 +514,7 @@ void consumeStuff()
 			}
 		}
 
-		if((get_property("cc_ballroomsong") == "finished") && (get_property("_speakeasyDrinksDrunk").to_int() == 1) && (my_mp() >= (mpForOde+30)) && ((my_inebriety() + 2) <= inebriety_limit()))
+		if((get_property("cc_ballroomsong") == "finished") && (get_property("_speakeasyDrinksDrunk").to_int() == 1) && (my_mp() >= (mpForOde+30)) && ((my_inebriety() + 2) <= inebriety_limit()) && !($classes[Avatar of Boris, Ed] contains my_class()))
 		{
 			if(item_amount($item[Clan VIP Lounge Key]) > 0)
 			{
@@ -809,11 +810,20 @@ void consumeStuff()
 					buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 					buffMaintain($effect[Got Milk], 0, 1, 1);
 				}
-				ccEat(1, $item[Boris\'s Key Lime Pie]);
-				ccEat(1, $item[Jarlsberg\'s Key Lime Pie]);
-				ccEat(1, $item[Sneaky Pete\'s Key Lime Pie]);
+				if(item_amount($item[Boris\'s Key Lime Pie]) > 0)
+				{
+					ccEat(1, $item[Boris\'s Key Lime Pie]);
+				}
+				if(item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0)
+				{
+					ccEat(1, $item[Jarlsberg\'s Key Lime Pie]);
+				}
+				if(item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0)
+				{
+					ccEat(1, $item[Sneaky Pete\'s Key Lime Pie]);
+				}
 				#cli_execute("eat 1 video games hot dog");
-				if(my_fullness() != 15)
+				if(fullness_left() > 0)
 				{
 					tryPantsEat();
 					tryPantsEat();

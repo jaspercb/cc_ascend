@@ -75,6 +75,8 @@ boolean L8_trapperStart();
 boolean L7_crypt();
 boolean L8_trapperGround();
 boolean L8_trapperYeti();
+boolean L8_trapperExtreme();
+boolean L8_trapperGroar();
 boolean L9_chasmStart();
 boolean L9_chasmBuild();
 boolean L9_highLandlord();
@@ -186,3 +188,7 @@ boolean possessEquipment(item equipment);		//Defined in cc_ascend/cc_equipment.a
 //Wrapper for get_campground(), primarily deals with the oven issue in Ed.
 //Also uses Garden item as identifier for the garden in addition to what get_campground() does
 int[item] cc_get_campground();					//Defined in cc_ascend/cc_util.ash
+
+
+//Returns how many Hero Keys and Phat Loot tokens we have.
+int towerKeyCount();							//Defined in cc_ascend/cc_util.ash

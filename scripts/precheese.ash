@@ -81,6 +81,28 @@ void handlePreAdventure(location place)
 		uneffect($effect[Scarysauce]);
 	}
 
+	if(my_path() == $class[Avatar of Boris])
+	{
+		if((have_effect($effect[Song of Solitude]) == 0) && (have_effect($effect[Song of Battle]) == 0))
+		{
+			//When do we consider Song of Cockiness?
+			buffMaintain($effect[Song of Fortune], 10, 1, 1);
+			if(have_effect($effect[Song of Fortune]) == 0)
+			{
+				buffMaintain($effect[Song of Accompaniment], 10, 1, 1);
+			}
+		}
+		else if((place.turns_spent > 1) && (place != get_property("cc_priorLocation").to_location()))
+		{
+			//When do we consider Song of Cockiness?
+			buffMaintain($effect[Song of Fortune], 10, 1, 1);
+			if(have_effect($effect[Song of Fortune]) == 0)
+			{
+				buffMaintain($effect[Song of Accompaniment], 10, 1, 1);
+			}
+		}
+	}
+
 
 	if(my_class() == $class[Ed])
 	{
@@ -91,6 +113,10 @@ void handlePreAdventure(location place)
 				if(item_amount($item[Magical Mystery Juice]) > 0)
 				{
 					use(1, $item[Magical Mystery Juice]);
+				}
+				else if(item_amount($item[Grogpagne]) > 0)
+				{
+					use(1, $item[Grogpagne]);
 				}
 				else if(item_amount($item[Phonics Down]) > 0)
 				{
@@ -104,10 +130,17 @@ void handlePreAdventure(location place)
 				{
 					use(1, $item[Holy Spring Water]);
 				}
+				else if(item_amount($item[Spirit Beer]) > 0)
+				{
+					use(1, $item[Spirit Beer]);
+				}
+				else if(item_amount($item[Sacramental Wine]) > 0)
+				{
+					use(1, $item[Sacramental Wine]);
+				}
 			}
 			buffMaintain($effect[Shelter of Shed], 15, 1, 1);
 		}
-		return;
 	}
 
 
@@ -172,7 +205,7 @@ void handlePreAdventure(location place)
 	{
 		print("Warning, we don't have a lot of MP but we are chugging along anyway", "red");
 	}
-
+	set_property("cc_priorLocation", place);
 	print("Pre Adventure at " + place + " done, beep.", "blue");
 }
 
