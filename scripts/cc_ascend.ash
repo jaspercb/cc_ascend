@@ -5774,6 +5774,15 @@ boolean L12_sonofaBeach()
 		set_property("cc_doCombatCopy", "yes");
 	}
 
+	if(numeric_modifier("Combat Rate") <= 9.0)
+	{
+		if(possessEquipment($item[Carpe]))
+		{
+			equip($slot[Back], $item[Carpe]);
+		}
+	}
+
+
 	//Seriously? http://alliancefromhell.com/viewtopic.php?t=1338
 	if(item_amount($item[Wool Hat]) == 1)
 	{
@@ -10082,6 +10091,14 @@ boolean LX_fcle()
 		handleFamiliar("item");
 	}
 
+	if(numeric_modifier("Combat Rate") <= 9.0)
+	{
+		if(possessEquipment($item[Carpe]))
+		{
+			equip($slot[Back], $item[Carpe]);
+		}
+	}
+
 	if(numeric_modifier("Combat Rate") < 0.0)
 	{
 		print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and F'c'le, continuning but not happy about it..", "red");
@@ -10630,6 +10647,15 @@ boolean L8_trapperYeti()
 		{
 			adjustEdHat("myst");
 		}
+
+		if(numeric_modifier("Combat Rate") <= 9.0)
+		{
+			if(possessEquipment($item[Carpe]))
+			{
+				equip($slot[Back], $item[Carpe]);
+			}
+		}
+
 		if(numeric_modifier("Combat Rate") <= 0.0)
 		{
 			print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Ninja Snowmen.", "red");
@@ -11148,7 +11174,6 @@ boolean doTasks()
 		doNumberology("adventures3");
 	}
 
-
 	if(LA_cs_communityService())
 	{
 		return true;
@@ -11171,6 +11196,31 @@ boolean doTasks()
 		}
 	}
 
+
+	if(!get_property("_cc_codpieceGet").to_boolean())
+	{
+		if(possessEquipment($item[Codpiece]))
+		{
+			use(1, $item[Codpiece]);
+			set_property("_cc_codpieceGet", true);
+		}
+	}
+	if(!get_property("_cc_clarinetGet").to_boolean())
+	{
+		if(possessEquipment($item[Bass Clarinet]))
+		{
+			use(1, $item[Bass Clarinet]);
+			set_property("_cc_clarinetGet", true);
+		}
+	}
+	if(!get_property("_cc_hatchetGet").to_boolean())
+	{
+		if(possessEquipment($item[Fish Hatchet]))
+		{
+			use(1, $item[Fish Hatchet]);
+			set_property("_cc_hatchetGet", true);
+		}
+	}
 
 	buyableMaintain($item[Ben-gal&trade; Balm], 1, 200);
 	buyableMaintain($item[Turtle Pheromones], 1, 800, my_class() == $class[Turtle Tamer]);
