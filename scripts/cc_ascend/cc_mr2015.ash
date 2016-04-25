@@ -691,7 +691,7 @@ boolean deck_useScheme(string action)
 
 	if(action == "farming")
 	{
-		cards = $strings[Ancestral Recall, Island, 1952 Mickey Mante];
+		cards = $strings[Ancestral Recall, Island, 1952 Mickey Mantle];
 	}
 	else if(action == "turns")
 	{
@@ -907,7 +907,11 @@ boolean deck_useScheme(string action)
 				continue;
 			}
 		}
-		deck_cheat(card);
+		if(!deck_cheat(card))
+		{
+			print("Could not draw card for some reason, we may be stuck in a choice adventure.");
+			abort("Failure when drawing cards, if any were drawn, the rest will NOT be drawn. Draw them and resume.");
+		}
 	}
 
 	if(action == "")
@@ -917,9 +921,11 @@ boolean deck_useScheme(string action)
 
 	if((action == "farming") || (action == "turns"))
 	{
-		while(item_amount($item[Blue Mana]) > 0)
+		int count = item_amount($item[Blue Mana]);
+		while((count > 0) && (get_property("_ancestralRecallCasts").to_int() < 10))
 		{
 			use_skill(1, $skill[Ancestral Recall]);
+			count -= 1;
 		}
 	}
 

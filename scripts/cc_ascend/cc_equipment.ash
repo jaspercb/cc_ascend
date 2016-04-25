@@ -426,10 +426,10 @@ void equipBaselineWeapon()
 	switch(my_class())
 	{
 	case $class[Seal Clubber]:
-		poss = $items[Seal-Clubbing Club, Gnollish Flyswatter, Club of Corruption, Remaindered Axe, Skeleton Bone, Corrupt Club of Corruption, Flaming Crutch, Homoerotic Frat-Paddle, Kneecapping Stick, Corrupt Club of Corrupt Corruption, Spiked Femur, Severed Flipper, Mannequin Leg, Infernal Toilet Brush, Hilarious Comedy Prop, Giant Foam Finger, Red Hot Poker, Maxwell\'s Silver Hammer, Elegant Nightstick, Oversized Pipe, Ghast Iron Cleaver, Frozen Seal Spine, Stainless Steel Shillelagh, Porcelain Police Baton, Lead Pipe, Meat Tenderizer Is Murder, Dented Scepter];
+		poss = $items[Seal-Clubbing Club, Gnollish Flyswatter, Club of Corruption, Remaindered Axe, Skeleton Bone, Corrupt Club of Corruption, Flaming Crutch, Homoerotic Frat-Paddle, Kneecapping Stick, Corrupt Club of Corrupt Corruption, Spiked Femur, Severed Flipper, Mannequin Leg, Infernal Toilet Brush, Hilarious Comedy Prop, Giant Foam Finger, Red Hot Poker, Maxwell\'s Silver Hammer, Elegant Nightstick, Oversized Pipe, Ghast Iron Cleaver, Frozen Seal Spine, Stainless Steel Shillelagh, Porcelain Police Baton, Fish Hatchet, Lead Pipe, Meat Tenderizer Is Murder, Dented Scepter];
 		break;
 	case $class[Turtle Tamer]:
-		poss = $items[Turtle Totem, Witty Rapier, Antique Machete, Short-Handled Mop, Rope, Lead Pipe, Work Is A Four Letter Sword, Garbage Sticker];
+		poss = $items[Turtle Totem, Witty Rapier, Antique Machete, Short-Handled Mop, Rope, Lead Pipe, Fish Hatchet, Work Is A Four Letter Sword, Garbage Sticker];
 		break;
 	case $class[Sauceror]:
 		poss = $items[Saucepan, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Thor\'s Pliers, Candlestick, Saucepanic];
