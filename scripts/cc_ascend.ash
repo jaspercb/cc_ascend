@@ -2931,6 +2931,7 @@ boolean L11_palindome()
 
 					if(get_property("lastGuildStoreOpen").to_int() < my_ascensions())
 					{
+						print("This is probably no longer needed as of r16907. Please remove me", "blue");
 						print("Going to pretend we have unlocked the Guild because Mafia will assume we need to do that before going to Whitey's Grove and screw up us. We'll fix it afterwards.", "red");
 					}
 					backupSetting("lastGuildStoreOpen", my_ascensions());

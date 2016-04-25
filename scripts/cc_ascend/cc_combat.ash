@@ -908,6 +908,18 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+
+	if((!contains_text(combatState, "banishing shout")) && (have_skill($skill[Banishing Shout])) && (my_mp() > mp_cost($skill[Banishing Shout])))
+	{
+		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Drunk Goat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Natural Spider, Plaid Ghost, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Janitor, Pygmy Orderlies, Senile Lihc, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Taco Cat, Tan Gnat, Tomb Asp, Tomb Servant, wardr&ouml;b nightstand] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(banishing shout)");
+			handleTracker(enemy, $skill[Banishing Shout], "cc_banishes");
+			return "skill " + $skill[Banishing Shout];
+		}
+	}
+
+
 	#Only Batter Up
 	if((!contains_text(combatState, "batter up!")) && (have_skill($skill[batter up!])) && (my_fury() >= 5))
 	{
@@ -1659,10 +1671,15 @@ string findBanisher(int round, string opp, string text)
 		}
 	}
 
-	foreach act in $skills[Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Snokebomb, Beancannon]
+	foreach act in $skills[Banishing Shout, Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Snokebomb, Beancannon]
 	{
 		if((!contains_text(get_property("cc_gremlinBanishes"), act)) && have_skill(act) && (my_mp() >= mp_cost(act)) && (my_thunder() >= thunder_cost(act)) && have_skill(act))
 		{
+			if(act == $skill[Banishing Shout])
+			{
+				handleTracker(enemy, act, "cc_banishes");
+				return "skill " + act;
+			}
 			if((act == $skill[Batter Up!]) && (my_fury() < 5))
 			{
 				continue;
