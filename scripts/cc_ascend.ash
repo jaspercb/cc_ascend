@@ -10591,6 +10591,10 @@ boolean L8_trapperYeti()
 		}
 	}
 
+	if((item_amount($item[Ninja Rope]) >= 1) && (item_amount($item[Ninja Carabiner]) >= 1) && (item_amount($item[Ninja Crampons]) >= 1))
+	{
+		return false;
+	}
 
 	if(in_hardcore())
 	{
