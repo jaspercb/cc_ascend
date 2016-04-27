@@ -10126,20 +10126,12 @@ boolean LX_pirateBeerPong()
 	#	handlePreAdventure($location[Barrrney\'s Barrr]);
 	#	We can get a Doghouse adventure here....
 
-
-	switch(my_primestat())
-	{
-	case $stat[Muscle]:			backupSetting("choiceAdventure184", 1);		break;
-	case $stat[Mysticality]:	backupSetting("choiceAdventure184", 2);		break;
-	case $stat[Moxie]:			backupSetting("choiceAdventure184", 1);		break;
-	}
-
+	set_property("choiceAdventure184", 6);
 
 	if(numPirateInsults() < 6)
 	{
 		set_property("choiceAdventure187", "2");
 		ccAdv(1, $location[barrrney\'s barrr]);
-		restoreSetting("choiceAdventure184");
 		return true;
 	}
 	else
@@ -10156,7 +10148,6 @@ boolean LX_pirateBeerPong()
 	{
 		ccAdv(1, $location[barrrney\'s barrr]);
 	}
-	restoreSetting("choiceAdventure184");
 	return true;
 }
 
