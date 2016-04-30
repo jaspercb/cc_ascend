@@ -9,7 +9,6 @@ void debugMaximize(string req, int meat);			//This function will be removed.
 boolean ccMaximize(string req, boolean simulate);
 boolean ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate);
 aggregate ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate, boolean includeEquip);
-boolean snojoFightAvailable();
 int doNumberology(string goal);
 int doNumberology(string goal, string option);
 int doNumberology(string goal, boolean doIt);
@@ -117,6 +116,8 @@ boolean lastAdventureSpecialNC();
 boolean backupSetting(string setting, string newValue);
 boolean restoreSetting(string setting);
 boolean restoreAllSettings();
+int[monster] banishedMonsters();
+boolean isBanished(monster enemy);
 
 
 // Private Prototypes
@@ -531,6 +532,26 @@ boolean restoreSetting(string setting)
 		return true;
 	}
 	return false;
+}
+
+int[monster] banishedMonsters()
+{
+	int[monster] retval;
+	string[int] data = split_string(get_property("banishedMonsters"), ":");
+
+	int i=0;
+	while(i<count(data))
+	{
+		retval[to_monster(data[i])] = to_int(data[i+2]);
+		i += 3;
+	}
+
+	return retval;
+}
+
+boolean isBanished(monster enemy)
+{
+	return (banishedMonsters() contains enemy);
 }
 
 boolean is_avatar_potion(item it)
@@ -1547,63 +1568,6 @@ int lumberCount()
 	base = base + item_amount($item[Messy Butt Joint]);
 
 	return base;
-}
-
-boolean snojoFightAvailable()
-{
-	if(!is_unrestricted($item[X-32-F Snowman Crate]))
-	{
-		return false;
-	}
-	if(!get_property("snojoAvailable").to_boolean())
-	{
-		return false;
-	}
-
-	if(!get_property("kingLiberated").to_boolean())
-	{
-#		if((my_daycount() == 1) && (get_property("snojoSetting") != "MOXIE"))
-#		{
-#			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
-#			temp = run_choice(3);
-#		}
-		if((get_property("snojoMoxieWins").to_int() < 14) && (get_property("snojoSetting") != "MOXIE"))
-		{
-			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
-			temp = run_choice(3);
-		}
-		if((get_property("snojoSetting") == "MOXIE") && (get_property("snojoMoxieWins").to_int() >= 14) && (get_property("snojoSetting") != "MYSTICALITY") && (get_property("snojoMysticalityWins").to_int() < 14))
-		{
-			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
-			temp = run_choice(2);
-		}
-		if((get_property("snojoSetting") == "MYSTICALITY") && (get_property("snojoMysticalityWins").to_int() >= 14) && (get_property("snojoSetting") != "MUSCLE") && (get_property("snojoMuscleWins").to_int() < 14))
-		{
-			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
-			temp = run_choice(1);
-		}
-		if((get_property("snojoSetting") == "MUSCLE") && (get_property("snojoMuscleWins").to_int() >= 11) && (get_property("snojoSetting") != "MOXIE"))
-		{
-			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
-			temp = run_choice(3);
-		}
-
-#		if(my_daycount() == 2)
-#		{
-#			# If a player manually changes this, we will not try to adjust for it.
-#			if((get_property("snojoSetting") == "MOXIE") && (get_property("snojoMoxieWins").to_int() >= 14))
-#			{
-#				string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
-#				temp = run_choice(2);
-#			}
-#		}
-	}
-	if(get_property("snojoSetting") == "NONE")
-	{
-		print("Snojo not set, attempting to set to " + my_primestat(), "blue");
-		visit_url("place.php?whichplace=snojo&action=snojo_controller");
-	}
-	return (get_property("_snojoFreeFights").to_int() < 10);
 }
 
 int doNumberology(string goal)

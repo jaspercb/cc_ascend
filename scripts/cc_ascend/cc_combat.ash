@@ -909,7 +909,7 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 
 
-	if((!contains_text(combatState, "banishing shout")) && (have_skill($skill[Banishing Shout])) && (my_mp() > mp_cost($skill[Banishing Shout])))
+	if((!contains_text(combatState, "banishing shout")) && (have_skill($skill[Banishing Shout])) && (my_mp() > mp_cost($skill[Banishing Shout])) && !isBanished(enemy))
 	{
 		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Drunk Goat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Natural Spider, Plaid Ghost, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Janitor, Pygmy Orderlies, Senile Lihc, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Taco Cat, Tan Gnat, Tomb Asp, Tomb Servant, wardr&ouml;b nightstand] contains enemy)
 		{

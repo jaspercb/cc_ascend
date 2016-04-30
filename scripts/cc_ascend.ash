@@ -1212,7 +1212,7 @@ int handlePulls(int day)
 			{
 				pullXWhenHaveY($item[snow suit], 1, 0);
 			}
-			if(!possessEquipment($item[Snow Suit]) && !possessEquipment($item[Filthy Child Leash]))
+			if(!possessEquipment($item[Snow Suit]) && !possessEquipment($item[Filthy Child Leash]) && !possessEquipment($item[Astral Pet Sweater]))
 			{
 				pullXWhenHaveY($item[Filthy Child Leash], 1, 0);
 			}
@@ -5129,6 +5129,7 @@ boolean LX_dinseylandfillFunbucks()
 		# We do this after the item check since we may have an extra bag and we should turn that in.
 		return false;
 	}
+	buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
 	ccAdv(1, $location[Barf Mountain]);
 	return true;
 }

@@ -184,7 +184,7 @@ void handlePreAdventure(location place)
 		useCocoon();
 	}
 
-	if(in_hardcore() && (my_class() == $class[Sauceror]) && (my_mp() < 32))
+	if(in_hardcore() && (my_class() == $class[Sauceror]) && (my_mp() < 32) && (my_maxmp() >= 32))
 	{
 		while((my_meat() > 2500) && (my_mp() < 32))
 		{
