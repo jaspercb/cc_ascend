@@ -869,6 +869,7 @@ boolean deck_useScheme(string action)
 				cards["Sheep"] = true;
 			}
 			cards["ore"] = true;
+			cards["1952 Mickey Mantle"] = true;
 			break;
 		case 3:
 			cards["key"] = true;
