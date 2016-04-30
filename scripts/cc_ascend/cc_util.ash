@@ -1388,15 +1388,15 @@ int towerKeyCount()
 	}
 
 	int tokens = item_amount($item[fat loot token]);
-	if(item_amount($item[boris\'s key]) > 0)
+	if((item_amount($item[Boris\'s Key]) > 0) || contains_text(get_property("nsTowerDoorKeysUsed"), $item[Boris\'s Key]))
 	{
 		tokens = tokens + 1;
 	}
-	if(item_amount($item[jarlsberg\'s key]) > 0)
+	if((item_amount($item[Jarlsberg\'s Key]) > 0) || contains_text(get_property("nsTowerDoorKeysUsed"), $item[Jarlsberg\'s Key]))
 	{
 		tokens = tokens + 1;
 	}
-	if(item_amount($item[sneaky pete\'s key]) > 0)
+	if((item_amount($item[Sneaky Pete\'s Key]) > 0) || contains_text(get_property("nsTowerDoorKeysUsed"), $item[Sneaky Pete\'s Key]))
 	{
 		tokens = tokens + 1;
 	}
