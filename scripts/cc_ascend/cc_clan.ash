@@ -190,7 +190,7 @@ int [item] get_clan_furniture()
 	{
 		clanItems[$item[Clan Floundry]] = 1;
 	}
-	matcher hotdog_matcher = create_matcher("Hot Dog Stand", vipMain);
+	matcher hotdog_matcher = create_matcher("Hot Dog Stand", vipOld);
 	if(hotdog_matcher.find() && is_unrestricted($item[Clan Hot Dog Stand]))
 	{
 		clanItems[$item[Clan Hot Dog Stand]] = 1;

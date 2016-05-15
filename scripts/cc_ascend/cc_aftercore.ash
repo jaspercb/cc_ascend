@@ -834,6 +834,7 @@ boolean cc_cheesePostCS()
 		equip($slot[acc3], $item[Mr. Cheeng\'s Spectacles]);
 	}
 	handleFamiliar($familiar[Golden Monkey]);
+	handleFamiliar($familiar[Intergnat]);
 	if(item_amount($item[Snow Suit]) > 0)
 	{
 		equip($item[Snow Suit]);

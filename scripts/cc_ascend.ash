@@ -6286,6 +6286,11 @@ boolean L10_holeInTheSkyUnlock()
 	{
 		return false;
 	}
+	if(get_property("cc_castlebasement") != "finished")
+	{
+		return false;
+	}
+
 	if(!get_property("cc_holeinthesky").to_boolean())
 	{
 		return false;
@@ -7803,6 +7808,10 @@ boolean L5_goblinKing()
 boolean L4_batCave()
 {
 	if(get_property("cc_bat") == "finished")
+	{
+		return false;
+	}
+	if(my_level() < 4)
 	{
 		return false;
 	}
@@ -10428,6 +10437,10 @@ boolean L8_trapperGroar()
 	if((item_amount($item[Ninja Rope]) >= 1) && (item_amount($item[Ninja Carabiner]) >= 1) && (item_amount($item[Ninja Crampons]) >= 1))
 	{
 		canGroar = true;
+	}
+	if((internalQuestStatus("questL08Trapper") == 2) && (get_property("currentExtremity").to_int() == 3))
+	{
+		string temp = visit_url("place.php?whichplace=mclargehuge&action=cloudypeak");
 	}
 	if((internalQuestStatus("questL08Trapper") >= 3) && (get_property("currentExtremity").to_int() == 0))
 	{

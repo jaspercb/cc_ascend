@@ -697,6 +697,12 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Broadside];
 		}
 
+		if(!contains_text(combatState, "soulbubble") && have_skill($skill[Soul Saucery]) && (my_soulsauce() >= soulsauce_cost($skill[Soul Bubble])))
+		{
+			set_property("cc_combatHandler", combatState + "(soulbubble)");
+			return "skill " + $skill[Soul Bubble];
+		}
+
 		if(!contains_text(combatState, "hogtie") && !contains_text(combatState, "beanscreen") && have_skill($skill[Hogtie]) && (my_mp() >= (6 * mp_cost($skill[Hogtie]))) && hasLeg(enemy))
 		{
 			set_property("cc_combatHandler", combatState + "(hogtie)");
@@ -1014,6 +1020,9 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 		}
 
+//		Can not use _usedReplicaBatoomerang if we have more than 1 because of the double item use issue...
+//		Sure, we can try to use a second item (if we have it or are forced to buy it... ugh).
+//		if(!contains_text(combatState, "batoomerang") && (item_amount($item[Replica Bat-oomerang]) > 0) && (get_property("_usedReplicaBatoomerang").to_int() < 3))
 		if(!contains_text(combatState, "batoomerang") && (item_amount($item[Replica Bat-oomerang]) > 0))
 		{
 			if(get_property("cc_batoomerangDay").to_int() != my_daycount())
