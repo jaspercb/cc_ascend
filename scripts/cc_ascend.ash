@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16885;
+since r16936;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -8524,7 +8524,7 @@ boolean LX_handleSpookyravenFirstFloor()
 				}
 				if(!in_hardcore() && (my_daycount() <= 1))
 				{
-					print("I'm too drunk for pool, at least it is only Monday.", "green");
+					print("I'm too drunk for pool, at least it is only " + format_date_time("yyyyMMdd", today_to_string(), "EEEE"), "green");
 				}
 			}
 
@@ -11317,7 +11317,7 @@ boolean doTasks()
 
 	if(my_location().turns_spent > 50)
 	{
-		if(($locations[The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), The Deep Dark Jungle, Hippy Camp, Noob Cave, Pirates of the Garbage Barges, The Secret Government Laboratory, Sloppy Seconds Diner, The X-32-F Combat Training Snowman] contains my_location()) == false)
+		if(($locations[The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), The Deep Dark Jungle, Hippy Camp, Noob Cave, Pirates of the Garbage Barges, The Secret Government Laboratory, Sloppy Seconds Diner, SMOOCH Army HQ, VYKEA, The X-32-F Combat Training Snowman] contains my_location()) == false)
 		{
 			abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
 		}

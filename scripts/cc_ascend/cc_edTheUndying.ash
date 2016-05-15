@@ -1236,7 +1236,7 @@ boolean ed_handleAdventureServant(int num, location loc, string option)
 			}
 		}
 	}
-	if((loc == $location[The Secret Government Laboratory]) && (my_daycount() == 1))
+	if(($locations[Hippy Camp, The Secret Government Laboratory, SMOOCH Army HQ, VYKEA] contains loc) && (my_daycount() == 1))
 	{
 		handleServant($servant[Priest]);
 	}
@@ -1575,8 +1575,17 @@ boolean L1_ed_islandFallback()
 		ccAdv(1, $location[Pirates of the Garbage Barges]);
 		return true;
 	}
+	if(elementalPlanes_access($element[cold]))
+	{
+		//This might not be the correct choice... going to have to check it at some point.
+		set_property("choiceAdventure1115", 9);
+		ccAdv(1, $location[VYKEA]);
+		return true;
+	}
 	if(elementalPlanes_access($element[hot]))
 	{
+		//Maybe this is a good choice?
+		set_property("choiceAdventure1094", 2);
 		ccAdv(1, $location[The SMOOCH Army HQ]);
 		return true;
 	}

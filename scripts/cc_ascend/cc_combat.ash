@@ -182,6 +182,16 @@ string cc_combatHandler(int round, string opp, string text)
 
 	boolean doBanisher = !get_property("kingLiberated").to_boolean();
 
+//	if(enemy == $monster[Agent Johnson])
+	if(enemy == to_monster("Agent Johnson"))
+	{
+		if(have_skill($skill[Source Punch]) && (my_mp() > mp_cost($skill[Source Punch])))
+		{
+			return "skill " + $skill[Source Punch];
+		}
+		abort("Can not handle Agents");
+	}
+
 //	if(enemy == $monster[Your Shadow])
 	if((enemy == $monster[Your Shadow]) || (opp == "shadow cow puncher") || (opp == "shadow snake oiler") || (opp == "shadow beanslinger"))
 	{
