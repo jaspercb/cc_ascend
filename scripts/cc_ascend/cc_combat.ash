@@ -2721,7 +2721,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 		return "skill Roar of the Lion";
 	}
-	if((my_mp() >= mp_cost($skill[Storm of the Scarab])) && (my_location() == $location[Pirates of the Garbage Barges]) && have_skill($skill[Storm of the Scarab]))
+	if((my_mp() >= mp_cost($skill[Storm of the Scarab])) && ($locations[Pirates of the Garbage Barges, The SMOOCH Army HQ, VYKEA] contains my_location()) && have_skill($skill[Storm of the Scarab]))
 	{
 		return "skill Storm of the Scarab";
 	}
