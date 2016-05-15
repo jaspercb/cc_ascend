@@ -844,6 +844,11 @@ boolean ed_needShop()
 		return true;
 	}
 
+	if(!get_property("lovebugsUnlocked").to_boolean() && (item_amount($item[Ka Coin]) >= 2) && (item_amount($item[Spirit Beer]) == 0))
+	{
+		return true;
+	}
+
 	if(item_amount($item[Ka Coin]) < 15)
 	{
 		return false;
@@ -933,6 +938,13 @@ boolean ed_shopping()
 			coins = coins - 15;
 			canEat = canEat - 1;
 		}
+	}
+
+	if(!get_property("lovebugsUnlocked").to_boolean() && (item_amount($item[Ka Coin]) >= 2) && (item_amount($item[Spirit Beer]) == 0))
+	{
+		print("Buying Spirit Beer", "green");
+		visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=432", true);
+		coins -= 2;
 	}
 
 	if(!have_skill($skill[Extra Spleen]))
@@ -1159,7 +1171,7 @@ boolean ed_shopping()
 		{
 			print("Buying Spirit Beer", "green");
 			visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=432", true);
-			coins -= 1;
+			coins -= 2;
 		}
 		if(((item_amount($item[Soft Green Echo Eyedrop Antidote]) + item_amount($item[Ancient Cure-All])) < 2) && (coins >= 30))
 		{
@@ -1236,7 +1248,7 @@ boolean ed_handleAdventureServant(int num, location loc, string option)
 			}
 		}
 	}
-	if(($locations[Hippy Camp, The Secret Government Laboratory, SMOOCH Army HQ, VYKEA] contains loc) && (my_daycount() == 1))
+	if(($locations[Hippy Camp, The Secret Government Laboratory, The SMOOCH Army HQ, VYKEA] contains loc) && (my_daycount() == 1))
 	{
 		handleServant($servant[Priest]);
 	}

@@ -10983,6 +10983,7 @@ boolean doTasks()
 	if(get_property("cc_interrupt").to_boolean())
 	{
 		set_property("cc_interrupt", false);
+		restoreAllSettings();
 		abort("cc_interrupt detected and aborting, cc_interrupt disabled.");
 	}
 
