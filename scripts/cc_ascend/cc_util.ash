@@ -2171,16 +2171,17 @@ boolean buyUpTo(int num, item it)
 
 boolean buyUpTo(int num, item it, int maxprice)
 {
+	int orig = num;
 	num = num - item_amount(it);
 	if(num > 0)
 	{
 		buy(num, it, maxprice);
+		if(item_amount(it) != num)
+		{
+			print("Could not buyUpTo(" + orig + ") of " + it + ". Price exceeded: " + maxprice, "red");
+		}
 	}
-	if(item_amount(it) != num)
-	{
-		print("Could not buyUpTo(" + num + ") of " + it + ". Price exceeded: " + maxprice, "red");
-	}
-	return (item_amount(it) == num);
+	return (item_amount(it) >= num);
 }
 
 boolean buffMaintain(skill source, effect buff, int mp_min, int casts, int turns)
