@@ -1215,6 +1215,15 @@ boolean isFreeMonster(monster mon)
 		}
 	}
 
+	if(($monster[Drunk Pygmy] == mon) && (item_amount($item[Bowl of Scorpions]) > 0))
+	{
+		return true;
+	}
+
+	if(mon.random_modifiers["optimal"])
+	{
+		return true;
+	}
 	return false;
 }
 
@@ -2166,6 +2175,10 @@ boolean buyUpTo(int num, item it, int maxprice)
 	if(num > 0)
 	{
 		buy(num, it, maxprice);
+	}
+	if(item_amount(it) != num)
+	{
+		print("Could not buyUpTo(" + num + ") of " + it + ". Price exceeded: " + maxprice, "red");
 	}
 	return (item_amount(it) == num);
 }

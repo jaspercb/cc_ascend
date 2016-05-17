@@ -1597,8 +1597,9 @@ boolean L1_ed_islandFallback()
 	if(elementalPlanes_access($element[hot]))
 	{
 		//Maybe this is a good choice?
-		set_property("choiceAdventure1094", 2);
+		set_property("choiceAdventure1094", 5);
 		ccAdv(1, $location[The SMOOCH Army HQ]);
+		set_property("choiceAdventure1094", 2);
 		return true;
 	}
 

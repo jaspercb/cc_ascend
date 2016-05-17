@@ -185,6 +185,11 @@ string cc_combatHandler(int round, string opp, string text)
 //	if(enemy == $monster[Agent Johnson])
 	if(enemy == to_monster("Agent Johnson"))
 	{
+		if((!contains_text(combatState, "big guns")) && (have_skill($skill[Big Guns])) && (my_mp() > mp_cost($skill[Big Guns])))
+		{
+			set_property("cc_combatHandler", combatState + "(big guns)");
+			return "skill " + $skill[Big Guns];
+		}
 		if(have_skill($skill[Source Punch]) && (my_mp() > mp_cost($skill[Source Punch])))
 		{
 			return "skill " + $skill[Source Punch];
