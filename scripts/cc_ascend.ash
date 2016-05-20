@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16936;
+since r16944;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -9754,10 +9754,15 @@ boolean L11_forgedDocuments()
 	}
 
 	print("Getting the McMuffin Book", "blue");
-	buyUpTo(1, $item[forged identification documents]);
-	set_property("cc_blackmap", "finished");
-	handleFamiliar("item");
-	return true;
+	buyUpTo(1, $item[Forged Identification Documents]);
+	if(item_amount($item[Forged Identification Documents]) > 0)
+	{
+		set_property("cc_blackmap", "finished");
+		handleFamiliar("item");
+		return true;
+	}
+	print("Could not buy Forged Identification Documents, can't get booze now!", "red");
+	return false;
 }
 
 
@@ -9777,7 +9782,10 @@ boolean L11_blackMarket()
 		if(my_meat() >= 5000)
 		{
 			buyUpTo(1, $item[forged identification documents]);
-			set_property("cc_blackmap", "finished");
+			if(item_amount($item[Forged Identification Documents]) > 0)
+			{
+				set_property("cc_blackmap", "finished");
+			}
 		}
 		return true;
 	}
@@ -11265,7 +11273,6 @@ boolean doTasks()
 			buffMaintain($effect[Purple Reign], 0, 6, 10);
 		}
 
-
 		buffMaintain($effect[Gummi-Grin], 0, 1, 1);
 		buffMaintain($effect[Strong Resolve], 0, 1, 1);
 		buffMaintain($effect[Irresistible Resolve], 0, 1, 1);
@@ -11318,7 +11325,7 @@ boolean doTasks()
 
 	if(my_location().turns_spent > 50)
 	{
-		if(($locations[The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), The Deep Dark Jungle, Hippy Camp, Noob Cave, Pirates of the Garbage Barges, The Secret Government Laboratory, Sloppy Seconds Diner, The SMOOCH Army HQ, VYKEA, The X-32-F Combat Training Snowman] contains my_location()) == false)
+		if(($locations[The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), The Deep Dark Jungle, Hippy Camp, Noob Cave, Pirates of the Garbage Barges, The Secret Government Laboratory, Sloppy Seconds Diner, The SMOOCH Army HQ, Uncle Gator\'s Country Fun-Time Liquid Waste Sluice, VYKEA, The X-32-F Combat Training Snowman] contains my_location()) == false)
 		{
 			abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
 		}

@@ -25,6 +25,10 @@ boolean cc_guildClown();
 boolean cc_nemesisCave();
 boolean cc_nemesisIsland();
 boolean cc_cheesePostCS();
+boolean cc_cheesePostCS(int leave);
+boolean cc_cheeseAftercore(int leave);
+boolean cc_aftercore();
+boolean cc_aftercore(int leave);
 boolean cc_ascendIntoCS();
 boolean cc_doCS();
 
@@ -757,8 +761,26 @@ boolean cc_ascendIntoCS()
 	return true;
 }
 
+boolean cc_aftercore()
+{
+	return cc_cheeseAftercore(0);
+}
+boolean cc_aftercore(int leave)
+{
+	return cc_cheeseAftercore(leave);
+}
+
+boolean cc_cheeseAftercore(int leave)
+{
+	return cc_cheesePostCS(leave);
+}
 
 boolean cc_cheesePostCS()
+{
+	return cc_cheesePostCS(0);
+}
+
+boolean cc_cheesePostCS(int leave)
 {
 	if(!didWePlantHere($location[Barf Mountain]) && florist_available() && (my_adventures() > 0))
 	{
@@ -768,13 +790,13 @@ boolean cc_cheesePostCS()
 		cli_execute("florist plant aloe guv'nor");
 	}
 
-	while(((my_spleen_use() + 4) <= spleen_limit()) && (item_amount($item[Unconscious Collective Dream Jar]) > 0))
+	while((spleen_left() >= 4) && (item_amount($item[Unconscious Collective Dream Jar]) > 0))
 	{
 		chew(1, $item[Unconscious Collective Dream Jar]);
 	}
-	while(((my_spleen_use() + 1) <= spleen_limit()) && (item_amount($item[Twinkly Wad]) > 0))
+	while((spleen_left() >= 3) && (item_amount($item[Carrot Juice]) > 0))
 	{
-		chew(1, $item[Twinkly Wad]);
+		chew(1, $item[Carrot Juice]);
 	}
 
 	boolean oldGarbage = get_property("cc_getDinseyGarbageMoney").to_boolean();
@@ -782,15 +804,33 @@ boolean cc_cheesePostCS()
 	dinseylandfill_garbageMoney();
 	set_property("cc_getDinseyGarbageMoney", oldGarbage);
 
-	getDiscoStyle();
-	visit_url("place.php?whichplace=airport_hot&action=airport4_zone1");
-	run_choice(7);
+	getDiscoStyle(7);
+
+	if(my_daycount() == 2)
+	{
+
+	}
 
 
 	if((item_amount($item[Confusing LED Clock]) > 0) && get_property("cc_breakstone").to_boolean() && (my_adventures() >= 6))
 	{
 		use(1, $item[Confusing LED Clock]);
-		visit_url("campground.php?action=rest");
+		if(cc_get_campground() contains $item[Confusing LED Clock])
+		{
+			visit_url("campground.php?action=rest");
+			if(cc_get_campground() contains $item[Confusing LED Clock])
+			{
+				print("Was unable to use Confusing LED Clock", "red");
+			}
+			else
+			{
+				set_property("_confusingLEDClockUsed", true);
+			}
+		}
+		else
+		{
+			print("Could not place a Confusing LED Clock", "red");
+		}
 	}
 	if(item_amount($item[The Crown of Ed the Undying]) > 0)
 	{
@@ -801,6 +841,11 @@ boolean cc_cheesePostCS()
 	{
 		equip($item[Camp Scout Backpack]);
 	}
+	if(item_amount($item[Buddy Bjorn]) > 0)
+	{
+		equip($item[Buddy Bjorn]);
+		bjornify_familiar($familiar[Warbear Drone]);
+	}
 	if(item_amount($item[Sneaky Pete\'s Leather Jacket]) > 0)
 	{
 		equip($item[Sneaky Pete\'s Leather Jacket]);
@@ -809,9 +854,17 @@ boolean cc_cheesePostCS()
 	{
 		equip($item[Thor\'s Pliers]);
 	}
+	if((item_amount($item[Garbage Sticker]) > 0) && can_equip($item[Garbage Sticker]))
+	{
+		equip($item[Garbage Sticker]);
+	}
 	if(item_amount($item[Operation Patriot Shield]) > 0)
 	{
 		equip($item[Operation Patriot Shield]);
+	}
+	if(item_amount($item[Silver Cow Creamer]) > 0)
+	{
+		equip($item[Silver Cow Creamer]);
 	}
 	if(item_amount($item[Pantsgiving]) > 0)
 	{
@@ -840,8 +893,10 @@ boolean cc_cheesePostCS()
 		equip($item[Snow Suit]);
 	}
 
-	while(my_adventures() > 0)
+	while(my_adventures() > leave)
 	{
+		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
+		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
 		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
 		ccAdv(1, $location[Barf Mountain]);
 	}
@@ -871,8 +926,10 @@ boolean cc_cheesePostCS()
 	tryPantsEat();
 	cli_execute("refresh all");
 
-	while(my_adventures() > 0)
+	while(my_adventures() > leave)
 	{
+		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
+		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
 		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
 		ccAdv(1, $location[Barf Mountain]);
 	}
@@ -881,8 +938,10 @@ boolean cc_cheesePostCS()
 	tryPantsEat();
 	cli_execute("refresh all");
 
-	while(my_adventures() > 0)
+	while(my_adventures() > leave)
 	{
+		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
+		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
 		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
 		ccAdv(1, $location[Barf Mountain]);
 	}
@@ -891,8 +950,10 @@ boolean cc_cheesePostCS()
 	tryPantsEat();
 	cli_execute("refresh all");
 
-	while(my_adventures() > 0)
+	while(my_adventures() > leave)
 	{
+		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
+		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
 		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
 		ccAdv(1, $location[Barf Mountain]);
 	}
@@ -902,6 +963,18 @@ boolean cc_cheesePostCS()
 	{
 		set_property("choiceAdventure595", 1);
 		use(1, $item[CSA fire-starting kit]);
+	}
+
+	if((item_amount($item[Rain-Doh Indigo Cup]) > 0) && (item_amount($item[Spooky Putty Sheet]) > 0))
+	{
+		//Use Spooky Putty Sheet and Rain-Doh Indigo Cup to make copies of a fax monster and fight it
+		//Black Crayon Fish or something seems good (or other free monster?)
+	}
+
+	if(my_adventures() > 0)
+	{
+		print("Adventures are leftover, not finishing overdrinking and PVP", "red");
+		return true;
 	}
 
 	if((item_amount($item[5-hour acrimony]) == 0) && get_property("cc_pvpEnable").to_boolean())

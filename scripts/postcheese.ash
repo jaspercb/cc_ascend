@@ -2,10 +2,31 @@ script "postcheese.ash";
 import <cc_ascend/cc_util.ash>
 import <cc_ascend/cc_summerfun.ash>
 import <cc_ascend/cc_awol.ash>
+import <cc_ascend/cc_combat.ash>
+import <cc_ascend/cc_ascend_header.ash>
+import <cc_ascend/cc_edTheUndying.ash>
+import <cc_ascend/cc_adventure.ash>
 
 
 void handlePostAdventure()
 {
+	//We need to do this early, and even if postAdventure handling is done.
+	if(my_path() == "The Source")
+	{
+		if(get_property("cc_diag_round").to_int() == 0)
+		{
+			monster last = last_monster();
+			string temp = visit_url("main.php");
+			if(last != last_monster())
+			{
+				print("Interrupted battle detected at post combat time", "red");
+				ccAdv(my_location());
+				return;
+			}
+		}
+	}
+
+
 	if(get_property("cc_bedroomHandler1") == "yes")
 	{
 		set_property("cc_bedroomHandler1", "no");

@@ -988,6 +988,10 @@ boolean LA_cs_communityService()
 	}
 
 	equipBaseline();
+	if((equipped_item($slot[Shirt]) == $item[none]) && possessEquipment($item[Tunac]))
+	{
+		equip($slot[Shirt], $item[Tunac]);
+	}
 	print(what_cs_quest(curQuest), "blue");
 
 	cs_eat_spleen();
@@ -1769,7 +1773,7 @@ boolean LA_cs_communityService()
 
 			buyUpTo(1, $item[Ben-Gal&trade; Balm]);
 
-			if(!get_property("cc_tryPowerLevel").to_boolean())
+			if(!get_property("cc_tryPowerLevel").to_boolean() && !get_property("cc_saveMargarita").to_boolean())
 			{
 				if(item_amount($item[Blood-drive sticker]) > 0)
 				{

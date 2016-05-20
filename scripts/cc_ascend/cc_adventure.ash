@@ -14,6 +14,8 @@ boolean ccAdv(location loc, string option)
 # num is not handled properly anyway, so we'll just reject it.
 boolean ccAdv(int num, location loc, string option)
 {
+	set_property("cc_combatHandler", "");
+	set_property("cc_diag_round", 0);
 	if(option == "")
 	{
 		option = "cc_combatHandler";
@@ -22,7 +24,7 @@ boolean ccAdv(int num, location loc, string option)
 	{
 		return ed_ccAdv(num, loc, option);
 	}
-#	boolean retval = adv1(loc, num, option);
+
 	boolean retval = adv1(loc, 0, option);
 	if(cc_my_path() == "One Crazy Random Summer")
 	{
