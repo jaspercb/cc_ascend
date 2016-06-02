@@ -76,6 +76,8 @@ void cs_initializeDay(int day)
 			tootGetMeat();
 
 			buyUpTo(1, $item[antique accordion]);
+			cc_sourceTerminalRequest("educate extract.edu");
+			cc_sourceTerminalRequest("enquiry familiar.enq");
 
 			while((item_amount($item[turtle totem]) == 0) || (item_amount($item[saucepan]) == 0))
 			{
@@ -501,11 +503,18 @@ string cs_combatNormal(int round, string opp, string text)
 		set_property("cc_combatHandler", combatState + "(love stinkbug)");
 		return "skill summon love stinkbug";
 	}
+	if((!contains_text(combatState, "(extract)")) && have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 3)))
+	{
+		set_property("cc_combatHandler", combatState + "(extract)");
+		return "skill " + $skill[Extract];
+	}
+
 	if((!contains_text(combatState, "love mosquito")) && get_property("lovebugsUnlocked").to_boolean())
 	{
 		set_property("cc_combatHandler", combatState + "(love mosquito)");
 		return "skill summon love mosquito";
 	}
+
 
 
 	if((!contains_text(combatState, "shattering punch")) && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && !isFreeMonster(enemy) && !enemy.boss && (get_property("_shatteringPunchUsed").to_int() < 3))
@@ -1330,14 +1339,33 @@ boolean LA_cs_communityService()
 			# Account for possible pixels from Snojo?
 			# Make sure for tryPowerLevel not to go too high in ML (75).
 
+			if(!get_property("_aprilShower").to_boolean())
+			{
+				cli_execute("shower myst");
+			}
+
+			buffMaintain($effect[Glittering Eyelashes], 0, 1, 1);
+			buffMaintain($effect[Ur-Kel\'s Aria of Annoyance], 62, 1, 1);
+			buffMaintain($effect[Pride of the Puffin], 62, 1, 1);
+			buffMaintain($effect[Drescher\'s Annoying Noise], 72, 1, 1);
+			buffMaintain($effect[Wry Smile], 42, 1, 1);
+			buffMaintain($effect[Empathy], 47, 1, 1);
+			buffMaintain($effect[Leash of Linguini], 44, 1, 1);
+			buffMaintain($effect[Ruthlessly Efficient], 42, 1, 1);
+			buffMaintain($effect[The Magical Mojomuscular Melody], 12, 1, 1);
+			if(item_amount($item[Tomato Juice of Powerful Power]) > 4)
+			{
+				buffMaintain($effect[Tomato Power], 0, 1, 1);
+			}
+			if(((my_hp() + 50) < my_maxhp()) && (my_mp() > 100))
+			{
+				useCocoon();
+			}
+
 			if(((item_amount($item[Power Pill]) < 2) || (item_amount($item[Yellow Pixel]) < pixelsNeed)) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
 				if(get_property("cc_tryPowerLevel").to_boolean())
 				{
-					if((my_hp() + 50) < my_maxhp())
-					{
-						useCocoon();
-					}
 					if(elementalPlanes_access($element[stench]) && (my_hp() > 100))
 					{
 						if(current_mcd() < 10)
@@ -1359,10 +1387,6 @@ boolean LA_cs_communityService()
 						buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
 						buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
 
-						buffMaintain($effect[Ur-Kel\'s Aria of Annoyance], 62, 1, 1);
-						buffMaintain($effect[Pride of the Puffin], 62, 1, 1);
-						buffMaintain($effect[Drescher\'s Annoying Noise], 72, 1, 1);
-						buffMaintain($effect[Wry Smile], 42, 1, 1);
 						buffMaintain($effect[Astral Shell], 42, 1, 1);
 						buffMaintain($effect[Elemental Saucesphere], 42, 1, 1);
 						buffMaintain($effect[Brawnee\'s Anthem of Absorption], 45, 1, 1);
@@ -1379,17 +1403,9 @@ boolean LA_cs_communityService()
 						buffMaintain($effect[Blubbered Up], 39, 1, 1);
 						buffMaintain($effect[Spiky Shell], 40, 1, 1);
 						buffMaintain($effect[Song of Starch], 132, 1, 1);
-						buffMaintain($effect[Empathy], 47, 1, 1);
-						buffMaintain($effect[Leash of Linguini], 44, 1, 1);
 						buffMaintain($effect[Rage of the Reindeer], 42, 1, 1);
 						buffMaintain($effect[Scarysauce], 42, 1, 1);
 						buffMaintain($effect[Disco Fever], 42, 1, 1);
-						buffMaintain($effect[Ruthlessly Efficient], 42, 1, 1);
-
-						if(!get_property("_aprilShower").to_boolean())
-						{
-							cli_execute("shower myst");
-						}
 
 #						if((have_effect($effect[The Dinsey Look]) == 0) && (item_amount($item[FunFunds&trade;]) > 0))
 #						{
@@ -1399,11 +1415,6 @@ boolean LA_cs_communityService()
 #						buffMaintain($effect[Flexibili Tea], 0, 1, 1);
 						buffMaintain($effect[Neuroplastici Tea], 0, 1, 1);
 #						buffMaintain($effect[Physicali Tea], 0, 1, 1);
-
-						if(item_amount($item[Tomato Juice of Powerful Power]) > 4)
-						{
-							buffMaintain($effect[Tomato Power], 0, 1, 1);
-						}
 
 
 						if((get_property("_hipsterAdv").to_int() < 1) && is_unrestricted($familiar[Artistic Goth Kid]))
@@ -1418,7 +1429,17 @@ boolean LA_cs_communityService()
 						}
 					}
 				}
-				if(elementalPlanes_access($element[hot]))
+
+				if((elementalPlanes_access($element[hot])) && (item_amount($item[New Age Healing Crystal]) < 2))
+				{
+					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
+				}
+				else if(elementalPlanes_access($element[cold]))
+				{
+					backupSetting("choiceAdventure1115", 4);
+					ccAdv(1, $location[VYKEA], "cs_combatNormal");
+				}
+				else if(elementalPlanes_access($element[hot]))
 				{
 					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
 				}
@@ -1451,7 +1472,13 @@ boolean LA_cs_communityService()
 
 			if(snojoFightAvailable() && (my_adventures() > 0))
 			{
+				familiar oldFam = my_familiar();
+				if(have_familiar($familiar[Rockin\' Robin]) && (item_amount($item[Robin\'s Egg]) == 0))
+				{
+					handleFamiliar($familiar[Rockin\' Robin]);
+				}
 				ccAdv(1, $location[The X-32-F Combat Training Snowman]);
+				handleFamiliar(oldFam);
 				return true;
 			}
 
@@ -1504,13 +1531,18 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if(canYellowRay() && !get_property("_photocopyUsed").to_boolean())
+			if((canYellowRay() || (numeric_modifier("item drop") >= 150.0)) && !get_property("_photocopyUsed").to_boolean())
 			{
 				if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
 				{
 					handleFamiliar("yellow ray");
 				}
-				if(handleFaxMonster($monster[Sk8 gnome], "cs_combatYR"))
+				string combatString = "cs_combatYR";
+				if(numeric_modifier("item drop") >= 150.0)
+				{
+					combatString = "cs_combatNormal";
+				}
+				if(handleFaxMonster($monster[Sk8 gnome], combatString))
 				{
 					return true;
 				}
@@ -1547,10 +1579,6 @@ boolean LA_cs_communityService()
 			}
 
 			buffMaintain($effect[Simmering], 0, 1, 1);
-			uneffect($effect[The Moxious Madrigal]);
-			uneffect($effect[Ur-Kel\'s Aria of Annoyance]);
-			uneffect($effect[Brawnee\'s Anthem of Absorption]);
-			uneffect($effect[Power Ballad of the Arrowsmith]);
 
 			if((spleen_left() >= 3) && (item_amount($item[Handful of Smithereens]) > 0))
 			{
@@ -2242,6 +2270,10 @@ boolean LA_cs_communityService()
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 			}
 
+			if(!get_property("_grimBuff").to_boolean())
+			{
+				cli_execute("grim damage");
+			}
 
 			while((my_level() < 8) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
@@ -2249,7 +2281,7 @@ boolean LA_cs_communityService()
 				buffMaintain($effect[Ode to Booze], 50, 1, 6);
 				cli_execute("postcheese");
 			}
-			if((my_level() >= 8) && (item_amount($item[Astral Pilsner]) > 0))
+			if((my_level() >= 8) && (item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() >= item_amount($item[Astral Pilsner])))
 			{
 				shrugAT();
 				buffMaintain($effect[Ode to Booze], 50, 1, 6);
@@ -2335,10 +2367,12 @@ boolean LA_cs_communityService()
 					{
 						buyUpTo(1, $item[Obsidian Nutcracker]);
 					}
-					equip($slot[familiar], $item[Obsidian Nutcracker]);
+					if(item_amount($item[Obsidian Nutcracker]) > 0)
+					{
+						equip($slot[familiar], $item[Obsidian Nutcracker]);
+					}
 				}
 			}
-
 
 			if(do_cs_quest(7))
 			{
@@ -2414,6 +2448,8 @@ boolean LA_cs_communityService()
 			{
 				doRest();
 			}
+
+			cc_sourceTerminalRequest("enhance item.enh");
 
 			buffMaintain($effect[Singer\'s Faithful Ocelot], 15, 1, 1);
 			buffMaintain($effect[Empathy], 15, 1, 1);

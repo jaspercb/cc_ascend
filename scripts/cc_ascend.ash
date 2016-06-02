@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16944;
+since r16971;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -194,6 +194,9 @@ void initializeSettings()
 
 	set_property("choiceAdventure1003", 0);
 	beehiveConsider();
+
+	cc_sourceTerminalRequest("educate extract.edu");
+	cc_sourceTerminalRequest("enquiry familiar.enq");
 
 	elementalPlanes_initializeSettings();
 	eudora_initializeSettings();
@@ -1279,7 +1282,8 @@ boolean fortuneCookieEvent()
 			goal = $location[The Limerick Dungeon];
 		}
 
-		if((goal == $location[The Limerick Dungeon]) && ((item_amount($item[Cyclops Eyedrops]) > 0) || (get_property("cc_orchard") == "start") || (get_property("cc_orchard") == "done") || (get_property("cc_orchard") == "finished") || (internalQuestStatus("questL10Garbage") < 9) || (get_property("semirareLocation") == goal) || (get_property("lastFilthClearance").to_int() >= my_ascensions()) || (get_property("sidequestOrchardComplete") != "none") || (get_property("currentHippyStore") != "none")))
+		#(internalQuestStatus("questL10Garbage") < 9) 
+		if((goal == $location[The Limerick Dungeon]) && ((item_amount($item[Cyclops Eyedrops]) > 0) || (get_property("cc_orchard") == "start") || (get_property("cc_orchard") == "done") || (get_property("cc_orchard") == "finished") || (get_property("semirareLocation") == goal) || (get_property("lastFilthClearance").to_int() >= my_ascensions()) || (get_property("sidequestOrchardComplete") != "none") || (get_property("currentHippyStore") != "none")))
 		{
 			goal = $location[The Haunted Pantry];
 		}
@@ -1299,6 +1303,12 @@ boolean fortuneCookieEvent()
 			print("Do we not have access to either The Haunted Pantry or The Sleazy Back Alley?", "red");
 			goal = $location[The Haunted Pantry];
 		}
+
+		if((my_path() == "Community Service") && (goal != $location[The Limerick Dungeon]))
+		{
+			abort("CS Fortune Cookie Goal Failed, waaa.");
+		}
+
 
 		return ccAdv(goal);
 	}
@@ -1777,7 +1787,7 @@ void doBedtime()
 		}
 	}
 
-	if((is_unrestricted($item[Clan Pool Table])) && (get_property("_poolGames").to_int() < 3))
+	if((is_unrestricted($item[Clan Pool Table])) && (get_property("_poolGames").to_int() < 3) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 	{
 		visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 		visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
@@ -2835,7 +2845,10 @@ boolean L11_aridDesert()
 		{
 			print("Gonna clover this, yeah, it only saves 2 adventures. So?", "green");
 			use(1, $item[Disassembled Clover]);
-			ccAdvBypass("adventure.php?snarfblat=122&confirm=on", $location[The Oasis]);
+//			ccAdvBypass("adventure.php?snarfblat=122&confirm=on", $location[The Oasis]);
+			backupSetting("cloverProtectActive", false);
+			ccAdvBypass("adventure.php?snarfblat=122", $location[The Oasis]);
+			restoreSetting("cloverProtectActive");
 			if(item_amount($item[Ten-Leaf Clover]) > 0)
 			{
 				print("Wandering adventure in The Oasis, boo. Gonna have to do this again.");
@@ -3098,13 +3111,16 @@ boolean L13_towerNSNagamar()
 		if(item_amount($item[Disassembled Clover]) > 0)
 		{
 			use(1, $item[Disassembled Clover]);
+			backupSetting("cloverProtectActive", false);
 			if(ccAdvBypass(322, $location[The Castle in the Clouds in the Sky (Basement)]))
 			{
 				print("Wandering monster interrupt at Castle in the Clouds (Basement)", "red");
 				use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+				restoreSetting("cloverProtectActive");
 				return true;
 			}
 			use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+			restoreSetting("cloverProtectActive");
 			cli_execute("make wand of nagamar");
 			return true;
 		}
@@ -4040,6 +4056,83 @@ boolean LX_attemptPowerLevel()
 	set_property("cc_powerLevelLastAttempted", my_turncount());
 
 	handleFamiliar("stat");
+	if(cc_my_path() == "The Source")
+	{
+		if(get_property("cc_spookyravensecond") != "")
+		{
+			if(get_property("barrelShrineUnlocked").to_boolean())
+			{
+				use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+				if(item_amount($item[Disassembled Clover]) == 0)
+				{
+					handleBarrelFullOfBarrels();
+					string temp = visit_url("barrel.php");
+					temp = visit_url("choice.php?whichchoice=1099&pwd=&option=2");
+					handleBarrelFullOfBarrels();
+					return true;
+				}
+				stat myStat = my_primestat();
+				if(my_basestat(myStat) >= 100)
+				{
+					if(my_basestat($stat[Muscle]) < my_basestat(myStat))
+					{
+						myStat = $stat[Muscle];
+					}
+					if(my_basestat($stat[Mysticality]) < my_basestat(myStat))
+					{
+						myStat = $stat[Mysticality];
+					}
+					if(my_basestat($stat[Moxie]) < my_basestat(myStat))
+					{
+						myStat = $stat[Moxie];
+					}
+				}
+				else if(my_basestat(myStat) >= 70)
+				{
+					//Should probably prefer to check what equipment failures we may be having.
+					if(my_basestat($stat[Muscle]) < my_basestat(myStat))
+					{
+						myStat = $stat[Muscle];
+					}
+					if(my_basestat($stat[Mysticality]) < my_basestat(myStat))
+					{
+						myStat = $stat[Mysticality];
+					}
+					if(my_basestat($stat[Moxie]) < my_basestat(myStat))
+					{
+						myStat = $stat[Moxie];
+					}
+				}
+				//Else, default to mainstat.
+
+				//Determine where to go for clover stats, do not worry about clover failures
+				use(1, $item[Disassembled Clover]);
+				location whereTo = $location[none];
+				switch(myStat)
+				{
+				case $stat[Muscle]:			whereTo = $location[The Haunted Gallery];				break;
+				case $stat[Mysticality]:	whereTo = $location[The Haunted Bathroom];				break;
+				case $stat[Moxie]:			whereTo = $location[The Haunted Ballroom];				break;
+				}
+
+				if((whereTo == $location[The Haunted Ballroom]) && (get_property("cc_ballroomopen") != "open"))
+				{
+					use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+					LX_spookyBedroomCombat();
+					return true;
+				}
+				backupSetting("cloverProtectActive", false);
+				ccAdv(1, whereTo);
+				restoreSetting("cloverProtectActive");
+				use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+				return true;
+			}
+			//Banish mahogant, elegant after gown only. (Harold\'s Bell?)
+			LX_spookyBedroomCombat();
+			return true;
+		}
+	}
+
 	if(elementalPlanes_access($element[stench]) && have_skill($skill[Summon Smithsness]))
 	{
 		ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]);
@@ -7639,13 +7732,16 @@ boolean L8_trapperGround()
 		use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
 		if(item_amount($item[Disassembled Clover]) > 1)
 		{
+			backupSetting("cloverProtectActive", false);
 			use(1, $item[Disassembled Clover]);
 			if(ccAdvBypass(270, $location[Itznotyerzitz Mine]))
 			{
 				print("Wandering monster interrupt at Itznotyerzitz Mine", "red");
+				restoreSetting("cloverProtectActive");
 				return true;
 			}
 			use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+			restoreSetting("cloverProtectActive");
 			return true;
 		}
 	}
@@ -7879,13 +7975,16 @@ boolean L4_batCave()
 
 	if((my_class() == $class[Ed]) && (item_amount($item[Disassembled Clover]) > 0) && (batStatus <= 1))
 	{
+		backupSetting("cloverProtectActive", false);
 		use(1, $item[Disassembled Clover]);
 		if(ccAdvBypass(31, $location[Guano Junction]))
 		{
 			print("Wandering monster interrupt at Guano Junction", "red");
+			restoreSetting("cloverProtectActive");
 			return true;
 		}
 		use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+		restoreSetting("cloverProtectActive");
 		return true;
 	}
 	ccAdv(1, $location[Guano Junction]);
@@ -8059,10 +8158,13 @@ boolean LX_meatMaid()
 
 	if((item_amount($item[Brainy Skull]) == 0) && (item_amount($item[Disembodied Brain]) == 0))
 	{
+		backupSetting("cloverProtectActive", false);
 		use(1, $item[disassembled clover]);
-		if(contains_text(visit_url("adventure.php?snarfblat=58&confirm=on"), "Combat"))
+//		if(contains_text(visit_url("adventure.php?snarfblat=58&confirm=on"), "Combat"))
+		if(contains_text(visit_url("adventure.php?snarfblat=58"), "Combat"))
 		{
 			print("Wandering combat at The VERY Unquiet Garves, have to try this again.", "red");
+			restoreSetting("cloverProtectActive");
 			ccAdv(1, $location[The VERY Unquiet Garves]);
 #			if(item_amount($item[ten-leaf clover]) == 1)
 #			{
@@ -8070,6 +8172,7 @@ boolean LX_meatMaid()
 #			}
 			return true;
 		}
+		restoreSetting("cloverProtectActive");
 		if(get_property("lastEncounter") == "Rolling the Bones")
 		{
 			print("Got a brain, trying to make and use a meat maid now.", "blue");
@@ -9151,8 +9254,10 @@ boolean L9_aBooPeak()
 		if(item_amount($item[disassembled clover]) > 0)
 		{
 			use(1, $item[disassembled clover]);
+			backupSetting("cloverProtectActive", false);
 
-			string page = visit_url("adventure.php?snarfblat=296&confirm=on");
+//			string page = visit_url("adventure.php?snarfblat=296&confirm=on");
+			string page = visit_url("adventure.php?snarfblat=296");
 			if(contains_text(page, "Combat"))
 			{
 				print("Wandering monster interrupt at a-boo peak", "red");
@@ -9163,6 +9268,7 @@ boolean L9_aBooPeak()
 			{
 				set_property("cc_abooclover", false);
 			}
+			restoreSetting("cloverProtectActive");
 			return true;
 		}
 	}
@@ -9551,13 +9657,17 @@ boolean L9_chasmBuild()
 	if((need <= 3) && (need >= 1) && (item_amount($item[Disassembled Clover]) > 0))
 	{
 		use(1, $item[disassembled clover]);
-		ccAdvBypass("adventure.php?snarfblat=295&confirm=on", $location[The Smut Orc Logging Camp]);
+		backupSetting("cloverProtectActive", false);
+//		ccAdvBypass("adventure.php?snarfblat=295&confirm=on", $location[The Smut Orc Logging Camp]);
+		ccAdvBypass("adventure.php?snarfblat=295", $location[The Smut Orc Logging Camp]);
 		if(item_amount($item[Ten-Leaf Clover]) > 0)
 		{
 			print("Wandering adventure in The Smut Orc Logging Camp, boo. Gonna have to do this again.");
 			use(item_amount($item[Ten-Leaf Clover]), $item[Ten-Leaf Clover]);
+			restoreSetting("cloverProtectActive");
 			return true;
 		}
+		restoreSetting("cloverProtectActive");
 		visit_url("place.php?whichplace=orc_chasm&action=bridge"+(to_int(get_property("chasmBridgeProgress"))));
 	}
 	else

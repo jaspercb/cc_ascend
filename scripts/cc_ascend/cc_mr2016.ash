@@ -8,6 +8,7 @@ import<cc_ascend/cc_adventure.ash>
 boolean snojoFightAvailable();
 boolean cc_advWitchess(string target);
 boolean cc_haveWitchess();
+boolean cc_haveSourceTerminal();
 
 
 //Supplemental
@@ -107,7 +108,31 @@ boolean snojoFightAvailable()
 }
 
 
+boolean cc_haveSourceTerminal()
+{
+	if(!is_unrestricted($item[Source Terminal]))
+	{
+		return false;
+	}
+	return (cc_get_campground() contains $item[Source Terminal]);
+}
 
+boolean cc_sourceTerminalRequest(string request)
+{
+	//enhance <effect>.enh		[meat|items|init|critical]
+	//enquiry <effect>.enq		[familiar|monsters]
+	//educate <skill>.edu		[digitize|extract]
+	//extrude <item>.ext		[food|booze|goggles]
+
+	if(cc_haveSourceTerminal())
+	{
+		visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
+		visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=" + request);
+		visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
+		return true;
+	}
+	return false;
+}
 
 
 boolean cc_haveWitchess()
@@ -116,7 +141,7 @@ boolean cc_haveWitchess()
 	{
 		return false;
 	}
-	return (get_campground() contains $item[Witchess Set]);
+	return (cc_get_campground() contains $item[Witchess Set]);
 }
 
 boolean cc_advWitchess(string target)

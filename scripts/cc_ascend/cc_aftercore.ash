@@ -812,7 +812,7 @@ boolean cc_cheesePostCS(int leave)
 	}
 
 
-	if((item_amount($item[Confusing LED Clock]) > 0) && get_property("cc_breakstone").to_boolean() && (my_adventures() >= 6))
+	if((item_amount($item[Confusing LED Clock]) > 0) && get_property("cc_pvpEnable").to_boolean() && (my_adventures() >= 6) && !get_property("_confusingLEDClockUsed").to_boolean())
 	{
 		use(1, $item[Confusing LED Clock]);
 		if(cc_get_campground() contains $item[Confusing LED Clock])
@@ -862,7 +862,7 @@ boolean cc_cheesePostCS(int leave)
 	{
 		equip($item[Operation Patriot Shield]);
 	}
-	if(item_amount($item[Silver Cow Creamer]) > 0)
+	if((item_amount($item[Silver Cow Creamer]) > 0) && can_equip($item[Silver Cow Creamer]))
 	{
 		equip($item[Silver Cow Creamer]);
 	}
@@ -899,6 +899,7 @@ boolean cc_cheesePostCS(int leave)
 		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
 		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
 		ccAdv(1, $location[Barf Mountain]);
+		doNumberology("fites3");
 	}
 
 	while(((my_inebriety() + 5) <= inebriety_limit()) && get_property("cc_breakstone").to_boolean())

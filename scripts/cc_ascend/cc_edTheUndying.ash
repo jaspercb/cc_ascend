@@ -1582,6 +1582,29 @@ boolean L1_ed_islandFallback()
 	{
 		return false;
 	}
+
+	if(!get_property("lovebugsUnlocked").to_boolean())
+	{
+		if(my_turncount() == 0)
+		{
+			while((my_mp() < mp_cost($skill[Storm of the Scarab])) && (my_mp() < my_maxmp()) && (my_meat() > 1500))
+			{
+				buyUpTo(1, $item[Doc Galaktik\'s Invigorating Tonic], 90);
+				use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+			}
+		}
+		else if(my_turncount() == 1)
+		{
+			if((is_unrestricted($item[Clan Pool Table])) && (get_property("_poolGames").to_int() < 3) && (item_amount($item[Clan VIP Lounge Key]) > 0))
+			{
+				visit_url("clan_viplounge.php?preaction=poolgame&stance=2");
+				visit_url("clan_viplounge.php?preaction=poolgame&stance=2");
+				visit_url("clan_viplounge.php?preaction=poolgame&stance=2");
+			}
+		}
+	}
+
+
 	if(elementalPlanes_access($element[stench]))
 	{
 		ccAdv(1, $location[Pirates of the Garbage Barges]);

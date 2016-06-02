@@ -1173,6 +1173,12 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 		}
 
+		if((!contains_text(combatState, "(extract)")) && have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 3)))
+		{
+			set_property("cc_combatHandler", combatState + "(extract)");
+			return "skill " + $skill[Extract];
+		}
+
 	}
 
 	#Default behaviors, multi-staggers when chance is 50% or greater

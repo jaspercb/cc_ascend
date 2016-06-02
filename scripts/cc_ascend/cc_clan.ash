@@ -101,11 +101,18 @@ boolean handleFaxMonster(monster enemy, boolean fightIt, string option)
 		print("Could not acquire fax monster", "red");
 		return false;
 	}
+	if(enemy != get_property("photocopyMonster").to_monster())
+	{
+		fightIt = false;
+		print("Did not receive the correct copy... rejecting", "red");
+		return false;
+	}
+
 	if(fightIt)
 	{
 		return ccAdvBypass("inv_use.php?pwd&which=3&whichitem=4873", $location[Noob Cave], option);
 	}
-	return true;
+	return false;
 }
 
 boolean [location] get_floundry_locations()

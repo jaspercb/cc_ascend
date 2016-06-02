@@ -1,4 +1,5 @@
 script "precheese.ash";
+import<cc_ascend/cc_ascend_header.ash>
 import<cc_ascend/cc_util.ash>
 import<cc_ascend/cc_edTheUndying.ash>
 import<cc_ascend/cc_adventure.ash>
