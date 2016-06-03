@@ -4120,33 +4120,34 @@ boolean LX_attemptPowerLevel()
 					return true;
 				}
 				stat myStat = my_primestat();
-				if(my_basestat(myStat) >= 100)
+				if(my_basestat(myStat) >= 148)
 				{
-					if(my_basestat($stat[Muscle]) < my_basestat(myStat))
-					{
-						myStat = $stat[Muscle];
-					}
-					if(my_basestat($stat[Mysticality]) < my_basestat(myStat))
-					{
-						myStat = $stat[Mysticality];
-					}
-					if(my_basestat($stat[Moxie]) < my_basestat(myStat))
-					{
-						myStat = $stat[Moxie];
-					}
+					return false;
+#					if(my_basestat($stat[Muscle]) < my_basestat(myStat))
+#					{
+#						myStat = $stat[Muscle];
+#					}
+#					if(my_basestat($stat[Mysticality]) < my_basestat(myStat))
+#					{
+#						myStat = $stat[Mysticality];
+#					}
+#					if(my_basestat($stat[Moxie]) < my_basestat(myStat))
+#					{
+#						myStat = $stat[Moxie];
+#					}
 				}
-				else if(my_basestat(myStat) >= 70)
+				else if(my_basestat(myStat) >= 125)
 				{
 					//Should probably prefer to check what equipment failures we may be having.
-					if(my_basestat($stat[Muscle]) < my_basestat(myStat))
+					if((my_basestat($stat[Muscle]) < my_basestat(myStat)) && (my_basestat($stat[Muscle]) < 70))
 					{
 						myStat = $stat[Muscle];
 					}
-					if(my_basestat($stat[Mysticality]) < my_basestat(myStat))
+					if((my_basestat($stat[Mysticality]) < my_basestat(myStat)) && (my_basestat($stat[Mysticality]) < 70))
 					{
 						myStat = $stat[Mysticality];
 					}
-					if(my_basestat($stat[Moxie]) < my_basestat(myStat))
+					if((my_basestat($stat[Moxie]) < my_basestat(myStat)) && (my_basestat($stat[Moxie]) < 70))
 					{
 						myStat = $stat[Moxie];
 					}
@@ -12111,9 +12112,9 @@ void cc_begin()
 	{
 		equipBaseline();
 		handleFamiliar("item");
-		if(item_amount($item[hairpiece on fire]) > 0)
+		if(item_amount($item[Boris\'s Helm]) > 0)
 		{
-			equip($item[hairpiece on fire]);
+			equip($item[Boris\'s Helm]);
 		}
 		if((item_amount($item[fudgecycle]) > 0) && can_equip($item[fudgecycle]))
 		{

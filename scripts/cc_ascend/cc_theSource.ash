@@ -157,6 +157,32 @@ boolean LX_theSource()
 		{
 			return false;
 		}
+		if((goal == $location[Cobb\'s Knob Laboratory]) && (item_amount($item[Cobb\'s Knob Lab Key]) == 0))
+		{
+			return false;
+		}
+/*
+		if((goal == $location[The Lair of the Ninja Snowmen]) && (item_amount($item[Cobb\'s Knob Lab Key]) == 0))
+		{
+			return false;
+		}
+		if((goal == $location[The VERY Unquiet Garves]) && (item_amount($item[Cobb\'s Knob Lab Key]) == 0))
+		{
+			return false;
+		}
+		if((goal == $location[The Castle in the Clouds in the Sky (Top Floor)]) && (item_amount($item[Cobb\'s Knob Lab Key]) == 0))
+		{
+			return false;
+		}
+		if((goal == $location[The Red Zeppelin]) && (item_amount($item[Cobb\'s Knob Lab Key]) == 0))
+		{
+			return false;
+		}
+		if((goal == $location[The Hidden Park]) && (item_amount($item[Cobb\'s Knob Lab Key]) == 0))
+		{
+			return false;
+		}
+*/
 		return ccAdv(goal);
 	}
 	return false;

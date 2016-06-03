@@ -811,7 +811,6 @@ boolean cc_cheesePostCS(int leave)
 
 	}
 
-
 	if((item_amount($item[Confusing LED Clock]) > 0) && get_property("cc_pvpEnable").to_boolean() && (my_adventures() >= 6) && !get_property("_confusingLEDClockUsed").to_boolean())
 	{
 		use(1, $item[Confusing LED Clock]);
@@ -885,6 +884,11 @@ boolean cc_cheesePostCS(int leave)
 	if(item_amount($item[Mr. Cheeng\'s Spectacles]) > 0)
 	{
 		equip($slot[acc3], $item[Mr. Cheeng\'s Spectacles]);
+	}
+
+	if(item_amount($item[Source Shades]) > 0)
+	{
+		equip($slot[acc3], $item[Source Shades]);
 	}
 	handleFamiliar($familiar[Golden Monkey]);
 	handleFamiliar($familiar[Intergnat]);
