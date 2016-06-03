@@ -193,7 +193,7 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			return "skill " + $skill[Source Punch];
 		}
-		abort("Can not handle Agents");
+		abort("Unable to handle this agent... ugh.");
 	}
 
 //	if(enemy == $monster[Your Shadow])
@@ -512,7 +512,7 @@ string cc_combatHandler(int round, string opp, string text)
 			(enemy == $monster[Writing desk]))
 		{
 			set_property("cc_combatHandler", combatState + "(winkat)");
-			if((get_property("_badlyRomanticArrows") == "1") && (round <= 1) && (get_property("romanticTarget") != enemy))
+			if((get_property("_badlyRomanticArrows").to_int() == 1) && (round <= 1) && (get_property("romanticTarget") != enemy))
 			{
 				abort("Have animator out but can not arrow");
 			}

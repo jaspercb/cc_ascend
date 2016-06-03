@@ -7,27 +7,30 @@ since r16971;
 ***/
 
 import <cc_ascend/cc_ascend_header.ash>
-import <cc_ascend/cc_awol.ash>
 import <cc_ascend/cc_deprecation.ash>
 import <cc_ascend/cc_combat.ash>
 import <cc_ascend/cc_util.ash>
-import <cc_ascend/cc_heavyrains.ash>
-import <cc_ascend/cc_picky.ash>
-import <cc_ascend/cc_standard.ash>
 import <cc_ascend/cc_floristfriar.ash>
 import <cc_ascend/cc_equipment.ash>
-import <cc_ascend/cc_edTheUndying.ash>
-import <cc_ascend/cc_boris.ash>
 import <cc_ascend/cc_eudora.ash>
-import <cc_ascend/cc_summerfun.ash>
 import <cc_ascend/cc_elementalPlanes.ash>
-import <cc_ascend/cc_community_service.ash>
 import <cc_ascend/cc_clan.ash>
 import <cc_ascend/cc_cooking.ash>
 import <cc_ascend/cc_adventure.ash>
 import <cc_ascend/cc_mr2014.ash>
 import <cc_ascend/cc_mr2015.ash>
 import <cc_ascend/cc_mr2016.ash>
+
+import <cc_ascend/cc_boris.ash>
+import <cc_ascend/cc_heavyrains.ash>
+import <cc_ascend/cc_picky.ash>
+import <cc_ascend/cc_standard.ash>
+import <cc_ascend/cc_edTheUndying.ash>
+import <cc_ascend/cc_summerfun.ash>
+import <cc_ascend/cc_community_service.ash>
+import <cc_ascend/cc_awol.ash>
+import <cc_ascend/cc_theSource.ash>
+
 
 void initializeSettings()
 {
@@ -203,6 +206,7 @@ void initializeSettings()
 	hr_initializeSettings();
 	picky_initializeSettings();
 	awol_initializeSettings();
+	theSource_initializeSettings();
 	standard_initializeSettings();
 	florist_initializeSettings();
 	ocrs_initializeSettings();
@@ -2488,8 +2492,34 @@ boolean questOverride()
 		}
 	}
 
+	if(internalQuestStatus("questM12Pirate") >= 0)
+	{
+		if(get_property("cc_pirateoutfit") == "")
+		{
+			print("Pirate Quest already started but we don't know that, fixing...");
+			set_property("cc_pirateoutfit", "insults");
+		}
+	}
 
-	if(possessEquipment($item[Pirate Fledges]))
+	if(internalQuestStatus("questM12Pirate") >= 3)
+	{
+		if((get_property("cc_pirateoutfit") == "insults") || (get_property("cc_pirateoutfit") == "blueprint"))
+		{
+			print("Pirate Quest got enough insults and did the blueprint, fixing...");
+			set_property("cc_pirateoutfit", "almost");
+		}
+	}
+
+	if(internalQuestStatus("questM12Pirate") >= 5)
+	{
+		if(get_property("cc_pirateoutfit") != "finished")
+		{
+			print("Completed Beer Pong but we were not aware, fixing...");
+			set_property("cc_pirateoutfit", "finished");
+		}
+	}
+
+	if(possessEquipment($item[Pirate Fledges]) || (internalQuestStatus("questM12Pirate") >= 6))
 	{
 		if(get_property("cc_pirateoutfit") != "finished")
 		{
@@ -2500,6 +2530,24 @@ boolean questOverride()
 		{
 			print("Found Pirate Fledges and incomplete F\'C\'le, fixing...");
 			set_property("cc_fcle", "finished");
+		}
+	}
+
+	if(internalQuestStatus("questM12Pirate") >= 7)
+	{
+		if(get_property("cc_gaudy") == "")
+		{
+			print("Completed Swordfish but Gaudy Pirate were not observed, fixing...");
+			set_property("cc_gaudy", "start");
+		}
+	}
+
+	if(possessEquipment($item[Talisman o\' Namsilat]))
+	{
+		if(get_property("cc_gaudy") != "finished")
+		{
+			print("Have Talisman o' Namsilat but incomplete Gaudy Pirates, fixing...");
+			set_property("cc_gaudy", "finished");
 		}
 	}
 
@@ -8374,7 +8422,7 @@ boolean L2_spookyMap()
 	set_property("choiceAdventure502", "3");
 	set_property("choiceAdventure506", "3");
 	set_property("choiceAdventure507", "1");
-	ccAdv(1, $location[the spooky forest]);
+	ccAdv(1, $location[The Spooky Forest]);
 	if(item_amount($item[spooky temple map]) == 1)
 	{
 		set_property("cc_spookymap", "finished");
@@ -11249,8 +11297,9 @@ boolean doTasks()
 	# This function buys missing skills in general, not just for Picky.
 	# It should be moved.
 	picky_buyskills();
-	awol_buyskills();
+	awol_buySkills();
 	awol_useStuff();
+	theSource_buySkills();
 
 	oldPeoplePlantStuff();
 	use_barrels();
@@ -11261,6 +11310,11 @@ boolean doTasks()
 	deck_useScheme("");
 
 	if(dna_startAcquire())
+	{
+		return true;
+	}
+
+	if(theSource_oracle() || LX_theSource())
 	{
 		return true;
 	}

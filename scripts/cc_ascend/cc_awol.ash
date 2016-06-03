@@ -134,7 +134,7 @@ effect awol_walkBuff()
 	return $effect[Cautious Prowl];
 }
 
-boolean awol_buyskills()
+boolean awol_buySkills()
 {
 	if(get_property("cc_awolLastSkill").to_int() == 0)
 	{

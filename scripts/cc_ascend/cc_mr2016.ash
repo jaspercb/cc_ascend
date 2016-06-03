@@ -126,6 +126,7 @@ boolean cc_sourceTerminalRequest(string request)
 
 	if(cc_haveSourceTerminal())
 	{
+		visit_url("campground.php?action=terminal");
 		visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
 		visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=" + request);
 		visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");

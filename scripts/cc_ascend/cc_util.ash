@@ -118,7 +118,9 @@ boolean restoreSetting(string setting);
 boolean restoreAllSettings();
 int[monster] banishedMonsters();
 boolean isBanished(monster enemy);
-
+boolean startArmorySubQuest();
+boolean startMeatsmithSubQuest();
+boolean startGalaktikSubQuest();
 
 // Private Prototypes
 boolean buffMaintain(item source, effect buff, int uses, int turns);
@@ -529,6 +531,42 @@ boolean restoreSetting(string setting)
 	{
 		set_property(setting, get_property("cc_backup_" + setting));
 		set_property("cc_backup_" + setting, "");
+		return true;
+	}
+	return false;
+}
+
+boolean startArmorySubQuest()
+{
+	if(internalQuestStatus("questM25Armorer") == -1)
+	{
+		string temp = visit_url("shop.php?whichshop=armory");
+		temp = visit_url("shop.php?whichshop=armory&action=talk");
+		temp = visit_url("choice.php?pwd=&whichchoice=1065&option=1");
+		return true;
+	}
+	return false;
+}
+
+boolean startMeatsmithSubQuest()
+{
+	if(internalQuestStatus("questM23Meatsmith") == -1)
+	{
+		string temp = visit_url("shop.php?whichshop=meatsmith");
+		temp = visit_url("shop.php?whichshop=meatsmith&action=talk");
+		temp = visit_url("choice.php?pwd=&whichchoice=1059&option=1");
+		return true;
+	}
+	return false;
+}
+
+boolean startGalaktikSubQuest()
+{
+	if(internalQuestStatus("questM24Doc") == -1)
+	{
+		string temp = visit_url("shop.php?whichshop=doc");
+		temp = visit_url("shop.php?whichshop=doc&action=talk");
+		temp = visit_url("choice.php?pwd=&whichchoice=1064&option=1");
 		return true;
 	}
 	return false;

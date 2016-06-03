@@ -608,6 +608,11 @@ string cs_combatYR(int round, string opp, string text)
 		set_property("cc_combatHandler", combatState + "(love stinkbug)");
 		return "skill summon love stinkbug";
 	}
+	if((!contains_text(combatState, "(extract)")) && have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 3)))
+	{
+		set_property("cc_combatHandler", combatState + "(extract)");
+		return "skill " + $skill[Extract];
+	}
 	if((!contains_text(combatState, "love mosquito")) && get_property("lovebugsUnlocked").to_boolean())
 	{
 		set_property("cc_combatHandler", combatState + "(love mosquito)");
@@ -1592,12 +1597,18 @@ boolean LA_cs_communityService()
 			{
 				chew(1, $item[cuppa Activi tea]);
 			}
-			while((spleen_left() >= 1) && (item_amount($item[Nasty Snuff]) > 0))
+			while((spleen_left() >= 2) && (item_amount($item[Nasty Snuff]) > 0))
 			{
 				chew(1, $item[Nasty Snuff]);
 			}
 			shrugAT();
 			buffMaintain($effect[Ode to Booze], 50, 1, 10);
+
+			if(item_amount($item[Flavored Foot Massage Oil]) > 0)
+			{
+				string temp = visit_url("curse.php?action=use&pwd=&whichitem=3274&targetplayer=" + get_player_id(my_name()));
+			}
+
 			if(!get_property("cc_saveMargarita").to_boolean())
 			{
 				overdrink(1, $item[Emergency Margarita]);
@@ -1689,6 +1700,10 @@ boolean LA_cs_communityService()
 				doRest();
 			}
 
+			if((item_amount($item[lemon]) > 0) && (item_amount($item[philter of phorce]) == 0) && (have_effect($effect[Phorcefullness]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0) && have_skill($skill[Advanced Saucecrafting]))
+			{
+				cli_execute("make philter of phorce");
+			}
 
 			while((my_mp() < 125) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
@@ -1727,6 +1742,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Purity of Spirit], 0, 1, 1);
 			buffMaintain($effect[Peppermint Bite], 0, 1 , 1);
 			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
+			buffMaintain($effect[Phorcefullness], 0, 1, 1);
 
 			if(!get_property("_grimBuff").to_boolean())
 			{
@@ -1734,7 +1750,7 @@ boolean LA_cs_communityService()
 			}
 			if(is_unrestricted($item[Colorful Plastic Ball]))
 			{
-				# Can not beu used in Ronin/Hardcore, derp....
+				# Can not be used in Ronin/Hardcore, derp....
 				cli_execute("ballpit");
 			}
 			if((item_amount($item[Ancient Medicinal Herbs]) > 0) && (have_effect($effect[Ancient Fortitude]) == 0))
@@ -2450,6 +2466,7 @@ boolean LA_cs_communityService()
 			}
 
 			cc_sourceTerminalRequest("enhance item.enh");
+			cc_sourceTerminalRequest("enhance item.enh");
 
 			buffMaintain($effect[Singer\'s Faithful Ocelot], 15, 1, 1);
 			buffMaintain($effect[Empathy], 15, 1, 1);
@@ -2458,6 +2475,13 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Steely-Eyed Squint], 101, 1, 1);
 
 			buffMaintain($effect[Spice Haze], 250, 1, 1);
+
+			if((get_property("puzzleChampBonus").to_int() == 20) && !get_property("_witchessBuff").to_boolean())
+			{
+				visit_url("campground.php?action=witchess");
+				visit_url("choice.php?whichchoice=1181&pwd=&option=3");
+				visit_url("choice.php?whichchoice=1183&pwd=&option=2");
+			}
 
 			buffMaintain($effect[Human-Pirate Hybrid], 0, 1, 1);
 			buffMaintain($effect[One Very Clear Eye], 0, 1, 1);
