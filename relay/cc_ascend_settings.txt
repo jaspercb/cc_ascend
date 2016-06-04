@@ -26,5 +26,6 @@
 26	cc_shareMaximizer	boolean	SHARING	Share maximzer data. This includes the maximzer string, class, path, softcore/hardcore and moon sign.
 27	cc_stayInRun	boolean	ANY	If true, we stop when the King can be freed but do not free the King. Paths with a choice at liberation time will always stayInRun regardless of this setting.
 28	cc_alwaysGetSteelOrgan	boolean	PRE	If true, get the Steel Organ in the next ascension.
-29	cc_teaChoice	string	ANY	When using the tea tree, grab this 'tea'. Must use a string that acceptable to Mafia's 'teatree' command.
-30	cc_xiblaxianChoice	string	ANY	When using Xiblaxian Stuff, do we make a Xiblaxian Ultraburrito or Xiblaxian Space-Whiskey
+29	cc_teaChoice	string	ANY	When using the tea tree, grab this 'tea'. Must use a string that acceptable to Mafia's 'teatree' command (Use ; to separate by daycount, leave blank to skip a day).
+30	cc_floundryChoice	string	ANY	Force floundry usage. Must use the item name (Use ; to separate by daycount, leave blank to skip a day).
+31	cc_xiblaxianChoice	string	ANY	When using Xiblaxian Stuff, do we make a Xiblaxian Ultraburrito or Xiblaxian Space-Whiskey

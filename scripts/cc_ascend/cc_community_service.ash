@@ -1070,6 +1070,11 @@ boolean LA_cs_communityService()
 	//Quest order on Day 1: 11, 6, 9
 	//Day 2: 7, 10, 1, 2, 3, 4, 5, 8
 
+	if((my_daycount() != 1) && cs_witchess())
+	{
+		return true;
+	}
+
 #	if(my_daycount() == 1)
 	if((curQuest == 11) || (curQuest == 6) || (curQuest == 9) || (curQuest == 7))
 	{

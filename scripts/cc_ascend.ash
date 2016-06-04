@@ -1377,7 +1377,12 @@ void initializeDay(int day)
 	{
 		if(get_property("cc_teaChoice") != "")
 		{
-			boolean buff = cli_execute("teatree " + to_item(get_property("cc_teaChoice")));
+			string[int] teaChoice = split_string(get_property("cc_teaChoice"), ";");
+			item myTea = teaChoice[min(count(teaChoice), my_daycount()) - 1].to_item();
+			if(myTea != $item[none])
+			{
+				boolean buff = cli_execute("teatree " + myTea);
+			}
 		}
 		else if(day == 1)
 		{
@@ -1391,6 +1396,19 @@ void initializeDay(int day)
 		{
 			visit_url("campground.php?action=teatree");
 			run_choice(1);
+		}
+	}
+
+	if(!get_property("_floundryItemUsed").to_boolean() && (get_clan_furniture() contains $item[Clan Floundry]) && !get_property("kingLiberated").to_boolean())
+	{
+		if(get_property("cc_floundryChoice") != "")
+		{
+			string[int] floundryChoice = split_string(get_property("cc_floundryChoice"), ";");
+			item myFloundry = floundryChoice[min(count(floundryChoice), my_daycount()) - 1].to_item();
+			if(myFloundry != $item[none])
+			{
+				string temp = visit_url("clan_viplounge.php?preaction=buyfloundryitem&whichitem=" + myFloundry.to_int());
+			}
 		}
 	}
 
@@ -11488,7 +11506,21 @@ boolean doTasks()
 
 	if(my_location().turns_spent > 50)
 	{
+		boolean tooManyAdventures = false;
 		if(($locations[The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), The Deep Dark Jungle, Hippy Camp, Noob Cave, Pirates of the Garbage Barges, The Secret Government Laboratory, Sloppy Seconds Diner, The SMOOCH Army HQ, Uncle Gator\'s Country Fun-Time Liquid Waste Sluice, VYKEA, The X-32-F Combat Training Snowman] contains my_location()) == false)
+		{
+			tooManyAdventures = true;
+		}
+
+		if(tooManyAdventures && (my_path() == "The Source"))
+		{
+			if($locations[The Haunted Bathroom, The Haunted Bedroom, The Haunted Gallery] contains my_location())
+			{
+				tooManyAdventures = false;
+			}
+		}
+
+		if(tooManyAdventures)
 		{
 			abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
 		}
