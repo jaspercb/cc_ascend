@@ -7,6 +7,8 @@ import<cc_ascend/cc_adventure.ash>
 
 boolean snojoFightAvailable();
 boolean cc_advWitchess(string target);
+boolean cc_advWitchess(string target, string option);
+
 boolean cc_haveWitchess();
 boolean cc_haveSourceTerminal();
 
@@ -124,6 +126,8 @@ boolean cc_sourceTerminalRequest(string request)
 	//educate <skill>.edu		[digitize|extract]
 	//extrude <item>.ext		[food|booze|goggles]
 
+	print("Source Terminal request: " + request, "green");
+
 	if(cc_haveSourceTerminal())
 	{
 		visit_url("campground.php?action=terminal");
@@ -146,6 +150,11 @@ boolean cc_haveWitchess()
 }
 
 boolean cc_advWitchess(string target)
+{
+	return cc_advWitchess(target, "");
+}
+
+boolean cc_advWitchess(string target, string option)
 {
 	if(!cc_haveWitchess())
 	{
@@ -189,7 +198,7 @@ boolean cc_advWitchess(string target)
 	pages[2] = "choice.php?pwd=" + my_hash() + "&whichchoice=1182&option=1&piece=" + goal;
 
 	// We use 4 to cause pages[2] to use GET.
-	return ccAdvBypass(4, pages, $location[Noob Cave], "");
+	return ccAdvBypass(4, pages, $location[Noob Cave], option);
 }
 
 

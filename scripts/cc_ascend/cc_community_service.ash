@@ -498,11 +498,32 @@ string cs_combatNormal(int round, string opp, string text)
 		}
 	}
 
+	if((!contains_text(combatState, "winkat")) && (my_familiar() == $familiar[Reanimated Reanimator]))
+	{
+		if($monsters[Witchess Bishop, Witchess Knight] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(winkat)");
+			if((get_property("_badlyRomanticArrows").to_int() == 1) && (round <= 1) && (get_property("romanticTarget") != enemy))
+			{
+				abort("Have animator out but can not arrow");
+			}
+			return "skill wink at";
+		}
+	}
+
 	if((!contains_text(combatState, "love stinkbug")) && get_property("lovebugsUnlocked").to_boolean())
 	{
 		set_property("cc_combatHandler", combatState + "(love stinkbug)");
 		return "skill summon love stinkbug";
 	}
+
+	if((!contains_text(combatState, "(digitize)")) && have_skill($skill[Digitize]) && (my_mp() > (mp_cost($skill[Digitize]) * 3)) && ($monsters[Witchess Bishop, Witchess Knight] contains enemy))
+	{
+		set_property("cc_combatHandler", combatState + "(digitize)");
+		return "skill " + $skill[Digitize];
+	}
+
+
 	if((!contains_text(combatState, "(extract)")) && have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 3)))
 	{
 		set_property("cc_combatHandler", combatState + "(extract)");
@@ -1167,6 +1188,10 @@ boolean LA_cs_communityService()
 				}
 			}
 
+			if(cs_witchess())
+			{
+				return true;
+			}
 
 			if((curQuest == 11) && ((my_turncount() + 60) < get_property("cc_cookie").to_int()) && (my_adventures() > 65))
 			{
@@ -1607,6 +1632,10 @@ boolean LA_cs_communityService()
 			if(item_amount($item[Flavored Foot Massage Oil]) > 0)
 			{
 				string temp = visit_url("curse.php?action=use&pwd=&whichitem=3274&targetplayer=" + get_player_id(my_name()));
+			}
+			if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean() && (get_property("choiceAdventure595").to_int() == 1))
+			{
+				use(1, $item[CSA Fire-Starting Kit]);
 			}
 
 			if(!get_property("cc_saveMargarita").to_boolean())
@@ -2465,8 +2494,10 @@ boolean LA_cs_communityService()
 				doRest();
 			}
 
-			cc_sourceTerminalRequest("enhance item.enh");
-			cc_sourceTerminalRequest("enhance item.enh");
+			if(have_effect($effect[items.enh]) == 0)
+			{
+				cc_sourceTerminalRequest("enhance items.enh");
+			}
 
 			buffMaintain($effect[Singer\'s Faithful Ocelot], 15, 1, 1);
 			buffMaintain($effect[Empathy], 15, 1, 1);
@@ -2663,5 +2694,26 @@ boolean cs_witchess()
 	{
 		return false;
 	}
-	return cc_advWitchess("booze");
+
+	if((my_daycount() == get_property("cc_witchessBattleDay").to_int()) && (get_property("cc_witchessBattles").to_int() == 5))
+	{
+		return false;
+	}
+
+	if((get_property("_badlyRomanticArrows").to_int() != 1) && have_familiar($familiar[Reanimated Reanimator]))
+	{
+		handleFamiliar($familiar[Reanimated Reanimator]);
+	}
+	else if(have_familiar($familiar[Galloping Grill]) && cc_haveSourceTerminal())
+	{
+		handleFamiliar($familiar[Galloping Grill]);
+	}
+
+	if((get_property("cc_witchessBattles").to_int() == 5) || (get_property("cc_witchessBattles").to_int() == 0))
+	{
+		cc_sourceTerminalRequest("educate digitize.edu");
+	}
+	boolean result = cc_advWitchess("booze", "cs_combatNormal");
+	cc_sourceTerminalRequest("educate extract.edu");
+	return result;
 }

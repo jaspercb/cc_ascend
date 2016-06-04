@@ -378,6 +378,10 @@ boolean handleFamiliar(familiar fam)
 
 boolean LX_witchess()
 {
+	if(my_path() == "Community Service")
+	{
+		return false;
+	}
 	if(cs_witchess())
 	{
 		return true;
@@ -1287,7 +1291,7 @@ boolean fortuneCookieEvent()
 		}
 
 		#(internalQuestStatus("questL10Garbage") < 9) 
-		if((goal == $location[The Limerick Dungeon]) && ((item_amount($item[Cyclops Eyedrops]) > 0) || (get_property("cc_orchard") == "start") || (get_property("cc_orchard") == "done") || (get_property("cc_orchard") == "finished") || (get_property("semirareLocation") == goal) || (get_property("lastFilthClearance").to_int() >= my_ascensions()) || (get_property("sidequestOrchardComplete") != "none") || (get_property("currentHippyStore") != "none")))
+		if((goal == $location[The Limerick Dungeon]) && ((item_amount($item[Cyclops Eyedrops]) > 0) || (get_property("cc_orchard") == "start") || (get_property("cc_orchard") == "done") || (get_property("cc_orchard") == "finished") || (get_property("semirareLocation") == goal) || (get_property("lastFilthClearance").to_int() >= my_ascensions()) || (get_property("sidequestOrchardCompleted") != "none") || (get_property("currentHippyStore") != "none")))
 		{
 			goal = $location[The Haunted Pantry];
 		}
@@ -1307,12 +1311,6 @@ boolean fortuneCookieEvent()
 			print("Do we not have access to either The Haunted Pantry or The Sleazy Back Alley?", "red");
 			goal = $location[The Haunted Pantry];
 		}
-
-		if((my_path() == "Community Service") && (goal != $location[The Limerick Dungeon]))
-		{
-			abort("CS Fortune Cookie Goal Failed, waaa.");
-		}
-
 
 		return ccAdv(goal);
 	}
