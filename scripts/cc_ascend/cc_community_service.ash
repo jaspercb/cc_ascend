@@ -503,7 +503,7 @@ string cs_combatNormal(int round, string opp, string text)
 		if($monsters[Witchess Bishop, Witchess Knight] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(winkat)");
-			if((get_property("_badlyRomanticArrows").to_int() == 1) && (round <= 1) && (get_property("romanticTarget") != enemy))
+			if((get_property("_badlyRomanticArrows").to_int() == 1) && (get_property("romanticTarget") != enemy))
 			{
 				abort("Have animator out but can not arrow");
 			}
@@ -517,7 +517,7 @@ string cs_combatNormal(int round, string opp, string text)
 		return "skill summon love stinkbug";
 	}
 
-	if((!contains_text(combatState, "(digitize)")) && have_skill($skill[Digitize]) && (my_mp() > (mp_cost($skill[Digitize]) * 3)) && ($monsters[Witchess Bishop, Witchess Knight] contains enemy))
+	if((!contains_text(combatState, "(digitize)")) && have_skill($skill[Digitize]) && (my_mp() > (mp_cost($skill[Digitize]) * 2)) && ($monsters[Witchess Bishop, Witchess Knight] contains enemy))
 	{
 		set_property("cc_combatHandler", combatState + "(digitize)");
 		return "skill " + $skill[Digitize];
@@ -1085,7 +1085,12 @@ boolean LA_cs_communityService()
 				doRest();
 				buffMaintain($effect[Ode to Booze], 50, 1, 1);
 				cli_execute("drink lucky lindy");
+			}
 
+			if(my_inebriety() == 1)
+			{
+				doRest();
+				buffMaintain($effect[Ode to Booze], 50, 1, 1);
 				if(item_amount($item[Sacramento Wine]) >= 4)
 				{
 					drink(4, $item[Sacramento Wine]);
@@ -1339,6 +1344,25 @@ boolean LA_cs_communityService()
 				}
 				ccAdv(1, $location[LavaCo&trade; Lamp Factory], "cs_combatYR");
 				return true;
+			}
+
+			if(inebriety_left() >= 1)
+			{
+				if(item_amount($item[Sacramento Wine]) > 0)
+				{
+					buffMaintain($effect[Ode to Booze], 50, 1, 1);
+					drink(1, $item[Sacramento Wine]);
+				}
+				else if(item_amount($item[Iced Plum Wine]) > 0)
+				{
+					buffMaintain($effect[Ode to Booze], 50, 1, 1);
+					drink(1, $item[Iced Plum Wine]);
+				}
+				else
+				{
+					buffMaintain($effect[Ode to Booze], 50, 1, 1);
+					cli_execute("drink cup of tea");
+				}
 			}
 
 			if((item_amount($item[Black Pixel]) < 2) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
@@ -2275,23 +2299,11 @@ boolean LA_cs_communityService()
 			{
 				doRest();
 			}
-			if((my_inebriety() == 5) || (my_inebriety() == 11))
+			if(((my_inebriety() == 5) || (my_inebriety() == 11)) && (have_effect($effect[In A Lather]) == 0))
 			{
 				shrugAT();
 				buffMaintain($effect[Ode to Booze], 50, 1, 1);
 				cli_execute("drink sockdollager");
-				if(item_amount($item[Iced Plum Wine]) > 0)
-				{
-					drink(1, $item[Iced Plum Wine]);
-				}
-				if(item_amount($item[Sacramento Wine]) > 0)
-				{
-					drink(1, $item[Sacramento Wine]);
-				}
-				else
-				{
-					cli_execute("drink cup of tea");
-				}
 			}
 
 
@@ -2349,6 +2361,23 @@ boolean LA_cs_communityService()
 					eatFancyDog("sleeping dog");
 				}
 				return true;
+			}
+
+			if((my_adventures() < get_cs_questCost(curQuest)) && ((my_inebriety() == 7) || (my_inebriety() == 13)))
+			{
+				buffMaintain($effect[Ode to Booze], 50, 1, 1);
+				if(item_amount($item[Iced Plum Wine]) > 0)
+				{
+					drink(1, $item[Iced Plum Wine]);
+				}
+				else if(item_amount($item[Sacramento Wine]) > 0)
+				{
+					drink(1, $item[Sacramento Wine]);
+				}
+				else
+				{
+					cli_execute("drink cup of tea");
+				}
 			}
 
 			if(do_cs_quest(6))
@@ -2517,6 +2546,23 @@ boolean LA_cs_communityService()
 				visit_url("campground.php?action=witchess");
 				visit_url("choice.php?whichchoice=1181&pwd=&option=3");
 				visit_url("choice.php?whichchoice=1183&pwd=&option=2");
+			}
+
+			if((inebriety_left() >= 1) && (have_effect($effect[Sacr&eacute; Mental]) == 0))
+			{
+				buffMaintain($effect[Ode to Booze], 50, 1, 1);
+				if(item_amount($item[Sacramento Wine]) > 0)
+				{
+					drink(1, $item[Sacramento Wine]);
+				}
+				else if(item_amount($item[Iced Plum Wine]) > 0)
+				{
+					drink(1, $item[Iced Plum Wine]);
+				}
+				else
+				{
+					cli_execute("drink cup of tea");
+				}
 			}
 
 			buffMaintain($effect[Human-Pirate Hybrid], 0, 1, 1);
@@ -2700,7 +2746,7 @@ boolean cs_witchess()
 		return false;
 	}
 
-	if((my_daycount() == get_property("cc_witchessBattleDay").to_int()) && (get_property("cc_witchessBattles").to_int() == 5))
+	if(get_property("_cc_witchessBattles").to_int() == 5)
 	{
 		return false;
 	}
@@ -2714,7 +2760,7 @@ boolean cs_witchess()
 		handleFamiliar($familiar[Galloping Grill]);
 	}
 
-	if((get_property("cc_witchessBattles").to_int() == 5) || (get_property("cc_witchessBattles").to_int() == 0))
+	if((get_property("_cc_witchessBattles").to_int() == 5) || (get_property("_cc_witchessBattles").to_int() == 0))
 	{
 		cc_sourceTerminalRequest("educate digitize.edu");
 	}

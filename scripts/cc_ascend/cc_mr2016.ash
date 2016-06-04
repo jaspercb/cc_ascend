@@ -168,13 +168,13 @@ boolean cc_advWitchess(string target, string option)
 	}
 
 	//Tracking Stuff (Someday we can remove this).
-	if(my_daycount() != get_property("cc_witchessBattleDay").to_int())
-	{
-		set_property("cc_witchessBattles", 0);
-		set_property("cc_witchessBattleDay", my_daycount());
-	}
+	#if(my_daycount() != get_property("cc_witchessBattleDay").to_int())
+	#{
+	#	set_property("cc_witchessBattles", 0);
+	#	set_property("cc_witchessBattleDay", my_daycount());
+	#}
 
-	if(get_property("cc_witchessBattles").to_int() >= 5)
+	if(get_property("_cc_witchessBattles").to_int() >= 5)
 	{
 		return false;
 	}
@@ -184,13 +184,13 @@ boolean cc_advWitchess(string target, string option)
 		return false;
 	}
 
-	if(get_property("_witchessFights").to_int() > get_property("cc_witchessBattles").to_int())
+	if(get_property("_witchessFights").to_int() > get_property("_cc_witchessBattles").to_int())
 	{
 		print("_witchessFights is greater than our tracking, it is probably more accurate at this point (assuming manual Witchess combats).", "red");
-		set_property("cc_witchessBattles", get_property("_witchessFights"));
+		set_property("_cc_witchessBattles", get_property("_witchessFights"));
 	}
 
-	set_property("cc_witchessBattles", get_property("cc_witchessBattles").to_int() + 1);
+	set_property("_cc_witchessBattles", get_property("_cc_witchessBattles").to_int() + 1);
 
 	string[int] pages;
 	pages[0] = "campground.php?action=witchess";
