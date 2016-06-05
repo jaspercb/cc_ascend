@@ -735,6 +735,10 @@ boolean canYellowRay()
 	{
 		return true;
 	}
+	if(item_amount($item[Viral Video]) > 0)
+	{
+		return true;
+	}
 	# We might not have Flash Headlight outside of combat, will need to check that.
 	if((get_property("peteMotorbikeHeadlight") == "Ultrabright Yellow Bulb") && have_skill($skill[Flash Headlight]) && (my_mp() >= mp_cost($skill[Flash Headlight])))
 	{
@@ -815,6 +819,10 @@ string yellowRayCombatString()
 	if(item_amount($item[Unbearable Light]) > 0)
 	{
 		return "item " + $item[Unbearable Light];
+	}
+	if(item_amount($item[Viral Video]) > 0)
+	{
+		return "item " + $item[Viral Video];
 	}
 	return "";
 }
@@ -1305,6 +1313,8 @@ boolean handleCopiedMonster(item itm, string option)
 		return handleCopiedMonster($item[Shaking 4-D Camera], option);
 	case $item[Unfinished Ice Sculpture]:
 		return handleCopiedMonster($item[Ice Sculpture], option);
+	case $item[Print Screen Button]:
+		return handleCopiedMonster($item[Screencapped Monster], option);
 	case $item[Rain-Doh Box Full of Monster]:
 		if(get_property("rainDohMonster") == "")
 		{
@@ -1342,6 +1352,13 @@ boolean handleCopiedMonster(item itm, string option)
 		if(get_property("_iceSculptureUsed").to_boolean())
 		{
 			abort(itm + " already used today. We can not continue");
+		}
+		id = to_int(itm);
+		break;
+	case $item[Screencapped Monster]:
+		if(get_property("screencappedMonster") == "")
+		{
+			abort(itm + " has no monster so we can't use it");
 		}
 		id = to_int(itm);
 		break;

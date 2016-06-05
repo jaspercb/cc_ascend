@@ -575,6 +575,13 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+	if((!contains_text(combatState, "(extract)")) && have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 2)) && get_property("kingLiberated").to_boolean())
+	{
+		set_property("cc_combatHandler", combatState + "(extract)");
+		return "skill " + $skill[Extract];
+	}
+
+
 	if(have_skill($skill[Summon Mayfly Swarm]) && (!contains_text(combatState, "mayfly")))
 	{
 		if((equipped_item($slot[acc1]) == $item[Mayfly Bait Necklace]) || (equipped_item($slot[acc2]) == $item[Mayfly Bait Necklace]) || (equipped_item($slot[acc3]) == $item[Mayfly Bait Necklace]))
@@ -1052,6 +1059,14 @@ string cc_combatHandler(int round, string opp, string text)
 				return "item " + $item[Replica Bat-oomerang];
 			}
 		}
+
+
+		if(!contains_text(combatState, "jokesterGun") && (equipped_item($slot[Weapon]) == $item[The Jokester\'s Gun]) && !get_property("_firedJokestersGun").to_boolean() && have_skill($skill[Fire the Jokester\'s Gun]))
+		{
+			set_property("cc_combatHandler", combatState + "(jokesterGun)");
+			handleTracker(enemy, $skill[Fire the Jokester\'s Gun], "cc_instakill");
+			return "skill" + $skill[Fire the Jokester\'s Gun];
+		}
 	}
 
 
@@ -1177,6 +1192,13 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			set_property("cc_combatHandler", combatState + "(extract)");
 			return "skill " + $skill[Extract];
+		}
+
+
+		if((!contains_text(combatState, "(scienceMedicine)")) && have_skill($skill[Science! Fight With Medicine]))
+		{
+			set_property("cc_combatHandler", combatState + "(scienceMedicine)");
+			return "skill " + $skill[Science! Fight With Medicine];
 		}
 
 	}
