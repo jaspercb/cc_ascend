@@ -184,12 +184,57 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if(enemy == $monster[Source Agent])
 	{
-		if((!contains_text(combatState, "big guns")) && (have_skill($skill[Big Guns])) && (my_mp() > mp_cost($skill[Big Guns])))
+		if(have_skill($skill[Data Siphon]))
+		{
+			if(my_mp() < 50)
+			{
+				if(have_skill($skill[Source Punch]) && (my_mp() >= mp_cost($skill[Source Punch])))
+				{
+					return "skill " + $skill[Source Punch];
+				}
+			}
+			else if(my_mp() > 125)
+			{
+				if(!contains_text(combatState, "(reboot)") && have_skill($skill[Reboot]) && (my_mp() >= mp_cost($skill[Reboot])))
+				{
+					set_property("cc_combatHandler", combatState + "(reboot)");
+					return "skill " + $skill[Reboot];
+				}
+				if(!contains_text(combatState, "(big guns)") && have_skill($skill[Big Guns]) && (my_mp() >= mp_cost($skill[Big Guns])) && (my_hp() < 100))
+				{
+					set_property("cc_combatHandler", combatState + "(big guns)");
+					return "skill " + $skill[Big Guns];
+				}
+
+			}
+			else if(my_mp() > 100)
+			{
+				if(!contains_text(combatState, "(humiliatingHack)") && have_skill($skill[Humiliating Hack]) && (my_mp() >= mp_cost($skill[Humiliating Hack])))
+				{
+					set_property("cc_combatHandler", combatState + "(humiliatingHack)");
+					return "skill " + $skill[Humiliating Hack];
+				}
+				if(!contains_text(combatState, "(disarmament)") && have_skill($skill[Disarmament]) && (my_mp() >= mp_cost($skill[Disarmament])))
+				{
+					set_property("cc_combatHandler", combatState + "(disarmament)");
+					return "skill " + $skill[Disarmament];
+				}
+			}
+			else
+			{
+				if(have_skill($skill[Source Kick]) && (my_mp() >= mp_cost($skill[Source Kick])))
+				{
+					return "skill " + $skill[Source Kick];
+				}
+			}
+		}
+
+		if((!contains_text(combatState, "big guns")) && (have_skill($skill[Big Guns])) && (my_mp() >= mp_cost($skill[Big Guns])))
 		{
 			set_property("cc_combatHandler", combatState + "(big guns)");
 			return "skill " + $skill[Big Guns];
 		}
-		if(have_skill($skill[Source Punch]) && (my_mp() > mp_cost($skill[Source Punch])))
+		if(have_skill($skill[Source Punch]) && (my_mp() >= mp_cost($skill[Source Punch])))
 		{
 			return "skill " + $skill[Source Punch];
 		}

@@ -492,11 +492,16 @@ boolean backupSetting(string setting, string newValue)
 	{
 		if(name == setting)
 		{
-			found += 1;
+			found = 1;
 			oldValue = get_property(name);
 			#print(domain + " " + name + " " + value);
 		}
 	}
+	if((found == 0) && (substring(setting, 0, 15) == "choiceAdventure"))
+	{
+		found = 1;
+	}
+
 	if(found == 1)
 	{
 		if(get_property(setting) == newValue)
@@ -533,6 +538,7 @@ boolean restoreSetting(string setting)
 		set_property("cc_backup_" + setting, "");
 		return true;
 	}
+
 	return false;
 }
 

@@ -1405,9 +1405,18 @@ void initializeDay(int day)
 		{
 			string[int] floundryChoice = split_string(get_property("cc_floundryChoice"), ";");
 			item myFloundry = floundryChoice[min(count(floundryChoice), my_daycount()) - 1].to_item();
+			int oldCount = item_amount(myFloundry);
 			if(myFloundry != $item[none])
 			{
 				string temp = visit_url("clan_viplounge.php?preaction=buyfloundryitem&whichitem=" + myFloundry.to_int());
+				if(item_amount(myFloundry) != (oldCount + 1))
+				{
+					print("Could not fish from the Floundry for some raisin.", "red");
+				}
+				else
+				{
+					set_property("_floundryItemUsed", true);
+				}
 			}
 		}
 	}

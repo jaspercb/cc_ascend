@@ -11,6 +11,8 @@ boolean cc_advWitchess(string target, string option);
 
 boolean cc_haveWitchess();
 boolean cc_haveSourceTerminal();
+boolean cc_sourceTerminalRequest(string request);
+int[string] cc_sourceTerminalStatus();
 
 
 //Supplemental
@@ -130,15 +132,105 @@ boolean cc_sourceTerminalRequest(string request)
 
 	if(cc_haveSourceTerminal())
 	{
-		visit_url("campground.php?action=terminal");
-		visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
-		visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=" + request);
-		visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
+		string temp = visit_url("campground.php?action=terminal");
+		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
+		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=" + request);
+		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
 		return true;
 	}
 	return false;
 }
 
+
+int[string] cc_sourceTerminalStatus()
+{
+	int[string] status;
+	if(cc_haveSourceTerminal())
+	{
+		string temp = visit_url("campground.php?action=terminal");
+		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
+		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=status");
+		matcher myStatus = create_matcher("<div id=\"term\"><div>Welcome to The Source</div><div>(.*)</div><div></div><br />&gt; <span id=\"text\">", temp);
+		if(myStatus.find())
+		{
+			string data = myStatus.group(1);
+			string[int] lines = split_string(data, "</div>");
+			foreach index, line in lines
+			{
+				line = replace_string(line, "<div>", "");
+				matcher ramMatcher = create_matcher("((?:.*)?[RP]AM) (chip(?:s?)) installed([:,]) ((?:\\d+)|(?:\\w))", line);
+				if(!ramMatcher.find())
+				{
+					continue;
+				}
+				#print(index + ": " + line, "green");
+				#print("Groups: " + ramMatcher.group(1) + " " + ramMatcher.group(2) + " " + ramMatcher.group(3) + " " + ramMatcher.group(4), "blue");
+				if(ramMatcher.group(3) == ",")
+				{
+					status[ramMatcher.group(1)] = 1;
+				}
+				else
+				{
+					status[ramMatcher.group(1)] = ramMatcher.group(4).to_int();
+				}
+			}
+		}
+
+
+		//temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
+		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=enhance");
+		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=enquiry");
+		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=educate");
+		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=extrude");
+		myStatus = create_matcher("extrude system limits exceeded", temp);
+		if(myStatus.find())
+		{
+			status["extrude"] = 0;
+			status["food.ext"] = 1;
+			status["booze.ext"] = 1;
+			status["goggles.ext"] = 1;
+		}
+		else
+		{
+			status["extrude"] = 1;
+		}
+
+		myStatus = create_matcher("available targets: (.*)</div><div></div><br />&gt; <span id=\"text\">", temp);
+		if(myStatus.find())
+		{
+			string lines = myStatus.group(1);
+			#print("Subfind: " + lines, "blue");
+			matcher myUpgrade = create_matcher(">((\\w+?)[.](\\w{3}))<", lines);
+			int index = 0;
+			while(myUpgrade.find())
+			{
+				string line = myUpgrade.group(1);
+				#print(index + ": " + line, "green");
+				#index += 1;
+				status[line] = 1;
+			}
+		}
+		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
+		int enhanceBuff = 25 + (25 * status["INGRAM"]) + (5 * status["PRAM"]);
+		int enhanceUses = 1 + status["CRAM"] + status["SCRAM"];
+		int gramMultiplier = status["DIAGRAM"] + 1;
+		int enquiry = 50 + (gramMultiplier * status["GRAM"] * 10);
+		int educate = 1 + status["DRAM"];
+		int digitize = 1 + status["TRIGRAM"] + status["TRAM"];
+		int mpReduce = (5 * status["ASHRAM"]) + status["SPAM"];
+
+		status["enhanceBuff"] = enhanceBuff;
+		status["enhanceUses"] = enhanceUses;
+		status["enhance"] = enhanceUses + enhanceBuff;
+		status["enquiry"] = enquiry;
+		status["educate"] = educate;
+		status["digitize"] = digitize;
+		status["mpReduce"] = mpReduce;
+
+
+	}
+	return status;
+}
 
 boolean cc_haveWitchess()
 {

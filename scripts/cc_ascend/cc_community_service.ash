@@ -1548,16 +1548,11 @@ boolean LA_cs_communityService()
 
 			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && !get_property("cc_100familiar").to_boolean())
 			{
-				if(get_property("cc_choice1119") != "")
-				{
-					set_property("choiceAdventure1119", get_property("cc_choice1119"));
-				}
-				set_property("cc_choice1119", get_property("choiceAdventure1119"));
-				set_property("choiceAdventure1119", 1);
+				backupSetting("choiceAdventure1119", 1);
 				handleFamiliar($familiar[Machine Elf]);
 				ccAdv(1, $location[The Deep Machine Tunnels]);
-				set_property("choiceAdventure1119", get_property("cc_choice1119"));
-				set_property("cc_choice1119", "");
+				restoreSetting("choiceAdventure1119");
+				set_property("choiceAdventure1119", "");
 				return true;
 			}
 
@@ -1607,6 +1602,16 @@ boolean LA_cs_communityService()
 				}
 			}
 
+			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() == 5) && ($location[The Deep Machine Tunnels].turns_spent == 5) && (my_adventures() > 0) && !get_property("cc_100familiar").to_boolean())
+			{
+				backupSetting("choiceAdventure1119", 1);
+				handleFamiliar($familiar[Machine Elf]);
+				ccAdv(1, $location[The Deep Machine Tunnels]);
+				restoreSetting("choiceAdventure1119");
+				set_property("choiceAdventure1119", "");
+				return true;
+			}
+
 			if(have_skill($skill[Advanced Saucecrafting]))
 			{
 				if((item_amount($item[Oil of Expertise]) < 2) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
@@ -1634,7 +1639,6 @@ boolean LA_cs_communityService()
 				{
 					cli_execute("make salamander slurry");
 				}
-
 			}
 
 			buffMaintain($effect[Simmering], 0, 1, 1);
