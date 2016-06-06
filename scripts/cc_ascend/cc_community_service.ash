@@ -75,15 +75,8 @@ void cs_initializeDay(int day)
 			use(item_amount($item[Pork Elf Goodies Sack]), $item[Pork Elf Goodies Sack]);
 			tootGetMeat();
 
-			buyUpTo(1, $item[antique accordion]);
 			cc_sourceTerminalRequest("educate extract.edu");
 			cc_sourceTerminalRequest("enquiry familiar.enq");
-
-			while((item_amount($item[turtle totem]) == 0) || (item_amount($item[saucepan]) == 0))
-			{
-				buyUpTo(1, $item[chewing gum on a string]);
-				use(1, $item[chewing gum on a string]);
-			}
 
 			equipBaseline();
 			visit_url("guild.php?place=challenge");
@@ -92,6 +85,12 @@ void cs_initializeDay(int day)
 			deck_cheat("meat");
 			deck_cheat("green mana");
 			autosell(item_amount($item[1952 Mickey Mantle Card]), $item[1952 Mickey Mantle Card]);
+
+			while(((item_amount($item[turtle totem]) == 0) || (item_amount($item[saucepan]) == 0)) && (my_meat() > npc_price($item[Chewing Gum on a String])))
+			{
+				buyUpTo(1, $item[chewing gum on a string]);
+				use(1, $item[chewing gum on a string]);
+			}
 
 			if(knoll_available())
 			{
