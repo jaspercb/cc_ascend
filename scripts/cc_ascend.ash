@@ -1399,7 +1399,7 @@ void initializeDay(int day)
 		}
 	}
 
-	if(!get_property("_floundryItemUsed").to_boolean() && (get_clan_furniture() contains $item[Clan Floundry]) && !get_property("kingLiberated").to_boolean())
+	if(!get_property("_floundryItemGot").to_boolean() && (get_clan_furniture() contains $item[Clan Floundry]) && !get_property("kingLiberated").to_boolean())
 	{
 		if(get_property("cc_floundryChoice") != "")
 		{
@@ -1415,7 +1415,11 @@ void initializeDay(int day)
 				}
 				else
 				{
-					set_property("_floundryItemUsed", true);
+					if(($items[Bass Clarinet, Codpiece, Fish Hatchet] contains myFloundry) && !get_property("_floundryItemUsed").to_boolean())
+					{
+						use(1, myFloundry);
+					}
+					set_property("_floundryItemGot", true);
 				}
 			}
 		}
@@ -11340,6 +11344,30 @@ boolean doTasks()
 	xiblaxian_makeStuff();
 	deck_useScheme("");
 
+	ocrs_postCombatResolve();
+	if((have_effect($effect[beaten up]) > 0) && (cc_my_path() == "Community Service"))
+	{
+		doHottub();
+	}
+
+	if(have_effect($effect[beaten up]) > 0)
+	{
+		if(have_effect($effect[Temporary Amnesia]) > 0)
+		{
+			doHottub();
+		}
+		else if((my_mp() > 20) && ((my_hp() * 1.2) >= my_maxhp()) && have_skill($skill[Tongue of the Walrus]))
+		{
+			use_skill(1, $skill[Tongue of the Walrus]);
+		}
+		if(have_effect($effect[beaten up]) > 0)
+		{
+			abort("Got beaten up, please fix me");
+		}
+	}
+
+
+
 	if(dna_startAcquire())
 	{
 		return true;
@@ -11372,28 +11400,6 @@ boolean doTasks()
 	}
 
 	autosellCrap();
-
-	ocrs_postCombatResolve();
-	if((have_effect($effect[beaten up]) > 0) && (cc_my_path() == "Community Service"))
-	{
-		doHottub();
-	}
-
-	if(have_effect($effect[beaten up]) > 0)
-	{
-		if(have_effect($effect[Temporary Amnesia]) > 0)
-		{
-			doHottub();
-		}
-		else if((my_mp() > 20) && ((my_hp() * 1.2) >= my_maxhp()) && have_skill($skill[Tongue of the Walrus]))
-		{
-			use_skill(1, $skill[Tongue of the Walrus]);
-		}
-		if(have_effect($effect[beaten up]) > 0)
-		{
-			abort("Got beaten up, please fix me");
-		}
-	}
 
 	if(my_daycount() != 2)
 	{
