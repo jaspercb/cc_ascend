@@ -283,7 +283,7 @@ boolean dealWithMilkOfMagnesium(boolean useAdv)
 	pullXWhenHaveY($item[Milk of Magnesium], 1, 0);
 	return true;
 }
-		
+
 void consumeStuff()
 {
 	if(ed_eatStuff())
@@ -308,7 +308,7 @@ void consumeStuff()
 
 	if(!have_skill($skill[Advanced Saucecrafting]))
 	{
-		if(((my_fullness() + 5) <= fullness_limit()) && ((my_inebriety() + 2) >= inebriety_limit()))
+		if((fullness_left() >= 5) && (inebriety_left() >= 2))
 		{
 			if((item_amount($item[Yellow Pixel]) >= 10) && (item_amount($item[Pixel Lemon]) == 0))
 			{
@@ -401,6 +401,46 @@ void consumeStuff()
 			}
 		}
 	}
+
+	if((my_inebriety() <= 6) || (my_adventures() < 20) || (item_amount($item[Spookyraven Library Key]) > 0) || (get_property("questM20Necklace") == "finished"))
+	{
+		if((inebriety_left() >= 4) && (my_mp() < mpForOde) && (my_maxmp() > mpForOde))
+		{
+			if((item_amount($item[Hacked Gibson]) > 0) && (my_level() >= 4))
+			{
+				if(my_meat() > 10000)
+				{
+					while(my_mp() < mpForOde)
+					{
+						if(((my_class() == $class[Sauceror]) || (my_class() == $class[Pastamancer])) && guild_store_available() && (my_level() >= 6) && (my_meat() > npc_price($item[Magical Mystery Juice])))
+						{
+							buyUpTo(1, $item[Magical Mystery Juice]);
+							use(1, $item[Magical Mystery Juice]);
+						}
+						else if(my_meat() > npc_price($item[Magical Mystery Juice]))
+						{
+							buyUpTo(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+							use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+						}
+					}
+				}
+			}
+		}
+
+		if((inebriety_left() >= 4) && (my_mp() >= mpForOde) && (item_amount($item[Hacked Gibson]) > 0) && (my_level() >= 4))
+		{
+			shrugAT();
+			buffMaintain($effect[Ode to Booze], 50, 1, 3);
+			drink(1, $item[Hacked Gibson]);
+		}
+	}
+
+	if((fullness_left() >= 4) && (my_level() >= 4))
+	{
+		int browserCookies = min(fullness_left()/4, item_amount($item[Browser Cookie]));
+		ccEat(browserCookies, $item[Browser Cookie]);
+	}
+
 
 	if(my_daycount() == 1)
 	{

@@ -238,7 +238,7 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			return "skill " + $skill[Source Punch];
 		}
-		abort("Unable to handle this agent... ugh.");
+		return "runaway";
 	}
 
 //	if(enemy == $monster[Your Shadow])

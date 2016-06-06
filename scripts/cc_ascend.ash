@@ -8514,6 +8514,11 @@ boolean L2_spookySapling()
 			print("Ewww, fake blood semirare. Worst. Day. Ever.", "red");
 			return true;
 		}
+		if(lastAdventureSpecialNC())
+		{
+			print("Special Non-combat interrupted us, no worries...", "green");
+			return true;
+		}
 		visit_url("choice.php?whichchoice=502&option=1&pwd");
 		visit_url("choice.php?whichchoice=503&option=3&pwd");
 		if(item_amount($item[bar skin]) > 0)

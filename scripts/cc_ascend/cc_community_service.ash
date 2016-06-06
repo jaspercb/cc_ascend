@@ -75,8 +75,16 @@ void cs_initializeDay(int day)
 			use(item_amount($item[Pork Elf Goodies Sack]), $item[Pork Elf Goodies Sack]);
 			tootGetMeat();
 
+			int[string] terminalStatus = cc_sourceTerminalStatus();
 			cc_sourceTerminalRequest("educate extract.edu");
-			cc_sourceTerminalRequest("enquiry familiar.enq");
+			if(terminalStatus["stats.enq"] == 1)
+			{
+				cc_sourceTerminalRequest("enquiry stats.enq");
+			}
+			else
+			{
+				cc_sourceTerminalRequest("enquiry familiar.enq");
+			}
 
 			equipBaseline();
 			visit_url("guild.php?place=challenge");
