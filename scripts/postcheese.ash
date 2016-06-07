@@ -26,6 +26,12 @@ void handlePostAdventure()
 		}
 	}
 
+	//This has a post combat scenario, let us just handle it.
+	if(last_monster() == $monster[Cake Lord])
+	{
+		run_choice(1);
+		run_choice(1);
+	}
 
 	if(get_property("cc_bedroomHandler1") == "yes")
 	{

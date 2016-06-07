@@ -81,6 +81,10 @@ void cs_initializeDay(int day)
 			{
 				cc_sourceTerminalRequest("enquiry stats.enq");
 			}
+			else if(terminalStatus["protect.enq"] == 1)
+			{
+				cc_sourceTerminalRequest("enquiry protect.enq");
+			}
 			else
 			{
 				cc_sourceTerminalRequest("enquiry familiar.enq");
@@ -130,13 +134,7 @@ void cs_initializeDay(int day)
 				}
 			}
 
-			if(get_property("questM23Meatsmith") == "unstarted")
-			{
-				set_property("choiceAdventure1059", 1);
-				visit_url("shop.php?whichshop=meatsmith");
-				visit_url("shop.php?whichshop=meatsmith&action=talk");
-				run_choice(1);
-			}
+			startMeatsmithSubQuest();
 
 			if(have_familiar($familiar[Crimbo Shrub]) && !get_property("_shrubDecorated").to_boolean())
 			{

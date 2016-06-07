@@ -497,10 +497,6 @@ boolean backupSetting(string setting, string newValue)
 			#print(domain + " " + name + " " + value);
 		}
 	}
-	if((found == 0) && (substring(setting, 0, 15) == "choiceAdventure"))
-	{
-		found = 1;
-	}
 
 	if(found == 1)
 	{
@@ -513,6 +509,7 @@ boolean backupSetting(string setting, string newValue)
 		set_property(setting, newValue);
 		return true;
 	}
+	set_property(setting, newValue);
 	return false;
 }
 

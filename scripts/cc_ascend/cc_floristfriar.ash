@@ -25,6 +25,7 @@ void trickMafiaAboutFlorist()
 	visit_url("choice.php?whichchoice=720&pwd=&option=4");
 	visit_url("place.php?whichplace=forestvillage&action=fv_friar");
 	visit_url("choice.php?whichchoice=720&pwd=&option=4");
+	//We might not need to do this last one...
 	visit_url("choice.php?whichchoice=720&pwd=&option=4");
 }
 
