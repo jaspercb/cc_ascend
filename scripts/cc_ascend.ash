@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16987;
+since r16999;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -2077,6 +2077,15 @@ void doBedtime()
 	}
 	if(is_unrestricted($item[Source Terminal]) && (get_campground() contains $item[Source Terminal]))
 	{
+		if(!get_property("_kingLiberated").to_boolean())
+		{
+			int count = 3 - get_property("_sourceTerminalExtrudes").to_int();
+			while(count > 0)
+			{
+				cc_sourceTerminalRequest("extrude -f booze.ext");
+				count -= 1;
+			}
+		}
 		int extrudeLeft = 3 - get_property("_sourceTerminalExtrudes").to_int();
 		if(extrudeLeft > 0)
 		{

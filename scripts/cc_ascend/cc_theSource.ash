@@ -114,19 +114,13 @@ boolean LX_theSource()
 		{
 			string temp = visit_url("shop.php?whichshop=meatsmith");
 			temp = visit_url("choice.php?pwd=&whichchoice=1059&option=2");
-			#As of r16995, mafia does not record the loss of $item[Check to the Meatsmith]
-			cli_execute("refresh inv");
 			return true;
 		}
 		if(goal == $location[Madness Bakery])
 		{
-			//Until we want to bother handling the post quest event...
-			set_property("choiceAdventure1061", 5);
 			if(internalQuestStatus("questM25Armorer") <= 1)
 			{
 				set_property("choiceAdventure1061", 1);
-				//Defeating the Cake Lord puts us directly into choice 1082 (option 1).
-				//and directly into choice 1083 (option 1).
 			}
 			else
 			{
