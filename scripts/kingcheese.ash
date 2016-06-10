@@ -49,7 +49,7 @@ void handleKingLiberation()
 			pullAll(it);
 		}
 
-		toPull = $items[Bittycar meatcar, burrowgrub hive, chester\'s bag of candy, chroner cross, chroner trigger, the cocktail shaker, festive warbear bank, glass gnoll eye, picky tweezers, taco dan\'s taco stand flier, Trivial Avocations Board Game, warbear breakfast machine, warbear soda machine];
+		toPull = $items[Bittycar meatcar, burrowgrub hive, chester\'s bag of candy, chroner cross, chroner trigger, the cocktail shaker, festive warbear bank, glass gnoll eye, infinite BACON machine, picky tweezers, taco dan\'s taco stand flier, Trivial Avocations Board Game, warbear breakfast machine, warbear soda machine];
 		foreach it in toPull
 		{
 			if(storage_amount(it) > 0)

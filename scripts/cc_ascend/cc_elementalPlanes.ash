@@ -170,7 +170,7 @@ boolean dinseylandfill_garbageMoney()
 	{
 		return false;
 	}
-	if(get_property("cc_dinseyGarbageMoney").to_int() == my_daycount())
+	if(get_property("_dinseyGarbageDisposed").to_boolean())
 	{
 		return false;
 	}
@@ -180,7 +180,6 @@ boolean dinseylandfill_garbageMoney()
 	}
 	if(item_amount($item[Bag of Park Garbage]) > 0)
 	{
-		set_property("cc_dinseyGarbageMoney", my_daycount());
 		visit_url("place.php?whichplace=airport_stench&action=airport3_tunnels");
 		visit_url("choice.php?pwd=&whichchoice=1067&option=6",true);
 		visit_url("main.php");

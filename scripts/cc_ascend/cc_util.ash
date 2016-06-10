@@ -1523,29 +1523,28 @@ boolean use_barrels()
 	}
 	return retval;
 }
-/*
+
 string runChoice(string page_text)
 {
-	while(contains_text(page_text , "choice.php"))
-	{
-		## Get choice adventure number
-		int begin_choice_adv_num = index_of(page_text , "whichchoice value=") + 18;
-		int end_choice_adv_num = index_of(page_text , "><input" , begin_choice_adv_num);
-		string choice_adv_num = substring(page_text , begin_choice_adv_num , end_choice_adv_num);
+    while(contains_text(page_text , "choice.php"))
+    {
+        ## Get choice adventure number
+        int begin_choice_adv_num = index_of(page_text , "whichchoice value=") + 18;
+        int end_choice_adv_num = index_of(page_text , "><input" , begin_choice_adv_num);
+        string choice_adv_num = substring(page_text , begin_choice_adv_num , end_choice_adv_num);
 
-		string choice_adv_prop = "choiceAdventure" + choice_adv_num;
-		string choice_num = get_property(choice_adv_prop);
-		if(choice_num == "")
-		{
-			abort("Unsupported Choice Adventure!");
-		}
+        string choice_adv_prop = "choiceAdventure" + choice_adv_num;
+        string choice_num = get_property(choice_adv_prop);
+        if(choice_num == "")
+        {
+            abort("Unsupported Choice Adventure!");
+        }
 
-		string url = "choice.php?pwd&whichchoice=" + choice_adv_num + "&option=" + choice_num;
-		page_text = visit_url(url);
-	}
-	return page_text;
+        string url = "choice.php?pwd&whichchoice=" + choice_adv_num + "&option=" + choice_num;
+        page_text = visit_url(url);
+    }
+    return page_text;
 }
-*/
 
 boolean zoneNonCombat(location loc)
 {
@@ -2402,9 +2401,17 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Fat Leon\'s Phat Loot Lyric]:	useSkill = $skill[Fat Leon\'s Phat Loot Lyric];	break;
 	case $effect[Feroci Tea]:					useItem = $item[cuppa Feroci tea];				break;
 	case $effect[Fire Inside]:					useItem = $item[Hot Coal];						break;
-	case $effect[Fishy\, Oily]:					useItem = $item[Gourmet Gourami Oil];			break;
+	case $effect[Fishy\, Oily]:
+		if(cc_my_path() == "Heavy Rains")
+		{
+			useItem = $item[Gourmet Gourami Oil];
+		}																						break;
 	case $effect[Fishy Fortification]:			useItem = $item[Fish-Liver Oil];				break;
-	case $effect[Fishy Whiskers]:				useItem = $item[Catfish Whiskers];				break;
+	case $effect[Fishy Whiskers]:
+		if(cc_my_path() == "Heavy Rains")
+		{
+			useItem = $item[Catfish Whiskers];
+		}																						break;
 	case $effect[Flame-Retardant Trousers]:		useItem = $item[Hot Powder];					break;
 	case $effect[Flaming Weapon]:				useItem = $item[Hot Nuggets];					break;
 	case $effect[Flamibili Tea]:				useItem = $item[cuppa Flamibili Tea];			break;

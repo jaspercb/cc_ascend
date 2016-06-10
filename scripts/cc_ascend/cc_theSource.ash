@@ -114,6 +114,9 @@ boolean LX_theSource()
 		{
 			string temp = visit_url("shop.php?whichshop=meatsmith");
 			temp = visit_url("choice.php?pwd=&whichchoice=1059&option=2");
+			#As of r16995, mafia does not record the loss of $item[Check to the Meatsmith]
+			cli_execute("refresh inv");
+			return true;
 		}
 		if(goal == $location[Madness Bakery])
 		{
@@ -134,6 +137,7 @@ boolean LX_theSource()
 		{
 			string temp = visit_url("shop.php?whichshop=armory");
 			temp = visit_url("choice.php?pwd=&whichchoice=1065&option=2");
+			return true;
 		}
 		if(goal == $location[The Overgrown Lot])
 		{
@@ -152,6 +156,7 @@ boolean LX_theSource()
 			string temp = visit_url("shop.php?whichshop=doc");
 			temp = visit_url("shop.php?whichshop=doc&action=talk");
 			temp = visit_url("choice.php?pwd=&whichchoice=1064&option=2");
+			return true;
 		}
 		if((goal == $location[The Batrat and Ratbat Burrow]) && (internalQuestStatus("questL04Bat") < 1))
 		{
@@ -162,29 +167,29 @@ boolean LX_theSource()
 			return false;
 		}
 
-
-		if((goal == $location[Lair of the Ninja Snowmen]) && (my_level() < 8))
+		if((goal == $location[Lair of the Ninja Snowmen]) && ((get_property("cc_trapper") != "yeti") && (get_property("cc_trapper") != "finished")))
 		{
 			return false;
 		}
-		if((goal == $location[The VERY Unquiet Garves]) && (my_level() < 7))
+		if((goal == $location[The VERY Unquiet Garves]) && (get_property("cc_crypt") == "finished"))
 		{
 			return false;
 		}
-		if((goal == $location[The Castle in the Clouds in the Sky (Top Floor)]) && (my_level() < 10))
-		{
-			return false;
-		}
-
-		if((goal == $location[The Red Zeppelin]) && (my_level() < 11))
-		{
-			return false;
-		}
-		if((goal == $location[The Hidden Park]) && (my_level() < 11))
+		if((goal == $location[The Castle in the Clouds in the Sky (Top Floor)]) && (get_property("cc_castleground") == "finished"))
 		{
 			return false;
 		}
 
+		if((goal == $location[The Red Zeppelin]) && (internalQuestStatus("questL11Ron") < 3))
+		{
+			return false;
+		}
+		if((goal == $location[The Hidden Park]) && (get_property("cc_hiddenunlock") == "finished"))
+		{
+			return false;
+		}
+
+		print("Not searching for a spoon, not at all...", "green");
 		return ccAdv(goal);
 	}
 	return false;

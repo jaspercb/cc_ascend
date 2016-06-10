@@ -217,11 +217,21 @@ void initializeSettings()
 boolean handleFamiliar(string type)
 {
 	//	Put all familiars in reverse priority order here.
+	int[familiar] blacklist;
+	if(get_property("cc_blacklistFamiliar") != "")
+	{
+		string[int] noFams = split_string(get_property("cc_blacklistFamiliar"), ";");
+		foreach index, fam in noFams
+		{
+			blacklist[to_familiar(fam)] = 1;
+		}
+	}
+
 	if(type == "meat")
 	{
 		foreach fam in $familiars[Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Hobo Monkey, Piano Cat, Leprechaun]
 		{
-			if(have_familiar(fam))
+			if(have_familiar(fam) && !(blacklist contains fam))
 			{
 				return handleFamiliar(fam);
 			}
@@ -231,7 +241,7 @@ boolean handleFamiliar(string type)
 	{
 		foreach fam in $familiars[Rockin\' Robin, Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Intergnat, Slimeling, Baby Gravy Fairy]
 		{
-			if(have_familiar(fam))
+			if(have_familiar(fam) && !(blacklist contains fam))
 			{
 				return handleFamiliar(fam);
 			}
@@ -243,7 +253,7 @@ boolean handleFamiliar(string type)
 		{
 			foreach fam in $familiars[Galloping Grill, Rockin\' Robin, Hovering Sombrero, Baby Sandworm]
 			{
-				if(have_familiar(fam))
+				if(have_familiar(fam) && !(blacklist contains fam))
 				{
 					return handleFamiliar(fam);
 				}
@@ -251,7 +261,7 @@ boolean handleFamiliar(string type)
 		}
 		foreach fam in $familiars[Grim Brother, Rockin\' Robin, Golden Monkey, Reanimated Reanimator, Unconscious Collective, Bloovian Groose, Lil\' Barrel Mimic, Artistic Goth Kid, Happy Medium, Baby Z-Rex, Li\'l Xenomorph, Smiling Rat, Dramatic Hedgehog, Grinning Turtle, Frumious Bandersnatch, Blood-Faced Volleyball]
 		{
-			if(have_familiar(fam))
+			if(have_familiar(fam) && !(blacklist contains fam))
 			{
 				return handleFamiliar(fam);
 			}
@@ -264,9 +274,11 @@ boolean handleFamiliar(string type)
 			if($familiars[Rockin\' Robin, Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Baby Gravy Fairy] contains my_familiar())
 			{
 				foreach fam in $familiars[Happy Medium, Xiblaxian Holo-Companion, Oily Woim]
-				if(have_familiar(fam))
 				{
-					return handleFamiliar(fam);
+					if(have_familiar(fam) && !(blacklist contains fam))
+					{
+						return handleFamiliar(fam);
+					}
 				}
 			}
 		}
@@ -2063,6 +2075,15 @@ void doBedtime()
 	{
 		print("Still have some of Glenn's Golden Dice that you can use!", "blue");
 	}
+	if(is_unrestricted($item[Source Terminal]) && (get_campground() contains $item[Source Terminal]))
+	{
+		int extrudeLeft = 3 - get_property("_sourceTerminalExtrudes").to_int();
+		if(extrudeLeft > 0)
+		{
+			print("You still have " + extrudeLeft + " Source Extrusions left", "blue");
+		}
+	}
+
 	if((get_property("spookyAirportAlways").to_boolean()) && (my_class() != $class[Ed]) && !get_property("_controlPanelUsed").to_boolean())
 	{
 		visit_url("place.php?whichplace=airport_spooky_bunker&action=si_controlpanel");
@@ -4024,7 +4045,7 @@ boolean L13_towerNSEntrance()
 		{
 			print("I seem to need to power level, or something... waaaa.", "red");
 			wait(10);
-			if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available() && (cc_my_path() != "The Source"))
 			{
 				doRest();
 				cli_execute("scripts/postcheese.ash");
@@ -6531,9 +6552,18 @@ boolean L10_topFloor()
 
 	print("Castle Top Floor", "blue");
 	set_property("choiceAdventure677", 1);
-	set_property("choiceAdventure675", 4);
-	set_property("choiceAdventure678", 3);
+	if(item_amount($item[Drum \'n\' Bass \'n\' Drum \'n\' Bass Record]) > 0)
+	{
+		set_property("choiceAdventure675", 4);
+	}
+	else
+	{
+		set_property("choiceAdventure675", 2);
+	}
 	set_property("choiceAdventure676", 4);
+
+	//3 is Only available after completing Giant Trash Quest? We only get choices 1, 2, 4(676)
+	set_property("choiceAdventure678", 3);
 
 	if((item_amount($item[mohawk wig]) == 0) && !in_hardcore())
 	{
@@ -7471,7 +7501,10 @@ boolean LX_steelOrgan()
 		set_property("cc_getSteelOrgan", false);
 		return false;
 	}
-	print("I am hungry for some steel.", "blue");
+	if(get_property("questM10Azazel") != "finished")
+	{
+		print("I am hungry for some steel.", "blue");
+	}
 	if(get_property("questM10Azazel") == "unstarted")
 	{
 		string temp = visit_url("pandamonium.php");
@@ -7620,11 +7653,12 @@ boolean LX_steelOrgan()
 	}
 	else if(get_property("questM10Azazel") == "finished")
 	{
+		print("Considering Steel Organ consumption.....", "blue");
 		if((item_amount($item[Steel Lasagna]) > 0) && (fullness_left() >= 5))
 		{
 			eatsilent(1, $item[Steel Lasagna]);
 		}
-		if((item_amount($item[Steel Margarita]) > 0) && ((my_inebriety() <= 5) || (my_inebriety() >= 12)) && (inebriety_left() >= 5))
+		if((item_amount($item[Steel Margarita]) > 0) && ((my_inebriety() <= 5) || (my_inebriety() >= 12)))
 		{
 			drink(1, $item[Steel Margarita]);
 		}
@@ -11354,6 +11388,10 @@ boolean doTasks()
 	{
 		doHottub();
 	}
+	if((have_effect($effect[beaten up]) > 0) && (cc_my_path() == "The Source") && (last_monster() == $monster[Source Agent]))
+	{
+		doHottub();
+	}
 
 	if(have_effect($effect[beaten up]) > 0)
 	{
@@ -11374,6 +11412,11 @@ boolean doTasks()
 
 
 	if(dna_startAcquire())
+	{
+		return true;
+	}
+
+	if(fortuneCookieEvent())
 	{
 		return true;
 	}
@@ -11569,11 +11612,6 @@ boolean doTasks()
 	if((my_daycount() == 1) && (turkeyBooze() < 5) && have_familiar($familiar[Fist Turkey]))
 	{
 		handleFamiliar($familiar[Fist Turkey]);
-	}
-
-	if(fortuneCookieEvent())
-	{
-		return true;
 	}
 
 	LX_craftAcquireItems();

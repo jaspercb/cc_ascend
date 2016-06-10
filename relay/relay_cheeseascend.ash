@@ -52,6 +52,7 @@ void handleSetting(int x)
 	case "SHARING":	color = "#ff6644";		break;
 	default:		color = "#ffffff";		break;
 	}
+
 	switch(s[x].type)
 	{
 	case "boolean":

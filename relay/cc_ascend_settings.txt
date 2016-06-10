@@ -29,3 +29,4 @@
 29	cc_teaChoice	string	ANY	When using the tea tree, grab this 'tea'. Must use a string that acceptable to Mafia's 'teatree' command (Use ; to separate by daycount, leave blank to skip a day).
 30	cc_floundryChoice	string	ANY	Force floundry usage. Must use the item name (Use ; to separate by daycount, leave blank to skip a day).
 31	cc_xiblaxianChoice	string	ANY	When using Xiblaxian Stuff, do we make a Xiblaxian Ultraburrito or Xiblaxian Space-Whiskey
+32	cc_blacklistFamiliar	string	ANY	A semi-colon separate string of familiar names that we do not want to use. They still may get used but this will minimize their usage.

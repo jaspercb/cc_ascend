@@ -182,7 +182,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	boolean doBanisher = !get_property("kingLiberated").to_boolean();
 
-	if(enemy == $monster[Source Agent])
+	if($monsters[One Thousand Source Agents, Source Agent] contains enemy)
 	{
 		if(have_skill($skill[Data Siphon]))
 		{
