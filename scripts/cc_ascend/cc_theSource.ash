@@ -165,11 +165,11 @@ boolean LX_theSource()
 		{
 			return false;
 		}
-		if((goal == $location[The VERY Unquiet Garves]) && (get_property("cc_crypt") == "finished"))
+		if((goal == $location[The VERY Unquiet Garves]) && (get_property("cc_crypt") != "finished"))
 		{
 			return false;
 		}
-		if((goal == $location[The Castle in the Clouds in the Sky (Top Floor)]) && (get_property("cc_castleground") == "finished"))
+		if((goal == $location[The Castle in the Clouds in the Sky (Top Floor)]) && (get_property("cc_castleground") != "finished"))
 		{
 			return false;
 		}

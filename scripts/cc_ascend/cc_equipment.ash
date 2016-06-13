@@ -720,7 +720,7 @@ void removeNonCombat()
 void equipRollover()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Sea Cowboy Hat, Hairpiece on Fire, Leather Aviator\'s Cap, Very Pointy Crown];
+	boolean[item] poss = $items[Sea Cowboy Hat, Hairpiece on Fire, Leather Aviator\'s Cap, Spelunker\'s Fedora, Very Pointy Crown];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -837,7 +837,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = $items[Gold Wedding Ring, Fudgecycle, Treads of Loathing];
+	poss = $items[Gold Wedding Ring, Ticksilver Ring, Fudgecycle, Treads of Loathing];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))

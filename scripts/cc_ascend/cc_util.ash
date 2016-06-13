@@ -121,6 +121,7 @@ boolean isBanished(monster enemy);
 boolean startArmorySubQuest();
 boolean startMeatsmithSubQuest();
 boolean startGalaktikSubQuest();
+string trim(string input);
 
 // Private Prototypes
 boolean buffMaintain(item source, effect buff, int uses, int turns);
@@ -396,6 +397,12 @@ void debugMaximize(string req, int meat)
 	//	A successive print will help make the table readable in cases where it is not rendered properly
 	//cli_execute("ashref get_inventory");
 
+}
+
+string trim(string input)
+{
+	matcher whitespace = create_matcher("(\\A\\s+)|(\\s+\\z)", input);
+	return replace_all(whitespace, "");
 }
 
 
@@ -1215,6 +1222,8 @@ boolean isFreeMonster(monster mon)
 
 	boolean[monster] witchess = $monsters[Witchess Bishop, Witchess King, Witchess Knight, Witchess Ox, Witchess Pawn, Witchess Queen, Witchess Rook, Witchess Witch];
 
+	boolean[monster] halloween = $monsters[kid who is too old to be Trick-or-Treating, suburban security civilian, vandal kid];
+
 	boolean[monster] other = $monsters[lynyrd, giant rubber spider, Travoltron];
 
 
@@ -1240,6 +1249,10 @@ boolean isFreeMonster(monster mon)
 		return true;
 	}
 	if(witchess contains mon)
+	{
+		return true;
+	}
+	if(halloween contains mon)
 	{
 		return true;
 	}

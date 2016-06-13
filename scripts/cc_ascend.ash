@@ -223,7 +223,7 @@ boolean handleFamiliar(string type)
 		string[int] noFams = split_string(get_property("cc_blacklistFamiliar"), ";");
 		foreach index, fam in noFams
 		{
-			blacklist[to_familiar(fam)] = 1;
+			blacklist[to_familiar(trim(fam))] = 1;
 		}
 	}
 
@@ -1390,7 +1390,7 @@ void initializeDay(int day)
 		if(get_property("cc_teaChoice") != "")
 		{
 			string[int] teaChoice = split_string(get_property("cc_teaChoice"), ";");
-			item myTea = teaChoice[min(count(teaChoice), my_daycount()) - 1].to_item();
+			item myTea = trim(teaChoice[min(count(teaChoice), my_daycount()) - 1]).to_item();
 			if(myTea != $item[none])
 			{
 				boolean buff = cli_execute("teatree " + myTea);
@@ -1416,7 +1416,7 @@ void initializeDay(int day)
 		if(get_property("cc_floundryChoice") != "")
 		{
 			string[int] floundryChoice = split_string(get_property("cc_floundryChoice"), ";");
-			item myFloundry = floundryChoice[min(count(floundryChoice), my_daycount()) - 1].to_item();
+			item myFloundry = trim(floundryChoice[min(count(floundryChoice), my_daycount()) - 1]).to_item();
 			int oldCount = item_amount(myFloundry);
 			if(myFloundry != $item[none])
 			{
@@ -2080,7 +2080,7 @@ void doBedtime()
 		if(!get_property("_kingLiberated").to_boolean())
 		{
 			int count = 3 - get_property("_sourceTerminalExtrudes").to_int();
-			while(count > 0)
+			while((count > 0) && (item_amount($item[Hacked Gibson]) < 3))
 			{
 				cc_sourceTerminalRequest("extrude -f booze.ext");
 				count -= 1;
@@ -11395,11 +11395,27 @@ boolean doTasks()
 	ocrs_postCombatResolve();
 	if((have_effect($effect[beaten up]) > 0) && (cc_my_path() == "Community Service"))
 	{
-		doHottub();
+		if((my_mp() > 100) && have_skill($skill[Tongue of the Walrus]) && have_skill($skill[Cannelloni Cocoon]))
+		{
+			use_skill($skill[Tongue of the Walrus]);
+			useCocoon();
+		}
+		else
+		{
+			doHottub();
+		}
 	}
 	if((have_effect($effect[beaten up]) > 0) && (cc_my_path() == "The Source") && (last_monster() == $monster[Source Agent]))
 	{
-		doHottub();
+		if((my_mp() > 100) && have_skill($skill[Tongue of the Walrus]) && have_skill($skill[Cannelloni Cocoon]))
+		{
+			use_skill($skill[Tongue of the Walrus]);
+			useCocoon();
+		}
+		else
+		{
+			doHottub();
+		}
 	}
 
 	if(have_effect($effect[beaten up]) > 0)

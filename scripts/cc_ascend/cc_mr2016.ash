@@ -204,36 +204,57 @@ boolean cc_advWitchess(string target, string option)
 		return false;
 	}
 
+	if(my_adventures() == 0)
+	{
+		return false;
+	}
+
 	int goal = cc_advWitchessTargets(target);
 	if(goal == 0)
 	{
 		return false;
 	}
 
-	//Tracking Stuff (Someday we can remove this).
-	#if(my_daycount() != get_property("cc_witchessBattleDay").to_int())
-	#{
-	#	set_property("cc_witchessBattles", 0);
-	#	set_property("cc_witchessBattleDay", my_daycount());
-	#}
-
 	if(get_property("_cc_witchessBattles").to_int() >= 5)
 	{
 		return false;
 	}
 
-	if(get_property("_witchessFights").to_int() >= 5)
-	{
-		return false;
-	}
+//	if(get_property("_witchessFights").to_int() >= 5)
+//	{
+//		return false;
+//	}
 
-	if(get_property("_witchessFights").to_int() > get_property("_cc_witchessBattles").to_int())
-	{
-		print("_witchessFights is greater than our tracking, it is probably more accurate at this point (assuming manual Witchess combats).", "red");
-		set_property("_cc_witchessBattles", get_property("_witchessFights"));
-	}
+//	if(get_property("_witchessFights").to_int() > get_property("_cc_witchessBattles").to_int())
+//	{
+//		print("_witchessFights is greater than our tracking, it is probably more accurate at this point (assuming manual Witchess combats).", "red");
+//		set_property("_cc_witchessBattles", get_property("_witchessFights"));
+//	}
 
 	set_property("_cc_witchessBattles", get_property("_cc_witchessBattles").to_int() + 1);
+
+	string temp = visit_url("campground.php?action=witchess");
+	if(!contains_text(temp, "Examine the shrink ray"))
+	{
+		set_property("_cc_witchessBattles", 5);
+		return false;
+	}
+	temp = visit_url("choice.php?whichchoice=1181&pwd=&option=1");
+	matcher witchessMatcher = create_matcher("You can fight (\\d) more piece(s?) today", temp);
+	if(witchessMatcher.find())
+	{
+		int consider = (5 - witchessMatcher.group(1).to_int()) + 1;
+		if(consider > get_property("_cc_witchessBattles").to_int())
+		{
+			set_property("_cc_witchessBattles", consider);
+		}
+	}
+	else
+	{
+		set_property("_cc_witchessBattles", 5);
+		return false;
+	}
+	temp = visit_url("choice.php?pwd=&option=2&whichchoice=1182");
 
 	string[int] pages;
 	pages[0] = "campground.php?action=witchess";

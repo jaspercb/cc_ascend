@@ -895,6 +895,7 @@ boolean deck_useScheme(string action)
 		return false;
 	}
 
+	int count = 0;
 	foreach card in cards
 	{
 		if(card == "key")
@@ -908,7 +909,15 @@ boolean deck_useScheme(string action)
 				continue;
 			}
 		}
-		if(!deck_cheat(card))
+		if(count >= 3)
+		{
+			break;
+		}
+		if(deck_cheat(card))
+		{
+			count += 1;
+		}
+		else
 		{
 			print("Could not draw card for some reason, we may be stuck in a choice adventure.");
 			abort("Failure when drawing cards, if any were drawn, the rest will NOT be drawn. Draw them and resume.");

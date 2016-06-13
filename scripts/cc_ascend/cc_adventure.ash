@@ -120,7 +120,15 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 	}
 	if(contains_text(page, "Combat"))
 	{
-		return ccAdv(1, loc, option);
+		if(option != "null")
+		{
+			return ccAdv(1, loc, option);
+		}
+		else
+		{
+			cli_execute("postcheese");
+			return true;
+		}
 	}
 
 	# Encounters that need to generate a false so we handle them manually should go here.

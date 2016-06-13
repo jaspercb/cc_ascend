@@ -220,12 +220,10 @@ string cc_combatHandler(int round, string opp, string text)
 					return "skill " + $skill[Disarmament];
 				}
 			}
-			else
+
+			if(have_skill($skill[Source Kick]) && (my_mp() >= mp_cost($skill[Source Kick])))
 			{
-				if(have_skill($skill[Source Kick]) && (my_mp() >= mp_cost($skill[Source Kick])))
-				{
-					return "skill " + $skill[Source Kick];
-				}
+				return "skill " + $skill[Source Kick];
 			}
 		}
 

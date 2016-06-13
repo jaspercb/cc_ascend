@@ -402,7 +402,7 @@ boolean cc_doWalford()
 	{
 		use(1, $item[Bag O\' Tricks]);
 	}
-	getDiscoStyle(6);
+	getDiscoStyle(7);
 	visit_url("place.php?whichplace=airport_hot&action=airport4_questhub");
 
 	if(get_property("cc_dinseyGarbageMoney").to_int() < my_daycount())
@@ -1018,7 +1018,7 @@ boolean cc_cheesePostCSWalford()
 	dinseylandfill_garbageMoney();
 	set_property("cc_getDinseyGarbageMoney", oldGarbage);
 
-	getDiscoStyle(6);
+	getDiscoStyle(7);
 
 	//Equip Ice Hole Equipment
 
