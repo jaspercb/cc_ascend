@@ -41,7 +41,6 @@ boolean mayo_acquireMayo(item it)
 	{
 		return false;
 	}
-	
 	return true;
 }
 
@@ -908,6 +907,14 @@ boolean deck_useScheme(string action)
 			{
 				continue;
 			}
+		}
+		if((my_path() == "The Source") && (card == (my_primestat() + " stat")))
+		{
+			continue;
+		}
+		if((card == "1952 Mickey Mantle") && (my_meat() >= 20000))
+		{
+			continue;
 		}
 		if(count >= 3)
 		{

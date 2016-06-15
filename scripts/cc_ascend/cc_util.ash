@@ -2326,6 +2326,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Alacri Tea]:					useItem = $item[cuppa Alacri Tea];				break;
 	case $effect[All Fired Up]:					useItem = $item[Ant Agonist];					break;
 	case $effect[All Glory To The Toad]:		useItem = $item[Colorful Toad];					break;
+	case $effect[Almost Cool]:					useItem = $item[Mostly-Broken Sunglasses];		break;
 	case $effect[Aloysius\' Antiphon of Aptitude]:useSkill = $skill[Aloysius\' Antiphon of Aptitude];break;
 	case $effect[Amazing]:						useItem = $item[Pocket Maze];					break;
 	case $effect[Antibiotic Saucesphere]:		useSkill = $skill[Antibiotic Saucesphere];		break;
@@ -2579,6 +2580,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 		{
 			useItem = $item[Drizzlers&trade; Black Licorice];
 		}																						break;
+	case $effect[Ready to Snap]:				useItem = $item[Ginger Snaps];					break;
 	case $effect[Really Quite Poisoned]:		useSkill = $skill[Disco Nap];					break;
 	case $effect[Red Lettered]:					useItem = $item[Red Letter];					break;
 	case $effect[Red Door Syndrome]:			useItem = $item[Can of Black Paint];			break;

@@ -169,9 +169,16 @@ boolean LX_theSource()
 		{
 			return false;
 		}
-		if((goal == $location[The Castle in the Clouds in the Sky (Top Floor)]) && (get_property("cc_castleground") != "finished"))
+		if(goal == $location[The Castle in the Clouds in the Sky (Top Floor)])
 		{
-			return false;
+			if(get_property("cc_castleground") != "finished")
+			{
+				return false;
+			}
+			if(L10_topFloor() || L10_holeInTheSkyUnlock())
+			{
+				return true;
+			}
 		}
 
 		if((goal == $location[The Red Zeppelin]) && (internalQuestStatus("questL11Ron") < 3))
