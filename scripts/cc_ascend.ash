@@ -3272,6 +3272,10 @@ boolean L13_towerNSFinal()
 	{
 		handleFamiliar($familiar[Fist Turkey]);
 	}
+	if(have_familiar($familiar[Machine Elf]))
+	{
+		handleFamiliar($familiar[Machine Elf]);
+	}
 
 	if(item_amount($item[Beer Helmet]) > 0)
 	{
@@ -6563,11 +6567,11 @@ boolean L10_topFloor()
 	set_property("choiceAdventure677", 1);
 	if(item_amount($item[Drum \'n\' Bass \'n\' Drum \'n\' Bass Record]) > 0)
 	{
-		set_property("choiceAdventure675", 4);
+		set_property("choiceAdventure675", 2);
 	}
 	else
 	{
-		set_property("choiceAdventure675", 2);
+		set_property("choiceAdventure675", 4);
 	}
 	set_property("choiceAdventure676", 4);
 
@@ -11714,7 +11718,7 @@ boolean doTasks()
 
 	if((my_class() != $class[Ed]) && (my_level() >= 9) && (my_daycount() == 1))
 	{
-		if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+		if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available() && (cc_my_path() != "The Source"))
 		{
 			doRest();
 			cli_execute("scripts/postcheese.ash");
