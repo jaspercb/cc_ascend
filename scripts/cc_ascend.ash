@@ -3261,7 +3261,11 @@ boolean L13_towerNSFinal()
 		return false;
 	}
 
-	cli_execute("scripts/postcheese.ash");
+	//Only if the final boss does not unbuff us...
+	if(!($strings[Actually Ed the Unyding, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Bees Hate You, Bugbear Invasion, Community Service, Heavy Rains, The Source, Way of the Surprising Fist, Zombie Slayer] contains cc_my_path()))
+	{
+		cli_execute("scripts/postcheese.ash");
+	}
 	if((item_amount($item[Ouija Board\, Ouija Board]) > 0) && (my_class() == $class[Turtle Tamer]))
 	{
 		equip($item[Ouija Board\, Ouija Board]);
@@ -3301,6 +3305,7 @@ boolean L13_towerNSFinal()
 
 	if(internalQuestStatus("questL13Final") < 12)
 	{
+		cli_execute("scripts/precheese.ash");
 		set_property("cc_disableAdventureHandling", "yes");
 		ccAdvBypass("place.php?whichplace=nstower&action=ns_10_sorcfight", $location[Noob Cave]);
 		if(have_effect($effect[Beaten Up]) > 0)

@@ -195,10 +195,20 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 			else if(my_mp() > 125)
 			{
-				if(!contains_text(combatState, "(reboot)") && have_skill($skill[Reboot]) && (my_mp() >= mp_cost($skill[Reboot])))
+				if(!contains_text(combatState, "(reboot)") && have_skill($skill[Reboot]) && (my_mp() >= mp_cost($skill[Reboot])) && ((have_effect($effect[Latency]) > 0) || ((my_hp() * 2) < my_maxhp())))
 				{
 					set_property("cc_combatHandler", combatState + "(reboot)");
 					return "skill " + $skill[Reboot];
+				}
+				if(!contains_text(combatState, "(humiliatingHack)") && have_skill($skill[Humiliating Hack]) && (my_mp() >= mp_cost($skill[Humiliating Hack])))
+				{
+					set_property("cc_combatHandler", combatState + "(humiliatingHack)");
+					return "skill " + $skill[Humiliating Hack];
+				}
+				if(!contains_text(combatState, "(disarmament)") && have_skill($skill[Disarmament]) && (my_mp() >= mp_cost($skill[Disarmament])))
+				{
+					set_property("cc_combatHandler", combatState + "(disarmament)");
+					return "skill " + $skill[Disarmament];
 				}
 				if(!contains_text(combatState, "(big guns)") && have_skill($skill[Big Guns]) && (my_mp() >= mp_cost($skill[Big Guns])) && (my_hp() < 100))
 				{
