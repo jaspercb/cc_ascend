@@ -528,8 +528,13 @@ string cs_combatNormal(int round, string opp, string text)
 		return "skill " + $skill[Digitize];
 	}
 
+	boolean danger = false;
+	if((my_location() == $location[The X-32-F Combat Training Snowman]) && contains_text(text, "Cattle Prod"))
+	{
+		danger = true;
+	}
 
-	if((!contains_text(combatState, "(extract)")) && have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 3)))
+	if((!contains_text(combatState, "(extract)")) && have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 3)) && !danger)
 	{
 		set_property("cc_combatHandler", combatState + "(extract)");
 		return "skill " + $skill[Extract];
@@ -646,6 +651,41 @@ string cs_combatYR(int round, string opp, string text)
 	}
 	return "skill salsaball";
 }
+
+string cs_combatKing(int round, string opp, string text)
+{
+	if(round == 0)
+	{
+		print("cc_combatHandler: " + round, "brown");
+		set_property("cc_combatHandler", "");
+	}
+
+	set_property("cc_diag_round", round);
+	if(get_property("cc_diag_round").to_int() > 60)
+	{
+		abort("Somehow got to 60 rounds.... aborting");
+	}
+
+	monster enemy = to_monster(opp);
+	string combatState = get_property("cc_combatHandler");
+
+	if(enemy != $monster[Witchess King])
+	{
+		abort("Wrong combat script called");
+	}
+
+	foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Tattle, Summon Love Mosquito, Shell Up, Silent Slam, Sauceshell, Summon Love Stinkbug, Extract]
+	{
+		if((!contains_text(combatState, "(" + action + ")")) && have_skill(action) && (my_mp() > mp_cost(action)))
+		{
+			set_property("cc_combatHandler", combatState + "(" + action + ")");
+			return "skill " + action;
+		}
+	}
+
+	return "action with weapon";
+}
+
 
 string cs_combatLTB(int round, string opp, string text)
 {
@@ -1021,6 +1061,7 @@ boolean LA_cs_communityService()
 	cs_dnaPotions();
 	use_barrels();
 	cs_make_stuff();
+	cc_mayoItems();
 
 	if(fortuneCookieEvent())
 	{
@@ -1031,6 +1072,10 @@ boolean LA_cs_communityService()
 	if((equipped_item($slot[Shirt]) == $item[none]) && possessEquipment($item[Tunac]))
 	{
 		equip($slot[Shirt], $item[Tunac]);
+	}
+	if((equipped_item($slot[Off-Hand]) == $item[A Light that Never Goes Out]) && possessEquipment($item[Barrel Lid]))
+	{
+		equip($slot[Off-Hand], $item[Barrel Lid]);
 	}
 	print(what_cs_quest(curQuest), "blue");
 
@@ -1075,10 +1120,25 @@ boolean LA_cs_communityService()
 	//Quest order on Day 1: 11, 6, 9
 	//Day 2: 7, 10, 1, 2, 3, 4, 5, 8
 
+	if((my_daycount() == 2) && cc_haveWitchess() && have_skill($skill[Curse of Weaksauce]) && have_skill($skill[Tattle]) && have_skill($skill[Conspiratorial Whispers]) && have_skill($skill[Sauceshell]) && have_skill($skill[Shell Up]) && have_skill($skill[Silent Slam]) && !possessEquipment($item[Dented Scepter]) && (get_property("_cc_witchesBattles").to_int() < 5) && have_familiar($familiar[Galloping Grill]))
+	{
+		while((my_mp() < 120) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+		{
+			doRest();
+		}
+		if((my_hp() < 200) && ((my_hp()+30) < my_maxhp()))
+		{
+			useCocoon();
+		}
+		handleFamiliar($familiar[Galloping Grill]);
+		return cc_advWitchess("king", "cs_combatKing");
+	}
+
 	if((my_daycount() != 1) && cs_witchess())
 	{
 		return true;
 	}
+
 
 #	if(my_daycount() == 1)
 	if((curQuest == 11) || (curQuest == 6) || (curQuest == 9) || (curQuest == 7))
@@ -1221,6 +1281,11 @@ boolean LA_cs_communityService()
 					curQuest = 0;
 					abort("Could not handle our quest and can not recover");
 				}
+			}
+
+			if((curQuest != 11) && (have_effect($effect[substats.enh]) == 0) && (cc_sourceTerminalEnhanceLeft() >= 2))
+			{
+				cc_sourceTerminalEnhance("substats");
 			}
 
 			buffMaintain($effect[Singer\'s Faithful Ocelot], 15, 1, 1);
@@ -2408,6 +2473,13 @@ boolean LA_cs_communityService()
 				ccAdv(1, $location[The X-32-F Combat Training Snowman]);
 				return true;
 			}
+			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 2))
+			{
+				handleFamiliar($familiar[Machine Elf]);
+				ccAdv(1, $location[The Deep Machine Tunnels]);
+				return true;
+			}
+
 
 			if((have_effect($effect[Half-Blooded]) > 0) || (have_effect($effect[Half-Drained]) > 0) || (have_effect($effect[Bruised]) > 0) || (have_effect($effect[Relaxed Muscles]) > 0) || (have_effect($effect[Hypnotized]) > 0) || (have_effect($effect[Bad Haircut]) > 0))
 			{
@@ -2539,7 +2611,7 @@ boolean LA_cs_communityService()
 
 			if(have_effect($effect[items.enh]) == 0)
 			{
-				cc_sourceTerminalRequest("enhance items.enh");
+				cc_sourceTerminalEnhance("items");
 			}
 
 			buffMaintain($effect[Singer\'s Faithful Ocelot], 15, 1, 1);
@@ -2684,6 +2756,11 @@ boolean LA_cs_communityService()
 			if((item_amount($item[Stench Powder]) > 0) && (item_amount($item[Lotion of Stench]) == 0) && (have_effect($effect[Stinky Hands]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0) && have_skill($skill[Advanced Saucecrafting]))
 			{
 				cli_execute("make lotion of stench");
+			}
+
+			if(!get_property("_mayoTankSoaked").to_boolean() && (cc_get_campground() contains $item[Portable Mayo Clinic]) && is_unrestricted($item[Portable Mayo Clinic]))
+			{
+				string temp = visit_url("shop.php?action=bacta&whichshop=mayoclinic");
 			}
 
 			buffMaintain($effect[Protection from Bad Stuff], 0, 1, 1);

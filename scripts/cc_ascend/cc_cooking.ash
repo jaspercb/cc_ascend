@@ -244,7 +244,7 @@ boolean ccEat(int howMany, item toEat)
 			buyUpTo(1, $item[Mayoflex], 1000);
 			use(1, $item[Mayoflex]);
 		}
-		retval = eat(1, toEat);
+		retval = eatsilent(1, toEat);
 		howMany = howMany - 1;
 	}
 	return retval;

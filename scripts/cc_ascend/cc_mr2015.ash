@@ -190,6 +190,16 @@ boolean cc_mayoItems()
 		case 4:				mayos = $items[Mayo Lance];							break;
 		}
 	}
+	else if(my_path() == "Community Service")
+	{
+		switch(my_daycount())
+		{
+		case 1:				mayos = $items[none];								break;
+		case 2:				mayos = $items[Sphygmayomanometer];					break;
+		case 3:				mayos = $items[Sphygmayomanometer];					break;
+		case 4:				mayos = $items[none];								break;
+		}
+	}
 	else if((my_path() == "Heavy Rains") && !in_hardcore())
 	{
 		switch(my_daycount())

@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r16999;
+since r17016;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1814,7 +1814,7 @@ void doBedtime()
 
 	if(!get_property("_mayoTankSoaked").to_boolean() && (cc_get_campground() contains $item[Portable Mayo Clinic]) && is_unrestricted($item[Portable Mayo Clinic]))
 	{
-		visit_url("shop.php?action=bacta&whichshop=mayoclinic");
+		string temp = visit_url("shop.php?action=bacta&whichshop=mayoclinic");
 	}
 
 	//	Also use "nunsVisits", as long as they were won by the Frat (sidequestNunsCompleted="fratboy").
@@ -2075,12 +2075,24 @@ void doBedtime()
 	{
 		print("Still have some of Glenn's Golden Dice that you can use!", "blue");
 	}
+	if(cc_haveSourceTerminal())
+	{
+		int enhances = cc_sourceTerminalEnhanceLeft();
+		while(enhances > 0)
+		{
+			cc_sourceTerminalEnhance("items");
+			cc_sourceTerminalEnhance("meat");
+			enhances -= 2;
+		}
+	}
+
 	if(is_unrestricted($item[Source Terminal]) && (get_campground() contains $item[Source Terminal]))
 	{
 		if(!get_property("_kingLiberated").to_boolean())
 		{
 			int count = 3 - get_property("_sourceTerminalExtrudes").to_int();
-			while((count > 0) && (item_amount($item[Hacked Gibson]) < 3))
+
+			while((count > 0) && (item_amount($item[Hacked Gibson]) < 3) && (item_amount($item[Source Essence]) >= 10))
 			{
 				cc_sourceTerminalRequest("extrude -f booze.ext");
 				count -= 1;
@@ -3262,7 +3274,17 @@ boolean L13_towerNSFinal()
 	}
 
 	//Only if the final boss does not unbuff us...
-	if(!($strings[Actually Ed the Unyding, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Bees Hate You, Bugbear Invasion, Community Service, Heavy Rains, The Source, Way of the Surprising Fist, Zombie Slayer] contains cc_my_path()))
+	if($strings[Actually Ed the Unyding, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Bees Hate You, Bugbear Invasion, Community Service, Heavy Rains, The Source, Way of the Surprising Fist, Zombie Slayer] contains cc_my_path())
+	{
+		if(cc_my_path() == "The Source")
+		{
+			while((my_mp() < my_maxmp()) && (item_amount($item[Carbonated Soy Milk]) > 0) && (my_mp() < 200))
+			{
+				use(1, $item[Carbonated Soy Milk]);
+			}
+		}
+	}
+	else
 	{
 		cli_execute("scripts/postcheese.ash");
 	}
@@ -3849,7 +3871,7 @@ boolean L13_towerNSContests()
 				{
 					doRest();
 				}
-				foreach eff in $effects[Adorable Lookout, Alacri Tea, All Fired Up, Fishy\, Oily, The Glistening, Human-Machine Hybrid, Patent Alacrity, Provocative Perkiness, Sepia Tan, Sugar Rush, Ticking Clock, Well-Swabbed Ear]
+				foreach eff in $effects[Adorable Lookout, Alacri Tea, All Fired Up, Bow-Legged Swagger, Fishy\, Oily, The Glistening, Human-Machine Hybrid, Patent Alacrity, Provocative Perkiness, Sepia Tan, Sugar Rush, Ticking Clock, Well-Swabbed Ear]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
@@ -3888,7 +3910,7 @@ boolean L13_towerNSContests()
 			switch(ns_crowd2())
 			{
 			case $stat[moxie]:
-				foreach eff in $effects[Almost Cool, Busy Bein\' Delicious, Butt-Rock Hair, Funky Coal Patina, Liquidy Smoky, Locks Like the Raven, Lycanthropy\, Eh?, Memories of Puppy Love, Newt Gets In Your Eyes, Notably Lovely, Oiled Skin, Pill Power, Radiating Black Body&trade;, Seriously Mutated,  Spiky Hair, Sugar Rush, Standard Issue Bravery, Superhuman Sarcasm, Tomato Power]
+				foreach eff in $effects[Almost Cool, Busy Bein\' Delicious, Butt-Rock Hair, Funky Coal Patina, Liquidy Smoky, Locks Like the Raven, Lycanthropy\, Eh?, Memories of Puppy Love, Newt Gets In Your Eyes, Notably Lovely, Oiled Skin, Pill Power, Radiating Black Body&trade;, Seriously Mutated,  Spiky Hair, Sugar Rush, Standard Issue Bravery, Superhuman Sarcasm, Tomato Power, Vital]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
@@ -3900,7 +3922,7 @@ boolean L13_towerNSContests()
 				ccMaximize("moxie -equip snow suit", 1500, 0, false);
 				break;
 			case $stat[muscle]:
-				foreach eff in $effects[Browbeaten, Extra Backbone, Extreme Muscle Relaxation, Feroci Tea, Fishy Fortification, Football Eyes, Go Get \'Em\, Tiger!, Human-Human Hybrid, Industrial Strength Starch, Lycanthropy\, Eh?, Marinated, Phorcefullness, Pill Power, Rainy Soul Miasma, Savage Beast Inside, Seriously Mutated, Slightly Larger Than Usual, Standard Issue Bravery, Steroid Boost, Spiky Hair, Sugar Rush, Superheroic, Temporary Lycanthropy, Tomato Power, Truly Gritty, Woad Warrior]
+				foreach eff in $effects[Browbeaten, Extra Backbone, Extreme Muscle Relaxation, Feroci Tea, Fishy Fortification, Football Eyes, Go Get \'Em\, Tiger!, Human-Human Hybrid, Industrial Strength Starch, Lycanthropy\, Eh?, Marinated, Phorcefullness, Pill Power, Rainy Soul Miasma, Savage Beast Inside, Seriously Mutated, Slightly Larger Than Usual, Standard Issue Bravery, Steroid Boost, Spiky Hair, Sugar Rush, Superheroic, Temporary Lycanthropy, Tomato Power, Truly Gritty, Vital, Woad Warrior]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
@@ -3912,7 +3934,7 @@ boolean L13_towerNSContests()
 				break;
 			case $stat[mysticality]:
 				# Gothy may have given us a strange bug during one ascension, removing it for now.
-				foreach eff in $effects[Baconstoned, Erudite, Far Out, Glittering Eyelashes, Industrial Strength Starch, Liquidy Smoky, Marinated, Mutated, Mystically Oiled, OMG WTF, Pill Power, Rainy Soul Miasma, Ready to Snap, Rosewater Mark, Seeing Colors, Slightly Larger Than Usual, Standard Issue Bravery, Sweet\, Nuts, Tomato Power]
+				foreach eff in $effects[Baconstoned, Erudite, Far Out, Glittering Eyelashes, Industrial Strength Starch, Liquidy Smoky, Marinated, Mutated, Mystically Oiled, OMG WTF, Pill Power, Rainy Soul Miasma, Ready to Snap, Rosewater Mark, Seeing Colors, Slightly Larger Than Usual, Standard Issue Bravery, Sweet\, Nuts, Tomato Power, Vital]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
@@ -3937,6 +3959,7 @@ boolean L13_towerNSContests()
 				doRest();
 			}
 			buffMaintain($effect[All Glory To the Toad], 0, 1, 1);
+			buffMaintain($effect[Bendin\' Hell], 120, 1, 1);
 			element challenge = ns_crowd3();
 			switch(challenge)
 			{
@@ -8257,6 +8280,23 @@ boolean LX_craftAcquireItems()
 		use(1, $item[Booty Chest Charrrm]);
 	}
 
+	if((item_amount($item[Magical Baguette]) > 0) && !possessEquipment($item[Loafers]))
+	{
+		visit_url("inv_use.php?pwd=&which=1&whichitem=8167");
+		run_choice(2);
+	}
+	if((item_amount($item[Magical Baguette]) > 0) && !possessEquipment($item[Bread Basket]))
+	{
+		visit_url("inv_use.php?pwd=&which=1&whichitem=8167");
+		run_choice(3);
+	}
+	if((item_amount($item[Magical Baguette]) > 0) && !possessEquipment($item[Breadwand]))
+	{
+		visit_url("inv_use.php?pwd=&which=1&whichitem=8167");
+		run_choice(1);
+	}
+
+
 	LX_dolphinKingMap();
 
 	cc_mayoItems();
@@ -11206,13 +11246,21 @@ boolean doTasks()
 		set_property("cc_lastthunder", "" + my_thunder());
 	}
 	wait(1);
-	print("Turn(" + my_turncount() + "): Starting with " + my_adventures() + " left and " + pulls_remaining() + " pulls left at Level: " + my_level(), "cyan");
+	if(in_hardcore())
+	{
+		print("Turn(" + my_turncount() + "): Starting with " + my_adventures() + " left at Level: " + my_level(), "cyan");
+	}
+	else
+	{
+		print("Turn(" + my_turncount() + "): Starting with " + my_adventures() + " left and " + pulls_remaining() + " pulls left at Level: " + my_level(), "cyan");
+	}
 	if(((item_amount($item[rock band flyers]) == 1) || (item_amount($item[jam band flyers]) == 1)) && (get_property("flyeredML").to_int() < 10000))
 	{
 		print("Still flyering: " + get_property("flyeredML"), "blue");
 	}
 	print("Encounter: " + combat_rate_modifier() + "   Exp Bonus: " + experience_bonus(), "blue");
 	print("Meat: " + meat_drop_modifier() + "   Item: " + item_drop_modifier(), "blue");
+	print("HP: " + my_hp() + "/" + my_maxhp() + ", MP: " + my_mp() + "/" + my_maxmp(), "blue");
 	print("ML: " + monster_level_adjustment() + " control: " + current_mcd(), "blue");
 	if(my_class() == $class[Sauceror])
 	{
@@ -11406,7 +11454,7 @@ boolean doTasks()
 	deck_useScheme("");
 
 	ocrs_postCombatResolve();
-	if((have_effect($effect[beaten up]) > 0) && (cc_my_path() == "Community Service"))
+	if((have_effect($effect[Beaten Up]) > 0) && (cc_my_path() == "Community Service") && (last_monster() != $monster[X-32-F Combat Training Snowman]))
 	{
 		if((my_mp() > 100) && have_skill($skill[Tongue of the Walrus]) && have_skill($skill[Cannelloni Cocoon]))
 		{

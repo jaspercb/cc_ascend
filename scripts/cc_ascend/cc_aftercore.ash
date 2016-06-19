@@ -403,7 +403,6 @@ boolean cc_doWalford()
 		use(1, $item[Bag O\' Tricks]);
 	}
 	getDiscoStyle(7);
-	visit_url("place.php?whichplace=airport_hot&action=airport4_questhub");
 
 	if(get_property("cc_dinseyGarbageMoney").to_int() < my_daycount())
 	{
@@ -805,6 +804,8 @@ boolean cc_cheesePostCS(int leave)
 	set_property("cc_getDinseyGarbageMoney", oldGarbage);
 
 	getDiscoStyle(7);
+	volcano_bunkerJob();
+	change_mcd(0);
 
 	if(my_daycount() == 2)
 	{
@@ -902,8 +903,22 @@ boolean cc_cheesePostCS(int leave)
 		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
 		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
 		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
+		if(have_effect($effect[meat.enh]) == 0)
+		{
+			cc_sourceTerminalEnhance("meat");
+		}
+
 		ccAdv(1, $location[Barf Mountain]);
 		doNumberology("fites3");
+
+		if(have_effect($effect[How to Scam Tourists]) == 2)
+		{
+			while(volcano_lavaDogs());
+			if(have_effect($effect[Drenched in Lava]) > 0)
+			{
+				doHottub();
+			}
+		}
 	}
 
 	while(((my_inebriety() + 5) <= inebriety_limit()) && get_property("cc_breakstone").to_boolean())

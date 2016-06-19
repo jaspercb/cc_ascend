@@ -12,6 +12,8 @@ boolean cc_advWitchess(string target, string option);
 boolean cc_haveWitchess();
 boolean cc_haveSourceTerminal();
 boolean cc_sourceTerminalRequest(string request);
+boolean cc_sourceTerminalEnhance(string request);
+int cc_sourceTerminalEnhanceLeft();
 int[string] cc_sourceTerminalStatus();
 
 
@@ -145,6 +147,64 @@ boolean cc_sourceTerminalRequest(string request)
 		return true;
 	}
 	return false;
+}
+
+
+
+boolean cc_sourceTerminalEnhance(string request)
+{
+	if(!cc_haveSourceTerminal())
+	{
+		return false;
+	}
+	if(cc_sourceTerminalEnhanceLeft() == 0)
+	{
+		return false;
+	}
+	string actual = "";
+	switch(request)
+	{
+	case "meat":
+	case "meat.enh":		actual = "meat";			break;
+	case "item":
+	case "items":
+	case "item.enh":
+	case "items.enh":		actual = "items";			break;
+	case "init":
+	case "initiative":		actual = "init";			break;
+	case "critical":		actual = "critical";		break;
+	default:			return false;
+	}
+
+	if(cc_sourceTerminalStatus() contains (actual + ".enh"))
+	{
+		return cc_sourceTerminalRequest("enhance " + actual + ".enh");
+	}
+	return false;
+}
+int cc_sourceTerminalEnhanceLeft()
+{
+	if(cc_haveSourceTerminal())
+	{
+		int used = get_property("_sourceTerminalEnhanceUses").to_int();
+
+		int total = 1;
+		if(get_property("sourceTerminalChips") != "")
+		{
+			string[int] chips = split_string(get_property("sourceTerminalChips"), ",");
+			foreach index in chips
+			{
+				string chip = trim(chips[index]);
+				if((chip == "CRAM") || (chip == "SCRAM"))
+				{
+					total += 1;
+				}
+			}
+		}
+		return total - used;
+	}
+	return 0;
+
 }
 
 

@@ -1,5 +1,16 @@
 script "cc_elementalPlanes.ash"
 
+boolean getDiscoStyle();
+boolean getDiscoStyle(int choice);
+item[element] getCharterIndexable();
+boolean elementalPlanes_initializeSettings();
+boolean elementalPlanes_access(element ele);
+boolean elementalPlanes_takeJob(element ele);
+boolean dinseylandfill_garbageMoney();
+boolean volcano_bunkerJob();
+boolean volcano_lavaDogs();			//See code before using this!
+
+
 item[element] getCharterIndexable()
 {
 	item[element] charters;
@@ -164,6 +175,8 @@ boolean elementalPlanes_takeJob(element ele)
 	return false;
 }
 
+
+
 boolean dinseylandfill_garbageMoney()
 {
 	if(!elementalPlanes_access($element[stench]))
@@ -193,3 +206,167 @@ boolean dinseylandfill_garbageMoney()
 
 	return false;
 }
+
+boolean getDiscoStyle(int choice)
+{
+	if(getDiscoStyle())
+	{
+		visit_url("place.php?whichplace=airport_hot&action=airport4_zone1");
+		run_choice(choice);
+		return true;
+	}
+	return false;
+}
+
+boolean getDiscoStyle()
+{
+	if(!elementalPlanes_access($element[hot]))
+	{
+		return false;
+	}
+	if(get_property("_infernoDiscoVisited").to_boolean())
+	{
+		return false;
+	}
+
+	if(item_amount($item[Smooth Velvet Hanky]) > 0)
+	{
+		equip($slot[acc1], $item[Smooth Velvet Hanky]);
+	}
+	if(item_amount($item[Smooth Velvet Pocket Square]) > 0)
+	{
+		equip($slot[acc2], $item[Smooth Velvet Pocket Square]);
+	}
+	if(item_amount($item[Smooth Velvet Socks]) > 0)
+	{
+		equip($slot[acc3], $item[Smooth Velvet Socks]);
+	}
+	if(item_amount($item[Smooth Velvet Hat]) > 0)
+	{
+		equip($item[Smooth Velvet Hat]);
+	}
+	if(item_amount($item[Smooth Velvet Pants]) > 0)
+	{
+		equip($item[Smooth Velvet Pants]);
+	}
+	if(item_amount($item[Smooth Velvet Shirt]) > 0)
+	{
+		equip($item[Smooth Velvet Shirt]);
+	}
+	else if(item_amount($item[Smooth Velvet Bra]) > 0)
+	{
+		equip($item[Smooth Velvet Bra]);
+	}
+	return true;
+}
+
+boolean volcano_lavaDogs()
+{
+	# This function expects calderaVolcoino to be set with we hit the Lava Dogs adventure.
+	# We will check the queue and set it ourselves as a backup but that is not full-proof.
+	# This is not a concern on the author\'s side but is a warning to anyone who uses this.
+	if(!elementalPlanes_access($element[hot]))
+	{
+		return false;
+	}
+	if(!(cc_get_campground() contains $item[Haunted Doghouse]))
+	{
+		return false;
+	}
+
+	if(!get_property("calderaVolcoino").to_boolean())
+	{
+		if(contains_text($location[The Bubblin\' Caldera].noncombat_queue, "Lava Dogs"))
+		{
+			set_property("calderaVolcoino", true);
+			return false;
+		}
+
+		//If we have instant kill effects, we do not want to use them. They are just wasted here.
+		//Or if we have free wanderers....
+		ccAdv($location[The Bubblin\' Caldera]);
+
+		if(get_property("lastAdventure") == "Lava Dogs")
+		{
+			set_property("calderaVolcoino", true);
+			return false;
+		}
+		return true;
+	}
+	return false;
+}
+
+boolean volcano_bunkerJob()
+{
+	if(!elementalPlanes_access($element[hot]))
+	{
+		return false;
+	}
+	if(get_property("_volcanoItemRedeemed").to_boolean())
+	{
+		return false;
+	}
+	if(get_property("_volcanoItem1").to_int() == 0)
+	{
+		string temp = visit_url("place.php?whichplace=airport_hot&action=airport4_questhub");
+	}
+
+	int ticketValue = mall_price($item[One-Day Ticket To That 70s Volcano]) / 3;
+	int option = 0;
+	int optionCost = 999999999;
+
+	foreach goal in $strings[_volcanoItem1, _volcanoItem2, _volcanoItem3]
+	{
+		int index = substring(goal, 12).to_int();
+		item it = to_item(get_property("_volcanoItem" + index).to_int());
+		int currentCost = 999999999;
+		if($items[Gooey Lava Globs, New Age Healing Crystal, SMOOCH Bottlecap, Superduperheated Metal] contains it)
+		{
+			currentCost = mall_price(it) * get_property("_volcanoItemCount" + index).to_int();
+		}
+		else if(it == $item[Smooth Velvet Bra])
+		{
+			currentCost = 3 * mall_price($item[Unsmoothed Velvet]) * get_property("_volcanoItemCount" + index).to_int();
+		}
+		else if(it == $item[SMOOCH Bracers])
+		{
+			currentCost = 5 * mall_price($item[Superheated Metal]) * get_property("_volcanoItemCount" + index).to_int();
+		}
+
+		if(currentCost < optionCost)
+		{
+			optionCost = currentCost;
+			option = index;
+		}
+	}
+
+
+	if((option != 0) && ((optionCost * 1.5) < ticketValue))
+	{
+		item it = to_item(get_property("_volcanoItem" + option).to_int());
+		if($items[Gooey Lava Globs, New Age Healing Crystal, SMOOCH Bottlecap, Superduperheated Metal] contains it)
+		{
+			buy(get_property("_volcanoItemCount" + option).to_int(), it, mall_price(it)*2);
+		}
+		else if(it == $item[Smooth Velvet Bra])
+		{
+			buy(get_property("_volcanoItemCount" + option).to_int() * 3, $item[Unsmoothed Velvet], mall_price($item[Unsmoothed Velvet])*2);
+			cli_execute("make 3 " + it);
+		}
+		else if(it == $item[SMOOCH Bracers])
+		{
+			buy(get_property("_volcanoItemCount" + option).to_int() * 5, $item[Superheated Metal], mall_price($item[Superheated Metal])*2);
+			cli_execute("make 3 " + it);
+		}
+
+
+		string temp = visit_url("place.php?whichplace=airport_hot&action=airport4_questhub");
+		run_choice(option);
+		return true;
+	}
+	return false;
+}
+
+
+
+

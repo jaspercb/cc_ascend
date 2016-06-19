@@ -34,8 +34,6 @@ int doRest();
 boolean isFreeMonster(monster mon);
 boolean in_ronin();
 item whatHiMein();
-boolean getDiscoStyle();
-boolean getDiscoStyle(int choice);
 int dreamJarDrops();
 int powderedGoldDrops();
 int grimTaleDrops();
@@ -851,46 +849,6 @@ string statCard()
 	return "";
 }
 
-boolean getDiscoStyle(int choice)
-{
-	getDiscoStyle();
-    visit_url("place.php?whichplace=airport_hot&action=airport4_zone1");
-    run_choice(choice);
-	return true;
-}
-
-boolean getDiscoStyle()
-{
-	if(item_amount($item[Smooth Velvet Hanky]) > 0)
-	{
-		equip($slot[acc1], $item[Smooth Velvet Hanky]);
-	}
-	if(item_amount($item[Smooth Velvet Pocket Square]) > 0)
-	{
-		equip($slot[acc2], $item[Smooth Velvet Pocket Square]);
-	}
-	if(item_amount($item[Smooth Velvet Socks]) > 0)
-	{
-		equip($slot[acc3], $item[Smooth Velvet Socks]);
-	}
-	if(item_amount($item[Smooth Velvet Hat]) > 0)
-	{
-		equip($item[Smooth Velvet Hat]);
-	}
-	if(item_amount($item[Smooth Velvet Pants]) > 0)
-	{
-		equip($item[Smooth Velvet Pants]);
-	}
-	if(item_amount($item[Smooth Velvet Shirt]) > 0)
-	{
-		equip($item[Smooth Velvet Shirt]);
-	}
-	else if(item_amount($item[Smooth Velvet Bra]) > 0)
-	{
-		equip($item[Smooth Velvet Bra]);
-	}
-	return true;
-}
 
 boolean isGuildClass()
 {
@@ -2680,6 +2638,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Unusual Perspective]:			useItem = $item[Unusual Oil];					break;
 	case $effect[Ur-Kel\'s Aria of Annoyance]:	useSkill = $skill[Ur-Kel\'s Aria of Annoyance];	break;
 	case $effect[Using Protection]:				useItem = $item[Orcish Rubber];					break;
+	case $effect[Vital]:						useItem = $item[Doc Galaktik\'s Vitality Serum];break;
 	case $effect[Vitali Tea]:					useItem = $item[cuppa Vitali tea];				break;
 	case $effect[Walberg\'s Dim Bulb]:			useSkill = $skill[Walberg\'s Dim Bulb];			break;
 	case $effect[WAKKA WAKKA WAKKA]:			useItem = $item[Yellow Pixel Potion];			break;
