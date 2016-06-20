@@ -908,6 +908,11 @@ boolean cc_cheesePostCS(int leave)
 			cc_sourceTerminalEnhance("meat");
 		}
 
+		if((fullness_left() > 0) && (item_amount($item[Jumping Horseradish]) > 0))
+		{
+			eatsilent(1, $item[Jumping Horseradish]);
+		}
+
 		ccAdv(1, $location[Barf Mountain]);
 		doNumberology("fites3");
 

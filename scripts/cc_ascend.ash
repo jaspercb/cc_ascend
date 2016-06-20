@@ -2092,9 +2092,20 @@ void doBedtime()
 		{
 			int count = 3 - get_property("_sourceTerminalExtrudes").to_int();
 
-			while((count > 0) && (item_amount($item[Hacked Gibson]) < 3) && (item_amount($item[Source Essence]) >= 10))
+			string[int] extrudeChoice;
+			if(get_property("cc_extrudeChoice") != "")
 			{
-				cc_sourceTerminalRequest("extrude -f booze.ext");
+				string[int] extrudeDays = split_string(get_property("cc_extrudeChoice"), ":");
+				extrudeChoice = split_string(trim(extrudeDays[min(count(extrudeDays), my_daycount()) - 1]), ";");
+			}
+			while(count(extrudeChoice) < 3)
+			{
+				extrudeChoice[count(extrudeChoice)] = "booze";
+			}
+
+			while((count > 0) && (item_amount($item[Source Essence]) >= 10))
+			{
+				cc_sourceTerminalExtrude(extrudeChoice[3-count]);
 				count -= 1;
 			}
 		}

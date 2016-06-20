@@ -14,6 +14,8 @@ boolean cc_haveSourceTerminal();
 boolean cc_sourceTerminalRequest(string request);
 boolean cc_sourceTerminalEnhance(string request);
 int cc_sourceTerminalEnhanceLeft();
+boolean cc_sourceTerminalExtrude(string request);
+int cc_sourceTerminalExtrudeLeft();
 int[string] cc_sourceTerminalStatus();
 
 
@@ -138,6 +140,8 @@ boolean cc_sourceTerminalRequest(string request)
 
 	print("Source Terminal request: " + request, "green");
 
+
+	//"campground.php?action=terminal&hack=enhance items.enh"
 	if(cc_haveSourceTerminal())
 	{
 		string temp = visit_url("campground.php?action=terminal");
@@ -149,7 +153,43 @@ boolean cc_sourceTerminalRequest(string request)
 	return false;
 }
 
+boolean cc_sourceTerminalExtrude(string request)
+{
+	if(!cc_haveSourceTerminal())
+	{
+		return false;
+	}
+	if(cc_sourceTerminalExtrudeLeft() == 0)
+	{
+		return false;
+	}
+	string actual = "";
+	request = to_lower_case(request);
+	switch(request)
+	{
+	case "food":
+	case "food.ext":
+	case "browser cookie":	actual = "food";			break;
+	case "booze":
+	case "booze.ext":
+	case "hacked gibson":	actual = "booze";			break;
+	case "goggles":
+	case "goggles.ext":
+	case "source shades":	actual = "goggles";			break;
+	default:			return false;
+	}
 
+	return cc_sourceTerminalRequest("extrude -f " + actual + ".ext");
+}
+
+int cc_sourceTerminalExtrudeLeft()
+{
+	if(cc_haveSourceTerminal())
+	{
+		return 3 - get_property("_sourceTerminalExtrudes").to_int();
+	}
+	return 0;
+}
 
 boolean cc_sourceTerminalEnhance(string request)
 {
@@ -170,6 +210,11 @@ boolean cc_sourceTerminalEnhance(string request)
 	case "items":
 	case "item.enh":
 	case "items.enh":		actual = "items";			break;
+	case "substats":
+	case "substats.enh":
+	case "stats":			actual = "substats";		break;
+	case "damage":
+	case "damage.enh":		actual = "damage";			break;
 	case "init":
 	case "initiative":		actual = "init";			break;
 	case "critical":		actual = "critical";		break;
@@ -204,7 +249,6 @@ int cc_sourceTerminalEnhanceLeft()
 		return total - used;
 	}
 	return 0;
-
 }
 
 

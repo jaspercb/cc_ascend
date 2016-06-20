@@ -353,6 +353,60 @@ boolean cs_eat_stuff(int quest)
 	{
 		return false;
 	}
+
+	if(quest == 0)
+	{
+		if(my_fullness() != 0)
+		{
+			return false;
+		}
+		if(cc_haveSourceTerminal())
+		{
+			if((item_amount($item[Source Essence]) < 10) && (item_amount($item[Browser Cookie]) == 0))
+			{
+				return false;
+			}
+		}
+		if(item_amount($item[Milk of Magnesium]) > 0)
+		{
+			use(1, $item[Milk of Magnesium]);
+		}
+		if(get_property("cc_noSleepingDog").to_boolean() || have_skill($skill[Dog Tired]))
+		{
+			if(cc_sourceTerminalExtrudeLeft() > 0)
+			{
+				if(item_amount($item[Browser Cookie]) == 0)
+				{
+					cc_sourceTerminalExtrude($item[Browser Cookie]);
+				}
+			}
+
+			if(item_amount($item[Browser Cookie]) > 0)
+			{
+				eat(1, $item[Browser Cookie]);
+			}
+			else
+			{
+				eatFancyDog("savage macho dog");
+			}
+		}
+		else
+		{
+			eatFancyDog("sleeping dog");
+		}
+
+		if((item_amount($item[Handful of Smithereens]) > 0) && (fullness_left() >= 2))
+		{
+			cli_execute("make 1 this charming flan");
+			eat(1, $item[This Charming Flan]);
+		}
+		if((item_amount($item[Snow Berries]) > 1) && (fullness_left() >= 1))
+		{
+			cli_execute("make 1 snow crab");
+			eat(1, $item[Snow Crab]);
+		}
+	}
+
 	if(quest == 9)
 	{
 		if(item_amount($item[Weird Gazelle Steak]) > 0)
@@ -365,23 +419,38 @@ boolean cs_eat_stuff(int quest)
 
 			if(get_property("cc_noSleepingDog").to_boolean())
 			{
-				eatFancyDog("savage macho dog");
+				if(cc_sourceTerminalExtrudeLeft() > 0)
+				{
+					if(item_amount($item[Browser Cookie]) == 0)
+					{
+						cc_sourceTerminalExtrude($item[Browser Cookie]);
+					}
+				}
+
+				if(item_amount($item[Browser Cookie]) > 0)
+				{
+					eat(1, $item[Browser Cookie]);
+				}
+				else
+				{
+					eatFancyDog("savage macho dog");
+				}
 			}
 			else
 			{
 				eatFancyDog("sleeping dog");
 			}
-
-			if((item_amount($item[Snow Berries]) > 1) && (my_fullness() <= (fullness_limit() - 1)))
-			{
-				cli_execute("make 1 snow crab");
-				eat(1, $item[Snow Crab]);
-			}
-			if((item_amount($item[Handful of Smithereens]) > 0) && (my_fullness() <= (fullness_limit() - 2)))
+			if((item_amount($item[Handful of Smithereens]) > 0) && (fullness_left() >= 2))
 			{
 				cli_execute("make 1 this charming flan");
 				eat(1, $item[This Charming Flan]);
 			}
+			if((item_amount($item[Snow Berries]) > 1) && (fullness_left() >= 1))
+			{
+				cli_execute("make 1 snow crab");
+				eat(1, $item[Snow Crab]);
+			}
+
 		}
 	}
 	else if(quest == 10)
@@ -865,18 +934,18 @@ string what_cs_quest(int quest)
 {
 	switch(quest)
 	{
-	case 1:		return "Community Service Quest: HP";
-	case 2:		return "Community Service Quest: Muscle";
-	case 3:		return "Community Service Quest: Mysticality";
-	case 4:		return "Community Service Quest: Moxie";
-	case 5:		return "Community Service Quest: Familiar Weight";
-	case 6:		return "Community Service Quest: Melee Damage";
-	case 7:		return "Community Service Quest: Spell Damage";
-	case 8:		return "Community Service Quest: Monsters Less Attracted to You";
-	case 9:		return "Community Service Quest: Item/Booze Drops";
-	case 10:	return "Community Service Quest: Hot Protection";
-	case 11:	return "Community Service Quest: Coiling Wire";
-	default:	return "Community Service Quest: NULL";
+	case 1:		return "Community Service Quest 1: HP";
+	case 2:		return "Community Service Quest 2: Muscle";
+	case 3:		return "Community Service Quest 3: Mysticality";
+	case 4:		return "Community Service Quest 4: Moxie";
+	case 5:		return "Community Service Quest 5: Familiar Weight";
+	case 6:		return "Community Service Quest 6: Melee Damage";
+	case 7:		return "Community Service Quest 7: Spell Damage";
+	case 8:		return "Community Service Quest 8: Monsters Less Attracted to You";
+	case 9:		return "Community Service Quest 9: Item/Booze Drops";
+	case 10:	return "Community Service Quest 10: Hot Protection";
+	case 11:	return "Community Service Quest 11: Coiling Wire";
+	default:	return "Community Service Quest 0: NULL";
 	}
 }
 
@@ -1237,31 +1306,7 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if(my_fullness() == 0)
-			{
-				if(item_amount($item[Milk of Magnesium]) > 0)
-				{
-					use(1, $item[Milk of Magnesium]);
-				}
-				if(item_amount($item[Handful of Smithereens]) > 0)
-				{
-					cli_execute("make 1 this charming flan");
-					eat(1, $item[This Charming Flan]);
-				}
-				if(item_amount($item[Snow Berries]) > 1)
-				{
-					cli_execute("make 1 snow crab");
-					eat(1, $item[Snow Crab]);
-				}
-				if(get_property("cc_noSleepingDog").to_boolean() || have_skill($skill[Dog Tired]))
-				{
-					eatFancyDog("savage macho dog");
-				}
-				else
-				{
-					eatFancyDog("sleeping dog");
-				}
-			}
+			cs_eat_stuff(0);
 
 			if(cs_witchess())
 			{
@@ -1283,7 +1328,7 @@ boolean LA_cs_communityService()
 				}
 			}
 
-			if((curQuest != 11) && (have_effect($effect[substats.enh]) == 0) && (cc_sourceTerminalEnhanceLeft() >= 2))
+			if((curQuest != 11) && (have_effect($effect[substats.enh]) == 0) && (cc_sourceTerminalEnhanceLeft() >= 1))
 			{
 				cc_sourceTerminalEnhance("substats");
 			}
@@ -1406,6 +1451,11 @@ boolean LA_cs_communityService()
 		}
 		else if((curQuest == 7) && (item_amount($item[Emergency Margarita]) > 0))
 		{
+			if((have_effect($effect[substats.enh]) == 0) && (cc_sourceTerminalEnhanceLeft() >= 1))
+			{
+				cc_sourceTerminalEnhance("substats");
+			}
+
 			if(canYellowRay() && elementalPlanes_access($element[hot]))
 			{
 				if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
