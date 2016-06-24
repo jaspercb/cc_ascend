@@ -1428,6 +1428,11 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
+			if(have_effect($effect[Drenched in Lava]) > 0)
+			{
+				doHottub();
+			}
+
 			if((curQuest == 9) && (item_amount($item[Experimental Serum G-9]) < 2) && elementalPlanes_access($element[spooky]))
 			{
 				if(item_amount($item[Personal Ventilation Unit]) > 0)
@@ -1596,7 +1601,7 @@ boolean LA_cs_communityService()
 #						buffMaintain($effect[Physicali Tea], 0, 1, 1);
 
 
-						if((get_property("_hipsterAdv").to_int() < 1) && is_unrestricted($familiar[Artistic Goth Kid]))
+						if((get_property("_hipsterAdv").to_int() < 1) && have_familiar($familiar[Artistic Goth Kid]))
 						{
 							handleFamiliar($familiar[Artistic Goth Kid]);
 						}
@@ -2653,6 +2658,10 @@ boolean LA_cs_communityService()
 
 	case 9:		#item/booze drops
 			cs_eat_stuff(curQuest);
+			if(have_effect($effect[Drenched in Lava]) > 0)
+			{
+				doHottub();
+			}
 
 			while((my_mp() < 154) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
