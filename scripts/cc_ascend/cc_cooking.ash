@@ -327,7 +327,7 @@ void consumeStuff()
 	}
 
 
-	if(((my_inebriety() + 3) <= inebriety_limit()) && (my_mp() >= mpForOde))
+	if((inebriety_left() >= 3) && (my_mp() >= mpForOde) && (my_level() >= 5))
 	{
 		makePerfectBooze();
 		item booze = getAvailablePerfectBooze();

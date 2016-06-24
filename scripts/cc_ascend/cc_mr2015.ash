@@ -69,7 +69,17 @@ boolean cc_barrelPrayers()
 
 	boolean[string] prayers;
 
-	if(my_path() == "Avatar of West of Loathing")
+	if(my_path() == "The Source")
+	{
+		switch(my_daycount())
+		{
+		case 1:				prayers = $strings[Glamour, Vigor, Protection];		break;
+		case 2:				prayers = $strings[Protection, Glamour, Vigor];		break;
+		case 3:				prayers = $strings[Protection, Glamour, Vigor];		break;
+		case 4:				prayers = $strings[Protection, Glamour, Vigor];		break;
+		}
+	}
+	else if(my_path() == "Avatar of West of Loathing")
 	{
 		switch(my_daycount())
 		{
@@ -156,7 +166,7 @@ boolean cc_mayoItems()
 	{
 		return false;
 	}
-	if(get_property("__mayoDeviceRented").to_boolean())
+	if(get_property("_mayoDeviceRented").to_boolean())
 	{
 		return false;
 	}

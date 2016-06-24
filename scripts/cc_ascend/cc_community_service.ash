@@ -2367,7 +2367,7 @@ boolean LA_cs_communityService()
 			}
 			buffMaintain($effect[Empathy], 15, 1, 1);
 			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
-			if(is_unrestricted($item[Clan Pool Table]))
+			if(is_unrestricted($item[Clan Pool Table]) && (have_effect($effect[Billiards Belligerence]) == 0))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 			}
@@ -2451,7 +2451,7 @@ boolean LA_cs_communityService()
 			}
 
 			buffMaintain($effect[Human-Beast Hybrid], 0, 1, 1);
-			if(is_unrestricted($item[Clan Pool Table]))
+			if(is_unrestricted($item[Clan Pool Table]) && (have_effect($effect[Billiards Belligerence]) == 0))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 			}
@@ -2557,7 +2557,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Arched Eyebrow of the Archmage], 10, 1, 1);
 			buffMaintain($effect[Jackasses\' Symphony of Destruction], 8, 1, 1);
 			buffMaintain($effect[Puzzle Fury], 0, 1, 1);
-			if(is_unrestricted($item[Clan Pool Table]))
+			if(is_unrestricted($item[Clan Pool Table]) && (have_effect($effect[Mental A-cue-ity]) == 0))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=2");
 			}
@@ -2700,11 +2700,11 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[One Very Clear Eye], 0, 1, 1);
 			buffMaintain($effect[Sour Softshoe], 0, 1, 1);
 			buffMaintain($effect[Serendipi Tea], 0, 1, 1);
-			if(is_unrestricted($item[Clan Pool Table]))
+			if(is_unrestricted($item[Clan Pool Table]) && (have_effect($effect[Hustlin\']) == 0))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=3");
 			}
-			if(is_unrestricted($item[Clan Pool Table]))
+			if(is_unrestricted($item[Clan Pool Table]) && (have_effect($effect[Billiards Belligerence]) == 0))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 			}

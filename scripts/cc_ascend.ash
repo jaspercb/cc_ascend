@@ -3867,7 +3867,7 @@ boolean L13_towerNSContests()
 	{
 		if(get_property("nsContestants1").to_int() == -1)
 		{
-			if(!get_property("_grimBuff").to_boolean())
+			if(!get_property("_grimBuff").to_boolean() && have_familiar($familiar[Grim Brother]))
 			{
 				cli_execute("grim init");
 			}
@@ -4096,7 +4096,14 @@ boolean L13_towerNSEntrance()
 		if(my_level() < 13)
 		{
 			print("I seem to need to power level, or something... waaaa.", "red");
-			wait(10);
+
+			int delay = get_property("cc_powerLevelTimer").to_int();
+			if(delay == 0)
+			{
+				delay = 10;
+			}
+			wait(delay);
+
 			if((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available() && (cc_my_path() != "The Source"))
 			{
 				doRest();
@@ -4658,6 +4665,10 @@ boolean L11_hiddenCityZones()
 	{
 		return false;
 	}
+	if(get_property("cc_hiddenunlock") != "finished")
+	{
+		return false;
+	}
 	if(get_property("cc_hiddenzones") == "finished")
 	{
 		return false;
@@ -5195,7 +5206,8 @@ boolean L11_mauriceSpookyraven()
 		}
 		else
 		{
-			ccAdvBypass("place.php?whichplace=manor4&action=manor4_chamberboss", $location[Noob Cave]);
+			ccAdv($location[Summoning Chamber]);
+			//ccAdvBypass("place.php?whichplace=manor4&action=manor4_chamberboss", $location[Noob Cave]);
 		}
 
 		if(have_effect($effect[beaten up]) == 0)
@@ -7476,7 +7488,7 @@ boolean LX_hardcoreFoodFarm()
 
 boolean L6_friarsGetParts()
 {
-	if((my_level() < 6) || (get_property("cc_friars") != ""))
+	if((my_level() < 6) || (get_property("cc_friars") != "") || (my_adventures() == 0))
 	{
 		return false;
 	}
@@ -7491,11 +7503,21 @@ boolean L6_friarsGetParts()
 #	}
 	buffMaintain($effect[Snow Shoes], 0, 1, 1);
 
+	if($location[The Dark Heart of the Woods].turns_spent == 0)
+	{
+		visit_url("friars.php?action=friars&pwd=");
+	}
+
+	handleFamiliar("item");
+	if(equipped_item($slot[Shirt]) == $item[Tunac])
+	{
+		equip($slot[Shirt], $item[none]);
+	}
+
 	if(item_amount($item[box of birthday candles]) == 0)
 	{
 		print("Getting Box of Birthday Candles", "blue");
 		ccAdv(1, $location[The Dark Heart of the Woods]);
-		handleFamiliar("item");
 		return true;
 	}
 
@@ -7503,17 +7525,14 @@ boolean L6_friarsGetParts()
 	{
 		print("Getting Dodecagram", "blue");
 		ccAdv(1, $location[The Dark Neck of the Woods]);
-		handleFamiliar("item");
 		return true;
 	}
 	if(item_amount($item[eldritch butterknife]) == 0)
 	{
 		print("Getting Eldritch Butterknife", "blue");
 		ccAdv(1, $location[The Dark Elbow of the Woods]);
-		handleFamiliar("item");
 		return true;
 	}
-	handleFamiliar("item");
 	print("Finishing friars", "blue");
 	visit_url("friars.php?action=ritual&pwd");
 	council();
@@ -8307,9 +8326,13 @@ boolean LX_craftAcquireItems()
 		run_choice(1);
 	}
 
+	if(knoll_available() && (have_skill($skill[Torso Awaregness])) && (item_amount($item[Demon Skin]) > 0) && !possessEquipment($item[Demonskin Jacket]))
+	{
+		//Demonskin Jacket, requires an adventure, knoll available doesn\'t matter here...
+	}
+
 
 	LX_dolphinKingMap();
-
 	cc_mayoItems();
 
 	return false;
@@ -8824,6 +8847,7 @@ boolean LX_handleSpookyravenFirstFloor()
 				{
 					print("I'm too drunk for pool, at least it is only " + format_date_time("yyyyMMdd", today_to_string(), "EEEE"), "green");
 				}
+				return false;
 			}
 
 			set_property("choiceAdventure875" , "1");
@@ -11235,6 +11259,11 @@ boolean autosellCrap()
 		return false;
 	}
 
+	if(item_amount($item[meat stack]) > 1)
+	{
+		autosell(1, $item[meat stack]);
+	}
+
 	foreach it in $items[Anticheese, Awful Poetry Journal, Beach Glass Bead, Blue Pixel, Clay Peace-Sign Bead, Decorative Fountain, Empty Cloaca-Cola Bottle, Enchanted Barbell, Fancy Bath Salts, Frigid Ninja Stars, Giant Moxie Weed, Green Pixel, Half of a Gold Tooth, Imp Ale, Keel-Haulin\' Knife, Kokomo Resort Pass, Mad Train Wine, Margarita, Martini, Meat Paste, Mineapple, Moxie Weed, Patchouli Incense Stick, Phat Turquoise Bead, Photoprotoneutron Torpedo, Procrastination Potion, Ratgut, Red Pixel, Smelted Roe, Spicy Jumping Bean Burrito, Spicy Bean Burrito, Strongness Elixir, Sunken Chest, Tambourine Bells, Tequila Sunrise, Windchimes]
 	{
 		if(item_amount(it) > 0)
@@ -11919,6 +11948,11 @@ boolean doTasks()
 	}
 
 	if(LX_hardcoreFoodFarm())
+	{
+		return true;
+	}
+
+	if(in_hardcore() && LX_steelOrgan())
 	{
 		return true;
 	}
