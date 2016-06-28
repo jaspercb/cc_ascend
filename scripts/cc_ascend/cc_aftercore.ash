@@ -887,10 +887,10 @@ boolean cc_cheesePostCS(int leave)
 		equip($slot[acc3], $item[Mr. Cheeng\'s Spectacles]);
 	}
 
-	if(item_amount($item[Source Shades]) > 0)
-	{
-		equip($slot[acc3], $item[Source Shades]);
-	}
+//	if(item_amount($item[Source Shades]) > 0)
+//	{
+//		equip($slot[acc3], $item[Source Shades]);
+//	}
 	handleFamiliar($familiar[Golden Monkey]);
 	handleFamiliar($familiar[Intergnat]);
 	if(item_amount($item[Snow Suit]) > 0)
@@ -918,7 +918,7 @@ boolean cc_cheesePostCS(int leave)
 
 		if(have_effect($effect[How to Scam Tourists]) == 2)
 		{
-			while(volcano_lavaDogs());
+			while((my_adventures() > 0) && volcano_lavaDogs());
 			if(have_effect($effect[Drenched in Lava]) > 0)
 			{
 				doHottub();
