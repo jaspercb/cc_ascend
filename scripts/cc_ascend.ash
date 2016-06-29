@@ -5815,6 +5815,10 @@ boolean L12_gremlinStart()
 	{
 		return false;
 	}
+	if(get_property("cc_prewar") != "started")
+	{
+		return false;
+	}
 	if(get_property("cc_gremlins") != "")
 	{
 		return false;
@@ -5863,6 +5867,10 @@ boolean L12_gremlinStart()
 
 boolean L12_gremlins()
 {
+	if(get_property("cc_prewar") != "started")
+	{
+		return false;
+	}
 	if(get_property("cc_gremlins") != "start")
 	{
 		return false;
