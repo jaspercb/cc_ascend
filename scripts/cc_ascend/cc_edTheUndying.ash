@@ -1680,12 +1680,16 @@ boolean L9_ed_chasmBuildClover(int need)
 	if((my_class() == $class[Ed]) && (need > 3) && (item_amount($item[Disassembled Clover]) > 2))
 	{
 		use(1, $item[disassembled clover]);
-		visit_url("adventure.php?snarfblat=295&confirm=on");
-		if(contains_text(visit_url("main.php"), "Combat"))
+		backupSetting("cloverProtectActive", false);
+		ccAdvBypass("adventure.php?snarfblat=295", $location[The Smut Orc Logging Camp]);
+		if(item_amount($item[Ten-Leaf Clover]) > 0)
 		{
-			ccAdv(1, $location[The Smut Orc Logging Camp]);
+			print("Wandering adventure in The Smut Orc Logging Camp, boo. Gonna have to do this again.");
+			use(item_amount($item[Ten-Leaf Clover]), $item[Ten-Leaf Clover]);
+			restoreSetting("cloverProtectActive");
 			return true;
 		}
+		restoreSetting("cloverProtectActive");
 		visit_url("place.php?whichplace=orc_chasm&action=bridge"+(to_int(get_property("chasmBridgeProgress"))));
 		return true;
 	}

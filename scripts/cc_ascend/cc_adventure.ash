@@ -186,13 +186,11 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 
 boolean ccAdvBypass(int snarfblat, location loc)
 {
-//	string page = "adventure.php?snarfblat=" + snarfblat + "&confirm=on";
 	string page = "adventure.php?snarfblat=" + snarfblat;
 	return ccAdvBypass(page, loc);
 }
 boolean ccAdvBypass(int snarfblat, location loc, string option)
 {
-//	string page = "adventure.php?snarfblat=" + snarfblat + "&confirm=on";
 	string page = "adventure.php?snarfblat=" + snarfblat;
 	return ccAdvBypass(page, loc, option);
 }

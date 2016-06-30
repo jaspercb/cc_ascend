@@ -2980,7 +2980,6 @@ boolean L11_aridDesert()
 		{
 			print("Gonna clover this, yeah, it only saves 2 adventures. So?", "green");
 			use(1, $item[Disassembled Clover]);
-//			ccAdvBypass("adventure.php?snarfblat=122&confirm=on", $location[The Oasis]);
 			backupSetting("cloverProtectActive", false);
 			ccAdvBypass("adventure.php?snarfblat=122", $location[The Oasis]);
 			restoreSetting("cloverProtectActive");
@@ -3474,9 +3473,9 @@ boolean L13_towerNSTower()
 			equip($slot[acc1], $item[hippy protest button]);
 			sources = sources + 1;
 		}
-		else
+		else if(!have_equipped($item[Pirate Fledges]))
 		{
-			equip($slot[acc1], $item[pirate fledges]);
+			equip($slot[acc1], $item[Pirate Fledges]);
 		}
 		if(item_amount($item[glob of spoiled mayo]) > 0)
 		{
@@ -8389,7 +8388,6 @@ boolean LX_meatMaid()
 	{
 		backupSetting("cloverProtectActive", false);
 		use(1, $item[disassembled clover]);
-//		if(contains_text(visit_url("adventure.php?snarfblat=58&confirm=on"), "Combat"))
 		if(contains_text(visit_url("adventure.php?snarfblat=58"), "Combat"))
 		{
 			print("Wandering combat at The VERY Unquiet Garves, have to try this again.", "red");
@@ -9495,7 +9493,6 @@ boolean L9_aBooPeak()
 			use(1, $item[disassembled clover]);
 			backupSetting("cloverProtectActive", false);
 
-//			string page = visit_url("adventure.php?snarfblat=296&confirm=on");
 			string page = visit_url("adventure.php?snarfblat=296");
 			if(contains_text(page, "Combat"))
 			{
@@ -9897,7 +9894,6 @@ boolean L9_chasmBuild()
 	{
 		use(1, $item[disassembled clover]);
 		backupSetting("cloverProtectActive", false);
-//		ccAdvBypass("adventure.php?snarfblat=295&confirm=on", $location[The Smut Orc Logging Camp]);
 		ccAdvBypass("adventure.php?snarfblat=295", $location[The Smut Orc Logging Camp]);
 		if(item_amount($item[Ten-Leaf Clover]) > 0)
 		{
@@ -9995,7 +9991,10 @@ boolean L11_talismanOfNam()
 	}
 	if((get_property("cc_war") == "finished") || (get_property("cc_prewar") == ""))
 	{
-		equip($slot[acc3], $item[pirate fledges]);
+		if(!have_equipped($item[Pirate Fledges]))
+		{
+			equip($slot[acc3], $item[Pirate Fledges]);
+		}
 		if((my_mp() > 60) || considerGrimstoneGolem(true))
 		{
 			handleBjornify($familiar[Grimstone Golem]);
