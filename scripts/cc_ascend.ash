@@ -3774,6 +3774,10 @@ boolean L13_towerNSHedge()
 	maximize_hedge();
 	useCocoon();
 	visit_url("place.php?whichplace=nstower&action=ns_03_hedgemaze");
+	if(get_property("lastEncounter") == "This Maze is... Mazelike...")
+	{
+		abort("May not have enough adventures for the hedge maze. Failing");
+	}
 
 	if(get_property("cc_hedge") == "slow")
 	{
@@ -4147,11 +4151,15 @@ boolean L12_lastDitchFlyer()
 	{
 		return false;
 	}
-	if(get_property("flyeredML").to_int() < 10000)
+	if(get_property("flyeredML").to_int() >= 10000)
 	{
 		return false;
 	}
 	if(get_property("sidequestArenaCompleted") != "none")
+	{
+		return false;
+	}
+	if(get_property("cc_war") == "finished")
 	{
 		return false;
 	}
@@ -9165,6 +9173,10 @@ boolean L12_preOutfit()
 
 boolean L12_flyerFinish()
 {
+	if(get_property("cc_war") == "finished")
+	{
+		return false;
+	}
 	if((item_amount($item[rock band flyers]) == 0) && (item_amount($item[jam band flyers]) == 0))
 	{
 		return false;

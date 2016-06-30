@@ -630,12 +630,29 @@ string cs_combatNormal(int round, string opp, string text)
 		return "skill curse of weaksauce";
 	}
 
-	if(have_skill($skill[saucegeyser]) && (my_mp() >= 24))
+	if((!contains_text(combatState, "cowboy kick")) && (have_skill($skill[Cowboy Kick])) && (monster_level_adjustment() <= 150))
 	{
-		return "skill saucegeyser";
+		set_property("cc_combatHandler", combatState + "(cowboy kick)");
+		return "skill " + $skill[Cowboy Kick];
 	}
 
-	return "skill salsaball";
+	if(have_skill($skill[Saucegeyser]) && (my_mp() >= mp_cost($skill[Saucegeyser])))
+	{
+		return "skill " + $skill[Saucegeyser];
+	}
+
+	if(have_skill($skill[Entangling Noodles]) && (my_mp() >= (mp_cost($skill[Entangling Noodles]) + (2 * mp_cost($skill[Saucestorm])))) && (monster_level_adjustment() <= 150))
+	{
+		return "skill " + $skill[Entangling Noodles];
+	}
+
+
+	if(have_skill($skill[Saucestorm]) && (my_mp() >= mp_cost($skill[Saucestorm])))
+	{
+		return "skill " + $skill[Saucestorm];
+	}
+
+	return "skill " + $skill[salsaball];
 
 
 }
