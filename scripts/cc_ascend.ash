@@ -2131,6 +2131,7 @@ void doBedtime()
 	{
 		use(1, $item[Infinite BACON Machine]);
 	}
+	while(cc_doPrecinct());
 
 	if((get_property("cc_dickstab").to_boolean()) && chateaumantegna_available() && (my_daycount() == 1))
 	{
@@ -2794,7 +2795,6 @@ boolean L11_aridDesert()
 			print("Did not appear to notice that Gnasir unlocked, assuming so at this point.", "green");
 			set_property("cc_gnasirUnlocked", true);
 		}
-
 
 		if(get_property("cc_gnasirUnlocked").to_boolean() && (item_amount($item[Stone Rose]) > 0) && ((get_property("gnasirProgress").to_int() & 1) != 1))
 		{
@@ -7958,7 +7958,6 @@ boolean L8_trapperGround()
 boolean LX_guildUnlock()
 {
 	if(!in_hardcore())
-
 	{
 		if(my_ascensions() >= 125)
 		{

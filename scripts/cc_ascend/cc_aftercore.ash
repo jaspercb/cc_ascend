@@ -891,8 +891,21 @@ boolean cc_cheesePostCS(int leave)
 //	{
 //		equip($slot[acc3], $item[Source Shades]);
 //	}
-	handleFamiliar($familiar[Golden Monkey]);
-	handleFamiliar($familiar[Intergnat]);
+	if(item_amount($item[Infinite BACON Machine]) > 0)
+	{
+		if(have_familiar($familiar[Hobo Monkey]))
+		{
+			handleFamiliar($familiar[Hobo Monkey]);
+		}
+		else
+		{
+			handleFamiliar($familiar[Golden Monkey]);
+		}
+	}
+	else
+	{
+		handleFamiliar($familiar[Intergnat]);
+	}
 	if(item_amount($item[Snow Suit]) > 0)
 	{
 		equip($item[Snow Suit]);

@@ -17,7 +17,7 @@ int cc_sourceTerminalEnhanceLeft();
 boolean cc_sourceTerminalExtrude(string request);
 int cc_sourceTerminalExtrudeLeft();
 int[string] cc_sourceTerminalStatus();
-
+boolean cc_doPrecinct();
 
 //Supplemental
 int cc_advWitchessTargets(string target);
@@ -416,7 +416,319 @@ int cc_advWitchessTargets(string target)
 		return 1939;
 	}
 
-
-
 	return 0;
+}
+
+boolean cc_doPrecinct()
+{
+	if(get_property("cc_eggDetective") != "")
+	{
+		print("Prior eggDetective data exists. If this is from an aborted attempt, things will likely go very badly. 'set cc_eggDetective=' if this is the case.", "red");
+	}
+
+	string page = visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
+	matcher eggMatcher = create_matcher("You have been on this case for (\\d+) minute(?:s?)", page);
+	if(!eggMatcher.find())
+	{
+		if(!contains_text(page, "The Precinct"))
+		{
+			return false;
+		}
+
+		int casesLeft = 0;
+		matcher precinctMatcher = create_matcher("[(](\\d) more case(?:s?) today[)]", page);
+		if(precinctMatcher.find())
+		{
+			casesLeft = to_int(precinctMatcher.group(1));
+			print("We have " + casesLeft + " case(s) leftover!", "green");
+		}
+
+		if(casesLeft == 0)
+		{
+			return false;
+		}
+
+		page = visit_url("choice.php?pwd=&whichchoice=1193&option=1");
+		eggMatcher = create_matcher("You have been on this case for (\\d+) minute(?:s?)", page);
+
+		if(!contains_text(page, "murdered with an egg"))
+		{
+			if(!eggMatcher.find())
+			{
+				print("Someone was not murdered with an egg.... that's sad." + page, "red");
+				return false;
+			}
+		}
+		print("Murdered with an egg! I love Egg!!", "green");
+		page = visit_url("wham.php", false);
+	}
+
+	eggMatcher = create_matcher("You have been on this case for (\\d+) minute(?:s?)", page);
+	if(!eggMatcher.find())
+	{
+		print("I can not resolve my case situation....", "red");
+		return false;
+	}
+
+	if(contains_text(get_property("cc_eggDetective"), "solved"))
+	{
+		set_property("cc_eggDetective", substring(get_property("cc_eggDetective"), 0, get_property("cc_eggDetective").length()-6));
+	}
+
+	while(!contains_text(get_property("cc_eggDetective"), "solved"))
+	{
+		eggMatcher = create_matcher("You have been on this case for (\\d+) minute(?:s?)", page);
+		int currentTime = 0;
+		if(eggMatcher.find())
+		{
+			currentTime = to_int(eggMatcher.group(1));
+		}
+		print("On the case for " + currentTime + " minutes...", "green");
+
+		string[int] eggData = split_string(get_property("cc_eggDetective"), ",");
+		int i=1;
+		while(i<=9)
+		{
+			boolean visited = false;
+			foreach index in eggData
+			{
+				//print("Subegg: " + eggData[index], "blue");
+				string[int] subEgg = split_string(eggData[index], ":");
+				if(subEgg[0].to_int() == i)
+				{
+					visited = true;
+					break;
+				}
+			}
+
+			if(!visited)
+			{
+				print("Going to visit room: " + i, "green");
+				page = visit_url("wham.php?visit=" + i, false);
+				matcher personMatcher = create_matcher("<td align=center width=200>(?:\\s+)<img src=[\"](?:[a-z0-9/_.:]+?)[.]gif[\"]>(?:\\s+)<br>(?:\\s+)<b>([a-zA-Z ]+?)</b>(?:\\s+?)<br>(?:\\s+?)([a-zA-Z -]+)(?:\\s+?)<p>(?:\\s+?)[(]([a-zA-Z ]+?)[)]", page);
+				if(personMatcher.find())
+				{
+					string person = personMatcher.group(1);
+					string job = personMatcher.group(2);
+					string room = personMatcher.group(3);
+					print("Found " + personMatcher.group(1), "green");
+					print("Found " + personMatcher.group(2), "green");
+					print("Found " + personMatcher.group(3), "green");
+					string generated = "" + i + ":" + room + ":" + person + ":" + job;
+
+					//Get killer response as well.
+					page = visit_url("wham.php?ask=killer&visit=" + i, false);
+					matcher killerMatcher = create_matcher("you (?:ask|say)(?:.*?)<p>(.*?)(\\s*?)<!-- </div> -->", page);
+					if(killerMatcher.find())
+					{
+						string killerInfo = killerMatcher.group(1);
+						killerInfo = replace_string(killerInfo, ",", "");
+						killerInfo = replace_string(killerInfo, ":", "");
+						killerInfo = replace_string(killerInfo, "<p>", "");
+						killerInfo = replace_string(killerInfo, "<i>", "");
+						killerInfo = replace_string(killerInfo, "</i>", "");
+
+						string[int] nameSplit = split_string(person, " ");
+						foreach index in nameSplit
+						{
+							killerInfo = replace_string(killerInfo, nameSplit[index], "");
+						}
+						generated += ":" + killerInfo;
+					}
+					else
+					{
+						generated += ":liar";
+					}
+					set_property("cc_eggDetective", generated + "," + get_property("cc_eggDetective"));
+				}
+			}
+			i += 1;
+		}
+
+		eggData = split_string(get_property("cc_eggDetective"), ",");
+		print("Generating goals...", "blue");
+		//At this point we've visited every place and queried everyone. Now we need to determine who is identifying a killer.
+		//Extract names and jobs
+		boolean[string] personGoals;
+		boolean[string] jobGoals;
+		boolean[string] locationGoals;
+		foreach index in eggData
+		{
+			if(eggData[index] == "")
+			{
+				continue;
+			}
+			string[int] subEgg = split_string(eggData[index], ":");
+			personGoals[subEgg[2]] = true;
+			jobGoals[subEgg[3]] = true;
+			locationGoals[subEgg[1]] = true;
+		}
+
+		print("Verifications....", "blue");
+		foreach index in eggData
+		{
+			//print("Subegg: " + eggData[index], "blue");
+			string[int] subEgg = split_string(eggData[index], ":");
+			if(count(subEgg) < 4)
+			{
+				continue;
+			}
+			boolean isTruth = true;
+			if(subEgg[4] == "liar")
+			{
+				isTruth = false;
+			}
+			if(subEgg[4] != "liar")
+			{
+				boolean hasAnyone = false;
+				string oldValue = subEgg[4];
+				foreach goal in personGoals
+				{
+					if(contains_text(subEgg[4], goal))
+					{
+						hasAnyone = true;
+						subEgg[4] = goal;
+					}
+				}
+				foreach goal in jobGoals
+				{
+					if(contains_text(subEgg[4], goal))
+					{
+						hasAnyone = true;
+						subEgg[4] = goal;
+					}
+				}
+				string replaceString = "liar";
+				if(hasAnyone)
+				{
+					replaceString = subEgg[4];
+				}
+
+				string temp = get_property("cc_eggDetective");
+				temp = replace_string(temp, oldValue, replaceString);
+				set_property("cc_eggDetective", temp);
+				eggData = split_string(get_property("cc_eggDetective"), ",");
+				subEgg[4] = replaceString;
+			}
+			if(subEgg[4] != "liar")
+			{
+				print(subEgg[2] + " is accusing: " + subEgg[4], "blue");
+				//Now we need to determine if they are lying or not.
+				int currentLocation = to_int(subEgg[0]);
+				page = visit_url("wham.php?visit=" + currentLocation, false);
+
+				int otherPerson = 1;
+				while((otherPerson <= 9) && isTruth)
+				{
+					if(currentLocation == otherPerson)
+					{
+						otherPerson += 1;
+						continue;
+					}
+
+					string[int] currentEgg;
+					foreach index in eggData
+					{
+						string[int] subEgg = split_string(eggData[index], ":");
+						if(to_int(subEgg[0]) == otherPerson)
+						{
+							currentEgg = subEgg;
+						}
+					}
+
+					page = visit_url("wham.php?ask=" + otherPerson + "&visit=" + currentLocation, false);
+					matcher killerMatcher = create_matcher("you (?:ask|say)(?:.*?)<p>(.*?)(\\s*?)<!-- </div> -->", page);
+					if(killerMatcher.find())
+					{
+						string killerInfo = killerMatcher.group(1);
+						//We are asking to attach a job to the person. They might not know.
+						//We need to look up the particular person.
+						boolean exact = false;
+						int count = 0;
+						foreach goal in jobGoals
+						{
+							if(contains_text(killerInfo, goal))
+							{
+								if(goal != currentEgg[3])
+								{
+									print("Asked about " + currentEgg[2] + "," + currentEgg[3] + " and was told: " + goal, "red");
+									count += 1;
+								}
+								else
+								{
+									exact = true;
+								}
+							}
+						}
+						if(!exact && (count != 0))
+						{
+							isTruth = false;
+						}
+
+						exact = false;
+						count = 0;
+						foreach goal in locationGoals
+						{
+							if(contains_text(killerInfo, goal))
+							{
+								if(goal != currentEgg[1])
+								{
+									print("Asked about " + currentEgg[2] + "," + currentEgg[1] + " and was told: " + goal, "red");
+									count += 1;
+								}
+								else
+								{
+									exact = true;
+								}
+							}
+						}
+						if(!exact && (count != 0))
+						{
+							isTruth = false;
+						}
+					}
+
+					//if still isTruth, we can try the relative questions if so desired.
+					//Really, we should check the list of accused and try to uniquify it.
+
+					otherPerson += 1;
+				}
+			}
+			if(subEgg[4] == "liar")
+			{
+				isTruth = false;
+			}
+			if(isTruth)
+			{
+				print(subEgg[2] + " is accusing: " + subEgg[4] + " and may be telling the truth!", "blue");
+				//Find person they are accusing and do it.
+
+				string[int] currentEgg;
+				foreach index in eggData
+				{
+					string[int] subsubEgg = split_string(eggData[index], ":");
+					if((subsubEgg[2] == subEgg[4]) || (subsubEgg[3] == subEgg[4]))
+					{
+						print("Accusation against: " + subsubEgg[2], "blue");
+						page = visit_url("wham.php?visit=" + subsubEgg[0], false);
+						page = visit_url("wham.php?visit=" + subsubEgg[0] + "&accuse=" + subsubEgg[0], false);
+						set_property("cc_eggDetective", "");
+						return true;
+					}
+				}
+			}
+		}
+
+		//http://10.0.0.112:60080/wham.php?visit=9
+		//http://10.0.0.112:60080/wham.php?ask=4&visit=3          //Ask about another Person
+		//http://10.0.0.112:60080/wham.php?ask=killer&visit=4
+		//http://10.0.0.112:60080/wham.php?ask=rel&w=4&visit=3
+		//http://10.0.0.112:60080/wham.php?ask=self&visit=4
+		//http://10.0.0.112:60080/wham.php?accuse=1&visit=1
+
+		set_property("cc_eggDetective", get_property("cc_eggDetective") + "solved");
+		return false;
+	}
+
+	return true;
 }
