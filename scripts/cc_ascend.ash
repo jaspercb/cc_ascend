@@ -1450,6 +1450,12 @@ void initializeDay(int day)
 		}
 	}
 
+	if((my_daycount() != 1) && (possessEquipment($item[Plastic Detective Badge]) || possessEquipment($item[Bronze Detective Badge])))
+#	if((my_daycount() != 1) && (possessEquipment($item[Plastic Detective Badge]) || possessEquipment($item[Bronze Detective Badge]) || possessEquipment($item[Silver Detective Badge]) || possessEquipment($item[Gold Detective Badge])))
+	{
+		visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
+	}
+
 	chateaumantegna_useDesk();
 	ed_initializeDay(day);
 	boris_initializeDay(day);
@@ -1482,6 +1488,12 @@ void initializeDay(int day)
 			if((get_clan_furniture() contains $item[Clan Floundry]) && (item_amount($item[Fishin\' Pole]) == 0))
 			{
 				visit_url("clan_viplounge.php?action=floundry");
+			}
+
+			if(!possessEquipment($item[Plastic Detective Badge]) && !possessEquipment($item[Bronze Detective Badge]))
+#			if(!possessEquipment($item[Plastic Detective Badge]) && !possessEquipment($item[Bronze Detective Badge]) && !possessEquipment($item[Silver Detective Badge]) && !possessEquipment($item[Gold Detective Badge]))
+			{
+				visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
 			}
 
 			visit_url("tutorial.php?action=toot");

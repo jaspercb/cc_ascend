@@ -1283,10 +1283,6 @@ boolean LA_cs_communityService()
 				{
 					chateaumantegna_usePainting("cs_combatNormal");
 				}
-//				if(to_phylum(get_property("dnaSyringe")) == $phylum[beast])
-//				{
-//					cli_execute("camp dnapotion");
-//				}
 				if((item_amount($item[Glass of Goat\'s Milk]) > 0) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
 				{
 					cli_execute("make milk of magnesium");
@@ -1308,10 +1304,6 @@ boolean LA_cs_communityService()
 				{
 					handleFaxMonster($monster[Dairy Goat], "cs_combatNormal");
 				}
-//				if(to_phylum(get_property("dnaSyringe")) == $phylum[beast])
-//				{
-//					cli_execute("camp dnapotion");
-//				}
 				if((item_amount($item[Glass of Goat\'s Milk]) > 0) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0) && have_skill($skill[Advanced Saucecrafting]))
 				{
 					cli_execute("make milk of magnesium");
@@ -1407,10 +1399,6 @@ boolean LA_cs_communityService()
 			if((item_amount($item[Gene Tonic: Pirate]) == 0) && (get_property("_dnaPotionsMade").to_int() < 3) && (item_amount($item[DNA Extraction Syringe]) > 0) && elementalPlanes_access($element[stench]))
 			{
 				ccAdv(1, $location[Pirates of the Garbage Barges], "cs_combatNormal");
-//				if(to_phylum(get_property("dnaSyringe")) == $phylum[pirate])
-//				{
-//					cli_execute("camp dnapotion");
-//				}
 				return true;
 			}
 

@@ -731,6 +731,11 @@ boolean cc_doPrecinct()
 						}
 
 						page = visit_url("wham.php?visit=" + subsubEgg[0] + "&accuse=" + subsubEgg[0], false);
+						matcher pensionMatcher = create_matcher("been awarded (\\d+) cop dollars", page);
+						if(pensionMatcher.find())
+						{
+							print("Received a pension of " + pensionMatcher.group(1) + " cop dollars.", "green");
+						}
 						set_property("cc_eggDetective", "");
 						return true;
 					}
