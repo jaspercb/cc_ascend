@@ -1628,7 +1628,7 @@ int doNumberology(string goal, boolean doIt, string option)
 	{
 		return -1;
 	}
-	if(get_property("_universeCalculated").to_boolean())
+	if(get_property("_universeCalculated").to_int() >= get_property("skillLevel144").to_int())
 	{
 		return -1;
 	}

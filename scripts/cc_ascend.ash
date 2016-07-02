@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17016;
+since r17039;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -2210,7 +2210,7 @@ void doBedtime()
 			}
 		}
 
-		if(have_skill($skill[Calculate the Universe]) && !get_property("_universeCalculated").to_boolean())
+		if(have_skill($skill[Calculate the Universe]) && (get_property("_universeCalculated").to_int() < get_property("skillLevel144").to_int()))
 		{
 			print("You can still Calculate the Universe!", "blue");
 		}
