@@ -492,14 +492,10 @@ void cs_dnaPotions()
 	}
 	dna_generic();
 
-	if((get_property("dnaSyringe") == $phylum[fish]) && !get_property("_dnaHybrid").to_boolean())
+	if((get_property("dnaSyringe") == $phylum[fish]) && !get_property("_dnaHybrid").to_boolean() && (my_daycount() == 1))
 	{
-		if((get_property("_dnaPotionsMade").to_int() == 3) && (my_daycount() == 1))
-		{
-			cli_execute("camp dnainject");
-		}
+		cli_execute("camp dnainject");
 	}
-
 }
 
 string cs_combatNormal(int round, string opp, string text)
@@ -1408,7 +1404,7 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if((item_amount($item[Gene Tonic: Pirate]) == 0) && (item_amount($item[DNA Extraction Syringe]) > 0) && elementalPlanes_access($element[stench]))
+			if((item_amount($item[Gene Tonic: Pirate]) == 0) && (get_property("_dnaPotionsMade").to_int() < 3) && (item_amount($item[DNA Extraction Syringe]) > 0) && elementalPlanes_access($element[stench]))
 			{
 				ccAdv(1, $location[Pirates of the Garbage Barges], "cs_combatNormal");
 //				if(to_phylum(get_property("dnaSyringe")) == $phylum[pirate])
@@ -1418,7 +1414,7 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if(((item_amount($item[Gene Tonic: Elemental]) == 0) || !get_property("_dnaHybrid").to_boolean()) && (item_amount($item[DNA Extraction Syringe]) > 0) && elementalPlanes_access($element[hot]))
+			if((((item_amount($item[Gene Tonic: Elemental]) == 0) && (get_property("_dnaPotionsMade").to_int() < 3)) || !get_property("_dnaHybrid").to_boolean()) && (item_amount($item[DNA Extraction Syringe]) > 0) && elementalPlanes_access($element[hot]))
 			{
 				buffMaintain($effect[Reptilian Fortitude], 8, 1, 1);
 				buffMaintain($effect[Power Ballad of the Arrowsmith], 5, 1, 1);
@@ -1434,14 +1430,6 @@ boolean LA_cs_communityService()
 				useCocoon();
 
 				ccAdv(1, $location[The Bubblin\' Caldera], "cs_combatNormal");
-//				if(to_phylum(get_property("dnaSyringe")) == $phylum[elemental])
-//				{
-//					cli_execute("camp dnapotion");
-//				}
-//				if(to_phylum(get_property("dnaSyringe")) == $phylum[fish])
-//				{
-//					cli_execute("camp dnainject");
-//				}
 				return true;
 			}
 
