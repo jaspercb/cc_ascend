@@ -423,7 +423,7 @@ boolean cc_doPrecinct()
 {
 	if(get_property("cc_eggDetective") != "")
 	{
-		print("Prior eggDetective data exists. If this is from an aborted attempt, things will likely go very badly. 'set cc_eggDetective=' if this is the case.", "red");
+		set_property("cc_eggDetective", "");
 	}
 
 	string page = visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
@@ -445,7 +445,12 @@ boolean cc_doPrecinct()
 
 		if(casesLeft == 0)
 		{
-			return false;
+			page = visit_url("wham.php", false);
+			if(!contains_text(page, "You have been on this case for"))
+			{
+				return false;
+			}
+			print("Trying to resume case....", "red");
 		}
 
 		page = visit_url("choice.php?pwd=&whichchoice=1193&option=1");
@@ -468,11 +473,6 @@ boolean cc_doPrecinct()
 	{
 		print("I can not resolve my case situation....", "red");
 		return false;
-	}
-
-	if(contains_text(get_property("cc_eggDetective"), "solved"))
-	{
-		set_property("cc_eggDetective", substring(get_property("cc_eggDetective"), 0, get_property("cc_eggDetective").length()-6));
 	}
 
 	while(!contains_text(get_property("cc_eggDetective"), "solved"))
@@ -498,7 +498,7 @@ boolean cc_doPrecinct()
 			{
 				print("Going to visit room: " + i, "green");
 				page = visit_url("wham.php?visit=" + i, false);
-				matcher personMatcher = create_matcher("<td align=center width=200>(?:\\s+)<img src=[\"](?:[a-z0-9/_.:]+?)[.]gif[\"]>(?:\\s+)<br>(?:\\s+)<b>([a-zA-Z ]+?)</b>(?:\\s+?)<br>(?:\\s+?)([a-zA-Z -]+)(?:\\s+?)<p>(?:\\s+?)[(]([a-zA-Z ]+?)[)]", page);
+				matcher personMatcher = create_matcher("<td align=center width=200>(?:\\s+)<img src=[\"](?:[a-z0-9/_.:]+?)[.]gif[\"]>(?:\\s+)<br>(?:\\s+)<b>([a-zA-Z ]+?)</b>(?:\\s+?)<br>(?:\\s+?)([a-zA-Z -]+)(?:\\s+?)<p>(?:\\s+?)[(]([a-zA-Z ']+?)[)]", page);
 				if(personMatcher.find())
 				{
 					string person = personMatcher.group(1);
@@ -540,7 +540,7 @@ boolean cc_doPrecinct()
 
 		eggData = split_string(get_property("cc_eggDetective"), ",");
 		print("Generating goals...", "blue");
-		//At this point we've visited every place and queried everyone. Now we need to determine who is identifying a killer.
+		//At this point we\'ve visited every place and queried everyone. Now we need to determine who is identifying a killer.
 		//Extract names and jobs
 		boolean[string] personGoals;
 		boolean[string] jobGoals;
@@ -577,7 +577,8 @@ boolean cc_doPrecinct()
 				string oldValue = subEgg[4];
 				foreach goal in personGoals
 				{
-					if(contains_text(subEgg[4], goal))
+					matcher goalMatcher = create_matcher("\\b" + goal + "\\b",subEgg[4]);
+					if(goalMatcher.find())
 					{
 						hasAnyone = true;
 						subEgg[4] = goal;
@@ -585,7 +586,8 @@ boolean cc_doPrecinct()
 				}
 				foreach goal in jobGoals
 				{
-					if(contains_text(subEgg[4], goal))
+					matcher goalMatcher = create_matcher("\\b" + goal + "\\b",subEgg[4]);
+					if(goalMatcher.find())
 					{
 						hasAnyone = true;
 						subEgg[4] = goal;
@@ -611,6 +613,8 @@ boolean cc_doPrecinct()
 				page = visit_url("wham.php?visit=" + currentLocation, false);
 
 				int otherPerson = 1;
+				boolean corrupted = false;
+				string locationName = subEgg[1];
 				while((otherPerson <= 9) && isTruth)
 				{
 					if(currentLocation == otherPerson)
@@ -640,7 +644,9 @@ boolean cc_doPrecinct()
 						int count = 0;
 						foreach goal in jobGoals
 						{
-							if(contains_text(killerInfo, goal))
+
+							matcher goalMatcher = create_matcher("\\b" + goal + "\\b",killerInfo);
+							if(goalMatcher.find())
 							{
 								if(goal != currentEgg[3])
 								{
@@ -662,7 +668,8 @@ boolean cc_doPrecinct()
 						count = 0;
 						foreach goal in locationGoals
 						{
-							if(contains_text(killerInfo, goal))
+							matcher goalMatcher = create_matcher("\\b" + goal + "\\b",killerInfo);
+							if(goalMatcher.find())
 							{
 								if(goal != currentEgg[1])
 								{
@@ -677,6 +684,17 @@ boolean cc_doPrecinct()
 						}
 						if(!exact && (count != 0))
 						{
+							if(killerInfo == locationName)
+							{
+								if(corrupted)
+								{
+									print("Doubly corrupted possible truth teller. This person is probably correct.", "blue");
+									return false;
+								}
+								print("Corrupted truth teller? Going to retry....", "red");
+								corrupted = true;
+								continue;
+							}
 							isTruth = false;
 						}
 					}
@@ -685,6 +703,7 @@ boolean cc_doPrecinct()
 					//Really, we should check the list of accused and try to uniquify it.
 
 					otherPerson += 1;
+					corrupted = false;
 				}
 			}
 			if(subEgg[4] == "liar")
