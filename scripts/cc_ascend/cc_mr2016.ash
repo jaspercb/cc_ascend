@@ -477,13 +477,6 @@ boolean cc_doPrecinct()
 
 	while(!contains_text(get_property("cc_eggDetective"), "solved"))
 	{
-		eggMatcher = create_matcher("You have been on this case for (\\d+) minute(?:s?)", page);
-		int currentTime = 0;
-		if(eggMatcher.find())
-		{
-			currentTime = to_int(eggMatcher.group(1));
-		}
-		print("On the case for " + currentTime + " minutes...", "green");
 
 		string[int] eggData = split_string(get_property("cc_eggDetective"), ",");
 		int i=1;
@@ -711,6 +704,13 @@ boolean cc_doPrecinct()
 					{
 						print("Accusation against: " + subsubEgg[2], "blue");
 						page = visit_url("wham.php?visit=" + subsubEgg[0], false);
+
+						eggMatcher = create_matcher("You have been on this case for (\\d+) minute(?:s?)", page);
+						if(eggMatcher.find())
+						{
+							print("On the case for " + eggMatcher.group(1) + " minutes...", "green");
+						}
+
 						page = visit_url("wham.php?visit=" + subsubEgg[0] + "&accuse=" + subsubEgg[0], false);
 						set_property("cc_eggDetective", "");
 						return true;
