@@ -395,12 +395,12 @@ boolean cs_eat_stuff(int quest)
 			eatFancyDog("sleeping dog");
 		}
 
-		if((item_amount($item[Handful of Smithereens]) > 0) && (fullness_left() >= 2))
+		if((item_amount($item[Handful of Smithereens]) > 0) && (my_fullness() <= 3))
 		{
 			cli_execute("make 1 this charming flan");
 			eat(1, $item[This Charming Flan]);
 		}
-		if((item_amount($item[Snow Berries]) > 1) && (fullness_left() >= 1))
+		if((item_amount($item[Snow Berries]) > 1) && (my_fullness() <= 4))
 		{
 			cli_execute("make 1 snow crab");
 			eat(1, $item[Snow Crab]);
@@ -421,13 +421,13 @@ boolean cs_eat_stuff(int quest)
 			{
 				if(cc_sourceTerminalExtrudeLeft() > 0)
 				{
-					if(item_amount($item[Browser Cookie]) == 0)
+					if((item_amount($item[Browser Cookie]) == 0) && (fullness_left() >= 4))
 					{
 						cc_sourceTerminalExtrude($item[Browser Cookie]);
 					}
 				}
 
-				if(item_amount($item[Browser Cookie]) > 0)
+				if((item_amount($item[Browser Cookie]) > 0) && (fullness_left() >= 4))
 				{
 					eat(1, $item[Browser Cookie]);
 				}
@@ -998,7 +998,7 @@ boolean do_cs_quest(int quest)
 	case 3:		ccMaximize("myst, -equip snow suit", 1500, 0, false);				break;
 	case 4:		ccMaximize("moxie, -equip snow suit", 1500, 0, false);				break;
 	case 5:		ccMaximize("familiar weight, -equip snow suit", 1500, 0, false);	break;
-#	case 6:		ccMaximize("melee damage, -equip snow suit", 1500, 0, false);		break;
+	case 6:		ccMaximize("weapon damage, -equip snow suit", 1500, 0, false);		break;
 	case 7:		ccMaximize("spell damage, -equip snow suit", 1500, 0, false);		break;
 	case 8:		ccMaximize("-combat, -equip snow suit", 1500, 0, false);			break;
 	case 9:		ccMaximize("item, -equip snow suit", 1500, 0, false);				break;
@@ -1249,6 +1249,11 @@ boolean LA_cs_communityService()
 				solveCookie();
 			}
 
+			if(cs_witchess())
+			{
+				return true;
+			}
+
 			if(!get_property("_chateauMonsterFought").to_boolean() && chateaumantegna_available() && (get_property("chateauMonster") == $monster[dairy goat]))
 			{
 				buffMaintain($effect[Reptilian Fortitude], 8, 1, 1);
@@ -1312,11 +1317,6 @@ boolean LA_cs_communityService()
 			}
 
 			cs_eat_stuff(0);
-
-			if(cs_witchess())
-			{
-				return true;
-			}
 
 			if((curQuest == 11) && ((my_turncount() + 60) < get_property("cc_cookie").to_int()) && (my_adventures() > 65))
 			{
@@ -2416,7 +2416,7 @@ boolean LA_cs_communityService()
 			}
 		break;
 
-	case 6:		#Melee Damage
+	case 6:		#Weapon Damage
 			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
 				doRest();
@@ -2449,6 +2449,8 @@ boolean LA_cs_communityService()
 			}
 
 			buffMaintain($effect[Human-Beast Hybrid], 0, 1, 1);
+			buffMaintain($effect[Twinkly Weapon], 0, 1, 1);
+			buffMaintain($effect[This Is Where You\'re a Viking], 0, 1, 1);
 			if(is_unrestricted($item[Clan Pool Table]) && (have_effect($effect[Billiards Belligerence]) == 0))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");

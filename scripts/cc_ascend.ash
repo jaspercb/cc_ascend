@@ -1463,6 +1463,14 @@ void initializeDay(int day)
 
 	if(day == 1)
 	{
+
+		if(!possessEquipment($item[Plastic Detective Badge]) && !possessEquipment($item[Bronze Detective Badge]))
+#		if(!possessEquipment($item[Plastic Detective Badge]) && !possessEquipment($item[Bronze Detective Badge]) && !possessEquipment($item[Silver Detective Badge]) && !possessEquipment($item[Gold Detective Badge]))
+		{
+			visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
+		}
+
+
 		if(get_property("cc_day1_init") != "finished")
 		{
 			set_property("_beancannonUsed", 0);
@@ -1488,12 +1496,6 @@ void initializeDay(int day)
 			if((get_clan_furniture() contains $item[Clan Floundry]) && (item_amount($item[Fishin\' Pole]) == 0))
 			{
 				visit_url("clan_viplounge.php?action=floundry");
-			}
-
-			if(!possessEquipment($item[Plastic Detective Badge]) && !possessEquipment($item[Bronze Detective Badge]))
-#			if(!possessEquipment($item[Plastic Detective Badge]) && !possessEquipment($item[Bronze Detective Badge]) && !possessEquipment($item[Silver Detective Badge]) && !possessEquipment($item[Gold Detective Badge]))
-			{
-				visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
 			}
 
 			visit_url("tutorial.php?action=toot");
@@ -1813,7 +1815,10 @@ void doBedtime()
 		abort("You have a rain man to cast, please do so before overdrinking and run me again.");
 	}
 
+	//We are committig to end of day now...
+
 	hermit(10, $item[ten-leaf clover]);
+	while(cc_doPrecinct());
 
 	if((friars_available()) && (!get_property("friarsBlessingReceived").to_boolean()))
 	{
@@ -2143,7 +2148,6 @@ void doBedtime()
 	{
 		use(1, $item[Infinite BACON Machine]);
 	}
-	while(cc_doPrecinct());
 
 	if((get_property("cc_dickstab").to_boolean()) && chateaumantegna_available() && (my_daycount() == 1))
 	{
@@ -4256,18 +4260,6 @@ boolean LX_attemptPowerLevel()
 				if(my_basestat(myStat) >= 148)
 				{
 					return false;
-#					if(my_basestat($stat[Muscle]) < my_basestat(myStat))
-#					{
-#						myStat = $stat[Muscle];
-#					}
-#					if(my_basestat($stat[Mysticality]) < my_basestat(myStat))
-#					{
-#						myStat = $stat[Mysticality];
-#					}
-#					if(my_basestat($stat[Moxie]) < my_basestat(myStat))
-#					{
-#						myStat = $stat[Moxie];
-#					}
 				}
 				else if(my_basestat(myStat) >= 125)
 				{
@@ -4341,6 +4333,11 @@ boolean LX_attemptPowerLevel()
 	}
 	else
 	{
+		if((my_level() >= 11) && (get_property("cc_hiddenzones") == "finished"))
+		{
+			ccAdv($location[The Hidden Hospital]);
+			return true;
+		}
 		return false;
 	}
 	return true;
@@ -11619,9 +11616,14 @@ boolean doTasks()
 		abort("Should not have gotten here, aborted LA_cs_communityService method allowed return to caller. Uh oh.");
 	}
 
-	if(my_daycount() == 2)
+	if(my_daycount() >= 2)
 	{
-		if((doNumberology("battlefield", false) != -1) && (my_mp() >= mp_cost($skill[Calculate the Universe])) && canYellowRay())
+		if(have_outfit("Frat Warrior Fatigues"))
+		{
+			doNumberology("adventures3");
+		}
+
+		if((doNumberology("battlefield", false) != -1) && (my_mp() >= mp_cost($skill[Calculate the Universe])) && canYellowRay() && !have_outfit("Frat Warrior Fatigues"))
 		{
 			if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
 			{

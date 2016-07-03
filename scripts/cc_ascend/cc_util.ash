@@ -2628,6 +2628,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Temporary Lycanthropy]:		useItem = $item[Blood of the Wereseal];			break;
 	case $effect[Tenacity of the Snapper]:		useSkill = $skill[Tenacity of the Snapper];		break;
 	case $effect[There is a Spoon]:				useItem = $item[Dented Spoon];					break;
+	case $effect[This is Where You\'re a Viking]:useItem = $item[VYKEA woadpaint];				break;
 	case $effect[Throwing Some Shade]:			useItem = $item[Shady Shades];					break;
 	case $effect[Ticking Clock]:				useItem = $item[Cheap wind-up Clock];			break;
 	case $effect[Toad in the Hole]:				useItem = $item[Anti-anti-antidote];			break;
@@ -2635,6 +2636,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Tortious]:						useItem = $item[Mocking Turtle];				break;
 	case $effect[Truly Gritty]:					useItem = $item[True Grit];						break;
 	case $effect[Twen Tea]:						useItem = $item[cuppa Twen tea];				break;
+	case $effect[Twinkly Weapon]:				useItem = $item[Twinkly Nuggets];				break;
 	case $effect[Unusual Perspective]:			useItem = $item[Unusual Oil];					break;
 	case $effect[Ur-Kel\'s Aria of Annoyance]:	useSkill = $skill[Ur-Kel\'s Aria of Annoyance];	break;
 	case $effect[Using Protection]:				useItem = $item[Orcish Rubber];					break;
