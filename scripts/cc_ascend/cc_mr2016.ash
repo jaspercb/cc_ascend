@@ -251,6 +251,61 @@ int cc_sourceTerminalEnhanceLeft()
 	return 0;
 }
 
+int[string] cc_sourceTerminalMissing()
+{
+	int[string] status;
+
+	status["ASHRAM"] = 1;
+	status["CRAM"] = 1;
+	status["DIAGRAM"] = 1;
+	status["DRAM"] = 1;
+	status["GRAM"] = 10;
+	status["INGRAM"] = 1;
+	status["PRAM"] = 10;
+	status["SCRAM"] = 1;
+	status["SPAM"] = 10;
+	status["TRAM"] = 1;
+	status["TRIGRAM"] = 1;
+	status["booze.ext"] = 1;
+	status["compress.edu"] = 1;
+	status["cram.ext"] = 1;
+	status["critical.enh"] = 1;
+	status["damage.enh"] = 1;
+	status["digitize"] = 3;
+	status["digitize.edu"] = 1;
+	status["dram.ext"] = 1;
+	status["duplicate.edu"] = 1;
+	status["educate"] = 2;
+	status["enhance"] = 103;
+	status["enhanceBuff"] = 100;
+	status["enhanceUses"] = 3;
+	status["enquiry"] = 250;
+	status["extract.edu"] = 1;
+	status["familiar.enq"] = 1;
+	status["familiar.ext"] = 1;
+	status["food.ext"] = 1;
+	status["goggles.ext"] = 1;
+	status["gram.ext"] = 1;
+	status["init.enh"] = 1;
+	status["items.enh"] = 1;
+	status["meat.enh"] = 1;
+	status["monsters.enq"] = 1;
+	status["mpReduce"] = 15;
+	status["portscan.edu"] = 1;
+	status["pram.ext"] = 1;
+	status["protect.enq"] = 1;
+	status["spam.ext"] = 1;
+	status["stats.enq"] = 1;
+	status["substats.enh"] = 1;
+	status["tram.ext"] = 1;
+	status["turbo.edu"] = 1;
+	int[string] have = cc_sourceTerminalStatus();
+	foreach thing in have
+	{
+		status[thing] -= have[thing];
+	}
+	return status;
+}
 
 int[string] cc_sourceTerminalStatus()
 {
@@ -290,6 +345,7 @@ int[string] cc_sourceTerminalStatus()
 		status["digitize"] = 1 + status["TRIGRAM"] + status["TRAM"];
 		status["mpReduce"] = (5 * status["ASHRAM"]) + status["SPAM"];
 	}
+
 	return status;
 }
 
