@@ -1426,7 +1426,7 @@ boolean LA_cs_communityService()
 				doHottub();
 			}
 
-			if((curQuest == 9) && (item_amount($item[Experimental Serum G-9]) < 2) && elementalPlanes_access($element[spooky]))
+			if(((curQuest == 9) || (my_turncount() < get_property("cc_cookie").to_int())) && (item_amount($item[Experimental Serum G-9]) < 2) && elementalPlanes_access($element[spooky]))
 			{
 				if(item_amount($item[Personal Ventilation Unit]) > 0)
 				{
