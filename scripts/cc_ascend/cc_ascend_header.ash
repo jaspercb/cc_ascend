@@ -38,6 +38,7 @@ boolean LX_getDigitalKey();
 boolean LX_guildUnlock();
 boolean LX_hardcoreFoodFarm();
 boolean LX_attemptPowerLevel();
+boolean LX_attemptFlyering();
 boolean LX_bitchinMeatcar();
 boolean LX_meatMaid();
 boolean LX_craftAcquireItems();

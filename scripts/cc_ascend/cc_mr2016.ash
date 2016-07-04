@@ -475,6 +475,41 @@ int cc_advWitchessTargets(string target)
 	return 0;
 }
 
+int cc_manipulateEggDetective(string command, string option)
+{
+	string[int] eggData = split_string(get_property("cc_eggDetective"), ",");
+	int i=0;
+	switch(command)
+	{
+	case "hasVisited":
+	case "hasVisitedByNumber":
+		foreach index in eggData
+		{
+			string[int] subEgg = split_string(eggData[index], ":");
+			if(subEgg[0] == option)
+			{
+				if((subEgg[1] != "") && (subEgg[2] != "") && (subEgg[3] != "") && (subEgg[4] != ""))
+				{
+					return 1;
+				}
+			}
+		}
+		return 0;
+	case "findUnvisited":
+		i = 1;
+		while(i <= 9)
+		{
+			if(cc_manipulateEggDetective("hasVisited", to_string(i)) == 0)
+			{
+				return i;
+			}
+			i += 1;
+		}
+		return 0;
+	}
+	return 0;
+}
+
 boolean cc_doPrecinct()
 {
 	if(get_property("cc_eggDetective") != "")
@@ -533,7 +568,6 @@ boolean cc_doPrecinct()
 
 	while(!contains_text(get_property("cc_eggDetective"), "solved"))
 	{
-
 		string[int] eggData = split_string(get_property("cc_eggDetective"), ",");
 		int i=1;
 		while(i<=9)
@@ -548,6 +582,11 @@ boolean cc_doPrecinct()
 					visited = true;
 					break;
 				}
+			}
+
+			if(i != cc_manipulateEggDetective("findUnvisited", ""))
+			{
+				print("List handler did not find correct unvisited eggy-weggy.", "blue");
 			}
 
 			if(!visited)
@@ -586,6 +625,7 @@ boolean cc_doPrecinct()
 					}
 					else
 					{
+						print("Jerkwad '" + person + "' won't say anything!", "blue");
 						generated += ":liar";
 					}
 					set_property("cc_eggDetective", generated + "," + get_property("cc_eggDetective"));
@@ -597,6 +637,7 @@ boolean cc_doPrecinct()
 		eggData = split_string(get_property("cc_eggDetective"), ",");
 		print("Generating goals...", "blue");
 		//At this point we\'ve visited every place and queried everyone. Now we need to determine who is identifying a killer.
+
 		//Extract names and jobs
 		boolean[string] personGoals;
 		boolean[string] jobGoals;

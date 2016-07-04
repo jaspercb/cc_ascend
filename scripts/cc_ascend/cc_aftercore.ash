@@ -995,7 +995,7 @@ boolean cc_cheesePostCS(int leave)
 		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
 		ccAdv(1, $location[Barf Mountain]);
 	}
-	use_barrels();
+	#use_barrels();
 
 	if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean() && get_property("cc_pvpEnable").to_boolean())
 	{

@@ -757,7 +757,7 @@ string cs_combatKing(int round, string opp, string text)
 		abort("Wrong combat script called");
 	}
 
-	foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Tattle, Summon Love Mosquito, Shell Up, Silent Slam, Sauceshell, Summon Love Stinkbug, Extract]
+	foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Tattle, Summon Love Mosquito, Shell Up, Silent Slam, Sauceshell, Summon Love Stinkbug, Extract, Turbo]
 	{
 		if((!contains_text(combatState, "(" + action + ")")) && have_skill(action) && (my_mp() > mp_cost(action)))
 		{
@@ -1213,7 +1213,11 @@ boolean LA_cs_communityService()
 			useCocoon();
 		}
 		handleFamiliar($familiar[Galloping Grill]);
-		return cc_advWitchess("king", "cs_combatKing");
+		cc_sourceTerminalRequest("educate turbo.edu");
+		boolean result = cc_advWitchess("king", "cs_combatKing");
+		cc_sourceTerminalRequest("educate compress.edu");
+		cc_sourceTerminalRequest("educate extract.edu");
+		return result;
 	}
 
 	if((my_daycount() != 1) && cs_witchess())

@@ -1483,6 +1483,10 @@ boolean use_barrels()
 	{
 		return false;
 	}
+	if(get_property("kingLiberated").to_boolean())
+	{
+		return false;
+	}
 
 	boolean [item] barrels = $items[little firkin, normal barrel, big tun, weathered barrel, dusty barrel, disintegrating barrel, moist barrel, rotting barrel, mouldering barrel, barnacled barrel];
 
@@ -1636,6 +1640,7 @@ int doNumberology(string goal, boolean doIt, string option)
 	{
 		return -1;
 	}
+
 	static int [string] signs;
 	signs["Mongoose"] = 1;
 	signs["Wallaby"] = 2;

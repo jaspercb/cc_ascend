@@ -3480,9 +3480,15 @@ boolean L13_towerNSTower()
 				sources = sources + 2;
 			}
 		}
-		else if(have_familiar($familiar[Sludgepuppy]))
+		else if((have_familiar($familiar[Sludgepuppy])) && !get_property("cc_100familiar").to_boolean())
 		{
 			handleFamiliar($familiar[Sludgepuppy]);
+			sources = sources + 3;
+		}
+		else if((have_familiar($familiar[Imitation Crab])) && !get_property("cc_100familiar").to_boolean())
+		{
+			handleFamiliar($familiar[Imitation Crab]);
+			sources = sources + 2;
 		}
 		if(item_amount($item[hippy protest button]) > 0)
 		{
@@ -4221,12 +4227,46 @@ boolean L12_lastDitchFlyer()
 	{
 		print("Should not have so little flyer ML at this point", "red");
 		wait(1);
-		if(!LX_attemptPowerLevel())
+		if(!LX_attemptFlyering())
 		{
 			abort("Need more flyer ML but don't know where to go :(");
 		}
 		return true;
 	}
+}
+
+boolean LX_attemptFlyering()
+{
+	if(elementalPlanes_access($element[stench]) && have_skill($skill[Summon Smithsness]))
+	{
+		ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]);
+	}
+	else if(elementalPlanes_access($element[spooky]))
+	{
+		ccAdv(1, $location[The Deep Dark Jungle]);
+	}
+	else if(elementalPlanes_access($element[cold]))
+	{
+		ccAdv(1, $location[VYKEA]);
+	}
+	else if(elementalPlanes_access($element[stench]))
+	{
+		ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]);
+	}
+	else if(elementalPlanes_access($element[sleaze]))
+	{
+		ccAdv(1, $location[Sloppy Seconds Diner]);
+	}
+	else
+	{
+		if((my_level() >= 11) && (get_property("cc_hiddenzones") == "finished"))
+		{
+			ccAdv($location[The Hidden Hospital]);
+			return true;
+		}
+		return false;
+	}
+	return true;
 }
 
 boolean LX_attemptPowerLevel()
@@ -11633,7 +11673,6 @@ boolean doTasks()
 			return true;
 		}
 	}
-
 
 	if(!get_property("_cc_codpieceGet").to_boolean())
 	{
