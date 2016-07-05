@@ -1818,7 +1818,15 @@ void doBedtime()
 	//We are committig to end of day now...
 
 	hermit(10, $item[ten-leaf clover]);
-	while(cc_doPrecinct());
+	if(svn_info("Ezandora-Detective-Solver-branches-Release").last_changed_rev > 0)
+	{
+		//Assume if someone has this installed that they want to use it.
+		cli_execute("ash import<Detective Solver.ash> solveAllCases(false);");
+	}
+	else
+	{
+		while(cc_doPrecinct());
+	}
 
 	if((friars_available()) && (!get_property("friarsBlessingReceived").to_boolean()))
 	{

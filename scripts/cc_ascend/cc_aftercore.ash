@@ -1028,7 +1028,7 @@ boolean cc_cheesePostCS(int leave)
 		{
 			cli_execute("drink 5-hour acrimony");
 		}
-		cli_execute("pvp loot 7");
+		cli_execute("pvp loot 5");
 	}
 	cli_execute("cc_ascend");
 	return true;
@@ -1196,7 +1196,7 @@ boolean cc_cheesePostCSWalford()
 		cli_execute("drink 5-hour acrimony");
 	}
 
-	cli_execute("pvp loot 7");
+	cli_execute("pvp loot 5");
 	cli_execute("cc_ascend");
 	return true;
 }
