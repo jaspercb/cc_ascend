@@ -1213,6 +1213,7 @@ int handlePulls(int day)
 			{
 				pullXWhenHaveY($item[Thor\'s Pliers], 1, 0);
 			}
+			pullXWhenHaveY($item[Basaltamander Buckler], 1, 0);
 		}
 
 		if(cc_my_path() == "Picky")
@@ -1245,6 +1246,8 @@ int handlePulls(int day)
 		{
 			pullXWhenHaveY($item[Shore Inc. Ship Trip Scrip], 3, 0);
 		}
+		pullXWhenHaveY($item[Infinite BACON Machine], 1, 0);
+		pullXWhenHaveY($item[Replica Bat-oomerang], 1, 0);
 
 		if((!have_familiar($familiar[Grim Brother])) && (my_class() != $class[Ed]))
 		{
@@ -1818,15 +1821,7 @@ void doBedtime()
 	//We are committig to end of day now...
 
 	hermit(10, $item[ten-leaf clover]);
-	if(svn_info("Ezandora-Detective-Solver-branches-Release").last_changed_rev > 0)
-	{
-		//Assume if someone has this installed that they want to use it.
-		cli_execute("ash import<Detective Solver.ash> solveAllCases(false);");
-	}
-	else
-	{
-		while(cc_doPrecinct());
-	}
+	while(cc_doPrecinct());
 
 	if((friars_available()) && (!get_property("friarsBlessingReceived").to_boolean()))
 	{
@@ -4053,9 +4048,33 @@ boolean L13_towerNSContests()
 		set_property("choiceAdventure1003",  4);
 		if((get_property("nsContestants1").to_int() == 0) && (get_property("nsContestants2").to_int() == 0) && (get_property("nsContestants3").to_int() == 0))
 		{
+			print("The NS Challenges are over! Victory is ours!", "blue");
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=4", true);
 			visit_url("main.php");
+			if((get_property("nsContestants1").to_int() != 0) || (get_property("nsContestants2").to_int() != 0) || (get_property("nsContestants3").to_int() != 0))
+			{
+				if(get_property("questL13Final") == "step2")
+				{
+					if(cc_my_path() == "The Source")
+					{
+						//As of r17048, encountering a Source Agent on the Challenge line results in nsContestants being decremented twice.
+						//Since we were using Mafia\'s tracking here, we have to compensate for when it fails...
+						print("Probably encountered a Source Agent during the NS Contestants and Mafia's tracking fails on this. Let's try to correct it...", "red");
+						set_property("questL13Final", "step1");
+					}
+					else
+					{
+						print("Error not recoverable (as not antipicipated) outside of The Source (Source Agents during NS Challenges), aborting.", "red");
+						abort("questL13Final error in unexpected path.");
+					}
+				}
+				else
+				{
+					print("Unresolvable error: Mafia thinks the NS challenges are complete but something is very wrong.", "red");
+					abort("Unknown questL13Final/cc_sorceress state.");
+				}
+			}
 			return true;
 		}
 	}
@@ -5495,6 +5514,19 @@ boolean L13_sorceressDoor()
 	}
 
 	string page = visit_url("place.php?whichplace=nstower_door");
+	if(contains_text(page, "ns_lock6"))
+	{
+		if(item_amount($item[Skeleton Key]) == 0)
+		{
+			cli_execute("make skeleton key");
+		}
+		if(item_amount($item[Skeleton Key]) == 0)
+		{
+			abort("Need Skeleton Key for the Sorceress door :(");
+		}
+		visit_url("place.php?whichplace=nstower_door&action=ns_lock6");
+	}
+
 	if(contains_text(page, "ns_lock1"))
 	{
 		if(item_amount($item[Boris\'s Key]) == 0)
@@ -5556,19 +5588,6 @@ boolean L13_sorceressDoor()
 			abort("Need Digital Key for the Sorceress door :(");
 		}
 		visit_url("place.php?whichplace=nstower_door&action=ns_lock5");
-	}
-
-	if(contains_text(page, "ns_lock6"))
-	{
-		if(item_amount($item[Skeleton Key]) == 0)
-		{
-			cli_execute("make skeleton key");
-		}
-		if(item_amount($item[Skeleton Key]) == 0)
-		{
-			abort("Need Skeleton Key for the Sorceress door :(");
-		}
-		visit_url("place.php?whichplace=nstower_door&action=ns_lock6");
 	}
 
 	visit_url("place.php?whichplace=nstower_door&action=ns_doorknob");

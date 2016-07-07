@@ -289,6 +289,10 @@ void cs_make_stuff()
 			{
 				cli_execute("make ointment of the occult");
 			}
+			if((item_amount($item[lemon]) > 0) && (item_amount($item[philter of phorce]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5))
+			{
+				cli_execute("make " + $item[philter of phorce]);
+			}
 			if((item_amount($item[squashed frog]) > 0) && (item_amount($item[Frogade]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5))
 			{
 				cli_execute("make frogade");
@@ -2904,11 +2908,13 @@ boolean cs_witchess()
 		handleFamiliar($familiar[Galloping Grill]);
 	}
 
-	if((get_property("_cc_witchessBattles").to_int() == 5) || (get_property("_cc_witchessBattles").to_int() == 0))
+	if(get_property("_sourceTerminalDigitizeUses").to_int() == 0)
 	{
+		cc_sourceTerminalRequest("educate extract.edu");
 		cc_sourceTerminalRequest("educate digitize.edu");
 	}
 	boolean result = cc_advWitchess("booze", "cs_combatNormal");
+	cc_sourceTerminalRequest("educate duplicate.edu");
 	cc_sourceTerminalRequest("educate extract.edu");
 	return result;
 }

@@ -475,46 +475,21 @@ int cc_advWitchessTargets(string target)
 	return 0;
 }
 
-int cc_manipulateEggDetective(string command, string option)
-{
-	string[int] eggData = split_string(get_property("cc_eggDetective"), ",");
-	int i=0;
-	switch(command)
-	{
-	case "hasVisited":
-	case "hasVisitedByNumber":
-		foreach index in eggData
-		{
-			string[int] subEgg = split_string(eggData[index], ":");
-			if(subEgg[0] == option)
-			{
-				if((subEgg[1] != "") && (subEgg[2] != "") && (subEgg[3] != "") && (subEgg[4] != ""))
-				{
-					return 1;
-				}
-			}
-		}
-		return 0;
-	case "findUnvisited":
-		i = 1;
-		while(i <= 9)
-		{
-			if(cc_manipulateEggDetective("hasVisited", to_string(i)) == 0)
-			{
-				return i;
-			}
-			i += 1;
-		}
-		return 0;
-	}
-	return 0;
-}
-
 boolean cc_doPrecinct()
 {
 	if(get_property("cc_eggDetective") != "")
 	{
 		set_property("cc_eggDetective", "");
+	}
+	if(!get_property("hasDetectiveSchool").to_boolean())
+	{
+		return false;
+	}
+
+	if(svn_info("Ezandora-Detective-Solver-branches-Release").last_changed_rev > 0)
+	{
+		//Assume if someone has this installed that they want to use it.
+		cli_execute("ash import<Detective Solver.ash> solveAllCases(false);");
 	}
 
 	string page = visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
@@ -582,11 +557,6 @@ boolean cc_doPrecinct()
 					visited = true;
 					break;
 				}
-			}
-
-			if(i != cc_manipulateEggDetective("findUnvisited", ""))
-			{
-				print("List handler did not find correct unvisited eggy-weggy.", "blue");
 			}
 
 			if(!visited)
