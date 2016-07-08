@@ -18,6 +18,8 @@ boolean cc_sourceTerminalExtrude(string request);
 int cc_sourceTerminalExtrudeLeft();
 int[string] cc_sourceTerminalStatus();
 boolean cc_doPrecinct();
+item cc_bestBadge();
+
 
 //Supplemental
 int cc_advWitchessTargets(string target);
@@ -475,6 +477,21 @@ int cc_advWitchessTargets(string target)
 	return 0;
 }
 
+
+item cc_bestBadge()
+{
+	item retval = $item[none];
+	foreach it in $items[Plastic Detective Badge, Bronze Detective Badge, Silver Detective Badge, Gold Detective Badge]
+	{
+		if(possessEquipment(it))
+		{
+			retval = it;
+		}
+	}
+
+	return retval;
+}
+
 boolean cc_doPrecinct()
 {
 	if(get_property("cc_eggDetective") != "")
@@ -485,7 +502,10 @@ boolean cc_doPrecinct()
 	{
 		return false;
 	}
-
+	if(get_property("_detectiveCasesCompleted").to_int() >= 3)
+	{
+		return false;
+	}
 	if(svn_info("Ezandora-Detective-Solver-branches-Release").last_changed_rev > 0)
 	{
 		//Assume if someone has this installed that they want to use it.
@@ -809,13 +829,6 @@ boolean cc_doPrecinct()
 				}
 			}
 		}
-
-		//http://10.0.0.112:60080/wham.php?visit=9
-		//http://10.0.0.112:60080/wham.php?ask=4&visit=3          //Ask about another Person
-		//http://10.0.0.112:60080/wham.php?ask=killer&visit=4
-		//http://10.0.0.112:60080/wham.php?ask=rel&w=4&visit=3
-		//http://10.0.0.112:60080/wham.php?ask=self&visit=4
-		//http://10.0.0.112:60080/wham.php?accuse=1&visit=1
 
 		set_property("cc_eggDetective", get_property("cc_eggDetective") + "solved");
 		return false;

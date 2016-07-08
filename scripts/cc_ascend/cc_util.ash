@@ -2312,6 +2312,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 		}																						break;
 	case $effect[Balls of Ectoplasm]:			useItem = $item[Ectoplasmic Orbs];				break;
 	case $effect[Baited Hook]:					useItem = $item[Wriggling Worm];				break;
+	case $effect[Barbecue Saucy]:				useItem = $item[Dollop of Barbecue Sauce];		break;
 	case $effect[Bendin\' Hell]:					useSkill = $skill[Bend Hell];					break;
 	case $effect[Big Meat Big Prizes]:			useItem = $item[Meat-Inflating Powder];			break;
 	case $effect[Biologically Shocked]:			useItem = $item[glowing syringe];				break;
@@ -2645,6 +2646,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Unusual Perspective]:			useItem = $item[Unusual Oil];					break;
 	case $effect[Ur-Kel\'s Aria of Annoyance]:	useSkill = $skill[Ur-Kel\'s Aria of Annoyance];	break;
 	case $effect[Using Protection]:				useItem = $item[Orcish Rubber];					break;
+	case $effect[Visions of the Deep Dark Deeps]:useSkill = $skill[Deep Dark Visions];			break;
 	case $effect[Vital]:						useItem = $item[Doc Galaktik\'s Vitality Serum];break;
 	case $effect[Vitali Tea]:					useItem = $item[cuppa Vitali tea];				break;
 	case $effect[Walberg\'s Dim Bulb]:			useSkill = $skill[Walberg\'s Dim Bulb];			break;

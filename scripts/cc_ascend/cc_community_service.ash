@@ -678,9 +678,21 @@ string cs_combatYR(int round, string opp, string text)
 	phylum current = to_phylum(get_property("dnaSyringe"));
 	phylum type = monster_phylum(enemy);
 
-	if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
+	if(have_skill($skill[Duplicate]) && (enemy == $monster[Sk8 Gnome]))
 	{
-		set_property("cc_combatHandler", combatState + "(love gnats)");
+		foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Summon Love Mosquito, Shell Up, Silent Slam, Summon Love Stinkbug, Extract, Duplicate]
+		{
+			if((!contains_text(combatState, "(" + action + ")")) && have_skill(action) && (my_mp() > mp_cost(action)))
+			{
+				set_property("cc_combatHandler", combatState + "(" + action + ")");
+				return "skill " + action;
+			}
+		}
+	}
+
+	if((!contains_text(combatState, "summon love gnats")) && have_skill($skill[Summon Love Gnats]))
+	{
+		set_property("cc_combatHandler", combatState + "(summon love gnats)");
 		return "skill summon love gnats";
 	}
 	if((!contains_text(combatState, "DNA")) && (item_amount($item[DNA Extraction Syringe]) > 0))
@@ -691,6 +703,7 @@ string cs_combatYR(int round, string opp, string text)
 			return "item DNA extraction syringe";
 		}
 	}
+
 	boolean [monster] lookFor = $monsters[Dairy Goat, factory overseer (female), factory worker (female), mine overseer (male), mine overseer (female), mine worker (male), mine worker (female), sk8 gnome];
 	if((have_effect($effect[Everything Looks Yellow]) == 0) && (lookFor contains enemy))
 	{
@@ -721,9 +734,9 @@ string cs_combatYR(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "love stinkbug")) && get_property("lovebugsUnlocked").to_boolean())
+	if((!contains_text(combatState, "summon love stinkbug")) && get_property("lovebugsUnlocked").to_boolean())
 	{
-		set_property("cc_combatHandler", combatState + "(love stinkbug)");
+		set_property("cc_combatHandler", combatState + "(summon love stinkbug)");
 		return "skill summon love stinkbug";
 	}
 	if((!contains_text(combatState, "(extract)")) && have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 3)))
@@ -731,9 +744,9 @@ string cs_combatYR(int round, string opp, string text)
 		set_property("cc_combatHandler", combatState + "(extract)");
 		return "skill " + $skill[Extract];
 	}
-	if((!contains_text(combatState, "love mosquito")) && get_property("lovebugsUnlocked").to_boolean())
+	if((!contains_text(combatState, "summon love mosquito")) && get_property("lovebugsUnlocked").to_boolean())
 	{
-		set_property("cc_combatHandler", combatState + "(love mosquito)");
+		set_property("cc_combatHandler", combatState + "(summon love mosquito)");
 		return "skill summon love mosquito";
 	}
 	return "skill salsaball";
@@ -766,6 +779,48 @@ string cs_combatKing(int round, string opp, string text)
 		if((!contains_text(combatState, "(" + action + ")")) && have_skill(action) && (my_mp() > mp_cost(action)))
 		{
 			set_property("cc_combatHandler", combatState + "(" + action + ")");
+			return "skill " + action;
+		}
+	}
+
+	return "action with weapon";
+}
+
+
+string cs_combatWitch(int round, string opp, string text)
+{
+	if(round == 0)
+	{
+		print("cc_combatHandler: " + round, "brown");
+		set_property("cc_combatHandler", "");
+	}
+
+	set_property("cc_diag_round", round);
+	if(get_property("cc_diag_round").to_int() > 60)
+	{
+		abort("Somehow got to 60 rounds.... aborting");
+	}
+
+	monster enemy = to_monster(opp);
+	string combatState = get_property("cc_combatHandler");
+
+	if(enemy != $monster[Witchess Witch])
+	{
+		abort("Wrong combat script called");
+	}
+	foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Compress, Summon Love Mosquito, Summon Love Stinkbug]
+	{
+		if((!contains_text(combatState, "(" + action + ")")) && have_skill(action) && (my_mp() > mp_cost(action)))
+		{
+			set_property("cc_combatHandler", combatState + "(" + action + ")");
+			return "skill " + action;
+		}
+	}
+
+	foreach action in $skills[Lunging Thrust-Smack, Thrust-Smack, Lunge Smack]
+	{
+		if(have_skill(action) && (my_mp() > mp_cost(action)))
+		{
 			return "skill " + action;
 		}
 	}
@@ -1220,6 +1275,38 @@ boolean LA_cs_communityService()
 		cc_sourceTerminalRequest("educate turbo.edu");
 		boolean result = cc_advWitchess("king", "cs_combatKing");
 		cc_sourceTerminalRequest("educate compress.edu");
+		cc_sourceTerminalRequest("educate extract.edu");
+		return result;
+	}
+
+	if((my_daycount() == 2) && cc_haveWitchess() && have_skill($skill[Curse of Weaksauce]) && have_skill($skill[Tattle]) && have_skill($skill[Conspiratorial Whispers]) && have_skill($skill[Sauceshell]) && have_skill($skill[Shell Up]) && have_skill($skill[Silent Slam]) && possessEquipment($item[Dented Scepter]) && !possessEquipment($item[Battle Broom]) && (get_property("_cc_witchesBattles").to_int() < 5) && have_familiar($familiar[Galloping Grill]) && (my_ascensions() >= 100))
+	{
+		while((my_mp() < 120) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+		{
+			doRest();
+		}
+		if(equipped_item($slot[weapon]) != $item[Dented Scepter])
+		{
+			equip($slot[weapon], $item[Dented Scepter]);
+		}
+		if(equipped_item($slot[acc3]) == $item[none])
+		{
+			equip($slot[acc3], cc_bestBadge());
+		}
+
+		handleFamiliar($familiar[Galloping Grill]);
+		buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
+		buffMaintain($effect[Glittering Eyelashes], 0, 1, 1);
+		buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
+		buffMaintain($effect[Phorcefullness], 0, 1, 1);
+		buffMaintain($effect[Tomato Power], 0, 1, 1);
+		buffMaintain($effect[Expert Oiliness], 0, 1, 1);
+		buffMaintain($effect[Song of Starch], 240, 1, 1);
+		useCocoon();
+
+		cc_sourceTerminalRequest("educate compress.edu");
+		cc_sourceTerminalRequest("educate extract.edu");
+		boolean result = cc_advWitchess("witch", "cs_combatWitch");
 		cc_sourceTerminalRequest("educate extract.edu");
 		return result;
 	}
@@ -1722,10 +1809,14 @@ boolean LA_cs_communityService()
 				{
 					combatString = "cs_combatNormal";
 				}
+
+				cc_sourceTerminalRequest("educate duplicate.edu");
+				cc_sourceTerminalRequest("educate extract.edu");
 				if(handleFaxMonster($monster[Sk8 gnome], combatString))
 				{
 					return true;
 				}
+				cc_sourceTerminalRequest("educate extract.edu");
 			}
 
 			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() == 5) && ($location[The Deep Machine Tunnels].turns_spent == 5) && (my_adventures() > 0) && !get_property("cc_100familiar").to_boolean())
@@ -1796,6 +1887,13 @@ boolean LA_cs_communityService()
 			{
 				use(1, $item[CSA Fire-Starting Kit]);
 			}
+
+			if(!get_property("_lookingGlass").to_boolean())
+			{
+				cli_execute("clan_viplounge.php?action=lookingglass");
+			}
+			cli_execute("hatter 11");
+
 
 			if(!get_property("cc_saveMargarita").to_boolean())
 			{
@@ -1931,6 +2029,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Peppermint Bite], 0, 1 , 1);
 			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
 			buffMaintain($effect[Phorcefullness], 0, 1, 1);
+			buffMaintain($effect[Barbecue Saucy], 0, 1, 1);
 
 			if(!get_property("_grimBuff").to_boolean())
 			{
@@ -2179,6 +2278,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Butt-Rock Hair], 0, 1, 1);
 			buffMaintain($effect[Gr8tness], 0, 1, 1);
 			buffMaintain($effect[Liquidy Smoky], 0, 1, 1);
+			buffMaintain($effect[Barbecue Saucy], 0, 1, 1);
 			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
 			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
 			buffMaintain($effect[Cinnamon Challenger], 0, 1, 50);
@@ -2592,6 +2692,23 @@ boolean LA_cs_communityService()
 				}
 			}
 
+			if((my_mp() > 250) && (my_maxhp() < 500) && have_skill($skill[Deep Dark Visions]) && have_skill($skill[Song of Starch]))
+			{
+				buffMaintain($effect[Song of Starch], 240, 1, 1);
+			}
+			if((my_mp() > 140) && (my_maxhp() >= 500) && have_skill($skill[Deep Dark Visions]))
+			{
+				if(elemental_resist($element[spooky]) < 8)
+				{
+					buffMaintain($effect[Astral Shell], 110, 1, 1);
+					buffMaintain($effect[Elemental Saucesphere], 110, 1, 1);
+				}
+				useCocoon();
+				buffMaintain($effect[Visions of the Deep Dark Deeps], 100, 1, 1);
+
+				useCocoon();
+			}
+
 			if(do_cs_quest(7))
 			{
 				curQuest = 0;
@@ -2635,6 +2752,14 @@ boolean LA_cs_communityService()
 			if(my_adventures() < questCost)
 			{
 				buffMaintain($effect[Throwing Some Shade], 0, 1, 1);
+			}
+			if(mall_price($item[Shady Shades]) < 12000)
+			{
+				buffMaintain($effect[Throwing Some Shade], 0, 1, 1);
+			}
+			if(mall_price($item[Squeaky Toy Rose]) < 12000)
+			{
+				buffMaintain($effect[A Rose by Any Other Material], 0, 1, 1);
 			}
 
 

@@ -276,7 +276,7 @@ void handlePostAdventure()
 		}
 	}
 
-	if(have_effect($effect[temporary amnesia]) > 0)
+	if(have_effect($effect[Temporary Amnesia]) > 0)
 	{
 		if(!uneffect($effect[Temporary Amnesia]))
 		{
@@ -338,6 +338,17 @@ void handlePostAdventure()
 		}
 
 		return;
+	}
+
+	if(cc_my_path() == "The Source")
+	{
+		if((get_property("sourceInterval").to_int() > 0) && (get_property("sourceInterval").to_int() <= 600) && (get_property("sourceAgentsDefeated").to_int() >= 9))
+		{
+			if((have_effect($effect[Song of Bravado]) == 0) && (have_effect($effect[Song of Sauce]) == 0) && (have_effect($effect[Song of Slowness]) == 0) && (have_effect($effect[Song of the North]) == 0))
+			{
+				buffMaintain($effect[Song of Starch], 250, 1, 1);
+			}
+		}
 	}
 
 	if(my_class() == $class[Sauceror])
