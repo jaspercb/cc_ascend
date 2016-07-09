@@ -1095,7 +1095,7 @@ boolean do_cs_quest(int quest)
 		if(quest != 30)
 		{
 			temp = run_choice(quest);
-			print("Quest " + quest + " completed for " + questList[quest] + " adventures.", "blue");
+			print(what_cs_quest(quest) + " completed for " + questList[quest] + " adventures.", "blue");
 		}
 		else
 		{
@@ -1282,7 +1282,7 @@ boolean LA_cs_communityService()
 
 	autosellCrap();
 
-	//Quest order on Day 1: 11, 6, 9
+	//Quest order on Day 1: 11, 6, 9 (Coiling Wire, Weapon Damage, Item)
 	//Day 2: 7, 10, 1, 2, 3, 4, 5, 8
 	if((my_daycount() == 2) && cc_haveWitchess() && have_skill($skill[Curse of Weaksauce]) && have_skill($skill[Tattle]) && have_skill($skill[Conspiratorial Whispers]) && have_skill($skill[Sauceshell]) && have_skill($skill[Shell Up]) && have_skill($skill[Silent Slam]) && !possessEquipment($item[Dented Scepter]) && (get_property("_cc_witchesBattles").to_int() < 5) && have_familiar($familiar[Galloping Grill]) && (my_ascensions() >= 100))
 	{

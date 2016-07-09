@@ -125,23 +125,23 @@ void handleKingLiberation()
 
 	if((get_property("kingLiberated") == "true") && !get_property("cc_aftercore").to_boolean())
 	{
-		buy_item($item[4-d camera], 1, 10000);
-		buy_item($item[mojo filter], 2, 3500);
-		buy_item($item[stone wool], 2, 3500);
-		buy_item($item[drum machine], 1, 2500);
-		buy_item($item[killing jar], 1, 500);
-		buy_item($item[spooky-gro fertilizer], 1, 500);
-		buy_item($item[stunt nuts], 1, 500);
-		buy_item($item[wet stew], 1, 3500);
-		buy_item($item[star chart], 1, 500);
-		buy_item($item[milk of magnesium], 2, 1200);
-		buy_item($item[Boris\'s Key Lime Pie], 1, 8500);
-		buy_item($item[Jarlsberg\'s Key Lime Pie], 1, 8500);
-		buy_item($item[Sneaky Pete\'s Key Lime Pie], 1, 8500);
-#		buy_item($item[Digital Key Lime Pie], 1, 8500);
-		buy_item($item[Star Key Lime Pie], 3, 8500);
-		buy_item($item[The Big Book of Pirate insults], 1, 600);
-		buy_item($item[hand in glove], 1, 5000);
+//		buy_item($item[4-d camera], 1, 10000);
+//		buy_item($item[mojo filter], 2, 3500);
+//		buy_item($item[stone wool], 2, 3500);
+//		buy_item($item[drum machine], 1, 2500);
+//		buy_item($item[killing jar], 1, 500);
+//		buy_item($item[spooky-gro fertilizer], 1, 500);
+//		buy_item($item[stunt nuts], 1, 500);
+//		buy_item($item[wet stew], 1, 3500);
+//		buy_item($item[star chart], 1, 500);
+//		buy_item($item[milk of magnesium], 2, 1200);
+//		buy_item($item[Boris\'s Key Lime Pie], 1, 8500);
+//		buy_item($item[Jarlsberg\'s Key Lime Pie], 1, 8500);
+//		buy_item($item[Sneaky Pete\'s Key Lime Pie], 1, 8500);
+//		buy_item($item[Digital Key Lime Pie], 1, 8500);
+//		buy_item($item[Star Key Lime Pie], 3, 8500);
+//		buy_item($item[The Big Book of Pirate insults], 1, 600);
+//		buy_item($item[hand in glove], 1, 5000);
 
 
 		if(get_property("cc_dickstab").to_boolean())
@@ -150,13 +150,13 @@ void handleKingLiberation()
 			{
 				adventure(1, $location[The Shore\, Inc. Travel Agency]);
 			}
-			buy_item($item[frost flower], 1, 50000);
+//			buy_item($item[frost flower], 1, 50000);
 		}
 
-		if(!have_familiar($familiar[grimstone golem]))
-		{
-			buy_item($item[grimstone mask], 0, 7500);
-		}
+//		if(!have_familiar($familiar[grimstone golem]))
+//		{
+//			buy_item($item[grimstone mask], 0, 7500);
+//		}
 
 		if(have_skill($skill[Iron Palm Technique]) && (have_effect($effect[Iron Palms]) == 0))
 		{
