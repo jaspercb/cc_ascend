@@ -109,6 +109,8 @@ void handleKingLiberation()
 			set_property("cc_snapshot", "done");
 		}
 
+		visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
+
 		int oldToken = item_amount($item[Defective Game Grid Token]);
 		visit_url("place.php?whichplace=arcade&action=arcade_plumber", false);
 		visit_url("place.php?whichplace=arcade");

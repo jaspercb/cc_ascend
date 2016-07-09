@@ -3093,6 +3093,10 @@ boolean cs_witchess()
 	{
 		return false;
 	}
+	if(!cc_haveWitchess())
+	{
+		return false;
+	}
 
 	if(get_property("_cc_witchessBattles").to_int() == 5)
 	{
