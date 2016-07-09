@@ -11806,7 +11806,7 @@ boolean doTasks()
 
 		if(tooManyAdventures && (my_path() == "The Source"))
 		{
-			if($locations[The Haunted Bathroom, The Haunted Bedroom, The Haunted Gallery] contains my_location())
+			if($locations[The Haunted Ballroom, The Haunted Bathroom, The Haunted Bedroom, The Haunted Gallery] contains my_location())
 			{
 				tooManyAdventures = false;
 			}

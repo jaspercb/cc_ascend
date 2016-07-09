@@ -89,6 +89,11 @@ boolean LX_theSource()
 		return false;
 	}
 
+	if((my_daycount() <= 2) && (have_effect($effect[Substats.enh]) == 0))
+	{
+		cc_sourceTerminalEnhance("substats");
+	}
+
 	location goal = get_property("sourceOracleTarget").to_location();
 	if((goal != $location[none]) && (item_amount($item[No Spoon]) == 0))
 	{

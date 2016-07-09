@@ -532,6 +532,18 @@ string cs_combatNormal(int round, string opp, string text)
 		}
 	}
 
+	if(have_skill($skill[Duplicate]) && (enemy == $monster[Sk8 Gnome]))
+	{
+		foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Summon Love Mosquito, Shell Up, Silent Slam, Summon Love Stinkbug, Extract, Duplicate]
+		{
+			if((!contains_text(combatState, "(" + action + ")")) && have_skill(action) && (my_mp() > mp_cost(action)))
+			{
+				set_property("cc_combatHandler", combatState + "(" + action + ")");
+				return "skill " + action;
+			}
+		}
+	}
+
 	if((my_location() == $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]) && !contains_text(combatState, "love gnats"))
 	{
 		combatState = combatState + "(love gnats)(love stinkbug)(love mosquito)";
@@ -547,9 +559,7 @@ string cs_combatNormal(int round, string opp, string text)
 
 	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= 40))
 	{
-		if((enemy == $monster[Novelty Tropical Skeleton]) ||
-			(enemy == $monster[Possessed Can of Tomatoes]) ||
-			(enemy == $monster[Government Scientist]))
+		if($monsters[Government Scientist, Novelty Tropical Skeleton, Possessed Can of Tomatoes] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
 			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
@@ -1301,7 +1311,13 @@ boolean LA_cs_communityService()
 		buffMaintain($effect[Phorcefullness], 0, 1, 1);
 		buffMaintain($effect[Tomato Power], 0, 1, 1);
 		buffMaintain($effect[Expert Oiliness], 0, 1, 1);
+		buffMaintain($effect[Ruthlessly Efficient], 130, 1, 1);
 		buffMaintain($effect[Song of Starch], 240, 1, 1);
+		buffMaintain($effect[Frostbeard], 130, 1, 1);
+		buffMaintain($effect[Intimidating Mien], 130, 1, 1);
+		buffMaintain($effect[Takin\' It Greasy], 130, 1, 1);
+		buffMaintain($effect[Pyromania], 130, 1, 1);
+		buffMaintain($effect[Rotten Memories], 130, 1, 1);
 		useCocoon();
 
 		cc_sourceTerminalRequest("educate compress.edu");

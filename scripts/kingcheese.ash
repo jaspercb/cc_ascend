@@ -170,21 +170,10 @@ void handleKingLiberation()
 	}
 	if(get_property("cc_clearCombatScripts").to_boolean())
 	{
-#		clear_property_if("cc_kingLiberatedScript", "scripts/kingcheese.ash");
-#		clear_property_if("cc_afterAdventureScript", "scripts/postcheese.ash");
-#		clear_property_if("cc_betweenAdventureScript", "scripts/precheese.ash");
-#		clear_property_if("cc_betweenBattleScript", "scripts/precheese.ash");
-
-#		restore_property("kingLiberatedScript", "cc_kingLiberatedScript");
-#		restore_property("afterAdventureScript", "cc_afterAdventureScript");
-#		restore_property("betweenAdventureScript", "cc_betweenAdventureScript");
-#		restore_property("betweenBattleScript", "cc_betweenBattleScript");
-
 		restoreSetting("kingLiberatedScript");
 		restoreSetting("afterAdventureScript");
 		restoreSetting("betweenAdventureScript");
 		restoreSetting("betweenBattleScript");
-
 	}
 }
 
