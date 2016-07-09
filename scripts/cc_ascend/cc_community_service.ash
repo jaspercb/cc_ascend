@@ -674,9 +674,11 @@ string cs_combatNormal(int round, string opp, string text)
 		return "skill " + $skill[Saucestorm];
 	}
 
-	return "skill " + $skill[salsaball];
-
-
+	if(have_skill($skill[Salsaball]) && (my_mp() >= mp_cost($skill[Salsaball])))
+	{
+		return "skill " + $skill[salsaball];
+	}
+	return "attack with weapon";
 }
 
 string cs_combatYR(int round, string opp, string text)
