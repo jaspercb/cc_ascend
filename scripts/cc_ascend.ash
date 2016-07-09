@@ -2450,14 +2450,11 @@ boolean questOverride()
 		set_property("cc_blackmap", "finished");
 	}
 
-
 	if((internalQuestStatus("questL11MacGuffin") >= 2) && (get_property("cc_mcmuffin") == ""))
 	{
 		print("Found started McMuffin quest (11)");
 		set_property("cc_mcmuffin", "start");
 	}
-
-
 
 	if((get_property("questL11Palindome") == "finished") && (get_property("cc_palindome") != "finished"))
 	{
@@ -8552,6 +8549,27 @@ boolean LX_islandAccess()
 	}
 	if((item_amount($item[Dingy Dinghy]) > 0) || (get_property("lastIslandUnlock").to_int() == my_ascensions()))
 	{
+		if(get_property("lastIslandUnlock").to_int() == my_ascensions())
+		{
+			boolean reallyUnlocked = false;
+			foreach it in $items[Dingy Dinghy, Junk Junk, Skeletal Skiff, Yellow Submarine]
+			{
+				if(item_amount(it) > 0)
+				{
+					reallyUnlocked = true;
+				}
+			}
+			if(get_property("peteMotorbikeGasTank") == "Extra-Buoyant Tank")
+			{
+				reallyUnlocked = true;
+			}
+			if(!reallyUnlocked)
+			{
+				print("lastIslandUnlock is incorrect, you have no way to get to the Island. Unless you barrel smashed when that was allowed. Did you barrel smash? Well, correcting....", "red");
+				set_property("lastIslandUnlock", my_ascensions() - 1);
+				return true;
+			}
+		}
 		return false;
 	}
 	if((my_adventures() <= 9) || (my_meat() <= 1900))
