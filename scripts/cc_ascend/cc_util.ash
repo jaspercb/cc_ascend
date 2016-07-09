@@ -503,6 +503,11 @@ boolean backupSetting(string setting, string newValue)
 		}
 	}
 
+	if(oldValue == "")
+	{
+		oldValue = "__BLANK__";
+	}
+
 	if(found == 1)
 	{
 		if(get_property(setting) == newValue)
@@ -536,7 +541,14 @@ boolean restoreSetting(string setting)
 {
 	if(get_property("cc_backup_" + setting) != "")
 	{
-		set_property(setting, get_property("cc_backup_" + setting));
+		if(get_property("cc_backup_" + setting) == "__BLANK__")
+		{
+			set_property(setting, "");
+		}
+		else
+		{
+			set_property(setting, get_property("cc_backup_" + setting));
+		}
 		set_property("cc_backup_" + setting, "");
 		return true;
 	}

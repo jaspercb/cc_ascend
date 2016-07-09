@@ -89,7 +89,7 @@ boolean LX_theSource()
 		return false;
 	}
 
-	if((my_daycount() <= 2) && (have_effect($effect[Substats.enh]) == 0))
+	if((my_daycount() <= 2) && (have_effect($effect[Substats.enh]) == 0) && (my_level() < 13))
 	{
 		cc_sourceTerminalEnhance("substats");
 	}

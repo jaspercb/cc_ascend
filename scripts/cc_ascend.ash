@@ -1689,11 +1689,10 @@ void doBedtime()
 	restoreAllSettings();
 	restoreSetting("autoSatisfyWithCoinmasters");
 	restoreSetting("removeMalignantEffects");
-#	if(get_property("cc_priorCoinmasters").to_boolean())
-#	{
-#		set_property("cc_priorCoinmasters", false);
-#		set_property("autoSatisfyWithCoinmasters", false);
-#	}
+	restoreSetting("kingLiberatedScript");
+	restoreSetting("afterAdventureScript");
+	restoreSetting("betweenAdventureScript");
+	restoreSetting("betweenBattleScript");
 
 	if(get_property("cc_priorCharpaneMode").to_int() == 1)
 	{
@@ -1701,16 +1700,6 @@ void doBedtime()
 		set_property("cc_priorCharpaneMode", 0);
 		visit_url("account.php?am=1&pwd=&action=flag_compactchar&value=1&ajax=0", true);
 	}
-
-	restoreSetting("kingLiberatedScript");
-	restoreSetting("afterAdventureScript");
-	restoreSetting("betweenAdventureScript");
-	restoreSetting("betweenBattleScript");
-
-#	restore_property("kingLiberatedScript", "cc_kingLiberatedScript");
-#	restore_property("afterAdventureScript", "cc_afterAdventureScript");
-#	restore_property("betweenAdventureScript", "cc_betweenAdventureScript");
-#	restore_property("betweenBattleScript", "cc_betweenBattleScript");
 
 
 	process_kmail("cc_deleteMail");
@@ -7668,6 +7657,12 @@ boolean LX_steelOrgan()
 	{
 		print("I am hungry for some steel.", "blue");
 	}
+
+	if(have_effect($effect[items.enh]) == 0)
+	{
+		cc_sourceTerminalEnhance("items");
+	}
+
 	if(get_property("questM10Azazel") == "unstarted")
 	{
 		string temp = visit_url("pandamonium.php");
@@ -12366,27 +12361,11 @@ void cc_begin()
 
 	backupSetting("autoSatisfyWithCoinmasters", true);
 	backupSetting("removeMalignantEffects", false);
-#	if(!get_property("autoSatisfyWithCoinmasters").to_boolean())
-#	{
-#		set_property("cc_priorCoinmasters", true);
-#		set_property("autoSatisfyWithCoinmasters", true);
-#	}
-
-#	set_property_ifempty("cc_kingLiberatedScript", get_property("kingLiberatedScript"));
-#	set_property_ifempty("cc_afterAdventureScript", get_property("afterAdventureScript"));
-#	set_property_ifempty("cc_betweenAdventureScript", get_property("betweenAdventureScript"));
-#	set_property_ifempty("cc_betweenBattleScript", get_property("betweenBattleScript"));
 
 	backupSetting("kingLiberatedScript", "scripts/kingcheese.ash");
 	backupSetting("afterAdventureScript", "scripts/postcheese.ash");
 	backupSetting("betweenAdventureScript", "scripts/precheese.ash");
 	backupSetting("betweenBattleScript", "scripts/precheese.ash");
-
-#	set_property("kingLiberatedScript", "scripts/kingcheese.ash");
-#	set_property("afterAdventureScript", "scripts/postcheese.ash");
-#	set_property("betweenAdventureScript", "scripts/precheese.ash");
-#	set_property("betweenBattleScript", "scripts/precheese.ash");
-
 
 	string charpane = visit_url("charpane.php");
 	if(contains_text(charpane, "<hr width=50%>"))
