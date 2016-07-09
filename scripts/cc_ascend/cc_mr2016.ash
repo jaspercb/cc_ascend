@@ -510,6 +510,7 @@ boolean cc_doPrecinct()
 	{
 		//Assume if someone has this installed that they want to use it.
 		cli_execute("ash import<Detective Solver.ash> solveAllCases(false);");
+		return true;
 	}
 
 	string page = visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");

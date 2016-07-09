@@ -1,1 +1,2 @@
 https://svn.code.sf.net/p/zlib/code
+https://github.com/Ezandora/Detective-Solver/branches/Release/
