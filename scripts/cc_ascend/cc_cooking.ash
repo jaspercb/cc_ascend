@@ -333,7 +333,7 @@ void consumeStuff()
 		item booze = getAvailablePerfectBooze();
 		if(booze != $item[none])
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 3);
 			drink(1, booze);
 		}
@@ -369,7 +369,7 @@ void consumeStuff()
 		{
 			if(item_amount($item[Sacramento Wine]) > 0)
 			{
-				shrugAT();
+				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 3);
 				drink(item_amount($item[Sacramento Wine]), $item[Sacramento Wine]);
 			}
@@ -382,7 +382,7 @@ void consumeStuff()
 			}
 			if(item_amount($item[Pixel Daiquiri]) > 0)
 			{
-				shrugAT();
+				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 3);
 				drink(1, $item[Pixel Daiquiri]);
 			}
@@ -395,7 +395,7 @@ void consumeStuff()
 			}
 			if(item_amount($item[Robin Nog]) > 0)
 			{
-				shrugAT();
+				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 3);
 				drink(1, $item[Robin Nog]);
 			}
@@ -429,7 +429,7 @@ void consumeStuff()
 
 		if((inebriety_left() >= 4) && (my_mp() >= mpForOde) && (item_amount($item[Hacked Gibson]) > 0) && (my_level() >= 4))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 3);
 			drink(1, $item[Hacked Gibson]);
 		}
@@ -459,14 +459,14 @@ void consumeStuff()
 
 		if(((my_inebriety() + 2) < inebriety_limit()) && (my_mp() >= mpForOde) && (item_amount($item[Agitated Turkey]) >= 2))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(2, $item[Agitated Turkey]);
 		}
 
 		if(((my_inebriety() + 1) == inebriety_limit()) && (my_mp() >= mpForOde) && (item_amount($item[Cold One]) >= 1) && (my_level() >= 11))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[Cold One]);
 		}
@@ -478,7 +478,7 @@ void consumeStuff()
 
 		if((my_mp() > mpForOde) && (my_level() >= 3) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[paint a vulgar pitcher]);
 			if(item_amount($item[paint a vulgar pitcher]) > 0)
@@ -489,7 +489,7 @@ void consumeStuff()
 
 		if((my_mp() > mpForOde) && get_property("cc_100familiar").to_boolean() && (my_inebriety() == 0) && (my_meat() >= 500) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 
 			if(inebriety_left() >= 1)
 			{
@@ -506,14 +506,14 @@ void consumeStuff()
 
 		if((my_mp() > mpForOde) && get_property("cc_100familiar").to_boolean() && (my_inebriety() == 13) && (item_amount($item[Cold One]) > 0) && (my_level() >= 10))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
 			drink(1, $item[Cold One]);
 		}
 
 		if((my_mp() > mpForOde) && (amountTurkeyBooze() >= 2) && (my_inebriety() == 0) && (my_meat() >= 500) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 3);
 			cli_execute("drink 1 lucky lindy");
 			while((amountTurkeyBooze() > 0) && (my_inebriety() < 3))
@@ -535,7 +535,7 @@ void consumeStuff()
 
 		if((my_mp() > mpForOde) && (turkeyBooze() >= 5) && (amountTurkeyBooze() >= 3) && (my_inebriety() < 6))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 3);
 			while((amountTurkeyBooze() > 0) && (my_inebriety() < 6))
 			{
@@ -558,7 +558,7 @@ void consumeStuff()
 		{
 			if(item_amount($item[Clan VIP Lounge Key]) > 0)
 			{
-				shrugAT();
+				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
 				visit_url("clan_viplounge.php?action=speakeasy");
 				cli_execute("drink 1 sockdollager");
@@ -957,7 +957,7 @@ void consumeStuff()
 
 		if((my_inebriety() == 0) && (my_mp() >= mpForOde) && (my_meat() > 300) && (item_amount($item[handful of smithereens]) >= 2))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 4);
 			cli_execute("make 2 paint a vulgar pitcher");
 			drink(2, $item[paint a vulgar pitcher]);
@@ -965,7 +965,7 @@ void consumeStuff()
 
 		if((my_inebriety() == 4) && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[handful of smithereens]) >= 1))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			cli_execute("make 1 paint a vulgar pitcher");
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[paint a vulgar pitcher]);
@@ -973,7 +973,7 @@ void consumeStuff()
 
 		if((my_inebriety() <= 9) && (my_adventures() < 10) && (my_meat() > 150) && (my_mp() >= mpForOde))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 4);
 			if(item_amount($item[handful of smithereens]) > 0)
 			{
@@ -995,7 +995,7 @@ void consumeStuff()
 				{
 					if(item_amount($item[ambitious turkey]) > 0)
 					{
-						shrugAT();
+						shrugAT($effect[Ode to Booze]);
 						buffMaintain($effect[Ode to Booze], 50, 1, 1);
 						drink(1, $item[ambitious turkey]);
 					}
@@ -1006,20 +1006,20 @@ void consumeStuff()
 
 		if(in_hardcore() && (my_mp() > mpForOde) && (item_amount($item[Pixel Daiquiri]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[Pixel Daiquiri]);
 		}
 		if(in_hardcore() && (my_mp() > mpForOde) && (item_amount($item[Dinsey Whinskey]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[Dinsey Whinskey]);
 		}
 
 		if((my_level() >= 11) && (my_mp() > mpForOde) && (item_amount($item[Cold One]) > 1) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(2, $item[Cold One]);
 		}
@@ -1030,7 +1030,7 @@ void consumeStuff()
 			{
 				if(item_amount($item[ambitious turkey]) > 0)
 				{
-					shrugAT();
+					shrugAT($effect[Ode to Booze]);
 					buffMaintain($effect[Ode to Booze], 50, 1, 1);
 					drink(1, $item[ambitious turkey]);
 				}
@@ -1039,7 +1039,7 @@ void consumeStuff()
 
 		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[paint a vulgar pitcher]);
 		}
@@ -1047,7 +1047,7 @@ void consumeStuff()
 
 		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
 			drink(1, $item[Ambitious Turkey]);
 		}
@@ -1074,7 +1074,7 @@ void consumeStuff()
 			#if(toDrink != $item[none])
 			if(toDrink != "")
 			{
-				shrugAT();
+				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 4);
 				cli_execute("drink 1 " + toDrink);
 				print("drink 1 " + toDrink);
@@ -1084,7 +1084,7 @@ void consumeStuff()
 /*****	This section needs to merge into a "Standard equivalent"		*****/
 		if((cc_my_path() == "Standard") && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[paint a vulgar pitcher]);
 		}
@@ -1092,7 +1092,7 @@ void consumeStuff()
 
 		if((cc_my_path() == "Standard") && (my_mp() >= mpForOde) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
 			drink(1, $item[Ambitious Turkey]);
 		}
@@ -1119,7 +1119,7 @@ void consumeStuff()
 			#if(toDrink != $item[none])
 #			if(toDrink != "")
 #			{
-#				shrugAT();
+#				shrugAT($effect[Ode to Booze]);
 #				buffMaintain($effect[Ode to Booze], 50, 1, 4);
 #				cli_execute("drink 1 " + toDrink);
 #				print("drink 1 " + toDrink);
@@ -1174,14 +1174,14 @@ void consumeStuff()
 
 		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[paint a vulgar pitcher]);
 		}
 
 		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()))
 		{
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
 			drink(1, $item[Ambitious Turkey]);
 		}

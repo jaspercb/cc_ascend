@@ -235,7 +235,7 @@ void cs_make_stuff()
 	{
 		if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 		{
-			shrugAT();
+			shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 			buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
 		}
 		cli_execute("make milk of magnesium");
@@ -288,7 +288,7 @@ void cs_make_stuff()
 		{
 			if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 			{
-				shrugAT();
+				shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 				buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 3, 25);
 			}
 
@@ -1417,7 +1417,7 @@ boolean LA_cs_communityService()
 				{
 					if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 					{
-						shrugAT();
+						shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 						buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
 					}
 					cli_execute("make milk of magnesium");
@@ -1443,7 +1443,7 @@ boolean LA_cs_communityService()
 				{
 					if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 					{
-						shrugAT();
+						shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 						buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
 					}
 
@@ -1651,7 +1651,7 @@ boolean LA_cs_communityService()
 				{
 					if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 					{
-						shrugAT();
+						shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 						buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 10);
 					}
 
@@ -1890,7 +1890,7 @@ boolean LA_cs_communityService()
 			{
 				if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 				{
-					shrugAT();
+					shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 					buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 3, 25);
 				}
 
@@ -1956,7 +1956,7 @@ boolean LA_cs_communityService()
 			cli_execute("hatter 11");
 
 
-			shrugAT();
+			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 10);
 			if(!get_property("cc_saveMargarita").to_boolean())
 			{
@@ -2027,7 +2027,7 @@ boolean LA_cs_communityService()
 			{
 				if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 				{
-					shrugAT();
+					shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 					buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
 				}
 
@@ -2059,7 +2059,7 @@ boolean LA_cs_communityService()
 			{
 				if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 				{
-					shrugAT();
+					shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 					buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
 				}
 
@@ -2193,7 +2193,7 @@ boolean LA_cs_communityService()
 			}
 			if((my_inebriety() == 0) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (get_clan_furniture() contains $item[Clan Speakeasy]))
 			{
-				shrugAT();
+				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
 				cli_execute("drink 1 bee's knees");
 			}
@@ -2325,7 +2325,7 @@ boolean LA_cs_communityService()
 			}
 			if((my_inebriety() == 2) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (get_clan_furniture() contains $item[Clan Speakeasy]))
 			{
-				shrugAT();
+				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
 				cli_execute("drink 1 bee's knees");
 			}
@@ -2504,7 +2504,7 @@ boolean LA_cs_communityService()
 
 					if((my_adventures() + extraAdv) > needCost)
 					{
-						shrugAT();
+						shrugAT($effect[Ode to Booze]);
 						if((item_amount($item[Sacramento Wine]) >= 4) && (inebriety_left() >= 4))
 						{
 							buffMaintain($effect[Ode to Booze], 50, 1, 4);
@@ -2538,7 +2538,7 @@ boolean LA_cs_communityService()
 					}
 					else
 					{
-						shrugAT();
+						shrugAT($effect[Ode to Booze]);
 						buffMaintain($effect[Ode to Booze], 50, 1, 10);
 						drink(1, $item[Vintage Smart Drink]);
 					}
@@ -2609,7 +2609,7 @@ boolean LA_cs_communityService()
 			}
 			if(((my_inebriety() == 5) || (my_inebriety() == 11)) && (have_effect($effect[In A Lather]) == 0))
 			{
-				shrugAT();
+				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
 				cli_execute("drink sockdollager");
 			}
@@ -2658,7 +2658,7 @@ boolean LA_cs_communityService()
 			}
 			if((my_level() >= 8) && (item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() >= item_amount($item[Astral Pilsner])))
 			{
-				shrugAT();
+				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 6);
 				drink(item_amount($item[Astral Pilsner]), $item[Astral Pilsner]);
 			}
@@ -3025,7 +3025,7 @@ boolean LA_cs_communityService()
 			{
 				if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 				{
-					shrugAT();
+					shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 					buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
 				}
 
@@ -3035,7 +3035,7 @@ boolean LA_cs_communityService()
 			{
 				if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 				{
-					shrugAT();
+					shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 					buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
 				}
 				cli_execute("make lotion of stench");

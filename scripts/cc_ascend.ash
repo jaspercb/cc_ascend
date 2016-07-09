@@ -823,8 +823,7 @@ boolean doThemtharHills(boolean trickMode)
 		equip($item[Miracle Whip]);
 	}
 
-	shrugAT();
-
+	shrugAT($effect[Polka of Plenty]);
 	if(my_class() == $class[Ed])
 	{
 		if(fightCopy)
@@ -3595,7 +3594,7 @@ boolean L13_towerNSTower()
 	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_06_monster2"))
 	{
 		equipBaseline();
-		shrugAT();
+		shrugAT($effect[Polka of Plenty]);
 		buffMaintain($effect[Disco Leer], 0, 1, 1);
 		buffMaintain($effect[Polka of Plenty], 0, 1, 1);
 		buffMaintain($effect[Cranberry Cordiality], 0, 1, 1);
@@ -4532,7 +4531,7 @@ boolean L11_hiddenCity()
 							}
 							if(my_mp() > 50)
 							{
-								shrugAT();
+								shrugAT($effect[Ode to Booze]);
 								buffMaintain($effect[Ode to Booze], 50, 1, 1);
 							}
 

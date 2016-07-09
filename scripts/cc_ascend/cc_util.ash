@@ -88,6 +88,7 @@ string tryBeerPong();
 boolean useCocoon();
 boolean hasShieldEquipped();
 void shrugAT();
+void shrugAT(effect anticipated);
 boolean buyUpTo(int num, item it);
 boolean buyUpTo(int num, item it, int maxprice);
 boolean buffMaintain(effect buff, int mp_min, int cases, int turns);
@@ -2049,6 +2050,18 @@ boolean beehiveConsider()
 
 void shrugAT()
 {
+	shrugAT($effect[none]);
+}
+
+void shrugAT(effect anticipated)
+{
+	//If you think we are handling song overages, you are cray cray....
+	if(have_effect(anticipated) > 0)
+	{
+		//We have the effect, we do not need to shrug it, just let it propagate.
+		return;
+	}
+
 	int maxSongs = 3;
 	if(have_equipped($item[Brimstone Beret]) || have_equipped($item[Operation Patriot Shield]) || have_equipped($item[Plexiglass Pendant]) || have_equipped($item[Scandalously Skimpy Bikini]) || have_equipped($item[Sombrero De Vida]) || have_equipped($item[Super-Sweet Boom Box]))
 	{
