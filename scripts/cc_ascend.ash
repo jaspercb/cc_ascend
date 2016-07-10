@@ -926,12 +926,13 @@ boolean doThemtharHills(boolean trickMode)
 		{
 			int curMeat = get_property("currentNunneryMeat").to_int();
 			int advs = get_property("cc_nunsTrickCount").to_int();
+			advs = $location[The Themthar Hills].turns_spent;
 			int needMeat = 100000 - curMeat;
 
 			boolean failNuns = true;
-			if(advs < 22)
+			if(advs < 25)
 			{
-				int advLeft = 22 - advs;
+				int advLeft = 25 - $location[The Themthar Hills].turns_spent;
 				float needPerAdv = needMeat / advLeft;
 				if(minget > needPerAdv)
 				{
@@ -2693,7 +2694,7 @@ boolean L11_aridDesert()
 	{
 		if((my_level() >= 12) && !in_hardcore())
 		{
-			print("Do you actually have a UV-resistant compass? Try 'refresh inv' in the CLI!", "green");
+			print("Do you actually have a UV-resistant compass? Try 'refresh inv' in the CLI! If possible, pull a Grimstone mask and rerun, we may have missed that somehow.", "green");
 			abort("I can't do the Oasis without an Ornate Dowsing Rod. You can manually get a UV-resistant compass and I'll use that if you really hate me that much.");
 		}
 		else

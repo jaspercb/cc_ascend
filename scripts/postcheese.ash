@@ -20,6 +20,11 @@ void handlePostAdventure()
 			if(last != last_monster())
 			{
 				print("Interrupted battle detected at post combat time", "red");
+				if(have_effect($effect[Beaten Up]) > 0)
+				{
+					print("Post combat time caused up to be Beaten Up!", "red");
+					return;
+				}
 				ccAdv(my_location());
 				return;
 			}
