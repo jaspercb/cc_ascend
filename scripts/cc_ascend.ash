@@ -1693,6 +1693,7 @@ void doBedtime()
 	restoreSetting("afterAdventureScript");
 	restoreSetting("betweenAdventureScript");
 	restoreSetting("betweenBattleScript");
+	restoreSetting("counterScript");
 
 	if(get_property("cc_priorCharpaneMode").to_int() == 1)
 	{
@@ -12366,6 +12367,11 @@ void cc_begin()
 	backupSetting("afterAdventureScript", "scripts/postcheese.ash");
 	backupSetting("betweenAdventureScript", "scripts/precheese.ash");
 	backupSetting("betweenBattleScript", "scripts/precheese.ash");
+
+	if(get_property("counterScript") != "")
+	{
+		backupSetting("counterScript", "scripts/cheeseCounter.ash");
+	}
 
 	string charpane = visit_url("charpane.php");
 	if(contains_text(charpane, "<hr width=50%>"))
