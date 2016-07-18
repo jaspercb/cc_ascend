@@ -127,7 +127,7 @@ void handlePostAdventure()
 			buffMaintain($effect[Hide of Sobek], 20, 1, maxBuff);
 		}
 
-		if(!($locations[The Secret Government Laboratory, Pirates of the Garbage Barges, Hippy Camp] contains my_location()))
+		if(!($locations[Hippy Camp, Pirates of the Garbage Barges, The Secret Government Laboratory] contains my_location()))
 		{
 			buffMaintain($effect[Bounty of Renenutet], 20, 1, maxBuff);
 		}
@@ -162,35 +162,13 @@ void handlePostAdventure()
 			#}
 		}
 
-		if((my_level() < 13) && (my_level() > 3))
+		if((my_level() < 13) && (my_level() > 3) && !get_property("cc_needLegs").to_boolean())
 		{
 			buffMaintain($effect[Blessing of Serqet], 15, 1, 1);
 		}
 
 		#+NC Maintenance
-		if((my_location() == $location[The Penultimate Fantasy Airship]) ||
-			(my_location() == $location[Twin Peak]) ||
-			(my_location() == $location[The Poop Deck]) ||
-			(my_location() == $location[The Haunted Ballroom]) ||
-			(my_location() == $location[The Haunted Billiards Room]) ||
-			(my_location() == $location[The Haunted Gallery]) ||
-			(my_location() == $location[The Haunted Bathroom]) ||
-			(my_location() == $location[The Hidden Hospital]) ||
-			(my_location() == $location[Inside the Palindome]) ||
-			(my_location() == $location[The Dark Neck of the Woods]) ||
-			(my_location() == $location[The Dark Heart of the Woods]) ||
-			(my_location() == $location[The Dark Elbow of the Woods]) ||
-			(my_location() == $location[The Defiled Cranny]) ||
-			(my_location() == $location[The Defiled Alcove]) ||
-			(my_location() == $location[The Spooky Forest]) ||
-			(my_location() == $location[Inside the Palindome]) ||
-			(my_location() == $location[The Hidden Hospital]) ||
-			(my_location() == $location[The Obligatory Pirate\'s Cove]) ||
-			(my_location() == $location[Wartime Hippy Camp]) ||
-			(my_location() == $location[The Castle in the Clouds in the Sky (Basement)]) ||
-			(my_location() == $location[The Castle in the Clouds in the Sky (Top Floor)]) ||
-			(my_location() == $location[The Castle in the Clouds in the Sky (Ground Floor)])
-		)
+		if($locations[The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Defiled Alcove, The Defiled Cranny, The Haunted Ballroom, The Haunted Bathroom, The Haunted Billiards Room, The Haunted Gallery, The Hidden Hospital, Inside the Palindome, The Obligatory Pirate\'s Cove, The Penultimate Fantasy Airship, The Poop Deck, The Spooky Forest, Twin Peak, Wartime Hippy Camp] contains my_location())
 		{
 			if((have_effect($effect[Shelter of Shed]) == 0) && (my_mp() < 15))
 			{
@@ -341,7 +319,6 @@ void handlePostAdventure()
 		{
 			use_skill(1, libram);
 		}
-
 		return;
 	}
 
