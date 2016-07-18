@@ -847,7 +847,7 @@ boolean LA_cs_communityService()
 
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 10);
-			if(!get_property("cc_saveMargarita").to_boolean())
+			if(!get_property("cc_saveMargarita").to_boolean() && (inebriety_left() == 0))
 			{
 				overdrink(1, $item[Emergency Margarita]);
 			}
