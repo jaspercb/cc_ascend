@@ -836,7 +836,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = $items[Gold Wedding Ring, Ticksilver Ring, Fudgecycle, Treads of Loathing];
+	poss = $items[Gold Wedding Ring, Fudgecycle, Ticksilver Ring, Treads of Loathing];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))

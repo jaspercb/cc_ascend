@@ -921,6 +921,11 @@ boolean cc_cheesePostCS(int leave)
 			cc_sourceTerminalEnhance("meat");
 		}
 
+		if(get_property("cc_interrupt").to_boolean())
+		{
+			set_property("cc_interrupt", false);
+			abort("Abort requested.");
+		}
 		if((fullness_left() > 0) && (item_amount($item[Jumping Horseradish]) > 0))
 		{
 			eatsilent(1, $item[Jumping Horseradish]);

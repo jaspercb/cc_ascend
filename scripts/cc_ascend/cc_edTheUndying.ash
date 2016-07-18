@@ -839,6 +839,11 @@ boolean ed_needShop()
 		return false;
 	}
 
+	if(have_skill($skill[Upgraded Legs]) && get_property("cc_needLegs").to_boolean())
+	{
+		set_property("cc_needLegs", false);
+	}
+
 	if(get_property("cc_needLegs").to_boolean() && (item_amount($item[Ka Coin]) >= 10))
 	{
 		return true;
@@ -925,10 +930,8 @@ boolean ed_shopping()
 	}
 
 	//Limit mode: edunder
-//	if((my_spleen_use() + 5) <= spleen_limit())
 	if((my_spleen_use() + 5) <= ed_spleen_limit())
 	{
-//		int canEat = (spleen_limit() - my_spleen_use()) / 5;
 		int canEat = (ed_spleen_limit() - my_spleen_use()) / 5;
 		canEat = canEat - item_amount($item[Mummified Beef Haunch]);
 		while((coins >= 15) && (canEat > 0))

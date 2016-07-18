@@ -121,6 +121,11 @@ boolean startArmorySubQuest();
 boolean startMeatsmithSubQuest();
 boolean startGalaktikSubQuest();
 string trim(string input);
+boolean isOverdueDigitize();
+boolean isOverdueArrow();
+boolean setAdvPHPFlag();
+
+
 
 // Private Prototypes
 boolean buffMaintain(item source, effect buff, int uses, int turns);
@@ -131,6 +136,7 @@ string safeString(string input);
 string safeString(skill input);
 string safeString(item input);
 string safeString(monster input);
+location provideAdvPHPZone();
 
 // Function Definitions
 
@@ -592,6 +598,132 @@ boolean startGalaktikSubQuest()
 	}
 	return false;
 }
+
+location provideAdvPHPZone()
+{
+	if(elementalPlanes_access($element[sleaze]))
+	{
+		if(($location[Sloppy Seconds Diner].turns_spent <= 5) && !contains_text($location[Sloppy Seconds Diner].noncombat_queue, "Nothing Could Be Finer"))
+		{
+			return $location[Sloppy Seconds Diner];
+		}
+		if(($location[The Fun-Guy Mansion].turns_spent <= 5) && !contains_text($location[The Fun-Guy Mansion].noncombat_queue, "A Fungible Fun Experience"))
+		{
+			return $location[The Fun-Guy Mansion];
+		}
+	}
+	if(elementalPlanes_access($element[spooky]))
+	{
+		if(($location[The Secret Government Laboratory].turns_spent <= 5) && !contains_text($location[The Secret Government Laboratory].noncombat_queue, "See What's on the Slab"))
+		{
+			return $location[The Secret Government Laboratory];
+		}
+		if(($location[The Mansion of Dr. Weirdeaux].turns_spent <= 5) && !contains_text($location[The Mansion of Dr. Weirdeaux].noncombat_queue, "Ready, Set, Geaux!"))
+		{
+			return $location[The Mansion of Dr. Weirdeaux];
+		}
+		if(($location[The Deep Dark Jungle].turns_spent <= 5) && !contains_text($location[The Deep Dark Jungle].noncombat_queue, "Fun and Games!"))
+		{
+			return $location[The Deep Dark Jungle];
+		}
+	}
+	if(elementalPlanes_access($element[cold]))
+	{
+		if(($location[VYKEA].turns_spent <= 5) && !contains_text($location[VYKEA].noncombat_queue, "Just Some Oak and Some Pine and a Handful of Norsemen"))
+		{
+			return $location[VYKEA];
+		}
+		if(($location[The Ice Hotel].turns_spent <= 5) && !contains_text($location[The Ice Hotel].noncombat_queue, "Lending a Hand (and a Foot)"))
+		{
+			return $location[The Ice Hotel];
+		}
+	}
+	if(elementalPlanes_access($element[hot]))
+	{
+		if(($location[LavaCo&trade; Lamp Factory].turns_spent <= 5) && !contains_text($location[LavaCo&trade; Lamp Factory].noncombat_queue, "LavaCo&trade; Welcomes You"))
+		{
+			return $location[LavaCo&trade; Lamp Factory];
+		}
+		if(($location[The SMOOCH Army HQ].turns_spent <= 5) && !contains_text($location[The SMOOCH Army HQ].noncombat_queue, "An Introductory SMOOCH"))
+		{
+			return $location[The SMOOCH Army HQ];
+		}
+		if(($location[The Bubblin\' Caldera].turns_spent <= 5) && !contains_text($location[The Bubblin\' Caldera].noncombat_queue, "Caldera Air"))
+		{
+			return $location[The Bubblin\' Caldera];
+		}
+	}
+	if(elementalPlanes_access($element[stench]))
+	{
+		if(($location[Barf Mountain].turns_spent <= 5) && !contains_text($location[Barf Mountain].noncombat_queue, "Welcome to Barf Mountain"))
+		{
+			return $location[Barf Mountain];
+		}
+		if(($location[Pirates of the Garbage Barges].turns_spent <= 5) && !contains_text($location[Pirates of the Garbage Barges].noncombat_queue, "Dead Men Smell No Tales"))
+		{
+			return $location[Pirates of the Garbage Barges];
+		}
+		if(($location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice].turns_spent <= 5) && !contains_text($location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice].noncombat_queue, "Gator Done"))
+		{
+			return $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice];
+		}
+	}
+	return $location[none];
+}
+
+boolean setAdvPHPFlag()
+{
+	location toAdv = provideAdvPHPZone();
+	if(toAdv == $location[none])
+	{
+		return false;
+	}
+	ccAdv(toAdv);
+	return true;
+
+}
+
+boolean isOverdueDigitize()
+{
+	if(get_property("_sourceTerminalDigitizeUses").to_int() == 0)
+	{
+		return false;
+	}
+	if(get_counters("Digitize Monster", 1, 200) == "Digitize Monster")
+	{
+		return false;
+	}
+	if(contains_text(get_property("_tempRelayCounters"), "Digitize Monster"))
+	{
+		return false;
+	}
+	if(get_counters("Digitize Monster", 0, 0) == "Digitize Monster")
+	{
+		return true;
+	}
+	return true;
+}
+boolean isOverdueArrow()
+{
+	if(get_property("_romanticFightsLeft").to_int() == 0)
+	{
+		return false;
+	}
+	if(get_counters("Romantic Monster window end", 1, 200) == "Romantic Monster window end")
+	{
+		return false;
+	}
+	if(contains_text(get_property("_tempRelayCounters"), "Romantic Monster window end"))
+	{
+		return false;
+	}
+	if(get_counters("Romantic Monster window end", 0, 0) == "Romantic Monster window end")
+	{
+		return true;
+	}
+	return true;
+}
+
 
 int[monster] banishedMonsters()
 {

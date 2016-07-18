@@ -19,7 +19,8 @@ int cc_sourceTerminalExtrudeLeft();
 int[string] cc_sourceTerminalStatus();
 boolean cc_doPrecinct();
 item cc_bestBadge();
-
+boolean cc_sourceTerminalEducate(skill first);
+boolean cc_sourceTerminalEducate(skill first, skill second);
 
 //Supplemental
 int cc_advWitchessTargets(string target);
@@ -147,9 +148,9 @@ boolean cc_sourceTerminalRequest(string request)
 	if(cc_haveSourceTerminal())
 	{
 		string temp = visit_url("campground.php?action=terminal");
-		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
+#		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
 		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=" + request);
-		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
+#		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
 		return true;
 	}
 	return false;
@@ -338,7 +339,7 @@ int[string] cc_sourceTerminalStatus()
 			status[extrude.group(1)] = 1;
 		}
 
-		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
+#		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
 		status["enhanceBuff"] = 25 + (25 * status["INGRAM"]) + (5 * status["PRAM"]);
 		status["enhanceUses"] = 1 + status["CRAM"] + status["SCRAM"];
 		status["enhance"] = status["enhanceBuff"] + status["enhanceUses"];
@@ -349,6 +350,52 @@ int[string] cc_sourceTerminalStatus()
 	}
 
 	return status;
+}
+
+boolean cc_sourceTerminalEducate(skill first, skill second)
+{
+	if(!cc_haveSourceTerminal())
+	{
+		return false;
+	}
+	if(first == $skill[none])
+	{
+		first = second;
+		second = $skill[none];
+	}
+	if(!contains_text(get_property("sourceTerminalChips"), "DRAM"))
+	{
+		second = $skill[none];
+		set_property("sourceTerminalEducate2", "");
+	}
+
+	if(first == $skill[none])
+	{
+		return false;
+	}
+
+	string firstSkill = to_lower_case(to_string(first)) + ".edu";
+	string secondSkill = to_lower_case(to_string(second)) + ".edu";
+
+	if((get_property("sourceTerminalEducate1") == firstSkill) || (get_property("sourceTerminalEducate2") == firstSkill))
+	{
+		if((get_property("sourceTerminalEducate1") == secondSkill) || (get_property("sourceTerminalEducate2") == secondSkill) || (secondSkill == "none.edu"))
+		{
+			return true;
+		}
+	}
+
+	cc_sourceTerminalRequest("educate " + firstSkill);
+	if(secondSkill != "none.edu")
+	{
+		cc_sourceTerminalRequest("educate " + secondSkill);
+	}
+	return true;
+}
+
+boolean cc_sourceTerminalEducate(skill first)
+{
+	return cc_sourceTerminalEducate(first, $skill[none]);
 }
 
 boolean cc_haveWitchess()

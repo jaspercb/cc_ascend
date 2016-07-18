@@ -274,6 +274,12 @@ boolean volcano_lavaDogs()
 		return false;
 	}
 
+	if($location[The Bubblin\' Caldera].turns_spent >= 10)
+	{
+		print("Could not find Caldera Volcoino... uh oh...", "red");
+		return false;
+	}
+
 	if(!get_property("calderaVolcoino").to_boolean())
 	{
 		if(contains_text($location[The Bubblin\' Caldera].noncombat_queue, "Lava Dogs"))

@@ -5,134 +5,9 @@ import <cc_ascend/cc_edTheUndying.ash>
 
 monster ocrs_helper(string page);
 void awol_helper(string page);
-
-monster ocrs_helper(string page)
-{
-	if(my_path() != "One Crazy Random Summer")
-	{
-		abort("Should not be in ocrs_helper if not on the path!");
-	}
-
-	string combatState = get_property("cc_combatHandler");
-
-	//	ghostly				physical resistance
-	//	untouchable			damage reduced to 5, instant kills still good (much less of an issue now
-
-	/*
-		For no staggers, don\'t use staggers
-		For blocks skills/combat items, we can probably set them all to used as well.
-	*/
-
-	if(isFreeMonster(last_monster()))
-	{
-		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
-		{
-			set_property("cc_useCleesh", false);
-			set_property("cc_combatHandler", combatState + "(cleesh)");
-		}
-	}
-
-	if(last_monster().random_modifiers["unstoppable"])
-	{
-		if(!contains_text(combatState, "unstoppable"))
-		{
-			set_property("cc_combatHandler", combatState + "(DNA)(air dirty laundry)(ply reality)(indigo cup)(love mosquito)(blue balls)(love gnats)(unstoppable)");
-			#Block weaksauce and pocket crumbs?
-		}
-	}
-
-	if(last_monster().random_modifiers["annoying"])
-	{
-		if(contains_text(page, "makes the most annoying noise you've ever heard, stopping you in your tracks."))
-		{
-			print("Last action failed, uh oh! Trying to undo!", "olive");
-			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
-		}
-		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
-	}
-
-	if(last_monster().random_modifiers["restless"])
-	{
-		if(contains_text(page, "moves out of the way"))
-		{
-			print("Last action failed, uh oh! Trying to undo!", "olive");
-			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
-		}
-		if(contains_text(page, "quickly moves out of the way"))
-		{
-			print("Last action failed, uh oh! Trying to undo!", "olive");
-			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
-		}
-		if(contains_text(page, "will have moved by the time"))
-		{
-			print("Last action failed, uh oh! Trying to undo!", "olive");
-			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
-		}
-
-		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
-	}
-
-	if(last_monster().random_modifiers["phase-shifting"])
-	{
-		if(contains_text(page, "blinks out of existence before"))
-		{
-			print("Last action failed, uh oh! Trying to undo!", "olive");
-			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
-		}
-		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
-	}
-
-	if(last_monster().random_modifiers["cartwheeling"])
-	{
-		if(contains_text(page, "cartwheels out of the way"))
-		{
-			print("Last action failed, uh oh! Trying to undo!", "olive");
-			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
-		}
-		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
-	}
-
-	set_property("cc_useCleesh", false);
-	if(last_monster().random_modifiers["ticking"])
-	{
-		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
-		{
-			set_property("cc_useCleesh", true);
-		}
-	}
-	if(last_monster().random_modifiers["untouchable"])
-	{
-		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
-		{
-			set_property("cc_useCleesh", true);
-		}
-	}
-	return last_monster();
-}
-
-void awol_helper(string page)
-{
-	//Let us self-contain this so it is quick to remove later.
-	if((my_daycount() == 1) && (my_turncount() < 10))
-	{
-		set_property("cc_noSnakeOil", 0);
-	}
-
-	string combatState = get_property("cc_combatHandler");
-	if(contains_text(page, "Your oil extractor is completely clogged up at this point"))
-	{
-		set_property("cc_noSnakeOil", my_daycount());
-	}
-	if(get_property("_oilExtracted").to_int() >= 100)
-	{
-		set_property("cc_noSnakeOil", my_daycount());
-	}
-
-	if((!contains_text(combatState, "extractSnakeOil")) && (get_property("cc_noSnakeOil").to_int() == my_daycount()))
-	{
-		set_property("cc_combatHandler", combatState + "(extractSnakeOil)");
-	}
-}
+string ccsJunkyard(int round, string opp, string text);
+string cc_edCombatHandler(int round, string opp, string text);
+string cc_combatHandler(int round, string opp, string text);
 
 string cc_combatHandler(int round, string opp, string text)
 {
@@ -2057,56 +1932,7 @@ string ccsJunkyard(int round, string opp, string text)
 	}
 	return "attack with weapon";
 }
-/*
-void handleSniffs(monster enemy, skill sniffer)
-{
-	if(my_daycount() <= 5)
-	{
-		string sniffs = get_property("cc_sniffs");
-		if(sniffs != "")
-		{
-			sniffs = sniffs + ",";
-		}
-		sniffs = sniffs + "(" + my_daycount() + ":" + enemy + ":" + sniffer + ":" + my_turncount() + ")";
-		set_property("cc_sniffs", sniffs);
-	}
-}
 
-void handleLashes(monster enemy)
-{
-	if(my_daycount() <= 5)
-	{
-		string lashes = get_property("cc_lashes");
-		if(lashes != "")
-		{
-			lashes = lashes + ", ";
-		}
-		if(get_property("_edLashCount").to_int() >= 30)
-		{
-			lashes = lashes + "(" + my_daycount() + ":" + enemy + ":" + my_turncount() + "F)";
-		}
-		else
-		{
-			lashes = lashes + "(" + my_daycount() + ":" + enemy + ":" + my_turncount() + ")";
-		}
-		set_property("cc_lashes", lashes);
-	}
-}
-
-void handleRenenutet(monster enemy)
-{
-	if(my_daycount() <= 5)
-	{
-		string renenutet = get_property("cc_renenutet");
-		if(renenutet != "")
-		{
-			renenutet = renenutet + ", ";
-		}
-		renenutet = renenutet + "(" + my_daycount() + ":" + enemy + ":" + my_turncount() + ")";
-		set_property("cc_renenutet", renenutet);
-	}
-}
-*/
 string cc_edCombatHandler(int round, string opp, string text)
 {
 	if(my_path() != "Actually Ed the Undying")
@@ -2869,4 +2695,134 @@ string cc_edCombatHandler(int round, string opp, string text)
 	}
 
 	return "skill Mild Curse";
+}
+
+
+
+monster ocrs_helper(string page)
+{
+	if(my_path() != "One Crazy Random Summer")
+	{
+		abort("Should not be in ocrs_helper if not on the path!");
+	}
+
+	string combatState = get_property("cc_combatHandler");
+
+	//	ghostly				physical resistance
+	//	untouchable			damage reduced to 5, instant kills still good (much less of an issue now
+
+	/*
+		For no staggers, don\'t use staggers
+		For blocks skills/combat items, we can probably set them all to used as well.
+	*/
+
+	if(isFreeMonster(last_monster()))
+	{
+		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
+		{
+			set_property("cc_useCleesh", false);
+			set_property("cc_combatHandler", combatState + "(cleesh)");
+		}
+	}
+
+	if(last_monster().random_modifiers["unstoppable"])
+	{
+		if(!contains_text(combatState, "unstoppable"))
+		{
+			set_property("cc_combatHandler", combatState + "(DNA)(air dirty laundry)(ply reality)(indigo cup)(love mosquito)(blue balls)(love gnats)(unstoppable)");
+			#Block weaksauce and pocket crumbs?
+		}
+	}
+
+	if(last_monster().random_modifiers["annoying"])
+	{
+		if(contains_text(page, "makes the most annoying noise you've ever heard, stopping you in your tracks."))
+		{
+			print("Last action failed, uh oh! Trying to undo!", "olive");
+			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
+		}
+		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
+	}
+
+	if(last_monster().random_modifiers["restless"])
+	{
+		if(contains_text(page, "moves out of the way"))
+		{
+			print("Last action failed, uh oh! Trying to undo!", "olive");
+			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
+		}
+		if(contains_text(page, "quickly moves out of the way"))
+		{
+			print("Last action failed, uh oh! Trying to undo!", "olive");
+			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
+		}
+		if(contains_text(page, "will have moved by the time"))
+		{
+			print("Last action failed, uh oh! Trying to undo!", "olive");
+			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
+		}
+
+		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
+	}
+
+	if(last_monster().random_modifiers["phase-shifting"])
+	{
+		if(contains_text(page, "blinks out of existence before"))
+		{
+			print("Last action failed, uh oh! Trying to undo!", "olive");
+			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
+		}
+		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
+	}
+
+	if(last_monster().random_modifiers["cartwheeling"])
+	{
+		if(contains_text(page, "cartwheels out of the way"))
+		{
+			print("Last action failed, uh oh! Trying to undo!", "olive");
+			set_property("cc_combatHandler", get_property("cc_funCombatHandler"));
+		}
+		set_property("cc_funCombatHandler", get_property("cc_combatHandler"));
+	}
+
+	set_property("cc_useCleesh", false);
+	if(last_monster().random_modifiers["ticking"])
+	{
+		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
+		{
+			set_property("cc_useCleesh", true);
+		}
+	}
+	if(last_monster().random_modifiers["untouchable"])
+	{
+		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
+		{
+			set_property("cc_useCleesh", true);
+		}
+	}
+	return last_monster();
+}
+
+void awol_helper(string page)
+{
+	//Let us self-contain this so it is quick to remove later.
+	if((my_daycount() == 1) && (my_turncount() < 10))
+	{
+		set_property("cc_noSnakeOil", 0);
+	}
+
+	string combatState = get_property("cc_combatHandler");
+	if(contains_text(page, "Your oil extractor is completely clogged up at this point"))
+	{
+		set_property("cc_noSnakeOil", my_daycount());
+	}
+	if(get_property("_oilExtracted").to_int() >= 100)
+	{
+		set_property("cc_noSnakeOil", my_daycount());
+	}
+
+	if((!contains_text(combatState, "extractSnakeOil")) && (get_property("cc_noSnakeOil").to_int() == my_daycount()))
+	{
+		set_property("cc_combatHandler", combatState + "(extractSnakeOil)");
+	}
 }

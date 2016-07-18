@@ -422,7 +422,7 @@ boolean eatFancyDog(string dog)
 		return false;
 	}
 
-	if((my_fullness() + dogFull[dog]) > fullness_limit())
+	if(fullness_left() < dogFull[dog])
 	{
 		return false;
 	}

@@ -67,7 +67,7 @@
 67	cc_powerLevelLastLevel	string	ANY	Last Level that we had nothing to do.
 68	cc_powerLevelAdvCount	string	ANY	Adventures count of times we had nothing to do.
 69	cc_powerLevelLastAttempted	string	ANY	Last adventure that we did nothing on.
-70	cc_skipDesert	string	ANY	-
+70	cc_skipDesert	string	ANY	Tracks last time we skipped the Desert.
 71	cc_spookyfertilizer	string	ANY	'finished' if we've dealt with the Spooky-Gro Fertilizer
 72	cc_spookyravensecond	string	ANY	-
 73	cc_spookysapling	string	ANY	'finished' if we've dealt with the Spooky Sapling
@@ -75,13 +75,13 @@
 75	cc_sorceress	string	ANY	Sorceress Tower tracker: '', 'start', 'hedge', 'door', 'tower', 'top', 'final', 'finished'
 76	cc_swordfish	string	ANY	'finished' if we've finished the Poop Deck. Heh, poop.
 77	cc_tavern	string	ANY	'finished' if we've completed the Tavern Quest
-78	cc_trytower	string	ANY	-
+78	cc_trytower	string	ANY	Deprecated, should be removed any day now...
 79	cc_trapper	string	ANY	Trapper Quest Tracker: '', 'start', 'yeti', 'finished'
 80	cc_treecoin	string	ANY	'finished' if we've dealt with the Tree-Holed Coin
 81	cc_twinpeak	string	ANY	'finished' if Twin Peak is completed. (Not really).
 82	cc_twinpeakprogress	string	ANY	-
 83	cc_waitingArrowAlcove	integer	ANY	If we arrowed a modern zmobie, this tells us when to return to the Alcove (cyrptAlcoveEvilness value).
-84	cc_war	string	ANY	-
+84	cc_war	string	ANY	'finished' is the war is done. 'done' if the battleground is empty but we still need to turn in items and fight the boss.
 85	cc_winebomb	string	ANY	'partial' if we have a fulminate, 'finished' if we've made it into a wine bomb
 86	cc_100familiar	boolean	PRE	If true, do not allow familiar switching (for 100% runs).
 87	cc_autoCraft	string	PRE	Handler for the Boring Binder Clip AutoCraft bug.
@@ -101,4 +101,5 @@
 101	cc_noSleepingDog	boolean	PRE	When true, do not eat a Sleeping Dog.
 101	cc_saveMargarita	boolean	PRE	Save Emergency Margarita in HCCS run.
 102	cc_gnasirUnlocked	boolean	ANY	Have we found gnasir in the Desert?
-103	cc_masonryWall		boolean	ANY	If true, we've destroyed the Masonry Wall in Spookyraven Manor
+103	cc_masonryWall	boolean	ANY	If true, we've destroyed the Masonry Wall in Spookyraven Manor
+104	cc_csDoWheel	boolean	PRE	In HCCS: Use Wheel of Fortune instead of Myst Stats Deck Cheat

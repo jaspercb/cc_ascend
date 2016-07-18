@@ -198,7 +198,7 @@ void initializeSettings()
 	set_property("choiceAdventure1003", 0);
 	beehiveConsider();
 
-	cc_sourceTerminalRequest("educate extract.edu");
+	cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
 	cc_sourceTerminalRequest("enquiry familiar.enq");
 
 	elementalPlanes_initializeSettings();
@@ -8005,8 +8005,13 @@ boolean L8_trapperGround()
 	}
 	else if((my_level() >= 12) && in_hardcore())
 	{
+		int numCloversKeep = 0;
+		if(get_property("cc_wandOfNagamar").to_boolean())
+		{
+			numCloversKeep = 1;
+		}
 		use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
-		if(item_amount($item[Disassembled Clover]) > 1)
+		if(item_amount($item[Disassembled Clover]) > numCloversKeep)
 		{
 			backupSetting("cloverProtectActive", false);
 			use(1, $item[Disassembled Clover]);
@@ -10714,14 +10719,14 @@ boolean LX_pirateInsults()
 		return false;
 	}
 
-	if((my_class() == $class[Ed]) && (my_maxhp() < 70))
+/*	if((my_class() == $class[Ed]) && (my_maxhp() < 70))
 	{
 		if((item_amount($item[Cap\'m Caronch\'s Map]) != 0) && (item_amount($item[Cap\'m Caronch\'s Nasty Booty]) == 0))
 		{
 			return false;
 		}
 	}
-
+*/
 	print("Insult gathering party.", "blue");
 	if(LX_nastyBooty())
 	{
@@ -11019,11 +11024,7 @@ boolean L8_trapperExtreme()
 
 	ccAdv(1, $location[The eXtreme Slope]);
 	return true;
-
-
 }
-
-
 
 boolean L8_trapperYeti()
 {
@@ -11034,7 +11035,7 @@ boolean L8_trapperYeti()
 
 	if(L8_trapperGroar())
 	{
-		return false;
+		return true;
 	}
 
 	if(!have_skill($skill[Rain Man]) && (pulls_remaining() >= 3) && (internalQuestStatus("questL08Trapper") < 3))
@@ -11407,7 +11408,7 @@ boolean doTasks()
 		print("Still flyering: " + get_property("flyeredML"), "blue");
 	}
 	print("Encounter: " + combat_rate_modifier() + "   Exp Bonus: " + experience_bonus(), "blue");
-	print("Meat: " + meat_drop_modifier() + "   Item: " + item_drop_modifier(), "blue");
+	print("Meat Drop: " + meat_drop_modifier() + "   Item Drop: " + item_drop_modifier(), "blue");
 	print("HP: " + my_hp() + "/" + my_maxhp() + ", MP: " + my_mp() + "/" + my_maxmp(), "blue");
 	print("ML: " + monster_level_adjustment() + " control: " + current_mcd(), "blue");
 	if(my_class() == $class[Sauceror])
@@ -11426,7 +11427,6 @@ boolean doTasks()
 	{
 		print("Snow suit usage: " + get_property("_snowSuitCount") + " carrots: " + get_property("_carrotNoseDrops"), "blue");
 	}
-	print("HP: " + my_hp() + "/" + my_maxhp() + "\tMP: " + my_mp() + "/" + my_maxmp(), "violet");
 	if(cc_my_path() == "Heavy Rains")
 	{
 		print("Post adventure done: Thunder: " + my_thunder() + " Rain: " + my_rain() + " Lightning: " + my_lightning(), "green");
@@ -12367,6 +12367,8 @@ void cc_begin()
 	backupSetting("afterAdventureScript", "scripts/postcheese.ash");
 	backupSetting("betweenAdventureScript", "scripts/precheese.ash");
 	backupSetting("betweenBattleScript", "scripts/precheese.ash");
+
+	backupSetting("choiceAdventure1107", 1);
 
 	if(get_property("counterScript") != "")
 	{

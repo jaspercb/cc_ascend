@@ -892,6 +892,7 @@ boolean deck_useScheme(string action)
 			break;
 		case 3:
 			cards["key"] = true;
+			cards["ore"] = true;
 			#cards["Ancestral Recall"] = true;
 			break;
 		}
@@ -924,6 +925,13 @@ boolean deck_useScheme(string action)
 				set_property("cc_cubeItems", false);
 			}
 			if(towerKeyCount() >= 3)
+			{
+				continue;
+			}
+		}
+		if(card == "ore")
+		{
+			if((get_property("cc_trapper") == "yeti") || (get_property("cc_trapper") == "finished"))
 			{
 				continue;
 			}
