@@ -2001,7 +2001,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		return "skill summon love scarabs";
 	}
 
-	if((get_property("edPoints").to_int() <= 4) && (my_daycount() == 1))
+	if(((get_property("edPoints").to_int() <= 4) && (my_daycount() == 1)) || !get_property("lovebugsUnlocked").to_boolean())
 	{
 		if(!ed_needShop() || (get_property("cc_edCombatStage").to_int() > 1))
 		{
@@ -2501,27 +2501,12 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 	if((item_amount($item[Tattered Scrap of Paper]) > 0) && (!contains_text(combatState, "tatters")))
 	{
-		if((enemy == $monster[Demoninja]) ||
-			(enemy == $monster[Drunken Rat]) ||
-			(enemy == $monster[Bunch of Drunken Rats]) ||
-			(enemy == $monster[Knob Goblin Elite Guard]) ||
-			(enemy == $monster[Drunk Goat]) ||
-			(enemy == $monster[Sabre-Toothed Goat]) ||
-			(enemy == $monster[Bubblemint Twins]) ||
-			(enemy == $monster[Creepy Ginger Twin]) ||
-			(enemy == $monster[Mismatched Twins]) ||
-			(enemy == $monster[Coaltergeist]) ||
-			(enemy == $monster[L imp]) ||
-			(enemy == $monster[W imp]) ||
-			(enemy == $monster[Hellion]) ||
-			(enemy == $monster[Fallen Archfiend]))
+		if($monsters[Bubblemint Twins, Bunch of Drunken Rats, Coaltergeist, Creepy Ginger Twin, Demoninja, Drunk Goat, Drunken Rat, Fallen Archfiend, Hellion, Knob Goblin Elite Guard, L imp, Mismatched Twins, Sabre-Toothed Goat, W imp] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(tatters)");
 			return "item tattered scrap of paper";
 		}
 	}
-
-
 
 	if((!contains_text(edCombatState, "talismanofrenenutet")) && (item_amount($item[Talisman of Renenutet]) > 0))
 	{
