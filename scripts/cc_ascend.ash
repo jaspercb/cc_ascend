@@ -6091,7 +6091,7 @@ boolean L12_sonofaBeach()
 	}
 	if(equipped_item($slot[acc1]) == $item[over-the-shoulder folder holder])
 	{
-		if((item_amount($item[Ass-Stompers of Violence]) > 0) && (equipped_item($slot[acc1]) != $item[Ass-Stompers of Violence]))
+		if((item_amount($item[Ass-Stompers of Violence]) > 0) && (equipped_item($slot[acc1]) != $item[Ass-Stompers of Violence]) && can_equip($item[Ass-Stompers of Violence]))
 		{
 			equip($slot[acc1], $item[Ass-Stompers of Violence]);
 		}
