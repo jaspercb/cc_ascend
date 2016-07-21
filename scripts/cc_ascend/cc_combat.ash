@@ -669,6 +669,12 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Broadside];
 		}
 
+		if(!contains_text(combatState, to_string($skill[Snap Fingers])) && have_skill($skill[Snap Fingers]) && (my_mp() >= mp_cost($skill[Snap Fingers])))
+		{
+			set_property("cc_combatHandler", combatState + "(" + $skill[Snap Fingers] + ")");
+			return "skill " + $skill[Snap Fingers];
+		}
+
 		if(!contains_text(combatState, "soulbubble") && have_skill($skill[Soul Saucery]) && (my_soulsauce() >= soulsauce_cost($skill[Soul Bubble])))
 		{
 			set_property("cc_combatHandler", combatState + "(soulbubble)");
@@ -1845,7 +1851,7 @@ string ccsJunkyard(int round, string opp, string text)
 
 	if(contains_text(text, "It whips out a hammer") || contains_text(text, "He whips out a crescent") || contains_text(text, "It whips out a pair") || contains_text(text, "It whips out a screwdriver"))
 	{
-		return "item molybdenum magnet";
+		return "item " + $item[molybdenum magnet]";
 	}
 
 	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= mp_cost($skill[Curse of Weaksauce])))

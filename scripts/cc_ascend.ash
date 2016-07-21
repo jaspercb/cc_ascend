@@ -5961,6 +5961,11 @@ boolean L12_gremlins()
 		return false;
 	}
 
+	if(item_amount($item[molybdenum magnet]) == 0)
+	{
+		abort("We don't have the molybdenum magnet but should... please get it and rerun the script");
+	}
+
 	#Put a different shield in here.
 	print("Doing them gremlins", "blue");
 	if(item_amount($item[Ouija Board\, Ouija Board]) > 0)
