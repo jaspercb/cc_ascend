@@ -673,7 +673,7 @@ boolean LA_cs_communityService()
 //				{
 //					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
 //				}
-				if(get_property("_controlPanel9").to_boolean())
+				if(get_property("controlPanel9").to_boolean())
 				{
 					if(item_amount($item[Personal Ventilation Unit]) > 0)
 					{
@@ -2691,7 +2691,7 @@ string cs_combatNormal(int round, string opp, string text)
 	{
 		danger = true;
 	}
-	if((my_location() == $location[The Secret Government Laboratory]) && get_property("_controlPanel9").to_boolean())
+	if((my_location() == $location[The Secret Government Laboratory]) && get_property("controlPanel9").to_boolean())
 	{
 		if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 32))
 		{
