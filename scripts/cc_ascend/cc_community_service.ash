@@ -475,6 +475,19 @@ boolean LA_cs_communityService()
 				cc_sourceTerminalEnhance("substats");
 			}
 
+			if((my_spleen_use() == 12) && (item_amount($item[Abstraction: Category]) > 0))
+			{
+				chew(1, $item[Abstraction: Category]);
+			}
+			if(!get_property("_aprilShower").to_boolean())
+			{
+				cli_execute("shower myst");
+			}
+			if(item_amount($item[Flavored Foot Massage Oil]) > 0)
+			{
+				string temp = visit_url("curse.php?action=use&pwd=&whichitem=3274&targetplayer=" + get_player_id(my_name()));
+			}
+
 			if((isOverdueDigitize() || isOverdueArrow()) && elementalPlanes_access($element[stench]))
 			{
 				print("A Wanderer event is expected now, diverting... (Status: 7 with Margarita)", "blue");
@@ -502,19 +515,6 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if((my_spleen_use() == 12) && (item_amount($item[Abstraction: Category]) > 0))
-			{
-				chew(1, $item[Abstraction: Category]);
-			}
-			if(!get_property("_aprilShower").to_boolean())
-			{
-				cli_execute("shower myst");
-			}
-			if(item_amount($item[Flavored Foot Massage Oil]) > 0)
-			{
-				string temp = visit_url("curse.php?action=use&pwd=&whichitem=3274&targetplayer=" + get_player_id(my_name()));
-			}
-
 			if(canYellowRay() && elementalPlanes_access($element[hot]))
 			{
 				if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
@@ -527,7 +527,12 @@ boolean LA_cs_communityService()
 
 			if(inebriety_left() >= 1)
 			{
-				if(item_amount($item[Sacramento Wine]) > 0)
+				if(item_amount($item[Astral Pilsner]) > 0)
+				{
+					buffMaintain($effect[Ode to Booze], 50, 1, 1);
+					drink(1, $item[Astral Pilsner]);
+				}
+				else if(item_amount($item[Sacramento Wine]) > 0)
 				{
 					buffMaintain($effect[Ode to Booze], 50, 1, 1);
 					drink(1, $item[Sacramento Wine]);
@@ -1562,7 +1567,8 @@ boolean LA_cs_communityService()
 				cli_execute("grim damage");
 			}
 
-			while((my_level() < 8) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+			int restsLeft = total_free_rests() - get_property("timesRested").to_int();
+			while((my_level() < 8) && (restsLeft > 0) && chateaumantegna_available() && ((my_basestat(my_primestat()) + restsLeft) >= 53))
 			{
 				doRest();
 				if(item_amount($item[Astral Pilsner]) > 0)
@@ -2469,6 +2475,12 @@ boolean cs_eat_stuff(int quest)
 
 	if(quest == 9)
 	{
+		if(item_amount($item[Weird Gazelle Steak]) == 0)
+		{
+			print("We don't seem to have a Weird Gazelle Steak but we should. Refreshing and trying again...", "red");
+			cli_execute("refresh all");
+		}
+
 		if(item_amount($item[Weird Gazelle Steak]) > 0)
 		{
 			if(item_amount($item[Milk of Magnesium]) > 0)

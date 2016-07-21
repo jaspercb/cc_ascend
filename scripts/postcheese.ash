@@ -10,6 +10,10 @@ import <cc_ascend/cc_adventure.ash>
 
 void handlePostAdventure()
 {
+	if(limit_mode() == "spelunky")
+	{
+		return;
+	}
 	//We need to do this early, and even if postAdventure handling is done.
 	if(my_path() == "The Source")
 	{
@@ -91,6 +95,11 @@ void handlePostAdventure()
 		{
 			uneffect($effect[Cunctatitis]);
 		}
+	}
+
+	if(my_class() == $class[Avatar of Sneaky Pete])
+	{
+		buffMaintain($effect[All Revved Up], 25, 1, 10);
 	}
 
 	if(my_path() == "Actually Ed the Undying")

@@ -789,6 +789,28 @@ boolean cc_cheesePostCS(int leave)
 		cli_execute("florist plant aloe guv'nor");
 	}
 
+	cc_sourceTerminalExtrude($item[Hacked Gibson]);
+	cc_sourceTerminalExtrude($item[Hacked Gibson]);
+	cc_sourceTerminalExtrude($item[Hacked Gibson]);
+	while((my_mp() < 100) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available() && (inebriety_left() > 0))
+	{
+		doRest();
+	}
+	while((inebriety_left() >= 4) && (item_amount($item[Hacked Gibson]) > 0))
+	{
+		buffMaintain($effect[Ode to Booze], 50, 1, 4);
+		drink(1, $item[Hacked Gibson]);
+	}
+	while((inebriety_left() >= 1) && (item_amount($item[Sacramento Wine]) > 0))
+	{
+		buffMaintain($effect[Ode to Booze], 50, 1, 1);
+		drink(1, $item[Sacramento Wine]);
+	}
+
+	while((spleen_left() >= 4) && (item_amount($item[Agua de Vida]) > 0))
+	{
+		chew(1, $item[Agua de Vida]);
+	}
 	while((spleen_left() >= 4) && (item_amount($item[Unconscious Collective Dream Jar]) > 0))
 	{
 		chew(1, $item[Unconscious Collective Dream Jar]);
@@ -797,6 +819,16 @@ boolean cc_cheesePostCS(int leave)
 	{
 		chew(1, $item[Carrot Juice]);
 	}
+	while((spleen_left() >= 1) && (item_amount($item[Twinkly Wad]) > 0))
+	{
+		chew(1, $item[Twinkly Wad]);
+	}
+
+	cc_sourceTerminalEducate($skill[Extract], $skill[Turbo]);
+	cc_sourceTerminalEnhance("meat");
+	cc_sourceTerminalEnhance("meat");
+	cc_sourceTerminalEnhance("items");
+
 
 	boolean oldGarbage = get_property("cc_getDinseyGarbageMoney").to_boolean();
 	set_property("cc_getDinseyGarbageMoney", true);
@@ -931,7 +963,46 @@ boolean cc_cheesePostCS(int leave)
 			eatsilent(1, $item[Jumping Horseradish]);
 		}
 
+		boolean restoreEquip = false;
+		item acc1 = equipped_item($slot[acc1]);
+		item acc2 = equipped_item($slot[acc2]);
+		item acc3 = equipped_item($slot[acc3]);
+		if(get_property("dinseyRollercoasterNext").to_boolean())
+		{
+			restoreEquip = true;
+			if(item_amount($item[Lucky Crimbo Tiki Necklace]) > 0)
+			{
+				equip($slot[acc1], $item[Lucky Crimbo Tiki Necklace]);
+			}
+			if(item_amount($item[Lucky Crimbo Tiki Necklace]) > 0)
+			{
+				equip($slot[acc2], $item[Lucky Crimbo Tiki Necklace]);
+			}
+			if(item_amount($item[Lucky Crimbo Tiki Necklace]) > 0)
+			{
+				equip($slot[acc3], $item[Lucky Crimbo Tiki Necklace]);
+			}
+		}
+
 		ccAdv(1, $location[Barf Mountain]);
+
+		if(restoreEquip)
+		{
+			if(equipped_item($slot[acc1]) == $item[Lucky Crimbo Tiki Necklace])
+			{
+				equip($slot[acc1], acc1);
+			}
+			if(equipped_item($slot[acc2]) == $item[Lucky Crimbo Tiki Necklace])
+			{
+				equip($slot[acc2], acc2);
+			}
+			if(equipped_item($slot[acc3]) == $item[Lucky Crimbo Tiki Necklace])
+			{
+				equip($slot[acc3], acc3);
+			}
+		}
+
+
 		doNumberology("fites3");
 
 		if(have_effect($effect[How to Scam Tourists]) == 2)

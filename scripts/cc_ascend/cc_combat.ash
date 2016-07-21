@@ -286,7 +286,21 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!contains_text(combatState, "pickpocket") && ((my_class() == $class[Disco Bandit]) || (my_class() == $class[Accordion Thief])) && contains_text(text, "value=\"Pick") && ((expected_damage() * 2) < my_hp()))
+
+	if((my_class() == $class[Avatar of Sneaky Pete]) && ((expected_damage() * 2) < my_hp()))
+	{
+		int maxAudience = 30;
+		if($items[Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)] contains equipped_item($slot[shirt]))
+		{
+			maxAudience = 50;
+		}
+		if((my_mp() >= mp_cost($skill[Mug for the Audience])) && have_skill($skill[Mug for the Audience]) && (my_audience() < maxAudience))
+		{
+			return "skill " + $skill[Mug for the Audience];
+		}
+	}
+
+	if(!contains_text(combatState, "pickpocket") && ($classes[Accordion Thief, Avatar of Sneaky Pete, Disco Bandit] contains my_class()) && contains_text(text, "value=\"Pick") && ((expected_damage() * 2) < my_hp()))
 	{
 		boolean tryIt = false;
 		foreach i, drop in item_drops_array(enemy)
@@ -307,6 +321,15 @@ string cc_combatHandler(int round, string opp, string text)
 			return "pickpocket";
 		}
 	}
+
+	if((my_class() == $class[Avatar of Sneaky Pete]) && ((expected_damage() * 2) < my_hp()))
+	{
+		if((my_mp() >= mp_cost($skill[Mug for the Audience])) && have_skill($skill[Mug for the Audience]))
+		{
+			return "skill " + $skill[Mug for the Audience];
+		}
+	}
+
 
 	if(!contains_text(combatState, "stealaccordion") && (my_class() == $class[Accordion Thief]) && have_skill($skill[Steal Accordion]) && ((expected_damage() * 2) < my_hp()))
 	{
@@ -1356,6 +1379,23 @@ string cc_combatHandler(int round, string opp, string text)
 			stunner = "skill " + $skill[Broadside];
 			costStunner = mp_cost($skill[Broadside]);
 		}
+		break;
+
+	case $class[Avatar of Sneaky Pete]:
+		if(!contains_text(combatState, to_string($skill[Peel Out])) && have_skill($skill[Peel Out]) && (my_mp() > mp_cost($skill[Peel Out])))
+		{
+			if($monsters[Bubblemint Twins, Bunch of Drunken Rats, Coaltergeist, Creepy Ginger Twin, Demoninja, Drunk Goat, Drunken Rat, Fallen Archfiend, Hellion, Knob Goblin Elite Guard, L imp, Mismatched Twins, Sabre-Toothed Goat, W imp] contains enemy)
+			{
+				set_property("cc_combatHandler", combatState + "(" + $skill[Peel Out] + ")");
+				return "skill " + $skill[Peel Out];
+			}
+		}
+		if(!contains_text(combatState, to_string($skill[Pop Wheelie])) && have_skill($skill[Pop Wheelie]) && (my_mp() > 40))
+		{
+			set_property("cc_combatHandler", combatState + "(" + $skill[Pop Wheelie] + ")");
+			return "skill " + $skill[Pop Wheelie];
+		}
+
 		break;
 
 	case $class[Accordion Thief]:

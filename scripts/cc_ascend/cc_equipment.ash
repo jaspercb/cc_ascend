@@ -445,6 +445,9 @@ void equipBaselineWeapon()
 	case $class[Avatar of Boris]:
 		poss = $items[Trusty];
 		break;
+	case $class[Avatar of Sneaky Pete]:
+		poss = $items[Knife, Revolver, Sneaky Pete\'s Basket, Bass Clarinet];
+		break;
 	case $class[Ed]:
 #		poss = $items[Titanium Assault Umbrella, Staff of Ed];
 		poss = $items[Spiked Femur, Grassy Cutlass, Oversized Pizza Cutter, Titanium Assault Umbrella, Ocarina of Space, 7961, sewage-clogged pistol];

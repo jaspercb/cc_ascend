@@ -2122,15 +2122,27 @@ string beerPong(string page)
 
 boolean useCocoon()
 {
-	if(!have_skill($skill[Cannelloni Cocoon]))
+	int mpCost = 0;
+	skill cocoon = $skill[none];
+	if(have_skill($skill[Cannelloni Cocoon]))
+	{
+		cocoon = $skill[Cannelloni Cocoon];
+		mpCost = mp_cost(cocoon);
+	}
+	if(have_skill($skill[Shake It Off]))
+	{
+		cocoon = $skill[Shake It Off];
+		mpCost = mp_cost(cocoon);
+	}
+	if(cocoon == $skill[none])
 	{
 		return false;
 	}
 	if(my_hp() < my_maxhp())
 	{
-		if(my_mp() >= 20)
+		if(my_mp() >= mpCost)
 		{
-			use_skill(1, $skill[Cannelloni Cocoon]);
+			use_skill(1, cocoon);
 			return true;
 		}
 		return false;
@@ -2446,6 +2458,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Alacri Tea]:					useItem = $item[cuppa Alacri Tea];				break;
 	case $effect[All Fired Up]:					useItem = $item[Ant Agonist];					break;
 	case $effect[All Glory To The Toad]:		useItem = $item[Colorful Toad];					break;
+	case $effect[All Revved Up]:				useSkill = $skill[Rev Engine];					break;
 	case $effect[Almost Cool]:					useItem = $item[Mostly-Broken Sunglasses];		break;
 	case $effect[Aloysius\' Antiphon of Aptitude]:useSkill = $skill[Aloysius\' Antiphon of Aptitude];break;
 	case $effect[Amazing]:						useItem = $item[Pocket Maze];					break;

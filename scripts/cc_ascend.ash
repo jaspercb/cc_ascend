@@ -22,6 +22,7 @@ import <cc_ascend/cc_mr2015.ash>
 import <cc_ascend/cc_mr2016.ash>
 
 import <cc_ascend/cc_boris.ash>
+import <cc_ascend/cc_sneakypete.ash>
 import <cc_ascend/cc_heavyrains.ash>
 import <cc_ascend/cc_picky.ash>
 import <cc_ascend/cc_standard.ash>
@@ -212,6 +213,7 @@ void initializeSettings()
 	ocrs_initializeSettings();
 	ed_initializeSettings();
 	boris_initializeSettings();
+	pete_initializeSettings();
 }
 
 boolean handleFamiliar(string type)
@@ -1137,7 +1139,7 @@ int handlePulls(int day)
 
 		if(!possessEquipment($item[Astral Shirt]))
 		{
-			if(have_skill($skill[Torso Awaregness]))
+			if(have_skill($skill[Torso Awaregness]) || have_skill($skill[Best Dressed]))
 			{
 				pullXWhenHaveY($item[Sneaky Pete\'s Leather Jacket], 1, 0);
 				if(item_amount($item[Sneaky Pete\'s Leather Jacket]) == 0)
@@ -1462,6 +1464,7 @@ void initializeDay(int day)
 	chateaumantegna_useDesk();
 	ed_initializeDay(day);
 	boris_initializeDay(day);
+	pete_initializeDay(day);
 	cs_initializeDay(day);
 
 	if(day == 1)
@@ -8414,7 +8417,7 @@ boolean LX_craftAcquireItems()
 		run_choice(1);
 	}
 
-	if(knoll_available() && (have_skill($skill[Torso Awaregness])) && (item_amount($item[Demon Skin]) > 0) && !possessEquipment($item[Demonskin Jacket]))
+	if(knoll_available() && (have_skill($skill[Torso Awaregness]) || have_skill($skill[Best Dressed])) && (item_amount($item[Demon Skin]) > 0) && !possessEquipment($item[Demonskin Jacket]))
 	{
 		//Demonskin Jacket, requires an adventure, knoll available doesn\'t matter here...
 	}
@@ -11899,7 +11902,8 @@ boolean doTasks()
 	{
 		return true;
 	}
-	if(LM_boris())
+	//Handle some Avatar dependent stuff, sort of..
+	if(LM_boris() || LM_pete())
 	{
 		return true;
 	}
