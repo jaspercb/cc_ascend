@@ -732,9 +732,12 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			doYellow = true;
 		}
-		if(($monsters[Filthworm Royal Guard, Knob Goblin Harem Girl] contains enemy) ||
-			((enemy == $monster[orcish frat boy spy]) && (my_daycount() == 1)) ||
-			((enemy == $monster[War Frat 151st Infantryman]) && (my_daycount() == 4)))
+
+		if(($monsters[Orcish Frat Boy Spy, War Frat 151st Infantryman] contains enemy) && !have_outfit("Frat Warrior Fatigues"))
+		{
+			doYellow = true;
+		}
+		if($monsters[Filthworm Royal Guard, Knob Goblin Harem Girl] contains enemy)
 		{
 			doYellow = true;
 		}
