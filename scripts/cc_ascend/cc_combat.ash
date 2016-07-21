@@ -1851,7 +1851,7 @@ string ccsJunkyard(int round, string opp, string text)
 
 	if(contains_text(text, "It whips out a hammer") || contains_text(text, "He whips out a crescent") || contains_text(text, "It whips out a pair") || contains_text(text, "It whips out a screwdriver"))
 	{
-		return "item " + $item[molybdenum magnet]";
+		return "item " + $item[molybdenum magnet];
 	}
 
 	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= mp_cost($skill[Curse of Weaksauce])))

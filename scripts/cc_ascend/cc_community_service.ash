@@ -669,11 +669,11 @@ boolean LA_cs_communityService()
 					}
 				}
 
-				if((elementalPlanes_access($element[hot])) && (item_amount($item[New Age Healing Crystal]) < 2))
-				{
-					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
-				}
-				else if(get_property("_controlPanelUsed").to_boolean())
+//				if((elementalPlanes_access($element[hot])) && (item_amount($item[New Age Healing Crystal]) < 2))
+//				{
+//					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
+//				}
+				if(get_property("_controlPanel9").to_boolean())
 				{
 					if(item_amount($item[Personal Ventilation Unit]) > 0)
 					{
@@ -2691,7 +2691,7 @@ string cs_combatNormal(int round, string opp, string text)
 	{
 		danger = true;
 	}
-	if((my_location() == $location[The Secret Government Laboratory]) && get_property("_controlPanelUsed").to_boolean())
+	if((my_location() == $location[The Secret Government Laboratory]) && get_property("_controlPanel9").to_boolean())
 	{
 		if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 32))
 		{
