@@ -2172,6 +2172,13 @@ string cc_edCombatHandler(int round, string opp, string text)
 			return "skill " + $skill[Beanscreen];
 		}
 
+		if(!contains_text(combatState, to_string($skill[Snap Fingers])) && have_skill($skill[Snap Fingers]) && (my_mp() >= mp_cost($skill[Snap Fingers])))
+		{
+			set_property("cc_combatHandler", combatState + "(" + $skill[Snap Fingers] + ")");
+			return "skill " + $skill[Snap Fingers];
+		}
+
+
 		if((my_location() == $location[The Obligatory Pirate\'s Cove]) || (my_location() == $location[barrrney\'s barrr]) ||
 			(enemy == $monster[gaudy pirate]))
 		{

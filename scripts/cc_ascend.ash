@@ -1455,6 +1455,19 @@ void initializeDay(int day)
 		}
 	}
 
+	if((item_amount($item[GameInformPowerDailyPro Magazine]) > 0) && (my_daycount() == 2) && (cc_my_path() == "Community Service"))
+	{
+		visit_url("inv_use.php?pwd=&which=3&whichitem=6174", true);
+		visit_url("inv_use.php?pwd=&which=3&whichitem=6174&confirm=Yep.", true);
+		set_property("cc_disableAdventureHandling", "yes");
+		ccAdv(1, $location[Video Game Level 1]);
+		set_property("cc_disableAdventureHandling", "no");
+		if(item_amount($item[Dungeoneering Kit]) > 0)
+		{
+			use(1, $item[Dungeoneering Kit]);
+		}
+	}
+
 	if((my_daycount() != 1) && (possessEquipment($item[Plastic Detective Badge]) || possessEquipment($item[Bronze Detective Badge])))
 #	if((my_daycount() != 1) && (possessEquipment($item[Plastic Detective Badge]) || possessEquipment($item[Bronze Detective Badge]) || possessEquipment($item[Silver Detective Badge]) || possessEquipment($item[Gold Detective Badge])))
 	{
@@ -3444,13 +3457,19 @@ boolean L13_towerNSTower()
 		{
 			equip($slot[shirt], $item[Shocked Shell]);
 		}
-		if(equipped_item($slot[shirt]) == $item[astral shirt])
+		if(have_skill($skill[Belch the Rainbow]))
 		{
 			sources = 6;
 		}
-		else if(have_skill($skill[Belch the Rainbow]))
+		else
 		{
-			sources = 6;
+			foreach damage in $strings[Cold Damage, Hot Damage, Sleaze Damage, Spooky Damage, Stench Damage]
+			{
+				if(numeric_modifier(damage) > 0)
+				{
+					sources += 1;
+				}
+			}
 		}
 		if(have_skill($skill[headbutt]))
 		{
@@ -6547,6 +6566,13 @@ boolean L11_getBeehive()
 	{
 		return false;
 	}
+	if(internalQuestStatus("questL13Final") >= 7)
+	{
+		print("Nevermind, wall of skin already defeated. We do not need a beehive. Bloop.", "blue");
+		set_property("cc_getBeehive", false);
+		return false;
+	}
+
 
 	print("Must find a beehive!", "blue");
 

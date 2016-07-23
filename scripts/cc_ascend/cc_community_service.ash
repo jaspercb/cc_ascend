@@ -488,8 +488,9 @@ boolean LA_cs_communityService()
 				string temp = visit_url("curse.php?action=use&pwd=&whichitem=3274&targetplayer=" + get_player_id(my_name()));
 			}
 
-			if((isOverdueDigitize() || isOverdueArrow()) && elementalPlanes_access($element[stench]))
+			if((isOverdueDigitize() || isOverdueArrow()) && elementalPlanes_access($element[stench]) && (get_property("_cc_margaritaWanderer") != my_turncount()))
 			{
+				set_property("_cc_margaritaWanderer", my_turncount());
 				print("A Wanderer event is expected now, diverting... (Status: 7 with Margarita)", "blue");
 				ccAdv(1, $location[Barf Mountain], "cs_combatNormal");
 				return true;
@@ -1753,6 +1754,7 @@ boolean LA_cs_communityService()
 			}
 			buffMaintain($effect[Smooth Movements], 10, 1, 1);
 			buffMaintain($effect[The Sonata of Sneakiness], 20, 1, 1);
+			uneffect($effect[Dog Breath]);
 
 			if((item_amount($item[Snow Berries]) > 0) && (have_effect($effect[Snow Shoes]) == 0) && (item_amount($item[Snow Cleats]) == 0))
 			{
