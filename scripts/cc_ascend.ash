@@ -2191,7 +2191,7 @@ void doBedtime()
 			print(get_property("cc_banishes_day" + my_daycount()));
 			print(get_property("cc_yellowRay_day" + my_daycount()));
 			pullsNeeded("evaluate");
-			if((get_property("_photocopyUsed") == "false") && (is_unrestricted($item[Deluxe Fax Machine])) && (my_adventures() > 0) && (my_class() != $class[Avatar of Boris]))
+			if((get_property("_photocopyUsed") == "false") && (is_unrestricted($item[Deluxe Fax Machine])) && (my_adventures() > 0) && !($classes[Avatar of Boris, Avatar of Sneaky Pete] contains my_class()))
 			{
 				print("You may have a fax that you can use. Check it out!", "blue");
 			}
@@ -9104,6 +9104,7 @@ boolean L12_startWar()
 	buffMaintain($effect[Snow Shoes], 0, 1, 1);
 
 	ccAdv(1, $location[Wartime Hippy Camp]);
+	set_property("choiceAdventure142", "3");
 	if(contains_text(get_property("lastEncounter"), "Blockin\' Out the Scenery"))
 	{
 		set_property("cc_prewar", "started");
@@ -9221,10 +9222,6 @@ boolean L12_preOutfit()
 	{
 		return false;
 	}
-	if(cc_my_path() == "Heavy Rains")
-	{
-		abort("We shouldn't be going down this path in HR");
-	}
 	if(possessEquipment($item[Filthy Knitted Dread Sack]) && possessEquipment($item[Filthy Corduroys]))
 	{
 		set_property("cc_prehippy", "firstOutfit");
@@ -9235,6 +9232,10 @@ boolean L12_preOutfit()
 		set_property("cc_prehippy", "firstOutfit");
 		return true;
 	}
+	if(cc_my_path() == "Heavy Rains")
+	{
+		abort("We shouldn't be going down this path in HR");
+	}
 
 	if(my_class() == $class[Ed])
 	{
@@ -9244,17 +9245,6 @@ boolean L12_preOutfit()
 		}
 	}
 
-#	if((my_class() == $class[Ed]) && have_skill($skill[Wrath of Ra]))
-#	{
-#		if(have_effect($effect[Everything Looks Yellow]) != 0)
-#		{
-#			return false;
-#		}
-#		if(my_mp() < 40)
-#		{
-#			return false;
-#		}
-#	}
 	if(have_skill($skill[Calculate the Universe]) && (my_daycount() == 1))
 	{
 		return false;

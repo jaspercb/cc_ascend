@@ -2640,6 +2640,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Memories of Puppy Love]:		useItem = $item[Old Love Note];					break;
 	case $effect[Merry Smithsness]:				useItem = $item[Flaskfull of Hollow];			break;
 	case $effect[The Moxious Madrigal]:			useSkill = $skill[The Moxious Madrigal];		break;
+	case $effect[Muffled]:						useSkill = $skill[Rev Engine];					break;
 	case $effect[Musk of the Moose]:			useSkill = $skill[Musk of the Moose];			break;
 	case $effect[Musky]:						useItem = $item[Lynyrd Musk];					break;
 	case $effect[Mutated]:						useItem = $item[Gremlin Mutagen];				break;
@@ -2653,6 +2654,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Notably Lovely]:				useItem = $item[Confiscated Love Note];			break;
 	case $effect[Obscuri Tea]:					useItem = $item[cuppa Obscuri tea];				break;
 	case $effect[Ode to Booze]:					useSkill = $skill[The Ode to Booze];			break;
+	case $effect[Of Course It Looks Great]:		useSkill = $skill[Check Hair];					break;
 	case $effect[Oiled Skin]:					useItem = $item[Skin Oil];						break;
 	case $effect[Oiled-Up]:						useItem = $item[Pec Oil];						break;
 	case $effect[OMG WTF]:						useItem = $item[Confiscated Cell Phone];		break;

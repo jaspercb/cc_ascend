@@ -13,6 +13,7 @@ string cc_combatHandler(int round, string opp, string text)
 {
 	#print("cc_combatHandler: " + round, "brown");
 	#Yes, round 0, really.
+	monster enemy = to_monster(opp);
 	if(round == 0)
 	{
 		print("cc_combatHandler: " + round, "brown");
@@ -21,6 +22,35 @@ string cc_combatHandler(int round, string opp, string text)
 		set_property("cc_funPrefix", "");
 		set_property("cc_combatHandlerThunderBird", "0");
 		set_property("cc_combatHandlerFingernailClippers", "0");
+
+		if(my_location() == $location[The Deep Machine Tunnels])
+		{
+			if(!($monsters[Perceiver of Sensations, Performer of Actions, Thinker of Thoughts] contains enemy))
+			{
+				print("In The Deep Machine Tunnels and did not encounter expected monster....", "red");
+				if((get_counters("Romantic Monster window end", 0, 200) == "Romantic Monster window end") || isOverdueArrow())
+				{
+					print("Probably an arrow encounter... trying to adjust...", "red");
+					if(to_monster(get_property("romanticTarget")) == enemy)
+					{
+						if(get_property("_romanticFightsLeft").to_int() == 0)
+						{
+							print("Have a romantic target but no fights left... can not fix wanderers", "red");
+						}
+						else
+						{
+							set_property("_romanticFightsLeft", get_property("_romanticFightsLeft").to_int() - 1);
+							print("Attempted to decrement romantic fights left, can not restore counter.", "red");
+						}
+					}
+					else
+					{
+						print("Not an arrow encounter... can not fix wanderers...", "red");
+					}
+				}
+			}
+		}
+
 	}
 
 	set_property("cc_diag_round", round);
@@ -30,7 +60,6 @@ string cc_combatHandler(int round, string opp, string text)
 		abort("Somehow got to 60 rounds.... aborting");
 	}
 
-	monster enemy = to_monster(opp);
 	if(my_path() == "One Crazy Random Summer")
 	{
 		enemy = ocrs_helper(text);

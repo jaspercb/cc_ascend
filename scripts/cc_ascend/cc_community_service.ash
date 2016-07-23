@@ -819,8 +819,6 @@ boolean LA_cs_communityService()
 				}
 			}
 
-			buffMaintain($effect[Simmering], 0, 1, 1);
-
 			if((spleen_left() >= 3) && (item_amount($item[Handful of Smithereens]) > 0))
 			{
 				chew(1, $item[Handful of Smithereens]);
@@ -850,16 +848,24 @@ boolean LA_cs_communityService()
 			cli_execute("hatter 11");
 
 
-			shrugAT($effect[Ode to Booze]);
-			buffMaintain($effect[Ode to Booze], 50, 1, 10);
+			if(item_amount($item[Experimental Serum G-9]) > 2)
+			{
+				buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
+			}
+
 			if(!get_property("cc_saveMargarita").to_boolean() && (inebriety_left() == 0))
 			{
+				buffMaintain($effect[Simmering], 0, 1, 1);
+				shrugAT($effect[Ode to Booze]);
+				buffMaintain($effect[Ode to Booze], 50, 1, 10);
 				overdrink(1, $item[Emergency Margarita]);
 			}
 			else
 			{
+				shrugAT($effect[Ode to Booze]);
+				buffMaintain($effect[Ode to Booze], 50, 1, 10);
 				put_closet(item_amount($item[Emergency Margarita]), $item[Emergency Margarita]);
-				abort("Saving Emergency Margarita, forcing abort, done with day. Overdrink and run again.");
+				abort("Saving Emergency Margarita, forcing abort, done with day. Overdrink, cast simmer,  and run again.");
 			}
 			return true;
 		}
@@ -1584,7 +1590,7 @@ boolean LA_cs_communityService()
 				drink(item_amount($item[Astral Pilsner]), $item[Astral Pilsner]);
 			}
 
-			if((my_level() < 8) && !get_property("_fancyHotDogEaten").to_boolean())
+			if((my_level() < 8) && !get_property("_fancyHotDogEaten").to_boolean() && (fullness_left() >= 12))
 			{
 				if(get_property("cc_noSleepingDog").to_boolean() || have_skill($skill[Dog Tired]))
 				{
@@ -2420,12 +2426,8 @@ boolean cs_eat_stuff(int quest)
 		return false;
 	}
 
-	if(quest == 0)
+	if((quest == 0) && (my_fullness() == 0))
 	{
-		if(my_fullness() != 0)
-		{
-			return false;
-		}
 		if(cc_haveSourceTerminal())
 		{
 			if((item_amount($item[Source Essence]) < 10) && (item_amount($item[Browser Cookie]) == 0))
@@ -2475,12 +2477,6 @@ boolean cs_eat_stuff(int quest)
 
 	if(quest == 9)
 	{
-		if(item_amount($item[Weird Gazelle Steak]) == 0)
-		{
-			print("We don't seem to have a Weird Gazelle Steak but we should. Refreshing and trying again...", "red");
-			cli_execute("refresh all");
-		}
-
 		if(item_amount($item[Weird Gazelle Steak]) > 0)
 		{
 			if(item_amount($item[Milk of Magnesium]) > 0)

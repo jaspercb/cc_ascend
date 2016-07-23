@@ -100,6 +100,7 @@ void handlePostAdventure()
 	if(my_class() == $class[Avatar of Sneaky Pete])
 	{
 		buffMaintain($effect[All Revved Up], 25, 1, 10);
+		buffMaintain($effect[Of Course It Looks Great], 55, 1, 10);
 	}
 
 	if(my_path() == "Actually Ed the Undying")
@@ -381,10 +382,7 @@ void handlePostAdventure()
 	}
 
 	#+C Maintenance
-	if((my_location() == $location[The F\'c\'le]) ||
-		(my_location() == $location[Sonofa Beach]) ||
-		(my_location() == $location[The Black Forest])
-	)
+	if($locations[The Black Forest, The F\'c\'le, Sonofa Beach] contains my_location())
 	{
 		uneffect($effect[The Sonata of Sneakiness]);
 		buffMaintain($effect[Hippy Stench], 0, 1, 10);
@@ -405,6 +403,7 @@ void handlePostAdventure()
 			uneffect($effect[Carlweather\'s Cantata Of Confrontation]);
 			buffMaintain($effect[Smooth Movements], 15, 1, 2);
 			buffMaintain($effect[The Sonata of Sneakiness], 25, 1, 2);
+			buffMaintain($effect[Muffled], 15, 1, 1);
 		}
 	}
 
@@ -444,6 +443,7 @@ void handlePostAdventure()
 	{
 		buffMaintain($effect[Smooth Movements], 15, 1, 2);
 		buffMaintain($effect[The Sonata of Sneakiness], 25, 1, 2);
+		buffMaintain($effect[Muffled], 15, 1, 1);
 	}
 
 	effect awolDesired = awol_walkBuff();
