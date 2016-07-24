@@ -466,7 +466,6 @@ boolean LA_cs_communityService()
 					return true;
 				}
 			}
-
 		}
 		else if((curQuest == 7) && (item_amount($item[Emergency Margarita]) > 0))
 		{
@@ -602,7 +601,19 @@ boolean LA_cs_communityService()
 				useCocoon();
 			}
 
+
+			boolean doFarm = false;
+			if(!have_familiar($familiar[Puck Man]) && !have_familiar($familiar[Ms. Puck Man]) && (get_property("cc_csPuckCounter").to_int() > 0))
+			{
+				set_property("cc_csPuckCounter", get_property("cc_csPuckCounter").to_int() - 1);
+				doFarm = true;
+			}
 			if(((item_amount($item[Power Pill]) < 2) || (item_amount($item[Yellow Pixel]) < pixelsNeed)) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
+			{
+				doFarm = true;
+			}
+
+			if(doFarm)
 			{
 				if(get_property("cc_tryPowerLevel").to_boolean())
 				{
@@ -852,6 +863,12 @@ boolean LA_cs_communityService()
 			if(item_amount($item[Experimental Serum G-9]) > 2)
 			{
 				buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
+			}
+			if((get_property("puzzleChampBonus").to_int() == 20) && !get_property("_witchessBuff").to_boolean())
+			{
+				visit_url("campground.php?action=witchess");
+				visit_url("choice.php?whichchoice=1181&pwd=&option=3");
+				visit_url("choice.php?whichchoice=1183&pwd=&option=2");
 			}
 
 			if(!get_property("cc_saveMargarita").to_boolean() && (inebriety_left() == 0))
@@ -1839,13 +1856,12 @@ boolean LA_cs_communityService()
 			}
 
 			buffMaintain($effect[Spice Haze], 250, 1, 1);
-
-			if((get_property("puzzleChampBonus").to_int() == 20) && !get_property("_witchessBuff").to_boolean())
-			{
-				visit_url("campground.php?action=witchess");
-				visit_url("choice.php?whichchoice=1181&pwd=&option=3");
-				visit_url("choice.php?whichchoice=1183&pwd=&option=2");
-			}
+//			if((get_property("puzzleChampBonus").to_int() == 20) && !get_property("_witchessBuff").to_boolean())
+//			{
+//				visit_url("campground.php?action=witchess");
+//				visit_url("choice.php?whichchoice=1181&pwd=&option=3");
+//				visit_url("choice.php?whichchoice=1183&pwd=&option=2");
+//			}
 
 			if((inebriety_left() >= 1) && (have_effect($effect[Sacr&eacute; Mental]) == 0))
 			{
@@ -2106,6 +2122,10 @@ void cs_initializeDay(int day)
 		if(get_property("cc_day1_init") != "finished")
 		{
 			set_property("cc_day1_dna", "finished");
+			if(!have_familiar($familiar[Puck Man]) && !have_familiar($familiar[Ms. Puck Man]))
+			{
+				set_property("cc_csPuckCounter", 20);
+			}
 			if(item_amount($item[transmission from planet Xi]) > 0)
 			{
 				use(1, $item[transmission from planet xi]);
