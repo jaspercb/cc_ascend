@@ -1422,7 +1422,7 @@ string cc_combatHandler(int round, string opp, string text)
 	case $class[Avatar of Sneaky Pete]:
 		if(!contains_text(combatState, to_string($skill[Peel Out])) && have_skill($skill[Peel Out]) && (my_mp() > mp_cost($skill[Peel Out])))
 		{
-			if($monsters[Bubblemint Twins, Bunch of Drunken Rats, Coaltergeist, Creepy Ginger Twin, Demoninja, Drunk Goat, Drunken Rat, Fallen Archfiend, Hellion, Knob Goblin Elite Guard, L imp, Mismatched Twins, Sabre-Toothed Goat, W imp] contains enemy)
+			if($monsters[Bubblemint Twins, Bunch of Drunken Rats, Coaltergeist, Creepy Ginger Twin, Demoninja, Drunk Goat, Drunken Rat, Fallen Archfiend, Hellion, Knob Goblin Elite Guard, L imp, Mismatched Twins, Sabre-Toothed Goat, Tomb Asp, Tomb Servant,  W imp] contains enemy)
 			{
 				set_property("cc_combatHandler", combatState + "(" + $skill[Peel Out] + ")");
 				return "skill " + $skill[Peel Out];
