@@ -2707,7 +2707,7 @@ boolean L11_aridDesert()
 		progress = 3;
 	}
 
-	if((!possessEquipment(desertBuff)) && (my_class() != $class[Avatar of Boris]))
+	if((!possessEquipment(desertBuff)) && !($classes[Avatar of Boris, Avatar of Sneaky Pete] contains my_class()))
 	{
 		if((my_level() >= 12) && !in_hardcore())
 		{
@@ -5100,6 +5100,12 @@ boolean LX_spookyravenSecond()
 	if((get_property("cc_spookyravensecond") != "") || (get_property("cc_spookyravennecklace") != "done"))
 	{
 		return false;
+	}
+
+	if(internalQuestStatus("questM21Dance") < 1)
+	{
+		print("Invalid questM21Dance detected. Trying to override", "red");
+		set_property("questM21Dance", "step1");
 	}
 
 	if((item_amount($item[Lady Spookyraven\'s Powder Puff]) == 1) && (item_amount($item[Lady Spookyraven\'s Dancing Shoes]) == 1) && (item_amount($item[Lady Spookyraven\'s Finest Gown]) == 1))

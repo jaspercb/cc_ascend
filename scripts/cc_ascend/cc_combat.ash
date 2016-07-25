@@ -1434,6 +1434,12 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Pop Wheelie];
 		}
 
+		if(!contains_text(combatState, to_string($skill[Snap Fingers])) && have_skill($skill[Snap Fingers]) && (my_mp() >= mp_cost($skill[Snap Fingers])))
+		{
+			stunner = $skill[Snap Fingers];
+			costStunner = mp_cost($skill[Snap Fingers]);
+		}
+
 		break;
 
 	case $class[Accordion Thief]:

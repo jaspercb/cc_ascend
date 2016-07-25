@@ -370,9 +370,16 @@ boolean LA_cs_communityService()
 
 			if(my_ascensions() > get_property("lastGuildStoreOpen").to_int())
 			{
-				buffMaintain($effect[Musk of the Moose], 10, 1, 1);
-				ccAdv(1, $location[The Haunted Pantry], "cs_combatNormal");
-				return true;
+				if($classes[Pastamancer, Sauceror] contains my_class())
+				{
+					buffMaintain($effect[Musk of the Moose], 10, 1, 1);
+					ccAdv(1, $location[The Haunted Pantry], "cs_combatNormal");
+					return true;
+				}
+				else
+				{
+					abort("Wrong class selected. Can not rectify...");
+				}
 			}
 
 			if((item_amount($item[Tomato]) < 2) && have_skill($skill[Advanced Saucecrafting]))
@@ -469,6 +476,7 @@ boolean LA_cs_communityService()
 		}
 		else if((curQuest == 7) && (item_amount($item[Emergency Margarita]) > 0))
 		{
+			buffMaintain($effect[Sweetbreads Flamb&eacute;], 0, 1, 1);
 			if((have_effect($effect[substats.enh]) == 0) && (cc_sourceTerminalEnhanceLeft() >= 1))
 			{
 				cc_sourceTerminalEnhance("substats");
@@ -1366,7 +1374,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Blue Swayed], 0, 1, 50);
 			buffMaintain($effect[Blue Swayed], 0, 1, 50);
 			buffMaintain($effect[Loyal Tea], 0, 1, 1);
-			if((my_spleen_use() < 15) && (item_amount($item[Abstraction: Joy]) > 0) && (have_effect($effect[Joy]) == 0))
+			if((spleen_left() > 0) && (item_amount($item[Abstraction: Joy]) > 0) && (have_effect($effect[Joy]) == 0))
 			{
 				chew(1, $item[Abstraction: Joy]);
 			}
@@ -2552,21 +2560,14 @@ boolean cs_eat_stuff(int quest)
 				use(1, $item[Milk of Magnesium]);
 			}
 			eat(1, $item[Sausage Without A Cause]);
-			if(item_amount($item[Limp Broccoli]) > 0)
+			if(item_amount($item[Ice Harvest]) > 0)
 			{
-				eat(1, $item[Limp Broccoli]);
+				eat(1, $item[Ice Harvest]);
 			}
-			else
+			if(item_amount($item[Snow Berries]) > 1)
 			{
-				if(item_amount($item[Ice Harvest]) > 0)
-				{
-					eat(1, $item[Ice Harvest]);
-				}
-				if(item_amount($item[Snow Berries]) > 1)
-				{
-					cli_execute("make 1 snow crab");
-					eat(1, $item[Snow Crab]);
-				}
+				cli_execute("make 1 snow crab");
+				eat(1, $item[Snow Crab]);
 			}
 			eatFancyDog("junkyard dog");
 		}
