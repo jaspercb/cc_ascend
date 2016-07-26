@@ -9238,7 +9238,7 @@ boolean L12_getOutfit()
 
 boolean L12_preOutfit()
 {
-	if(item_amount($item[Dingy Dinghy]) == 0)
+	if(get_property("lastIslandUnlock").to_int() != my_ascensions())
 	{
 		return false;
 	}
@@ -10607,6 +10607,12 @@ boolean LX_pirateBeerPong()
 	{
 		return false;
 	}
+
+	if((get_property("cc_prewar") != "") && (get_property("cc_war") != "finished"))
+	{
+		return false;
+	}
+
 	if(!outfit("swashbuckling getup"))
 	{
 		abort("Could not put on Swashbuckling Getup, aborting");
@@ -10670,6 +10676,12 @@ boolean LX_pirateBlueprint()
 	{
 		return false;
 	}
+
+	if((get_property("cc_prewar") != "") && (get_property("cc_war") != "finished"))
+	{
+		return false;
+	}
+
 	if((my_class() == $class[Ed]) && (my_maxhp() < 70))
 	{
 		if((item_amount($item[Cap\'m Caronch\'s Map]) != 0) && (item_amount($item[Cap\'m Caronch\'s Nasty Booty]) == 0))
@@ -10749,6 +10761,11 @@ boolean LX_pirateInsults()
 		return false;
 	}
 
+	if((get_property("cc_prewar") != "") && (get_property("cc_war") != "finished"))
+	{
+		return false;
+	}
+
 /*	if((my_class() == $class[Ed]) && (my_maxhp() < 70))
 	{
 		if((item_amount($item[Cap\'m Caronch\'s Map]) != 0) && (item_amount($item[Cap\'m Caronch\'s Nasty Booty]) == 0))
@@ -10814,7 +10831,13 @@ boolean LX_pirateOutfit()
 	{
 		return false;
 	}
-	if(item_amount($item[Dingy Dinghy]) == 0)
+
+	if((get_property("cc_prewar") != "") && (get_property("cc_war") != "finished"))
+	{
+		return false;
+	}
+
+	if(get_property("lastIslandUnlock").to_int() != my_ascensions())
 	{
 		return false;
 	}

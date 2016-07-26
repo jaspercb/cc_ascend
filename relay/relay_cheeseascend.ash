@@ -135,6 +135,10 @@ void main()
 	file_to_map("cc_ascend_settings.txt", s);
 
 	boolean dickstab = false;
+	writeln("<form action='' method='post'>");
+	writeln("<input type='hidden' name='cc_interrupt' value='true'/>");
+	writeln("<input type='submit' name='' value='Interrupt Script'/></form>");
+
 
 	fields = form_fields();
 	if(count(fields) > 0)
