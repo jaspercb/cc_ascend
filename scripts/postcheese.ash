@@ -101,6 +101,30 @@ void handlePostAdventure()
 	{
 		buffMaintain($effect[All Revved Up], 25, 1, 10);
 		buffMaintain($effect[Of Course It Looks Great], 55, 1, 10);
+		if(have_skill($skill[Throw Party]) && !get_property("_petePartyThrown").to_boolean())
+		{
+			int threshold = 50;
+			if(!possessEquipment($item[Sneaky Pete\'s Leather Jacket]) && !possessEquipment($item[Sneaky Pete\'s Leather Jacket (Collar Popped)]))
+			{
+				threshold = 30;
+			}
+			if(my_audience() >= threshold)
+			{
+				use_skill(1, $skill[Throw Party]);
+			}
+		}
+		if(have_skill($skill[Incite Riot]) && !get_property("_peteRiotIncited").to_boolean())
+		{
+			int threshold = -50;
+			if(!possessEquipment($item[Sneaky Pete\'s Leather Jacket]) && !possessEquipment($item[Sneaky Pete\'s Leather Jacket (Collar Popped)]))
+			{
+				threshold = -30;
+			}
+			if(my_audience() <= threshold)
+			{
+				use_skill(1, $skill[Incite Riot]);
+			}
+		}
 	}
 
 	if(my_path() == "Actually Ed the Undying")
@@ -404,6 +428,7 @@ void handlePostAdventure()
 			buffMaintain($effect[Smooth Movements], 15, 1, 2);
 			buffMaintain($effect[The Sonata of Sneakiness], 25, 1, 2);
 			buffMaintain($effect[Muffled], 15, 1, 1);
+			buffMaintain($effect[Brooding], 25, 1, 1);
 		}
 	}
 
@@ -444,6 +469,7 @@ void handlePostAdventure()
 		buffMaintain($effect[Smooth Movements], 15, 1, 2);
 		buffMaintain($effect[The Sonata of Sneakiness], 25, 1, 2);
 		buffMaintain($effect[Muffled], 15, 1, 1);
+		buffMaintain($effect[Brooding], 25, 1, 1);
 	}
 
 	effect awolDesired = awol_walkBuff();

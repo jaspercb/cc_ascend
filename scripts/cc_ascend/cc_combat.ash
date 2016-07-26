@@ -585,19 +585,22 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= 40))
+	if((have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
 	{
 		if((enemy == $monster[pygmy shaman]) && (my_location() == $location[The Hidden Apartment Building]) && (item_amount($item[soft green echo eyedrop antidote]) > 3))
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
 			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
-			return "skill transcendent olfaction";
+			return "skill " + $skill[Transcendent Olfaction];
 		}
-		if((enemy == $monster[Gladiator]) && (my_location() == $location[The Roman Forum]))
+	}
+	if((get_property("makeFriendsMonster") != $monster[Pygmy Shaman]) && have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])))
+	{
+		if((enemy == $monster[pygmy shaman]) && (my_location() == $location[The Hidden Apartment Building]))
 		{
-			set_property("cc_combatHandler", combatState + "(olfaction)");
-			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
-			return "skill transcendent olfaction";
+			set_property("cc_combatHandler", combatState + "(makefriends)");
+			handleTracker(enemy, $skill[Make Friends], "cc_sniffs");
+			return "skill " + $skill[Make Friends];
 		}
 	}
 
@@ -607,37 +610,55 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
 			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
-			return "skill transcendent olfaction";
+			return "skill " + $skill[Transcendent Olfaction];
 		}
 	}
 
-
-
-	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= 40) && (!have_skill($skill[Rain Man]) || get_property("cc_100familiar").to_boolean()))
+	if((have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (!have_skill($skill[Rain Man]) || get_property("cc_100familiar").to_boolean()))
 	{
-		if((enemy == $monster[writing desk]) && (my_location() == $location[The Haunted Library]) && (get_property("cc_spookyravennecklace") != "done"))
+		if((enemy == $monster[Writing Desk]) && (my_location() == $location[The Haunted Library]) && (get_property("cc_spookyravennecklace") != "done"))
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
 			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
-			return "skill transcendent olfaction";
+			return "skill " + $skill[Transcendent Olfaction];
 		}
 	}
 
-	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= 40) && (enemy == $monster[Smoke Monster]) && (item_amount($item[Pack Of Smokes]) > 0))
+	if((get_property("makeFriendsMonster") != $monster[Writing Desk]) && have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])))
 	{
-		set_property("cc_combatHandler", combatState + "(olfaction)");
-		handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
-		return "skill transcendent olfaction";
+		if((enemy == $monster[Writing Desk]) && (my_location() == $location[The Haunted Library]) && (get_property("cc_spookyravennecklace") != "done"))
+		{
+			set_property("cc_combatHandler", combatState + "(makefriends)");
+			handleTracker(enemy, $skill[Make Friends], "cc_sniffs");
+			return "skill " + $skill[Make Friends];
+		}
 	}
 
 
-	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
+	if((have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (enemy == $monster[Smoke Monster]) && (item_amount($item[Pack Of Smokes]) > 0))
+	{
+		set_property("cc_combatHandler", combatState + "(olfaction)");
+		handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
+		return "skill " + $skill[Transcendent Olfaction];
+	}
+
+
+	if((have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
 	{
 		if($monsters[Blooper, Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
 			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
-			return "skill transcendent olfaction";
+			return "skill " + $skill[Transcendent Olfaction];
+		}
+	}
+	if(have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])))
+	{
+		if((get_property("makeFriendsMonster") != enemy) && ($monsters[Blooper, Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat] contains enemy))
+		{
+			set_property("cc_combatHandler", combatState + "(makefriends)");
+			handleTracker(enemy, $skill[Make Friends], "cc_sniffs");
+			return "skill " + $skill[Make Friends];
 		}
 	}
 	if(!contains_text(get_property("longConMonster"),enemy) && have_skill($skill[Long Con]) && (my_mp() >= mp_cost($skill[Long Con])) && (get_property("_longConUsed").to_int() < 5))

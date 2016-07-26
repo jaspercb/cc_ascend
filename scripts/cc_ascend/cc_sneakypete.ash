@@ -22,11 +22,6 @@ void pete_initializeSettings()
 		set_property("cc_holeinthesky", true);
 		set_property("cc_useCubeling", false);
 		set_property("cc_wandOfNagamar", false);
-
-#		# Mafia r16876 does not see the Boris Helms in storage and will not pull them.
-#		# We have to force the issue.
-#		string temp = visit_url("storage.php?action=pull&whichitem1=7250&howmany1=1&pwd");
-#		temp = visit_url("storage.php?action=pull&whichitem1=7267&howmany1=1&pwd");
 	}
 }
 
@@ -106,12 +101,10 @@ boolean pete_buySkills()
 	{
 		return false;
 	}
-	if(have_skill($skill[Natural Dancer]) && have_skill($skill[Flash Headlight]) && have_skill($skill[Walk Away From Explosion]))
+	if(have_skill($skill[Natural Dancer]) && have_skill($skill[Flash Headlight]) && have_skill($skill[Walk Away From Explosion]) && (my_level() > 12))
 	{
 		return false;
 	}
-
-	//Also handle motorcycle...
 
 	string page = visit_url("da.php?place=gate3");
 	matcher my_skillPoints = create_matcher("<b>(\\d\+)</b> skill point", page);
