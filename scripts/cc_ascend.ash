@@ -1175,7 +1175,10 @@ int handlePulls(int day)
 			pullXWhenHaveY(whatHiMein(), 3, 0);
 		}
 
-		pullXWhenHaveY($item[over-the-shoulder folder holder], 1, 0);
+		if((equipped_item($slot[folder1]) == $item[folder (tranquil landscape)]) && (equipped_item($slot[folder2]) == $item[folder (skull and crossbones)]) && (equipped_item($slot[folder3]) == $item[folder (Jackass Plumber)]))
+		{
+			pullXWhenHaveY($item[over-the-shoulder folder holder], 1, 0);
+		}
 		if((my_primestat() == $stat[Muscle]) && (cc_my_path() != "Heavy Rains"))
 		{
 			if(closet_amount($item[Fake Washboard]) == 0)

@@ -3215,7 +3215,6 @@ boolean do_cs_quest(int quest)
 	case 10:	ccMaximize("hot res, -equip snow suit", 1500, 0, false);			break;
 	}
 
-
 	int [int] questList = get_cs_questList();
 	if(((questList contains quest) && (my_adventures() >= questList[quest])) || (quest == 30))
 	{
