@@ -594,7 +594,7 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Transcendent Olfaction];
 		}
 	}
-	if((get_property("makeFriendsMonster") != $monster[Pygmy Shaman]) && have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])))
+	if((get_property("makeFriendsMonster") != $monster[Pygmy Shaman]) && have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
 	{
 		if((enemy == $monster[pygmy shaman]) && (my_location() == $location[The Hidden Apartment Building]))
 		{
@@ -624,7 +624,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((get_property("makeFriendsMonster") != $monster[Writing Desk]) && have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])))
+	if((get_property("makeFriendsMonster") != $monster[Writing Desk]) && have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
 	{
 		if((enemy == $monster[Writing Desk]) && (my_location() == $location[The Haunted Library]) && (get_property("cc_spookyravennecklace") != "done"))
 		{
@@ -652,7 +652,7 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Transcendent Olfaction];
 		}
 	}
-	if(have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])))
+	if(have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
 	{
 		if((get_property("makeFriendsMonster") != enemy) && ($monsters[Blooper, Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat] contains enemy))
 		{
