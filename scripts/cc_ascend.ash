@@ -11386,7 +11386,7 @@ boolean LX_setBallroomSong()
 	set_property("choiceAdventure90", "3");
 
 	set_property("choiceAdventure106", "2");
-	if($classes[Avatar of Boris, Ed] contains my_class())
+	if($classes[Avatar of Boris, Avatar of Sneaky Pete, Ed] contains my_class())
 	{
 		set_property("choiceAdventure106", "3");
 	}

@@ -314,7 +314,11 @@ void handlePostAdventure()
 
 	if(my_path() == "Community Service")
 	{
-		if(have_skill($skill[Summon Taffy]))
+		if(have_skill($skill[Summon BRICKOs]) && (get_property("_brickoEyeSummons").to_int() < 3))
+		{
+			libram = $skill[Summon BRICKOs];
+		}
+		else if(have_skill($skill[Summon Taffy]))
 		{
 			libram = $skill[Summon Taffy];
 		}
