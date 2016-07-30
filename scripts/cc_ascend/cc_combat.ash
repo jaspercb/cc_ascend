@@ -574,7 +574,6 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-
 	if((item_amount($item[The Big Book of Pirate Insults]) > 0) && (!contains_text(combatState, "insults")) && (numPirateInsults() < 8))
 	{
 		if((my_location() == $location[The Obligatory Pirate\'s Cove]) || (my_location() == $location[barrrney\'s barrr]) ||
@@ -585,7 +584,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
+	if((!contains_text(combatState, "(olfaction)")) && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
 	{
 		if((enemy == $monster[pygmy shaman]) && (my_location() == $location[The Hidden Apartment Building]) && (item_amount($item[soft green echo eyedrop antidote]) > 3))
 		{
@@ -594,7 +593,7 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Transcendent Olfaction];
 		}
 	}
-	if((get_property("makeFriendsMonster") != $monster[Pygmy Shaman]) && have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
+	if((!contains_text(combatState, "(makefriends)")) && (get_property("makeFriendsMonster") != $monster[Pygmy Shaman]) && have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
 	{
 		if((enemy == $monster[pygmy shaman]) && (my_location() == $location[The Hidden Apartment Building]))
 		{
@@ -604,7 +603,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= 40) && get_property("kingLiberated").to_boolean())
+	if((!contains_text(combatState, "(olfaction)")) && (have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= 40) && get_property("kingLiberated").to_boolean())
 	{
 		if(enemy == $monster[Gurgle the Turgle])
 		{
@@ -614,7 +613,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (!have_skill($skill[Rain Man]) || get_property("cc_100familiar").to_boolean()))
+	if((!contains_text(combatState, "(olfaction)")) && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (!have_skill($skill[Rain Man]) || get_property("cc_100familiar").to_boolean()))
 	{
 		if((enemy == $monster[Writing Desk]) && (my_location() == $location[The Haunted Library]) && (get_property("cc_spookyravennecklace") != "done"))
 		{
@@ -635,7 +634,7 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 
 
-	if((have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (enemy == $monster[Smoke Monster]) && (item_amount($item[Pack Of Smokes]) > 0))
+	if((!contains_text(combatState, "(olfaction)")) && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (enemy == $monster[Smoke Monster]) && (item_amount($item[Pack Of Smokes]) > 0))
 	{
 		set_property("cc_combatHandler", combatState + "(olfaction)");
 		handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
@@ -643,7 +642,7 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 
 
-	if((have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
+	if((!contains_text(combatState, "(olfaction)")) && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
 	{
 		if($monsters[Blooper, Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat] contains enemy)
 		{
