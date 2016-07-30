@@ -1537,7 +1537,7 @@ void initializeDay(int day)
 				buyUpTo(1, $item[Toy Accordion]);
 			}
 
-			while((item_amount($item[turtle totem]) == 0) || (item_amount($item[saucepan]) == 0) && (my_meat() > npc_price($item[Chewing Gum on a String])))
+			while(((item_amount($item[turtle totem]) == 0) || (item_amount($item[saucepan]) == 0)) && (my_meat() > npc_price($item[Chewing Gum on a String])))
 			{
 				buyUpTo(1, $item[chewing gum on a string]);
 				use(1, $item[chewing gum on a string]);
@@ -6049,6 +6049,10 @@ boolean L12_sonofaBeach()
 		return false;
 	}
 	if(get_property("cc_sonofa") == "finished")
+	{
+		return false;
+	}
+	if(get_property("cc_war") == "finished")
 	{
 		return false;
 	}

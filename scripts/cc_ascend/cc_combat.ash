@@ -351,7 +351,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((my_class() == $class[Avatar of Sneaky Pete]) && ((expected_damage() * 2) < my_hp()))
+	if((my_class() == $class[Avatar of Sneaky Pete]) && ((expected_damage() * 2) < my_hp()) && (my_level() < 13))
 	{
 		if((my_mp() >= mp_cost($skill[Mug for the Audience])) && have_skill($skill[Mug for the Audience]))
 		{
