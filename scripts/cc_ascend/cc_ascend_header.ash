@@ -108,6 +108,7 @@ boolean L11_unlockPyramid();
 boolean L11_unlockEd();
 boolean L11_defeatEd();
 boolean L11_getBeehive();
+boolean L11_fistDocuments();
 boolean L12_lastDitchFlyer();
 boolean L12_flyerBackup();
 boolean L12_flyerFinish();

@@ -910,7 +910,7 @@ string cc_combatHandler(int round, string opp, string text)
 	#Snokebomb replace Batter Up! pass
 	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
 	{
-		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
+		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Slick Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(snokebomb)");
 			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
@@ -1449,6 +1449,13 @@ string cc_combatHandler(int round, string opp, string text)
 				return "skill " + $skill[Peel Out];
 			}
 		}
+
+
+		if((item_amount($item[Firebomb]) > 0) && (enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[hot]))
+		{
+			return "item " + $item[Firebomb];
+		}
+
 		if(!contains_text(combatState, to_string($skill[Pop Wheelie])) && have_skill($skill[Pop Wheelie]) && (my_mp() > 40))
 		{
 			set_property("cc_combatHandler", combatState + "(" + $skill[Pop Wheelie] + ")");

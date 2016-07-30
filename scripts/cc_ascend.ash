@@ -740,7 +740,7 @@ boolean doThemtharHills(boolean trickMode)
 	{
 		return false;
 	}
-	if((get_property("currentNunneryMeat").to_int() >= 100000) || (get_property("sidequestNunsCompleted") != "none"))
+	if((get_property("currentNunneryMeat").to_int() >= 100000) || (get_property("sidequestNunsCompleted") != "none") || (cc_my_path() == "Way of the Surprising Fist"))
 	{
 		handleBjornify($familiar[el vibrato megadrone]);
 		set_property("cc_nunsTrickReady", "done");
@@ -1122,6 +1122,11 @@ int handlePulls(int day)
 			pullXWhenHaveY($item[Camp Scout Backpack], 1, 0);
 		}
 
+		if(my_path() == "Way of the Surprising Fist")
+		{
+			pullXWhenHaveY($item[Bittycar Meatcar], 1, 0);
+		}
+
 		if(is_unrestricted($item[Pantsgiving]))
 		{
 			if(my_class() != $class[Avatar of Boris])
@@ -1237,7 +1242,7 @@ int handlePulls(int day)
 
 		if((cc_my_path() != "Heavy Rains") && !($classes[Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()))
 		{
-			if(!possessEquipment($item[Snow Suit]))
+			if(!possessEquipment($item[Snow Suit]) && !possessEquipment($item[Astral Pet Sweater]))
 			{
 				pullXWhenHaveY($item[snow suit], 1, 0);
 			}
@@ -1527,12 +1532,12 @@ void initializeDay(int day)
 
 			hr_initializeDay(day);
 
-			if((item_amount($item[Antique Accordion]) == 0) && !($classes[Accordion Thief, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()))
+			if((item_amount($item[Antique Accordion]) == 0) && !($classes[Accordion Thief, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()) && (my_meat() > npc_price($item[Toy Accordion])))
 			{
-				buyUpTo(1, $item[toy accordion]);
+				buyUpTo(1, $item[Toy Accordion]);
 			}
 
-			while((item_amount($item[turtle totem]) == 0) || (item_amount($item[saucepan]) == 0))
+			while((item_amount($item[turtle totem]) == 0) || (item_amount($item[saucepan]) == 0) && (my_meat() > npc_price($item[Chewing Gum on a String])))
 			{
 				buyUpTo(1, $item[chewing gum on a string]);
 				use(1, $item[chewing gum on a string]);
@@ -2021,7 +2026,7 @@ void doBedtime()
 
 	if(my_daycount() == 1)
 	{
-		if((pulls_remaining() > 1) && !possessEquipment($item[antique machete]) && (my_class() != $class[Avatar of Boris]))
+		if((pulls_remaining() > 1) && !possessEquipment($item[antique machete]) && (my_class() != $class[Avatar of Boris]) && (cc_my_path() != "Way of the Surprising Fist"))
 		{
 			if(item_amount($item[antique machete]) == 0)
 			{
@@ -2710,7 +2715,7 @@ boolean L11_aridDesert()
 		progress = 3;
 	}
 
-	if((!possessEquipment(desertBuff)) && !($classes[Avatar of Boris, Avatar of Sneaky Pete] contains my_class()))
+	if((!possessEquipment(desertBuff)) && !($classes[Avatar of Boris, Avatar of Sneaky Pete] contains my_class()) && (cc_my_path() != "Way of the Surprising Fist"))
 	{
 		if((my_level() >= 12) && !in_hardcore())
 		{
@@ -3323,7 +3328,7 @@ boolean L13_towerNSFinal()
 	{
 		cli_execute("scripts/postcheese.ash");
 	}
-	if((item_amount($item[Ouija Board\, Ouija Board]) > 0) && (my_class() == $class[Turtle Tamer]))
+	if((item_amount($item[Ouija Board\, Ouija Board]) > 0) && (my_class() == $class[Turtle Tamer]) && can_equip($item[Ouija Board\, Ouija Board]))
 	{
 		equip($item[Ouija Board\, Ouija Board]);
 	}
@@ -4779,7 +4784,7 @@ boolean L11_hiddenCityZones()
 		set_property("choiceAdventure789", "2");
 		set_property("choiceAdventure791", "6");
 		set_property("cc_hiddenzones", "0");
-		if(possessEquipment($item[Antique Machete]) || (my_class() == $class[Avatar of Boris]))
+		if(possessEquipment($item[Antique Machete]) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist"))
 		{
 			set_property("cc_hiddenzones", "1");
 		}
@@ -4787,7 +4792,7 @@ boolean L11_hiddenCityZones()
 
 	if(get_property("cc_hiddenzones") == "0")
 	{
-		if((possessEquipment($item[antique machete])) || (my_class() == $class[Avatar of Boris]))
+		if((possessEquipment($item[antique machete])) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist"))
 		{
 			set_property("cc_hiddenzones", "1");
 		}
@@ -5140,7 +5145,7 @@ boolean LX_spookyravenSecond()
 	}
 
 	//Convert Spookyraven Spectacles to a toggle
-	if((item_amount($item[Lord Spookyraven\'s Spectacles]) == 0) && (my_class() != $class[Avatar of Boris]))
+	if((item_amount($item[Lord Spookyraven\'s Spectacles]) == 0) && (my_class() != $class[Avatar of Boris]) && (cc_my_path() != "Way of the Surprising Fist"))
 	{
 		set_property("choiceAdventure878", "3");
 	}
@@ -5165,7 +5170,7 @@ boolean LX_spookyravenSecond()
 
 	if((get_property("cc_ballroomopen") == "open") || (get_property("questM21Dance") == "finished") || (get_property("questM21Dance") == "step3"))
 	{
-		if((item_amount($item[Lord Spookyraven\'s Spectacles]) == 1) || (my_class() == $class[Avatar of Boris]))
+		if((item_amount($item[Lord Spookyraven\'s Spectacles]) == 1) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist"))
 		{
 			set_property("cc_spookyravensecond", "finished");
 		}
@@ -5308,7 +5313,6 @@ boolean L11_mauriceSpookyraven()
 		else
 		{
 			ccAdv($location[Summoning Chamber]);
-			//ccAdvBypass("place.php?whichplace=manor4&action=manor4_chamberboss", $location[Noob Cave]);
 		}
 
 		if(have_effect($effect[beaten up]) == 0)
@@ -5319,8 +5323,9 @@ boolean L11_mauriceSpookyraven()
 	}
 
 
-	if((!possessEquipment($item[Lord Spookyraven\'s Spectacles])) || (my_class() == $class[Avatar of Boris]))
+	if(!possessEquipment($item[Lord Spookyraven\'s Spectacles]) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist"))
 	{
+		print("Alternate fulminate pathway... how sad :(", "red");
 		# I suppose we can let anyone in without the Spectacles.
 		while(item_amount($item[Loosening Powder]) == 0)
 		{
@@ -6252,7 +6257,7 @@ boolean L12_filthworms()
 		ccCraft("smith", 1, $item[Lump of Brituminous Coal], $item[third-hand lantern]);
 	}
 
-	if(possessEquipment($item[A Light That Never Goes Out]))
+	if(possessEquipment($item[A Light That Never Goes Out]) && can_equip($item[A Light That Never Goes Out]))
 	{
 		if(weapon_hands(equipped_item($slot[weapon])) != 1)
 		{
@@ -9329,7 +9334,7 @@ boolean L12_flyerFinish()
 	cli_execute("refresh inv");
 	if((item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[Jam Band Flyers]) == 0))
 	{
-		change_mcd(0);
+		boolean temp = change_mcd(0);
 		return true;
 	}
 	print("We thought we had enough flyeredML, but we don't. Big sadness, let's try that again.", "red");
@@ -10146,7 +10151,9 @@ boolean L11_talismanOfNam()
 			if((item_amount($item[gaudy key]) < 2) && !possessEquipment($item[Talisman O\' Namsilat]))
 			{
 				print("Well, need to farm gaudy keys I suppose... sigh.", "blue");
+				cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
 				ccAdv(1, $location[Belowdecks]);
+				cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
 				handleFamiliar("item");
 				return true;
 			}
@@ -10229,6 +10236,10 @@ boolean L11_forgedDocuments()
 	}
 
 	print("Getting the McMuffin Book", "blue");
+	if(cc_my_path() == "Way of the Surprising Fist")
+	{
+		L11_fistDocuments();
+	}
 	buyUpTo(1, $item[Forged Identification Documents]);
 	if(item_amount($item[Forged Identification Documents]) > 0)
 	{
@@ -10238,6 +10249,14 @@ boolean L11_forgedDocuments()
 	}
 	print("Could not buy Forged Identification Documents, can't get booze now!", "red");
 	return false;
+}
+
+boolean L11_fistDocuments()
+{
+	string[int] pages;
+	pages[0] = "shop.php?whichshop=blackmarket";
+	pages[1] = "shop.php?whichshop=blackmarket&action=fightbmguy";
+	return ccAdvBypass(0, pages, $location[Noob Cave], "");
 }
 
 
@@ -10254,13 +10273,17 @@ boolean L11_blackMarket()
 	if(black_market_available())
 	{
 		set_property("cc_blackmap", "document");
+		if(cc_my_path() == "Way of the Surprising Fist")
+		{
+			L11_fistDocuments();
+		}
 		if(my_meat() >= 5000)
 		{
 			buyUpTo(1, $item[forged identification documents]);
-			if(item_amount($item[Forged Identification Documents]) > 0)
-			{
-				set_property("cc_blackmap", "finished");
-			}
+		}
+		if(item_amount($item[Forged Identification Documents]) > 0)
+		{
+			set_property("cc_blackmap", "finished");
 		}
 		return true;
 	}
@@ -10996,7 +11019,7 @@ boolean L8_trapperGroar()
 			else
 			{
 				visit_url("place.php?whichplace=mclargehuge&action=trappercabin");
-				autosell(5, $item[dense meat stack]);
+				cc_autosell(5, $item[dense meat stack]);
 				set_property("cc_trapper", "finished");
 				council();
 			}
@@ -11344,7 +11367,7 @@ boolean L3_tavern()
 	buffMaintain($effect[Smooth Movements], 10, 1, 1);
 	buffMaintain($effect[Tortious], 0, 1, 1);
 	buffMaintain($effect[Litterbug], 0, 1, 1);
-	change_mcd(10);
+	boolean temp = change_mcd(10);
 
 	while(cc_tavern())
 	{
@@ -11411,7 +11434,7 @@ boolean autosellCrap()
 {
 	if(item_amount($item[dense meat stack]) > 1)
 	{
-		autosell(1, $item[dense meat stack]);
+		cc_autosell(1, $item[dense meat stack]);
 	}
 
 
@@ -11426,19 +11449,19 @@ boolean autosellCrap()
 
 	if(item_amount($item[meat stack]) > 1)
 	{
-		autosell(1, $item[meat stack]);
+		cc_autosell(1, $item[meat stack]);
 	}
 
 	foreach it in $items[Anticheese, Awful Poetry Journal, Beach Glass Bead, Blue Pixel, Clay Peace-Sign Bead, Decorative Fountain, Empty Cloaca-Cola Bottle, Enchanted Barbell, Fancy Bath Salts, Frigid Ninja Stars, Giant Moxie Weed, Green Pixel, Half of a Gold Tooth, Imp Ale, Keel-Haulin\' Knife, Kokomo Resort Pass, Mad Train Wine, Margarita, Martini, Meat Paste, Mineapple, Moxie Weed, Patchouli Incense Stick, Phat Turquoise Bead, Photoprotoneutron Torpedo, Procrastination Potion, Ratgut, Red Pixel, Smelted Roe, Spicy Jumping Bean Burrito, Spicy Bean Burrito, Strongness Elixir, Sunken Chest, Tambourine Bells, Tequila Sunrise, Windchimes]
 	{
 		if(item_amount(it) > 0)
 		{
-			autosell(item_amount(it), it);
+			cc_autosell(item_amount(it), it);
 		}
 	}
 	if(item_amount($item[hot wing]) > 3)
 	{
-		autosell(item_amount($item[hot wing]) - 3, $item[hot wing]);
+		cc_autosell(item_amount($item[hot wing]) - 3, $item[hot wing]);
 	}
 	return true;
 }
@@ -11520,7 +11543,7 @@ boolean doTasks()
 		if(base <= 150)
 		{
 			int canhave = 150 - base;
-			change_mcd(canhave);
+			boolean temp = change_mcd(canhave);
 		}
 	}
 	else
@@ -11529,20 +11552,20 @@ boolean doTasks()
 		{
 			if(current_mcd() != 0)
 			{
-				change_mcd(0);
+				boolean temp = change_mcd(0);
 			}
 		}
 		else if(((monster_level_adjustment() + (10 - current_mcd())) <= 150) && (current_mcd() != 10))
 		{
 			if(get_property("cc_beatenUpCount").to_int() < 5)
 			{
-				change_mcd(10);
+				boolean temp = change_mcd(10);
 			}
 			else
 			{
 				if(current_mcd() != 0)
 				{
-					change_mcd(0);
+					boolean temp = change_mcd(0);
 				}
 			}
 		}

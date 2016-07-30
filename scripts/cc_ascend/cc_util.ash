@@ -33,6 +33,7 @@ boolean clear_property_if(string setting, string cond);
 int doRest();
 boolean isFreeMonster(monster mon);
 boolean in_ronin();
+boolean cc_autosell(int quantity, item toSell);
 item whatHiMein();
 int dreamJarDrops();
 int powderedGoldDrops();
@@ -1102,9 +1103,13 @@ element ns_hedge3()
 
 skill preferredLibram()
 {
-	if(have_skill($skill[Summon Brickos]))
+	if(have_skill($skill[Summon Brickos]) && (get_property("_brickoEyeSummons").to_int() < 3))
 	{
 		return $skill[Summon Brickos];
+	}
+	if(have_skill($skill[Summon Party Favor]) && (get_property("_favorRareSummons").to_int() < 3))
+	{
+		return $skill[Summon Party Favor];
 	}
 	if(have_skill($skill[Summon Resolutions]))
 	{
@@ -1224,7 +1229,7 @@ boolean buyableMaintain(item toMaintain, int howMany, int meatMin)
 
 boolean buyableMaintain(item toMaintain, int howMany, int meatMin, boolean condition)
 {
-	if((!condition) || (my_meat() < meatMin))
+	if((!condition) || (my_meat() < meatMin) || (my_path() == "Way of the Surprising Fist"))
 	{
 		return false;
 	}
@@ -1281,9 +1286,9 @@ item whatHiMein()
 
 void tootGetMeat()
 {
-	autosell(min(5, item_amount($item[hamethyst])), $item[hamethyst]);
-	autosell(min(5, item_amount($item[baconstone])), $item[baconstone]);
-	autosell(min(5, item_amount($item[porquoise])), $item[porquoise]);
+	cc_autosell(min(5, item_amount($item[hamethyst])), $item[hamethyst]);
+	cc_autosell(min(5, item_amount($item[baconstone])), $item[baconstone]);
+	cc_autosell(min(5, item_amount($item[porquoise])), $item[porquoise]);
 }
 
 
@@ -1642,6 +1647,19 @@ boolean use_barrels()
 		use(item_amount(it), it);
 	}
 	return retval;
+}
+
+boolean cc_autosell(int quantity, item toSell)
+{
+	if(my_path() != "Way of the Surprising Fist")
+	{
+		return autosell(quantity, toSell);
+	}
+	if(get_property("totalCharitableDonations").to_int() < 1000000)
+	{
+		return autosell(quantity, toSell);
+	}
+	return false;
 }
 
 string runChoice(string page_text)
@@ -2427,7 +2445,7 @@ boolean buffMaintain(item source, effect buff, int uses, int turns)
 	{
 		return false;
 	}
-	if(item_amount(source) < uses)
+	if((item_amount(source) < uses) && (my_path() != "Way of the Surprising Fist"))
 	{
 		buy(uses - item_amount(source), source, 1000);
 	}

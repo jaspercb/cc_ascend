@@ -209,6 +209,11 @@ void handleOffHand()
 		return;
 	}
 
+	if(my_path() == "Way of the Surprising Fist")
+	{
+		return;
+	}
+
 	# string item_type($item[]) returns "shield" for shields, yay!
 	#if weapon_type(equipped_item($slot[weapon]) == $stat[Moxie]) we can dual-wield other ranged weapons.
 	if(my_class() != $class[Turtle Tamer])
@@ -421,6 +426,11 @@ void equipBaselineWeapon()
 {
 	item toEquip = $item[none];
 	boolean[item] poss;
+
+	if(my_path() == "Way of the Surprising Fist")
+	{
+		return;
+	}
 
 	switch(my_class())
 	{

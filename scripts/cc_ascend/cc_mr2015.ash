@@ -119,6 +119,16 @@ boolean cc_barrelPrayers()
 		case 4:				prayers = $strings[Protection, Glamour, Vigor];		break;
 		}
 	}
+	else if(my_path() == "Way of the Surprising Fist")
+	{
+		switch(my_daycount())
+		{
+		case 1:				prayers = $strings[none];							break;
+		case 2:				prayers = $strings[Glamour, Vigor];					break;
+		case 3:				prayers = $strings[Glamour, Vigor];					break;
+		case 4:				prayers = $strings[Glamour, Vigor];					break;
+		}
+	}
 	else if(my_path() == "Actually Ed the Undying")
 	{
 		if((elementalPlanes_access($element[spooky])) && (get_property("edPoints").to_int() >= 2))
@@ -950,7 +960,11 @@ boolean deck_useScheme(string action)
 		{
 			continue;
 		}
-		if((card == "1952 Mickey Mantle") && (my_meat() >= 20000))
+		if((my_path() == "Way of the Surprising Fist") && ($strings[Candlestick, Knife, Lead Pipe, Revolver, Rope, Wrench] contains card))
+		{
+			continue;
+		}
+		if((card == "1952 Mickey Mantle") && ((my_meat() >= 20000) || (my_path() == "Way of the Surprising Fist")))
 		{
 			continue;
 		}

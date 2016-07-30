@@ -2109,7 +2109,15 @@ boolean cs_witchess()
 	{
 		cc_sourceTerminalEducate($skill[Digitize], $skill[Extract]);
 	}
-	boolean result = cc_advWitchess("booze", "cs_combatNormal");
+	boolean result;
+	if((my_daycount() == 1) && (item_amount($item[Greek Fire]) == 0) && !have_skill($skill[Digitize]))
+	{
+		result = cc_advWitchess("rook", "cs_combatNormal");
+	}
+	else
+	{
+		result = cc_advWitchess("booze", "cs_combatNormal");
+	}
 	cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
 	return result;
 }
