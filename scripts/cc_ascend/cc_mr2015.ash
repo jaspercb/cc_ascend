@@ -129,6 +129,16 @@ boolean cc_barrelPrayers()
 		case 4:				prayers = $strings[Glamour, Vigor];					break;
 		}
 	}
+	else if(my_path() == "Heavy Rains")
+	{
+		switch(my_daycount())
+		{
+		case 1:				prayers = $strings[Glamour, Vigor];					break;
+		case 2:				prayers = $strings[Glamour, Vigor];					break;
+		case 3:				prayers = $strings[Glamour, Vigor];					break;
+		case 4:				prayers = $strings[Glamour, Vigor];					break;
+		}
+	}
 	else if(my_path() == "Actually Ed the Undying")
 	{
 		if((elementalPlanes_access($element[spooky])) && (get_property("edPoints").to_int() >= 2))

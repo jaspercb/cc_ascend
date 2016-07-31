@@ -442,6 +442,15 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+	if((enemy == $monster[dirty thieving brigand]) && (!contains_text(combatState, "makeitrain")) && (my_rain() > 60))
+	{
+		if((my_rain() > rain_cost($skill[Make It Rain])) && (have_skill($skill[make it rain])))
+		{
+			set_property("cc_combatHandler", combatState + "(makeitrain)");
+			return "skill " + $skill[Make It Rain];
+		}
+	}
+
 	if((enemy == $monster[hellseal pup]) && (my_class() == $class[Seal Clubber]))
 	{
 		return "skill clobber";

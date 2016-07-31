@@ -10973,11 +10973,23 @@ boolean L8_trapperGroar()
 	}
 	if((internalQuestStatus("questL08Trapper") == 2) && (get_property("currentExtremity").to_int() == 3))
 	{
-		string temp = visit_url("place.php?whichplace=mclargehuge&action=cloudypeak");
+		if(outfit("eXtreme Cold-Weather Gear"))
+		{
+			string temp = visit_url("place.php?whichplace=mclargehuge&action=cloudypeak");
+			return true;
+		}
 	}
 	if((internalQuestStatus("questL08Trapper") >= 3) && (get_property("currentExtremity").to_int() == 0))
 	{
 		canGroar = true;
+	}
+
+	if(!canGroar && ((cc_my_path() == "Avatar of Sneaky Pete") || !have_familiar($familiar[Jumpsuited Hound Dog])))
+	{
+		if(L8_trapperExtreme())
+		{
+			return true;
+		}
 	}
 
 	if(canGroar)
