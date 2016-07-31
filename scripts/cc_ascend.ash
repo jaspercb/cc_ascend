@@ -10984,7 +10984,7 @@ boolean L8_trapperGroar()
 		canGroar = true;
 	}
 
-	if(!canGroar && ((cc_my_path() == "Avatar of Sneaky Pete") || !have_familiar($familiar[Jumpsuited Hound Dog])))
+	if(!canGroar && in_hardcore() && ((cc_my_path() == "Avatar of Sneaky Pete") || !have_familiar($familiar[Jumpsuited Hound Dog])))
 	{
 		if(L8_trapperExtreme())
 		{
