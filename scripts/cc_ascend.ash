@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17069;
+since r17082;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -5948,19 +5948,19 @@ boolean L12_gremlinStart()
 
 	if((!possessEquipment($item[Ouija Board\, Ouija Board])) && (item_amount($item[Lump of Brituminous Coal]) > 0))
 	{
-		while(item_amount($item[turtle totem]) == 0)
+		while((item_amount($item[turtle totem]) == 0) && (my_meat() > npc_price($item[Chewing Gum On A String])))
 		{
 			buyUpTo(1, $item[chewing gum on a string]);
 			use(1, $item[chewing gum on a string]);
 		}
 		ccCraft("smith", 1, $item[lump of Brituminous coal], $item[turtle totem]);
-		while(item_amount($item[turtle totem]) == 0)
+		while((item_amount($item[turtle totem]) == 0) && (my_meat() > npc_price($item[Chewing Gum On A String])))
 		{
 			buyUpTo(1, $item[chewing gum on a string]);
 			use(1, $item[chewing gum on a string]);
 		}
 	}
-	if((item_amount($item[louder than bomb]) == 0) && (item_amount($item[Handful of Smithereens]) > 0))
+	if((item_amount($item[louder than bomb]) == 0) && (item_amount($item[Handful of Smithereens]) > 0) && (my_meat() > npc_price($item[Ben-Gal&trade; Balm])))
 	{
 		buyUpTo(1, $item[Ben-Gal&trade; Balm]);
 		cli_execute("make louder than bomb");
@@ -8271,6 +8271,7 @@ boolean L4_batCave()
 	}
 	if(batStatus >= 3)
 	{
+		buffMaintain($effect[Polka of Plenty], 15, 1, 1);
 		ccAdv(1, $location[The Boss Bat\'s Lair]);
 		return true;
 	}

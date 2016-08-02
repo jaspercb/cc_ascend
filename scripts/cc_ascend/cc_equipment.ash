@@ -342,7 +342,7 @@ void equipBaselineShirt()
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Barskin Cloak, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Shark Jumper, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
+	boolean[item] poss = $items[Barskin Cloak, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Ultracolor&trade; Shirt, Shark Jumper, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))
@@ -365,11 +365,11 @@ void equipBaselineBack()
 
 	if(my_class() == $class[Ed])
 	{
-		poss = $items[Black Cloak, Giant Gym Membership Card, Makeshift Cape, Misty Cloak, Misty Cape, Misty Robe, Camp Scout Backpack];
+		poss = $items[Black Cloak, Giant Gym Membership Card, Makeshift Cape, Misty Cloak, Misty Cape, Misty Robe, Camp Scout Backpack, Protonic Accelerator Pack];
 	}
 	else
 	{
-		poss = $items[Whatsit-Covered Turtle Shell, Black Cloak, Pillow Shell, Oil Shell, Giant Gym Membership Card, Frozen Turtle Shell, Misty Cloak, Misty Cape, Misty Robe, Makeshift Cape, Polyester Parachute, Buddy Bjorn, Camp Scout Backpack];
+		poss = $items[Whatsit-Covered Turtle Shell, Black Cloak, Pillow Shell, Oil Shell, Giant Gym Membership Card, Frozen Turtle Shell, Misty Cloak, Misty Cape, Misty Robe, Makeshift Cape, Polyester Parachute, Buddy Bjorn, Camp Scout Backpack, Protonic Accelerator Pack];
 	}
 	foreach thing in poss
 	{
