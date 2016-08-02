@@ -906,9 +906,7 @@ string cc_combatHandler(int round, string opp, string text)
 	#Unlikely path: Louder than bomb
 	if((!contains_text(combatState, "louderthanbomb")) && (item_amount($item[louder than bomb]) > 0))
 	{
-		if((enemy == $monster[tan gnat]) ||
-			(enemy == $monster[natural spider]) ||
-			(enemy == $monster[upgraded ram]))
+		if($monsters[Natural Spider, Tan Gnat, Upgraded Ram] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(louderthanbomb)");
 			return "item louder than bomb";
@@ -979,16 +977,11 @@ string cc_combatHandler(int round, string opp, string text)
 	#Second thunder clap pass
 	if((!contains_text(combatState, "thunder clap")) && (have_skill($skill[thunder clap])) && (my_thunder() >= 40))
 	{
-		if((enemy == $monster[plaid ghost]) ||
-			(enemy == $monster[slick lihc]) ||
-			(enemy == $monster[skeletal sommelier]) ||
-			(enemy == $monster[procrastination giant]) ||
-			(enemy == $monster[natural spider]) ||
-			(enemy == $monster[steam elemental]))
+		if($monsters[Natural Spider, Plaid Ghost, Procrastination Giant, Slick Lihc, Skeletal Sommelier, Steam Elemental] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(thunder clap)");
 			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
-			return "skill thunder clap";
+			return "skill " + $skill[thunder clap];
 		}
 	}
 
@@ -1033,9 +1026,22 @@ string cc_combatHandler(int round, string opp, string text)
 		if(enemy == $monster[pair of burnouts])
 		{
 			set_property("cc_combatHandler", combatState + "(opium grenade)");
-			return "item opium grendade";
+			return "item " + $item[opium grenade];
 		}
 	}
+
+	if(have_equipped($item[Protonic Accelerator Pack]) && isGhost(enemy))
+	{
+		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])))
+		{
+			return "skill " + $skill[Shoot Ghost];
+		}
+		if(have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])))
+		{
+			return "skill " + $skill[Trap Ghost];
+		}
+	}
+
 
 	# Instakill handler
 	if(!enemy.boss && !isFreeMonster(enemy))

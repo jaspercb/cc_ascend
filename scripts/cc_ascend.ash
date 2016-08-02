@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17082;
+since r17088;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1424,31 +1424,7 @@ void initializeDay(int day)
 		}
 	}
 
-	if(!get_property("_floundryItemGot").to_boolean() && (get_clan_furniture() contains $item[Clan Floundry]) && !get_property("kingLiberated").to_boolean())
-	{
-		if(get_property("cc_floundryChoice") != "")
-		{
-			string[int] floundryChoice = split_string(get_property("cc_floundryChoice"), ";");
-			item myFloundry = trim(floundryChoice[min(count(floundryChoice), my_daycount()) - 1]).to_item();
-			int oldCount = item_amount(myFloundry);
-			if(myFloundry != $item[none])
-			{
-				string temp = visit_url("clan_viplounge.php?preaction=buyfloundryitem&whichitem=" + myFloundry.to_int());
-				if(item_amount(myFloundry) != (oldCount + 1))
-				{
-					print("Could not fish from the Floundry for some raisin.", "red");
-				}
-				else
-				{
-					if(($items[Bass Clarinet, Codpiece, Fish Hatchet] contains myFloundry) && !get_property("_floundryItemUsed").to_boolean())
-					{
-						use(1, myFloundry);
-					}
-					set_property("_floundryItemGot", true);
-				}
-			}
-		}
-	}
+	cc_floundryAction();
 
 	if((item_amount($item[GameInformPowerDailyPro Magazine]) > 0) && (my_daycount() == 1))
 	{
@@ -1520,7 +1496,7 @@ void initializeDay(int day)
 				use_skill(1, $skill[Iron Palm Technique]);
 			}
 
-			if((get_clan_furniture() contains $item[Clan Floundry]) && (item_amount($item[Fishin\' Pole]) == 0))
+			if((get_clan_lounge() contains $item[Clan Floundry]) && (item_amount($item[Fishin\' Pole]) == 0))
 			{
 				visit_url("clan_viplounge.php?action=floundry");
 			}
@@ -1592,14 +1568,17 @@ void initializeDay(int day)
 				pulverizeThing($item[hairpiece on fire]);
 				pulverizeThing($item[vicar\'s tutu]);
 			}
-			hermit(10, $item[ten-leaf clover]);
+			if(my_meat() > npc_price($item[Chewing Gum on a String]))
+			{
+				hermit(6, $item[ten-leaf clover]);
+			}
 			if((item_amount($item[Antique Accordion]) == 0) && !($classes[Accordion Thief, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()))
 			{
 				buyUpTo(1, $item[antique accordion]);
 			}
 			if(my_class() == $class[Avatar of Boris])
 			{
-				if((item_amount($item[Clancy\'s Crumhorn]) == 0) && (get_property("cc_clancy").to_item() != $item[Clancy\'s Crumhorn]))
+				if((item_amount($item[Clancy\'s Crumhorn]) == 0) && (minstrel_instrument() != $item[Clancy\'s Crumhorn]))
 				{
 					buyUpTo(1, $item[Clancy\'s Crumhorn]);
 				}
@@ -1832,9 +1811,12 @@ void doBedtime()
 		abort("You have a rain man to cast, please do so before overdrinking and run me again.");
 	}
 
-	//We are committig to end of day now...
+	//We are committing to end of day now...
 
-	hermit(10, $item[ten-leaf clover]);
+	if(my_meat() > npc_price($item[Chewing Gum on a String]))
+	{
+		hermit(6, $item[ten-leaf clover]);
+	}
 	while(cc_doPrecinct());
 
 	if((friars_available()) && (!get_property("friarsBlessingReceived").to_boolean()))
@@ -2165,6 +2147,12 @@ void doBedtime()
 	{
 		use(1, $item[Infinite BACON Machine]);
 	}
+
+	if(!get_property("_streamsCrossed").to_boolean() && possessEquipment($item[Protonic Accelerator Pack]))
+	{
+		cli_execute("crossstreams");
+	}
+
 
 	if((get_property("cc_dickstab").to_boolean()) && chateaumantegna_available() && (my_daycount() == 1))
 	{
@@ -3122,7 +3110,7 @@ boolean L11_palindome()
 
 				print("Off to the grove for some doofy food!", "blue");
 				ccAdv(1, $location[Whitey\'s Grove]);
-			
+
 			}
 			else if(item_amount($item[Stunt Nuts]) == 0)
 			{
@@ -11752,6 +11740,11 @@ boolean doTasks()
 	}
 
 	if(theSource_oracle() || LX_theSource())
+	{
+		return true;
+	}
+
+	if(LX_ghostBusting())
 	{
 		return true;
 	}

@@ -32,6 +32,8 @@ boolean restore_property(string setting, string source);
 boolean clear_property_if(string setting, string cond);
 int doRest();
 boolean isFreeMonster(monster mon);
+boolean isProtonGhost(monster mon);
+boolean isGhost(monster mon);
 boolean in_ronin();
 boolean cc_autosell(int quantity, item toSell);
 item whatHiMein();
@@ -722,7 +724,7 @@ boolean isOverdueArrow()
 	{
 		return true;
 	}
-	return true;
+	return false;
 }
 
 
@@ -1316,6 +1318,26 @@ boolean ovenHandle()
 	return get_property("cc_haveoven").to_boolean();
 }
 
+boolean isGhost(monster mon)
+{
+	boolean[monster] ghosts = $monsters[Ancient Ghost, Ancient Protector Spirit, Banshee Librarian, Battlie Knight Ghost, Bettie Barulio, Chalkdust Wraith, Claybender Sorcerer Ghost, Cold Ghost, Contemplative Ghost, Dusken Raider Ghost, Ghost, Ghost Actor, Ghost Miner, Ghost of Elizabeth Spookyraven, Ghost of Fernswarthy\'s Grandfather, Hot Ghost, Hustled Spectre, Lovesick Ghost, Marcus Macurgeon, Marvin J. Sunny, Mayor Ghost, Model Skeleton, Mortimer Strauss, Plaid Ghost, Protector Spectre, Restless Ghost, Sexy Sorority Ghost, Sheet Ghost, Sleaze Ghost, Space Tourist Explorer Ghost, Spooky Ghost, Stench Ghost, The Ghost of Phil Bunion, The Unknown Accordion Thief, The Unknown Disco Bandit, The Unknown Pastamancer, The Unknown Sauceror, The Unknown Seal Clubber, The Unknown Turtle Tamer, Whatsian Commando Ghost, Wonderful Winifred Wongle];
+	if(ghosts contains mon)
+	{
+		return true;
+	}
+	return isProtonGhost(mon);
+}
+
+boolean isProtonGhost(monster mon)
+{
+	boolean[monster] ghosts = $monsters[Boneless Blobghost, Emily Koops\, A Spooky Lime, The Ghost of Ebenoozer Screege, The Ghost of Jim Unfortunato, The Ghost of Lord Montague Spookyraven, The Ghost of Monsieur Baguelle, The Ghost of Oily McBindle, The Ghost of Richard Cockingham, The Ghost of Sam McGee, The Ghost of Waldo the Carpathian, The Headless Horseman, The Icewoman];
+	if(ghosts contains mon)
+	{
+		return true;
+	}
+	return false;
+}
+
 boolean isFreeMonster(monster mon)
 {
 	boolean[monster] classRevamp = $monsters[Box of Crafty Dinner, depressing french accordionist, Frozen Bag of Tortellini, lively cajun accordionist, Possessed Can of Creepy Pasta, Possessed Can of Linguine-Os, Possessed Jar of Alphredo&trade;, quirky indie-rock accordionist];
@@ -1334,7 +1356,7 @@ boolean isFreeMonster(monster mon)
 
 	boolean[monster] other = $monsters[lynyrd, giant rubber spider, Travoltron];
 
-
+	//boolean[monster] protonGhosts: See isProtonGhost, we want to detect these separately as well so we\'ll functionalize it here.
 
 	if(classRevamp contains mon)
 	{
@@ -1365,6 +1387,10 @@ boolean isFreeMonster(monster mon)
 		return true;
 	}
 	if(other contains mon)
+	{
+		return true;
+	}
+	if(isProtonGhost(mon))
 	{
 		return true;
 	}
@@ -1856,6 +1882,7 @@ int doNumberology(string goal, boolean doIt, string option)
 	numberwang[58] = "teleportitis";
 	numberwang[69] = "adventures3";
 	numberwang[75] = "booze";
+	numberwang[98] = "myst";
 	numberwang[99] = "booze";
 
 	# seed + ascensions + moonsign * (spleen + level) + turns

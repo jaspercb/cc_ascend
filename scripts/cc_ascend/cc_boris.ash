@@ -17,7 +17,6 @@ void boris_initializeSettings()
 		set_property("cc_ballroomsong", "finished");
 		set_property("cc_borisSkills", -1);
 #		set_property("cc_crackpotjar", "done");
-		set_property("cc_clancy", $item[Clancy\'s Sackbut]);
 		set_property("cc_cubeItems", false);
 		set_property("cc_getStarKey", true);
 		set_property("cc_grimstoneOrnateDowsingRod", false);

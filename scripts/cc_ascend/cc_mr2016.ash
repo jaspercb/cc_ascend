@@ -2,7 +2,7 @@ script "cc_mr2016.ash"
 import<cc_ascend/cc_adventure.ash>
 
 #	This is meant for items that have a date of 2016.
-#	Handling: Witchess Set, Snojo, Source Terminal
+#	Handling: Witchess Set, Snojo, Source Terminal, Protonic Accelerator Pack
 #
 
 boolean snojoFightAvailable();
@@ -21,6 +21,7 @@ boolean cc_doPrecinct();
 item cc_bestBadge();
 boolean cc_sourceTerminalEducate(skill first);
 boolean cc_sourceTerminalEducate(skill first, skill second);
+boolean LX_ghostBusting();
 
 //Supplemental
 int cc_advWitchessTargets(string target);
@@ -883,4 +884,150 @@ boolean cc_doPrecinct()
 	}
 
 	return true;
+}
+
+
+
+boolean LX_ghostBusting()
+{
+	if(!possessEquipment($item[Protonic Accelerator Pack]))
+	{
+		return false;
+	}
+	if(get_property("questPAGhost") == "unstarted")
+	{
+		return false;
+	}
+
+	location goal = get_property("ghostLocation").to_location();
+	if((goal != $location[none]) && have_equipped($item[Protonic Accelerator Pack]))
+	{
+		useCocoon();
+		if(goal == $location[The Skeleton Store])
+		{
+			startMeatsmithSubQuest();
+			if(internalQuestStatus("questM23Meatsmith") == 0)
+			{
+				if(item_amount($item[Skeleton Store Office Key]) > 0)
+				{
+					set_property("choiceAdventure1060", 4);
+				}
+				else
+				{
+					set_property("choiceAdventure1060", 1);
+				}
+			}
+			else
+			{
+				set_property("choiceAdventure1060", 2);
+			}
+		}
+		if(item_amount($item[Check to the Meatsmith]) > 0)
+		{
+			string temp = visit_url("shop.php?whichshop=meatsmith");
+			temp = visit_url("choice.php?pwd=&whichchoice=1059&option=2");
+			return true;
+		}
+		if(goal == $location[Madness Bakery])
+		{
+			startArmorySubQuest();
+			if(internalQuestStatus("questM25Armorer") <= 1)
+			{
+				set_property("choiceAdventure1061", 1);
+			}
+			else
+			{
+				set_property("choiceAdventure1061", 5);
+			}
+		}
+		if(item_amount($item[no-handed pie]) > 0)
+		{
+			string temp = visit_url("shop.php?whichshop=armory");
+			temp = visit_url("choice.php?pwd=&whichchoice=1065&option=2");
+			return true;
+		}
+		if(goal == $location[The Overgrown Lot])
+		{
+			//Meh.
+			startGalaktikSubQuest();
+			if(get_property("questM24Doc") != "finished")
+			{
+				set_property("choiceAdventure1062", 1);
+			}
+			else
+			{
+				set_property("choiceAdventure1062", 4);
+			}
+		}
+		if((item_amount($item[Swindleblossom]) >= 3) && (item_amount($item[Fraudwort]) >= 3) && (item_amount($item[Shysterweed]) >= 3))
+		{
+			string temp = visit_url("shop.php?whichshop=doc");
+			temp = visit_url("shop.php?whichshop=doc&action=talk");
+			temp = visit_url("choice.php?pwd=&whichchoice=1064&option=2");
+			return true;
+		}
+		if((goal == $location[The Batrat and Ratbat Burrow]) && (internalQuestStatus("questL04Bat") < 1))
+		{
+			return false;
+		}
+		if((goal == $location[Cobb\'s Knob Laboratory]) && (item_amount($item[Cobb\'s Knob Lab Key]) == 0))
+		{
+			return false;
+		}
+
+		if((goal == $location[Lair of the Ninja Snowmen]) && ((get_property("cc_trapper") != "yeti") && (get_property("cc_trapper") != "finished")))
+		{
+			return false;
+		}
+		if((goal == $location[The VERY Unquiet Garves]) && (get_property("cc_crypt") != "finished"))
+		{
+			return false;
+		}
+		if(goal == $location[The Castle in the Clouds in the Sky (Top Floor)])
+		{
+			if(get_property("cc_castleground") != "finished")
+			{
+				return false;
+			}
+			if(L10_topFloor() || L10_holeInTheSkyUnlock())
+			{
+				return true;
+			}
+		}
+		if(goal == $location[Lair of the Ninja Snowmen])
+		{
+			if((item_amount($item[Ninja Rope]) == 0) || (item_amount($item[Ninja Carabiner]) == 0) || (item_amount($item[Ninja Crampons]) == 0))
+			{
+				if(L8_trapperYeti())
+				{
+					return true;
+				}
+			}
+		}
+
+		if((goal == $location[The Red Zeppelin]) && (internalQuestStatus("questL11Ron") < 3))
+		{
+			return false;
+		}
+		if((goal == $location[The Hidden Park]) && (get_property("cc_hiddenunlock") == "finished"))
+		{
+			return false;
+		}
+
+		if(goal == $location[Inside The Palindome])
+		{
+			if(!possessEquipment($item[Talisman O\' Namsilat]))
+			{
+				return false;
+			}
+			if(equipped_item($slot[acc3]) != $item[Talisman O\' Namsilat])
+			{
+				equip($slot[acc3], $item[Talisman O\' Namsilat]);
+			}
+		}
+
+		print("Time to bust some ghosts!!!", "green");
+		return ccAdv(goal);
+	}
+	return false;
 }

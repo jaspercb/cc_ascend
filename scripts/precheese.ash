@@ -66,6 +66,11 @@ void handlePreAdventure(location place)
 		buffMaintain($effect[Baited Hook], 0, 1, 1);
 	}
 
+	if((my_mp() < 30) && ((my_mp()+20) < my_maxmp()) && (item_amount($item[Psychokinetic Energy Blob]) > 0))
+	{
+		use(1, $item[Psychokinetic Energy Blob]);
+	}
+
 	if((get_property("_bittycar") == "") && (item_amount($item[Bittycar Meatcar]) > 0))
 	{
 		use(1, $item[bittycar meatcar]);

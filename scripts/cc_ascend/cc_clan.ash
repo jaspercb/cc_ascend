@@ -5,7 +5,8 @@ script "cc_clan.ash"
 boolean eatFancyDog(string dog);
 boolean drinkSpeakeasyDrink(item drink);
 boolean drinkSpeakeasyDrink(string drink);
-int [item] get_clan_furniture();
+boolean cc_floundryAction(item it);
+boolean cc_floundryAction();
 boolean [location] get_floundry_locations();
 int changeClan(int toClan);			//Returns new clan ID (or old one if it failed)
 int changeClan();					//To BAFH
@@ -41,7 +42,7 @@ boolean handleFaxMonster(monster enemy, boolean fightIt, string option)
 	{
 		return false;
 	}
-	if(!(get_clan_furniture() contains $item[Deluxe Fax Machine]))
+	if(!(get_clan_lounge() contains $item[Deluxe Fax Machine]))
 	{
 		return false;
 	}
@@ -133,7 +134,7 @@ boolean [location] get_floundry_locations()
 		return floundryLocations;
 	}
 
-	if(!(get_clan_furniture() contains $item[Clan Floundry]))
+	if(!(get_clan_lounge() contains $item[Clan Floundry]))
 	{
 		return floundryLocations;
 	}
@@ -151,93 +152,6 @@ boolean [location] get_floundry_locations()
 	lastCheck = my_daycount();
 	lastLiberation = currentLiberation;
 	return floundryLocations;
-}
-
-int [item] get_clan_furniture()
-{
-	static int lastClanCheck = 0;
-	static int lastCheck = 0;
-	static int lastLiberation = 0;
-	static int [item] clanItems;
-
-	int currentLiberation = 1;
-	if(get_property("kingLiberated").to_boolean())
-	{
-		currentLiberation = 2;
-	}
-
-	if((get_clan_id() == lastClanCheck) && (lastCheck == my_daycount()) && (currentLiberation == lastLiberation))
-	{
-		return clanItems;
-	}
-
-    string basic = visit_url("clan_rumpus.php");
-	string vipMain = visit_url("clan_viplounge.php");
-	string vipOld = visit_url("clan_viplounge.php?whichfloor=2");
-	print("Generating clan furniture for the session...", "blue");
-
-	matcher ball_matcher = create_matcher("An Awesome Ball Pit", basic);
-    if(ball_matcher.find() && is_unrestricted($item[Colorful Plastic Ball]))
-	{
-		clanItems[$item[Colorful Plastic Ball]] = 1;
-	}
-
-	matcher speakeasy_matcher = create_matcher("A \"Phone Booth\"", vipMain);
-	if(speakeasy_matcher.find() && is_unrestricted($item[Clan Speakeasy]))
-	{
-		clanItems[$item[Clan Speakeasy]] = 1;
-	}
-	matcher speakeasy_matcher_alt = create_matcher("\"A Speakeasy\"", vipMain);
-	if(speakeasy_matcher_alt.find() && is_unrestricted($item[Clan Speakeasy]))
-	{
-		clanItems[$item[Clan Speakeasy]] = 1;
-	}
-	matcher floundry_matcher_alt = create_matcher("\"Clan Floundry\"", vipMain);
-	if(floundry_matcher_alt.find() && is_unrestricted($item[Clan Floundry]))
-	{
-		clanItems[$item[Clan Floundry]] = 1;
-	}
-	matcher hotdog_matcher = create_matcher("Hot Dog Stand", vipOld);
-	if(hotdog_matcher.find() && is_unrestricted($item[Clan Hot Dog Stand]))
-	{
-		clanItems[$item[Clan Hot Dog Stand]] = 1;
-	}
-
-	matcher pool_matcher = create_matcher("A Pool Table", vipOld);
-	if(pool_matcher.find() && is_unrestricted($item[Clan Pool Table]))
-	{
-		clanItems[$item[Clan Pool Table]] = 1;
-	}
-	matcher glass_matcher = create_matcher("A Looking Glass", vipOld);
-	if(glass_matcher.find() && is_unrestricted($item[Clan Looking Glass]))
-	{
-		clanItems[$item[Clan Looking Glass]] = 1;
-	}
-	matcher crimbo_matcher = create_matcher("A Crimbo Tree", vipOld);
-	if(crimbo_matcher.find() && is_unrestricted($item[Crimbough]))
-	{
-		clanItems[$item[Crimbough]] = 1;
-	}
-	matcher april_matcher = create_matcher("April Shower", vipOld);
-	if(april_matcher.find() && is_unrestricted($item[Clan Shower]))
-	{
-		clanItems[$item[Clan Shower]] = 1;
-	}
-	matcher fax_matcher = create_matcher("A Fax Machine", vipOld);
-	if(fax_matcher.find() && is_unrestricted($item[Deluxe Fax Machine]))
-	{
-		clanItems[$item[Deluxe Fax Machine]] = 1;
-	}
-	matcher olympic_matcher = create_matcher("An Olympic-Sized Swimming Pool", vipOld);
-	if(olympic_matcher.find() && is_unrestricted($item[Olympic-Sized Clan Crate]))
-	{
-		clanItems[$item[Olympic-Sized Clan Crate]] = 1;
-	}
-
-	lastClanCheck = get_clan_id();
-	lastCheck = my_daycount();
-	lastLiberation = currentLiberation;
-	return clanItems;
 }
 
 int changeClan(int toClan)
@@ -290,44 +204,22 @@ boolean drinkSpeakeasyDrink(item drink)
 		return false;
 	}
 
-	if(!(get_clan_furniture() contains $item[Clan Speakeasy]))
+	if(!(get_clan_lounge() contains $item[Clan Speakeasy]))
 	{
 		return false;
 	}
 
-	static int [item] cost;
-	static int [item] drunk;
-	cost[$item[Glass of &quot;Milk&quot;]] = 250;
-	cost[$item[Cup of &quot;Tea&quot;]] = 250;
-	cost[$item[Thermos of &quot;Whiskey&quot;]] = 250;
-	cost[$item[Lucky Lindy]] = 500;
-	cost[$item[Bee\'s Knees]] = 500;
-	cost[$item[Sockdollager]] = 500;
-	cost[$item[Ish Kabibble]] = 500;
-	cost[$item[Hot Socks]] = 5000;
-	cost[$item[Phonus Balonus]] = 10000;
-	cost[$item[Flivver]] = 20000;
-	cost[$item[Sloppy Jalopy]] = 100000;
-
-
-	drunk[$item[Glass of &quot;Milk&quot;]] = 1;
-	drunk[$item[Cup of &quot;Tea&quot;]] = 1;
-	drunk[$item[Thermos of &quot;Whiskey&quot;]] = 1;
-	drunk[$item[Lucky Lindy]] = 1;
-	drunk[$item[Bee\'s Knees]] = 2;
-	drunk[$item[Sockdollager]] = 2;
-	drunk[$item[Ish Kabibble]] = 2;
-	drunk[$item[Hot Socks]] = 3;
-	drunk[$item[Phonus Balonus]] = 3;
-	drunk[$item[Flivver]] = 2;
-	drunk[$item[Sloppy Jalopy]] = 5;
-
-	if(my_meat() < cost[drink])
+	if(!(get_clan_lounge() contains drink))
 	{
 		return false;
 	}
 
-	if((my_inebriety() + drunk[drink]) > inebriety_limit())
+	if(my_meat() < npc_price(drink))
+	{
+		return false;
+	}
+
+	if(drink.inebriety > inebriety_left())
 	{
 		return false;
 	}
@@ -348,7 +240,7 @@ boolean eatFancyDog(string dog)
 		return false;
 	}
 
-	if(!(get_clan_furniture() contains $item[Clan Hot Dog Stand]))
+	if(!(get_clan_lounge() contains $item[Clan Hot Dog Stand]))
 	{
 		return false;
 	}
@@ -459,7 +351,7 @@ boolean eatFancyDog(string dog)
 
 boolean drinkSpeakeasyDrink(string drink)
 {
-	if(!(get_clan_furniture() contains $item[Clan Speakeasy]))
+	if(!(get_clan_lounge() contains $item[Clan Speakeasy]))
 	{
 		return false;
 	}
@@ -470,4 +362,44 @@ boolean drinkSpeakeasyDrink(string drink)
 		return false;
 	}
 	return drinkSpeakeasyDrink(realDrink);
+}
+
+
+boolean cc_floundryAction()
+{
+	if(!get_property("_floundryItemGot").to_boolean() && (get_clan_lounge() contains $item[Clan Floundry]) && !get_property("kingLiberated").to_boolean())
+	{
+		if(get_property("cc_floundryChoice") != "")
+		{
+			string[int] floundryChoice = split_string(get_property("cc_floundryChoice"), ";");
+			item myFloundry = trim(floundryChoice[min(count(floundryChoice), my_daycount()) - 1]).to_item();
+			if(cc_floundryAction(myFloundry))
+			{
+				if(($items[Bass Clarinet, Codpiece, Fish Hatchet] contains myFloundry) && !get_property("_floundryItemUsed").to_boolean())
+				{
+					use(1, myFloundry);
+				}
+				set_property("_floundryItemGot", true);
+				return true;
+			}
+			else
+			{
+				print("Could not fish from the Floundry for some raisin.", "red");
+				return false;
+			}
+		}
+	}
+	return false;
+}
+
+
+boolean cc_floundryAction(item it)
+{
+	int[item] fish = get_clan_lounge();
+	if(fish[it] > 0)
+	{
+		string temp = visit_url("clan_viplounge.php?preaction=buyfloundryitem&whichitem=" + it.to_int());
+		return true;
+	}
+	return false;
 }
