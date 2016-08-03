@@ -1032,11 +1032,24 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if(have_equipped($item[Protonic Accelerator Pack]) && isGhost(enemy))
 	{
-		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])))
+		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(combatState, "shootghost3"))
 		{
+			if(contains_text(combatState, "shootghost2"))
+			{
+				set_property("cc_combatHandler", combatState + "(shootghost3)");
+			}
+			else if(contains_text(combatState, "shootghost1"))
+			{
+				set_property("cc_combatHandler", combatState + "(shootghost2)");
+			}
+			else
+			{
+				set_property("cc_combatHandler", combatState + "(shootghost1)");
+			}
+
 			return "skill " + $skill[Shoot Ghost];
 		}
-		if(have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])))
+		if(have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(combatState, "shootghost3"))
 		{
 			return "skill " + $skill[Trap Ghost];
 		}
