@@ -65,11 +65,11 @@ void initializeSettings()
 	set_property("chasmBridgeProgress", 0);
 	set_property("nosyNoseMonster", 0);
 	string pool = visit_url("questlog.php?which=3");
-	matcher my_pool = create_matcher("a skill level of (\\d+) at shooting pool", pool);
-	if(my_pool.find())
-	{
-		set_property("poolSkill", to_int(my_pool.group(1)));
-	}
+#	matcher my_pool = create_matcher("a skill level of (\\d+) at shooting pool", pool);
+#	if(my_pool.find())
+#	{
+#		set_property("poolSkill", to_int(my_pool.group(1)));
+#	}
 
 
 	set_property("cc_abooclover", true);
@@ -8937,6 +8937,7 @@ boolean LX_handleSpookyravenFirstFloor()
 		else if(item_amount($item[Spookyraven Billiards room key]) == 1)
 		{
 			int expectPool = get_property("poolSkill").to_int();
+			expectPool += min(10,to_int(2 * square_root(get_property("poolSharkCount").to_int())));
 			if(my_inebriety() >= 10)
 			{
 				expectPool += (30 - (2 * my_inebriety()));
