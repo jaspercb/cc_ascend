@@ -14,6 +14,7 @@ string cc_combatHandler(int round, string opp, string text)
 	#print("cc_combatHandler: " + round, "brown");
 	#Yes, round 0, really.
 	monster enemy = to_monster(opp);
+	boolean blocked = contains_text(text, "(STUN RESISTED)");
 	if(round == 0)
 	{
 		print("cc_combatHandler: " + round, "brown");
@@ -1032,6 +1033,43 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if(have_equipped($item[Protonic Accelerator Pack]) && isGhost(enemy))
 	{
+		if(!contains_text(combatState, "beanscreen") && have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
+		{
+			set_property("cc_combatHandler", combatState + "(beanscreen)");
+			return "skill " + $skill[Beanscreen];
+		}
+
+		if(!contains_text(combatState, "broadside") && have_skill($skill[Broadside]) && (my_mp() >= mp_cost($skill[Broadside])))
+		{
+			set_property("cc_combatHandler", combatState + "(broadside)");
+			return "skill " + $skill[Broadside];
+		}
+
+		if(!contains_text(combatState, to_string($skill[Snap Fingers])) && have_skill($skill[Snap Fingers]) && (my_mp() >= mp_cost($skill[Snap Fingers])))
+		{
+			set_property("cc_combatHandler", combatState + "(" + $skill[Snap Fingers] + ")");
+			return "skill " + $skill[Snap Fingers];
+		}
+
+		if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
+		{
+			set_property("cc_combatHandler", combatState + "(love gnats)");
+			return "skill summon love gnats";
+		}
+
+		if(!contains_text(combatState, "soulbubble") && have_skill($skill[Soul Saucery]) && (my_soulsauce() >= soulsauce_cost($skill[Soul Bubble])) && (!get_property("lovebugsUnlocked").to_boolean() || blocked))
+		{
+			set_property("cc_combatHandler", combatState + "(soulbubble)");
+			return "skill " + $skill[Soul Bubble];
+		}
+
+		if(!contains_text(combatState, "hogtie") && !contains_text(combatState, "beanscreen") && have_skill($skill[Hogtie]) && (my_mp() >= (6 * mp_cost($skill[Hogtie]))) && hasLeg(enemy))
+		{
+			set_property("cc_combatHandler", combatState + "(hogtie)");
+			return  "skill " + $skill[Hogtie];
+		}
+
+
 		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(combatState, "shootghost3"))
 		{
 			if(contains_text(combatState, "shootghost2"))
@@ -1049,8 +1087,9 @@ string cc_combatHandler(int round, string opp, string text)
 
 			return "skill " + $skill[Shoot Ghost];
 		}
-		if(have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(combatState, "shootghost3"))
+		if(!contains_text(combatState, "trapghost") && have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(combatState, "shootghost3"))
 		{
+			set_property("cc_combatHandler", combatState + "(trapghost)");
 			return "skill " + $skill[Trap Ghost];
 		}
 	}
