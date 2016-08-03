@@ -65,11 +65,16 @@ void initializeSettings()
 	set_property("chasmBridgeProgress", 0);
 	set_property("nosyNoseMonster", 0);
 	string pool = visit_url("questlog.php?which=3");
-#	matcher my_pool = create_matcher("a skill level of (\\d+) at shooting pool", pool);
-#	if(my_pool.find())
-#	{
-#		set_property("poolSkill", to_int(my_pool.group(1)));
-#	}
+	matcher my_pool = create_matcher("a skill level of (\\d+) at shooting pool", pool);
+	if(my_pool.find() && (my_turncount() == 0))
+	{
+		int curSkill = to_int(my_pool.group(1));
+		int sharkCount = curSkill * curSkill;
+		if(get_property("poolSharkCount").to_int() < sharkCount)
+		{
+			set_property("poolSharkCount", sharkCount);
+		}
+	}
 
 
 	set_property("cc_abooclover", true);
