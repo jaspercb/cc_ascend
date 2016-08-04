@@ -903,6 +903,7 @@ boolean LX_ghostBusting()
 	if((goal != $location[none]) && have_equipped($item[Protonic Accelerator Pack]))
 	{
 		useCocoon();
+		print("Ghost busting time! At: " + get_property("ghostLocation"), "blue");
 		if(goal == $location[The Skeleton Store])
 		{
 			startMeatsmithSubQuest();
@@ -1014,6 +1015,7 @@ boolean LX_ghostBusting()
 			return false;
 		}
 
+		item replaceAcc3 = $item[none];
 		if(goal == $location[Inside The Palindome])
 		{
 			if(!possessEquipment($item[Talisman O\' Namsilat]))
@@ -1022,12 +1024,19 @@ boolean LX_ghostBusting()
 			}
 			if(equipped_item($slot[acc3]) != $item[Talisman O\' Namsilat])
 			{
+				replaceAcc3 = equipped_item($slot[acc3]);
 				equip($slot[acc3], $item[Talisman O\' Namsilat]);
 			}
 		}
 
 		print("Time to bust some ghosts!!!", "green");
-		return ccAdv(goal);
+		boolean advVal = ccAdv(goal);
+		if(replaceAcc3 != $item[none])
+		{
+			equip($slot[acc3], replaceAcc3);
+		}
+
+		return advVal;
 	}
 	return false;
 }
