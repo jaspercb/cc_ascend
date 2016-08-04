@@ -1330,7 +1330,7 @@ boolean isGhost(monster mon)
 
 boolean isProtonGhost(monster mon)
 {
-	boolean[monster] ghosts = $monsters[Boneless Blobghost, Emily Koops\, A Spooky Lime, The Ghost of Ebenoozer Screege, The Ghost of Jim Unfortunato, The Ghost of Lord Montague Spookyraven, The Ghost of Monsieur Baguelle, The Ghost of Oily McBindle, The Ghost of Richard Cockingham, The Ghost of Sam McGee, The Ghost of Waldo the Carpathian, The Headless Horseman, The Icewoman];
+	boolean[monster] ghosts = $monsters[Boneless Blobghost, Emily Koops\, A Spooky Lime, The Ghost of Ebenoozer Screege, The Ghost of Jim Unfortunato, The Ghost of Lord Montague Spookyraven, The Ghost of Monsieur Baguelle, The Ghost of Oily McBindle, The Ghost of Richard Cockingham, The Ghost of Sam McGee, The Ghost of Vanillica \"Trashblossom\" Gorton, The Ghost of Waldo the Carpathian, The Headless Horseman, The Icewoman];
 	if(ghosts contains mon)
 	{
 		return true;
