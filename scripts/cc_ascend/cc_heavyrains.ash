@@ -340,6 +340,11 @@ boolean rainManSummon(string monsterName, boolean copy, boolean wink, string opt
 		return false;
 	}
 
+	if(!have_skill($skill[Rain Man]))
+	{
+		return false;
+	}
+
 	# Some of the logic here has been lost due to cc_combat.ash
 	# It will probably never be updated since it just slows down the script and has no actual damage.
 
