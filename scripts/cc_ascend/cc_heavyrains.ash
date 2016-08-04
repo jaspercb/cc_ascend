@@ -49,43 +49,43 @@ boolean routineRainManHandler()
 		if(get_property("cc_mountainmen") == "")
 		{
 			set_property("cc_mountainmen", "1");
-			rainManSummon("mountain man", true, false);
-			return true;
+			return rainManSummon("mountain man", true, false);
 		}
 
 		if(get_property("cc_gaudypirate") == "")
 		{
 			set_property("cc_gaudypirate", "1");
-			rainManSummon("gaudy pirate", true, false);
-			return true;
+			return rainManSummon("gaudy pirate", true, false);
 		}
 
 		if(get_property("cc_trapper") == "start")
 		{
-			rainManSummon("mountain man", false, false);
-			return true;
+			return rainManSummon("mountain man", false, false);
 		}
 
 		if(get_property("cc_ninjasnowmanassassin") == "")
 		{
-			rainManSummon("ninja snowman assassin", true, false);
-			return true;
+			return rainManSummon("ninja snowman assassin", true, false);
 		}
 
 		if((have_effect($effect[Everything Looks Yellow]) == 0) && (get_property("cc_orcishfratboyspy") == ""))
 		{
-			rainManSummon("orcish frat boy spy", false, false);
-			return true;
+			return rainManSummon("orcish frat boy spy", false, false);
 		}
 
 		if(!contains_text(get_property("nsTowerDoorKeysUsed"),"star key"))
 		{
-			if(!rainManSummon("skinflute", true, false))
+			boolean result = rainManSummon("skinflute", true, false);
+			if(!result)
 			{
 				if((item_amount($item[star chart]) == 0) && (item_amount($item[richard\'s star key]) == 0))
 				{
-					rainManSummon("the astronomer", false, false);
+					return rainManSummon("the astronomer", false, false);
 				}
+			}
+			else
+			{
+				return true;
 			}
 		}
 		if(!contains_text(get_property("nsTowerDoorKeysUsed"),"digital key"))
@@ -94,7 +94,7 @@ boolean routineRainManHandler()
 			{
 				if((item_amount($item[white pixel]) < 30) && (item_amount($item[digital key]) == 0))
 				{
-					rainManSummon("ghost", false, false);
+					return rainManSummon("ghost", false, false);
 				}
 			}
 		}
