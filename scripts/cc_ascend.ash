@@ -8028,12 +8028,11 @@ boolean L8_trapperGround()
 		ccAdv(1, $location[The Goatlet]);
 		return true;
 	}
-	else if((my_rain() > 50) && (have_effect($effect[Ultrahydrated]) == 0) && (cc_my_path() == "Heavy Rains"))
+	else if((my_rain() > 50) && (have_effect($effect[Ultrahydrated]) == 0) && (cc_my_path() == "Heavy Rains") && have_skill($skill[Rain Man]))
 	{
 		print("Trying to summon a mountain man", "blue");
 		set_property("cc_mountainmen", "1");
-		rainManSummon("mountain man", false, false);
-		return true;
+		return rainManSummon("mountain man", false, false);
 	}
 	else if(cc_my_path() == "Heavy Rains")
 	{
