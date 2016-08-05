@@ -409,7 +409,7 @@ boolean LA_cs_communityService()
 
 			if((get_property("dnaSyringe") == $phylum[pirate]) && (get_property("_dnaPotionsMade").to_int() == 0))
 			{
-				cli_execute("camp dnainject");
+				cli_execute("camp dnapotion");
 			}
 
 			if((item_amount($item[Gene Tonic: Pirate]) == 0) && (get_property("_dnaPotionsMade").to_int() < 3) && (item_amount($item[DNA Extraction Syringe]) > 0) && elementalPlanes_access($element[stench]))
@@ -420,7 +420,7 @@ boolean LA_cs_communityService()
 
 			if((get_property("dnaSyringe") == $phylum[elemental]) && (get_property("_dnaPotionsMade").to_int() == 1))
 			{
-				cli_execute("camp dnainject");
+				cli_execute("camp dnapotion");
 			}
 
 			if((((item_amount($item[Gene Tonic: Elemental]) == 0) && (get_property("_dnaPotionsMade").to_int() < 3)) || !get_property("_dnaHybrid").to_boolean()) && (item_amount($item[DNA Extraction Syringe]) > 0) && elementalPlanes_access($element[hot]))
