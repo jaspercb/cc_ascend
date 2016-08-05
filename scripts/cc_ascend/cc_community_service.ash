@@ -2363,7 +2363,7 @@ void cs_make_stuff()
 	}
 	if(my_daycount() == 2)
 	{
-		if((available_amount($item[Saucepanic]) == 1) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+		if((available_amount($item[Saucepanic]) == 1) && (item_amount($item[Lump of Brituminous Coal]) > 0) && have_skill($skill[Double-Fisted Skull Smashing]))
 		{
 			cli_execute("make Saucepanic");
 		}

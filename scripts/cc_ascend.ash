@@ -5854,6 +5854,8 @@ boolean L11_defeatEd()
 			equip($item[beer helmet]);
 		}
 	}
+
+	useCocoon();
 	print("Time to waste all of Ed's Ka Coins :(", "blue");
 
 	set_property("choiceAdventure976", "1");
