@@ -205,7 +205,18 @@ void initializeSettings()
 	beehiveConsider();
 
 	cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
-	cc_sourceTerminalRequest("enquiry familiar.enq");
+	if(contains_text(get_property("sourceTerminalEnquiryKnown"), "familiar.enq"))
+	{
+		cc_sourceTerminalRequest("enquiry familiar.enq");
+	}
+	else if(contains_text(get_property("sourceTerminalEnquiryKnown"), "stats.enq"))
+	{
+		cc_sourceTerminalRequest("enquiry stats.enq");
+	}
+	else if(contains_text(get_property("sourceTerminalEnquiryKnown"), "protect.enq"))
+	{
+		cc_sourceTerminalRequest("enquiry protect.enq");
+	}
 
 	elementalPlanes_initializeSettings();
 	eudora_initializeSettings();

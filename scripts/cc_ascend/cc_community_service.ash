@@ -2172,18 +2172,17 @@ void cs_initializeDay(int day)
 			use(item_amount($item[Pork Elf Goodies Sack]), $item[Pork Elf Goodies Sack]);
 			tootGetMeat();
 
-			int[string] terminalStatus = cc_sourceTerminalStatus();
 			cc_sourceTerminalEducate($skill[Extract], $skill[Turbo]);
 
-			if(terminalStatus["stats.enq"] == 1)
+			if(contains_text(get_property("sourceTerminalEnquiryKnown"), "stats.enq"))
 			{
 				cc_sourceTerminalRequest("enquiry stats.enq");
 			}
-			else if(terminalStatus["protect.enq"] == 1)
+			else if(contains_text(get_property("sourceTerminalEnquiryKnown"), "protect.enq"))
 			{
 				cc_sourceTerminalRequest("enquiry protect.enq");
 			}
-			else
+			else if(contains_text(get_property("sourceTerminalEnquiryKnown"), "familiar.enq"))
 			{
 				cc_sourceTerminalRequest("enquiry familiar.enq");
 			}
