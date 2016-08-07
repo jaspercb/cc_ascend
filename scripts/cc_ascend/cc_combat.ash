@@ -1089,6 +1089,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 		if(!contains_text(combatState, "trapghost") && have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(combatState, "shootghost3"))
 		{
+			print("Busting makes me feel good!!", "green");
 			set_property("cc_combatHandler", combatState + "(trapghost)");
 			return "skill " + $skill[Trap Ghost];
 		}
@@ -1120,6 +1121,7 @@ string cc_combatHandler(int round, string opp, string text)
 //		Can not use _usedReplicaBatoomerang if we have more than 1 because of the double item use issue...
 //		Sure, we can try to use a second item (if we have it or are forced to buy it... ugh).
 //		if(!contains_text(combatState, "batoomerang") && (item_amount($item[Replica Bat-oomerang]) > 0) && (get_property("_usedReplicaBatoomerang").to_int() < 3))
+//		THIS IS COPIED TO THE ED SECTION, IF IT IS FIXED, FIX IT THERE TOO!
 		if(!contains_text(combatState, "batoomerang") && (item_amount($item[Replica Bat-oomerang]) > 0))
 		{
 			if(get_property("cc_batoomerangDay").to_int() != my_daycount())
@@ -2186,6 +2188,68 @@ string cc_edCombatHandler(int round, string opp, string text)
 			set_property("cc_edStatus", "dying");
 		}
 	}
+
+	if(have_equipped($item[Protonic Accelerator Pack]) && isGhost(enemy))
+	{
+		if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
+		{
+			set_property("cc_combatHandler", combatState + "(love gnats)");
+			return "skill summon love gnats";
+		}
+
+		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(combatState, "shootghost3"))
+		{
+			if(contains_text(combatState, "shootghost2"))
+			{
+				set_property("cc_combatHandler", combatState + "(shootghost3)");
+			}
+			else if(contains_text(combatState, "shootghost1"))
+			{
+				set_property("cc_combatHandler", combatState + "(shootghost2)");
+			}
+			else
+			{
+				set_property("cc_combatHandler", combatState + "(shootghost1)");
+			}
+
+			return "skill " + $skill[Shoot Ghost];
+		}
+		if(!contains_text(combatState, "trapghost") && have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(combatState, "shootghost3"))
+		{
+			print("Busting makes me feel good!!", "green");
+			set_property("cc_combatHandler", combatState + "(trapghost)");
+			return "skill " + $skill[Trap Ghost];
+		}
+	}
+
+
+	# Instakill handler
+	if(!enemy.boss && !isFreeMonster(enemy))
+	{
+		if(!contains_text(combatState, "batoomerang") && (item_amount($item[Replica Bat-oomerang]) > 0))
+		{
+			if(get_property("cc_batoomerangDay").to_int() != my_daycount())
+			{
+				set_property("cc_batoomerangDay", my_daycount());
+				set_property("cc_batoomerangUse", 0);
+			}
+			if(get_property("cc_batoomerangUse").to_int() < 3)
+			{
+				set_property("cc_batoomerangUse", get_property("cc_batoomerangUse").to_int() + 1);
+				set_property("cc_combatHandler", combatState + "(batoomerang)");
+				handleTracker(enemy, $item[Replica Bat-oomerang], "cc_instakill");
+				return "item " + $item[Replica Bat-oomerang];
+			}
+		}
+
+		if(!contains_text(combatState, "jokesterGun") && (equipped_item($slot[Weapon]) == $item[The Jokester\'s Gun]) && !get_property("_firedJokestersGun").to_boolean() && have_skill($skill[Fire the Jokester\'s Gun]))
+		{
+			set_property("cc_combatHandler", combatState + "(jokesterGun)");
+			handleTracker(enemy, $skill[Fire the Jokester\'s Gun], "cc_instakill");
+			return "skill" + $skill[Fire the Jokester\'s Gun];
+		}
+	}
+
 
 	if(get_property("cc_edStatus") == "UNDYING!")
 	{

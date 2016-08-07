@@ -49,7 +49,7 @@ void handleKingLiberation()
 			pullAll(it);
 		}
 
-		toPull = $items[Bittycar meatcar, burrowgrub hive, chester\'s bag of candy, chroner cross, chroner trigger, the cocktail shaker, festive warbear bank, glass gnoll eye, infinite BACON machine, picky tweezers, taco dan\'s taco stand flier, Trivial Avocations Board Game, warbear breakfast machine, warbear soda machine];
+		toPull = $items[Bittycar meatcar, burrowgrub hive, Can of Rain-Doh, Cheap Toaster, chester\'s bag of candy, chroner cross, chroner trigger, the cocktail shaker, festive warbear bank, glass gnoll eye, infinite BACON machine, picky tweezers, taco dan\'s taco stand flier, Trivial Avocations Board Game, warbear breakfast machine, warbear soda machine];
 		foreach it in toPull
 		{
 			if(storage_amount(it) > 0)
@@ -57,13 +57,6 @@ void handleKingLiberation()
 				print("Pulling/Using " + storage_amount(it) + " " + it, "green");
 			}
 			pullAndUse(it, 1);
-		}
-
-		pullAndUse($item[cheap toaster], 3);
-
-		if(item_amount($item[can of rain-doh]) > 0)
-		{
-			use(1, $item[can of rain-doh]);
 		}
 
 		pullPVPJunk();

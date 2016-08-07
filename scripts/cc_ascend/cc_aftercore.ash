@@ -781,7 +781,7 @@ boolean cc_cheesePostCS()
 
 boolean cc_cheesePostCS(int leave)
 {
-	if(!didWePlantHere($location[Barf Mountain]) && florist_available() && (my_adventures() > 0))
+	if(!didWePlantHere($location[Barf Mountain]) && florist_available() && (my_adventures() > 0) && (inebriety_left() >= 0))
 	{
 		ccAdv(1, $location[Barf Mountain]);
 		cli_execute("florist plant stealing magnolia");
@@ -789,9 +789,10 @@ boolean cc_cheesePostCS(int leave)
 		cli_execute("florist plant aloe guv'nor");
 	}
 
-	cc_sourceTerminalExtrude($item[Hacked Gibson]);
-	cc_sourceTerminalExtrude($item[Hacked Gibson]);
-	cc_sourceTerminalExtrude($item[Hacked Gibson]);
+	while((get_property("_sourceTerminalExtrudes").to_int() < 3) && contains_text(get_property("sourceTerminalExtrudeKnown"),"booze.ext"))
+	{
+		cc_sourceTerminalExtrude($item[Hacked Gibson]);
+	}
 	while((my_mp() < 100) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available() && (inebriety_left() > 0))
 	{
 		doRest();
@@ -878,10 +879,10 @@ boolean cc_cheesePostCS(int leave)
 		equip($item[Buddy Bjorn]);
 		bjornify_familiar($familiar[Warbear Drone]);
 	}
-#	if(item_amount($item[Protonic Accelerator Pack]) > 0)
-#	{
-#		equip($item[Protonic Accelerator Pack]);
-#	}
+	if(item_amount($item[Protonic Accelerator Pack]) > 0)
+	{
+		equip($item[Protonic Accelerator Pack]);
+	}
 	if(item_amount($item[Sneaky Pete\'s Leather Jacket]) > 0)
 	{
 		equip($item[Sneaky Pete\'s Leather Jacket]);
@@ -918,15 +919,15 @@ boolean cc_cheesePostCS(int leave)
 	{
 		equip($slot[acc2], $item[Sister Accessory]);
 	}
-	if(item_amount($item[Mr. Cheeng\'s Spectacles]) > 0)
+	if(item_amount($item[Mr. Screege\'s Spectacles]) > 0)
+	{
+		equip($slot[acc3], $item[Mr. Screege\'s Spectacles]);
+	}
+	else if(item_amount($item[Mr. Cheeng\'s Spectacles]) > 0)
 	{
 		equip($slot[acc3], $item[Mr. Cheeng\'s Spectacles]);
 	}
 
-//	if(item_amount($item[Source Shades]) > 0)
-//	{
-//		equip($slot[acc3], $item[Source Shades]);
-//	}
 	if(item_amount($item[Infinite BACON Machine]) > 0)
 	{
 		if(have_familiar($familiar[Hobo Monkey]))
@@ -1191,7 +1192,11 @@ boolean cc_cheesePostCSWalford()
 	{
 		equip($slot[acc1], $item[Cheap Sunglasses]);
 	}
-	if(item_amount($item[Sister Accessory]) > 0)
+	if(item_amount($item[Mr. Screege\'s Spectacles]) > 0)
+	{
+		equip($slot[acc2], $item[Mr. Screege\'s Spectacles]);
+	}
+	else if(item_amount($item[Sister Accessory]) > 0)
 	{
 		equip($slot[acc2], $item[Sister Accessory]);
 	}
