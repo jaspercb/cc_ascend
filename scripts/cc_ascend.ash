@@ -2758,12 +2758,12 @@ boolean L11_aridDesert()
 				set_property("cc_nunsTrickGland", "start");
 			}
 		}
-		else
+		else if(get_property("cc_nunsTrick") != "no")
 		{
 #			print("Only have some of the War Hippy Fatigues, so I'm going to closet everything relevant to get them in the desert", "blue");
 			foreach it in $items[Reinforced Beaded Headband, Bullet-proof Corduroys, Round Purple Sunglasses, Beer Helmet, Distressed Denim Pants, Bejeweled Pledge Pin]
 			{
-				put_closet(closet_amount(it), it);
+				put_closet(item_amount(it), it);
 			}
 		}
 
@@ -12274,7 +12274,7 @@ boolean doTasks()
 	}
 	if(get_property("cc_hippyInstead").to_boolean() && (get_property("cc_nunsTrick") == "true"))
 	{
-		set_property("cc_nunsTrick", "false");
+		set_property("cc_nunsTrick", false);
 		set_property("cc_ignoreFlyer", true);
 	}
 

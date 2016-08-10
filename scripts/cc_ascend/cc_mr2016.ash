@@ -39,6 +39,10 @@ boolean snojoFightAvailable()
 	{
 		return false;
 	}
+	if(my_inebriety() > inebriety_limit())
+	{
+		return false;
+	}
 
 	if(!get_property("kingLiberated").to_boolean())
 	{
@@ -1034,6 +1038,11 @@ boolean LX_ghostBusting()
 		if(replaceAcc3 != $item[none])
 		{
 			equip($slot[acc3], replaceAcc3);
+		}
+		if(have_effect($effect[Beaten Up]) == 0)
+		{
+			set_property("questPAGhost", "");
+			set_property("ghostLocation", "");
 		}
 
 		return advVal;
