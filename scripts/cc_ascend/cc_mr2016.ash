@@ -1041,7 +1041,7 @@ boolean LX_ghostBusting()
 		}
 		if(have_effect($effect[Beaten Up]) == 0)
 		{
-			set_property("questPAGhost", "");
+			set_property("questPAGhost", "unstarted");
 			set_property("ghostLocation", "");
 		}
 
