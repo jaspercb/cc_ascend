@@ -796,6 +796,7 @@ boolean LA_cs_communityService()
 				}
 
 				cc_sourceTerminalEducate($skill[Duplicate], $skill[Extract]);
+				useCocoon();
 				if(handleFaxMonster($monster[Sk8 gnome], combatString))
 				{
 					return true;
@@ -944,6 +945,7 @@ boolean LA_cs_communityService()
 				{
 					handleFamiliar("yellow ray");
 				}
+				useCocoon();
 				if(handleFaxMonster($monster[Sk8 gnome], "cs_combatYR"))
 				{
 					return true;
@@ -2632,7 +2634,7 @@ string cs_combatNormal(int round, string opp, string text)
 		}
 	}
 
-	if(have_skill($skill[Duplicate]) && (enemy == $monster[Sk8 Gnome]))
+	if(have_skill($skill[Duplicate]) && have_skill($skill[Curse of Weaksauce]) && have_skill($skill[Conspiratorial Whispers]) && (enemy == $monster[Sk8 Gnome]))
 	{
 		foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Summon Love Mosquito, Shell Up, Silent Slam, Summon Love Stinkbug, Extract, Duplicate]
 		{

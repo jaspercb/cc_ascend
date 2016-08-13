@@ -193,6 +193,12 @@ boolean tryPantsEat()
 		{
 			if(item_amount(it) > 0)
 			{
+				cli_execute("refresh inv");
+				if(item_amount(it) == 0)
+				{
+					print("Error, mafia thought you had " + it + " but you didn't....", "red");
+					return false;
+				}
 				if((get_property("mayoInMouth") == "") && (cc_get_campground() contains $item[Portable Mayo Clinic]))
 				{
 					if((item_amount($item[Mayoflex]) == 0) && (my_meat() > 12000))

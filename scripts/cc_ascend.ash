@@ -11712,7 +11712,7 @@ boolean doTasks()
 			doHottub();
 		}
 	}
-	if((have_effect($effect[beaten up]) > 0) && (cc_my_path() == "The Source") && (last_monster() == $monster[Source Agent]))
+	if((have_effect($effect[Beaten Up]) > 0) && (cc_my_path() == "The Source") && (last_monster() == $monster[Source Agent]))
 	{
 		if((my_mp() > 100) && have_skill($skill[Tongue of the Walrus]) && have_skill($skill[Cannelloni Cocoon]))
 		{
@@ -11725,7 +11725,7 @@ boolean doTasks()
 		}
 	}
 
-	if(have_effect($effect[beaten up]) > 0)
+	if(have_effect($effect[Beaten Up]) > 0)
 	{
 		if(have_effect($effect[Temporary Amnesia]) > 0)
 		{

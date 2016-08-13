@@ -783,7 +783,7 @@ void handlePostAdventure()
 		buffMaintain($effect[Disdain of the War Snapper], 80, 1, 10);
 		buffMaintain($effect[Walberg\'s Dim Bulb], 80, 1, 10);
 		buffMaintain($effect[Springy Fusilli], 80, 1, 10);
-		buffMaintain($effect[Flimsy Shield of the Pastalord], 80, 1, 10);
+		buffMaintain($effect[Flimsy Shield of the Pastalord], 100, 1, 10);
 		buffMaintain($effect[Blubbered Up], 80, 1, 10);
 		if(my_level() < 13)
 		{
@@ -791,7 +791,7 @@ void handlePostAdventure()
 		}
 		buffMaintain($effect[Tenacity of the Snapper], 120, 1, 10);
 		buffMaintain($effect[Reptilian Fortitude], 80, 1, 10);
-		buffMaintain($effect[Antibiotic Saucesphere], 140, 1, 10);
+		buffMaintain($effect[Antibiotic Saucesphere], 300, 1, 10);
 		buffMaintain($effect[Disco Fever], 80, 1, 10);
 		buffMaintain($effect[Seal Clubbing Frenzy], 50, 5, 4);
 		buffMaintain($effect[Patience of the Tortoise], 50, 5, 4);
