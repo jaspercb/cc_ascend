@@ -8616,12 +8616,7 @@ boolean LX_desertAlternate()
 		if((item_amount($item[Old Claw-Foot Bathtub]) > 0) && (item_amount($item[Old Clothesline Pole]) > 0) && (item_amount($item[Antique Cigar Sign]) > 0) && (item_amount($item[Worse Homes and Gardens]) > 0))
 		{
 			cli_execute("make 1 junk junk");
-			string temp = visit_url("island.php");
-			if(contains_text(temp, "You can't go to the island unless you have a means of transportation to get there."))
-			{
-				print("You do not appear to have island access...");
-				cli_execute("login " + my_name());
-			}
+			string temp = visit_url("place.php?whichplace=woods&action=woods_hippy");
 			return true;
 		}
 
