@@ -69,7 +69,17 @@ boolean cc_barrelPrayers()
 
 	boolean[string] prayers;
 
-	if(my_path() == "The Source")
+	if(my_path() == "Nuclear Autumn")
+	{
+		switch(my_daycount())
+		{
+		case 1:				prayers = $strings[Vigor, Glamour];					break;
+		case 2:				prayers = $strings[Vigor, Glamour];					break;
+		case 3:				prayers = $strings[Glamour, Vigor];					break;
+		case 4:				prayers = $strings[Protection, Glamour, Vigor];		break;
+		}
+	}
+	else if(my_path() == "The Source")
 	{
 		switch(my_daycount())
 		{

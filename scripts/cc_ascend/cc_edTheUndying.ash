@@ -150,9 +150,9 @@ void ed_initializeDay(int day)
 
 			if(item_amount($item[Seal Tooth]) == 0)
 			{
-				hermit(1, $item[Seal Tooth]);
+				acquireHermitItem($item[Seal Tooth]);
 			}
-			hermit(10, $item[ten-leaf clover]);
+			while(acquireHermitItem($item[Ten-leaf Clover]));
 			pullXWhenHaveY($item[hand in glove], 1, 0);
 			pullXWhenHaveY($item[blackberry galoshes], 1, 0);
 			pullXWhenHaveY(whatHiMein(), 1, 0);
@@ -165,7 +165,7 @@ void ed_initializeDay(int day)
 		if(get_property("cc_day3_init") == "")
 		{
 			set_property("cc_renenutetBought", 0);
-			hermit(10, $item[ten-leaf clover]);
+			while(acquireHermitItem($item[Ten-leaf Clover]));
 			set_property("cc_day3_init", "finished");
 		}
 	}
@@ -174,7 +174,7 @@ void ed_initializeDay(int day)
 		if(get_property("cc_day4_init") == "")
 		{
 			set_property("cc_renenutetBought", 0);
-			hermit(10, $item[ten-leaf clover]);
+			while(acquireHermitItem($item[Ten-leaf Clover]));
 			set_property("cc_day4_init", "finished");
 		}
 	}
@@ -1746,21 +1746,9 @@ boolean LM_edTheUndying()
 	{
 		return true;
 	}
-	if((item_amount($item[Hermit Permit]) == 0) && (my_meat() > 100))
+	if(item_amount($item[Seal Tooth]) == 0)
 	{
-		buyUpTo(1, $item[Hermit Permit], 100);
-	}
-	while((item_amount($item[Seal Tooth]) == 0) && (item_amount($item[Hermit Permit]) > 0) && (my_meat() > 50))
-	{
-		if((item_amount($item[Worthless Trinket]) + item_amount($item[Worthless Gewgaw]) + item_amount($item[Worthless Knick-knack])) > 0)
-		{
-			hermit(1, $item[Seal Tooth]);
-		}
-		else
-		{
-			buyUpTo(1, $item[chewing gum on a string]);
-			use(1, $item[chewing gum on a string]);
-		}
+		acquireHermitItem($item[Seal Tooth]);
 	}
 
 	if(my_level() >= 9)

@@ -63,9 +63,9 @@ void pete_initializeDay(int day)
 
 			if(item_amount($item[Seal Tooth]) == 0)
 			{
-				hermit(1, $item[Seal Tooth]);
+				acquireHermitItem($item[Seal Tooth]);
 			}
-			hermit(10, $item[ten-leaf clover]);
+			while(acquireHermitItem($item[Ten-leaf Clover]));
 			pullXWhenHaveY($item[hand in glove], 1, 0);
 			pullXWhenHaveY($item[blackberry galoshes], 1, 0);
 			pullXWhenHaveY(whatHiMein(), 1, 0);
@@ -77,7 +77,7 @@ void pete_initializeDay(int day)
 	{
 		if(get_property("cc_day3_init") == "")
 		{
-			hermit(10, $item[ten-leaf clover]);
+			while(acquireHermitItem($item[Ten-leaf Clover]));
 			set_property("cc_day3_init", "finished");
 		}
 	}
@@ -85,7 +85,7 @@ void pete_initializeDay(int day)
 	{
 		if(get_property("cc_day4_init") == "")
 		{
-			hermit(10, $item[ten-leaf clover]);
+			while(acquireHermitItem($item[Ten-leaf Clover]));
 			set_property("cc_day4_init", "finished");
 		}
 	}

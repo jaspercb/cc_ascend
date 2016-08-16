@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17114;
+since r17123;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -22,6 +22,7 @@ import <cc_ascend/cc_mr2015.ash>
 import <cc_ascend/cc_mr2016.ash>
 
 import <cc_ascend/cc_boris.ash>
+import <cc_ascend/cc_fallout.ash>
 import <cc_ascend/cc_sneakypete.ash>
 import <cc_ascend/cc_heavyrains.ash>
 import <cc_ascend/cc_picky.ash>
@@ -132,6 +133,7 @@ void initializeSettings()
 	set_property("cc_grimstoneOrnateDowsingRod", true);
 	set_property("cc_gunpowder", "");
 	set_property("cc_haveoven", false);
+	set_property("cc_haveSourceTerminal", false);
 	set_property("cc_hedge", "fast");
 	set_property("cc_hiddenapartment", "0");
 	set_property("cc_hiddenbowling", "");
@@ -145,6 +147,7 @@ void initializeSettings()
 	set_property("cc_holeinthesky", false);
 	set_property("cc_ignoreFlyer", false);
 	set_property("cc_instakill", "");
+	set_property("cc_landfillAvailable", false);
 	set_property("cc_masonryWall", false);
 	set_property("cc_mcmuffin", "");
 	set_property("cc_mistypeak", "");
@@ -229,6 +232,7 @@ void initializeSettings()
 	ocrs_initializeSettings();
 	ed_initializeSettings();
 	boris_initializeSettings();
+	fallout_initializeSettings();
 	pete_initializeSettings();
 }
 
@@ -1477,6 +1481,7 @@ void initializeDay(int day)
 	chateaumantegna_useDesk();
 	ed_initializeDay(day);
 	boris_initializeDay(day);
+	fallout_initializeDay(day);
 	pete_initializeDay(day);
 	cs_initializeDay(day);
 
@@ -1524,15 +1529,18 @@ void initializeDay(int day)
 
 			hr_initializeDay(day);
 
-			if((item_amount($item[Antique Accordion]) == 0) && !($classes[Accordion Thief, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()) && (my_meat() > npc_price($item[Toy Accordion])))
+			if((item_amount($item[Antique Accordion]) == 0) && isGeneralStoreAvailable() && !($classes[Accordion Thief, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()) && (my_meat() > npc_price($item[Toy Accordion])))
 			{
 				buyUpTo(1, $item[Toy Accordion]);
 			}
 
-			while(((item_amount($item[turtle totem]) == 0) || (item_amount($item[saucepan]) == 0)) && (my_meat() > npc_price($item[Chewing Gum on a String])))
+			if(item_amount($item[Turtle Totem]) == 0)
 			{
-				buyUpTo(1, $item[chewing gum on a string]);
-				use(1, $item[chewing gum on a string]);
+				acquireGumItem($item[Turtle Totem]);
+			}
+			if(item_amount($item[Saucepan]) == 0)
+			{
+				acquireGumItem($item[Saucepan]);
 			}
 
 			makeStartingSmiths();
@@ -1584,13 +1592,10 @@ void initializeDay(int day)
 				pulverizeThing($item[hairpiece on fire]);
 				pulverizeThing($item[vicar\'s tutu]);
 			}
-			if(my_meat() > npc_price($item[Chewing Gum on a String]))
+			while(acquireHermitItem($item[Ten-Leaf Clover]));
+			if((item_amount($item[Antique Accordion]) == 0) && isUnclePAvailable() && !($classes[Accordion Thief, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()))
 			{
-				hermit(6, $item[ten-leaf clover]);
-			}
-			if((item_amount($item[Antique Accordion]) == 0) && !($classes[Accordion Thief, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()))
-			{
-				buyUpTo(1, $item[antique accordion]);
+				buyUpTo(1, $item[Antique Accordion]);
 			}
 			if(my_class() == $class[Avatar of Boris])
 			{
@@ -1658,7 +1663,7 @@ void initializeDay(int day)
 		if(get_property("cc_day3_init") == "")
 		{
 			set_property("_beancannonUsed", 0);
-			hermit(10, $item[ten-leaf clover]);
+			while(acquireHermitItem($item[Ten-leaf Clover]));
 
 			picky_pulls();
 			standard_pulls();
@@ -1671,7 +1676,7 @@ void initializeDay(int day)
 		if(get_property("cc_day4_init") == "")
 		{
 			set_property("_beancannonUsed", 0);
-			hermit(10, $item[ten-leaf clover]);
+			while(acquireHermitItem($item[Ten-leaf Clover]));
 			set_property("cc_day4_init", "finished");
 		}
 	}
@@ -1828,10 +1833,8 @@ void doBedtime()
 
 	//We are committing to end of day now...
 
-	if(my_meat() > npc_price($item[Chewing Gum on a String]))
-	{
-		hermit(6, $item[ten-leaf clover]);
-	}
+	while(acquireHermitItem($item[Ten-leaf Clover]));
+
 	while(cc_doPrecinct());
 
 	if((friars_available()) && (!get_property("friarsBlessingReceived").to_boolean()))
@@ -2059,6 +2062,7 @@ void doBedtime()
 	{
 		print("Pulls remaining: " + pulls_remaining(), "olive");
 	}
+
 	if(have_skill($skill[Inigo\'s Incantation of Inspiration]))
 	{
 		int craftingLeft = 5 - get_property("_inigosCasts").to_int();
@@ -5953,16 +5957,14 @@ boolean L12_gremlinStart()
 
 	if((!possessEquipment($item[Ouija Board\, Ouija Board])) && (item_amount($item[Lump of Brituminous Coal]) > 0))
 	{
-		while((item_amount($item[turtle totem]) == 0) && (my_meat() > npc_price($item[Chewing Gum On A String])))
+		if(item_amount($item[Turtle Totem]) == 0)
 		{
-			buyUpTo(1, $item[chewing gum on a string]);
-			use(1, $item[chewing gum on a string]);
+			acquireGumItem($item[Turtle Totem]);
 		}
 		ccCraft("smith", 1, $item[lump of Brituminous coal], $item[turtle totem]);
-		while((item_amount($item[turtle totem]) == 0) && (my_meat() > npc_price($item[Chewing Gum On A String])))
+		if(item_amount($item[Turtle Totem]) == 0)
 		{
-			buyUpTo(1, $item[chewing gum on a string]);
-			use(1, $item[chewing gum on a string]);
+			acquireGumItem($item[Turtle Totem]);
 		}
 	}
 	if((item_amount($item[louder than bomb]) == 0) && (item_amount($item[Handful of Smithereens]) > 0) && (my_meat() > npc_price($item[Ben-Gal&trade; Balm])))
@@ -8399,22 +8401,14 @@ boolean LX_craftAcquireItems()
 	}
 
 	#Can we have some other way to check that we have AT skills?
-	if((item_amount($item[antique accordion]) == 0) && (my_meat() > 12500) && (have_skill($skill[The Ode to Booze])) && (my_class() != $class[Accordion Thief]))
+	if((item_amount($item[Antique Accordion]) == 0) && isUnclePAvailable() && (my_meat() > 12500) && (have_skill($skill[The Ode to Booze])) && (my_class() != $class[Accordion Thief]))
 	{
-		buyUpTo(1, $item[antique accordion]);
+		buyUpTo(1, $item[Antique Accordion]);
 	}
 
-	while((item_amount($item[Seal Tooth]) == 0) && (item_amount($item[Hermit Permit]) > 0) && (my_meat() > 7500))
+	if((my_meat() > 7500) && (item_amount($item[Seal Tooth]) == 0))
 	{
-		if((item_amount($item[Worthless Trinket]) + item_amount($item[Worthless Gewgaw]) + item_amount($item[Worthless Knick-knack])) > 0)
-		{
-			hermit(1, $item[Seal Tooth]);
-		}
-		else
-		{
-			buyUpTo(1, $item[chewing gum on a string]);
-			use(1, $item[chewing gum on a string]);
-		}
+		acquireHermitItem($item[Seal Tooth]);
 	}
 
 	if(my_class() == $class[Turtle Tamer])
@@ -8547,7 +8541,7 @@ boolean LX_meatMaid()
 
 boolean LX_bitchinMeatcar()
 {
-	if((item_amount($item[Bitchin\' Meatcar]) > 0) || gnomads_available() || (my_class() == $class[Ed]))
+	if((item_amount($item[Bitchin\' Meatcar]) > 0) || gnomads_available() || (my_class() == $class[Ed]) || (cc_my_path() == "Nuclear Autumn"))
 	{
 		return false;
 	}
@@ -8595,9 +8589,89 @@ boolean LX_bitchinMeatcar()
 	return true;
 }
 
+boolean LX_desertAlternate()
+{
+	if(cc_my_path() == "Nuclear Autumn")
+	{
+		if(my_basestat(my_primestat()) < 25)
+		{
+			return false;
+		}
+		if(!get_property("cc_landfillAvailable").to_boolean())
+		{
+			string temp = visit_url("place.php?whichplace=woods&action=woods_smokesignals");
+			temp = visit_url("choice.php?pwd=&whichchoice=798&option=1");
+			temp = visit_url("choice.php?pwd=&whichchoice=798&option=2");
+			temp = visit_url("woods.php");
+			if(contains_text(temp, "The Old Landfill"))
+			{
+				set_property("cc_landfillAvailable", true);
+			}
+			else
+			{
+				abort("Failed to unlock The Old Landfill. Not sure what to do now...");
+			}
+			return true;
+		}
+		if((item_amount($item[Old Claw-Foot Bathtub]) > 0) && (item_amount($item[Old Clothesline Pole]) > 0) && (item_amount($item[Antique Cigar Sign]) > 0) && (item_amount($item[Worse Homes and Gardens]) > 0))
+		{
+			cli_execute("make 1 junk junk");
+			return true;
+		}
+
+		if(item_amount($item[Funky Junk Key]) > 0)
+		{
+			//We will hit a Once More Unto the Junk adventure now
+			if(item_amount($item[Old Claw-Foot Bathtub]) == 0)
+			{
+				set_property("choiceAdventure794", 1);
+				set_property("choiceAdventure795", 1);
+			}
+			else if(item_amount($item[Old Clothesline Pole]) == 0)
+			{
+				set_property("choiceAdventure794", 1);
+				set_property("choiceAdventure796", 2);
+			}
+			else if(item_amount($item[Antique Cigar Sign]) == 0)
+			{
+				set_property("choiceAdventure794", 1);
+				set_property("choiceAdventure797", 3);
+			}
+			return ccAdv($location[The Old Landfill]);
+		}
+		else
+		{
+			return ccAdv($location[The Old Landfill]);
+		}
+
+	}
+	if(knoll_available())
+	{
+		return false;
+	}
+	if((my_meat() >= 5000) && isGeneralStoreAvailable())
+	{
+		buyUpTo(1, $item[Desert Bus Pass]);
+		if(item_amount($item[Desert Bus Pass]) > 0)
+		{
+			return true;
+		}
+	}
+	return false;
+}
 
 boolean LX_islandAccess()
 {
+	boolean canDesert = false;
+
+	foreach it in $items[Bitchin\' Meatcar, Desert Bus Pass, Pumpkin Carriage, Tin Lizzie]
+	{
+		if(item_amount(it) > 0)
+		{
+			canDesert = true;
+		}
+	}
+
 	if((item_amount($item[Shore Inc. Ship Trip Scrip]) >= 3) && (item_amount($item[Dingy Dinghy]) == 0) && (my_meat() >= 400))
 	{
 		cli_execute("make dinghy plans");
@@ -8630,6 +8704,12 @@ boolean LX_islandAccess()
 		}
 		return false;
 	}
+
+	if(!canDesert)
+	{
+		return LX_desertAlternate();
+	}
+
 	if((my_adventures() <= 9) || (my_meat() <= 1900))
 	{
 		return false;
@@ -12004,6 +12084,11 @@ boolean doTasks()
 	}
 	//Handle some Avatar dependent stuff, sort of..
 	if(LM_boris() || LM_pete())
+	{
+		return true;
+	}
+	//Handle some semi-avatar stuff....
+	if(LM_fallout())
 	{
 		return true;
 	}

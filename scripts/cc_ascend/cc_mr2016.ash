@@ -136,6 +136,17 @@ boolean cc_haveSourceTerminal()
 	{
 		return false;
 	}
+	static boolean didCheck = false;
+	if((cc_my_path() == "Nuclear Autumn") && !didCheck)
+	{
+		didCheck = true;
+		string temp = visit_url("place.php?whichplace=falloutshelter&action=vault_term");
+		if(contains_text(temp, "Source Terminal"))
+		{
+			set_property("cc_haveSourceTerminal", true);
+		}
+	}
+
 	return (cc_get_campground() contains $item[Source Terminal]);
 }
 

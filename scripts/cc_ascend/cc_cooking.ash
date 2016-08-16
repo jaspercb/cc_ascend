@@ -463,14 +463,14 @@ void consumeStuff()
 			cli_execute("make 3 paint a vulgar pitcher");
 		}
 
-		if(((my_inebriety() + 2) < inebriety_limit()) && (my_mp() >= mpForOde) && (item_amount($item[Agitated Turkey]) >= 2))
+		if((inebriety_left() >= 2) && (my_mp() >= mpForOde) && (item_amount($item[Agitated Turkey]) >= 2))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(2, $item[Agitated Turkey]);
 		}
 
-		if(((my_inebriety() + 1) == inebriety_limit()) && (my_mp() >= mpForOde) && (item_amount($item[Cold One]) >= 1) && (my_level() >= 11))
+		if((inebriety_left() >= 1) && (my_mp() >= mpForOde) && (item_amount($item[Cold One]) >= 1) && (my_level() >= 11))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -522,17 +522,17 @@ void consumeStuff()
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 3);
 			cli_execute("drink 1 lucky lindy");
-			while((amountTurkeyBooze() > 0) && (my_inebriety() < 3))
+			while((amountTurkeyBooze() > 0) && (my_inebriety() < 3) && (inebriety_left() > 0))
 			{
-				if(item_amount($item[Friendly Turkey]) > 0)
+				if((item_amount($item[Friendly Turkey]) > 0) && (inebriety_left() >= 1))
 				{
 					drink(1, $item[Friendly Turkey]);
 				}
-				else if(item_amount($item[Agitated Turkey]) > 0)
+				else if((item_amount($item[Agitated Turkey]) > 0) && (inebriety_left() >= 1))
 				{
 					drink(1, $item[Agitated Turkey]);
 				}
-				else if(item_amount($item[Ambitious Turkey]) > 0)
+				else if((item_amount($item[Ambitious Turkey]) > 0) && (inebriety_left() >= 1))
 				{
 					drink(1, $item[Ambitious Turkey]);
 				}
@@ -543,17 +543,17 @@ void consumeStuff()
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 3);
-			while((amountTurkeyBooze() > 0) && (my_inebriety() < 6))
+			while((amountTurkeyBooze() > 0) && (my_inebriety() < 6) && (inebriety_left() > 0))
 			{
-				if(item_amount($item[Friendly Turkey]) > 0)
+				if((item_amount($item[Friendly Turkey]) > 0) && (inebriety_left() >= 1))
 				{
 					drink(1, $item[Friendly Turkey]);
 				}
-				else if(item_amount($item[Agitated Turkey]) > 0)
+				else if((item_amount($item[Agitated Turkey]) > 0) && (inebriety_left() >= 1))
 				{
 					drink(1, $item[Agitated Turkey]);
 				}
-				else if(item_amount($item[Ambitious Turkey]) > 0)
+				else if((item_amount($item[Ambitious Turkey]) > 0) && (inebriety_left() >= 1))
 				{
 					drink(1, $item[Ambitious Turkey]);
 				}
@@ -569,7 +569,7 @@ void consumeStuff()
 				visit_url("clan_viplounge.php?action=speakeasy");
 				cli_execute("drink 1 sockdollager");
 			}
-			hermit(10, $item[ten-leaf clover]);
+			while(acquireHermitItem($item[Ten-leaf Clover]));
 		}
 
 		if((my_adventures() < 4) && (my_fullness() == 0) && (my_level() >= 7) && !in_hardcore())

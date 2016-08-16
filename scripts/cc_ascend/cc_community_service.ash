@@ -2201,10 +2201,13 @@ void cs_initializeDay(int day)
 			deck_cheat("green mana");
 			autosell(item_amount($item[1952 Mickey Mantle Card]), $item[1952 Mickey Mantle Card]);
 
-			while(((item_amount($item[turtle totem]) == 0) || (item_amount($item[saucepan]) == 0)) && (my_meat() > npc_price($item[Chewing Gum on a String])))
+			if(item_amount($item[Turtle Totem]) == 0)
 			{
-				buyUpTo(1, $item[chewing gum on a string]);
-				use(1, $item[chewing gum on a string]);
+				acquireGumItem($item[Turtle Totem]);
+			}
+			if(item_amount($item[Saucepan]) == 0)
+			{
+				acquireGumItem($item[Saucepan]);
 			}
 
 			if(knoll_available())
@@ -2301,15 +2304,14 @@ void cs_initializeDay(int day)
 
 			if((item_amount($item[Seal Tooth]) == 0) && have_skill($skill[Ambidextrous Funkslinging]))
 			{
-				cli_execute("hermit seal tooth");
+				acquireHermitItem($item[Seal Tooth]);
 			}
 
 			cli_execute("garden pick");
 
-			while(item_amount($item[saucepan]) == 0)
+			if(item_amount($item[Saucepan]) == 0)
 			{
-				buyUpTo(1, $item[chewing gum on a string]);
-				use(1, $item[chewing gum on a string]);
+				acquireGumItem($item[Saucepan]);
 			}
 
 			cli_execute("postcheese");

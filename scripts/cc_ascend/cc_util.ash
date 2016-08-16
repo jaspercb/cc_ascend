@@ -31,6 +31,11 @@ boolean set_property_ifempty(string setting, string change);
 boolean restore_property(string setting, string source);
 boolean clear_property_if(string setting, string cond);
 int doRest();
+boolean acquireGumItem(item it);
+boolean acquireHermitItem(item it);
+boolean isHermitAvailable();
+boolean isGeneralStoreAvailable();
+boolean isUnclePAvailable();
 boolean isFreeMonster(monster mon);
 boolean isProtonGhost(monster mon);
 boolean isGhost(monster mon);
@@ -568,6 +573,16 @@ boolean restoreSetting(string setting)
 
 boolean startArmorySubQuest()
 {
+/*	if(cc_my_path() == "Nuclear Autumn")
+	{
+		if(item_amount($item[Hypnotic Breadcrumbs]) > 0)
+		{
+			use(1, $item[Hypnotic Breadcrumbs]);
+			return true;
+		}
+		return false;
+	}
+*/
 	if(internalQuestStatus("questM25Armorer") == -1)
 	{
 		string temp = visit_url("shop.php?whichshop=armory");
@@ -580,6 +595,15 @@ boolean startArmorySubQuest()
 
 boolean startMeatsmithSubQuest()
 {
+	if(cc_my_path() == "Nuclear Autumn")
+	{
+		if(item_amount($item[Bone With a Price Tag On It]) > 0)
+		{
+			use(1, $item[Bone With a Price Tag On It]);
+			return true;
+		}
+		return false;
+	}
 	if(internalQuestStatus("questM23Meatsmith") == -1)
 	{
 		string temp = visit_url("shop.php?whichshop=meatsmith");
@@ -592,6 +616,15 @@ boolean startMeatsmithSubQuest()
 
 boolean startGalaktikSubQuest()
 {
+	if(cc_my_path() == "Nuclear Autumn")
+	{
+		if(item_amount($item[Map to a Hidden Booze Cache]) > 0)
+		{
+			use(1, $item[Map to a Hidden Booze Cache]);
+			return true;
+		}
+		return false;
+	}
 	if(internalQuestStatus("questM24Doc") == -1)
 	{
 		string temp = visit_url("shop.php?whichshop=doc");
@@ -1336,6 +1369,140 @@ boolean isProtonGhost(monster mon)
 		return true;
 	}
 	return false;
+}
+
+boolean acquireGumItem(item it)
+{
+	if(!isGeneralStoreAvailable())
+	{
+		return false;
+	}
+
+	if(!($items[Disco Ball, Disco Mask, Helmet Turtle, Hollandaise Helmet, Mariachi Hat, Old Sweatpants, Pasta Spoon, Ravioli Hat, Saucepan, Seal-Clubbing Club, Seal-Skull Helmet, Stolen Accordion, Turtle Totem, Worthless Gewgaw, Worthless Knick-Knack, Worthless Trinket] contains it))
+	{
+		return false;
+	}
+
+	int have = item_amount(it);
+	print("Gum acquistion of: " + it, "green");
+	while((have == item_amount(it)) && (my_meat() >= npc_price($item[Chewing Gum on a String])))
+	{
+		buyUpTo(1, $item[Chewing Gum on a String]);
+		use(1, $item[Chewing Gum on a String]);
+	}
+
+	return (have + 1) == item_amount(it);
+}
+
+boolean acquireHermitItem(item it)
+{
+	if(!isHermitAvailable())
+	{
+		return false;
+	}
+	if((item_amount($item[Hermit Permit]) == 0) && (my_meat() >= npc_price($item[Hermit Permit])))
+	{
+		buyUpTo(1, $item[Hermit Permit]);
+	}
+	if(item_amount($item[Hermit Permit]) == 0)
+	{
+		return false;
+	}
+	if(it == $item[Disassembled Clover])
+	{
+		it = $item[Ten-leaf Clover];
+	}
+	if(!($items[Banjo Strings, Catsup, Chisel, Figurine of an Ancient Seal, Hot Buttered Roll, Jaba&ntilde;ero Pepper, Ketchup, Petrified Noodles, Seal Tooth, Ten-Leaf Clover, Volleyball, Wooden Figurine] contains it))
+	{
+		return false;
+	}
+	if((it == $item[Figurine of an Ancient Seal]) && (my_class() != $class[Seal Clubber]))
+	{
+		return false;
+	}
+	if(!isGeneralStoreAvailable())
+	{
+		return false;
+	}
+	int have = item_amount(it);
+	print("Hermit acquistion of: " + it, "green");
+	while((have == item_amount(it)) && ((my_meat() >= npc_price($item[Chewing Gum on a String])) || ((item_amount($item[Worthless Trinket]) + item_amount($item[Worthless Gewgaw]) + item_amount($item[Worthless Knick-knack])) > 0)))
+	{
+		if((item_amount($item[Worthless Trinket]) + item_amount($item[Worthless Gewgaw]) + item_amount($item[Worthless Knick-knack])) > 0)
+		{
+			if(it == $item[Ten-Leaf Clover])
+			{
+				have = item_amount($item[Disassembled Clover]);
+			}
+			if(!hermit(1, it))
+			{
+				return false;
+			}
+			if(it == $item[Ten-Leaf Clover])
+			{
+				if(have == item_amount($item[Disassembled Clover]))
+				{
+					return false;
+				}
+				else if((have + 1) == item_amount($item[Disassembled Clover]))
+				{
+					return true;
+				}
+				else
+				{
+					print("Invalid clover count from hermit behavior, reporting failure.", "red");
+					return false;
+				}
+			}
+		}
+		else
+		{
+
+			buyUpTo(1, $item[Chewing Gum on a String]);
+			use(1, $item[Chewing Gum on a String]);
+		}
+	}
+
+	return (have + 1) == item_amount(it);
+}
+
+boolean isHermitAvailable()
+{
+	if(cc_my_path() == "Nuclear Autumn")
+	{
+		return false;
+	}
+	if(cc_my_path() == "Zombie Master")
+	{
+		return false;
+	}
+	return true;
+}
+
+boolean isGeneralStoreAvailable()
+{
+	if(cc_my_path() == "Nuclear Autumn")
+	{
+		return false;
+	}
+	if(cc_my_path() == "Zombie Master")
+	{
+		return false;
+	}
+	return true;
+}
+
+boolean isUnclePAvailable()
+{
+	if((cc_my_path() == "Nuclear Autumn") && (get_property("lastCouncilVisit").to_int() < 11))
+	{
+		return false;
+	}
+	if(cc_my_path() == "Zombie Master")
+	{
+		return false;
+	}
+	return true;
 }
 
 boolean isFreeMonster(monster mon)
@@ -2392,9 +2559,29 @@ int [item] cc_get_campground()
 		campItems[$item[packet of pumpkin seeds]] = 1;
 	}
 
+	if((campItems contains $item[Source Terminal]) && !get_property("cc_haveSourceTerminal").to_boolean())
+	{
+		set_property("cc_haveSourceTerminal", true);
+	}
+
+	static boolean didCheck = false;
+	if((cc_my_path() == "Nuclear Autumn") && !didCheck)
+	{
+		didCheck = true;
+		string temp = visit_url("place.php?whichplace=falloutshelter&action=vault_term");
+		if(contains_text(temp, "Source Terminal"))
+		{
+			set_property("cc_haveSourceTerminal", true);
+		}
+	}
+
 	if(!(campItems contains $item[Dramatic&trade; range]) && get_property("cc_haveoven").to_boolean())
 	{
 		campItems[$item[Dramatic&trade; range]] = 1;
+	}
+	if(!(campItems contains $item[Source Terminal]) && get_property("cc_haveSourceTerminal").to_boolean())
+	{
+		campItems[$item[Source Terminal]] = 1;
 	}
 
 	return campItems;
@@ -2418,6 +2605,15 @@ boolean buyUpTo(int num, item it)
 
 boolean buyUpTo(int num, item it, int maxprice)
 {
+	if(($items[Ben-Gal&trade; Balm, Hair Spray] contains it) && !isGeneralStoreAvailable())
+	{
+		return false;
+	}
+	if(($items[Blood of the Wereseal, Turtle Pheromones] contains it) && !guild_store_available())
+	{
+		return false;
+	}
+
 	int orig = num;
 	num = num - item_amount(it);
 	if(num > 0)

@@ -213,9 +213,11 @@ boolean dna_bedtime()
 	}
 	if(get_campground() contains $item[Little Geneticist DNA-Splicing Lab])
 	{
-		while(get_property("_dnaPotionsMade").to_int() < 3)
+		int potionsMade = get_property("_dnaPotionsMade").to_int();
+		while(potionsMade < 3)
 		{
 			boolean temp = cli_execute("camp dnapotion");
+			potionsMade += 1;
 		}
 	}
 	return false;

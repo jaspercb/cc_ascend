@@ -16,6 +16,7 @@ script "cc_ascend_header.ash"
 boolean LA_cs_communityService();				//Defined in cc_ascend/cc_community_service.ash
 boolean LM_edTheUndying();						//Defined in cc_ascend/cc_edTheUndying.ash
 
+boolean LX_desertAlternate();
 boolean LX_handleSpookyravenNecklace();
 boolean LX_handleSpookyravenFirstFloor();
 boolean LX_phatLootToken();
