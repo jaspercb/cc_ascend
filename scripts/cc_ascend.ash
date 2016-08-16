@@ -9374,6 +9374,7 @@ boolean L9_highLandlord()
 		set_property("cc_aboocount", "0");
 		set_property("choiceAdventure296", "1");
 		set_property("cc_highlandlord", "start");
+		set_property("cc_grimstoneFancyOilPainting", false);
 		return true;
 	}
 

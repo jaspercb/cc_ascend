@@ -879,10 +879,6 @@ boolean cc_cheesePostCS(int leave)
 		equip($item[Buddy Bjorn]);
 		bjornify_familiar($familiar[Warbear Drone]);
 	}
-	if(item_amount($item[Protonic Accelerator Pack]) > 0)
-	{
-		equip($item[Protonic Accelerator Pack]);
-	}
 	if(item_amount($item[Sneaky Pete\'s Leather Jacket]) > 0)
 	{
 		equip($item[Sneaky Pete\'s Leather Jacket]);

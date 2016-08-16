@@ -1796,6 +1796,7 @@ boolean LA_cs_communityService()
 
 			buffMaintain($effect[Snow Shoes], 0, 1, 1);
 			buffMaintain($effect[Obscuri Tea], 0, 1, 1);
+			buffMaintain($effect[Gummed Shoes], 0, 1, 1);
 			if(is_unrestricted($item[Olympic-sized Clan Crate]) && !get_property("_olympicSwimmingPool").to_boolean())
 			{
 				cli_execute("swim noncombat");
