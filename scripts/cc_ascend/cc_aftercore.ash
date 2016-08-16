@@ -968,6 +968,7 @@ boolean cc_cheesePostCS(int leave)
 		item acc1 = equipped_item($slot[acc1]);
 		item acc2 = equipped_item($slot[acc2]);
 		item acc3 = equipped_item($slot[acc3]);
+		item back = equipped_item($slot[back]);
 		if(get_property("dinseyRollercoasterNext").to_boolean())
 		{
 			restoreEquip = true;
@@ -985,9 +986,21 @@ boolean cc_cheesePostCS(int leave)
 			}
 		}
 
-		ccAdv(1, $location[Barf Mountain]);
+		if(expectGhostReport())
+		{
+			if((back != $item[Protonic Accelerator Pack]) && (item_amount($item[Protonic Accelerator Pack]) > 0))
+			{
+				equip($slot[back], $item[Protonic Accelerator Pack]);
+			}
+		}
 
+		ccAdv(1, $location[Barf Mountain]);
 		LX_ghostBusting();
+
+		if((back != $item[Protonic Accelerator Pack]) && (equipped_item($slot[back]) == $item[Protonic Accelerator Pack]))
+		{
+			equip($slot[back], back);
+		}
 
 		if(restoreEquip)
 		{
@@ -1004,7 +1017,6 @@ boolean cc_cheesePostCS(int leave)
 				equip($slot[acc3], acc3);
 			}
 		}
-
 
 		doNumberology("fites3");
 

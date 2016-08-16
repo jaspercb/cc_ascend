@@ -15,6 +15,7 @@ string cc_combatHandler(int round, string opp, string text)
 	#Yes, round 0, really.
 	monster enemy = to_monster(opp);
 	boolean blocked = contains_text(text, "(STUN RESISTED)");
+	int damageReceived = 0;
 	if(round == 0)
 	{
 		print("cc_combatHandler: " + round, "brown");
@@ -23,6 +24,7 @@ string cc_combatHandler(int round, string opp, string text)
 		set_property("cc_funPrefix", "");
 		set_property("cc_combatHandlerThunderBird", "0");
 		set_property("cc_combatHandlerFingernailClippers", "0");
+		set_property("cc_combatHP", my_hp());
 
 		if(my_location() == $location[The Deep Machine Tunnels])
 		{
@@ -51,7 +53,11 @@ string cc_combatHandler(int round, string opp, string text)
 				}
 			}
 		}
-
+	}
+	else
+	{
+		damageReceived = get_property("cc_combatHP").to_int() - my_hp();
+		set_property("cc_combatHP", my_hp());
 	}
 
 	set_property("cc_diag_round", round);
@@ -1063,29 +1069,40 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Soul Bubble];
 		}
 
-		if(!contains_text(combatState, "hogtie") && !contains_text(combatState, "beanscreen") && have_skill($skill[Hogtie]) && (my_mp() >= (6 * mp_cost($skill[Hogtie]))) && hasLeg(enemy))
-		{
-			set_property("cc_combatHandler", combatState + "(hogtie)");
-			return  "skill " + $skill[Hogtie];
-		}
-
-
 		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(combatState, "shootghost3"))
 		{
+			boolean shootGhost = true;
 			if(contains_text(combatState, "shootghost2"))
 			{
-				set_property("cc_combatHandler", combatState + "(shootghost3)");
+				if((damageReceived * 1.075) > my_hp())
+				{
+					shootGhost = false;
+				}
+				else
+				{
+					set_property("cc_combatHandler", combatState + "(shootghost3)");
+				}
 			}
 			else if(contains_text(combatState, "shootghost1"))
 			{
-				set_property("cc_combatHandler", combatState + "(shootghost2)");
+				if((damageReceived * 2.05) > my_hp())
+				{
+					shootGhost = false;
+				}
+				else
+				{
+					set_property("cc_combatHandler", combatState + "(shootghost2)");
+				}
 			}
 			else
 			{
 				set_property("cc_combatHandler", combatState + "(shootghost1)");
 			}
 
-			return "skill " + $skill[Shoot Ghost];
+			if(shootGhost)
+			{
+				return "skill " + $skill[Shoot Ghost];
+			}
 		}
 		if(!contains_text(combatState, "trapghost") && have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(combatState, "shootghost3"))
 		{

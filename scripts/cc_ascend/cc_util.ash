@@ -573,7 +573,7 @@ boolean restoreSetting(string setting)
 
 boolean startArmorySubQuest()
 {
-/*	if(cc_my_path() == "Nuclear Autumn")
+	if(cc_my_path() == "Nuclear Autumn")
 	{
 		if(item_amount($item[Hypnotic Breadcrumbs]) > 0)
 		{
@@ -582,7 +582,7 @@ boolean startArmorySubQuest()
 		}
 		return false;
 	}
-*/
+
 	if(internalQuestStatus("questM25Armorer") == -1)
 	{
 		string temp = visit_url("shop.php?whichshop=armory");
