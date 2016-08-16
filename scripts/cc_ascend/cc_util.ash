@@ -131,6 +131,7 @@ boolean startGalaktikSubQuest();
 string trim(string input);
 boolean isOverdueDigitize();
 boolean isOverdueArrow();
+boolean isExpectingArrow();
 boolean setAdvPHPFlag();
 
 
@@ -747,6 +748,35 @@ boolean isOverdueArrow()
 	}
 	if(get_counters("Romantic Monster window end", 1, 200) == "Romantic Monster window end")
 	{
+		return false;
+	}
+	if(contains_text(get_property("_tempRelayCounters"), "Romantic Monster window end"))
+	{
+		return false;
+	}
+	if(get_counters("Romantic Monster window end", 0, 0) == "Romantic Monster window end")
+	{
+		return true;
+	}
+	return false;
+}
+boolean isExpectingArrow()
+{
+	if(get_property("_romanticFightsLeft").to_int() == 0)
+	{
+		return false;
+	}
+	if(get_counters("Romantic Monster window end", 1, 200) == "Romantic Monster window end")
+	{
+		if(get_counters("Romantic Monster window start", 0, 0) == "Romantic Monster window start")
+		{
+			return true;
+		}
+		if(get_counters("Romantic Monster window end", 0, 200) == "")
+		{
+			return true;
+		}
+
 		return false;
 	}
 	if(contains_text(get_property("_tempRelayCounters"), "Romantic Monster window end"))

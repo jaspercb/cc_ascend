@@ -9,6 +9,13 @@ string ccsJunkyard(int round, string opp, string text);
 string cc_edCombatHandler(int round, string opp, string text);
 string cc_combatHandler(int round, string opp, string text);
 
+boolean registerCombat(string action);
+boolean registerCombat(skill sk);
+boolean registerCombat(item it);
+boolean containsCombat(string action);
+boolean containsCombat(skill sk);
+boolean containsCombat(item it);
+
 string cc_combatHandler(int round, string opp, string text)
 {
 	#print("cc_combatHandler: " + round, "brown");
@@ -31,7 +38,13 @@ string cc_combatHandler(int round, string opp, string text)
 			if(!($monsters[Perceiver of Sensations, Performer of Actions, Thinker of Thoughts] contains enemy))
 			{
 				print("In The Deep Machine Tunnels and did not encounter expected monster....", "red");
-				if((get_counters("Romantic Monster window end", 0, 200) == "Romantic Monster window end") || isOverdueArrow())
+				//We need to remove Corresponding Counter.
+				if(isOverdueDigitize())
+				{
+					set_property("_sourceTerminalDigitizeMonsterCount", get_property("_sourceTerminalDigitizeMonsterCount").to_int() + 1);
+					print("Looks like a digitize monster, adjusting monster count but can not restore tracker", "red");
+				}
+				else if(isExpectingArrow() || isOverdueArrow())
 				{
 					print("Probably an arrow encounter... trying to adjust...", "red");
 					if(to_monster(get_property("romanticTarget")) == enemy)
@@ -1102,6 +1115,10 @@ string cc_combatHandler(int round, string opp, string text)
 			if(shootGhost)
 			{
 				return "skill " + $skill[Shoot Ghost];
+			}
+			else
+			{
+				set_property("cc_combatHandler", combatState + "(trapghost)");
 			}
 		}
 		if(!contains_text(combatState, "trapghost") && have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(combatState, "shootghost3"))
@@ -3076,4 +3093,34 @@ void awol_helper(string page)
 	{
 		set_property("cc_combatHandler", combatState + "(extractSnakeOil)");
 	}
+}
+
+
+boolean registerCombat(string action)
+{
+	set_property("cc_combatHandler", get_property("cc_combatHandler") + "(" + to_lower_case(action) + ")");
+	return true;
+}
+boolean containsCombat(string action)
+{
+	action = "(" + to_lower_case(action) + ")";
+	return contains_text(get_property("cc_combatHandler"), action);
+}
+
+boolean registerCombat(skill sk)
+{
+	return registerCombat(to_string(sk));
+}
+boolean registerCombat(item it)
+{
+	return registerCombat(to_string(it));
+}
+
+boolean containsCombat(skill sk)
+{
+	return containsCombat(to_string(sk));
+}
+boolean containsCombat(item it)
+{
+	return containsCombat(to_string(it));
 }
