@@ -8616,6 +8616,12 @@ boolean LX_desertAlternate()
 		if((item_amount($item[Old Claw-Foot Bathtub]) > 0) && (item_amount($item[Old Clothesline Pole]) > 0) && (item_amount($item[Antique Cigar Sign]) > 0) && (item_amount($item[Worse Homes and Gardens]) > 0))
 		{
 			cli_execute("make 1 junk junk");
+			string temp = visit_url("island.php");
+			if(contains_text(temp, "You can't go to the island unless you have a means of transportation to get there."))
+			{
+				print("You do not appear to have island access...");
+				cli_execute("login " + my_name());
+			}
 			return true;
 		}
 
@@ -8629,12 +8635,12 @@ boolean LX_desertAlternate()
 			}
 			else if(item_amount($item[Old Clothesline Pole]) == 0)
 			{
-				set_property("choiceAdventure794", 1);
+				set_property("choiceAdventure794", 2);
 				set_property("choiceAdventure796", 2);
 			}
 			else if(item_amount($item[Antique Cigar Sign]) == 0)
 			{
-				set_property("choiceAdventure794", 1);
+				set_property("choiceAdventure794", 3);
 				set_property("choiceAdventure797", 3);
 			}
 			return ccAdv($location[The Old Landfill]);
