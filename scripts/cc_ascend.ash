@@ -7087,14 +7087,6 @@ boolean LX_freeCombats()
 		return false;
 	}
 
-	if(snojoFightAvailable() && (my_adventures() > 0))
-	{
-		handleFamiliar($familiar[Ms. Puck Man]);
-		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
-		handleFamiliar("item");
-		return true;
-	}
-
 	if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && !get_property("cc_100familiar").to_boolean())
 	{
 		if(get_property("cc_choice1119") != "")
@@ -7122,6 +7114,15 @@ boolean LX_freeCombats()
 		handleFamiliar("item");
 		return true;
 	}
+
+	if(snojoFightAvailable() && (my_adventures() > 0))
+	{
+		handleFamiliar($familiar[Ms. Puck Man]);
+		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
+		handleFamiliar("item");
+		return true;
+	}
+
 	return false;
 }
 
@@ -7697,7 +7698,12 @@ boolean LX_steelOrgan()
 		set_property("cc_getSteelOrgan", false);
 		return false;
 	}
-
+	if(my_path() == "Nuclear Autumn")
+	{
+		print("You could get a Steel Organ for aftercore, but why? We won't help with this deviant and perverse behavior. Turning off setting.", "blue");
+		set_property("cc_getSteelOrgan", false);
+		return false;
+	}
 	if(my_path() == "Avatar of West of Loathing")
 	{
 		if((get_property("awolPointsCowpuncher").to_int() < 7) || (get_property("awolPointsBeanslinger").to_int() < 1) || (get_property("awolPointsSnakeoiler").to_int() < 5))

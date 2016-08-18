@@ -158,13 +158,6 @@ Missing: 858, 864-866, 872-876
 			toBuy = 863;
 		}
 	}
-	else if(!have_skill($skill[Extra Brain]) && (toBuy == 0))
-	{
-		if(item_amount($item[Rad]) >= 90)
-		{
-			toBuy = 862;
-		}
-	}
 	else if(!have_skill($skill[Metallic Skin]) && (toBuy == 0))
 	{
 		if(item_amount($item[Rad]) >= 90)
@@ -193,13 +186,6 @@ Missing: 858, 864-866, 872-876
 			toBuy = 871;
 		}
 	}
-	else if(!have_skill($skill[Intracranial Eye]) && (toBuy == 0))
-	{
-		if(item_amount($item[Rad]) >= 60)
-		{
-			toBuy = 870;
-		}
-	}
 	else if(!have_skill($skill[Flappy Ears]) && (toBuy == 0))
 	{
 		if(item_amount($item[Rad]) >= 60)
@@ -219,6 +205,20 @@ Missing: 858, 864-866, 872-876
 		if(item_amount($item[Rad]) >= 60)
 		{
 			toBuy = 857;
+		}
+	}
+	else if(!have_skill($skill[Extra Brain]) && (toBuy == 0))
+	{
+		if(item_amount($item[Rad]) >= 90)
+		{
+			toBuy = 862;
+		}
+	}
+	else if(!have_skill($skill[Intracranial Eye]) && (toBuy == 0))
+	{
+		if(item_amount($item[Rad]) >= 60)
+		{
+			toBuy = 870;
 		}
 	}
 	else if(!have_skill($skill[Boiling Tear Ducts]) && (toBuy == 0))

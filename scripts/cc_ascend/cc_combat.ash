@@ -1082,7 +1082,7 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Soul Bubble];
 		}
 
-		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(combatState, "shootghost3"))
+		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(combatState, "shootghost3") && !contains_text(combatState, "trapghost"))
 		{
 			boolean shootGhost = true;
 			if(contains_text(combatState, "shootghost2"))
@@ -1118,7 +1118,8 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 			else
 			{
-				set_property("cc_combatHandler", combatState + "(trapghost)");
+				combatState += "(trapghost)";
+				set_property("cc_combatHandler", combatState);
 			}
 		}
 		if(!contains_text(combatState, "trapghost") && have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(combatState, "shootghost3"))
@@ -1412,7 +1413,7 @@ string cc_combatHandler(int round, string opp, string text)
 			attackMinor = "skill kneebutt";
 			costMinor = mp_cost($skill[Kneebutt]);
 		}
-		if((round > 15) || ((my_hp() * 2) < my_maxhp()) && have_skill($skill[Kneebutt]))
+		if(((round > 15) || ((my_hp() * 2) < my_maxhp())) && have_skill($skill[Kneebutt]))
 		{
 			attackMajor = "skill kneebutt";
 			costMajor = mp_cost($skill[Kneebutt]);

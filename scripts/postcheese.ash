@@ -127,6 +127,19 @@ void handlePostAdventure()
 		}
 	}
 
+	if(my_path() == "Nuclear Autumn")
+	{
+		buffMaintain($effect[Juiced and Loose], 35, 1, 1);
+		buffMaintain($effect[Hardened Sweatshirt], 35, 1, 1);
+		buffMaintain($effect[Ear Winds], 35, 1, 1);
+		buffMaintain($effect[Impeccable Coiffure], 75, 1, 1);
+		buffMaintain($effect[Mind Vision], 200, 1, 1);
+
+		buffMaintain($effect[Juiced and Loose], 75, 1, 30);
+		buffMaintain($effect[Hardened Sweatshirt], 75, 1, 30);
+
+	}
+
 	if(my_path() == "Actually Ed the Undying")
 	{
 		int maxBuff = max(5, 660 - my_turncount());
