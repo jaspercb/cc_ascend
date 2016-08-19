@@ -8427,7 +8427,7 @@ boolean LX_craftAcquireItems()
 		{
 			// Make Painted Shield - Requires an Adventure
 		}
-		if(have_skill($skill[Armorcraftiness]) && !possessEquipment($item[Spiky Turtle Shield]) && (my_meat() > 3500) && (item_amount($item[Hedgeturtle]) > 0) && (item_amount($item[Tenderizing Hammer]) > 0))
+		if(have_skill($skill[Armorcraftiness]) && !possessEquipment($item[Spiky Turtle Shield]) && (my_meat() > 3500) && (item_amount($item[Hedgeturtle]) > 1) && (item_amount($item[Tenderizing Hammer]) > 0))
 		{
 			// Make Spiky Turtle Shield - Requires an Adventure
 		}
@@ -8691,7 +8691,7 @@ boolean LX_islandAccess()
 		if(get_property("lastIslandUnlock").to_int() == my_ascensions())
 		{
 			boolean reallyUnlocked = false;
-			foreach it in $items[Dingy Dinghy, Junk Junk, Skeletal Skiff, Yellow Submarine]
+			foreach it in $items[Dingy Dinghy, Skeletal Skiff, Yellow Submarine]
 			{
 				if(item_amount(it) > 0)
 				{
@@ -8699,6 +8699,10 @@ boolean LX_islandAccess()
 				}
 			}
 			if(get_property("peteMotorbikeGasTank") == "Extra-Buoyant Tank")
+			{
+				reallyUnlocked = true;
+			}
+			if(get_property("questM19Hippy") == "finished")
 			{
 				reallyUnlocked = true;
 			}

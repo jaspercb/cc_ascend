@@ -1524,7 +1524,7 @@ boolean isGeneralStoreAvailable()
 
 boolean isUnclePAvailable()
 {
-	if((cc_my_path() == "Nuclear Autumn") && (get_property("lastCouncilVisit").to_int() < 11))
+	if(cc_my_path() == "Nuclear Autumn")
 	{
 		return false;
 	}

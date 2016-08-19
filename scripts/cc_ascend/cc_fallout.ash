@@ -129,7 +129,6 @@ boolean fallout_buySkills()
 
 Missing: 858, 864-866, 872-876
 */
-
 	if(!have_skill($skill[Extra Gall Bladder]) && (toBuy == 0))
 	{
 		if(item_amount($item[Rad]) >= 60)
