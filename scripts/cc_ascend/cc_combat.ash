@@ -2150,6 +2150,8 @@ string ccsJunkyard(int round, string opp, string text)
 
 string cc_edCombatHandler(int round, string opp, string text)
 {
+	boolean blocked = contains_text(text, "(STUN RESISTED)");
+	int damageReceived = 0;
 	if(my_path() != "Actually Ed the Undying")
 	{
 		abort("Not in Actually Ed the Undying, this combat filter will result in massive suckage.");
@@ -2169,6 +2171,12 @@ string cc_edCombatHandler(int round, string opp, string text)
 			set_property("cc_edCombatStage", 1 + get_property("cc_edCombatStage").to_int());
 		}
 	}
+	else
+	{
+		damageReceived = get_property("cc_combatHP").to_int() - my_hp();
+		set_property("cc_combatHP", my_hp());
+	}
+
 	set_property("cc_edCombatRoundCount", 1 + get_property("cc_edCombatRoundCount").to_int());
 
 
@@ -2224,6 +2232,9 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 	}
 
+
+
+
 	if(have_equipped($item[Protonic Accelerator Pack]) && isGhost(enemy))
 	{
 		if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
@@ -2232,22 +2243,45 @@ string cc_edCombatHandler(int round, string opp, string text)
 			return "skill summon love gnats";
 		}
 
-		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(combatState, "shootghost3"))
+		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(combatState, "shootghost3") && !contains_text(combatState, "trapghost"))
 		{
+			boolean shootGhost = true;
 			if(contains_text(combatState, "shootghost2"))
 			{
-				set_property("cc_combatHandler", combatState + "(shootghost3)");
+				if((damageReceived * 1.075) > my_hp())
+				{
+					shootGhost = false;
+				}
+				else
+				{
+					set_property("cc_combatHandler", combatState + "(shootghost3)");
+				}
 			}
 			else if(contains_text(combatState, "shootghost1"))
 			{
-				set_property("cc_combatHandler", combatState + "(shootghost2)");
+				if((damageReceived * 2.05) > my_hp())
+				{
+					shootGhost = false;
+				}
+				else
+				{
+					set_property("cc_combatHandler", combatState + "(shootghost2)");
+				}
 			}
 			else
 			{
 				set_property("cc_combatHandler", combatState + "(shootghost1)");
 			}
 
-			return "skill " + $skill[Shoot Ghost];
+			if(shootGhost)
+			{
+				return "skill " + $skill[Shoot Ghost];
+			}
+			else
+			{
+				combatState += "(trapghost)";
+				set_property("cc_combatHandler", combatState);
+			}
 		}
 		if(!contains_text(combatState, "trapghost") && have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(combatState, "shootghost3"))
 		{
@@ -2256,7 +2290,6 @@ string cc_edCombatHandler(int round, string opp, string text)
 			return "skill " + $skill[Trap Ghost];
 		}
 	}
-
 
 	# Instakill handler
 	if(!enemy.boss && !isFreeMonster(enemy))
