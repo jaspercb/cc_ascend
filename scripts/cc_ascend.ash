@@ -5152,7 +5152,20 @@ boolean LX_spookyravenSecond()
 	}
 
 	//Convert Spookyraven Spectacles to a toggle
-	if((item_amount($item[Lord Spookyraven\'s Spectacles]) == 0) && (my_class() != $class[Avatar of Boris]) && (cc_my_path() != "Way of the Surprising Fist"))
+	boolean needSpectacles = (item_amount($item[Lord Spookyraven\'s Spectacles]) == 0);
+	if(my_class() == $class[Avatar of Boris])
+	{
+		needSpectacles = false;
+	}
+	if(cc_my_path() == "Way of the Surprising Fist")
+	{
+		needSpectacles = false;
+	}
+	if((cc_my_path() == "Nuclear Autumn") && in_hardcore())
+	{
+		needSpectacles = false;
+	}
+	if(needSpectacles)
 	{
 		set_property("choiceAdventure878", "3");
 	}
@@ -5329,8 +5342,7 @@ boolean L11_mauriceSpookyraven()
 		return true;
 	}
 
-
-	if(!possessEquipment($item[Lord Spookyraven\'s Spectacles]) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist"))
+	if(!possessEquipment($item[Lord Spookyraven\'s Spectacles]) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist") || ((cc_my_path() == "Nucleur Autmun") && !in_hardcore()))
 	{
 		print("Alternate fulminate pathway... how sad :(", "red");
 		# I suppose we can let anyone in without the Spectacles.

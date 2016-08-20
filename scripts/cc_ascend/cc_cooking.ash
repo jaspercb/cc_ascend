@@ -347,7 +347,7 @@ void consumeStuff()
 
 	if((my_inebriety() <= 8) || (my_adventures() < 20) || (item_amount($item[Spookyraven Library Key]) > 0) || (get_property("questM20Necklace") == "finished"))
 	{
-		if(((my_inebriety() + 2) <= inebriety_limit()) && (my_mp() < mpForOde) && (my_maxmp() > mpForOde))
+		if((inebriety_left() >= 2) && (my_mp() < mpForOde) && (my_maxmp() > mpForOde))
 		{
 			if((item_amount($item[Yellow Pixel]) >= 10) || (item_amount($item[Pixel Daiquiri]) > 0) || (item_amount($item[Robin Nog]) > 0) || (item_amount($item[Sacramento Wine]) > 0))
 //			if((item_amount($item[Yellow Pixel]) >= 10) || (item_amount($item[Pixel Daiquiri]) > 0) || (item_amount($item[Robin\'s Egg]) > 0) || (item_amount($item[Robin Nog]) > 0) || (item_amount($item[Sacramento Wine]) > 0)))
@@ -380,7 +380,7 @@ void consumeStuff()
 				drink(item_amount($item[Sacramento Wine]), $item[Sacramento Wine]);
 			}
 		}
-		if(((my_inebriety() + 2) <= inebriety_limit()) && (my_mp() >= mpForOde))
+		if((inebriety_left() >= 2) && (my_mp() >= mpForOde))
 		{
 			if((item_amount($item[Yellow Pixel]) >= 10) && (item_amount($item[Pixel Daiquiri]) == 0))
 			{
@@ -393,9 +393,9 @@ void consumeStuff()
 				drink(1, $item[Pixel Daiquiri]);
 			}
 		}
-		if(((my_inebriety() + 2) <= inebriety_limit()) && (my_mp() >= mpForOde))
+		if((inebriety_left() >= 2) && (my_mp() >= mpForOde))
 		{
-			if((item_amount($item[Robin\'s Egg]) >= 10) && (item_amount($item[Robin Nog]) == 0) && (my_meat() >= npc_price($item[Fermenting Powder])))
+			if((item_amount($item[Robin\'s Egg]) >= 10) && (item_amount($item[Robin Nog]) == 0) && (my_meat() >= npc_price($item[Fermenting Powder])) && isGeneralStoreAvailable())
 			{
 				cli_execute("make " + $item[Robin Nog]);
 			}
@@ -1010,20 +1010,20 @@ void consumeStuff()
 		}
 
 
-		if(in_hardcore() && (my_mp() > mpForOde) && (item_amount($item[Pixel Daiquiri]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
+		if(in_hardcore() && (my_mp() > mpForOde) && (item_amount($item[Pixel Daiquiri]) > 0) && (inebriety_left() >= 2))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[Pixel Daiquiri]);
 		}
-		if(in_hardcore() && (my_mp() > mpForOde) && (item_amount($item[Dinsey Whinskey]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
+		if(in_hardcore() && (my_mp() > mpForOde) && (item_amount($item[Dinsey Whinskey]) > 0) && (inebriety_left() >= 2))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[Dinsey Whinskey]);
 		}
 
-		if((my_level() >= 11) && (my_mp() > mpForOde) && (item_amount($item[Cold One]) > 1) && ((my_inebriety() + 2) <= inebriety_limit()))
+		if((my_level() >= 11) && (my_mp() > mpForOde) && (item_amount($item[Cold One]) > 1) && (inebriety_left() >= 2))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
