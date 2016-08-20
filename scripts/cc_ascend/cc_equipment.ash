@@ -204,6 +204,15 @@ void handleOffHand()
 		return;
 	}
 
+	if((my_path() == "Nuclear Autumn") && have_skill($skill[Projectile Salivary Glands]) && possessEquipment($item[Lead Umbrella]))
+	{
+		if(equipped_item($slot[off-hand]) != $item[Lead Umbrella])
+		{
+			equip($slot[off-hand], $item[Lead Umbrella]);
+		}
+		return;
+	}
+
 	if(weapon_hands(equipped_item($slot[weapon])) > 1)
 	{
 		return;

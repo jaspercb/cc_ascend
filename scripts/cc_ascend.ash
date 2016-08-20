@@ -10072,6 +10072,7 @@ boolean L9_chasmBuild()
 		return true;
 	}
 	print("Chasm time", "blue");
+
 	if(item_amount($item[fancy oil painting]) > 0)
 	{
 		visit_url("place.php?whichplace=orc_chasm&action=bridge"+(to_int(get_property("chasmBridgeProgress"))));
@@ -10153,12 +10154,38 @@ boolean L9_chasmBuild()
 
 boolean LX_dictionary()
 {
-	if(item_amount($item[abridged dictionary]) == 1)
+	if(item_amount($item[abridged dictionary]) > 1)
 	{
+		print("Inventory defective... refreshing", "red");
+		cli_execute("refresh inv");
+	}
+
+	if(item_amount($item[abridged dictionary]) > 0)
+	{
+		print("Got this dictionary I need to deal with, boo words!", "green");
 		if(knoll_available() || (get_property("questM01Untinker") == "finished"))
 		{
 			print("Untinkering dictionary", "blue");
 			cli_execute("untinker abridged dictionary");
+		}
+		else
+		{
+			if(get_property("questM01Untinker") == "unstarted")
+			{
+				visit_url("place.php?whichplace=forestvillage&preaction=screwquest&action=fv_untinker_quest");
+			}
+			if((item_amount($item[Rusty Screwdriver]) == 0) && (get_property("questM01Untinker") != "finished"))
+			{
+				if(!ccAdv(1, $location[The Degrassi Knoll Garage]))
+				{
+					abort("Can't automatically do the Screwdriver quest, sorry....");
+				}
+				return true;
+			}
+			if(item_amount($item[Rusty Screwdriver]) > 0)
+			{
+				cli_execute("untinker abridged dictionary");
+			}
 		}
 	}
 	return false;
