@@ -333,20 +333,20 @@ void consumeStuff()
 	}
 
 
-	if((inebriety_left() >= 3) && (my_mp() >= mpForOde) && (my_level() >= 5))
-	{
-		makePerfectBooze();
-		item booze = getAvailablePerfectBooze();
-		if(booze != $item[none])
-		{
-			shrugAT($effect[Ode to Booze]);
-			buffMaintain($effect[Ode to Booze], 50, 1, 3);
-			drink(1, booze);
-		}
-	}
-
 	if((my_inebriety() <= 8) || (my_adventures() < 20) || (item_amount($item[Spookyraven Library Key]) > 0) || (get_property("questM20Necklace") == "finished"))
 	{
+		if((inebriety_left() >= 3) && (my_mp() >= mpForOde) && (my_level() >= 5))
+		{
+			makePerfectBooze();
+			item booze = getAvailablePerfectBooze();
+			if(booze != $item[none])
+			{
+				shrugAT($effect[Ode to Booze]);
+				buffMaintain($effect[Ode to Booze], 50, 1, 3);
+				drink(1, booze);
+			}
+		}
+
 		if((inebriety_left() >= 2) && (my_mp() < mpForOde) && (my_maxmp() > mpForOde))
 		{
 			if((item_amount($item[Yellow Pixel]) >= 10) || (item_amount($item[Pixel Daiquiri]) > 0) || (item_amount($item[Robin Nog]) > 0) || (item_amount($item[Sacramento Wine]) > 0))
