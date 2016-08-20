@@ -2862,7 +2862,13 @@ boolean L11_aridDesert()
 
 		if(get_property("cc_gnasirUnlocked").to_boolean() && ((get_property("gnasirProgress").to_int() & 2) != 2))
 		{
-			if((item_amount($item[Can of Black Paint]) > 0) || (my_meat() >= 1000))
+			boolean canBuyPaint = true;
+			if((cc_my_path() == "Way of the Surprising Fist") || (cc_my_path() == "Nuclear Autumn"))
+			{
+				canBuyPaint = false;
+			}
+
+			if((item_amount($item[Can of Black Paint]) > 0) || ((my_meat() >= 1000) && canBuyPaint))
 			{
 				buyUpTo(1, $item[Can of Black Paint]);
 				print("Returning the Can of Black Paint", "blue");
