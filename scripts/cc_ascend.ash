@@ -11012,7 +11012,7 @@ boolean LX_pirateOutfit()
 		return false;
 	}
 
-	if((possessEquipment($item[eyepatch])) && (possessEquipment($item[swashbuckling pants])) && (possessEquipment($item[stuffed shoulder parrot])))
+	if(possessEquipment($item[eyepatch]) && possessEquipment($item[swashbuckling pants]) && possessEquipment($item[stuffed shoulder parrot]))
 	{
 		if(item_amount($item[the big book of pirate insults]) == 1)
 		{

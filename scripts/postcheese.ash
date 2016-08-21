@@ -138,6 +138,10 @@ void handlePostAdventure()
 		buffMaintain($effect[Juiced and Loose], 75, 1, 30);
 		buffMaintain($effect[Hardened Sweatshirt], 75, 1, 30);
 
+		if(my_meat() > 15000)
+		{
+			buffMaintain($effect[Rad-Pro Tected], 0, 1, 1);
+		}
 	}
 
 	if(my_path() == "Actually Ed the Undying")

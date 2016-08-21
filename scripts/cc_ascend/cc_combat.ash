@@ -2243,10 +2243,10 @@ string cc_edCombatHandler(int round, string opp, string text)
 			return "skill summon love gnats";
 		}
 
-		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(combatState, "shootghost3") && !contains_text(combatState, "trapghost"))
+		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(edCombatState, "shootghost3") && !contains_text(edCombatState, "trapghost"))
 		{
 			boolean shootGhost = true;
-			if(contains_text(combatState, "shootghost2"))
+			if(contains_text(edCombatState, "shootghost2"))
 			{
 				if((damageReceived * 1.075) > my_hp())
 				{
@@ -2254,10 +2254,10 @@ string cc_edCombatHandler(int round, string opp, string text)
 				}
 				else
 				{
-					set_property("cc_combatHandler", combatState + "(shootghost3)");
+					set_property("cc_edCombatHandler", edCombatState + "(shootghost3)");
 				}
 			}
-			else if(contains_text(combatState, "shootghost1"))
+			else if(contains_text(edCombatState, "shootghost1"))
 			{
 				if((damageReceived * 2.05) > my_hp())
 				{
@@ -2265,12 +2265,12 @@ string cc_edCombatHandler(int round, string opp, string text)
 				}
 				else
 				{
-					set_property("cc_combatHandler", combatState + "(shootghost2)");
+					set_property("cc_edCombatHandler", edCombatState + "(shootghost2)");
 				}
 			}
 			else
 			{
-				set_property("cc_combatHandler", combatState + "(shootghost1)");
+				set_property("cc_edCombatHandler", edCombatState + "(shootghost1)");
 			}
 
 			if(shootGhost)
@@ -2279,14 +2279,14 @@ string cc_edCombatHandler(int round, string opp, string text)
 			}
 			else
 			{
-				combatState += "(trapghost)";
-				set_property("cc_combatHandler", combatState);
+				edCombatState += "(trapghost)";
+				set_property("cc_edCombatHandler", edCombatState);
 			}
 		}
-		if(!contains_text(combatState, "trapghost") && have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(combatState, "shootghost3"))
+		if(!contains_text(edCombatState, "trapghost") && have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(edCombatState, "shootghost3"))
 		{
 			print("Busting makes me feel good!!", "green");
-			set_property("cc_combatHandler", combatState + "(trapghost)");
+			set_property("cc_edCombatHandler", edCombatState + "(trapghost)");
 			return "skill " + $skill[Trap Ghost];
 		}
 	}

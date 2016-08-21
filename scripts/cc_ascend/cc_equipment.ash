@@ -206,7 +206,7 @@ void handleOffHand()
 
 	if((my_path() == "Nuclear Autumn") && have_skill($skill[Projectile Salivary Glands]) && possessEquipment($item[Lead Umbrella]))
 	{
-		if(equipped_item($slot[off-hand]) != $item[Lead Umbrella])
+		if((equipped_item($slot[off-hand]) != $item[Lead Umbrella]) && (have_effect($effect[Rad-Pro Tected]) == 0))
 		{
 			equip($slot[off-hand], $item[Lead Umbrella]);
 		}
@@ -332,7 +332,7 @@ void equipBaselinePants()
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Stylish Swimsuit, Filthy Corduroys, Demonskin Trousers, Antique Greaves, Ninja Hot Pants, Leotarrrd, Swashbuckling Pants, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving];
+	boolean[item] poss = $items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Stylish Swimsuit, Filthy Corduroys, Demonskin Trousers, Antique Greaves, Ninja Hot Pants, Leotarrrd, Swashbuckling Pants, Troutpiece, Snowboarder Pants, Oil Slacks, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving];
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing))

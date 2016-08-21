@@ -2984,6 +2984,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Puzzle Fury]:					useItem = $item[37x37x37 puzzle cube];			break;
 	case $effect[Pyromania]:					useSkill = $skill[Pyromania];					break;
 	case $effect[\'Roids of the Rhinoceros]:	useItem = $item[Bottle of Rhinoceros Hormones];	break;
+	case $effect[Rad-Pro Tected]:				useItem = $item[Rad-Pro (1 oz.)];				break;
 	case $effect[Radiating Black Body&trade;]:	useItem = $item[Black Body&trade; Spray];		break;
 	case $effect[Rage of the Reindeer]:			useSkill = $skill[Rage of the Reindeer];		break;
 	case $effect[Rainy Soul Miasma]:
