@@ -243,7 +243,7 @@ void handleOffHand()
 	}
 	if(my_class() == $class[Turtle Tamer])
 	{
-		poss = $items[Coffin Lid, Sewer Turtle, Barskin Buckler, Turtle Wax Shield, Clownskin Buckler, Hot Plate, Box Turtle, Demon Buckler, Meat Shield, Gnauga Hide Buckler, Yakskin Buckler, Penguin Skin Buckler, Hippo Skin Buckler, Tortoboggan Shield, Padded Tortoise, Painted Shield, Spiky Turtle Shield, Wicker Shield, Catskin Buckler, Keg Shield, Ouija Board\, Ouija Board, Ox-head Shield, Barrel Lid, Operation Patriot Shield, Fake Washboard];
+		poss = $items[Coffin Lid, Sewer Turtle, Barskin Buckler, Turtle Wax Shield, Clownskin Buckler, Hot Plate, Box Turtle, Demon Buckler, Meat Shield, Polyester Pad, Gnauga Hide Buckler, Yakskin Buckler, Penguin Skin Buckler, Hippo Skin Buckler, Tortoboggan Shield, Padded Tortoise, Painted Shield, Spiky Turtle Shield, Wicker Shield, Catskin Buckler, Keg Shield, Ouija Board\, Ouija Board, Ox-head Shield, Barrel Lid, Operation Patriot Shield, Fake Washboard];
 	}
 
 	if(my_class() == $class[Pastamancer])
@@ -619,7 +619,7 @@ void equipBaseline()
 void equipBaselineAcc1()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Vampire Collar, Infernal Insoles, Batskin Belt, Ghost of a Necklace, Sphygmayomanometer, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Astral Ring, Astral Bracer, Codpiece, Over-The-Shoulder Folder Holder];
+	boolean[item] poss = $items[Vampire Collar, Infernal Insoles, Batskin Belt, Plastic Detective Badge, Bronze Detective Badge, Ghost of a Necklace, Silver Detective Badge, Gold Detective Badge, Sphygmayomanometer, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Astral Ring, Astral Bracer, Codpiece, Over-The-Shoulder Folder Holder];
 
 	if(possessEquipment($item[barrel hoop earring]))
 	{

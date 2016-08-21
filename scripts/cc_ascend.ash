@@ -8721,7 +8721,7 @@ boolean LX_islandAccess()
 			{
 				reallyUnlocked = true;
 			}
-			if(get_property("questM19Hippy") == "finished")
+			if(internalQuestStatus("questM19Hippy") >= 3)
 			{
 				reallyUnlocked = true;
 			}

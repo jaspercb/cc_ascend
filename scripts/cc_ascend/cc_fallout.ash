@@ -11,6 +11,11 @@ void fallout_initializeSettings()
 		set_property("cc_holeinthesky", true);
 		set_property("cc_useCubeling", true);
 		set_property("cc_wandOfNagamar", true);
+
+		if(item_amount($item[Deck of Every Card]) > 0)
+		{
+			set_property("cc_useCubeling", false);
+		}
 	}
 }
 
