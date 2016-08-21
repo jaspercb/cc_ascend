@@ -5,6 +5,7 @@ void fallout_initializeSettings()
 	if(my_path() == "Nuclear Autumn")
 	{
 		set_property("cc_cubeItems", false);
+		set_property("cc_getBeehive", true);
 		set_property("cc_getStarKey", true);
 		set_property("cc_grimstoneOrnateDowsingRod", true);
 		set_property("cc_holeinthesky", true);
