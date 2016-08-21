@@ -5194,6 +5194,7 @@ boolean LX_spookyravenSecond()
 		abort("We are currently in a choice and mafia won't automatically handle this. It's usually One Simple Nightstand that causes this but you might have a bonus. Woo.");
 	}
 
+	set_property("choiceAdventure877", "1");
 	if((get_property("cc_ballroomopen") == "open") || (get_property("questM21Dance") == "finished") || (get_property("questM21Dance") == "step3"))
 	{
 		if((item_amount($item[Lord Spookyraven\'s Spectacles]) == 1) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist"))
