@@ -2205,7 +2205,7 @@ void cs_initializeDay(int day)
 			{
 				acquireGumItem($item[Turtle Totem]);
 			}
-			if(item_amount($item[Saucepan]) == 0)
+			if(!possessEquipment($item[Saucepan]) && !possessEquipment($item[Saucepanic]))
 			{
 				acquireGumItem($item[Saucepan]);
 			}
