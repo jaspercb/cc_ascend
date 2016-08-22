@@ -866,6 +866,10 @@ boolean LA_cs_communityService()
 			{
 				cli_execute("clan_viplounge.php?action=lookingglass");
 			}
+			if(!possessEquipment($item[Mariachi Hat]))
+			{
+				acquireGumItem($item[Mariachi Hat]);
+			}
 			cli_execute("hatter 11");
 
 

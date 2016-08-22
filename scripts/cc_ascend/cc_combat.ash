@@ -38,6 +38,7 @@ string cc_combatHandler(int round, string opp, string text)
 			if(!($monsters[Perceiver of Sensations, Performer of Actions, Thinker of Thoughts] contains enemy))
 			{
 				print("In The Deep Machine Tunnels and did not encounter expected monster....", "red");
+				//Digitize happens first, yay for someone asking!
 				//We need to remove Corresponding Counter.
 				if(isOverdueDigitize())
 				{

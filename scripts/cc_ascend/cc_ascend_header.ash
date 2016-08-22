@@ -167,6 +167,9 @@ boolean ccAdvBypass(int snarfblat, location loc, string option);
 boolean preAdvXiblaxian(location loc);
 
 
+// Log Handling/User Output
+void print_header();
+
 
 // Semi-rare Handlers:
 boolean fortuneCookieEvent();

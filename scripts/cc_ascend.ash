@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17140;
+since r17142;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -11644,14 +11644,8 @@ boolean autosellCrap()
 	return true;
 }
 
-boolean doTasks()
+void print_header()
 {
-	if(my_thunder() > get_property("cc_lastthunder").to_int())
-	{
-		set_property("cc_lastthunderturn", "" + my_turncount());
-		set_property("cc_lastthunder", "" + my_thunder());
-	}
-	wait(1);
 	if(in_hardcore())
 	{
 		print("Turn(" + my_turncount() + "): Starting with " + my_adventures() + " left at Level: " + my_level(), "cyan");
@@ -11660,27 +11654,28 @@ boolean doTasks()
 	{
 		print("Turn(" + my_turncount() + "): Starting with " + my_adventures() + " left and " + pulls_remaining() + " pulls left at Level: " + my_level(), "cyan");
 	}
-	if(((item_amount($item[rock band flyers]) == 1) || (item_amount($item[jam band flyers]) == 1)) && (get_property("flyeredML").to_int() < 10000))
+	if(((item_amount($item[Rock Band Flyers]) == 1) || (item_amount($item[Jam Band Flyers]) == 1)) && (get_property("flyeredML").to_int() < 10000))
 	{
 		print("Still flyering: " + get_property("flyeredML"), "blue");
 	}
 	print("Encounter: " + combat_rate_modifier() + "   Exp Bonus: " + experience_bonus(), "blue");
 	print("Meat Drop: " + meat_drop_modifier() + "   Item Drop: " + item_drop_modifier(), "blue");
 	print("HP: " + my_hp() + "/" + my_maxhp() + ", MP: " + my_mp() + "/" + my_maxmp(), "blue");
+	print("Tummy: " + my_fullness() + "/" + fullness_limit() + " Liver: " + my_inebriety() + "/" + inebriety_limit() + " Spleen: " + my_spleen_use() + "/" + spleen_limit(), "blue");
 	print("ML: " + monster_level_adjustment() + " control: " + current_mcd(), "blue");
 	if(my_class() == $class[Sauceror])
 	{
 		print("Soulsauce: " + my_soulsauce(), "blue");
 	}
-	if(have_effect($effect[ultrahydrated]) > 0)
+	if(have_effect($effect[Ultrahydrated]) > 0)
 	{
-		print("Ultrahydrated: " + have_effect($effect[ultrahydrated]), "violet");
+		print("Ultrahydrated: " + have_effect($effect[Ultrahydrated]), "violet");
 	}
-	if(have_effect($effect[Everything looks yellow]) > 0)
+	if(have_effect($effect[Everything Looks Yellow]) > 0)
 	{
-		print("Everything Looks Yellow: " + have_effect($effect[everything looks yellow]), "blue");
+		print("Everything Looks Yellow: " + have_effect($effect[Everything Looks Yellow]), "blue");
 	}
-	if((item_amount($item[Snow suit]) > 0) || (equipped_item($slot[familiar]) == $item[snow suit]))
+	if(equipped_item($slot[familiar]) == $item[Snow Suit])
 	{
 		print("Snow suit usage: " + get_property("_snowSuitCount") + " carrots: " + get_property("_carrotNoseDrops"), "blue");
 	}
@@ -11692,6 +11687,18 @@ boolean doTasks()
 	{
 		print("Ka Coins: " + item_amount($item[Ka Coin]) + " Lashes used: " + get_property("_edLashCount"), "green");
 	}
+
+}
+
+boolean doTasks()
+{
+	if(my_thunder() > get_property("cc_lastthunder").to_int())
+	{
+		set_property("cc_lastthunderturn", "" + my_turncount());
+		set_property("cc_lastthunder", "" + my_thunder());
+	}
+	wait(1);
+	print_header();
 
 	questOverride();
 
