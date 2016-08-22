@@ -1557,7 +1557,7 @@ void initializeDay(int day)
 
 			if(get_property("cc_breakstone").to_boolean())
 			{
-				temp = visit_url("campground.php?action=stone&smashstone=Yep.&pwd&confirm=on", true);
+				temp = visit_url("peevpee.php?action=smashstone&pwd&confirm=on", true);
 				set_property("cc_breakstone", false);
 			}
 			set_property("cc_day1_init", "finished");

@@ -678,7 +678,7 @@ void equipBaselineAcc3()
 void replaceBaselineAcc3()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[ring of telling skeletons what to do, Glowing Red Eye, grumpy old man charrrm bracelet, Pirate Fledges, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Badge Of Authority, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
+	boolean[item] poss = $items[Jaunty Feather, ring of telling skeletons what to do, Glowing Red Eye, grumpy old man charrrm bracelet, Pirate Fledges, Plastic Detective Badge, Bronze Detective Badge, Mr. Accessory Jr., Silver Detective Badge, Gold Detective Badge, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Sphygmayomanometer, Badge Of Authority, Codpiece, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
 
 	foreach thing in poss
 	{
