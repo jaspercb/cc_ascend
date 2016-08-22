@@ -16,6 +16,8 @@ void equipBaselineHat(boolean wantNC);
 void equipRollover();
 void handleOffHand();
 void removeNonCombat();
+item handleSolveThing(boolean[item] poss, slot loc);
+item handleSolveThing(boolean[item] poss);
 boolean handleBjornify(familiar fam);
 void makeStartingSmiths();
 
@@ -280,13 +282,7 @@ void handleOffHand()
 		poss = $items[Jarlsberg\'s Pan, Jarlsberg\'s Pan (Cosmic Portal Mode)];
 	}
 
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+	toEquip = handleSolveThing(poss, $slot[off-hand]);
 /*
 	if(contains_text(holiday(), "Oyster Egg Day"))
 	{
@@ -320,7 +316,54 @@ void handleOffHand()
 			equip($slot[Off-hand], toEquip);
 		}
 	}
+}
 
+item handleSolveThing(boolean[item] poss)
+{
+	return handleSolveThing(poss, $slot[none]);
+}
+
+item handleSolveThing(boolean[item] poss, slot loc)
+{
+	item toEquip = $item[none];
+	foreach thing in poss
+	{
+		boolean ignore = false;
+		if((my_turncount() == get_property("cc_ignoreNonCombat").to_int()) && (numeric_modifier(thing, "Combat Rate") < 0))
+		{
+			ignore = true;
+		}
+		if((my_turncount() == get_property("cc_ignoreCombat").to_int()) && (numeric_modifier(thing, "Combat Rate") > 0))
+		{
+			ignore = true;
+		}
+
+		item acc1 = equipped_item($slot[acc1]);
+		item acc2 = equipped_item($slot[acc2]);
+		item acc3 = equipped_item($slot[acc3]);
+		if(loc == $slot[acc1])
+		{
+			acc1 = $item[none];
+			acc2 = $item[none];
+			acc3 = $item[none];
+		}
+		else if(loc == $slot[acc2])
+		{
+			acc2 = $item[none];
+			acc3 = $item[none];
+		}
+		else if(loc == $slot[acc3])
+		{
+			acc3 = $item[none];
+		}
+		//Yes, $slot[acc3] is always blocked here, however, we need to reconcile this with the Xiblaxian handler in precheese.ash
+
+		if(possessEquipment(thing) && can_equip(thing) && (acc1 != thing) && (acc2 != thing) && (acc3 != thing) && !ignore)
+		{
+			toEquip = thing;
+		}
+	}
+	return toEquip;
 }
 
 void equipBaselineHat()
@@ -333,13 +376,8 @@ void equipBaselinePants()
 	item toEquip = $item[none];
 
 	boolean[item] poss = $items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Stylish Swimsuit, Filthy Corduroys, Demonskin Trousers, Antique Greaves, Ninja Hot Pants, Leotarrrd, Swashbuckling Pants, Troutpiece, Snowboarder Pants, Oil Slacks, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving];
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+
+	toEquip = handleSolveThing(poss, $slot[pants]);
 
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[pants])))
 	{
@@ -352,13 +390,8 @@ void equipBaselineShirt()
 	item toEquip = $item[none];
 
 	boolean[item] poss = $items[Barskin Cloak, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Ultracolor&trade; Shirt, Shark Jumper, Bod-Ice, Liam\'s Mail, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+
+	toEquip = handleSolveThing(poss, $slot[shirt]);
 
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[shirt])))
 	{
@@ -380,13 +413,7 @@ void equipBaselineBack()
 	{
 		poss = $items[Whatsit-Covered Turtle Shell, Black Cloak, Pillow Shell, Oil Shell, Giant Gym Membership Card, Frozen Turtle Shell, Misty Cloak, Misty Cape, Misty Robe, Makeshift Cape, Polyester Parachute, Buddy Bjorn, Camp Scout Backpack, Protonic Accelerator Pack];
 	}
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+	toEquip = handleSolveThing(poss, $slot[back]);
 
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[back])))
 	{
@@ -405,13 +432,7 @@ void equipBaselineHat(boolean wantNC)
 	{
 		poss = $items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, one-gallon hat, two-gallon hat, three-gallon hat, four-gallon hat, five-gallon hat, six-gallon hat, seven-gallon hat, Mohawk Wig, Brown Felt Tophat, eight-gallon hat, nine-gallon hat, ten-gallon hat, eleven-gallon hat, Safarrri Hat, Mark I Steam-Hat, Mark II Steam-Hat, Mark III Steam-Hat, Mark IV Steam-Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, Very Pointy Crown, The Crown of Ed the Undying];
 	}
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+	toEquip = handleSolveThing(poss, $slot[hat]);
 
 	if(wantNC)
 	{
@@ -490,13 +511,7 @@ void equipBaselineWeapon()
 		abort("You don't have a valid class for this equipper, must be an avatar path or something.");
 		break;
 	}
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+	toEquip = handleSolveThing(poss, $slot[weapon]);
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[weapon])))
 	{
 		equip($slot[weapon], toEquip);
@@ -528,13 +543,7 @@ void equipBaselineFam()
 		item toEquip = $item[none];
 
 		boolean[item] poss = $items[Chocolate-stained Collar, Tiny Bowler, Guard Turtle Collar, Vicious Spiked Collar, Ant Hoe, Ant Pick, Ant Rake, Ant Pitchfork, Ant Sickle, Anniversary Tiny Latex Mask, Origami &quot;Gentlemen\'s&quot; Magazine, Tiny Fly Glasses, Annoying Pitchfork, Li\'l Businessman Kit, Lead Necklace, Flaming Familiar Doppelg&auml;nger, Wax Lips, Lucky Tam O\'Shanter, Lucky Tam O\'Shatner, Miniature Gravy-Covered Maypole, Kill Screen, Loathing Legion Helicopter, Little Box of Fireworks, Filthy Child Leash, Mayflower Bouquet, Plastic Pumpkin Bucket, Moveable Feast, Ittah Bittah Hookah, Snow Suit, Astral Pet Sweater];
-		foreach thing in poss
-		{
-			if(possessEquipment(thing) && can_equip(thing))
-			{
-				toEquip = thing;
-			}
-		}
+		toEquip = handleSolveThing(poss, $slot[familiar]);
 
 		if((toEquip != $item[none]) && (toEquip != equipped_item($slot[familiar])))
 		{
@@ -626,13 +635,8 @@ void equipBaselineAcc1()
 		poss = $items[Vampire Collar, Infernal Insoles, Batskin Belt, Ghost of a Necklace, Sphygmayomanometer, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Astral Ring, Astral Bracer, your cowboy boots, Over-The-Shoulder Folder Holder];
 	}
 
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+	toEquip = handleSolveThing(poss, $slot[acc1]);
+
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc1])))
 	{
 		equip($slot[acc1], toEquip);
@@ -651,13 +655,7 @@ void equipBaselineAcc2()
 	{
 		poss = $items[Jaunty Feather, Vampire Collar, Stuffed Shoulder Parrot, imp unity ring, garish pinky ring, batskin belt, Jolly Roger Charrrm Bracelet, Glowing Red Eye, Jangly Bracelet, Pirate Fledges, glow-in-the-dark necklace, Compression Stocking, Wicker Kickers, Iron Beta of Industry, Sphygmayomanometer, perfume-soaked bandana, your cowboy boots, World\'s Best Adventurer Sash, Hand In Glove, barrel hoop earring, Gumshoes, Caveman Dan\'s Favorite Rock, Battle Broom];
 	}
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing) && (equipped_item($slot[acc1]) != thing))
-		{
-			toEquip = thing;
-		}
-	}
+	toEquip = handleSolveThing(poss, $slot[acc2]);
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc2])))
 	{
 		equip($slot[acc2], toEquip);
@@ -668,13 +666,9 @@ void equipBaselineAcc3()
 {
 	item toEquip = $item[none];
 	boolean[item] poss = $items[Jaunty Feather, ring of telling skeletons what to do, Glowing Red Eye, grumpy old man charrrm bracelet, Pirate Fledges, Plastic Detective Badge, Bronze Detective Badge, Mr. Accessory Jr., Silver Detective Badge, Gold Detective Badge, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Sphygmayomanometer, Badge Of Authority, Codpiece, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing) && (equipped_item($slot[acc1]) != thing) && (equipped_item($slot[acc2]) != thing))
-		{
-			toEquip = thing;
-		}
-	}
+
+	toEquip = handleSolveThing(poss, $slot[acc3]);
+
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc3])))
 	{
 		equip($slot[acc3], toEquip);
@@ -685,6 +679,7 @@ void replaceBaselineAcc3()
 {
 	item toEquip = $item[none];
 	boolean[item] poss = $items[ring of telling skeletons what to do, Glowing Red Eye, grumpy old man charrrm bracelet, Pirate Fledges, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Badge Of Authority, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
+
 	foreach thing in poss
 	{
 		if(possessEquipment(thing) && can_equip(thing) && (equipped_item($slot[acc1]) != thing) && (equipped_item($slot[acc2]) != thing) && (equipped_item($slot[acc3]) != thing))
@@ -692,6 +687,7 @@ void replaceBaselineAcc3()
 			toEquip = thing;
 		}
 	}
+
 	if(toEquip == $item[none])
 	{
 		equip($slot[acc3], $item[none]);
@@ -711,14 +707,8 @@ void equipBaselineHolster()
 
 	item toEquip = $item[none];
 	boolean[item] poss = $items[toy sixgun, rinky-dink sixgun, reliable sixgun, makeshift sixgun, custom sixgun, porquoise-handled sixgun, hamethyst-handled sixgun, baconstone-handled sixgun, Pecos Dave\'s sixgun];
-	foreach thing in poss
-	{
-#		if(possessEquipment(thing) && can_equip(thing))
-		if(possessEquipment(thing))
-		{
-			toEquip = thing;
-		}
-	}
+
+	toEquip = handleSolveThing(poss, $slot[holster]);
 
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[holster])))
 	{
@@ -729,6 +719,7 @@ void equipBaselineHolster()
 
 void removeNonCombat()
 {
+	set_property("cc_ignoreNonCombat", my_turncount());
 	foreach sl in $slots[Hat, Weapon, Off-Hand, Back, Shirt, Pants, Acc1, Acc2, Acc3]
 	{
 		if(numeric_modifier(equipped_item(sl), "Combat Rate") < 0.0)
@@ -736,19 +727,16 @@ void removeNonCombat()
 			equip(sl, $item[none]);
 		}
 	}
+	equipBaseline();
 }
 
 void equipRollover()
 {
 	item toEquip = $item[none];
 	boolean[item] poss = $items[Sea Cowboy Hat, Hairpiece on Fire, Spelunker\'s Fedora, Leather Aviator\'s Cap, Very Pointy Crown];
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+
+	toEquip = handleSolveThing(poss, $slot[hat]);
+
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[hat])))
 	{
 		equip($slot[hat], toEquip);
@@ -757,13 +745,9 @@ void equipRollover()
 
 	toEquip = $item[none];
 	poss = $items[Time Bandit Time Towel, Auxiliary Backbone, Octolus-Skin Cloak];
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+
+	toEquip = handleSolveThing(poss, $slot[back]);
+
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[back])))
 	{
 		equip($slot[back], toEquip);
@@ -772,13 +756,9 @@ void equipRollover()
 
 	toEquip = $item[none];
 	poss = $items[General Sage\'s Lonely Diamonds Club Jacket, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+
+	toEquip = handleSolveThing(poss, $slot[shirt]);
+
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[shirt])))
 	{
 		equip($slot[shirt], toEquip);
@@ -786,13 +766,9 @@ void equipRollover()
 
 	toEquip = $item[none];
 	poss = $items[Chrome Sword, Sword Behind Inappropriate Prepositions, Time Sword, The Nuge\'s Favorite Crossbow];
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+
+	toEquip = handleSolveThing(poss, $slot[weapon]);
+
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[weapon])))
 	{
 		equip($slot[weapon], toEquip);
@@ -800,13 +776,9 @@ void equipRollover()
 
 	toEquip = $item[none];
 	poss = $items[Ancient Calendar, Mer-kin stopwatch, Astral Statuette, blue LavaCo Lamp&trade;, green LavaCo Lamp&trade;, red LavaCo Lamp&trade;, Silver Cow Creamer, Royal Scepter];
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+
+	toEquip = handleSolveThing(poss, $slot[off-hand]);
+
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[off-hand])))
 	{
 		equip($slot[off-hand], toEquip);
@@ -814,13 +786,9 @@ void equipRollover()
 
 	toEquip = $item[none];
 	poss = $items[Paperclip Pants, Electronic Dulcimer Pants, Vicar\'s Tutu, Ninjammies, Pantaloons of Hatred, Ratskin Pajama Pants];
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+
+	toEquip = handleSolveThing(poss, $slot[pants]);
+
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[pants])))
 	{
 		equip($slot[pants], toEquip);
@@ -831,13 +799,9 @@ void equipRollover()
 
 	toEquip = $item[none];
 	poss = $items[BGE Pocket Calendar, Boots of Twilight Whispers, Numberwang];
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+
+	toEquip = handleSolveThing(poss, $slot[acc1]);
+
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc1])))
 	{
 		equip($slot[acc1], toEquip);
@@ -845,13 +809,9 @@ void equipRollover()
 
 	toEquip = $item[none];
 	poss = $items[Dead Guy\'s Watch, Grandfather Watch, Sasq&trade; Watch];
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+
+	toEquip = handleSolveThing(poss, $slot[acc2]);
+
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc2])))
 	{
 		equip($slot[acc2], toEquip);
@@ -859,13 +819,9 @@ void equipRollover()
 
 	toEquip = $item[none];
 	poss = $items[Gold Wedding Ring, Fudgecycle, Ticksilver Ring, Treads of Loathing];
-	foreach thing in poss
-	{
-		if(possessEquipment(thing) && can_equip(thing))
-		{
-			toEquip = thing;
-		}
-	}
+
+	toEquip = handleSolveThing(poss, $slot[acc3]);
+
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc3])))
 	{
 		equip($slot[acc3], toEquip);
@@ -875,13 +831,8 @@ void equipRollover()
 	{
 		toEquip = $item[none];
 		poss = $items[Solid Shifting Time Weirdness];
-		foreach thing in poss
-		{
-			if(possessEquipment(thing) && can_equip(thing))
-			{
-				toEquip = thing;
-			}
-		}
+
+		toEquip = handleSolveThing(poss, $slot[familiar]);
 		if((toEquip != $item[none]) && (toEquip != equipped_item($slot[familiar])))
 		{
 			equip($slot[familiar], toEquip);

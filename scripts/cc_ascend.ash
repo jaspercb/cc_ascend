@@ -145,7 +145,9 @@ void initializeSettings()
 	set_property("cc_highlandlord", "");
 	set_property("cc_hippyInstead", false);
 	set_property("cc_holeinthesky", false);
+	set_property("cc_ignoreCombat", -1);
 	set_property("cc_ignoreFlyer", false);
+	set_property("cc_ignoreNonCombat", -1);
 	set_property("cc_instakill", "");
 	set_property("cc_landfillAvailable", false);
 	set_property("cc_masonryWall", false);
@@ -10761,6 +10763,7 @@ boolean LX_fcle()
 	buffMaintain($effect[Patent Aggression], 0, 1, 1);
 
 	removeNonCombat();
+	outfit("swashbuckling getup");
 
 	if(have_familiar($familiar[Jumpsuited Hound Dog]))
 	{

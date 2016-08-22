@@ -574,20 +574,23 @@ void consumeStuff()
 		if((my_adventures() < 4) && (my_fullness() == 0) && (my_level() >= 7) && !in_hardcore())
 		{
 			dealWithMilkOfMagnesium(true);
-			if(item_amount($item[Spaghetti Breakfast]) > 0)
+			if((item_amount($item[Spaghetti Breakfast]) > 0) && (fullness_left() >= 1))
 			{
 				buffMaintain($effect[Got Milk], 0, 1, 1);
 				buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 				ccEat(1, $item[Spaghetti Breakfast]);
 			}
-			pullXWhenHaveY(whatHiMein(), 2, 0);
-			if(item_amount(whatHiMein()) >= 2)
+			if(fullness_left() >= 10)
+			{
+				pullXWhenHaveY(whatHiMein(), 2, 0);
+			}
+			if((item_amount(whatHiMein()) >= 2) && (fullness_left() >= 10))
 			{
 				buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 				buffMaintain($effect[Got Milk], 0, 1, 1);
 				ccEat(2, whatHiMein());
 			}
-			if(item_amount($item[digital key lime pie]) > 0)
+			if((item_amount($item[digital key lime pie]) > 0) && (fullness_left() >= 4))
 			{
 				buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 				buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -596,7 +599,7 @@ void consumeStuff()
 			}
 			else
 			{
-				if(my_fullness() == 10)
+				if(fullness_left() == 5)
 				{
 					pullXWhenHaveY(whatHiMein(), 1, 0);
 					if(item_amount(whatHiMein()) > 0)
@@ -606,7 +609,7 @@ void consumeStuff()
 						ccEat(1, whatHiMein());
 					}
 				}
-				else
+				else if(fullness_left() >= 4)
 				{
 					pullXWhenHaveY($item[Digital Key Lime Pie], 1, 0);
 					if(item_amount($item[Digital Key Lime Pie]) > 0)
@@ -682,7 +685,7 @@ void consumeStuff()
 				dealWithMilkOfMagnesium(!in_hardcore());
 				foreach it in toEat
 				{
-					while((canEat > 0) && (item_amount(it) > 0))
+					while((canEat > 0) && (item_amount(it) > 0) && (fullness_left() >= 5))
 					{
 						buffMaintain($effect[Got Milk], 0, 1, 1);
 						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
@@ -693,7 +696,7 @@ void consumeStuff()
 			}
 		}
 
-		if((my_adventures() < 4) && (my_fullness() == 0) && (my_level() >= 6) && (item_amount($item[Boris\'s Key Lime Pie]) > 0) && (item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) && (item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0) && !in_hardcore())
+		if((my_adventures() < 4) && (fullness_left() >= 12) && (my_level() >= 6) && (item_amount($item[Boris\'s Key Lime Pie]) > 0) && (item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) && (item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0) && !in_hardcore())
 		{
 			dealWithMilkOfMagnesium(true);
 			buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -706,7 +709,7 @@ void consumeStuff()
 			tryPantsEat();
 		}
 
-		if((fullness_limit() > 15) && (my_fullness() < fullness_limit()))
+		if((fullness_limit() > 15) && (fullness_left() > 0))
 		{
 			tryCookies();
 			if((my_adventures() < 5) && (spleen_left() <= 3) && (my_inebriety() >= 14))
@@ -788,7 +791,7 @@ void consumeStuff()
 
 			if(towerKeyCount() == 3)
 			{
-				if(item_amount(whatHiMein()) >= 3)
+				if((item_amount(whatHiMein()) >= 3) && (fullness_left() >= 15))
 				{
 					buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 					buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -804,7 +807,7 @@ void consumeStuff()
 				}
 				if(count >= 2)
 				{
-					if(item_amount($item[Spaghetti Breakfast]) > 0)
+					if((item_amount($item[Spaghetti Breakfast]) > 0) && (fullness_left() > 0))
 					{
 						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -814,8 +817,11 @@ void consumeStuff()
 						}
 						ccEat(1, $item[Spaghetti Breakfast]);
 					}
-					pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
-					if(item_amount($item[Boris\'s Key Lime Pie]) > 0)
+					if(fullness_left() >= 4)
+					{
+						pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
+					}
+					if((item_amount($item[Boris\'s Key Lime Pie]) > 0) && (fullness_left() >= 4))
 					{
 						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -825,8 +831,11 @@ void consumeStuff()
 						}
 						ccEat(1, $item[Boris\'s Key Lime Pie]);
 					}
-					pullXWhenHaveY(whatHiMein(), 2, 0);
-					if(item_amount(whatHiMein()) > 0)
+					if(fullness_left() >= 10)
+					{
+						pullXWhenHaveY(whatHiMein(), 2, 0);
+					}
+					if((item_amount(whatHiMein()) > 0) && (fullness_left() >= 5))
 					{
 						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -836,7 +845,7 @@ void consumeStuff()
 						}
 						ccEat(1, whatHiMein());
 					}
-					if(item_amount(whatHiMein()) > 0)
+					if((item_amount(whatHiMein()) > 0) && (fullness_left() >= 5))
 					{
 						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -850,20 +859,20 @@ void consumeStuff()
 			}
 			else if(!get_property("cc_useCubeling").to_boolean())
 			{
-				if((item_amount($item[Boris\'s Key Lime Pie]) > 0) || (item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) || (item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0))
+				if(((item_amount($item[Boris\'s Key Lime Pie]) > 0) || (item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) || (item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0)) && (fullness_left() >= 4))
 				{
 					buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 					buffMaintain($effect[Got Milk], 0, 1, 1);
 				}
-				if(item_amount($item[Boris\'s Key Lime Pie]) > 0)
+				if((item_amount($item[Boris\'s Key Lime Pie]) > 0) && (fullness_left() >= 4))
 				{
 					ccEat(1, $item[Boris\'s Key Lime Pie]);
 				}
-				if(item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0)
+				if((item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) && (fullness_left() >= 4))
 				{
 					ccEat(1, $item[Jarlsberg\'s Key Lime Pie]);
 				}
-				if(item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0)
+				if((item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0) && (fullness_left() >= 4))
 				{
 					ccEat(1, $item[Sneaky Pete\'s Key Lime Pie]);
 				}
@@ -879,7 +888,7 @@ void consumeStuff()
 
 		if(in_hardcore() && isGuildClass() && have_skill($skill[Pastamastery]))
 		{
-			int canEat = (fullness_limit() - my_fullness()) / 5;
+			int canEat = fullness_left() / 5;
 			boolean[item] toEat;
 			boolean[item] toPrep;
 
@@ -940,7 +949,7 @@ void consumeStuff()
 				dealWithMilkOfMagnesium(true);
 				foreach it in toEat
 				{
-					while((canEat > 0) && (item_amount(it) > 0))
+					while((canEat > 0) && (item_amount(it) > 0) && (fullness_left() >= 5))
 					{
 						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -951,7 +960,7 @@ void consumeStuff()
 			}
 		}
 
-		if((fullness_limit() >= 15) && (my_fullness() < fullness_limit()))
+		if((fullness_limit() >= 15) && (fullness_left() > 0))
 		{
 			tryCookies();
 			if((my_adventures() < 5) && (spleen_left() == 0) && (my_inebriety() >= 14))
@@ -1145,7 +1154,7 @@ void consumeStuff()
 		{
 			dealWithMilkOfMagnesium(true);
 
-			if(item_amount($item[Star Key Lime Pie]) >= 3)
+			if((item_amount($item[Star Key Lime Pie]) >= 3) && (fullness_left() >= 12))
 			{
 				buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 				buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -1156,8 +1165,11 @@ void consumeStuff()
 			}
 			else
 			{
-				pullXWhenHaveY(whatHiMein(), 3, 0);
-				if(item_amount(whatHiMein()) >= 3)
+				if(fullness_left() >= 15)
+				{
+					pullXWhenHaveY(whatHiMein(), 3, 0);
+				}
+				if((item_amount(whatHiMein()) >= 3) && (fullness_left() >= 15))
 				{
 					buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 					buffMaintain($effect[Got Milk], 0, 1, 1);
