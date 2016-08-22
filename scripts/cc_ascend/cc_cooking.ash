@@ -560,14 +560,13 @@ void consumeStuff()
 			}
 		}
 
-		if((get_property("cc_ballroomsong") == "finished") && (get_property("_speakeasyDrinksDrunk").to_int() == 1) && (my_mp() >= (mpForOde+30)) && ((my_inebriety() + 2) <= inebriety_limit()) && !($classes[Avatar of Boris, Ed] contains my_class()))
+		if((get_property("cc_ballroomsong") == "finished") && (inebriety_left() >= 2) && (get_property("_speakeasyDrinksDrunk").to_int() == 1) && (my_mp() >= (mpForOde+30)) && ((my_inebriety() + 2) <= inebriety_limit()) && !($classes[Avatar of Boris, Ed] contains my_class()))
 		{
 			if(item_amount($item[Clan VIP Lounge Key]) > 0)
 			{
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
-				visit_url("clan_viplounge.php?action=speakeasy");
-				cli_execute("drink 1 sockdollager");
+				drinkSpeakeasyDrink($item[Sockdollager]);
 			}
 			while(acquireHermitItem($item[Ten-leaf Clover]));
 		}
@@ -977,7 +976,7 @@ void consumeStuff()
 			drink(1, $item[paint a vulgar pitcher]);
 		}
 
-		if((my_inebriety() <= 9) && (my_adventures() < 10) && (my_meat() > 150) && (my_mp() >= mpForOde))
+		if((inebriety_left() >= 5) && (my_adventures() < 10) && (my_meat() > 150) && (my_mp() >= mpForOde))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 4);
@@ -988,8 +987,7 @@ void consumeStuff()
 			}
 			else if(my_meat() > 35000)
 			{
-				visit_url("clan_viplounge.php?action=speakeasy");
-				cli_execute("drink flivver");
+				drinkSpeakeasyDrink($item[Flivver]);
 			}
 		}
 
@@ -1058,32 +1056,27 @@ void consumeStuff()
 			drink(1, $item[Ambitious Turkey]);
 		}
 
-		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (my_inebriety() <= inebriety_limit()) && (my_meat() > 500) && (get_property("_speakeasyDrinksDrunk").to_int() < 3) && (item_amount($item[Clan VIP Lounge Key]) > 0))
+		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (inebriety_left() > 0) && (my_meat() > 500) && (get_property("_speakeasyDrinksDrunk").to_int() < 3) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 		{
 			# We could check for good drinks here but I don't know what would be good checks
-			int canDrink = inebriety_limit() - my_inebriety();
-
+			int canDrink = inebriety_left();
 			#Consider Ish Kabibble for A-Boo Peak (2)
-			visit_url("clan_viplounge.php?action=speakeasy");
 
-			#item toDrink = $item[none];
-			string toDrink = "";
+			item toDrink = $item[none];
 			if(canDrink >= 2)
 			{
-				toDrink = "Bee's Knees";
+				toDrink = $item[Bee\'s Knees];
 			}
 			else if(canDrink >= 1)
 			{
-				toDrink = "glass of \"milk\"";
+				toDrink = $item[glass of &quot;milk&quot;];
 			}
 
-			#if(toDrink != $item[none])
-			if(toDrink != "")
+			if(toDrink != $item[none])
 			{
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 4);
-				cli_execute("drink 1 " + toDrink);
-				print("drink 1 " + toDrink);
+				drinkSpeakeasyDrink(toDrink);
 			}
 		}
 

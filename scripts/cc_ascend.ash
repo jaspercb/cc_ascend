@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17135;
+since r17140;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1624,7 +1624,7 @@ void initializeDay(int day)
 			pullXWhenHaveY($item[blackberry galoshes], 1, 0);
 			pullXWhenHaveY($item[mojo filter], 1, 0);
 
-			if(!get_property("cc_useCubeling").to_boolean() && (towerKeyCount() == 0))
+			if(!get_property("cc_useCubeling").to_boolean() && (towerKeyCount() == 0) && (fullness_left() >= 4))
 			{
 				if(item_amount($item[Boris\'s Key]) == 0)
 				{
@@ -1639,7 +1639,7 @@ void initializeDay(int day)
 					pullXWhenHaveY($item[Jarlsberg\'s Key Lime Pie], 1, 0);
 				}
 			}
-			else
+			else if(fullness_left() >= 5)
 			{
 				pullXWhenHaveY(whatHiMein(), 2, 0);
 			}
@@ -5349,7 +5349,12 @@ boolean L11_mauriceSpookyraven()
 		return true;
 	}
 
-	if(!possessEquipment($item[Lord Spookyraven\'s Spectacles]) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist") || ((cc_my_path() == "Nucleur Autmun") && !in_hardcore()))
+	if(!get_property("cc_haveoven").to_boolean())
+	{
+		ovenHandle();
+	}
+
+	if(!possessEquipment($item[Lord Spookyraven\'s Spectacles]) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist") || ((cc_my_path() == "Nuclear Autumn") && !get_property("cc_haveoven").to_boolean()))
 	{
 		print("Alternate fulminate pathway... how sad :(", "red");
 		# I suppose we can let anyone in without the Spectacles.
@@ -5415,7 +5420,15 @@ boolean L11_mauriceSpookyraven()
 			ccCraft("cook", 1, $item[bottle of Chateau de Vinegar], $item[blasting soda]);
 			if(item_amount($item[Unstable Fulminate]) == 0)
 			{
-				abort("Could not make an Unstable Fulminate, make it manually and resume");
+				if(cc_my_path() == "Nuclear Autumn")
+				{
+					print("Could not make an Unstable Fulminate, assuming we have no oven for realz...", "red");
+					return true;
+				}
+				else
+				{
+					abort("Could not make an Unstable Fulminate, make it manually and resume");
+				}
 			}
 		}
 	}
@@ -7637,7 +7650,9 @@ boolean LX_hardcoreFoodFarm()
 	}
 	if(my_level() >= 8)
 	{
+		cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
 		ccAdv(1, $location[The Goatlet]);
+		cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
 	}
 
 	return false;
@@ -8049,7 +8064,9 @@ boolean L8_trapperGround()
 	{
 		print("Yay for goat cheese!", "blue");
 		handleFamiliar("item");
+		cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
 		ccAdv(1, $location[The Goatlet]);
+		cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
 		return true;
 	}
 
@@ -8064,7 +8081,9 @@ boolean L8_trapperGround()
 		}
 		print("Yay for goat cheese!", "blue");
 		handleFamiliar("item");
+		cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
 		ccAdv(1, $location[The Goatlet]);
+		cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
 		return true;
 	}
 	else if((my_rain() > 50) && (have_effect($effect[Ultrahydrated]) == 0) && (cc_my_path() == "Heavy Rains") && have_skill($skill[Rain Man]))

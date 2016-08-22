@@ -744,18 +744,27 @@ boolean cc_ascendIntoCS()
 	{
 		return false;
 	}
-	visit_url("ascend.php?pwd=&confirm=on&confirm2=on&action=ascend&submit=Ascend", true);
-	visit_url("afterlife.php?action=pearlygates");
-	visit_url("afterlife.php?action=buydeli&whichitem=5046", true);
-	visit_url("afterlife.php?action=buyarmory&whichitem=5037", true);
-	string page = visit_url("afterlife.php?place=reincarnate");
+	string temp = visit_url("ascend.php?pwd=&confirm=on&confirm2=on&action=ascend&submit=Ascend", true);
+	temp = visit_url("afterlife.php?action=pearlygates");
+	temp = visit_url("afterlife.php?action=buydeli&whichitem=5046", true);
+
+	temp = visit_url("afterlife.php?place=armory");
+	if(contains_text(temp, "astral pet sweater"))
+	{
+		temp = visit_url("afterlife.php?action=buyarmory&whichitem=5040", true);
+	}
+	else
+	{
+		temp = visit_url("afterlife.php?action=buyarmory&whichitem=5037", true);
+	}
+	temp = visit_url("afterlife.php?place=reincarnate");
 	int gender = 1;
-	if(contains_text(page, "option selected value=2>Female"))
+	if(contains_text(temp, "option selected value=2>Female"))
 	{
 		gender = 2;
 	}
-	visit_url("afterlife.php?action=ascend&asctype=3&whichclass=4&gender=" + gender + "&whichpath=25&whichsign=2", true);
-	visit_url("afterlife.php?action=ascend&confirmascend=1&asctype=3&whichclass=4&gender=" + gender + "&whichpath=25&whichsign=2&noskillsok=1", true);
+	temp = visit_url("afterlife.php?action=ascend&asctype=3&whichclass=4&gender=" + gender + "&whichpath=25&whichsign=2", true);
+	temp = visit_url("afterlife.php?action=ascend&confirmascend=1&asctype=3&whichclass=4&gender=" + gender + "&whichpath=25&whichsign=2&noskillsok=1", true);
 
 	return true;
 }

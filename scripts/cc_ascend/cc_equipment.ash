@@ -447,13 +447,13 @@ void equipBaselineWeapon()
 		poss = $items[Seal-Clubbing Club, Gnollish Flyswatter, Club of Corruption, Remaindered Axe, Skeleton Bone, Corrupt Club of Corruption, Flaming Crutch, Homoerotic Frat-Paddle, Kneecapping Stick, Corrupt Club of Corrupt Corruption, Spiked Femur, Severed Flipper, Mannequin Leg, Infernal Toilet Brush, Hilarious Comedy Prop, Giant Foam Finger, Red Hot Poker, Maxwell\'s Silver Hammer, Elegant Nightstick, Oversized Pipe, Ghast Iron Cleaver, Frozen Seal Spine, Stainless Steel Shillelagh, Porcelain Police Baton, Fish Hatchet, Lead Pipe, Meat Tenderizer Is Murder, Dented Scepter];
 		break;
 	case $class[Turtle Tamer]:
-		poss = $items[Turtle Totem, Mace of the Tortoise, Witty Rapier, Antique Machete, Short-Handled Mop, Thor\'s Pliers, Rope, Lead Pipe, Work Is A Four Letter Sword, Fish Hatchet, Garbage Sticker];
+		poss = $items[Turtle Totem, Knob Goblin Tongs, Knob Goblin Scimitar, Mace of the Tortoise, Witty Rapier, Antique Machete, Short-Handled Mop, Thor\'s Pliers, Rope, Lead Pipe, Work Is A Four Letter Sword, Fish Hatchet, Garbage Sticker];
 		break;
 	case $class[Sauceror]:
 		poss = $items[Saucepan, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Thor\'s Pliers, Candlestick, Bass Clarinet, Saucepanic];
 		break;
 	case $class[Pastamancer]:
-		poss = $items[Pasta Spoon, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Thor\'s Pliers, Wrench, Bass Clarinet, Hand That Rocks The Ladle];
+		poss = $items[Pasta Spoon, Knob Goblin Tongs, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Thor\'s Pliers, Wrench, Bass Clarinet, Hand That Rocks The Ladle];
 		break;
 	case $class[Disco Bandit]:
 		poss = $items[Knife, Bass Clarinet, Frankly Mr. Shank];
