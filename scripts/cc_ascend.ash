@@ -7275,7 +7275,7 @@ boolean LX_dolphinKingMap()
 {
 	if(item_amount($item[Dolphin King\'s Map]) > 0)
 	{
-		if(possessEquipment($item[Snorkel]) || (my_meat() >= npc_price($item[Snorkel])))
+		if(possessEquipment($item[Snorkel]) || ((my_meat() >= npc_price($item[Snorkel])) && isGeneralStoreAvailable())) 
 		{
 			buyUpTo(1, $item[Snorkel]);
 			item oldHat = equipped_item($slot[hat]);
