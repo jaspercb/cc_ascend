@@ -1071,6 +1071,11 @@ boolean LA_cs_communityService()
 				{
 					cli_execute("clan_viplounge.php?action=lookingglass");
 				}
+				if(!possessEquipment($item[Helmet Turtle]))
+				{
+					acquireGumItem($item[Helmet Turtle]);
+				}
+
 				cli_execute("hatter 12");
 			}
 
