@@ -8146,6 +8146,10 @@ boolean LX_guildUnlock()
 	{
 		return false;
 	}
+	if(cc_my_path() == "Nuclear Autumn")
+	{
+		return false;
+	}
 	print("Let's unlock the guild.", "green");
 	location loc = $location[None];
 	item goal = $item[none];
@@ -8719,13 +8723,14 @@ boolean LX_islandAccess()
 		}
 	}
 
-	if((item_amount($item[Shore Inc. Ship Trip Scrip]) >= 3) && (item_amount($item[Dingy Dinghy]) == 0) && (my_meat() >= 400))
+	if((item_amount($item[Shore Inc. Ship Trip Scrip]) >= 3) && (item_amount($item[Dingy Dinghy]) == 0) && (my_meat() >= 400) && isGeneralStoreAvailable())
 	{
 		cli_execute("make dinghy plans");
 		buyUpTo(1, $item[dingy planks]);
 		use(1, $item[dinghy plans]);
 		return true;
 	}
+
 	if((item_amount($item[Dingy Dinghy]) > 0) || (get_property("lastIslandUnlock").to_int() == my_ascensions()))
 	{
 		if(get_property("lastIslandUnlock").to_int() == my_ascensions())
@@ -8756,7 +8761,7 @@ boolean LX_islandAccess()
 		return false;
 	}
 
-	if(!canDesert)
+	if(!canDesert || !isGeneralStoreAvailable())
 	{
 		return LX_desertAlternate();
 	}
@@ -8772,6 +8777,10 @@ boolean LX_islandAccess()
 	}
 
 	print("At the shore, la de da!", "blue");
+	if(item_amount($item[Dinghy Plans]) > 0)
+	{
+		abort("Dude, we got Dinghy Plans... we should not be here....");
+	}
 	if(my_primestat() == $stat[Muscle])
 	{
 		set_property("choiceAdventure793", "1");
@@ -8784,7 +8793,7 @@ boolean LX_islandAccess()
 	{
 		set_property("choiceAdventure793", "3");
 	}
-	while((item_amount($item[Shore Inc. Ship Trip Scrip]) < 3) && (my_meat() > 500))
+	while((item_amount($item[Shore Inc. Ship Trip Scrip]) < 3) && (my_meat() > 500) && (item_amount($item[Dinghy Plans]) == 0))
 	{
 		ccAdv(1, $location[The Shore\, Inc. Travel Agency]);
 	}
@@ -8794,7 +8803,7 @@ boolean LX_islandAccess()
 		return false;
 	}
 
-	if(my_meat() >= 400)
+	if((my_meat() >= 400) && (item_amount($item[Dinghy Plans]) == 0) && isGeneralStoreAvailable())
 	{
 		cli_execute("make dinghy plans");
 		buyUpTo(1, $item[dingy planks]);

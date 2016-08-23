@@ -866,12 +866,14 @@ boolean LA_cs_communityService()
 			{
 				cli_execute("clan_viplounge.php?action=lookingglass");
 			}
-			if(!possessEquipment($item[Mariachi Hat]))
+			if(!get_property("_madTeaParty").to_boolean())
 			{
-				acquireGumItem($item[Mariachi Hat]);
+				if(!possessEquipment($item[Mariachi Hat]))
+				{
+					acquireGumItem($item[Mariachi Hat]);
+				}
+				cli_execute("hatter 11");
 			}
-			cli_execute("hatter 11");
-
 
 			if(item_amount($item[Experimental Serum G-9]) > 2)
 			{
@@ -1070,10 +1072,6 @@ boolean LA_cs_communityService()
 				if(!get_property("_lookingGlass").to_boolean())
 				{
 					cli_execute("clan_viplounge.php?action=lookingglass");
-				}
-				if(!possessEquipment($item[Helmet Turtle]))
-				{
-					acquireGumItem($item[Helmet Turtle]);
 				}
 
 				cli_execute("hatter 12");
