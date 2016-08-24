@@ -302,7 +302,7 @@ void handlePostAdventure()
 		{
 			use_skill(1, $skill[Disco Nap]);
 		}
-		else
+		else if(isGeneralStoreAvailable())
 		{
 			buyUpTo(1, $item[anti-anti-antidote], 30);
 #			visit_url("shop.php?pwd=&whichshop=doc&action=buyitem&quantity=1&whichrow=694", true);

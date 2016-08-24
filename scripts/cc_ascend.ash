@@ -2484,6 +2484,12 @@ boolean questOverride()
 		set_property("cc_palindome", "finished");
 	}
 
+	if(get_property("pyramidBombUsed").to_boolean() && (get_property("cc_mcmuffin") == "pyramid"))
+	{
+		print("Found Ed in the Pyramid (11)");
+		set_property("cc_mcmuffin", "ed");
+	}
+
 //	if((get_property("questL11Pyramid") == "finished") && (get_property("cc_mcmuffin") != "finished"))
 //	{
 //		print("Found completed Pyramid (11)");
@@ -6162,18 +6168,22 @@ boolean L12_sonofaBeach()
 	buffMaintain($effect[High Colognic], 0, 1, 1);
 	buffMaintain($effect[Celestial Saltiness], 0, 1, 1);
 	buffMaintain($effect[Everything Must Go!], 0, 1, 1);
-	if(have_familiar($familiar[Grim Brother]))
+	if(have_familiar($familiar[Grim Brother]) && possessEquipment($item[Buddy Bjorn]))
 	{
+		if(equipped_item($slot[back]) != $item[Buddy Bjorn])
+		{
+			equip($slot[Back], $item[Buddy Bjorn]);
+		}
 		handleBjornify($familiar[Grim Brother]);
 	}
-	if((equipped_item($slot[hat]) == $item[Xiblaxian stealth cowl]) && possessEquipment($item[Beer Helmet]))
-	{
-		equip($item[Beer Helmet]);
-	}
-	if((have_equipped($item[Xiblaxian Stealth Trousers])) && possessEquipment($item[Distressed Denim Pants]))
-	{
-		equip($slot[Pants], $item[Distressed Denim Pants]);
-	}
+#	if((equipped_item($slot[hat]) == $item[Xiblaxian stealth cowl]) && possessEquipment($item[Beer Helmet]))
+#	{
+#		equip($item[Beer Helmet]);
+#	}
+#	if((have_equipped($item[Xiblaxian Stealth Trousers])) && possessEquipment($item[Distressed Denim Pants]))
+#	{
+#		equip($slot[Pants], $item[Distressed Denim Pants]);
+#	}
 	if(equipped_item($slot[acc1]) == $item[over-the-shoulder folder holder])
 	{
 		if((item_amount($item[Ass-Stompers of Violence]) > 0) && (equipped_item($slot[acc1]) != $item[Ass-Stompers of Violence]) && can_equip($item[Ass-Stompers of Violence]))
@@ -8115,6 +8125,17 @@ boolean L8_trapperGround()
 			numCloversKeep = 1;
 		}
 		use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+		if(cc_my_path() == "Nuclear Autumn")
+		{
+			if(item_amount($item[Disassembled Clover]) <= numCloversKeep)
+			{
+				handleBarrelFullOfBarrels();
+				string temp = visit_url("barrel.php");
+				temp = visit_url("choice.php?whichchoice=1099&pwd=&option=2");
+				handleBarrelFullOfBarrels();
+				return true;
+			}
+		}
 		if(item_amount($item[Disassembled Clover]) > numCloversKeep)
 		{
 			backupSetting("cloverProtectActive", false);
@@ -11629,6 +11650,11 @@ boolean LX_setBallroomSong()
 	{
 		set_property("choiceAdventure106", "3");
 	}
+	if(cc_my_path() == "Nuclear Autumn")
+	{
+		set_property("choiceAdventure106", "3");
+	}
+
 
 	ccAdv(1, $location[The Haunted Ballroom]);
 	if(contains_text(get_property("lastEncounter"), "Strung-Up Quartet"))

@@ -756,6 +756,12 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Broadside];
 		}
 
+		if(!contains_text(combatState, "mind bullets") && have_skill($skill[Mind Bullets]) && (my_mp() >= mp_cost($skill[Mind Bullets])))
+		{
+			set_property("cc_combatHandler", combatState + "(mind bullets)");
+			return "skill " + $skill[Mind Bullets];
+		}
+
 		if(!contains_text(combatState, to_string($skill[Snap Fingers])) && have_skill($skill[Snap Fingers]) && (my_mp() >= mp_cost($skill[Snap Fingers])))
 		{
 			set_property("cc_combatHandler", combatState + "(" + $skill[Snap Fingers] + ")");
@@ -1820,6 +1826,31 @@ string cc_combatHandler(int round, string opp, string text)
 			{
 				return "skill " + $skill[Mighty Axing];
 			}
+		}
+
+		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[cold]) && have_skill($skill[Throat Refrigerant]) && (my_mp() >= mp_cost($skill[Throat Refrigerant])))
+		{
+			return "skill " + $skill[Throat Refrigerant];
+		}
+
+		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[hot]) && have_skill($skill[Boiling Tear Ducts]) && (my_mp() >= mp_cost($skill[Boiling Tear Ducts])))
+		{
+			return "skill " + $skill[Boiling Tear Ducts];
+		}
+
+		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[sleaze]) && have_skill($skill[Projectile Salivary Glands]) && (my_mp() >= mp_cost($skill[Projectile Salivary Glands])))
+		{
+			return "skill " + $skill[Projectile Salivary Glands];
+		}
+
+		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[spooky]) && have_skill($skill[Translucent Skin]) && (my_mp() >= mp_cost($skill[Translucent Skin])))
+		{
+			return "skill " + $skill[Translucent Skin];
+		}
+
+		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[stench]) && have_skill($skill[Skunk Glands]) && (my_mp() >= mp_cost($skill[Skunk Glands])))
+		{
+			return "skill " + $skill[Skunk Glands];
 		}
 
 		if((my_location() == $location[The X-32-F Combat Training Snowman]) && contains_text(text, "Cattle Prod") && (my_mp() >= costMajor))

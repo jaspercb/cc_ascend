@@ -76,7 +76,7 @@ boolean cc_barrelPrayers()
 		case 1:				prayers = $strings[Vigor, Glamour];					break;
 		case 2:				prayers = $strings[Vigor, Glamour];					break;
 		case 3:				prayers = $strings[Glamour, Vigor];					break;
-		case 4:				prayers = $strings[Protection, Glamour, Vigor];		break;
+		case 4:				prayers = $strings[Glamour, Vigor];					break;
 		}
 	}
 	else if(my_path() == "The Source")
@@ -914,6 +914,11 @@ boolean deck_useScheme(string action)
 			case 2:				cards["ore"] = true;						break;
 			}
 			break;
+		}
+
+		if(my_path() == "Nuclear Autumn")
+		{
+			cards["key"] = true;
 		}
 
 		switch(my_daycount())
