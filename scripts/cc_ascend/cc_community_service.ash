@@ -439,6 +439,13 @@ boolean LA_cs_communityService()
 				useCocoon();
 
 				ccAdv(1, $location[The Bubblin\' Caldera], "cs_combatNormal");
+				if((have_effect($effect[Beaten Up]) > 0) && have_skill($skill[Tongue of the Walrus]) && (my_mp() > (3 * mp_cost($skill[Tongue of the Walrus]))))
+				{
+					if(contains_text(get_property("cc_combatHandler"), "(DNA)"))
+					{
+						use_skill(2, $skill[Tongue of the Walrus]);
+					}
+				}
 				return true;
 			}
 

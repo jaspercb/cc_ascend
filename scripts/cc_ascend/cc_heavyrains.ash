@@ -20,6 +20,7 @@ void hr_initializeSettings()
 		set_property("cc_lastthunder", "100");
 		set_property("cc_lastthunderturn", "0");
 
+		set_property("cc_wandOfNagamar", false);
 		set_property("cc_writingDeskSummon", true);
 
 		set_property("cc_day1_desk", "");

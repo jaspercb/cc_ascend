@@ -16,6 +16,7 @@ void equipBaselineHat(boolean wantNC);
 void equipRollover();
 void handleOffHand();
 void removeNonCombat();
+void removeCombat();
 item handleSolveThing(boolean[item] poss, slot loc);
 item handleSolveThing(boolean[item] poss);
 boolean handleBjornify(familiar fam);
@@ -326,14 +327,19 @@ item handleSolveThing(boolean[item] poss)
 item handleSolveThing(boolean[item] poss, slot loc)
 {
 	item toEquip = $item[none];
+	set_property("cc_ignoreCombat", to_lower_case(get_property("cc_ignoreCombat")));
 	foreach thing in poss
 	{
 		boolean ignore = false;
-		if((my_turncount() == get_property("cc_ignoreNonCombat").to_int()) && (numeric_modifier(thing, "Combat Rate") < 0))
+		if(contains_text(get_property("cc_ignoreCombat"), "(noncombat)") && (numeric_modifier(thing, "Combat Rate") < 0))
 		{
 			ignore = true;
 		}
-		if((my_turncount() == get_property("cc_ignoreCombat").to_int()) && (numeric_modifier(thing, "Combat Rate") > 0))
+		if(contains_text(get_property("cc_ignoreCombat"), "(combat)") && (numeric_modifier(thing, "Combat Rate") > 0))
+		{
+			ignore = true;
+		}
+		if(contains_text(get_property("cc_ignoreCombat"), "(ml)") && (numeric_modifier(thing, "Monster Level") > 0))
 		{
 			ignore = true;
 		}
@@ -719,15 +725,23 @@ void equipBaselineHolster()
 
 void removeNonCombat()
 {
-	set_property("cc_ignoreNonCombat", my_turncount());
-	foreach sl in $slots[Hat, Weapon, Off-Hand, Back, Shirt, Pants, Acc1, Acc2, Acc3]
-	{
-		if(numeric_modifier(equipped_item(sl), "Combat Rate") < 0.0)
-		{
-			equip(sl, $item[none]);
-		}
-	}
+	set_property("cc_ignoreCombat", get_property("cc_ignoreCombat") + "(noncombat)");
+#	foreach sl in $slots[Hat, Weapon, Off-Hand, Back, Shirt, Pants, Acc1, Acc2, Acc3]
+#	{
+#		if(numeric_modifier(equipped_item(sl), "Combat Rate") < 0.0)
+#		{
+#			equip(sl, $item[none]);
+#		}
+#	}
 	equipBaseline();
+	set_property("cc_ignoreCombat", "");
+}
+
+void removeCombat()
+{
+	set_property("cc_ignoreCombat", get_property("cc_ignoreCombat") + "(combat)");
+	equipBaseline();
+	set_property("cc_ignoreCombat", "");
 }
 
 void equipRollover()

@@ -145,9 +145,8 @@ void initializeSettings()
 	set_property("cc_highlandlord", "");
 	set_property("cc_hippyInstead", false);
 	set_property("cc_holeinthesky", false);
-	set_property("cc_ignoreCombat", -1);
+	set_property("cc_ignoreCombat", "");
 	set_property("cc_ignoreFlyer", false);
-	set_property("cc_ignoreNonCombat", -1);
 	set_property("cc_instakill", "");
 	set_property("cc_landfillAvailable", false);
 	set_property("cc_masonryWall", false);
@@ -198,7 +197,7 @@ void initializeSettings()
 	set_property("cc_twinpeak", "");
 	set_property("cc_twinpeakprogress", "");
 	set_property("cc_waitingArrowAlcove", "50");
-	set_property("cc_wandOfNagamar", false);
+	set_property("cc_wandOfNagamar", true);
 	set_property("cc_war", "");
 	set_property("cc_winebomb", "");
 	set_property("cc_writingDeskSummon", false);
@@ -4569,7 +4568,7 @@ boolean L11_hiddenCity()
 					}
 					while(have_effect($effect[Thrice-Cursed]) == 0)
 					{
-						if((inebriety_limit() - my_inebriety()) > 0)
+						if(inebriety_left() > 0)
 						{
 							buyUpTo(1, $item[Cursed Punch]);
 							if(item_amount($item[Cursed Punch]) == 0)
@@ -6224,6 +6223,7 @@ boolean L12_sonofaBeach()
 	if(numeric_modifier("Combat Rate") < 0.0)
 	{
 		print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Lobsterfrogmen.", "red");
+		equipBaseline();
 		return false;
 	}
 
@@ -9732,15 +9732,21 @@ boolean L9_aBooPeak()
 			# However, in mafia, (src/net/sourceforge/kolmafia/session/ChoiceManager.java)
 			# upon case 611, if booPeakProgress <= 0, set choiceAdventure611 to 2
 			# If lastDecision was 2, revert choiceAdventure611 to 1 (or perhaps unset it?)
-			ccAdv(1, $location[A-Boo Peak]);
-			if(get_property("lastEncounter") != "The Horror...")
+			try
 			{
-				print("Wandering adventure interrupt of A-Boo Peak, refreshing inventory.", "red");
-				cli_execute("refresh inv");
+				ccAdv(1, $location[A-Boo Peak]);
 			}
-			else
+			finally
 			{
-				set_property("cc_aboopending", 0);
+				if(get_property("lastEncounter") != "The Horror...")
+				{
+					print("Wandering adventure interrupt of A-Boo Peak, refreshing inventory.", "red");
+					cli_execute("refresh inv");
+				}
+				else
+				{
+					set_property("cc_aboopending", 0);
+				}
 			}
 			useCocoon();
 			if((my_class() == $class[Ed]) && (my_hp() == 0))
@@ -9790,6 +9796,8 @@ boolean L9_aBooPeak()
 	else
 	{
 		ccAdv(1, $location[A-Boo Peak]);
+		set_property("cc_aboopending", 0);
+
 		if(get_property("lastEncounter") == "Come On Ghosty, Light My Pyre")
 		{
 			set_property("cc_boopeak", "finished");
@@ -10508,6 +10516,7 @@ boolean L11_blackMarket()
 		}
 	}
 
+	removeNonCombat();
 	if((item_amount($item[Blackberry Galoshes]) > 0) && !have_equipped($item[Blackberry Galoshes]) && can_equip($item[Blackberry Galoshes]))
 	{
 		equip($slot[acc3], $item[Blackberry Galoshes]);
@@ -11393,6 +11402,7 @@ boolean L8_trapperYeti()
 		if(numeric_modifier("Combat Rate") <= 0.0)
 		{
 			print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Ninja Snowmen.", "red");
+			equipBaseline();
 			return false;
 		}
 
@@ -11425,6 +11435,39 @@ boolean cc_tavern()
 	boolean [int] locations = $ints[3, 2, 1, 0, 5, 10, 15, 20, 16, 21];
 	foreach loc in locations
 	{
+		if(numeric_modifier("Cold Damage") >= 20.0)
+		{
+			set_property("choiceAdventure513", "2");
+		}
+		else
+		{
+			set_property("choiceAdventure513", "1");
+		}
+		if(numeric_modifier("Hot Damage") >= 20.0)
+		{
+			set_property("choiceAdventure496", "2");
+		}
+		else
+		{
+			set_property("choiceAdventure496", "1");
+		}
+		if(numeric_modifier("Spooky Damage") >= 20.0)
+		{
+			set_property("choiceAdventure515", "2");
+		}
+		else
+		{
+			set_property("choiceAdventure515", "1");
+		}
+		if(numeric_modifier("Stench Damage") >= 20.0)
+		{
+			set_property("choiceAdventure514", "2");
+		}
+		else
+		{
+			set_property("choiceAdventure514", "1");
+		}
+
 		tavern = get_property("tavernLayout");
 		if(char_at(tavern, loc) == "0")
 		{
@@ -11530,20 +11573,6 @@ boolean L3_tavern()
 		}
 	}
 	print("Doing Tavern", "blue");
-	if(have_effect($effect[In A Lather]) > 0)
-	{
-		set_property("choiceAdventure513", "2");
-		set_property("choiceAdventure514", "2");
-		set_property("choiceAdventure515", "2");
-		set_property("choiceAdventure496", "2");
-	}
-	else
-	{
-		set_property("choiceAdventure513", "1");
-		set_property("choiceAdventure514", "1");
-		set_property("choiceAdventure515", "1");
-		set_property("choiceAdventure496", "1");
-	}
 
 	if((my_mp() > 60) || considerGrimstoneGolem(true))
 	{

@@ -16,6 +16,14 @@ boolean containsCombat(string action);
 boolean containsCombat(skill sk);
 boolean containsCombat(item it);
 
+/*
+*	Advance combat round, nothing happens.
+*	/goto fight.php?action=useitem&whichitem=1
+*
+*	Advance combat round, stuff happens
+*	/goto fight.php?action=skill&whichskill=$1
+*/
+
 string cc_combatHandler(int round, string opp, string text)
 {
 	#print("cc_combatHandler: " + round, "brown");
