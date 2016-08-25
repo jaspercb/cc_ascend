@@ -945,10 +945,15 @@ boolean LX_ghostBusting()
 	{
 		useCocoon();
 		print("Ghost busting time! At: " + get_property("ghostLocation"), "blue");
+		boolean newbieFail = false;
 		if(goal == $location[The Skeleton Store])
 		{
 			startMeatsmithSubQuest();
-			if(internalQuestStatus("questM23Meatsmith") == 0)
+			if(internalQuestStatus("questM23Meatsmith") == -1)
+			{
+				newbieFail = true;
+			}
+			else if(internalQuestStatus("questM23Meatsmith") == 0)
 			{
 				if(item_amount($item[Skeleton Store Office Key]) > 0)
 				{
@@ -973,7 +978,11 @@ boolean LX_ghostBusting()
 		if(goal == $location[Madness Bakery])
 		{
 			startArmorySubQuest();
-			if(internalQuestStatus("questM25Armorer") <= 1)
+			if(internalQuestStatus("questM25Armorer") == -1)
+			{
+				newbieFail = true;
+			}
+			else if(internalQuestStatus("questM25Armorer") <= 1)
 			{
 				set_property("choiceAdventure1061", 1);
 			}
@@ -992,7 +1001,11 @@ boolean LX_ghostBusting()
 		{
 			//Meh.
 			startGalaktikSubQuest();
-			if(get_property("questM24Doc") != "finished")
+			if(internalQuestStatus("questM24Doc") == -1)
+			{
+				newbieFail = true;
+			}
+			else if(get_property("questM24Doc") != "finished")
 			{
 				set_property("choiceAdventure1062", 1);
 			}
@@ -1068,6 +1081,14 @@ boolean LX_ghostBusting()
 				replaceAcc3 = equipped_item($slot[acc3]);
 				equip($slot[acc3], $item[Talisman O\' Namsilat]);
 			}
+		}
+
+		if(newbieFail)
+		{
+			print("Can't bust that ghost, we don't feel good!!", "blue");
+			set_property("questPAGhost", "unstarted");
+			set_property("ghostLocation", "");
+			return false;
 		}
 
 		print("Time to bust some ghosts!!!", "green");
