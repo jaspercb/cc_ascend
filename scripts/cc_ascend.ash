@@ -1772,7 +1772,7 @@ void doBedtime()
 
 	while(LX_freeCombats());
 
-	if((my_class() == $class[Seal Clubber]) && guild_store_available())
+	if((my_class() == $class[Seal Clubber]) && guild_store_available() && isHermitAvailable())
 	{
 		handleFamiliar("stat");
 		int oldSeals = get_property("_sealsSummoned").to_int();
@@ -3043,7 +3043,7 @@ boolean L11_aridDesert()
 		{
 			if(!ccAdv(1, $location[The Oasis]))
 			{
-				print("Could not visit the Oasis for some reason, assuming desertExploration is incorrect.", "red");
+				print("Could not visit the Oasis for some raisin, assuming desertExploration is incorrect.", "red");
 				set_property("desertExploration", 0);
 			}
 		}
@@ -3215,7 +3215,7 @@ boolean L11_palindome()
 
 		if(!possessEquipment($item[Mega Gem]))
 		{
-			print("No mega gem for us. Well, no reason to go further here....", "red");
+			print("No mega gem for us. Well, no raisin to go further here....", "red");
 			return false;
 		}
 		equip($slot[acc2], $item[Mega Gem]);
@@ -7258,18 +7258,24 @@ boolean Lsc_flyerSeals()
 		handleFamiliar("init");
 		if(doElement)
 		{
-			if(item_amount($item[imbued seal-blubber candle]) == 0)
+			if((item_amount($item[imbued seal-blubber candle]) == 0) && guild_store_available())
 			{
 				buyUpTo(1, $item[seal-blubber candle]);
 				cli_execute("make imbued seal-blubber candle");
 			}
-			handleSealElement(towerTest);
+			if(item_amount($item[Imbued Seal-Blubber Candle]) > 0)
+			{
+				handleSealElement(towerTest);
+			}
 		}
-		else
+		else if(guild_store_available() && isHermitAvailable())
 		{
 			buyUpTo(1, $item[figurine of an armored seal]);
 			buyUpTo(10, $item[seal-blubber candle]);
-			handleSealArmored();
+			if((item_amount($item[Figurine of an Armored Seal]) > 0) && (item_amount($item[Seal-Blubber Candle]) >= 10))
+			{
+				handleSealArmored();
+			}
 		}
 		if((item_amount($item[bad-ass club]) == 0) && (item_amount($item[ingot of seal-iron]) > 0) && have_skill($skill[Super-Advanced Meatsmithing]))
 		{
@@ -7416,7 +7422,7 @@ boolean LX_ornateDowsingRod()
 	}
 	if(possessEquipment($item[UV-resistant compass]))
 	{
-		print("You have a UV-resistant compass for some reason, I assume you don't want an Ornate Dowsing Rod.", "red");
+		print("You have a UV-resistant compass for some raisin, I assume you don't want an Ornate Dowsing Rod.", "red");
 		set_property("cc_grimstoneOrnateDowsingRod", false);
 		return false;
 	}
@@ -8820,7 +8826,7 @@ boolean LX_islandAccess()
 	}
 	if(item_amount($item[Shore Inc. Ship Trip Scrip]) < 3)
 	{
-		print("Failed to get enough Shore Scrip for some reason, continuing...", "red");
+		print("Failed to get enough Shore Scrip for some raisin, continuing...", "red");
 		return false;
 	}
 

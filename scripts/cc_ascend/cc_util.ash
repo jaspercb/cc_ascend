@@ -1739,7 +1739,7 @@ boolean handleSealArmored(string option)
 	}
 	else
 	{
-		abort("Can't use an Armored Seal for some reason");
+		abort("Can't use an Armored Seal for some raisin");
 	}
 	return false;
 }
@@ -1755,7 +1755,7 @@ boolean handleSealAncient(string option)
 	}
 	else
 	{
-		abort("Can't use an Ancient Seal for some reason");
+		abort("Can't use an Ancient Seal for some raisin");
 	}
 	return false;
 }
