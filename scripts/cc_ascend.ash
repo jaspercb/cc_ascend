@@ -7256,6 +7256,7 @@ boolean Lsc_flyerSeals()
 		}
 
 		handleFamiliar("init");
+		boolean clubbedSeal = false;
 		if(doElement)
 		{
 			if((item_amount($item[imbued seal-blubber candle]) == 0) && guild_store_available())
@@ -7266,6 +7267,7 @@ boolean Lsc_flyerSeals()
 			if(item_amount($item[Imbued Seal-Blubber Candle]) > 0)
 			{
 				handleSealElement(towerTest);
+				clubbedSeal = true;
 			}
 		}
 		else if(guild_store_available() && isHermitAvailable())
@@ -7275,6 +7277,7 @@ boolean Lsc_flyerSeals()
 			if((item_amount($item[Figurine of an Armored Seal]) > 0) && (item_amount($item[Seal-Blubber Candle]) >= 10))
 			{
 				handleSealArmored();
+				clubbedSeal = true;
 			}
 		}
 		if((item_amount($item[bad-ass club]) == 0) && (item_amount($item[ingot of seal-iron]) > 0) && have_skill($skill[Super-Advanced Meatsmithing]))
@@ -7282,7 +7285,7 @@ boolean Lsc_flyerSeals()
 			use(1, $item[ingot of seal-iron]);
 		}
 		handleFamiliar("item");
-		return true;
+		return clubbedSeal;
 	}
 	return false;
 }
