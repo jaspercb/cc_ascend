@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17142;
+since r17152;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1557,6 +1557,7 @@ void initializeDay(int day)
 			if(get_property("cc_breakstone").to_boolean())
 			{
 				temp = visit_url("peevpee.php?action=smashstone&pwd&confirm=on", true);
+				temp = visit_url("peevpee.php?place=fight");
 				set_property("cc_breakstone", false);
 			}
 			set_property("cc_day1_init", "finished");
@@ -1850,6 +1851,11 @@ void doBedtime()
 	if(!get_property("_mayoTankSoaked").to_boolean() && (cc_get_campground() contains $item[Portable Mayo Clinic]) && is_unrestricted($item[Portable Mayo Clinic]))
 	{
 		string temp = visit_url("shop.php?action=bacta&whichshop=mayoclinic");
+	}
+
+	if((cc_my_path() == "Nuclear Autumn") && (get_property("falloutShelterLevel").to_int() >= 3))
+	{
+		string temp = visit_url("place.php?whichplace=falloutshelter&action=vault3");
 	}
 
 	//	Also use "nunsVisits", as long as they were won by the Frat (sidequestNunsCompleted="fratboy").

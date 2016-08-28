@@ -392,8 +392,6 @@ boolean chateaumantegna_usePainting(string option)
 	if(chateaumantegna_available())
 	{
 		return ccAdvBypass("place.php?whichplace=chateau&action=chateau_painting", $location[Noob Cave], option);
-#		visit_url("place.php?whichplace=chateau&action=chateau_painting");
-#		return contains_text(visit_url("main.php"), "Combat");
 	}
 	return false;
 }
@@ -963,6 +961,14 @@ boolean deck_useScheme(string action)
 	int count = 0;
 	foreach card in cards
 	{
+		if(possessEquipment($item[Bass Clarinet]) || possessEquipment($item[Fish Hatchet]))
+		{
+			if($strings[Candlestick, Knight, Lead Pipe, Revolver, Rope, Wrench] contains card)
+			{
+				continue;
+			}
+		}
+
 		if(card == "key")
 		{
 			if(my_daycount() == 1)

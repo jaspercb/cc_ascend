@@ -912,6 +912,7 @@ boolean ed_shopping()
 		string temp = visit_url("peevpee.php?action=smashstone&pwd&confirm=on", true);
 #		visit_url("place.php?whichplace=edunder&action=edunder_hippy");
 #		visit_url("choice.php?pwd&whichchoice=1057&option=1", true);
+		temp = visit_url("peevpee.php?place=fight");
 		set_property("cc_breakstone", false);
 	}
 

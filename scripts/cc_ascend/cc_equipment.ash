@@ -655,7 +655,7 @@ void equipBaselineAcc2()
 	boolean[item] poss;
 	if((my_level() >= 13) && (get_property("flyeredML").to_int() >= 10000))
 	{
-		poss = $items[Jaunty Feather, Stuffed Shoulder Parrot, Glow-in-the-dark necklace, Glowing Red Eye, Bonerdagon Necklace, Batskin Belt, Jangly Bracelet, Pirate Fledges, Iron Beta of Industry, Your Cowboy Boots, Sphygmayomanometer, Barrel Hoop Earring, Codpiece, World\'s Best Adventurer Sash];
+		poss = $items[Jaunty Feather, Stuffed Shoulder Parrot, Time-Twitching Toolbelt, Glow-in-the-dark necklace, Glowing Red Eye, Bonerdagon Necklace, Batskin Belt, Jangly Bracelet, Pirate Fledges, Iron Beta of Industry, Your Cowboy Boots, Sphygmayomanometer, Barrel Hoop Earring, Codpiece, World\'s Best Adventurer Sash];
 	}
 	else
 	{
@@ -671,7 +671,7 @@ void equipBaselineAcc2()
 void equipBaselineAcc3()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Jaunty Feather, ring of telling skeletons what to do, Glowing Red Eye, grumpy old man charrrm bracelet, Pirate Fledges, Plastic Detective Badge, Bronze Detective Badge, Mr. Accessory Jr., Silver Detective Badge, Gold Detective Badge, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Sphygmayomanometer, Badge Of Authority, Codpiece, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
+	boolean[item] poss = $items[Jaunty Feather, ring of telling skeletons what to do, Glowing Red Eye, Time-Twitching Toolbelt, grumpy old man charrrm bracelet, Pirate Fledges, Plastic Detective Badge, Bronze Detective Badge, Mr. Accessory Jr., Silver Detective Badge, Gold Detective Badge, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Sphygmayomanometer, Badge Of Authority, Codpiece, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
 
 	toEquip = handleSolveThing(poss, $slot[acc3]);
 
@@ -822,7 +822,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = $items[Dead Guy\'s Watch, Grandfather Watch, Sasq&trade; Watch];
+	poss = $items[Dead Guy\'s Watch, Wristwatch of the White Knight, Grandfather Watch, Sasq&trade; Watch];
 
 	toEquip = handleSolveThing(poss, $slot[acc2]);
 

@@ -854,7 +854,7 @@ boolean cc_cheesePostCS(int leave)
 
 	}
 
-	if((item_amount($item[Confusing LED Clock]) > 0) && get_property("cc_pvpEnable").to_boolean() && (my_adventures() >= 6) && !get_property("_confusingLEDClockUsed").to_boolean())
+	if((item_amount($item[Confusing LED Clock]) > 0) && hippy_stone_broken() && (my_adventures() >= 6) && !get_property("_confusingLEDClockUsed").to_boolean())
 	{
 		use(1, $item[Confusing LED Clock]);
 		if(cc_get_campground() contains $item[Confusing LED Clock])
@@ -1097,7 +1097,7 @@ boolean cc_cheesePostCS(int leave)
 	}
 	#use_barrels();
 
-	if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean() && get_property("cc_pvpEnable").to_boolean())
+	if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean() && hippy_stone_broken())
 	{
 		set_property("choiceAdventure595", 1);
 		use(1, $item[CSA fire-starting kit]);
@@ -1115,14 +1115,14 @@ boolean cc_cheesePostCS(int leave)
 		return true;
 	}
 
-	if((item_amount($item[5-hour acrimony]) == 0) && get_property("cc_pvpEnable").to_boolean())
+	if((item_amount($item[5-hour acrimony]) == 0) && hippy_stone_broken())
 	{
 		if(!buyUpTo(1, $item[5-Hour Acrimony], 5000))
 		{
 			print("Could not buy 5-Hour Acrimony, price too high", "red");
 		}
 	}
-	if(get_property("cc_pvpEnable").to_boolean())
+	if(hippy_stone_broken())
 	{
 		if(item_amount($item[5-hour acrimony]) > 0)
 		{
