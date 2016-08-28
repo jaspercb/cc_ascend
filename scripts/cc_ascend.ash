@@ -6236,6 +6236,7 @@ boolean L12_sonofaBeach()
 	}
 
 	buffMaintain($effect[Song of Battle], 10, 1, 1);
+	buffMaintain($effect[Lion in Ambush], 0, 1, 1);
 	if(numeric_modifier("Combat Rate") < 0.0)
 	{
 		print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Lobsterfrogmen.", "red");

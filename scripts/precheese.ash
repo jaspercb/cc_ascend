@@ -59,6 +59,16 @@ void handlePreAdventure(location place)
 		}
 	}
 
+	if((place == $location[The Deep Machine Tunnels]) && (my_familiar() != $familiar[Machine Elf]))
+	{
+		if(!have_familiar($familiar[Machine Elf]))
+		{
+			abort("Massive failure, we don't use snowglobes.");
+		}
+		print("Somehow we are going to the DMT without a Machine Elf...", "red");
+		use_familiar($familiar[Machine Elf]);
+	}
+
 	preAdvXiblaxian(place);
 
 	if(get_floundry_locations() contains place)

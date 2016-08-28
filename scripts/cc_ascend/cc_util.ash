@@ -2897,6 +2897,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Juiced and Loose]:				useSkill = $skill[Steroid Bladder];				break;
 	case $effect[Leash of Linguini]:			useSkill = $skill[Leash of Linguini];			break;
 	case $effect[Leisurely Amblin\']:			useSkill = $skill[Walk: Leisurely Amble];		break;
+	case $effect[Lion in Ambush]:				useItem = $item[Lion Musk];						break;
 	case $effect[Liquidy Smoky]:				useItem = $item[Liquid Smoke];					break;
 	case $effect[Lit Up]:						useItem = $item[Bottle of Lighter Fluid];		break;
 	case $effect[Litterbug]:					useItem = $item[Old Candy Wrapper];				break;
