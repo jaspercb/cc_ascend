@@ -5782,6 +5782,15 @@ boolean L11_unlockEd()
 		handleFamiliar("item");
 	}
 
+	if(get_property("lowerChamberUnlock").to_boolean())
+	{
+		if(!contains_text(get_property("cc_banishes"), $monster[Tomb Servant]) && !contains_text(get_property("cc_banishes"), $monster[Tomb Asp]) && (get_property("olfactedMonster") != $monster[Tomb Rat]))
+		{
+			ccAdv(1, $location[The Upper Chamber]);
+			return true;
+		}
+	}
+
 	ccAdv(1, $location[The Middle Chamber]);
 	return true;
 }
