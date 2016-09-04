@@ -35,6 +35,7 @@ boolean acquireGumItem(item it);
 boolean acquireHermitItem(item it);
 boolean isHermitAvailable();
 boolean isGeneralStoreAvailable();
+boolean isGalaktikAvailable();
 boolean isUnclePAvailable();
 boolean isFreeMonster(monster mon);
 boolean isProtonGhost(monster mon);
@@ -1497,6 +1498,19 @@ boolean acquireHermitItem(item it)
 }
 
 boolean isHermitAvailable()
+{
+	if(cc_my_path() == "Nuclear Autumn")
+	{
+		return false;
+	}
+	if(cc_my_path() == "Zombie Master")
+	{
+		return false;
+	}
+	return true;
+}
+
+boolean isGalaktikAvailable()
 {
 	if(cc_my_path() == "Nuclear Autumn")
 	{

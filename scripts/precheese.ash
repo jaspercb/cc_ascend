@@ -209,7 +209,7 @@ void handlePreAdventure(location place)
 				buyUpTo(1, $item[Magical Mystery Juice], 100);
 				use(1, $item[Magical Mystery Juice]);
 			}
-			else
+			else if(isGalaktikAvailable())
 			{
 				buyUpTo(1, $item[Doc Galaktik\'s Invigorating Tonic], 90);
 				use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
