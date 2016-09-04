@@ -1551,7 +1551,10 @@ boolean isFreeMonster(monster mon)
 
 	boolean[monster] halloween = $monsters[kid who is too old to be Trick-or-Treating, suburban security civilian, vandal kid];
 
-	boolean[monster] other = $monsters[lynyrd, giant rubber spider, Travoltron];
+	boolean[monster] other = $monsters[lynyrd, giant rubber spider, time-spinner prank, Travoltron];
+
+	//Not really a free monster but a time-spinner prank by "your butt" triggers this.
+	boolean[monster] workarounds = $monsters[your butt];
 
 	//boolean[monster] protonGhosts: See isProtonGhost, we want to detect these separately as well so we\'ll functionalize it here.
 
@@ -1584,6 +1587,10 @@ boolean isFreeMonster(monster mon)
 		return true;
 	}
 	if(other contains mon)
+	{
+		return true;
+	}
+	if(workarounds contains mon)
 	{
 		return true;
 	}

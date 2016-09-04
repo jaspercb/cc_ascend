@@ -2267,6 +2267,21 @@ void doBedtime()
 			print("You have a Deck of Every Card and " + (15 - get_property("_deckCardsDrawn").to_int()) + " draws remaining!", "blue");
 		}
 
+		if(is_unrestricted($item[Time-Spinner]) && (item_amount($item[Time-Spinner]) > 0) && (get_property("_timeSpinnerMinutesUsed").to_int() < 10))
+		{
+			string page = visit_url("inv_use.php?pwd=&which=3&whichitem=9104");
+
+			matcher my_minutes = create_matcher("You have (\\d\+) minutes(s?) left today.", page);
+			if(my_minutes.find())
+			{
+				int minutes = to_int(my_minutes.group(1));
+				if(minutes > 0)
+				{
+					print("You have " + minutes + " minutes left to Time-Spinner!", "blue");
+				}
+			}
+		}
+
 		if(is_unrestricted($item[Chateau Mantegna Room Key]) && !get_property("_chateauMonsterFought").to_boolean() && get_property("chateauAvailable").to_boolean())
 		{
 			print("You can still fight a Chateau Mangtegna Painting today.", "blue");
@@ -5161,6 +5176,10 @@ boolean LX_spookyravenSecond()
 		{
 			set_property("choiceAdventure106", "3");
 		}
+		if(cc_my_path() == "Nuclear Autumn")
+		{
+			set_property("choiceAdventure106", "3");
+		}
 		visit_url("place.php?whichplace=manor3&action=manor3_ladys");
 		return true;
 	}
@@ -5299,6 +5318,10 @@ boolean L11_mauriceSpookyraven()
 		handleFamiliar("init");
 		set_property("choiceAdventure106", "2");
 		if($classes[Avatar of Boris, Ed] contains my_class())
+		{
+			set_property("choiceAdventure106", "3");
+		}
+		if(cc_my_path() == "Nuclear Autumn")
 		{
 			set_property("choiceAdventure106", "3");
 		}

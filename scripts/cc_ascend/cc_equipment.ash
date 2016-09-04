@@ -246,7 +246,7 @@ void handleOffHand()
 	}
 	if(my_class() == $class[Turtle Tamer])
 	{
-		poss = $items[Coffin Lid, Sewer Turtle, Barskin Buckler, Turtle Wax Shield, Clownskin Buckler, Hot Plate, Box Turtle, Demon Buckler, Meat Shield, White Satin Shield, Polyester Pad, Gnauga Hide Buckler, Yakskin Buckler, Penguin Skin Buckler, Hippo Skin Buckler, Tortoboggan Shield, Padded Tortoise, Painted Shield, Spiky Turtle Shield, Wicker Shield, Catskin Buckler, Keg Shield, Ouija Board\, Ouija Board, Ox-head Shield, Barrel Lid, Operation Patriot Shield, Fake Washboard];
+		poss = $items[Coffin Lid, Sewer Turtle, Barskin Buckler, Turtle Wax Shield, Clownskin Buckler, Hot Plate, Box Turtle, Demon Buckler, Meat Shield, White Satin Shield, Polyester Pad, Gnauga Hide Buckler, Yakskin Buckler, Penguin Skin Buckler, Hippo Skin Buckler, Tortoboggan Shield, Padded Tortoise, Painted Shield, Spiky Turtle Shield, Wicker Shield, Catskin Buckler, Battered Hubcap, Keg Shield, Ouija Board\, Ouija Board, Ox-head Shield, Barrel Lid, Operation Patriot Shield, Fake Washboard];
 	}
 
 	if(my_class() == $class[Pastamancer])

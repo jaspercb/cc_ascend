@@ -953,6 +953,11 @@ boolean deck_useScheme(string action)
 #		}
 #	}
 
+	if(count(cards) < 3)
+	{
+		cards["key"] = true;
+	}
+
 	if(count(cards) == 0)
 	{
 		return false;

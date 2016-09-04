@@ -1329,6 +1329,11 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Science! Fight With Medicine];
 		}
 
+		if((!contains_text(combatState, "(time-spinner)")) && (item_amount($item[Time-Spinner]) > 0))
+		{
+			set_property("cc_combatHandler", combatState + "(time-spinner)");
+			return "item " + $item[Time-Spinner];
+		}
 	}
 
 	#Default behaviors, multi-staggers when chance is 50% or greater
@@ -2262,6 +2267,12 @@ string cc_edCombatHandler(int round, string opp, string text)
 	{
 		set_property("cc_combatHandler", combatState + "(love scarab)");
 		return "skill summon love scarabs";
+	}
+
+	if((!contains_text(combatState, "(time-spinner)")) && (item_amount($item[Time-Spinner]) > 0))
+	{
+		set_property("cc_combatHandler", combatState + "(time-spinner)");
+		return "item " + $item[Time-Spinner];
 	}
 
 	if(((get_property("edPoints").to_int() <= 4) && (my_daycount() == 1)) || !get_property("lovebugsUnlocked").to_boolean())
