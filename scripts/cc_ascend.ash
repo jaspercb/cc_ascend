@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17169;
+since r17172;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1853,7 +1853,7 @@ void doBedtime()
 		string temp = visit_url("shop.php?action=bacta&whichshop=mayoclinic");
 	}
 
-	if((cc_my_path() == "Nuclear Autumn") && (get_property("falloutShelterLevel").to_int() >= 3))
+	if((cc_my_path() == "Nuclear Autumn") && (get_property("falloutShelterLevel").to_int() >= 3) && !get_property("_falloutShelterSpaUsed").to_boolean())
 	{
 		string temp = visit_url("place.php?whichplace=falloutshelter&action=vault3");
 	}
@@ -8660,7 +8660,7 @@ boolean LX_meatMaid()
 
 boolean LX_bitchinMeatcar()
 {
-	if((item_amount($item[Bitchin\' Meatcar]) > 0) || gnomads_available() || (my_class() == $class[Ed]) || (cc_my_path() == "Nuclear Autumn"))
+	if((item_amount($item[Bitchin\' Meatcar]) > 0) || (cc_my_path() == "Nuclear Autumn"))
 	{
 		return false;
 	}
@@ -8791,6 +8791,7 @@ boolean LX_islandAccess()
 			canDesert = true;
 		}
 	}
+	print("Beep: " + canDesert, "red");
 
 	if((item_amount($item[Shore Inc. Ship Trip Scrip]) >= 3) && (item_amount($item[Dingy Dinghy]) == 0) && (my_meat() >= 400) && isGeneralStoreAvailable())
 	{
@@ -8888,10 +8889,10 @@ boolean LX_phatLootToken()
 	{
 		return false;
 	}
-	if(get_property("cc_sorceress") != "")
-	{
-		return false;
-	}
+#	if(get_property("cc_sorceress") != "")
+#	{
+#		return false;
+#	}
 	if(get_property("cc_phatloot").to_int() >= my_daycount())
 	{
 		return false;
@@ -8904,10 +8905,7 @@ boolean LX_phatLootToken()
 	{
 		return false;
 	}
-	if(get_property("cc_keysdone") != "")
-	{
-		return false;
-	}
+
 	print("Phat Loot Token Get!", "blue");
 	set_property("choiceAdventure690", "2");
 	set_property("choiceAdventure691", "2");
@@ -11239,6 +11237,15 @@ boolean L8_trapperGroar()
 		{
 			return true;
 		}
+	}
+
+	if((item_amount($item[Groar\'s Fur]) > 0) || (item_amount($item[Winged Yeti Fur]) > 0))
+	{
+		visit_url("place.php?whichplace=mclargehuge&action=trappercabin");
+		cc_autosell(5, $item[dense meat stack]);
+		set_property("cc_trapper", "finished");
+		council();
+		return true;
 	}
 
 	if(canGroar)
