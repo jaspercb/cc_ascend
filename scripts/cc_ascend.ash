@@ -12207,7 +12207,7 @@ boolean doTasks()
 
 		if(tooManyAdventures)
 		{
-			abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
+//			abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
 		}
 	}
 
