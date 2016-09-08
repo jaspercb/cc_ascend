@@ -8782,16 +8782,7 @@ boolean LX_desertAlternate()
 
 boolean LX_islandAccess()
 {
-	boolean canDesert = false;
-
-	foreach it in $items[Bitchin\' Meatcar, Desert Bus Pass, Pumpkin Carriage, Tin Lizzie]
-	{
-		if(item_amount(it) > 0)
-		{
-			canDesert = true;
-		}
-	}
-	print("Beep: " + canDesert, "red");
+	boolean canDesert = (get_property("lastDesertUnlock").to_int() == my_ascensions());
 
 	if((item_amount($item[Shore Inc. Ship Trip Scrip]) >= 3) && (item_amount($item[Dingy Dinghy]) == 0) && (my_meat() >= 400) && isGeneralStoreAvailable())
 	{
