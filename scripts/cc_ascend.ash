@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17172;
+since r17179;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -2174,12 +2174,6 @@ void doBedtime()
 		use(1, $item[Infinite BACON Machine]);
 	}
 
-	if(!get_property("_streamsCrossed").to_boolean() && possessEquipment($item[Protonic Accelerator Pack]))
-	{
-		cli_execute("crossstreams");
-	}
-
-
 	if((get_property("cc_dickstab").to_boolean()) && chateaumantegna_available() && (my_daycount() == 1))
 	{
 		boolean[item] furniture = chateaumantegna_decorations();
@@ -2290,6 +2284,11 @@ void doBedtime()
 		if(stills_available() > 0)
 		{
 			print("You have " + stills_available() + " uses of Nash Crosby's Still left.", "blue");
+		}
+
+		if(!get_property("_streamsCrossed").to_boolean() && possessEquipment($item[Protonic Accelerator Pack]))
+		{
+			cli_execute("crossstreams");
 		}
 
 		if(is_unrestricted($item[shrine to the Barrel God]) && !get_property("_barrelPrayer").to_boolean() && get_property("barrelShrineUnlocked").to_boolean())
@@ -3896,7 +3895,7 @@ boolean L13_towerNSContests()
 	}
 
 
-	if((get_property("cc_trytower") == "pause") || (get_property("cc_trytower") == "stop") || ((my_name() == "cheesecookie") && (get_property("choiceAdventure1003").to_int() < 3)))
+	if((get_property("cc_trytower") == "pause") || (get_property("cc_trytower") == "stop"))
 	{
 		ns_crowd1();
 		ns_crowd2();
@@ -12207,7 +12206,7 @@ boolean doTasks()
 
 		if(tooManyAdventures)
 		{
-//			abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
+			abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
 		}
 	}
 
