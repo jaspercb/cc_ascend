@@ -198,3 +198,6 @@ int[item] cc_get_campground();					//Defined in cc_ascend/cc_util.ash
 
 //Returns how many Hero Keys and Phat Loot tokens we have.
 int towerKeyCount();							//Defined in cc_ascend/cc_util.ash
+
+//Determines if we need ore for the trapper or not.
+boolean needOre();								//Defined in cc_ascend/cc_util.ash

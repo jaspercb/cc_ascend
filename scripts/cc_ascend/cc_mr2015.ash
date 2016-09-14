@@ -379,12 +379,7 @@ boolean chateaumantegna_usePainting(string option)
 	}
 	if(get_property("chateauMonster") == $monster[Mountain Man])
 	{
-		if((get_property("cc_trapper") == "yeti") || (get_property("cc_trapper") == "finished"))
-		{
-			return false;
-		}
-		item oreGoal = to_item(get_property("trapperOre"));
-		if(item_amount(oreGoal) >= 3)
+		if(!needOre())
 		{
 			return false;
 		}
@@ -987,7 +982,7 @@ boolean deck_useScheme(string action)
 		}
 		if(card == "ore")
 		{
-			if((get_property("cc_trapper") == "yeti") || (get_property("cc_trapper") == "finished"))
+			if(!needOre())
 			{
 				continue;
 			}

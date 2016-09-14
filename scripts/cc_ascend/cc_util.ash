@@ -76,9 +76,6 @@ boolean playwith(item toy, string prop);
 boolean playwith(skill sk, string prop);
 boolean ok_skill(skill sk, string prop);
 boolean haveAny(boolean[item] array);
-boolean haveGuitar();
-boolean haveAccordion();
-boolean haveDrum();
 int spleen_left();
 int stomach_left();
 int fullness_left();
@@ -901,6 +898,26 @@ int grimTaleDrops()
 {
 	return get_property("_grimFairyTaleDrops").to_int();
 }
+
+
+boolean needOre()
+{
+	if((get_property("cc_trapper") == "yeti") || (get_property("cc_trapper") == "finished"))
+	{
+		return false;
+	}
+	item oreGoal = to_item(get_property("trapperOre"));
+	if(item_amount(oreGoal) >= 3)
+	{
+		return false;
+	}
+	if((item_amount($item[Asbestos Ore]) >= 3) && (item_amount($item[Linoleum Ore]) >= 3) && (item_amount($item[Chrome Ore]) >= 3))
+	{
+		return false;
+	}
+	return true;
+}
+
 
 int spleen_left()
 {
