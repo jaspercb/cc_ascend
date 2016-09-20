@@ -2209,6 +2209,11 @@ void cs_initializeDay(int day)
 
 			if(!get_property("cc_csDoWheel").to_boolean())
 			{
+				if((get_property("spookyAirportAlways").to_boolean()) && !get_property("_controlPanelUsed").to_boolean())
+				{
+					visit_url("place.php?whichplace=airport_spooky_bunker&action=si_controlpanel");
+					visit_url("choice.php?pwd=&whichchoice=986&option=9",true);
+				}
 				deck_cheat("myst stat");
 			}
 			deck_cheat("meat");

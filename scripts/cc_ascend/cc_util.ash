@@ -2675,7 +2675,7 @@ boolean buyUpTo(int num, item it, int maxprice)
 	{
 		return false;
 	}
-	if(($items[Blood of the Wereseal, Turtle Pheromones] contains it) && !guild_store_available())
+	if(($items[Blood of the Wereseal, Cheap Wind-Up Clock, Turtle Pheromones] contains it) && !guild_store_available())
 	{
 		return false;
 	}

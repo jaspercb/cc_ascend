@@ -1133,7 +1133,7 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 			else
 			{
-				combatState += "(trapghost)";
+				combatState += "(trapghost)(love stinkbug)";
 				set_property("cc_combatHandler", combatState);
 			}
 		}
@@ -2330,7 +2330,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 			}
 			else
 			{
-				edCombatState += "(trapghost)";
+				edCombatState += "(trapghost)(love stinkbug)";
 				set_property("cc_edCombatHandler", edCombatState);
 			}
 		}

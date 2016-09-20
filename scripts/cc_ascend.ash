@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17179;
+since r17213;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1231,7 +1231,6 @@ int handlePulls(int day)
 		pullXWhenHaveY($item[stuffed shoulder parrot], 1, 0);
 		pullXWhenHaveY($item[eyepatch], 1, 0);
 		pullXWhenHaveY($item[swashbuckling pants], 1, 0);
-		#pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
 #		pullXWhenHaveY($item[thor\'s pliers], 1, 0);
 		#pullXWhenHaveY($item[the big book of pirate insults], 1, 0);
 #		pullXWhenHaveY($item[mojo filter], 1, 0);
@@ -1373,12 +1372,12 @@ void initializeDay(int day)
 
 	if(!possessEquipment($item[Your Cowboy Boots]) && get_property("telegraphOfficeAvailable").to_boolean() && is_unrestricted($item[LT&T Telegraph Office Deed]))
 	{
-		string temp = visit_url("desc_item.php?whichitem=529185925");
+		#string temp = visit_url("desc_item.php?whichitem=529185925");
 		#if(equipped_item($slot[bootspur]) == $item[Nicksilver spurs])
-		if(contains_text(temp, "Item Drops from Monsters"))
-		{
+		#if(contains_text(temp, "Item Drops from Monsters"))
+		#{
 			string temp = visit_url("place.php?whichplace=town_right&action=townright_ltt");
-		}
+		#}
 	}
 
 	cli_execute("ccs null");
@@ -1624,7 +1623,10 @@ void initializeDay(int day)
 			pullXWhenHaveY($item[hand in glove], 1, 0);
 			pullXWhenHaveY($item[wet stew], 1, 0);
 			pullXWhenHaveY($item[blackberry galoshes], 1, 0);
-			pullXWhenHaveY($item[mojo filter], 1, 0);
+			if(spleen_limit() >= 8)
+			{
+				pullXWhenHaveY($item[mojo filter], 1, 0);
+			}
 
 			if(!get_property("cc_useCubeling").to_boolean() && (towerKeyCount() == 0) && (fullness_left() >= 4))
 			{
@@ -2162,7 +2164,10 @@ void doBedtime()
 	{
 		visit_url("place.php?whichplace=airport_spooky_bunker&action=si_controlpanel");
 		visit_url("choice.php?pwd=&whichchoice=986&option=8",true);
-		visit_url("choice.php?pwd=&whichchoice=986&option=10",true);
+		if(get_property("controlPanelOmega").to_int() >= 99)
+		{
+			visit_url("choice.php?pwd=&whichchoice=986&option=10",true);
+		}
 	}
 
 	elementalPlanes_takeJob($element[spooky]);
@@ -2263,17 +2268,7 @@ void doBedtime()
 
 		if(is_unrestricted($item[Time-Spinner]) && (item_amount($item[Time-Spinner]) > 0) && (get_property("_timeSpinnerMinutesUsed").to_int() < 10))
 		{
-			string page = visit_url("inv_use.php?pwd=&which=3&whichitem=9104");
-
-			matcher my_minutes = create_matcher("You have (\\d\+) minutes(s?) left today.", page);
-			if(my_minutes.find())
-			{
-				int minutes = to_int(my_minutes.group(1));
-				if(minutes > 0)
-				{
-					print("You have " + minutes + " minutes left to Time-Spinner!", "blue");
-				}
-			}
+			print("You have " + (10 - get_property("_timeSpinnerMinutesUsed").to_int()) + " minutes left to Time-Spinner!", "blue");
 		}
 
 		if(is_unrestricted($item[Chateau Mantegna Room Key]) && !get_property("_chateauMonsterFought").to_boolean() && get_property("chateauAvailable").to_boolean())
@@ -12172,22 +12167,6 @@ boolean doTasks()
 	}
 	handleJar();
 
-	if(last_monster() == $monster[Crate])
-	{
-		if(get_property("cc_newbieOverride").to_boolean())
-		{
-			set_property("cc_newbieOverride", false);
-		}
-		else
-		{
-			abort("We went to the Noob Cave for reals... uh oh");
-		}
-	}
-	else
-	{
-		set_property("cc_newbieOverride", false);
-	}
-
 	if(my_location().turns_spent > 50)
 	{
 		boolean tooManyAdventures = false;
@@ -12206,8 +12185,33 @@ boolean doTasks()
 
 		if(tooManyAdventures)
 		{
-			abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
+			if(get_property("cc_newbieOverride").to_boolean())
+			{
+				set_property("cc_newbieOverride", false);
+				print("We have spent over 50 turns at '" + my_location() + "' and that is bad... override accepted.", "red");
+			}
+			else
+			{
+				print("You can set cc_newbieOverride = true to bypass this once.", "blue");
+				abort("We have spent over 50 turns at '" + my_location() + "' and that is bad... aborting.");
+			}
 		}
+	}
+
+	if(last_monster() == $monster[Crate])
+	{
+		if(get_property("cc_newbieOverride").to_boolean())
+		{
+			set_property("cc_newbieOverride", false);
+		}
+		else
+		{
+			abort("We went to the Noob Cave for reals... uh oh");
+		}
+	}
+	else
+	{
+		set_property("cc_newbieOverride", false);
 	}
 
 	dna_sorceressTest();
