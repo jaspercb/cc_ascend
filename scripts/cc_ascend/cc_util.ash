@@ -1897,8 +1897,11 @@ boolean use_barrels()
 	boolean retval = false;
 	foreach it in barrels
 	{
-		retval = retval | (item_amount(it) > 0);
-		use(item_amount(it), it);
+		if(item_amount(it) < 10)
+		{
+			retval = retval | (item_amount(it) > 0);
+			use(item_amount(it), it);
+		}
 	}
 	return retval;
 }
