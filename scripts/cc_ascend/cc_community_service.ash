@@ -251,6 +251,24 @@ boolean LA_cs_communityService()
 				solveCookie();
 			}
 
+			if((item_amount($item[Time-Spinner]) > 0) && (get_property("_timeSpinnerMinutesUsed").to_int() == 0))
+			{
+				timeSpinnerGet("booze");
+			}
+
+			if(inebriety_left() > 9)
+			{
+				if(item_amount($item[Shot of Kardashian Gin]) > 0)
+				{
+					if((my_mp() < mp_cost($skill[The Ode to Booze])) && (my_maxmp() >= 75))
+					{
+						doRest();
+					}
+					shrugAT($effect[Ode to Booze]);
+					buffMaintain($effect[Ode to Booze], 50, 1, (inebriety_left() - 9));
+					drink(min(item_amount($item[Shot of Kardashian Gin]), (inebriety_left() - 9)), $item[Shot of Kardashian Gin]);
+				}
+			}
 			if(inebriety_left() > 9)
 			{
 				if(item_amount($item[Sacramento Wine]) > 0)

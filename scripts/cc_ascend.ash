@@ -5223,7 +5223,7 @@ boolean LX_spookyravenSecond()
 	set_property("choiceAdventure877", "1");
 	if((get_property("cc_ballroomopen") == "open") || (get_property("questM21Dance") == "finished") || (get_property("questM21Dance") == "step3"))
 	{
-		if((item_amount($item[Lord Spookyraven\'s Spectacles]) == 1) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist"))
+		if(!needSpectacles)
 		{
 			set_property("cc_spookyravensecond", "finished");
 		}
@@ -5388,17 +5388,17 @@ boolean L11_mauriceSpookyraven()
 	{
 		print("Alternate fulminate pathway... how sad :(", "red");
 		# I suppose we can let anyone in without the Spectacles.
-		while(item_amount($item[Loosening Powder]) == 0)
+		if(item_amount($item[Loosening Powder]) == 0)
 		{
 			ccAdv($location[The Haunted Kitchen]);
 			return true;
 		}
-		while(item_amount($item[Powdered Castoreum]) == 0)
+		if(item_amount($item[Powdered Castoreum]) == 0)
 		{
 			ccAdv($location[The Haunted Conservatory]);
 			return true;
 		}
-		while(item_amount($item[Drain Dissolver]) == 0)
+		if(item_amount($item[Drain Dissolver]) == 0)
 		{
 			if(get_property("cc_towelChoice") == "")
 			{
@@ -5413,17 +5413,17 @@ boolean L11_mauriceSpookyraven()
 			}
 			return true;
 		}
-		while(item_amount($item[Triple-Distilled Turpentine]) == 0)
+		if(item_amount($item[Triple-Distilled Turpentine]) == 0)
 		{
 			ccAdv($location[The Haunted Gallery]);
 			return true;
 		}
-		while(item_amount($item[Detartrated Anhydrous Sublicalc]) == 0)
+		if(item_amount($item[Detartrated Anhydrous Sublicalc]) == 0)
 		{
 			ccAdv($location[The Haunted Laboratory]);
 			return true;
 		}
-		while(item_amount($item[Triatomaceous Dust]) == 0)
+		if(item_amount($item[Triatomaceous Dust]) == 0)
 		{
 			ccAdv($location[The Haunted Storage Room]);
 			return true;

@@ -3,7 +3,7 @@ import<cc_ascend/cc_adventure.ash>
 
 #	This is meant for items that have a date of 2016.
 #	Handling: Witchess Set, Snojo, Source Terminal, Protonic Accelerator Pack
-#
+#			Time-Spinner
 
 boolean snojoFightAvailable();
 boolean cc_advWitchess(string target);
@@ -24,6 +24,10 @@ boolean cc_sourceTerminalEducate(skill first, skill second);
 boolean LX_ghostBusting();
 boolean expectGhostReport();
 boolean haveGhostReport();
+
+boolean timeSpinnerGet(string goal);
+boolean timeSpinnerConsume(item goal);
+boolean timeSpinnerCombat(monster goal);
 
 //Supplemental
 int cc_advWitchessTargets(string target);
@@ -1107,3 +1111,48 @@ boolean LX_ghostBusting()
 	}
 	return false;
 }
+
+boolean timeSpinnerGet(string goal)
+{
+	if(!($strings[Drink, drink, food, Food, Memory, memory, History, history, Ears, ears, mall, Mall, None, none] contains goal))
+	{
+		return false;
+	}
+
+	if($strings[Drink, drink, food, Food, Memory, memory, History, history, Ears, ears, mall, Mall] contains goal)
+	{
+		if(get_property("_timeSpinnerReplicatorUsed").to_boolean())
+		{
+			return false;
+		}
+	}
+
+	if(is_unrestricted($item[Time-Spinner]) && (item_amount($item[Time-Spinner]) > 0) && (get_property("_timeSpinnerMinutesUsed").to_int() <= 8))
+	{
+		if(svn_info("Ezandora-Far-Future-branches-Release").last_changed_rev > 0)
+		{
+			//Required by dependencies
+			cli_execute("FarFuture " + goal);
+			return true;
+		}
+		return false;
+	}
+	return false;
+}
+boolean timeSpinnerConsume(item goal)
+{
+	if(is_unrestricted($item[Time-Spinner]) && (item_amount($item[Time-Spinner]) > 0) && (get_property("_timeSpinnerMinutesUsed").to_int() <= 7))
+	{
+
+	}
+	return false;
+}
+boolean timeSpinnerCombat(monster goal)
+{
+	if(is_unrestricted($item[Time-Spinner]) && (item_amount($item[Time-Spinner]) > 0) && (get_property("_timeSpinnerMinutesUsed").to_int() <= 7))
+	{
+
+	}
+	return false;
+}
+
