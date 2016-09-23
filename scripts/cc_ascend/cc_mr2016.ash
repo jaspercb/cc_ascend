@@ -28,6 +28,7 @@ boolean haveGhostReport();
 boolean timeSpinnerGet(string goal);
 boolean timeSpinnerConsume(item goal);
 boolean timeSpinnerCombat(monster goal);
+boolean timeSpinnerCombat(monster goal, string option);
 
 //Supplemental
 int cc_advWitchessTargets(string target);
@@ -1114,12 +1115,12 @@ boolean LX_ghostBusting()
 
 boolean timeSpinnerGet(string goal)
 {
-	if(!($strings[Drink, drink, food, Food, Memory, memory, History, history, Ears, ears, mall, Mall, None, none] contains goal))
+	if(!($strings[Booze, booze, Drink, drink, food, Food, Memory, memory, History, history, Ears, ears, mall, Mall, None, none] contains goal))
 	{
 		return false;
 	}
 
-	if($strings[Drink, drink, food, Food, Memory, memory, History, history, Ears, ears, mall, Mall] contains goal)
+	if($strings[Booze, booze, Drink, drink, food, Food, Memory, memory, History, history, Ears, ears, mall, Mall] contains goal)
 	{
 		if(get_property("_timeSpinnerReplicatorUsed").to_boolean())
 		{
@@ -1143,15 +1144,35 @@ boolean timeSpinnerConsume(item goal)
 {
 	if(is_unrestricted($item[Time-Spinner]) && (item_amount($item[Time-Spinner]) > 0) && (get_property("_timeSpinnerMinutesUsed").to_int() <= 7))
 	{
-
+		string temp = visit_url("inv_use.php?pwd=&which=3&whichitem=9104");
+		if(get_property("_timeSpinnerMinutesUsed").to_int() <= 7)
+		{
+			temp = visit_url("choice.php?pwd=&whichchoice=1195&option=2");
+			temp = visit_url("choice.php?pwd=&whichchoice=1197&option=1&foodid=" + to_int(goal));
+		}
 	}
 	return false;
 }
+
 boolean timeSpinnerCombat(monster goal)
+{
+	return timeSpinnerCombat(goal, "");
+}
+
+boolean timeSpinnerCombat(monster goal, string option)
 {
 	if(is_unrestricted($item[Time-Spinner]) && (item_amount($item[Time-Spinner]) > 0) && (get_property("_timeSpinnerMinutesUsed").to_int() <= 7))
 	{
-
+		string temp = visit_url("inv_use.php?pwd=&which=3&whichitem=9104");
+		if(get_property("_timeSpinnerMinutesUsed").to_int() <= 7)
+		{
+			string[int] pages;
+			pages[0] = "inv_use.php?pwd=&which=3&whichitem=9104";
+			pages[1] = "choice.php?pwd=&whichchoice=1195&option=1";
+			pages[2] = "choice.php?pwd=&whichchoice=1196&option=1&monid=" + goal.id;
+			if(ccAdvBypass(0, pages, $location[Noob Cave], option)) {}
+			return true;
+		}
 	}
 	return false;
 }

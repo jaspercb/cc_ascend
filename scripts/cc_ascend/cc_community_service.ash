@@ -402,26 +402,41 @@ boolean LA_cs_communityService()
 
 			if((item_amount($item[Tomato]) < 2) && have_skill($skill[Advanced Saucecrafting]))
 			{
+				if(contains_text($location[The Haunted Pantry].combat_queue, to_string($monster[Possessed Can of Tomatoes])))
+				{
+					if(timeSpinnerCombat($monster[Possessed Can of Tomatoes], "cs_combatNormal"))
+					{
+						return true;
+					}
+				}
 				buffMaintain($effect[Musk of the Moose], 10, 1, 1);
 				ccAdv(1, $location[The Haunted Pantry], "cs_combatNormal");
 				return true;
 			}
 
+			if(item_amount($item[skeleton key]) == 0)
+			{
+				if((item_amount($item[skeleton bone]) > 0) && (item_amount($item[loose teeth]) > 0))
+				{
+					cli_execute("make skeleton key");
+				}
+			}
+
 			if(have_skill($skill[Advanced Saucecrafting]) && ((item_amount($item[Cherry]) < 1) || (item_amount($item[Grapefruit]) < 1) || (item_amount($item[Lemon]) < 1)))
 			{
-				if((have_effect($effect[On The Trail]) > 0) && (get_property("olfactedMonster") == to_string($monster[possessed can of tomatoes])))
+				if(contains_text($location[The Skeleton Store].combat_queue, $monster[Novelty Tropical Skeleton]))
+				{
+					if(timeSpinnerCombat($monster[Novelty Tropical Skeleton], "cs_combatNormal"))
+					{
+						return true;
+					}
+				}
+				if((have_effect($effect[On The Trail]) > 0) && (get_property("olfactedMonster") != to_string($monster[Novelty Tropical Skeleton])))
 				{
 					uneffect($effect[On The Trail]);
 				}
 				set_property("choiceAdventure1060", 2);
 				ccAdv(1, $location[The Skeleton Store], "cs_combatNormal");
-				if(item_amount($item[skeleton key]) == 0)
-				{
-					if((item_amount($item[skeleton bone]) > 0) && (item_amount($item[loose teeth]) > 0))
-					{
-						cli_execute("make skeleton key");
-					}
-				}
 				return true;
 			}
 
@@ -2698,13 +2713,15 @@ string cs_combatNormal(int round, string opp, string text)
 		return "skill summon love gnats";
 	}
 
-
 	if((have_effect($effect[On The Trail]) == 0) && (have_skill($skill[Transcendent Olfaction])) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
 	{
 		boolean doOlfaction = false;
-		if($monsters[Novelty Tropical Skeleton, Possessed Can of Tomatoes] contains enemy)
+		if((item_amount($item[Time-Spinner]) == 0) || (get_property("_timeSpinnerMinutesUsed").to_int() >= 8))
 		{
-			doOlfaction = true;
+			if($monsters[Novelty Tropical Skeleton, Possessed Can of Tomatoes] contains enemy)
+			{
+				doOlfaction = true;
+			}
 		}
 
 		if(($monster[Government Scientist] == enemy) && (item_amount($item[Experimental Serum G-9]) < 2))
