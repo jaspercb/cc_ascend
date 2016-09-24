@@ -1908,6 +1908,11 @@ boolean use_barrels()
 
 boolean cc_autosell(int quantity, item toSell)
 {
+	if(my_meat() > 1000000)
+	{
+		return false;
+	}
+
 	if(item_amount(toSell) < quantity)
 	{
 		return false;

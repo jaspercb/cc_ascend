@@ -1115,17 +1115,39 @@ boolean LX_ghostBusting()
 
 boolean timeSpinnerGet(string goal)
 {
-	if(!($strings[Booze, booze, Drink, drink, food, Food, Memory, memory, History, history, Ears, ears, mall, Mall, None, none] contains goal))
+	goal = to_lower_case(goal);
+	if(!($strings[booze, drink, food, memory, history, ears, mall, none] contains goal))
 	{
 		return false;
 	}
 
-	if($strings[Booze, booze, Drink, drink, food, Food, Memory, memory, History, history, Ears, ears, mall, Mall] contains goal)
+	if($strings[booze, drink, food, memory, history, ears, mall] contains goal)
 	{
 		if(get_property("_timeSpinnerReplicatorUsed").to_boolean())
 		{
 			return false;
 		}
+	}
+
+	if((goal == "booze") && (get_property("timeSpinnerMedals").to_int() < 5))
+	{
+		return false;
+	}
+	if((goal == "drink") && (get_property("timeSpinnerMedals").to_int() < 5))
+	{
+		return false;
+	}
+	if((goal == "food") && (get_property("timeSpinnerMedals").to_int() < 15))
+	{
+		return false;
+	}
+	if((goal == "history") && (get_property("timeSpinnerMedals").to_int() < 10))
+	{
+		return false;
+	}
+	if((goal == "memory") && (get_property("timeSpinnerMedals").to_int() < 20))
+	{
+		return false;
 	}
 
 	if(is_unrestricted($item[Time-Spinner]) && (item_amount($item[Time-Spinner]) > 0) && (get_property("_timeSpinnerMinutesUsed").to_int() <= 8))

@@ -6,7 +6,7 @@ boolean pullPVPJunk();
 void handleKingLiberation()
 {
 	restoreAllSettings();
-	if((get_property("kingLiberated") == "true") && (get_property("cc_snapshot") == ""))
+	if(get_property("kingLiberated").to_boolean() && (get_property("cc_snapshot") == ""))
 	{
 		print("Yay! The King is saved. I suppose you should do stuff.");
 		if(!get_property("cc_kingLiberation").to_boolean())

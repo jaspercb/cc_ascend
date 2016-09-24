@@ -509,6 +509,15 @@ boolean LA_cs_communityService()
 				{
 					buffMaintain($effect[Singer\'s Faithful Ocelot], 47, 1, 1);
 					buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 43, 1, 1);
+
+					if(contains_text($location[The Secret Government Laboratory].combat_queue, $monster[Government Scientist]))
+					{
+						if(timeSpinnerCombat($monster[Government Scientist], "cs_combatNormal"))
+						{
+							return true;
+						}
+					}
+
 					ccAdv(1, $location[The Secret Government Laboratory], "cs_combatNormal");
 					return true;
 				}
@@ -2841,6 +2850,12 @@ string cs_combatNormal(int round, string opp, string text)
 		return "skill " + $skill[Cowboy Kick];
 	}
 
+	if((!contains_text(combatState, "(time-spinner)")) && (item_amount($item[Time-Spinner]) > 0))
+	{
+		set_property("cc_combatHandler", combatState + "(time-spinner)");
+		return "item " + $item[Time-Spinner];
+	}
+
 	if(have_skill($skill[Saucegeyser]) && (my_mp() >= mp_cost($skill[Saucegeyser])))
 	{
 		return "skill " + $skill[Saucegeyser];
@@ -2949,6 +2964,11 @@ string cs_combatYR(int round, string opp, string text)
 	{
 		set_property("cc_combatHandler", combatState + "(extract)");
 		return "skill " + $skill[Extract];
+	}
+	if((!contains_text(combatState, "(time-spinner)")) && (item_amount($item[Time-Spinner]) > 0))
+	{
+		set_property("cc_combatHandler", combatState + "(time-spinner)");
+		return "item " + $item[Time-Spinner];
 	}
 	if((!contains_text(combatState, "summon love mosquito")) && get_property("lovebugsUnlocked").to_boolean())
 	{

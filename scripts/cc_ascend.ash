@@ -5776,7 +5776,8 @@ boolean L11_unlockEd()
 		handleFamiliar("item");
 	}
 
-	if(get_property("lowerChamberUnlock").to_boolean())
+//	if(get_property("lowerChamberUnlock").to_boolean())
+	if(get_property("controlRoomUnlock").to_boolean())
 	{
 		if(!contains_text(get_property("cc_banishes"), $monster[Tomb Servant]) && !contains_text(get_property("cc_banishes"), $monster[Tomb Asp]) && (get_property("olfactedMonster") != $monster[Tomb Rat]))
 		{
@@ -9290,6 +9291,7 @@ boolean LX_handleSpookyravenNecklace()
 	{
 		return false;
 	}
+
 	if(possessEquipment($item[Ghost Of A Necklace]))
 	{
 		set_property("cc_spookyravennecklace", "done");
