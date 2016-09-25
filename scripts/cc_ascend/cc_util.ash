@@ -1851,6 +1851,10 @@ boolean handleBarrelFullOfBarrels()
 	{
 		return false;
 	}
+	if(get_property("_didBarrelBustToday").to_boolean())
+	{
+		return false;
+	}
 
 	string page = visit_url("barrel.php");
 
@@ -1878,6 +1882,7 @@ boolean handleBarrelFullOfBarrels()
 			visit_url("choice.php?whichchoice=1099&pwd&option=1&slot=" + slotID);
 		}
 	}
+	set_property("_didBarrelBustToday", true);
 	return (smashed > 0);
 }
 
@@ -2805,10 +2810,12 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Black Eyes]:					useItem = $item[Black Eye Shadow];				break;
 	case $effect[Blackberry Politeness]:		useItem = $item[Blackberry Polite];				break;
 	case $effect[Blessing of Serqet]:			useSkill = $skill[Blessing of Serqet];			break;
+	case $effect[Blinking Belly]:				useSkill = $skill[Firefly Abdomen];				break;
 	case $effect[Bloody Potato Bits]:			useSkill = $skill[none];						break;
 	case $effect[Bloodstain-Resistant]:			useItem = $item[Bloodstain Stick];				break;
 	case $effect[Blubbered Up]:					useSkill = $skill[Blubber Up];					break;
 	case $effect[Blue Swayed]:					useItem = $item[Pulled Blue Taffy];				break;
+	case $effect[Bone Springs]:					useSkill = $skill[Bone Springs];				break;
 	case $effect[Boon of She-Who-Was]:			useSkill = $skill[Spirit Boon];					break;
 	case $effect[Boon of the Storm Tortoise]:	useSkill = $skill[Spirit Boon];					break;
 	case $effect[Boon of the War Snapper]:		useSkill = $skill[Spirit Boon];					break;
@@ -2930,6 +2937,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Inigo\'s Incantation of Inspiration]:useSkill = $skill[Inigo\'s Incantation of Inspiration];break;
 	case $effect[Incredibly Hulking]:			useItem = $item[Ferrigno\'s Elixir of Power];	break;
 	case $effect[Industrial Strength Starch]:	useItem = $item[Industrial Strength Starch];	break;
+	case $effect[Inked Well]:					useSkill = $skill[Squid Glands];				break;
 	case $effect[Insulated Trousers]:			useItem = $item[Cold Powder];					break;
 	case $effect[Intimidating Mien]:			useSkill = $skill[Intimidating Mien];			break;
 	case $effect[Irresistible Resolve]:			useItem = $item[Resolution: Be Sexier];			break;
@@ -2953,6 +2961,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Knowing Smile]:				useSkill = $skill[Knowing Smile];				break;
 	case $effect[Macaroni Coating]:				useSkill = $skill[none];						break;
 	case $effect[The Magical Mojomuscular Melody]:useSkill = $skill[The Magical Mojomuscular Melody];break;
+	case $effect[Magnetized Ears]:				useSkill = $skill[Magnetic Ears];				break;
 	case $effect[Majorly Poisoned]:				useSkill = $skill[Disco Nap];					break;
 	case $effect[Manbait]:						useItem = $item[The Most Dangerous Bait];		break;
 	case $effect[Mariachi Mood]:				useSkill = $skill[Moxie of the Mariachi];		break;
@@ -3023,6 +3032,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Provocative Perkiness]:		useItem = $item[Libation of Liveliness];		break;
 	case $effect[Puddingskin]:					useItem = $item[scroll of Puddingskin];			break;
 	case $effect[Pulchritudinous Pressure]:		useItem = $item[Pressurized Potion of Pulchritude];break;
+	case $effect[Punchable Face]:				useSkill = $skill[Extremely Punchable Face];	break;
 	case $effect[Purity of Spirit]:				useItem = $item[cold-filtered water];			break;
 	case $effect[Purr of the Feline]:			useSkill = $skill[Purr of the Feline];			break;
 	case $effect[Purple Reign]:					useItem = $item[Pulled Violet Taffy];			break;

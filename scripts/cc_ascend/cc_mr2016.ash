@@ -170,9 +170,16 @@ boolean cc_sourceTerminalRequest(string request)
 	//"campground.php?action=terminal&hack=enhance items.enh"
 	if(cc_haveSourceTerminal())
 	{
-		string temp = visit_url("campground.php?action=terminal");
+		if(cc_my_path() == "Nuclear Autumn")
+		{
+			string temp = visit_url("place.php?whichplace=falloutshelter&action=vault_term");
+		}
+		else
+		{
+			string temp = visit_url("campground.php?action=terminal");
+		}
 #		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
-		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=" + request);
+		string temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=" + request);
 #		temp = visit_url("choice.php?pwd=&whichchoice=1191&option=1&input=reset");
 		return true;
 	}
@@ -247,7 +254,7 @@ boolean cc_sourceTerminalEnhance(string request)
 	default:			return false;
 	}
 
-	if(cc_sourceTerminalStatus() contains (actual + ".enh"))
+	if(contains_text(get_property("sourceTerminalEnhanceKnown"), actual + ".enh"))
 	{
 		return cc_sourceTerminalRequest("enhance " + actual + ".enh");
 	}

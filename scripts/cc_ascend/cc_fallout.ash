@@ -26,6 +26,26 @@ void fallout_initializeDay(int day)
 	{
 		return;
 	}
+
+	if(!get_property("falloutShelterChronoUsed").to_boolean() && (get_property("falloutShelterLevel").to_int() >= 6))
+	{
+		string temp = visit_url("place.php?whichplace=falloutshelter&action=vault5");
+	}
+
+	if(!get_property("falloutShelterCoolingTankUsed").to_boolean() && (get_property("falloutShelterLevel").to_int() >= 8))
+	{
+
+	}
+
+	if((my_daycount() % 2) == 1)
+	{
+		cc_sourceTerminalRequest("enquiry stats.enq");
+	}
+	else
+	{
+		cc_sourceTerminalRequest("enquiry familiar.enq");
+	}
+
 	if(day == 1)
 	{
 		if(get_property("cc_day1_init") != "finished")
@@ -125,15 +145,15 @@ boolean fallout_buySkills()
 22038 Extra Kidney    kidney.gif  0   0   0						60		Booze +100% adventuree
 22039 Internal Soda Machine   cloaca.gif  2   0   0				30		20 Meat -> 10 MP
 
-22024 Backwards Knees knee.gif 0 0 0 							Passive +20 init
-22025 Sucker Fingers plunger.gif 0 0 0							Passive +15 item
-22032 Bone Springs spring.gif 3 30 10 							Noncombat (30): 10 adv of Bone Springs: +20 Init
-22033 Magnetic Ears ears.gif 3 10 20 							Noncombat (10): 20 adv of Magnetized Ears: +15 Item
-22034 Firefly Abdomen bulb.gif 3 30 10 							Noncombat (30): 10 adv of Blinking Belly: +10/15 C
-22035 Squid Glands inkwell.gif 3 30 10 							Noncombat (30): 10 adv of Inked Well: +10/15 NC
-22036 Extremely Punchable Face wink.gif 3 30 10 				Noncombat (30): 10 adv pf Punchable Face: +30 ML
+22024 Backwards Knees knee.gif 0 0 0 							120		Passive +20 init
+22025 Sucker Fingers plunger.gif 0 0 0							120		Passive +15 item
+22032 Bone Springs spring.gif 3 30 10 							90		Noncombat (30): 10 adv of Bone Springs: +20 Init
+22033 Magnetic Ears ears.gif 3 10 20 							90		Noncombat (10): 20 adv of Magnetized Ears: +15 Item
+22034 Firefly Abdomen bulb.gif 3 30 10 							90		Noncombat (30): 10 adv of Blinking Belly: +10/15 C
+22035 Squid Glands inkwell.gif 3 30 10 							90		Noncombat (30): 10 adv of Inked Well: +10/15 NC
+22036 Extremely Punchable Face wink.gif 3 30 10 				90		Noncombat (30): 10 adv pf Punchable Face: +30 ML
 
-Missing: 858, 864-866, 872-876
+Missing: 858, 866
 */
 	if(!have_skill($skill[Extra Gall Bladder]) && (toBuy == 0))
 	{
@@ -156,6 +176,13 @@ Missing: 858, 864-866, 872-876
 			toBuy = 861;
 		}
 	}
+	else if(!have_skill($skill[Magnetic Ears]) && (toBuy == 0) && (get_property("falloutShelterLevel").to_int() >= 6))
+	{
+		if(item_amount($item[Rad]) >= 90)
+		{
+			toBuy = 873;
+		}
+	}
 	else if(!have_skill($skill[Hypno-Eyes]) && (toBuy == 0))
 	{
 		if(item_amount($item[Rad]) >= 90)
@@ -175,6 +202,20 @@ Missing: 858, 864-866, 872-876
 		if(item_amount($item[Rad]) >= 90)
 		{
 			toBuy = 860;
+		}
+	}
+	else if(!have_skill($skill[Sucker Fingers]) && (toBuy == 0) && (get_property("falloutShelterLevel").to_int() >= 6))
+	{
+		if(item_amount($item[Rad]) >= 120)
+		{
+			toBuy = 865;
+		}
+	}
+	else if(!have_skill($skill[Squid Glands]) && (toBuy == 0) && (get_property("falloutShelterLevel").to_int() >= 6))
+	{
+		if(item_amount($item[Rad]) >= 120)
+		{
+			toBuy = 875;
 		}
 	}
 	else if(!have_skill($skill[Steroid Bladder]) && (toBuy == 0))
@@ -238,6 +279,34 @@ Missing: 858, 864-866, 872-876
 		if(item_amount($item[Rad]) >= 30)
 		{
 			toBuy = 853;
+		}
+	}
+	else if(!have_skill($skill[Extremely Punchable Face]) && (toBuy == 0) && (get_property("falloutShelterLevel").to_int() >= 6))
+	{
+		if(item_amount($item[Rad]) >= 90)
+		{
+			toBuy = 876;
+		}
+	}
+	else if(!have_skill($skill[Firefly Abdomen]) && (toBuy == 0) && (get_property("falloutShelterLevel").to_int() >= 6))
+	{
+		if(item_amount($item[Rad]) >= 90)
+		{
+			toBuy = 874;
+		}
+	}
+	else if(!have_skill($skill[Backwards Knees]) && (toBuy == 0) && (get_property("falloutShelterLevel").to_int() >= 6))
+	{
+		if(item_amount($item[Rad]) >= 120)
+		{
+			toBuy = 864;
+		}
+	}
+	else if(!have_skill($skill[Bone Springs]) && (toBuy == 0) && (get_property("falloutShelterLevel").to_int() >= 6))
+	{
+		if(item_amount($item[Rad]) >= 90)
+		{
+			toBuy = 872;
 		}
 	}
 	else if(!have_skill($skill[Skunk Glands]) && (toBuy == 0))

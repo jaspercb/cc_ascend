@@ -181,6 +181,9 @@ boolean handleFamiliar(string fam);
 // Meat Generation
 boolean autosellCrap();
 
+// Daily Events that should happen at start and not end.
+boolean dailyEvents();
+
 
 //
 //	External cc_ascend.ash functions, indicate where they come from.

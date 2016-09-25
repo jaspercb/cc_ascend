@@ -132,13 +132,15 @@ void handlePostAdventure()
 		buffMaintain($effect[Juiced and Loose], 35, 1, 1);
 		buffMaintain($effect[Hardened Sweatshirt], 35, 1, 1);
 		buffMaintain($effect[Ear Winds], 35, 1, 1);
+		buffMaintain($effect[Magnetized Ears], 40, 1, 1);
 		buffMaintain($effect[Impeccable Coiffure], 75, 1, 1);
 		buffMaintain($effect[Mind Vision], 200, 1, 1);
 
-		buffMaintain($effect[Juiced and Loose], 75, 1, 30);
-		buffMaintain($effect[Hardened Sweatshirt], 75, 1, 30);
+		buffMaintain($effect[Juiced and Loose], 75, 1, 50);
+		buffMaintain($effect[Hardened Sweatshirt], 75, 1, 50);
+		buffMaintain($effect[Bone Springs], 75, 1, 1);
 
-		if((my_meat() > 15000) && ((my_turncount() >= 50) || get_property("falloutShelterChronoUsed").to_boolean()))
+		if((my_meat() > 5000) && ((my_turncount() >= 50) || get_property("falloutShelterChronoUsed").to_boolean()))
 		{
 			buffMaintain($effect[Rad-Pro Tected], 0, 1, 1);
 		}

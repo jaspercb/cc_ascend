@@ -1703,7 +1703,48 @@ void initializeDay(int day)
 	}
 }
 
+boolean dailyEvents()
+{
+	while(cc_doPrecinct());
+	handleBarrelFullOfBarrels();
 
+	if(item_amount($item[Clan VIP Lounge Key]) > 0)
+	{
+		if(!get_property("_olympicSwimmingPoolItemFound").to_boolean() && is_unrestricted($item[Olympic-sized Clan Crate]))
+		{
+			cli_execute("swim item");
+		}
+		if(!get_property("_lookingGlass").to_boolean() && is_unrestricted($item[Clan Looking Glass]))
+		{
+			cli_execute("clan_viplounge.php?action=lookingglass");
+		}
+		if(get_property("_deluxeKlawSummons").to_int() == 0)
+		{
+			cli_execute("clan_viplounge.php?action=klaw");
+			cli_execute("clan_viplounge.php?action=klaw");
+			cli_execute("clan_viplounge.php?action=klaw");
+		}
+		if(!get_property("_crimboTree").to_boolean() && is_unrestricted($item[Crimbough]))
+		{
+			cli_execute("crimbotree get");
+		}
+	}
+
+	if(get_property("_klawSummons").to_int() == 0)
+	{
+		cli_execute("clan_rumpus.php?action=click&spot=3&furni=3");
+		cli_execute("clan_rumpus.php?action=click&spot=3&furni=3");
+		cli_execute("clan_rumpus.php?action=click&spot=3&furni=3");
+	}
+
+	if((item_amount($item[Infinite BACON Machine]) > 0) && !get_property("_baconMachineUsed").to_boolean())
+	{
+		use(1, $item[Infinite BACON Machine]);
+	}
+
+
+	return true;
+}
 
 void doBedtime()
 {
@@ -1761,8 +1802,6 @@ void doBedtime()
 	{
 		return;
 	}
-
-	handleBarrelFullOfBarrels();
 
 	if(get_property("cc_priorXiblaxianMode").to_int() == 1)
 	{
@@ -1838,8 +1877,6 @@ void doBedtime()
 	//We are committing to end of day now...
 
 	while(acquireHermitItem($item[Ten-leaf Clover]));
-
-	while(cc_doPrecinct());
 
 	if((friars_available()) && (!get_property("friarsBlessingReceived").to_boolean()))
 	{
@@ -1948,13 +1985,14 @@ void doBedtime()
 		visit_url("choice.php?pwd=&whichchoice=835&option=1", true);
 	}
 
+	dailyEvents();
 	if(get_property("cc_clanstuff").to_int() < my_daycount())
 	{
 		if(is_unrestricted($item[Olympic-sized Clan Crate]) && !get_property("_olympicSwimmingPool").to_boolean())
 		{
 			cli_execute("swim noncombat");
 		}
-		if(!get_property("_olympicSwimmingPoolItemFound").to_boolean())
+		if(is_unrestricted($item[Olympic-sized Clan Crate]) && !get_property("_olympicSwimmingPoolItemFound").to_boolean())
 		{
 			cli_execute("swim item");
 		}
@@ -1964,7 +2002,7 @@ void doBedtime()
 			cli_execute("clan_rumpus.php?action=click&spot=3&furni=3");
 			cli_execute("clan_rumpus.php?action=click&spot=3&furni=3");
 		}
-		if(!get_property("_lookingGlass").to_boolean())
+		if(is_unrestricted($item[Clan Looking Glass]) && !get_property("_lookingGlass").to_boolean())
 		{
 			cli_execute("clan_viplounge.php?action=lookingglass");
 		}
@@ -1985,7 +2023,7 @@ void doBedtime()
 				cli_execute("shower " + my_primestat());
 			}
 		}
-		if(!get_property("_crimboTree").to_boolean())
+		if(is_unrestricted($item[Crimbough]) && !get_property("_crimboTree").to_boolean())
 		{
 			cli_execute("crimbotree get");
 		}
@@ -2056,7 +2094,7 @@ void doBedtime()
 		visit_url("place.php?whichplace=desertbeach&action=db_nukehouse");
 	}
 
-	if((get_property("puzzleChampBonus").to_int() == 20) && !get_property("_witchessBuff").to_boolean())
+	if((get_property("puzzleChampBonus").to_int() == 20) && !get_property("_witchessBuff").to_boolean() && (get_campground() contains $item[Witchess Set]))
 	{
 		visit_url("campground.php?action=witchess");
 		visit_url("choice.php?whichchoice=1181&pwd=&option=3");
@@ -2119,6 +2157,7 @@ void doBedtime()
 	{
 		print("Still have some of Glenn's Golden Dice that you can use!", "blue");
 	}
+
 	if(cc_haveSourceTerminal())
 	{
 		int enhances = cc_sourceTerminalEnhanceLeft();
@@ -2173,11 +2212,6 @@ void doBedtime()
 	elementalPlanes_takeJob($element[spooky]);
 	elementalPlanes_takeJob($element[stench]);
 	elementalPlanes_takeJob($element[cold]);
-
-	if((item_amount($item[Infinite BACON Machine]) > 0) && !get_property("_baconMachineUsed").to_boolean())
-	{
-		use(1, $item[Infinite BACON Machine]);
-	}
 
 	if((get_property("cc_dickstab").to_boolean()) && chateaumantegna_available() && (my_daycount() == 1))
 	{
@@ -3962,7 +3996,7 @@ boolean L13_towerNSContests()
 				{
 					doRest();
 				}
-				foreach eff in $effects[Adorable Lookout, Alacri Tea, All Fired Up, Bow-Legged Swagger, Fishy\, Oily, The Glistening, Human-Machine Hybrid, Patent Alacrity, Provocative Perkiness, Sepia Tan, Sugar Rush, Ticking Clock, Well-Swabbed Ear]
+				foreach eff in $effects[Adorable Lookout, Alacri Tea, All Fired Up, Bone Springs, Bow-Legged Swagger, Fishy\, Oily, The Glistening, Human-Machine Hybrid, Patent Alacrity, Provocative Perkiness, Sepia Tan, Sugar Rush, Ticking Clock, Well-Swabbed Ear]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
@@ -4001,7 +4035,7 @@ boolean L13_towerNSContests()
 			switch(ns_crowd2())
 			{
 			case $stat[moxie]:
-				foreach eff in $effects[Almost Cool, Busy Bein\' Delicious, Butt-Rock Hair, Funky Coal Patina, Liquidy Smoky, Locks Like the Raven, Lycanthropy\, Eh?, Memories of Puppy Love, Newt Gets In Your Eyes, Notably Lovely, Oiled Skin, Pill Power, Radiating Black Body&trade;, Seriously Mutated,  Spiky Hair, Sugar Rush, Standard Issue Bravery, Superhuman Sarcasm, Tomato Power, Vital]
+				foreach eff in $effects[Almost Cool, Busy Bein\' Delicious, Butt-Rock Hair, Funky Coal Patina, Impeccable Coiffure, Liquidy Smoky, Locks Like the Raven, Lycanthropy\, Eh?, Memories of Puppy Love, Newt Gets In Your Eyes, Notably Lovely, Oiled Skin, Pill Power, Radiating Black Body&trade;, Seriously Mutated,  Spiky Hair, Sugar Rush, Standard Issue Bravery, Superhuman Sarcasm, Tomato Power, Vital]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
@@ -4013,7 +4047,7 @@ boolean L13_towerNSContests()
 				ccMaximize("moxie -equip snow suit", 1500, 0, false);
 				break;
 			case $stat[muscle]:
-				foreach eff in $effects[Browbeaten, Extra Backbone, Extreme Muscle Relaxation, Feroci Tea, Fishy Fortification, Football Eyes, Go Get \'Em\, Tiger!, Human-Human Hybrid, Industrial Strength Starch, Lycanthropy\, Eh?, Marinated, Phorcefullness, Pill Power, Rainy Soul Miasma, Savage Beast Inside, Seriously Mutated, Slightly Larger Than Usual, Standard Issue Bravery, Steroid Boost, Spiky Hair, Sugar Rush, Superheroic, Temporary Lycanthropy, Tomato Power, Truly Gritty, Vital, Woad Warrior]
+				foreach eff in $effects[Browbeaten, Extra Backbone, Extreme Muscle Relaxation, Feroci Tea, Fishy Fortification, Football Eyes, Go Get \'Em\, Tiger!, Human-Human Hybrid, Industrial Strength Starch, Juiced and Loose, Lycanthropy\, Eh?, Marinated, Phorcefullness, Pill Power, Rainy Soul Miasma, Savage Beast Inside, Seriously Mutated, Slightly Larger Than Usual, Standard Issue Bravery, Steroid Boost, Spiky Hair, Sugar Rush, Superheroic, Temporary Lycanthropy, Tomato Power, Truly Gritty, Vital, Woad Warrior]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
@@ -4025,7 +4059,7 @@ boolean L13_towerNSContests()
 				break;
 			case $stat[mysticality]:
 				# Gothy may have given us a strange bug during one ascension, removing it for now.
-				foreach eff in $effects[Baconstoned, Erudite, Far Out, Glittering Eyelashes, Industrial Strength Starch, Liquidy Smoky, Marinated, Mutated, Mystically Oiled, OMG WTF, Pill Power, Rainy Soul Miasma, Ready to Snap, Rosewater Mark, Seeing Colors, Slightly Larger Than Usual, Standard Issue Bravery, Sweet\, Nuts, Tomato Power, Vital]
+				foreach eff in $effects[Baconstoned, Erudite, Far Out, Glittering Eyelashes, Industrial Strength Starch, Liquidy Smoky, Marinated, Mind Vision, Mutated, Mystically Oiled, OMG WTF, Pill Power, Rainy Soul Miasma, Ready to Snap, Rosewater Mark, Seeing Colors, Slightly Larger Than Usual, Standard Issue Bravery, Sweet\, Nuts, Tomato Power, Vital]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
@@ -6270,6 +6304,7 @@ boolean L12_sonofaBeach()
 		equipBaseline();
 		return false;
 	}
+	buffMaintain($effect[Blinking Belly], 45, 1, 1);
 
 	ccAdv(1, $location[Sonofa Beach]);
 	set_property("cc_doCombatCopy", "no");
@@ -7567,6 +7602,7 @@ boolean L7_crypt()
 
 		buffMaintain($effect[Sepia Tan], 0, 1, 1);
 		buffMaintain($effect[Walberg\'s Dim Bulb], 5, 1, 1);
+		buffMaintain($effect[Bone Springs], 40, 1, 1);
 		buffMaintain($effect[Springy Fusilli], 10, 1, 1);
 		buffMaintain($effect[Patent Alacrity], 0, 1, 1);
 		if((my_class() == $class[Seal Clubber]) || (my_class() == $class[Turtle Tamer]))
@@ -10166,6 +10202,10 @@ boolean L9_oilPeak()
 	if(monster_level_adjustment() < 50)
 	{
 		buffMaintain($effect[Sweetbreads Flamb&eacute;], 0, 1, 1);
+	}
+	if(monster_level_adjustment() < 60)
+	{
+		buffMaintain($effect[Punchable Face], 50, 1, 1);
 	}
 	ccAdv(1, $location[Oil Peak]);
 	handleFamiliar("item");
@@ -12815,6 +12855,7 @@ void cc_begin()
 		}
 	}
 
+	dailyEvents();
 	consumeStuff();
 	while((my_adventures() > 1) && (my_inebriety() <= inebriety_limit()) && (get_property("kingLiberated") == "false") && doTasks())
 	{
