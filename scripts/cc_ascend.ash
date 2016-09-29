@@ -1708,6 +1708,12 @@ boolean dailyEvents()
 	while(cc_doPrecinct());
 	handleBarrelFullOfBarrels();
 
+	if((item_amount($item[Can of Rain-doh]) > 0) && (item_amount($item[Rain-Doh Red Wings]) == 0))
+	{
+		use(1, $item[can of Rain-doh]);
+		put_closet(1, $item[empty rain-doh can]);
+	}
+
 	if(item_amount($item[Clan VIP Lounge Key]) > 0)
 	{
 		if(!get_property("_olympicSwimmingPoolItemFound").to_boolean() && is_unrestricted($item[Olympic-sized Clan Crate]))
