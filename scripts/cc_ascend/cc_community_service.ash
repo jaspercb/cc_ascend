@@ -1850,6 +1850,11 @@ boolean LA_cs_communityService()
 				cli_execute("make 1 snow cleats");
 			}
 
+			if((item_amount($item[Cop Dollar]) >= 10) && (have_effect($effect[Gummed Shoes]) == 0) && (item_amount($item[shoe gum]) == 0))
+			{
+				cli_execute("make 1 shoe gum");
+			}
+
 			buffMaintain($effect[Snow Shoes], 0, 1, 1);
 			buffMaintain($effect[Obscuri Tea], 0, 1, 1);
 			buffMaintain($effect[Gummed Shoes], 0, 1, 1);

@@ -1741,6 +1741,10 @@ boolean dailyEvents()
 	{
 		use(1, $item[Infinite BACON Machine]);
 	}
+	if((item_amount($item[Picky Tweezers]) > 0) && !get_property("_pickyTweezersUsed").to_boolean())
+	{
+		use(1, $item[Picky Tweezers]);
+	}
 
 
 	return true;

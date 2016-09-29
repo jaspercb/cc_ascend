@@ -953,7 +953,7 @@ boolean cc_cheesePostCS(int leave)
 		equip($item[Snow Suit]);
 	}
 
-	while(my_adventures() > leave)
+	while((my_adventures() > leave) && (inebriety_left() >= 0))
 	{
 		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
 		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
@@ -1039,7 +1039,7 @@ boolean cc_cheesePostCS(int leave)
 		}
 	}
 
-	while(((my_inebriety() + 5) <= inebriety_limit()) && get_property("cc_breakstone").to_boolean())
+	while((inebriety_left() >= 5) && get_property("cc_breakstone").to_boolean())
 	{
 		if(!buyUpTo(1, $item[5-Hour Acrimony], 5000))
 		{
@@ -1050,7 +1050,7 @@ boolean cc_cheesePostCS(int leave)
 	}
 
 
-	while(((my_inebriety() + 2) <= inebriety_limit()) && get_property("cc_breakstone").to_boolean())
+	while((inebriety_left() >= 2) && get_property("cc_breakstone").to_boolean())
 	{
 		if(!buyUpTo(1, $item[Beery Blood], 500))
 		{
@@ -1064,7 +1064,7 @@ boolean cc_cheesePostCS(int leave)
 	tryPantsEat();
 	cli_execute("refresh all");
 
-	while(my_adventures() > leave)
+	while((my_adventures() > leave) && (inebriety_left() >= 0))
 	{
 		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
 		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
@@ -1076,7 +1076,7 @@ boolean cc_cheesePostCS(int leave)
 	tryPantsEat();
 	cli_execute("refresh all");
 
-	while(my_adventures() > leave)
+	while((my_adventures() > leave) && (inebriety_left() >= 0))
 	{
 		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
 		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
@@ -1088,7 +1088,7 @@ boolean cc_cheesePostCS(int leave)
 	tryPantsEat();
 	cli_execute("refresh all");
 
-	while(my_adventures() > leave)
+	while((my_adventures() > leave) && (inebriety_left() >= 0))
 	{
 		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
 		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);

@@ -320,16 +320,19 @@ boolean L1_HRstart()
 		return false;
 	}
 
-	if(my_hp() < my_maxhp())
+	if(get_property("romanticTarget") != $monster[Writing Desk])
 	{
-		doHottub();
+		if(my_hp() < my_maxhp())
+		{
+			doHottub();
+		}
+		rainManSummon("writing desk", true, true);
+		if((my_hp() * 2) < my_maxhp())
+		{
+			doHottub();
+		}
+		dna_generic();
 	}
-	rainManSummon("writing desk", true, true);
-	if((my_hp() * 2) < my_maxhp())
-	{
-		doHottub();
-	}
-	dna_generic();
 	set_property("cc_day1_desk", "finished");
 	return true;
 }
