@@ -12781,9 +12781,6 @@ void cc_begin()
 		cli_execute("refresh all");
 	}
 
-#	cli_execute("spookyraven on");
-	cli_execute("spookyraven off");
-
 	print("Hello " + my_name() + ", time to explode!");
 	print("This is version: " + svn_info("ccascend-cc_ascend").last_changed_rev);
 	print("This is day " + my_daycount() + ".");
@@ -12800,6 +12797,7 @@ void cc_begin()
 	handlePulls(my_daycount());
 	initializeDay(my_daycount());
 
+	backupSetting("trackLightsOut", false);
 	backupSetting("autoSatisfyWithCoinmasters", true);
 	backupSetting("removeMalignantEffects", false);
 

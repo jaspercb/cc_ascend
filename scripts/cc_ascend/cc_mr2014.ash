@@ -245,6 +245,11 @@ boolean xiblaxian_makeStuff()
 			return false;
 		}
 
+		if(item_amount(toMake) > 0)
+		{
+			return false;
+		}
+
 		if(item_amount($item[Xiblaxian 5D Printer]) == 0)
 		{
 			if(item_amount($item[transmission from planet Xi]) > 0)
