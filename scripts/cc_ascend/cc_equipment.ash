@@ -232,7 +232,7 @@ void handleOffHand()
 	{
 		if((have_skill($skill[Double-Fisted Skull Smashing])) && (weapon_type(equipped_item($slot[weapon])) != $stat[Moxie]))
 		{
-			poss = $items[Turtle Totem, Knob Goblin Scimitar, Mace of the Tortoise, KoL Con 13 Snowglobe, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Hot Plate, Spiked Femur, Yorick, Sawblade Shield, Wicker Shield, Keg Shield, Operation Patriot Shield, Ox-head Shield, Fake Washboard, Barrel Lid];
+			poss = $items[Turtle Totem, Knob Goblin Scimitar, Mace of the Tortoise, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Hot Plate, KoL Con 13 Snowglobe,Spiked Femur, Yorick, Sawblade Shield, Wicker Shield, Keg Shield, Operation Patriot Shield, Ox-head Shield, Fake Washboard, Barrel Lid];
 		}
 		else
 		{
@@ -240,13 +240,13 @@ void handleOffHand()
 
 			if(have_skill($skill[Beancannon]) && (get_property("_beancannonUsed").to_int() < 5))
 			{
-				poss = $items[7-ball, 5-ball, 2-ball, 1-ball, Hot Plate, Disturbing Fanfic, Coffin Lid, Astral Statuette, Heavy-Duty Clipboard, Sawblade Shield, Wicker Shield, Keg Shield, Whatsian Ionic Pliers, Little Black Book, Tesla\'s Electroplated Beans, World\'s Blackest-Eyed Peas, Trader Olaf\'s Exotic Stinkbeans, Shrub\'s Premium Baked Beans, Hellfire Spicy Beans, Frigid Northern Beans, Heimz Fortified Kidney Beans, Pork \'n\' Pork \'n\' Pork \'n\' Beans, Mixed Garbanzos and Chickpeas, Yorick, Astral Shield, A Light That Never Goes Out, Ox-head Shield, Operation Patriot Shield, Fake Washboard, Barrel Lid];
+				poss = $items[7-ball, 5-ball, 2-ball, 1-ball, Hot Plate, Disturbing Fanfic, KoL Con 13 Snowglobe, Coffin Lid, Astral Statuette, Heavy-Duty Clipboard, Sawblade Shield, Wicker Shield, Keg Shield, Whatsian Ionic Pliers, Little Black Book, Tesla\'s Electroplated Beans, World\'s Blackest-Eyed Peas, Trader Olaf\'s Exotic Stinkbeans, Shrub\'s Premium Baked Beans, Hellfire Spicy Beans, Frigid Northern Beans, Heimz Fortified Kidney Beans, Pork \'n\' Pork \'n\' Pork \'n\' Beans, Mixed Garbanzos and Chickpeas, Yorick, Astral Shield, A Light That Never Goes Out, Ox-head Shield, Operation Patriot Shield, Fake Washboard, Barrel Lid];
 			}
 		}
 	}
 	if(my_class() == $class[Turtle Tamer])
 	{
-		poss = $items[KoL Con 13 Snowglobe, Coffin Lid, Sewer Turtle, Barskin Buckler, Turtle Wax Shield, Clownskin Buckler, Hot Plate, Box Turtle, Demon Buckler, Meat Shield, White Satin Shield, Polyester Pad, Gnauga Hide Buckler, Yakskin Buckler, Penguin Skin Buckler, Hippo Skin Buckler, Tortoboggan Shield, Padded Tortoise, Painted Shield, Spiky Turtle Shield, Wicker Shield, Catskin Buckler, Battered Hubcap, Keg Shield, Ouija Board\, Ouija Board, Ox-head Shield, Barrel Lid, Operation Patriot Shield, Fake Washboard];
+		poss = $items[Hot Plate, KoL Con 13 Snowglobe, Coffin Lid, Sewer Turtle, Barskin Buckler, Turtle Wax Shield, Clownskin Buckler, Box Turtle, Demon Buckler, Meat Shield, White Satin Shield, Polyester Pad, Gnauga Hide Buckler, Yakskin Buckler, Penguin Skin Buckler, Hippo Skin Buckler, Tortoboggan Shield, Padded Tortoise, Painted Shield, Spiky Turtle Shield, Wicker Shield, Catskin Buckler, Battered Hubcap, Keg Shield, Ouija Board\, Ouija Board, Ox-head Shield, Barrel Lid, Operation Patriot Shield, Fake Washboard];
 	}
 
 	if(my_class() == $class[Pastamancer])

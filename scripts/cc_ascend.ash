@@ -2181,7 +2181,7 @@ void doBedtime()
 
 	if(is_unrestricted($item[Source Terminal]) && (get_campground() contains $item[Source Terminal]))
 	{
-		if(!get_property("_kingLiberated").to_boolean())
+		if(!get_property("_kingLiberated").to_boolean() && (get_property("cc_extrudeChoice") != "none"))
 		{
 			int count = 3 - get_property("_sourceTerminalExtrudes").to_int();
 
