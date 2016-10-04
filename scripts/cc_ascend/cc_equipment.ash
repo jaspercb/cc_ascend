@@ -381,7 +381,7 @@ void equipBaselinePants()
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Stylish Swimsuit, Union Scalemail Pants, Hep Waders, Bloody Clown Pants, Knob Goblin Uberpants, Filthy Corduroys, Demonskin Trousers, Antique Greaves, Ninja Hot Pants, Leotarrrd, Swashbuckling Pants, Troutpiece, Snowboarder Pants, Oil Slacks, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving];
+	boolean[item] poss = $items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Stylish Swimsuit, Union Scalemail Pants, Hep Waders, Bloody Clown Pants, Knob Goblin Uberpants, Filthy Corduroys, Demonskin Trousers, Antique Greaves, Ninja Hot Pants, Leotarrrd, Swashbuckling Pants, Troutpiece, Snowboarder Pants, Oil Slacks, Discarded Swimming Trunks, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving];
 
 	toEquip = handleSolveThing(poss, $slot[pants]);
 
@@ -841,7 +841,15 @@ void equipRollover()
 		equip($slot[acc3], toEquip);
 	}
 
-	if(my_familiar() != $familiar[none])
+	if(have_familiar($familiar[Trick-or-Treating Tot]) && possessEquipment($item[Li\'l Unicorn Costume]) && !get_property("cc_100familiar").to_boolean() && (my_familiar() != $familiar[none]))
+	{
+		use_familiar($familiar[Trick-or-Treating Tot]);
+		if(equipped_item($slot[Familiar]) != $item[Li\'l Unicorn Costume])
+		{
+			equip($slot[Familiar], $item[Li\'l Unicorn Costume]);
+		}
+	}
+	else if(my_familiar() != $familiar[none])
 	{
 		toEquip = $item[none];
 		poss = $items[Solid Shifting Time Weirdness];
