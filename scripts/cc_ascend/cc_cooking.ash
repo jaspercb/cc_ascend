@@ -191,6 +191,11 @@ boolean tryPantsEat()
 	{
 		foreach it in $items[Tasty Tart, Deviled Egg, Actual Tapas, Cold Mashed Potatoes, Dinner Roll, Whole Turkey Leg, Can of Sardines, High-Calorie Sugar Substitute, Pat of Butter]
 		{
+			if((it == $item[Actual Tapas]) && (my_level() < 11))
+			{
+				continue;
+			}
+
 			if(item_amount(it) > 0)
 			{
 				cli_execute("refresh inv");
