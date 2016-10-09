@@ -123,14 +123,16 @@ boolean LA_cs_communityService()
 	}
 
 	equipBaseline();
-	if((equipped_item($slot[Shirt]) == $item[none]) && possessEquipment($item[Tunac]))
-	{
-		equip($slot[Shirt], $item[Tunac]);
-	}
-	if((equipped_item($slot[Off-Hand]) == $item[A Light that Never Goes Out]) && possessEquipment($item[Barrel Lid]))
-	{
-		equip($slot[Off-Hand], $item[Barrel Lid]);
-	}
+	forceEquip($slot[Off-hand], $item[Barrel Lid]);
+	forceEquip($slot[Shirt], $item[Tunac]);
+#	if((equipped_item($slot[Shirt]) == $item[none]) && possessEquipment($item[Tunac]))
+#	{
+#		equip($slot[Shirt], $item[Tunac]);
+#	}
+#	if((equipped_item($slot[Off-Hand]) != $item[Barrel Lid]) && possessEquipment($item[Barrel Lid]))
+#	{
+#		equip($slot[Off-Hand], $item[Barrel Lid]);
+#	}
 	print(what_cs_quest(curQuest), "blue");
 
 	cs_eat_spleen();
@@ -237,7 +239,6 @@ boolean LA_cs_communityService()
 		setAdvPHPFlag();
 	}
 
-#	if(my_daycount() == 1)
 	if((curQuest == 11) || (curQuest == 6) || (curQuest == 9) || (curQuest == 7))
 	{
 		if(curQuest != 7)
@@ -266,7 +267,14 @@ boolean LA_cs_communityService()
 					}
 					shrugAT($effect[Ode to Booze]);
 					buffMaintain($effect[Ode to Booze], 50, 1, (inebriety_left() - 9));
-					drink(min(item_amount($item[Shot of Kardashian Gin]), (inebriety_left() - 9)), $item[Shot of Kardashian Gin]);
+					if(hippy_stone_broken())
+					{
+						drink(min(item_amount($item[Shot of Kardashian Gin]), (inebriety_left() - 9)), $item[Shot of Kardashian Gin]);
+					}
+					else
+					{
+						overdrink(min(item_amount($item[Shot of Kardashian Gin]), (inebriety_left() - 9)), $item[Shot of Kardashian Gin]);
+					}
 				}
 			}
 			if(inebriety_left() > 9)
@@ -672,6 +680,11 @@ boolean LA_cs_communityService()
 
 			if(doFarm)
 			{
+				if(possessEquipment($item[KoL Con 13 Snowglobe]) && (equipped_item($slot[Off-Hand]) == $item[A Light That Never Goes Out]))
+				{
+					equip($slot[Off-hand], $item[KoL Con 13 Snowglobe]);
+					pulverizeThing($item[A Light That Never Goes Out]);
+				}
 				if(get_property("cc_tryPowerLevel").to_boolean())
 				{
 					if(elementalPlanes_access($element[stench]) && (my_hp() > 100))
@@ -947,6 +960,11 @@ boolean LA_cs_communityService()
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 10);
 				put_closet(item_amount($item[Emergency Margarita]), $item[Emergency Margarita]);
+				if((item_amount($item[Hacked Gibson]) == 0) && (inebriety_left() == 0))
+				{
+					cc_sourceTerminalExtrude($item[Hacked Gibson]);
+				}
+
 				abort("Saving Emergency Margarita, forcing abort, done with day. Overdrink, cast simmer,  and run again.");
 			}
 			return true;
@@ -2020,15 +2038,24 @@ boolean LA_cs_communityService()
 				}
 			}
 
-			if(have_familiar($familiar[Exotic Parrot]))
-			{
-				#handleFamiliar($familiar[Exotic Parrot]);
-				use_familiar($familiar[Exotic Parrot]);
-			}
-
 			if(Lx_resolveSixthDMT())
 			{
 				return true;
+			}
+
+			if(have_familiar($familiar[Trick-or-Treating Tot]) && ((my_meat() > 2500) || possessEquipment($item[Li\'l Candy Corn Costume])))
+			{
+				use_familiar($familiar[Trick-or-Treating Tot]);
+				if(!possessEquipment($item[Li\'l Candy Corn Costume]))
+				{
+					buyUpTo(1, $item[Li\'l Candy Corn Costume]);
+				}
+				forceEquip($slot[familiar], $item[Li\'l Candy Corn Costume]);
+			}
+			else if(have_familiar($familiar[Exotic Parrot]))
+			{
+				use_familiar($familiar[Exotic Parrot]);
+				forceEquip($slot[familiar], $item[Astral Pet Sweater]);
 			}
 
 			if(possessEquipment($item[lava-proof pants]))
@@ -2254,7 +2281,7 @@ void cs_initializeDay(int day)
 			equipBaseline();
 			visit_url("guild.php?place=challenge");
 
-			if(!get_property("cc_csDoWheel").to_boolean())
+			if(get_property("cc_csDoWheel").to_boolean())
 			{
 				if((get_property("spookyAirportAlways").to_boolean()) && !get_property("_controlPanelUsed").to_boolean())
 				{

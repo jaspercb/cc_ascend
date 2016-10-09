@@ -274,7 +274,7 @@ boolean volcano_lavaDogs()
 		return false;
 	}
 
-	if($location[The Bubblin\' Caldera].turns_spent >= 10)
+	if($location[The Bubblin\' Caldera].turns_spent >= 15)
 	{
 		print("Could not find Caldera Volcoino... uh oh...", "red");
 		return false;

@@ -3,6 +3,7 @@ import <zlib.ash>
 import <cc_ascend/cc_mr2015.ash>
 import <cc_ascend/cc_ascend_header.ash>
 import <cc_ascend/cc_monsterparts.ash>
+import <cc_ascend/cc_list.ash>
 
 // Public Prototypes
 void debugMaximize(string req, int meat);			//This function will be removed.
@@ -42,6 +43,7 @@ boolean isProtonGhost(monster mon);
 boolean isGhost(monster mon);
 boolean in_ronin();
 boolean cc_autosell(int quantity, item toSell);
+boolean forceEquip(slot sl, item it);
 item whatHiMein();
 int dreamJarDrops();
 int powderedGoldDrops();
@@ -60,6 +62,7 @@ boolean handleSealAncient();
 boolean handleSealAncient(string option);
 boolean handleSealElement(element flavor);
 boolean handleSealElement(element flavor, string option);
+void handleTracker(item used, string tracker);
 void handleTracker(monster enemy, string tracker);
 void handleTracker(monster enemy, skill toTrack, string tracker);
 void handleTracker(monster enemy, string toTrack, string tracker);
@@ -88,7 +91,7 @@ effect[item] allBangPotions();
 int numPotionsFound(effect need);
 item bangPotionNeeded(effect need);
 boolean solveBangPotion(effect need);
-void pulverizeThing(item it);
+boolean pulverizeThing(item it);
 boolean buy_item(item it, int quantity, int maxprice);
 string tryBeerPong();
 boolean useCocoon();
@@ -146,6 +149,7 @@ string safeString(monster input);
 location provideAdvPHPZone();
 
 // Function Definitions
+
 
 boolean ccMaximize(string req, boolean simulate)
 {
@@ -480,6 +484,17 @@ void handleTracker(monster enemy, string tracker)
 		cur = cur + ", ";
 	}
 	cur = cur + "(" + my_daycount() + ":" + safeString(enemy) + ":" + my_turncount() + ")";
+	set_property(tracker, cur);
+}
+
+void handleTracker(item used, string tracker)
+{
+	string cur = get_property(tracker);
+	if(cur != "")
+	{
+		cur = cur + ", ";
+	}
+	cur = cur + "(" + my_daycount() + ":" + safeString(used) + ":" + my_turncount() + ")";
 	set_property(tracker, cur);
 }
 
@@ -1911,9 +1926,23 @@ boolean use_barrels()
 	return retval;
 }
 
+boolean forceEquip(slot sl, item it)
+{
+	if(!possessEquipment(it))
+	{
+		return false;
+	}
+	if(equipped_item(sl) == it)
+	{
+		return true;
+	}
+	equip(sl, it);
+	return true;
+}
+
 boolean cc_autosell(int quantity, item toSell)
 {
-	if(my_meat() > 1000000)
+	if(my_meat() > 100000)
 	{
 		return false;
 	}
@@ -2287,22 +2316,27 @@ void woods_questStart()
 }
 
 
-void pulverizeThing(item it)
+boolean pulverizeThing(item it)
 {
 	if(!have_skill($skill[Pulverize]))
 	{
-		return;
+		return false;
 	}
 
 	if(item_amount(it) == 0)
 	{
 		if(closet_amount(it) == 0)
 		{
-			return;
+			return false;
 		}
 		take_closet(1, it);
 	}
+	if(item_amount(it) == 0)
+	{
+		return false;
+	}
 	cli_execute("pulverize 1 " + it);
+	return true;
 }
 
 boolean buy_item(item it, int quantity, int maxprice)
@@ -2856,6 +2890,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Disdain of the War Snapper]:	useSkill = $skill[Blessing of the War Snapper];	break;
 	case $effect[Drenched With Filth]:			useItem = $item[Concentrated Garbage Juice];	break;
 	case $effect[Drescher\'s Annoying Noise]:	useSkill = $skill[Drescher\'s Annoying Noise];	break;
+	case $effect[Drunk and Avuncular]:			useItem = $item[Drunk Uncles Holo-Record];		break;
 	case $effect[Ear Winds]:					useSkill = $skill[Flappy Ears];					break;
 	case $effect[Eau D\'enmity]:				useItem = $item[Perfume of Prejudice];			break;
 	case $effect[Eau de Tortue]:				useItem = $item[Turtle Pheromones];				break;
@@ -2955,6 +2990,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Litterbug]:					useItem = $item[Old Candy Wrapper];				break;
 	case $effect[Locks Like the Raven]:			useItem = $item[Black No. 2];					break;
 	case $effect[Loyal Tea]:					useItem = $item[cuppa Loyal Tea];				break;
+	case $effect[Lucky Struck]:					useItem = $item[Lucky Strikes Holo-Record];		break;
 	case $effect[Lycanthropy\, Eh?]:			useItem = $item[Weremoose Spit];				break;
 	case $effect[Kindly Resolve]:				useItem = $item[Resolution: Be Kinder];			break;
 	case $effect[Knob Goblin Perfume]:			useItem = $item[Knob Goblin Perfume];			break;
@@ -2971,6 +3007,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Memories of Puppy Love]:		useItem = $item[Old Love Note];					break;
 	case $effect[Merry Smithsness]:				useItem = $item[Flaskfull of Hollow];			break;
 	case $effect[Mind Vision]:					useSkill = $skill[Intracranial Eye];			break;
+	case $effect[Ministrations in the Dark]:	useItem = $item[EMD Holo-Record];				break;
 	case $effect[The Moxious Madrigal]:			useSkill = $skill[The Moxious Madrigal];		break;
 	case $effect[Muffled]:						useSkill = $skill[Rev Engine];					break;
 	case $effect[Musk of the Moose]:			useSkill = $skill[Musk of the Moose];			break;
@@ -3025,6 +3062,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Polar Express]:				useItem = $item[Cloaca Cola Polar];				break;
 	case $effect[Polka of Plenty]:				useSkill = $skill[The Polka of Plenty];			break;
 	case $effect[Polonoia]:						useItem = $item[Polo Trophy];					break;
+	case $effect[Power\, Man]:					useItem = $item[Power-Guy 2000 Holo-Record];	break;
 	case $effect[Power Ballad of the Arrowsmith]:useSkill = $skill[The Power Ballad of the Arrowsmith];break;
 	case $effect[Power of Heka]:				useSkill = $skill[Power of Heka];				break;
 	case $effect[Prideful Strut]:				useSkill = $skill[Walk: Prideful Strut];		break;
@@ -3053,6 +3091,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 		}																						break;
 	case $effect[Ready to Snap]:				useItem = $item[Ginger Snaps];					break;
 	case $effect[Really Quite Poisoned]:		useSkill = $skill[Disco Nap];					break;
+	case $effect[Record Hunger]:				useItem = $item[The Pigs Holo-Record];			break;
 	case $effect[Red Lettered]:					useItem = $item[Red Letter];					break;
 	case $effect[Red Door Syndrome]:			useItem = $item[Can of Black Paint];			break;
 	case $effect[Reptilian Fortitude]:			useSkill = $skill[Reptilian Fortitude];			break;
@@ -3074,6 +3113,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Seriously Mutated]:			useItem = $item[Extra-Potent Gremlin Mutagen];	break;
 	case $effect[Shield of the Pastalord]:		useSkill = $skill[Shield of the Pastalord];		break;
 	case $effect[Shelter of Shed]:				useSkill = $skill[Shelter of Shed];				break;
+	case $effect[Shrieking Weasel]:				useItem = $item[Shrieking Weasel Holo-Record];	break;
 	case $effect[Simmering]:					useSkill = $skill[Simmer];						break;
 	case $effect[Simply Irresistible]:			useItem = $item[Irresistibility Potion];		break;
 	case $effect[Singer\'s Faithful Ocelot]:	useSkill = $skill[Singer\'s Faithful Ocelot];	break;
@@ -3131,6 +3171,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 				useItem = it;
 			}
 		}																						break;
+	case $effect[Superdrifting]:				useItem = $item[Superdrifter Holo-Record];		break;
 	case $effect[Superheroic]:					useItem = $item[Confiscated Comic Book];		break;
 	case $effect[Superhuman Sarcasm]:			useItem = $item[Serum of Sarcasm];				break;
 	case $effect[Suspicious Gaze]:				useSkill = $skill[Suspicious Gaze];				break;
@@ -3272,6 +3313,32 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 		}
 	}
 
+	boolean[effect] falloutEffects = $effects[Drunk and Avuncular, Lucky Struck, Ministrations in the Dark, Power\, Man, Record Hunger, Shrieking Weasel, Superdrifting];
+	if(falloutEffects contains buff)
+	{
+		if(!possessEquipment($item[Wrist-Boy]))
+		{
+			return false;
+		}
+		if($effects[Drunk and Avuncular, Record Hunger] contains buff)
+		{
+			if(get_property("kingLiberated").to_boolean())
+			{
+				return false;
+			}
+			if(have_effect(buff) >= 3)
+			{
+				return false;
+			}
+		}
+		foreach ef in falloutEffects
+		{
+			if((have_effect(ef) > 0) && (ef != buff))
+			{
+				uneffect(ef);
+			}
+		}
+	}
 
 	if(useItem != $item[Instant Karma])
 	{

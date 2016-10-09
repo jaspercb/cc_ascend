@@ -226,6 +226,40 @@ boolean tryPantsEat()
 
 boolean ccDrink(int howMany, item toDrink)
 {
+	if((toDrink == $item[none]) || (howMany <= 0))
+	{
+		return false;
+	}
+	if(item_amount(toDrink) < howMany)
+	{
+		return false;
+	}
+
+	int expectedInebriety = toDrink.inebriety * howMany;
+
+	if(possessEquipment($item[Wrist-Boy]) && (my_meat() > 6500))
+	{
+		if((have_effect($effect[Drunk and Avuncular]) < expectedInebriety) && (item_amount($item[Drunk Uncles Holo-Record]) == 0))
+		{
+			buyUpTo(1, $item[Drunk Uncles Holo-Record]);
+		}
+		buffMaintain($effect[Drunk and Avuncular], 0, 1, expectedInebriety);
+	}
+
+	boolean retval = false;
+	while(howMany > 0)
+	{
+		retval = drink(1, toDrink);
+		if(retval)
+		{
+			handleTracker(toDrink, "cc_drunken");
+		}
+		howMany = howMany - 1;
+	}
+	return retval;
+
+
+
 	return drink(howMany, toDrink);
 }
 
@@ -241,9 +275,33 @@ boolean ccChew(int howMany, item toChew)
 
 boolean ccEat(int howMany, item toEat)
 {
-	if(toEat == $item[none])
+	if((toEat == $item[none]) || (howMany <= 0))
 	{
 		return false;
+	}
+	if(item_amount(toEat) < howMany)
+	{
+		return false;
+	}
+
+	int expectedFullness = toEat.fullness * howMany;
+	if(expectedFullness >= 15)
+	{
+		dealwithMilkOfMagnesium(true);
+	}
+
+	if(expectedFullness >= 10)
+	{
+		buffMaintain($effect[Got Milk], 0, 1, expectedFullness);
+	}
+
+	if(possessEquipment($item[Wrist-Boy]) && (my_meat() > 6500))
+	{
+		if((have_effect($effect[Record Hunger]) < expectedFullness) && (item_amount($item[The Pigs Holo-Record]) == 0))
+		{
+			buyUpTo(1, $item[The Pigs Holo-Record]);
+		}
+		buffMaintain($effect[Record Hunger], 0, 1, expectedFullness);
 	}
 
 	boolean retval = false;
@@ -256,6 +314,10 @@ boolean ccEat(int howMany, item toEat)
 			use(1, $item[Mayoflex]);
 		}
 		retval = eatsilent(1, toEat);
+		if(retval)
+		{
+			handleTracker(toEat, "cc_eaten");
+		}
 		howMany = howMany - 1;
 	}
 	return retval;

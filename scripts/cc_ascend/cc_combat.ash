@@ -41,6 +41,7 @@ string cc_combatHandler(int round, string opp, string text)
 		set_property("cc_combatHandlerFingernailClippers", "0");
 		set_property("cc_combatHP", my_hp());
 
+/*
 		if(my_location() == $location[The Deep Machine Tunnels])
 		{
 			if(!($monsters[Perceiver of Sensations, Performer of Actions, Thinker of Thoughts] contains enemy))
@@ -75,6 +76,7 @@ string cc_combatHandler(int round, string opp, string text)
 				}
 			}
 		}
+*/
 	}
 	else
 	{

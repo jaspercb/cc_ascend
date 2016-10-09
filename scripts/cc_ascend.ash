@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17247;
+since r17269;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -262,12 +262,50 @@ boolean handleFamiliar(string type)
 	}
 	else if(type == "item")
 	{
-		foreach fam in $familiars[Rockin\' Robin, Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Intergnat, Slimeling, Baby Gravy Fairy]
+		familiar[int] fams = familiarList($familiars[Rockin\' Robin, Grimstone Golem, Angry Jung Man, Intergnat, Bloovian Groose, Fist Turkey, Slimeling, Jumpsuited Hound Dog, Adventurous Spelunker, Gelatinous Cubeling, Baby Gravy Fairy, Obtuse Angel, Pair of Stomping Boots, Jack-in-the-Box, Syncopated Turtle]);
+		if((my_ascensions() > 250) && (get_property("rockinRobinProgress").to_int() < 20))
 		{
-			if(have_familiar(fam) && !(blacklist contains fam))
+			fams = familiarListRemove(fams, $familiar[Rockin\' Robin]);
+			fams = familiarListInsertAt(fams, $familiar[Rockin\' Robin], fams.familiarListFind($familiar[Gelatinous Cubeling]));
+		}
+		if((my_ascensions() > 250) && ((get_property("cc_grimstoneFancyOilPainting").to_boolean() && get_property("cc_grimstoneOrnateDowsingRod").to_boolean()) || possessEquipment($item[Buddy Bjorn])))
+		{
+			fams = familiarListRemove(fams, $familiar[Grimstone Golem]);
+			fams = familiarListInsertAt(fams, $familiar[Grimstone Golem], fams.familiarListFind($familiar[Gelatinous Cubeling]));
+		}
+		if((my_ascensions() > 250) && ((get_property("cc_crackpotjar") != "") || ($familiar[Angry Jung Man].drops_today == 1)))
+		{
+			fams = familiarListRemove(fams, $familiar[Angry Jung Man]);
+			fams = familiarListInsertAt(fams, $familiar[Angry Jung Man], fams.familiarListFind($familiar[Gelatinous Cubeling]));
+		}
+		if(item_amount($item[BACON]) > 1000)
+		{
+			fams = familiarListRemove(fams, $familiar[Intergnat]);
+			fams = familiarListInsertAt(fams, $familiar[Intergnat], fams.familiarListFind($familiar[Gelatinous Cubeling]));
+		}
+		if($familiar[Bloovian Groose].drops_today >= $familiar[Bloovian Groose].drops_limit)
+		{
+			fams = familiarListRemove(fams, $familiar[Bloovian Groose]);
+			fams = familiarListInsertAt(fams, $familiar[Bloovian Groose], fams.familiarListFind($familiar[Gelatinous Cubeling]));
+		}
+		if($familiar[Fist Turkey].drops_today >= $familiar[Fist Turkey].drops_limit)
+		{
+			fams = familiarListRemove(fams, $familiar[Fist Turkey]);
+			fams = familiarListInsertAt(fams, $familiar[Fist Turkey], fams.familiarListFind($familiar[Gelatinous Cubeling]));
+		}
+
+		int index = 0;
+		while(index < count(fams))
+#		foreach fam in $familiars[Rockin\' Robin, Grimstone Golem, Angry Jung Man, Intergnat, Bloovian Groose, Fist Turkey, Slimeling, Jumpsuited Hound Dog, Adventurous Spelunker, Gelatinous Cubeling, Baby Gravy Fairy, Obtuse Angel, Pair of Stomping Boots, Jack-in-the-Box, Syncopated Turtle]
+		{
+			#if(have_familiar(fam) && !(blacklist contains fam))
+			#print("Looking for " + fams[index] + " at: " + index, "blue");
+			if(have_familiar(fams[index]) && !(blacklist contains fams[index]))
 			{
-				return handleFamiliar(fam);
+#				return handleFamiliar(fam);
+				return handleFamiliar(fams[index]);
 			}
+			index = index + 1;
 		}
 	}
 	else if(type == "stat")

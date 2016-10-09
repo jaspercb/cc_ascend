@@ -1128,7 +1128,11 @@ boolean cc_cheesePostCS(int leave)
 		{
 			cli_execute("drink 5-hour acrimony");
 		}
-		cli_execute("pvp loot 1");
+		if(get_property("cc_pvpOutfit") != "")
+		{
+			cli_execute("/outfit " + get_property("cc_pvpOutfit"));
+		}
+		cli_execute("pvp loot 10");
 	}
 	cli_execute("cc_ascend");
 	return true;
