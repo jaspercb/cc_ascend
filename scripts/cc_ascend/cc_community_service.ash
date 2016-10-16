@@ -384,7 +384,7 @@ boolean LA_cs_communityService()
 				visit_url("guild.php?place=paco");
 				run_choice(1);
 				woods_questStart();
-				handleBarrelFullOfBarrels();
+				handleBarrelFullOfBarrels(true);
 				if(!florist_available())
 				{
 					trickMafiaAboutFlorist();
@@ -1742,6 +1742,11 @@ boolean LA_cs_communityService()
 		break;
 
 	case 7:		#Spell Damage
+		if(my_daycount() == 1)
+		{
+			print("We don't try to do this quest on Day 1. Hmmm...", "red");
+			abort("Probably saved margarita and re-ran without overdrinking. oops!");
+		}
 		if(my_daycount() > 1)
 		{
 			if((isOverdueDigitize() || isOverdueArrow()) && elementalPlanes_access($element[stench]))
@@ -1923,6 +1928,25 @@ boolean LA_cs_communityService()
 		break;
 
 	case 9:		#item/booze drops
+			if(have_familiar($familiar[Trick-or-Treating Tot]) && have_familiar($familiar[Pair of Stomping Boots]) && !possessEquipment($item[Li\'l Ninja Costume]))
+			{
+				buffMaintain($effect[Empathy], 15, 1, 1);
+				buffMaintain($effect[Leash of Linguini], 12, 1, 1);
+				int runs = (familiar_weight($familiar[Pair of Stomping Boots]) + weight_adjustment()) / 5;
+				runs = runs - get_property("_banderRunaways").to_int();
+				if(runs > 0)
+				{
+					handleFamiliar($familiar[Pair of Stomping Boots]);
+					backupSetting("choiceAdventure297", "3");
+					ccAdv(1, $location[The Haiku Dungeon], "cs_combatNormal");
+					restoreSetting("choiceAdventure297");
+					if($monsters[Ancient Insane Monk, Ferocious Bugbear, Gelatinous Cube, Knob Goblin Poseur] contains last_monster())
+					{
+						set_property("_banderRunaways", get_property("_banderRunaways").to_int() + 1);
+					}
+				}
+			}
+
 			cs_eat_stuff(curQuest);
 			if(have_effect($effect[Drenched in Lava]) > 0)
 			{
@@ -1991,7 +2015,7 @@ boolean LA_cs_communityService()
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 			}
 
-			boolean [familiar] itemFams = $familiars[Gelatinous Cubeling, Syncopated Turtle, Slimeling, Angry Jung Man, Grimstone Golem, Adventurous Spelunker, Jumpsuited Hound Dog, Steam-Powered Cheerleader];
+			boolean [familiar] itemFams = $familiars[Gelatinous Cubeling, Syncopated Turtle, Slimeling, Angry Jung Man, Grimstone Golem, Adventurous Spelunker, Jumpsuited Hound Dog, Steam-Powered Cheerleader, Trick-Or-Treating Tot];
 			familiar itemFam = $familiar[Cocoabo];
 			foreach fam in itemFams
 			{
@@ -2000,8 +2024,11 @@ boolean LA_cs_communityService()
 					itemFam = fam;
 				}
 			}
-			#handleFamiliar(itemFam);
 			use_familiar(itemFam);
+			if(my_familiar() == $familiar[Trick-Or-Treating Tot])
+			{
+				forceEquip($slot[Familiar], $item[Li\'l Ninja Costume]);
+			}
 
 			if(do_cs_quest(9))
 			{
@@ -2084,7 +2111,7 @@ boolean LA_cs_communityService()
 				doRest();
 			}
 
-			boolean [item] toSmash = $items[asparagus knife, dirty hobo gloves, dirty rigging rope, heavy-duty clipboard, Microplushie: Sororitrate, plastic nunchaku, sewage-clogged pistol, Staff of the Headmaster\'s Victuals];
+			boolean [item] toSmash = $items[asparagus knife, dirty hobo gloves, dirty rigging rope, heavy-duty clipboard, Microplushie: Sororitrate, plastic nunchaku, sewage-clogged pistol, Spookyraven Signet, Staff of the Headmaster\'s Victuals];
 			foreach it in toSmash
 			{
 				pulverizeThing(it);
@@ -2288,6 +2315,10 @@ void cs_initializeDay(int day)
 					visit_url("place.php?whichplace=airport_spooky_bunker&action=si_controlpanel");
 					visit_url("choice.php?pwd=&whichchoice=986&option=9",true);
 				}
+			}
+
+			if(!get_property("cc_csDoWheel").to_boolean())
+			{
 				deck_cheat("myst stat");
 			}
 			deck_cheat("meat");
@@ -2351,7 +2382,7 @@ void cs_initializeDay(int day)
 
 			if(get_property("barrelShrineUnlocked").to_boolean())
 			{
-				handleBarrelFullOfBarrels();
+				handleBarrelFullOfBarrels(true);
 			}
 
 			if(get_property("cc_breakstone").to_boolean())
@@ -2731,6 +2762,11 @@ string cs_combatNormal(int round, string opp, string text)
 		}
 	}
 
+	if((my_familiar() == $familiar[Pair of Stomping Boots]) && ($monsters[Ancient Insane Monk, Ferocious Bugbear, Gelatinous Cube, Knob Goblin Poseur] contains enemy))
+	{
+		return "runaway";
+	}
+/*
 	if(have_skill($skill[Duplicate]) && have_skill($skill[Curse of Weaksauce]) && have_skill($skill[Conspiratorial Whispers]) && (enemy == $monster[Sk8 Gnome]))
 	{
 		foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Summon Love Mosquito, Shell Up, Silent Slam, Summon Love Stinkbug, Extract, Duplicate]
@@ -2742,7 +2778,7 @@ string cs_combatNormal(int round, string opp, string text)
 			}
 		}
 	}
-
+*/
 	if((my_location() == $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]) && !contains_text(combatState, "love gnats"))
 	{
 		combatState = combatState + "(love gnats)(love stinkbug)(love mosquito)";

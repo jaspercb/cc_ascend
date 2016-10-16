@@ -14,7 +14,7 @@ int doNumberology(string goal);
 int doNumberology(string goal, string option);
 int doNumberology(string goal, boolean doIt);
 int doNumberology(string goal, boolean doIt, string option);
-boolean handleBarrelFullOfBarrels();
+boolean handleBarrelFullOfBarrels(boolean daily);
 boolean canYellowRay();
 string yellowRayCombatString();
 int solveCookie();
@@ -1860,13 +1860,13 @@ int towerKeyCount()
 	return tokens;
 }
 
-boolean handleBarrelFullOfBarrels()
+boolean handleBarrelFullOfBarrels(boolean daily)
 {
 	if(!get_property("barrelShrineUnlocked").to_boolean())
 	{
 		return false;
 	}
-	if(get_property("_didBarrelBustToday").to_boolean())
+	if(daily && get_property("_didBarrelBustToday").to_boolean())
 	{
 		return false;
 	}

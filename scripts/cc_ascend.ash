@@ -115,6 +115,8 @@ void initializeSettings()
 	set_property("cc_day4_init", "");
 	set_property("cc_disableAdventureHandling", "no");
 	set_property("cc_doCombatCopy", "no");
+	set_property("cc_drunken", "");
+	set_property("cc_eaten", "");
 	set_property("cc_familiarChoice", $familiar[none]);
 	set_property("cc_fcle", "");
 	set_property("cc_friars", "");
@@ -262,36 +264,36 @@ boolean handleFamiliar(string type)
 	}
 	else if(type == "item")
 	{
-		familiar[int] fams = familiarList($familiars[Rockin\' Robin, Grimstone Golem, Angry Jung Man, Intergnat, Bloovian Groose, Fist Turkey, Slimeling, Jumpsuited Hound Dog, Adventurous Spelunker, Gelatinous Cubeling, Baby Gravy Fairy, Obtuse Angel, Pair of Stomping Boots, Jack-in-the-Box, Syncopated Turtle]);
+		familiar[int] fams = List($familiars[Rockin\' Robin, Grimstone Golem, Angry Jung Man, Intergnat, Bloovian Groose, Fist Turkey, Slimeling, Jumpsuited Hound Dog, Adventurous Spelunker, Gelatinous Cubeling, Baby Gravy Fairy, Obtuse Angel, Pair of Stomping Boots, Jack-in-the-Box, Syncopated Turtle]);
 		if((my_ascensions() > 250) && (get_property("rockinRobinProgress").to_int() < 20))
 		{
-			fams = familiarListRemove(fams, $familiar[Rockin\' Robin]);
-			fams = familiarListInsertAt(fams, $familiar[Rockin\' Robin], fams.familiarListFind($familiar[Gelatinous Cubeling]));
+			fams = ListRemove(fams, $familiar[Rockin\' Robin]);
+			fams = ListInsertAt(fams, $familiar[Rockin\' Robin], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
 		if((my_ascensions() > 250) && ((get_property("cc_grimstoneFancyOilPainting").to_boolean() && get_property("cc_grimstoneOrnateDowsingRod").to_boolean()) || possessEquipment($item[Buddy Bjorn])))
 		{
-			fams = familiarListRemove(fams, $familiar[Grimstone Golem]);
-			fams = familiarListInsertAt(fams, $familiar[Grimstone Golem], fams.familiarListFind($familiar[Gelatinous Cubeling]));
+			fams = ListRemove(fams, $familiar[Grimstone Golem]);
+			fams = ListInsertAt(fams, $familiar[Grimstone Golem], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
 		if((my_ascensions() > 250) && ((get_property("cc_crackpotjar") != "") || ($familiar[Angry Jung Man].drops_today == 1)))
 		{
-			fams = familiarListRemove(fams, $familiar[Angry Jung Man]);
-			fams = familiarListInsertAt(fams, $familiar[Angry Jung Man], fams.familiarListFind($familiar[Gelatinous Cubeling]));
+			fams = ListRemove(fams, $familiar[Angry Jung Man]);
+			fams = ListInsertAt(fams, $familiar[Angry Jung Man], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
 		if(item_amount($item[BACON]) > 1000)
 		{
-			fams = familiarListRemove(fams, $familiar[Intergnat]);
-			fams = familiarListInsertAt(fams, $familiar[Intergnat], fams.familiarListFind($familiar[Gelatinous Cubeling]));
+			fams = ListRemove(fams, $familiar[Intergnat]);
+			fams = ListInsertAt(fams, $familiar[Intergnat], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
 		if($familiar[Bloovian Groose].drops_today >= $familiar[Bloovian Groose].drops_limit)
 		{
-			fams = familiarListRemove(fams, $familiar[Bloovian Groose]);
-			fams = familiarListInsertAt(fams, $familiar[Bloovian Groose], fams.familiarListFind($familiar[Gelatinous Cubeling]));
+			fams = ListRemove(fams, $familiar[Bloovian Groose]);
+			fams = ListInsertAt(fams, $familiar[Bloovian Groose], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
 		if($familiar[Fist Turkey].drops_today >= $familiar[Fist Turkey].drops_limit)
 		{
-			fams = familiarListRemove(fams, $familiar[Fist Turkey]);
-			fams = familiarListInsertAt(fams, $familiar[Fist Turkey], fams.familiarListFind($familiar[Gelatinous Cubeling]));
+			fams = ListRemove(fams, $familiar[Fist Turkey]);
+			fams = ListInsertAt(fams, $familiar[Fist Turkey], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
 
 		int index = 0;
@@ -1744,7 +1746,7 @@ void initializeDay(int day)
 boolean dailyEvents()
 {
 	while(cc_doPrecinct());
-	handleBarrelFullOfBarrels();
+	handleBarrelFullOfBarrels(true);
 
 	if((item_amount($item[Can of Rain-doh]) > 0) && (item_amount($item[Rain-Doh Red Wings]) == 0))
 	{
@@ -4451,10 +4453,10 @@ boolean LX_attemptPowerLevel()
 				use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
 				if(item_amount($item[Disassembled Clover]) == 0)
 				{
-					handleBarrelFullOfBarrels();
+					handleBarrelFullOfBarrels(false);
 					string temp = visit_url("barrel.php");
 					temp = visit_url("choice.php?whichchoice=1099&pwd=&option=2");
-					handleBarrelFullOfBarrels();
+					handleBarrelFullOfBarrels(false);
 					return true;
 				}
 				stat myStat = my_primestat();
@@ -6283,6 +6285,7 @@ boolean L12_sonofaBeach()
 	buffMaintain($effect[High Colognic], 0, 1, 1);
 	buffMaintain($effect[Celestial Saltiness], 0, 1, 1);
 	buffMaintain($effect[Everything Must Go!], 0, 1, 1);
+	buffMaintain($effect[Blinking Belly], 40, 1, 1);
 	if(have_familiar($familiar[Grim Brother]) && possessEquipment($item[Buddy Bjorn]))
 	{
 		if(equipped_item($slot[back]) != $item[Buddy Bjorn])
@@ -8256,10 +8259,10 @@ boolean L8_trapperGround()
 		{
 			if(item_amount($item[Disassembled Clover]) <= numCloversKeep)
 			{
-				handleBarrelFullOfBarrels();
+				handleBarrelFullOfBarrels(false);
 				string temp = visit_url("barrel.php");
 				temp = visit_url("choice.php?whichchoice=1099&pwd=&option=2");
-				handleBarrelFullOfBarrels();
+				handleBarrelFullOfBarrels(false);
 				return true;
 			}
 		}
@@ -10874,6 +10877,10 @@ boolean LX_fcle()
 		}
 		break;
 	}
+	if(item_amount($item[Valuable Trinket]) > 0)
+	{
+		set_property("choiceAdventure191", 2);
+	}
 
 	if((item_amount($item[rigging shampoo]) == 1) && (item_amount($item[ball polish]) == 1) && (item_amount($item[mizzenmast mop]) == 1))
 	{
@@ -11620,6 +11627,14 @@ boolean cc_tavern()
 		}
 
 		tavern = get_property("tavernLayout");
+		if(tavern == "0000000000000000000000000")
+		{
+			visit_url("cellar.php");
+			if(tavern == "0000000000000000000000000")
+			{
+				abort("Invalid Tavern Configuration, could not visit cellar and repair. Uh oh...");
+			}
+		}
 		if(char_at(tavern, loc) == "0")
 		{
 			int actual = loc + 1;
@@ -12838,6 +12853,7 @@ void cc_begin()
 	backupSetting("trackLightsOut", false);
 	backupSetting("autoSatisfyWithCoinmasters", true);
 	backupSetting("removeMalignantEffects", false);
+	backupSetting("autoAntidote", 0);
 
 	backupSetting("kingLiberatedScript", "scripts/kingcheese.ash");
 	backupSetting("afterAdventureScript", "scripts/postcheese.ash");
