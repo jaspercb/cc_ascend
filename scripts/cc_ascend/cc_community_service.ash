@@ -396,6 +396,11 @@ boolean LA_cs_communityService()
 
 			if(my_ascensions() > get_property("lastGuildStoreOpen").to_int())
 			{
+				if($location[The Haunted Pantry].turns_spent > 8)
+				{
+					abort("Could not find the Sandwich. Could not sudo it. Find it and re-run.");
+				}
+
 				if($classes[Pastamancer, Sauceror] contains my_class())
 				{
 					buffMaintain($effect[Musk of the Moose], 10, 1, 1);
