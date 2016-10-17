@@ -295,7 +295,7 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		set_property("cc_doCombatCopy", "yes");
 	}
-	if((!contains_text(combatState, "blackbox")) && (my_path() != "Heavy Rains") && (enemy == $monster[Gaudy Pirate]) && (get_property("cc_gaudypiratecount").to_int() < 1) && (get_property("_raindohCopiesMade").to_int() < 5))
+	if((!contains_text(combatState, "blackbox")) && (my_path() != "Heavy Rains") && (enemy == $monster[Gaudy Pirate]) && (get_property("cc_gaudypiratecount").to_int() < 1) && (get_property("_raindohCopiesMade").to_int() < 5) && !possessEquipment($item[Talisman O\' Namsilat]) && (item_amount($item[Gaudy Key]) < 2))
 	{
 		set_property("cc_doCombatCopy", "yes");
 	}
