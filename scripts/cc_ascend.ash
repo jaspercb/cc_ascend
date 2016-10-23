@@ -2151,63 +2151,6 @@ void doBedtime()
 		visit_url("choice.php?whichchoice=1183&pwd=&option=2");
 	}
 
-	if(item_amount($item[rain-doh indigo cup]) > 0)
-	{
-		print("Copies left: " + (5 - get_property("_raindohCopiesMade").to_int()), "olive");
-	}
-	if(!in_hardcore())
-	{
-		print("Pulls remaining: " + pulls_remaining(), "olive");
-	}
-
-	if(have_skill($skill[Inigo\'s Incantation of Inspiration]))
-	{
-		int craftingLeft = 5 - get_property("_inigosCasts").to_int();
-		print("Free Inigo\'s craftings left: " + craftingLeft, "blue");
-	}
-	if(item_amount($item[Loathing Legion Jackhammer]) > 0)
-	{
-		int craftingLeft = 3 - get_property("_legionJackhammerCrafting").to_int();
-		print("Free Loathing Legion Jackhammer craftings left: " + craftingLeft, "blue");
-	}
-	if(item_amount($item[Thor\'s Pliers]) > 0)
-	{
-		int craftingLeft = 10 - get_property("_thorsPliersCrafting").to_int();
-		print("Free Thor's Pliers craftings left: " + craftingLeft, "blue");
-	}
-	if(have_skill($skill[Rapid Prototyping]))
-	{
-		int craftingLeft = 5 - get_property("_rapidPrototypingUsed").to_int();
-		print("Free Rapid Prototyping craftings left: " + craftingLeft, "blue");
-	}
-	if(get_property("timesRested").to_int() < total_free_rests())
-	{
-		print("You have " + (total_free_rests() - get_property("timesRested").to_int()) + " free rests remaining.", "blue");
-	}
-	if((get_property("sidequestNunsCompleted") == "fratboy") && (get_property("nunsVisits").to_int() < 3))
-	{
-		print("You have " + (3 - get_property("nunsVisits").to_int()) + " nuns visits left.", "blue");
-	}
-	if(get_property("libramSummons").to_int() > 0)
-	{
-		print("Total Libram Summons: " + get_property("libramSummons"), "blue");
-	}
-
-	int smiles = (5 * (item_amount($item[Golden Mr. Accessory]) + storage_amount($item[Golden Mr. Accessory]) + closet_amount($item[Golden Mr. Accessory]))) - get_property("_smilesOfMrA").to_int();
-	if(smiles > 0)
-	{
-		print("You have " + smiles + " smiles of Mr. A remaining.", "blue");
-	}
-
-	if((item_amount($item[CSA Fire-Starting Kit]) > 0) && (!get_property("_fireStartingKitUsed").to_boolean()))
-	{
-		print("Still have a CSA Fire-Starting Kit you can use!", "blue");
-	}
-	if((item_amount($item[Glenn\'s Golden Dice]) > 0) && (!get_property("_glennGoldenDiceUsed").to_boolean()))
-	{
-		print("Still have some of Glenn's Golden Dice that you can use!", "blue");
-	}
-
 	if(cc_haveSourceTerminal())
 	{
 		int enhances = cc_sourceTerminalEnhanceLeft();
@@ -2247,6 +2190,64 @@ void doBedtime()
 		{
 			print("You still have " + extrudeLeft + " Source Extrusions left", "blue");
 		}
+	}
+
+	if(item_amount($item[Rain-Doh Indigo Cup]) > 0)
+	{
+		print("Copies left: " + (5 - get_property("_raindohCopiesMade").to_int()), "olive");
+	}
+	if(!in_hardcore())
+	{
+		print("Pulls remaining: " + pulls_remaining(), "olive");
+	}
+
+	if(have_skill($skill[Inigo\'s Incantation of Inspiration]))
+	{
+		int craftingLeft = 5 - get_property("_inigosCasts").to_int();
+		print("Free Inigo\'s craftings left: " + craftingLeft, "blue");
+	}
+	if(item_amount($item[Loathing Legion Jackhammer]) > 0)
+	{
+		int craftingLeft = 3 - get_property("_legionJackhammerCrafting").to_int();
+		print("Free Loathing Legion Jackhammer craftings left: " + craftingLeft, "blue");
+	}
+	if(item_amount($item[Thor\'s Pliers]) > 0)
+	{
+		int craftingLeft = 10 - get_property("_thorsPliersCrafting").to_int();
+		print("Free Thor's Pliers craftings left: " + craftingLeft, "blue");
+	}
+	if(have_skill($skill[Rapid Prototyping]))
+	{
+		int craftingLeft = 5 - get_property("_rapidPrototypingUsed").to_int();
+		print("Free Rapid Prototyping craftings left: " + craftingLeft, "blue");
+	}
+	if(get_property("timesRested").to_int() < total_free_rests())
+	{
+		cs_spendRests();
+		print("You have " + (total_free_rests() - get_property("timesRested").to_int()) + " free rests remaining.", "blue");
+	}
+	if((get_property("sidequestNunsCompleted") == "fratboy") && (get_property("nunsVisits").to_int() < 3))
+	{
+		print("You have " + (3 - get_property("nunsVisits").to_int()) + " nuns visits left.", "blue");
+	}
+	if(get_property("libramSummons").to_int() > 0)
+	{
+		print("Total Libram Summons: " + get_property("libramSummons"), "blue");
+	}
+
+	int smiles = (5 * (item_amount($item[Golden Mr. Accessory]) + storage_amount($item[Golden Mr. Accessory]) + closet_amount($item[Golden Mr. Accessory]))) - get_property("_smilesOfMrA").to_int();
+	if(smiles > 0)
+	{
+		print("You have " + smiles + " smiles of Mr. A remaining.", "blue");
+	}
+
+	if((item_amount($item[CSA Fire-Starting Kit]) > 0) && (!get_property("_fireStartingKitUsed").to_boolean()))
+	{
+		print("Still have a CSA Fire-Starting Kit you can use!", "blue");
+	}
+	if((item_amount($item[Glenn\'s Golden Dice]) > 0) && (!get_property("_glennGoldenDiceUsed").to_boolean()))
+	{
+		print("Still have some of Glenn's Golden Dice that you can use!", "blue");
 	}
 
 	if((get_property("spookyAirportAlways").to_boolean()) && (my_class() != $class[Ed]) && !get_property("_controlPanelUsed").to_boolean())

@@ -17,6 +17,8 @@ void equipRollover();
 void handleOffHand();
 void removeNonCombat();
 void removeCombat();
+item handleSolveThing(item[int] poss, slot loc);
+item handleSolveThing(item[int] poss);
 item handleSolveThing(boolean[item] poss, slot loc);
 item handleSolveThing(boolean[item] poss);
 boolean handleBjornify(familiar fam);
@@ -319,18 +321,20 @@ void handleOffHand()
 	}
 }
 
-item handleSolveThing(boolean[item] poss)
+item handleSolveThing(item[int] poss)
 {
 	return handleSolveThing(poss, $slot[none]);
 }
 
-item handleSolveThing(boolean[item] poss, slot loc)
+item handleSolveThing(item[int] poss, slot loc)
 {
 	item toEquip = $item[none];
 	set_property("cc_ignoreCombat", to_lower_case(get_property("cc_ignoreCombat")));
-	foreach thing in poss
+	int idx = 0;
+	while(idx < count(poss))
 	{
 		boolean ignore = false;
+		item thing = poss[idx];
 		if(contains_text(get_property("cc_ignoreCombat"), "(noncombat)") && (numeric_modifier(thing, "Combat Rate") < 0))
 		{
 			ignore = true;
@@ -368,8 +372,19 @@ item handleSolveThing(boolean[item] poss, slot loc)
 		{
 			toEquip = thing;
 		}
+		idx += 1;
 	}
 	return toEquip;
+}
+
+item handleSolveThing(boolean[item] poss)
+{
+	return handleSolveThing(poss, $slot[none]);
+}
+
+item handleSolveThing(boolean[item] poss, slot loc)
+{
+	return handleSolveThing(List(poss),loc);
 }
 
 void equipBaselineHat()
@@ -381,7 +396,13 @@ void equipBaselinePants()
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Stylish Swimsuit, Union Scalemail Pants, Hep Waders, Bloody Clown Pants, Knob Goblin Uberpants, Filthy Corduroys, Demonskin Trousers, Antique Greaves, Ninja Hot Pants, Leotarrrd, Swashbuckling Pants, Troutpiece, Snowboarder Pants, Oil Slacks, Discarded Swimming Trunks, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving];
+	boolean[item] oldPoss = $items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Stylish Swimsuit, Union Scalemail Pants, Hep Waders, Bloody Clown Pants, Knob Goblin Uberpants, Filthy Corduroys, Demonskin Trousers, Antique Greaves, Ninja Hot Pants, Leotarrrd, Swashbuckling Pants, Troutpiece, Snowboarder Pants, Oil Slacks, Discarded Swimming Trunks, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving];
+	item[int] poss = List(oldPoss);
+
+	if(my_class() == $class[Turtle Tamer])
+	{
+		poss = ListInsertAt(poss, $item[Galapagosian Cuisses], poss.ListFind($item[Vicar\'s Tutu]));
+	}
 
 	toEquip = handleSolveThing(poss, $slot[pants]);
 
@@ -395,8 +416,9 @@ void equipBaselineShirt()
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss = $items[Barskin Cloak, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Ultracolor&trade; Shirt, Shark Jumper, Bod-Ice, Liam\'s Mail, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
-
+	boolean[item] oldPoss = $items[Barskin Cloak, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Ultracolor&trade; Shirt, Shark Jumper, Bod-Ice, Liam\'s Mail, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
+	item[int] poss = List(oldPoss);
+	
 	toEquip = handleSolveThing(poss, $slot[shirt]);
 
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[shirt])))
@@ -431,12 +453,12 @@ void equipBaselineHat(boolean wantNC)
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss;
-	poss = $items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Oversized Skullcap, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, Van der Graaf helmet, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, Cold Water Bottle, Beer Helmet, Mark III Steam-Hat, Mark IV Steam-Hat, Nurse\'s Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, Very Pointy Crown, Boris\'s Helm, Boris\'s Helm (askew), The Crown of Ed the Undying];
+	boolean[item] oldPoss = $items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Oversized Skullcap, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, one-gallon hat, two-gallon hat, three-gallon hat, four-gallon hat, five-gallon hat, six-gallon hat, seven-gallon hat, Van der Graaf helmet, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, eight-gallon hat, nine-gallon hat, ten-gallon hat, eleven-gallon hat, Cold Water Bottle, Beer Helmet, Mark III Steam-Hat, Mark IV Steam-Hat, Nurse\'s Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, Very Pointy Crown, Boris\'s Helm, Boris\'s Helm (askew), The Crown of Ed the Undying];
+	item[int] poss = List(oldPoss);
 
-	if(my_path() == "Avatar of West of Loathing")
+	if(my_class() == $class[Turtle Tamer])
 	{
-		poss = $items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, one-gallon hat, two-gallon hat, three-gallon hat, four-gallon hat, five-gallon hat, six-gallon hat, seven-gallon hat, Mohawk Wig, Brown Felt Tophat, eight-gallon hat, nine-gallon hat, ten-gallon hat, eleven-gallon hat, Safarrri Hat, Mark I Steam-Hat, Mark II Steam-Hat, Mark III Steam-Hat, Mark IV Steam-Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, Very Pointy Crown, The Crown of Ed the Undying];
+		poss = ListInsertAt(poss, $item[Elder Turtle Shell], poss.ListFind($item[Van der Graaf Helmet]));
 	}
 	toEquip = handleSolveThing(poss, $slot[hat]);
 

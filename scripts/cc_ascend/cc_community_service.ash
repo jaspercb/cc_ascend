@@ -27,6 +27,7 @@ boolean cs_eat_stuff(int quest);
 boolean cs_giant_growth();
 boolean cs_eat_spleen();
 boolean cs_witchess();
+boolean cs_spendRests();
 
 
 # Internal
@@ -35,47 +36,6 @@ string cs_combatLTB(int round, string opp, string text);
 string cs_combatNormal(int round, string opp, string text);
 string cs_combatYR(int round, string opp, string text);
 boolean do_chateauGoat();
-
-boolean do_chateauGoat()
-{
-	if(!get_property("_chateauMonsterFought").to_boolean() && chateaumantegna_available() && (get_property("chateauMonster") == $monster[dairy goat]))
-	{
-		foreach eff in $effects[Reptilian Fortitude, Power Ballad of the Arrowsmith, Astral Shell, Ghostly Shell, Blubbered Up, Springy Fusilli, The Moxious Madrigal, Cletus\'s Canticle of Celerity, Walberg\'s Dim Bulb]
-		{
-			buffMaintain(eff, mp_cost(to_skill(eff)), 1, 1);
-		}
-		cli_execute("postcheese");
-		doRest();
-		foreach eff in $effects[Astral Shell, Ghostly Shell, Blubbered Up, Springy Fusilli, The Moxious Madrigal, Cletus\'s Canticle of Celerity, Walberg\'s Dim Bulb]
-		{
-			buffMaintain(eff, mp_cost(to_skill(eff)), 1, 1);
-		}
-
-		if(canYellowRay())
-		{
-			if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
-			{
-				handleFamiliar("yellow ray");
-			}
-			chateaumantegna_usePainting("cs_combatYR");
-		}
-		else
-		{
-			chateaumantegna_usePainting("cs_combatNormal");
-		}
-		if((item_amount($item[Glass of Goat\'s Milk]) > 0) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
-		{
-			if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
-			{
-				shrugAT($effect[Inigo\'s Incantation of Inspiration]);
-				buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
-			}
-			cli_execute("make milk of magnesium");
-		}
-		return true;
-	}
-	return false;
-}
 
 boolean LA_cs_communityService()
 {
@@ -2455,6 +2415,66 @@ void cs_initializeDay(int day)
 		}
 	}
 }
+
+
+boolean do_chateauGoat()
+{
+	if(!get_property("_chateauMonsterFought").to_boolean() && chateaumantegna_available() && (get_property("chateauMonster") == $monster[dairy goat]))
+	{
+		foreach eff in $effects[Reptilian Fortitude, Power Ballad of the Arrowsmith, Astral Shell, Ghostly Shell, Blubbered Up, Springy Fusilli, The Moxious Madrigal, Cletus\'s Canticle of Celerity, Walberg\'s Dim Bulb]
+		{
+			buffMaintain(eff, mp_cost(to_skill(eff)), 1, 1);
+		}
+		cli_execute("postcheese");
+		doRest();
+		foreach eff in $effects[Astral Shell, Ghostly Shell, Blubbered Up, Springy Fusilli, The Moxious Madrigal, Cletus\'s Canticle of Celerity, Walberg\'s Dim Bulb]
+		{
+			buffMaintain(eff, mp_cost(to_skill(eff)), 1, 1);
+		}
+
+		if(canYellowRay())
+		{
+			if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
+			{
+				handleFamiliar("yellow ray");
+			}
+			chateaumantegna_usePainting("cs_combatYR");
+		}
+		else
+		{
+			chateaumantegna_usePainting("cs_combatNormal");
+		}
+		if((item_amount($item[Glass of Goat\'s Milk]) > 0) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
+		{
+			if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
+			{
+				shrugAT($effect[Inigo\'s Incantation of Inspiration]);
+				buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
+			}
+			cli_execute("make milk of magnesium");
+		}
+		return true;
+	}
+	return false;
+}
+
+boolean cs_spendRests()
+{
+	if(my_path() != "Community Service")
+	{
+		return false;
+	}
+	if(my_inebriety() <= inebriety_limit())
+	{
+		return false;
+	}
+	while((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+	{
+		doRest();
+	}
+	return true;
+}
+
 
 
 void cs_make_stuff()

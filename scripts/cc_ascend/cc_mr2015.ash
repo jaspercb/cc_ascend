@@ -704,11 +704,22 @@ boolean deck_cheat(string cheat)
 	cards["mysticality stat"] = 70;
 	cards["Mysticality stat"] = 70;
 
+	int card = cards[cheat];
+
+	string[int] cheated = split_string(get_property("_deckCardsCheated"), ",");
+	foreach cheat in cheated
+	{
+		if(to_int(cheat) == card)
+		{
+			print("Already cheated this card, failing gracefully.", "red");
+			return false;
+		}
+	}
+
 
 	string page = visit_url("inv_use.php?cheat=1&pwd=&whichitem=8382");
 
 	// Check that a valid card was selected, otherwise this wastes 5 draws.
-	int card = cards[cheat];
 	if(card != 0)
 	{
 		string page = visit_url("choice.php?pwd=&option=1&whichchoice=1086&which=" + card, true);
@@ -717,6 +728,28 @@ boolean deck_cheat(string cheat)
 		{
 			// Can we resolve this combat here? Should we?
 			// Do we need to accept a combat filter?
+		}
+
+		// If mafia is not tracking cheats, we can track them here.
+		boolean found = false;
+		string[int] cheated = split_string(get_property("_deckCardsCheated"), ",");
+		foreach idx, cheat in cheated
+		{
+			if(to_int(cheat) == card)
+			{
+				found = true;
+			}
+		}
+		if(!found)
+		{
+			if(get_property("_deckCardsCheated") == "")
+			{
+				set_property("_deckCardsCheated", card);
+			}
+			else
+			{
+				set_property("_deckCardsCheated", get_property("_deckCardsCheated") + "," + card);
+			}
 		}
 		return true;
 	}
