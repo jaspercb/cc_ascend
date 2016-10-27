@@ -2250,6 +2250,11 @@ void doBedtime()
 		print("Still have some of Glenn's Golden Dice that you can use!", "blue");
 	}
 
+	if((item_amount($item[School of Hard Knocks Diploma]) > 0) && (!get_property("_hardKnocksDiplomaUsed").to_boolean()))
+	{
+		use(1, $item[School of Hard Knocks Diploma]);
+	}
+
 	if((get_property("spookyAirportAlways").to_boolean()) && (my_class() != $class[Ed]) && !get_property("_controlPanelUsed").to_boolean())
 	{
 		visit_url("place.php?whichplace=airport_spooky_bunker&action=si_controlpanel");
