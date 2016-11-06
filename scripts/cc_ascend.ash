@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17303;
+since r17350;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -32,7 +32,7 @@ import <cc_ascend/cc_summerfun.ash>
 import <cc_ascend/cc_community_service.ash>
 import <cc_ascend/cc_awol.ash>
 import <cc_ascend/cc_theSource.ash>
-
+import <cc_ascend/cc_optionals.ash>
 
 void initializeSettings()
 {
@@ -5626,38 +5626,6 @@ boolean L11_mauriceSpookyraven()
 	}
 
 	return false;
-}
-
-boolean LX_dinseylandfillFunbucks()
-{
-	if(!get_property("cc_getDinseyGarbageMoney").to_boolean())
-	{
-		return false;
-	}
-	if(!elementalPlanes_access($element[stench]))
-	{
-		return false;
-	}
-	if(get_property("cc_dinseyGarbageMoney").to_int() == my_daycount())
-	{
-		return false;
-	}
-	if((my_adventures() == 0) || (my_level() < 6))
-	{
-		return false;
-	}
-	if(item_amount($item[Bag of Park Garbage]) > 0)
-	{
-		return dinseylandfill_garbageMoney();
-	}
-	if((my_daycount() >= 3) && (my_adventures() > 5))
-	{
-		# We do this after the item check since we may have an extra bag and we should turn that in.
-		return false;
-	}
-	buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
-	ccAdv(1, $location[Barf Mountain]);
-	return true;
 }
 
 boolean L13_sorceressDoor()
@@ -12371,6 +12339,11 @@ boolean doTasks()
 		{
 			return true;
 		}
+	}
+
+	if(LX_artistQuest())
+	{
+		return true;
 	}
 
 	if(LX_dictionary())

@@ -1109,7 +1109,7 @@ boolean cc_cheesePostCS(int leave)
 		//Black Crayon Fish or something seems good (or other free monster?)
 	}
 
-	if(my_adventures() > 0)
+	if((my_adventures() > 0) && (my_inebriety() <= inebriety_limit()))
 	{
 		print("Adventures are leftover, not finishing overdrinking and PVP", "red");
 		return true;
@@ -1124,7 +1124,7 @@ boolean cc_cheesePostCS(int leave)
 	}
 	if(hippy_stone_broken())
 	{
-		if(item_amount($item[5-hour acrimony]) > 0)
+		if((item_amount($item[5-hour acrimony]) > 0) && (my_inebriety() <= inebriety_limit()))
 		{
 			cli_execute("drink 5-hour acrimony");
 		}

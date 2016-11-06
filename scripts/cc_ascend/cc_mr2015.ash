@@ -595,89 +595,87 @@ boolean deck_cheat(string cheat)
 	{
 		return false;
 	}
+	cheat = to_lower_case(cheat);
 	static int [string] cards;
-	cards["X of Clubs"] = 1;
-	cards["X of Hearts"] = 2;
-	cards["X of Diamonds"] = 3;
-	cards["X of Spades"] = 4;
-	cards["X of Cups"] = 5;
-	cards["X of Wands"] = 6;
-	cards["X of Swords"] = 7;
-	cards["X of Coins"] = 8;
-	cards["XIII - Death"] = 9;
-	cards["Goblin Sapper"] = 10;
+	cards["x of clubs"] = 1;
+	cards["x of hearts"] = 2;
+	cards["x of diamonds"] = 3;
+	cards["x of spades"] = 4;
+	cards["x of cups"] = 5;
+	cards["x of wands"] = 6;
+	cards["x of swords"] = 7;
+	cards["x of coins"] = 8;
+	cards["xiii - death"] = 9;
+	cards["goblin sapper"] = 10;
 
-	cards["The Hive"] = 11;
-	cards["Hunky Fireman Card"] = 12;
-	cards["V - The Hierophant"] = 13;
-	cards["XVIII - The Moon"] = 14;
-	cards["Werewolf"] = 15;
-	cards["XV - The Devil"] = 16;
-	cards["Fire Elemental"] = 17;
-	cards["Slimer Trading Card"] = 18;
-	cards["VII - The Chariot"] = 19;
-	cards["II - The High Priestess"] = 20;
-
-
-	cards["XII - The Hanged Man"] = 21;
-	cards["Plantable Greeting Card"] = 22;
-	cards["Pirate Birthday Card"] = 23;
-	cards["XIV - Temperance"] = 24;
-	cards["Unstable Portal"] = 25;
-	cards["XVII - The Star"] = 26;
-	cards["Suit Warehouse Discount Card"] = 27;
-	cards["Christmas Card"] = 28;
-	cards["Go Fish"] = 29;
-	cards["Aquarius Horoscope"] = 30;
-
-	cards["Plains"] = 31;
-	cards["Swamp"] = 32;
-	cards["Mountain"] = 33;
-	cards["Forest"] = 34;
-	cards["Island"] = 35;
-	cards["Healing Salve"] = 36;
-	cards["Dark Ritual"] = 37;
-	cards["Lightning Bolt"] = 38;
-	cards["Giant Growth"] = 39;
-	cards["Ancestral Recall"] = 40;
-
-	cards["Gift Card"] = 41;
-	cards["X of Papayas"] = 42;
-	cards["X of Salads"] = 43;
-	cards["IX - The Hermit"] = 44;
-	cards["IV - The Emperor"] = 45;
-	cards["Green Card"] = 46;
-	cards["XVI - The Tower"] = 47;
-	cards["The Race Card"] = 48;
-	cards["0 - The Fool"] = 49;
-	cards["I - The Magician"] = 50;
-
-	cards["XI - Strength"] = 51;
-	cards["Lead Pipe"] = 52;
-	cards["Rope"] = 53;
-	cards["Wrench"] = 54;
-	cards["Candlestick"] = 55;
-	cards["Knife"] = 56;
-	cards["Revolver"] = 57;
-	cards["1952 Mickey Mantle"] = 58;
-	cards["Spare Tire"] = 59;
-	cards["Extra Tank"] = 60;
-
-	cards["Sheep"] = 61;
-	cards["Year of Plenty"] = 62;
-	cards["Mine"] = 63;
-	cards["Laboratory"] = 64;
-	cards["X of Kumquats"] = 65;
-	cards["Professor Plum"] = 66;
-	cards["X - The Wheel of Fortune"] = 67;
-	cards["XXI - The World"] = 68;
-	cards["VI - The Lovers"] = 69;
-	cards["III - The Empress"] = 70;
+	cards["the hive"] = 11;
+	cards["hunky fireman card"] = 12;
+	cards["v - the hierophant"] = 13;
+	cards["xviii - the moon"] = 14;
+	cards["werewolf"] = 15;
+	cards["xv - the devil"] = 16;
+	cards["fire elemental"] = 17;
+	cards["slimer trading card"] = 18;
+	cards["vii - the chariot"] = 19;
+	cards["ii - the high priestess"] = 20;
 
 
+	cards["xii - the hanged man"] = 21;
+	cards["plantable greeting card"] = 22;
+	cards["pirate birthday card"] = 23;
+	cards["xiv - temperance"] = 24;
+	cards["unstable portal"] = 25;
+	cards["xvii - the star"] = 26;
+	cards["suit warehouse discount card"] = 27;
+	cards["christmas card"] = 28;
+	cards["go fish"] = 29;
+	cards["aquarius horoscope"] = 30;
 
+	cards["plains"] = 31;
+	cards["swamp"] = 32;
+	cards["mountain"] = 33;
+	cards["forest"] = 34;
+	cards["island"] = 35;
+	cards["healing salve"] = 36;
+	cards["dark ritual"] = 37;
+	cards["lightning bolt"] = 38;
+	cards["giant growth"] = 39;
+	cards["ancestral recall"] = 40;
 
-	cards["PVP"] = 1;
+	cards["gift card"] = 41;
+	cards["x of papayas"] = 42;
+	cards["x of salads"] = 43;
+	cards["ix - the hermit"] = 44;
+	cards["iv - the emperor"] = 45;
+	cards["green card"] = 46;
+	cards["xvi - the tower"] = 47;
+	cards["the race card"] = 48;
+	cards["0 - the fool"] = 49;
+	cards["I - the magician"] = 50;
+
+	cards["xi - strength"] = 51;
+	cards["lead pipe"] = 52;
+	cards["rope"] = 53;
+	cards["wrench"] = 54;
+	cards["candlestick"] = 55;
+	cards["knife"] = 56;
+	cards["revolver"] = 57;
+	cards["1952 mickey mantle"] = 58;
+	cards["spare tire"] = 59;
+	cards["extra tank"] = 60;
+
+	cards["sheep"] = 61;
+	cards["year of plenty"] = 62;
+	cards["mine"] = 63;
+	cards["laboratory"] = 64;
+	cards["x of kumquats"] = 65;
+	cards["professor plum"] = 66;
+	cards["x - the wheel of fortune"] = 67;
+	cards["xxi - the world"] = 68;
+	cards["vi - the lovers"] = 69;
+	cards["iii - the empress"] = 70;
+
+	cards["pvp"] = 1;
 	cards["fites"] = 1;
 	cards["spade"] = 4;
 	cards["white mana"] = 31;
@@ -696,18 +694,14 @@ boolean deck_cheat(string cheat)
 	cards["ore"] = 63;
 	cards["items"] = 67;
 	cards["muscle stat"] = 68;
-	cards["Muscle stat"] = 68;
 	cards["moxie stat"] = 69;
-	cards["Moxie stat"] = 69;
 	cards["myst stat"] = 70;
-	cards["Myst stat"] = 70;
 	cards["mysticality stat"] = 70;
-	cards["Mysticality stat"] = 70;
 
 	int card = cards[cheat];
 
 	string[int] cheated = split_string(get_property("_deckCardsCheated"), ",");
-	foreach cheat in cheated
+	foreach idx, cheat in cheated
 	{
 		if(to_int(cheat) == card)
 		{

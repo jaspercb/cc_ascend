@@ -31,7 +31,6 @@ boolean LX_fcle();
 boolean LX_ornateDowsingRod();
 boolean LX_getDictionary();
 boolean LX_dictionary();
-boolean LX_dinseylandfillFunbucks();
 boolean LX_nastyBooty();
 boolean LX_spookyravenSecond();
 boolean LX_spookyBedroomCombat();
@@ -48,6 +47,12 @@ boolean LX_dolphinKingMap();
 boolean LX_steelOrgan();
 boolean Lx_resolveSixthDMT();
 boolean LX_witchess();
+
+
+//*********** Section of stuff moved into cc_optionals.ash *******************/
+boolean LX_artistQuest();
+boolean LX_dinseylandfillFunbucks();
+//*********** End of stuff moved into cc_optionals.ash ***********************/
 
 boolean Lsc_flyerSeals();
 
