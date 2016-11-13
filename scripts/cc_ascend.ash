@@ -1805,22 +1805,6 @@ void doBedtime()
 		abort("Our last encounter was UNDYING and we ended up trying to bedtime and failed.");
 	}
 
-	restoreAllSettings();
-	restoreSetting("autoSatisfyWithCoinmasters");
-	restoreSetting("removeMalignantEffects");
-	restoreSetting("kingLiberatedScript");
-	restoreSetting("afterAdventureScript");
-	restoreSetting("betweenAdventureScript");
-	restoreSetting("betweenBattleScript");
-	restoreSetting("counterScript");
-
-	if(get_property("cc_priorCharpaneMode").to_int() == 1)
-	{
-		print("Resuming Compact Character Mode.");
-		set_property("cc_priorCharpaneMode", 0);
-		visit_url("account.php?am=1&pwd=&action=flag_compactchar&value=1&ajax=0", true);
-	}
-
 
 	process_kmail("cc_deleteMail");
 
@@ -1890,6 +1874,23 @@ void doBedtime()
 			oldSeals = newSeals;
 		}
 	}
+
+	restoreAllSettings();
+	restoreSetting("autoSatisfyWithCoinmasters");
+	restoreSetting("removeMalignantEffects");
+	restoreSetting("kingLiberatedScript");
+	restoreSetting("afterAdventureScript");
+	restoreSetting("betweenAdventureScript");
+	restoreSetting("betweenBattleScript");
+	restoreSetting("counterScript");
+
+	if(get_property("cc_priorCharpaneMode").to_int() == 1)
+	{
+		print("Resuming Compact Character Mode.");
+		set_property("cc_priorCharpaneMode", 0);
+		visit_url("account.php?am=1&pwd=&action=flag_compactchar&value=1&ajax=0", true);
+	}
+
 
 	if((my_inebriety() <= inebriety_limit()) && (my_rain() >= 50) && (my_adventures() >= 1))
 	{

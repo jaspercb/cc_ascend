@@ -1115,6 +1115,11 @@ boolean cc_cheesePostCS(int leave)
 		return true;
 	}
 
+	if((item_amount($item[School of Hard Knocks Diploma]) > 0) && (!get_property("_hardKnocksDiplomaUsed").to_boolean()))
+	{
+		use(1, $item[School of Hard Knocks Diploma]);
+	}
+
 	if((item_amount($item[5-hour acrimony]) == 0) && hippy_stone_broken())
 	{
 		if(!buyUpTo(1, $item[5-Hour Acrimony], 5000))

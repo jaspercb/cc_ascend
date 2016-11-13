@@ -21,6 +21,16 @@ void handlePreAdventure()
 
 void handlePreAdventure(location place)
 {
+
+	if((place == $location[The Deep Machine Tunnels]) && (my_familiar() != $familiar[Machine Elf]))
+	{
+		if(!have_familiar($familiar[Machine Elf]))
+		{
+			abort("Massive failure, we don't use snowglobes.");
+		}
+		print("Somehow we are considering the DMT without a Machine Elf...", "red");
+	}
+
 	if(get_property("cc_bedroomHandler2") == "yes")
 	{
 		set_property("cc_bedroomHandler2", "no");

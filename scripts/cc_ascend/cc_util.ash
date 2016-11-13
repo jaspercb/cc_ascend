@@ -1597,7 +1597,7 @@ boolean isFreeMonster(monster mon)
 
 	boolean[monster] halloween = $monsters[kid who is too old to be Trick-or-Treating, suburban security civilian, vandal kid];
 
-	boolean[monster] other = $monsters[Eldritch Tentacle, giant rubber spider, lynyrd, time-spinner prank, Travoltron];
+	boolean[monster] other = $monsters[giant rubber spider, lynyrd, time-spinner prank, Travoltron];
 
 	//boolean[monster] protonGhosts: See isProtonGhost, we want to detect these separately as well so we\'ll functionalize it here.
 
@@ -1652,6 +1652,11 @@ boolean isFreeMonster(monster mon)
 		{
 			return true;
 		}
+	}
+
+	if(($monster[Eldritch Tentacle] == mon) && (have_effect($effect[Eldritch Attunement]) > 0))
+	{
+		return true;
 	}
 
 	if(($monster[Drunk Pygmy] == mon) && (item_amount($item[Bowl of Scorpions]) > 0))

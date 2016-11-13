@@ -14,6 +14,17 @@ void handlePostAdventure()
 	{
 		return;
 	}
+
+	if(have_effect($effect[Eldritch Attunement]) > 0)
+	{
+		if(last_monster() != $monster[Eldritch Tentacle])
+		{
+			print("Expected Tentacle, uh oh!", "red");
+			return;
+		}
+		print("No Tentacle expected this time!", "green");
+	}
+
 	//We need to do this early, and even if postAdventure handling is done.
 	if(my_path() == "The Source")
 	{
