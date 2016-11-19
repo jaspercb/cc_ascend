@@ -332,16 +332,23 @@ boolean handleFamiliar(string type)
 	}
 	else if(type == "init")
 	{
+		foreach fam in $familiars[Happy Medium, Xiblaxian Holo-Companion, Oily Woim]
+		{
+			if(have_familiar(fam) && !(blacklist contains fam))
+			{
+				return handleFamiliar(fam);
+			}
+		}
+	}
+	else if(type == "initSuggest")
+	{
 		if(familiar_weight(my_familiar()) == 20)
 		{
-			if($familiars[Rockin\' Robin, Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Baby Gravy Fairy] contains my_familiar())
+			foreach fam in $familiars[Happy Medium, Xiblaxian Holo-Companion, Oily Woim]
 			{
-				foreach fam in $familiars[Happy Medium, Xiblaxian Holo-Companion, Oily Woim]
+				if(have_familiar(fam) && !(blacklist contains fam))
 				{
-					if(have_familiar(fam) && !(blacklist contains fam))
-					{
-						return handleFamiliar(fam);
-					}
+					return handleFamiliar(fam);
 				}
 			}
 		}
@@ -2934,7 +2941,7 @@ boolean L11_aridDesert()
 		{
 			equip(desertBuff);
 		}
-		handleFamiliar("init");
+		handleFamiliar("initSuggest");
 		set_property("choiceAdventure805", 1);
 		int need = 100 - get_property("desertExploration").to_int();
 		print("Need for desert: " + need, "blue");
@@ -4071,7 +4078,7 @@ boolean L13_towerNSContests()
 				}
 				else
 				{
-					ccMaximize("init, -equip snow suit, switch xiblaxian holo-companion, switch oily woim ", 1500, 0, false);
+					ccMaximize("init, -equip snow suit, switch xiblaxian holo-companion, switch oily woim, switch happy medium ", 1500, 0, false);
 					handleFamiliar(my_familiar());
 				}
 
@@ -4379,7 +4386,7 @@ boolean L12_lastDitchFlyer()
 		{
 			set_property("choiceAdventure677", "2");
 			set_property("choiceAdventure678", "3");
-			handleFamiliar("init");
+			handleFamiliar("initSuggest");
 			ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
 			handleFamiliar("item");
 		}
@@ -4857,7 +4864,7 @@ boolean L11_hiddenCity()
 
 			try
 			{
-				handleFamiliar("init");
+				handleFamiliar("initSuggest");
 				string[int] pages;
 				pages[0] = "adventure.php?snarfblat=350";
 				pages[1] = "choice.php?pwd&whichchoice=791&option=1";
@@ -5400,7 +5407,7 @@ boolean L11_mauriceSpookyraven()
 		}
 		buffMaintain($effect[Snow Shoes], 0, 1, 1);
 
-		handleFamiliar("init");
+		handleFamiliar("initSuggest");
 		set_property("choiceAdventure106", "2");
 		if($classes[Avatar of Boris, Ed] contains my_class())
 		{
@@ -6923,7 +6930,7 @@ boolean L10_topFloor()
 		set_property("choiceAdventure679", 1);
 	}
 
-	handleFamiliar("init");
+	handleFamiliar("initSuggest");
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
 	handleFamiliar("item");
 
@@ -7350,7 +7357,7 @@ boolean Lsc_flyerSeals()
 			}
 		}
 
-		handleFamiliar("init");
+		handleFamiliar("initSuggest");
 		boolean clubbedSeal = false;
 		if(doElement)
 		{
@@ -10215,7 +10222,7 @@ boolean L9_oilPeak()
 	buffMaintain($effect[Litterbug], 0, 1, 1);
 	buffMaintain($effect[Tortious], 0, 1, 1);
 	buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
-	handleFamiliar("init");
+	handleFamiliar("initSuggest");
 
 	if((my_class() == $class[Ed]) && get_property("cc_dickstab").to_boolean())
 	{
@@ -10437,7 +10444,7 @@ boolean L11_talismanOfNam()
 		set_property("choiceAdventure189", "1");
 		set_property("oceanAction", "continue");
 		set_property("oceanDestination", to_lower_case(my_primestat()));
-		handleFamiliar("init");
+		handleFamiliar("initSuggest");
 
 		if(get_property("cc_gaudy") == "")
 		{

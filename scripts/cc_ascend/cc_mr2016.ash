@@ -29,6 +29,8 @@ boolean timeSpinnerGet(string goal);
 boolean timeSpinnerConsume(item goal);
 boolean timeSpinnerCombat(monster goal);
 boolean timeSpinnerCombat(monster goal, string option);
+boolean timeSpinnerAdventure(string option);
+boolean timeSpinnerAdventure();
 
 //Supplemental
 int cc_advWitchessTargets(string target);
@@ -1182,6 +1184,29 @@ boolean timeSpinnerConsume(item goal)
 	}
 	return false;
 }
+
+boolean timeSpinnerAdventure()
+{
+	return timeSpinnerAdventure("");
+}
+
+boolean timeSpinnerAdventure(string option)
+{
+	if(is_unrestricted($item[Time-Spinner]) && (item_amount($item[Time-Spinner]) > 0) && (get_property("_timeSpinnerMinutesUsed").to_int() <= 9))
+	{
+		string temp = visit_url("inv_use.php?pwd=&which=3&whichitem=9104");
+		if(get_property("_timeSpinnerMinutesUsed").to_int() <= 9)
+		{
+			string[int] pages;
+			pages[0] = "inv_use.php?pwd=&which=3&whichitem=9104";
+			pages[1] = "choice.php?pwd=&whichchoice=1195&option=3";
+			if(ccAdvBypass(0, pages, $location[Noob Cave], option)) {}
+			return true;
+		}
+	}
+	return false;
+}
+
 
 boolean timeSpinnerCombat(monster goal)
 {
