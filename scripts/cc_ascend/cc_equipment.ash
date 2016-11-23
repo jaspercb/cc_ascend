@@ -15,6 +15,7 @@ void equipBaselineFam();
 void equipBaselineHat(boolean wantNC);
 void equipRollover();
 void handleOffHand();
+void ensureSealClubs();
 void removeNonCombat();
 void removeCombat();
 item handleSolveThing(item[int] poss, slot loc);
@@ -344,6 +345,10 @@ item handleSolveThing(item[int] poss, slot loc)
 			ignore = true;
 		}
 		if(contains_text(get_property("cc_ignoreCombat"), "(ml)") && (numeric_modifier(thing, "Monster Level") > 0))
+		{
+			ignore = true;
+		}
+		if(contains_text(get_property("cc_ignoreCombat"), "(seal)") && (loc == $slot[weapon]) && (item_type(thing) != "club"))
 		{
 			ignore = true;
 		}
@@ -744,17 +749,17 @@ void equipBaselineHolster()
 	}
 }
 
+void ensureSealClubs()
+{
+	set_property("cc_ignoreCombat", get_property("cc_ignoreCombat") + "(seal)");
+	equipBaseline();
+	set_property("cc_ignoreCombat", "");
+}
+
 
 void removeNonCombat()
 {
 	set_property("cc_ignoreCombat", get_property("cc_ignoreCombat") + "(noncombat)");
-#	foreach sl in $slots[Hat, Weapon, Off-Hand, Back, Shirt, Pants, Acc1, Acc2, Acc3]
-#	{
-#		if(numeric_modifier(equipped_item(sl), "Combat Rate") < 0.0)
-#		{
-#			equip(sl, $item[none]);
-#		}
-#	}
 	equipBaseline();
 	set_property("cc_ignoreCombat", "");
 }

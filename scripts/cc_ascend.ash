@@ -1865,12 +1865,14 @@ void doBedtime()
 			{
 				cli_execute("make figurine of an ancient seal");
 				buyUpTo(3, $item[seal-blubber candle]);
+				ensureSealClubs();
 				handleSealAncient();
 			}
 			else
 			{
 				buyUpTo(1, $item[figurine of an armored seal]);
 				buyUpTo(10, $item[seal-blubber candle]);
+				ensureSealClubs();
 				handleSealArmored();
 			}
 			int newSeals = get_property("_sealsSummoned").to_int();
@@ -7368,6 +7370,7 @@ boolean Lsc_flyerSeals()
 			}
 			if(item_amount($item[Imbued Seal-Blubber Candle]) > 0)
 			{
+				ensureSealClubs();
 				handleSealElement(towerTest);
 				clubbedSeal = true;
 			}
@@ -7378,6 +7381,7 @@ boolean Lsc_flyerSeals()
 			buyUpTo(10, $item[seal-blubber candle]);
 			if((item_amount($item[Figurine of an Armored Seal]) > 0) && (item_amount($item[Seal-Blubber Candle]) >= 10))
 			{
+				ensureSealClubs();
 				handleSealArmored();
 				clubbedSeal = true;
 			}
