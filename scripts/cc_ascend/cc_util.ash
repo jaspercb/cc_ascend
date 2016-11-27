@@ -810,6 +810,11 @@ int[monster] banishedMonsters()
 	int[monster] retval;
 	string[int] data = split_string(get_property("banishedMonsters"), ":");
 
+	if(get_property("banishedMonsters") == "")
+	{
+		return retval;
+	}
+
 	int i=0;
 	while(i<count(data))
 	{
