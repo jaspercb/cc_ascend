@@ -33,9 +33,9 @@
 33	cc_friars	string	ANY	'finished' if we completed the Friars Quest. Only 'done' if we don't/didn't have enough hot wings.
 34	cc_gaudy	string	ANY	-
 35	cc_getBoningKnife	boolean	ANY	-
-36	cc_goblinking	string	ANY	-
-37	cc_gremlins	string	ANY	-
-38	cc_grimfairytale	string	ANY	-
+36	cc_gnasirUnlocked	boolean	ANY	Have we found gnasir in the Desert?
+37	cc_goblinking	string	ANY	-
+38	cc_gremlins	string	ANY	-
 39	cc_grimstoneFancyOilPainting	boolean	ANY	-
 40	cc_grimstoneOrnateDowsingRod	boolean	ANY	-
 41	cc_gunpowder	string	ANY	Did we initiate the Sonofa Beach quest?
@@ -100,6 +100,5 @@
 100	cc_longConMonster	string	PRE	Last Monster hit by Long Con
 101	cc_noSleepingDog	boolean	PRE	When true, do not eat a Sleeping Dog.
 101	cc_saveMargarita	boolean	PRE	Save Emergency Margarita in HCCS run.
-102	cc_gnasirUnlocked	boolean	ANY	Have we found gnasir in the Desert?
-103	cc_masonryWall	boolean	ANY	If true, we've destroyed the Masonry Wall in Spookyraven Manor
-104	cc_csDoWheel	boolean	PRE	In HCCS: Use Wheel of Fortune instead of Myst Stats Deck Cheat
+102	cc_masonryWall	boolean	ANY	If true, we've destroyed the Masonry Wall in Spookyraven Manor
+103	cc_csDoWheel	boolean	PRE	In HCCS: Use Wheel of Fortune instead of Myst Stats Deck Cheat

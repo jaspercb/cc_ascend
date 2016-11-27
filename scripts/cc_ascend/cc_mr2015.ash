@@ -988,7 +988,7 @@ boolean deck_useScheme(string action)
 	int count = 0;
 	foreach card in cards
 	{
-		if(possessEquipment($item[Bass Clarinet]) || possessEquipment($item[Fish Hatchet]))
+		if(possessEquipment($item[Bass Clarinet]) || possessEquipment($item[Fish Hatchet]) || possessEquipment($item[Dented Scepter]))
 		{
 			if($strings[Candlestick, Knight, Lead Pipe, Revolver, Rope, Wrench] contains card)
 			{

@@ -520,7 +520,6 @@ void consumeStuff()
 		if((my_spleen_use() == 0) && (item_amount($item[grim fairy tale]) > 0))
 		{
 			chew(1, $item[grim fairy tale]);
-			set_property("cc_grimfairytale", "1");
 		}
 
 		//	Try to drink more on day 1 please!

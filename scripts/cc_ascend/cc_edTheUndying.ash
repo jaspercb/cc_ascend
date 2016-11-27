@@ -38,7 +38,6 @@ void ed_initializeSettings()
 		set_property("cc_day1_dna", "finished");
 		set_property("cc_getBeehive", false);
 		set_property("cc_getStarKey", false);
-		set_property("cc_grimfairytale", "1");
 		set_property("cc_grimstoneFancyOilPainting", false);
 		set_property("cc_grimstoneOrnateDowsingRod", false);
 		set_property("cc_holeinthesky", false);

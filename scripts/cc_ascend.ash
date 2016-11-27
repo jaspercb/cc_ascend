@@ -130,7 +130,6 @@ void initializeSettings()
 	set_property("cc_goblinking", "");
 	set_property("cc_gremlins", "");
 	set_property("cc_gremlinBanishes", "");
-	set_property("cc_grimfairytale", "");
 	set_property("cc_grimstoneFancyOilPainting", true);
 	set_property("cc_grimstoneOrnateDowsingRod", true);
 	set_property("cc_gunpowder", "");
@@ -243,6 +242,13 @@ boolean handleFamiliar(string type)
 {
 	//	Put all familiars in reverse priority order here.
 	int[familiar] blacklist;
+
+	int ascensionThreshold = get_property("cc_ascensionThreshold").to_int();
+	if(ascensionThreshold == 0)
+	{
+		ascensionThreshold = 100;
+	}
+
 	if(get_property("cc_blacklistFamiliar") != "")
 	{
 		string[int] noFams = split_string(get_property("cc_blacklistFamiliar"), ";");
@@ -265,17 +271,17 @@ boolean handleFamiliar(string type)
 	else if(type == "item")
 	{
 		familiar[int] fams = List($familiars[Rockin\' Robin, Grimstone Golem, Angry Jung Man, Intergnat, Bloovian Groose, Fist Turkey, Slimeling, Jumpsuited Hound Dog, Adventurous Spelunker, Gelatinous Cubeling, Baby Gravy Fairy, Obtuse Angel, Pair of Stomping Boots, Jack-in-the-Box, Syncopated Turtle]);
-		if((my_ascensions() > 250) && (get_property("rockinRobinProgress").to_int() < 20))
+		if((my_ascensions() > ascensionThreshold) && (get_property("rockinRobinProgress").to_int() < 20))
 		{
 			fams = ListRemove(fams, $familiar[Rockin\' Robin]);
 			fams = ListInsertAt(fams, $familiar[Rockin\' Robin], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
-		if((my_ascensions() > 250) && ((get_property("cc_grimstoneFancyOilPainting").to_boolean() && get_property("cc_grimstoneOrnateDowsingRod").to_boolean()) || possessEquipment($item[Buddy Bjorn])))
+		if((my_ascensions() > ascensionThreshold) && ((!get_property("cc_grimstoneFancyOilPainting").to_boolean() && !get_property("cc_grimstoneOrnateDowsingRod").to_boolean()) || possessEquipment($item[Buddy Bjorn]) || ($familiar[Grimstone Golem].drops_today == 1)))
 		{
 			fams = ListRemove(fams, $familiar[Grimstone Golem]);
 			fams = ListInsertAt(fams, $familiar[Grimstone Golem], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
-		if((my_ascensions() > 250) && ((get_property("cc_crackpotjar") != "") || ($familiar[Angry Jung Man].drops_today == 1)))
+		if((my_ascensions() > ascensionThreshold) && ((get_property("cc_crackpotjar") != "") || ($familiar[Angry Jung Man].drops_today == 1)))
 		{
 			fams = ListRemove(fams, $familiar[Angry Jung Man]);
 			fams = ListInsertAt(fams, $familiar[Angry Jung Man], fams.ListFind($familiar[Gelatinous Cubeling]));
@@ -1735,9 +1741,19 @@ void initializeDay(int day)
 	{
 		ovenHandle();
 	}
-	if(get_property("kingLiberated") == "false")
+	if(!get_property("kingLiberated").to_boolean())
 	{
-		cli_execute("garden pick");
+		if(cc_get_campground() contains $item[Packet of Thanksgarden Seeds])
+		{
+			if((my_daycount() % 2) == 0)
+			{
+				cli_execute("garden pick");
+			}
+		}
+		else
+		{
+			cli_execute("garden pick");
+		}
 	}
 	string campground = visit_url("campground.php");
 	if(contains_text(campground, "beergarden7.gif"))
@@ -1748,12 +1764,21 @@ void initializeDay(int day)
 	{
 		cli_execute("garden pick");
 	}
+	if(contains_text(campground, "thanksgardenmega.gif"))
+	{
+		cli_execute("garden pick");
+	}
 }
 
 boolean dailyEvents()
 {
 	while(cc_doPrecinct());
 	handleBarrelFullOfBarrels(true);
+
+	if(item_amount($item[Burned Government Manual Fragment]) > 0)
+	{
+		use(item_amount($item[Burned Government Manual Fragment]), $item[Burned Government Manual Fragment]);
+	}
 
 	if((item_amount($item[Can of Rain-doh]) > 0) && (item_amount($item[Rain-Doh Red Wings]) == 0))
 	{
@@ -2928,9 +2953,9 @@ boolean L11_aridDesert()
 			int expectedOasisTurns = 8 - $location[The Oasis].turns_spent;
 			int equivProgress = expectedOasisTurns * progress;
 			int need = 100 - get_property("desertExploration").to_int();
-			print("expectedOasis: " + expectedOasisTurns);
-			print("equivProgress: " + equivProgress);
-			print("need: " + need);
+			print("expectedOasis: " + expectedOasisTurns, "brown");
+			print("equivProgress: " + equivProgress, "brown");
+			print("need: " + need, "brown");
 			if((need <= 15) && (15 >= equivProgress) && (item_amount($item[Stone Rose]) == 0))
 			{
 				print("It seems raisinable to hunt a Stone Rose. Beep", "blue");
@@ -5349,6 +5374,9 @@ boolean LX_spookyravenSecond()
  			set_property("louvreGoal", "7");
  			set_property("louvreDesiredGoal", "7");
 			print("Spookyraven: Gallery", "blue");
+
+			cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
+
 			ccAdv(1, $location[The Haunted Gallery]);
 			return true;
 		}
@@ -5360,6 +5388,8 @@ boolean LX_spookyravenSecond()
 			}
 			print("Spookyraven: Bathroom", "blue");
 			set_property("choiceAdventure892", "1");
+
+			cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
 
 			ccAdv(1, $location[The Haunted Bathroom]);
 
@@ -5624,6 +5654,12 @@ boolean L11_mauriceSpookyraven()
 		{
 			abort("Unstable Fulminate was not equipped. Please report this and include the following: Equipped items and if you have or don't have an Unstable Fulminate. For now, get the wine bomb manually, and run again.");
 		}
+
+		if(monster_level_adjustment() < 57)
+		{
+			buffMaintain($effect[Sweetbreads Flamb&eacute;], 0, 1, 1);
+		}
+
 		ccAdv(1, $location[The Haunted Boiler Room]);
 
 		if(item_amount($item[wine bomb]) == 1)
@@ -6999,6 +7035,9 @@ boolean L10_ground()
 	{
 		handleFamiliar($familiar[Puck Man]);
 	}
+
+	cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
+
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Ground Floor)]);
 	handleFamiliar("item");
 
@@ -9256,6 +9295,11 @@ boolean LX_handleSpookyravenFirstFloor()
 			}
 
 
+			if(!possessEquipment($item[Pool Cue]))
+			{
+				expectPool = 30;
+			}
+
 			print("Looking at the billiards room: 14 <= " + expectPool + " <= 18", "green");
 			if((my_inebriety() < 8) && ((my_inebriety() + 2) < inebriety_limit()))
 			{
@@ -9420,7 +9464,7 @@ boolean L12_startWar()
 	set_property("choiceAdventure142", "3");
 	if(contains_text(get_property("lastEncounter"), "Blockin\' Out the Scenery"))
 	{
-		set_property("cc_prewar", "started");
+		set_property("cc_prewar", "started");	
 		visit_url("bigisland.php?action=junkman&pwd");
 		if(!get_property("cc_hippyInstead").to_boolean())
 		{

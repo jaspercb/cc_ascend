@@ -249,7 +249,7 @@ void handleOffHand()
 	}
 	if(my_class() == $class[Turtle Tamer])
 	{
-		poss = $items[Hot Plate, KoL Con 13 Snowglobe, Coffin Lid, Sewer Turtle, Barskin Buckler, Turtle Wax Shield, Clownskin Buckler, Box Turtle, Demon Buckler, Meat Shield, White Satin Shield, Polyester Pad, Gnauga Hide Buckler, Yakskin Buckler, Penguin Skin Buckler, Hippo Skin Buckler, Tortoboggan Shield, Padded Tortoise, Painted Shield, Spiky Turtle Shield, Wicker Shield, Catskin Buckler, Battered Hubcap, Keg Shield, Ouija Board\, Ouija Board, Ox-head Shield, Barrel Lid, Operation Patriot Shield, Fake Washboard];
+		poss = $items[Hot Plate, Coffin Lid, Sewer Turtle, Barskin Buckler, Turtle Wax Shield, Clownskin Buckler, Box Turtle, Demon Buckler, Meat Shield, White Satin Shield, Polyester Pad, Gnauga Hide Buckler, Yakskin Buckler, Penguin Skin Buckler, Hippo Skin Buckler, Tortoboggan Shield, Padded Tortoise, Painted Shield, Spiky Turtle Shield, Wicker Shield, Catskin Buckler, Battered Hubcap, Keg Shield, KoL Con 13 Snowglobe, Ouija Board\, Ouija Board, Ox-head Shield, Barrel Lid, Operation Patriot Shield, Fake Washboard];
 	}
 
 	if(my_class() == $class[Pastamancer])
@@ -401,7 +401,7 @@ void equipBaselinePants()
 {
 	item toEquip = $item[none];
 
-	boolean[item] oldPoss = $items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Stylish Swimsuit, Union Scalemail Pants, Hep Waders, Bloody Clown Pants, Knob Goblin Uberpants, Filthy Corduroys, Demonskin Trousers, Antique Greaves, Ninja Hot Pants, Leotarrrd, Swashbuckling Pants, Troutpiece, Snowboarder Pants, Oil Slacks, Discarded Swimming Trunks, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving];
+	boolean[item] oldPoss = $items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Stylish Swimsuit, Union Scalemail Pants, Hep Waders, Bloody Clown Pants, Knob Goblin Uberpants, Filthy Corduroys, Antique Greaves, Ninja Hot Pants, Demonskin Trousers, Leotarrrd, Swashbuckling Pants, Troutpiece, Snowboarder Pants, Oil Slacks, Discarded Swimming Trunks, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving];
 	item[int] poss = List(oldPoss);
 
 	if(my_class() == $class[Turtle Tamer])
@@ -421,9 +421,9 @@ void equipBaselineShirt()
 {
 	item toEquip = $item[none];
 
-	boolean[item] oldPoss = $items[Barskin Cloak, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Ultracolor&trade; Shirt, Shark Jumper, Bod-Ice, Liam\'s Mail, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
+	boolean[item] oldPoss = $items[Barskin Cloak, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Glass Casserole Dish, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Ultracolor&trade; Shirt, Shark Jumper, Bod-Ice, Liam\'s Mail, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
 	item[int] poss = List(oldPoss);
-	
+
 	toEquip = handleSolveThing(poss, $slot[shirt]);
 
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[shirt])))
@@ -498,22 +498,22 @@ void equipBaselineWeapon()
 	switch(my_class())
 	{
 	case $class[Seal Clubber]:
-		poss = $items[Seal-Clubbing Club, Gnollish Flyswatter, Club of Corruption, Remaindered Axe, Skeleton Bone, Corrupt Club of Corruption, Flaming Crutch, Homoerotic Frat-Paddle, Kneecapping Stick, Corrupt Club of Corrupt Corruption, Spiked Femur, Severed Flipper, Mannequin Leg, Infernal Toilet Brush, Hilarious Comedy Prop, Giant Foam Finger, Red Hot Poker, Maxwell\'s Silver Hammer, Elegant Nightstick, Oversized Pipe, Ghast Iron Cleaver, Frozen Seal Spine, Stainless Steel Shillelagh, Porcelain Police Baton, Fish Hatchet, Lead Pipe, Meat Tenderizer Is Murder, Dented Scepter];
+		poss = $items[Seal-Clubbing Club, Gnollish Flyswatter, Club of Corruption, Remaindered Axe, Skeleton Bone, Corrupt Club of Corruption, Flaming Crutch, Homoerotic Frat-Paddle, Kneecapping Stick, Corrupt Club of Corrupt Corruption, Spiked Femur, Severed Flipper, Mannequin Leg, Infernal Toilet Brush, Hilarious Comedy Prop, Giant Foam Finger, Red Hot Poker, Maxwell\'s Silver Hammer, Elegant Nightstick, Oversized Pipe, Ghast Iron Cleaver, Frozen Seal Spine, Stainless Steel Shillelagh, Porcelain Police Baton, Bass Clarinet, Fish Hatchet, Lead Pipe, Meat Tenderizer Is Murder, Dented Scepter];
 		break;
 	case $class[Turtle Tamer]:
-		poss = $items[Turtle Totem, Knob Goblin Tongs, Knob Goblin Scimitar, Mace of the Tortoise, Witty Rapier, Antique Machete, Short-Handled Mop, Thor\'s Pliers, Rope, Lead Pipe, Work Is A Four Letter Sword, Fish Hatchet, Garbage Sticker];
+		poss = $items[Turtle Totem, Knob Goblin Tongs, Knob Goblin Scimitar, Mace of the Tortoise, Witty Rapier, Antique Machete, Short-Handled Mop, Thor\'s Pliers, Rope, Lead Pipe, Work Is A Four Letter Sword, Bass Clarinet, Fish Hatchet, Garbage Sticker, Dented Scepter];
 		break;
 	case $class[Sauceror]:
-		poss = $items[Saucepan, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Thor\'s Pliers, Candlestick, Bass Clarinet, Saucepanic];
+		poss = $items[Saucepan, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Thor\'s Pliers, Candlestick, Fish Hatchet, Bass Clarinet, Saucepanic];
 		break;
 	case $class[Pastamancer]:
-		poss = $items[Pasta Spoon, Knob Goblin Tongs, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Thor\'s Pliers, Wrench, Bass Clarinet, Hand That Rocks The Ladle];
+		poss = $items[Pasta Spoon, Knob Goblin Tongs, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Thor\'s Pliers, Wrench, Fish Hatchet, Bass Clarinet, Hand That Rocks The Ladle];
 		break;
 	case $class[Disco Bandit]:
-		poss = $items[Knife, Bass Clarinet, Frankly Mr. Shank];
+		poss = $items[Fish Hatchet, Knife, Bass Clarinet, Frankly Mr. Shank];
 		break;
 	case $class[Accordion Thief]:
-		poss = $items[Revolver, accord ion, Bass Clarinet, Shakespeare\'s Sister\'s Accordion];
+		poss = $items[Fish Hatchet, Revolver, accord ion, Bass Clarinet, Shakespeare\'s Sister\'s Accordion];
 		break;
 	case $class[Avatar of Boris]:
 		poss = $items[Trusty];
@@ -796,7 +796,7 @@ void equipRollover()
 
 
 	toEquip = $item[none];
-	poss = $items[General Sage\'s Lonely Diamonds Club Jacket, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
+	poss = $items[General Sage\'s Lonely Diamonds Club Jacket, Glass Casserole Dish, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
 
 	toEquip = handleSolveThing(poss, $slot[shirt]);
 

@@ -41,6 +41,7 @@ boolean isUnclePAvailable();
 boolean isFreeMonster(monster mon);
 boolean isProtonGhost(monster mon);
 boolean isGhost(monster mon);
+boolean instakillable(monster mon);
 boolean in_ronin();
 boolean cc_autosell(int quantity, item toSell);
 boolean forceEquip(slot sl, item it);
@@ -1581,6 +1582,24 @@ boolean isUnclePAvailable()
 	return true;
 }
 
+boolean instakillable(monster mon)
+{
+	if(mon.boss)
+	{
+		return false;
+	}
+
+	boolean[monster] timeSpinner = $monsters[Ancient Skeleton with Skin still on it, Apathetic Tyrannosaurus, Assembly Elemental, Cro-Magnon Gnoll, Krakrox the Barbarian, Wooly Duck];
+
+	if(timeSpinner contains mon)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+
 boolean isFreeMonster(monster mon)
 {
 	boolean[monster] classRevamp = $monsters[Box of Crafty Dinner, depressing french accordionist, Frozen Bag of Tortellini, lively cajun accordionist, Possessed Can of Creepy Pasta, Possessed Can of Linguine-Os, Possessed Jar of Alphredo&trade;, quirky indie-rock accordionist];
@@ -2675,6 +2694,14 @@ int [item] cc_get_campground()
 	if(campItems contains $item[pumpkin])
 	{
 		campItems[$item[packet of pumpkin seeds]] = 1;
+	}
+	if(campItems contains $item[cornucopia])
+	{
+		campItems[$item[packet of thanksgarden seeds]] = 1;
+	}
+	if(campItems contains $item[megacopia])
+	{
+		campItems[$item[packet of thanksgarden seeds]] = 1;
 	}
 
 	if((campItems contains $item[Source Terminal]) && !get_property("cc_haveSourceTerminal").to_boolean())

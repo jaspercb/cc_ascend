@@ -405,7 +405,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((get_property("cc_usePowerPill").to_boolean()) && (get_property("_powerPillUses").to_int() < 20) && !enemy.boss)
+	if((get_property("cc_usePowerPill").to_boolean()) && (get_property("_powerPillUses").to_int() < 20) && instakillable(enemy))
 	{
 		if(item_amount($item[Power Pill]) > 0)
 		{
@@ -734,7 +734,7 @@ string cc_combatHandler(int round, string opp, string text)
 				return "skill talk about poltiics";
 			}
 		}
-		if((my_lightning() >= 25) && !isFreeMonster(enemy) && !enemy.boss)
+		if((my_lightning() >= 25) && !isFreeMonster(enemy) && instakillable(enemy))
 		{
 			if(have_skill($skill[lightning strike]))
 			{
@@ -1149,7 +1149,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 
 	# Instakill handler
-	if(!enemy.boss && !isFreeMonster(enemy))
+	if(instakillable(enemy) && !isFreeMonster(enemy))
 	{
 		if((my_lightning() >= 25) && have_skill($skill[Lightning Strike]))
 		{
@@ -1357,6 +1357,15 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			set_property("cc_combatHandler", combatState + "(love stinkbug)");
 			return "skill " + $skill[Summon Love Stinkbug];
+		}
+	}
+
+	if(!contains_text(combatState, "portscan") && have_skill($skill[Portscan]) && (my_location().turns_spent < 8) && (get_property("_sourceTerminalPortscanUses").to_int() < 3) && (my_mp() > mp_cost($skill[Portscan])))
+	{
+		if($locations[The Castle in the Clouds in the Sky (Ground Floor), The Haunted Bathroom, The Haunted Gallery] contains my_location())
+		{
+			set_property("cc_combatHandler", combatState + "(portscan)");
+			return "skill " + $skill[Portscan];
 		}
 	}
 
@@ -2345,7 +2354,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 	}
 
 	# Instakill handler
-	if(!enemy.boss && !isFreeMonster(enemy))
+	if(instakillable(enemy) && !isFreeMonster(enemy))
 	{
 		if(!contains_text(combatState, "batoomerang") && (item_amount($item[Replica Bat-oomerang]) > 0))
 		{
