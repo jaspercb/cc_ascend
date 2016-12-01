@@ -4414,6 +4414,7 @@ boolean L12_lastDitchFlyer()
 			set_property("choiceAdventure677", "2");
 			set_property("choiceAdventure678", "3");
 			handleFamiliar("initSuggest");
+			removeCombat();
 			ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
 			handleFamiliar("item");
 		}
@@ -6912,6 +6913,7 @@ boolean L10_holeInTheSkyUnlock()
 	{
 		handleFamiliar($familiar[Puck Man]);
 	}
+	removeCombat();
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
 	handleFamiliar("item");
 
@@ -6969,6 +6971,7 @@ boolean L10_topFloor()
 	}
 
 	handleFamiliar("initSuggest");
+	removeCombat();
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
 	handleFamiliar("item");
 
@@ -7037,6 +7040,7 @@ boolean L10_ground()
 	}
 
 	cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
+	removeCombat();
 
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Ground Floor)]);
 	handleFamiliar("item");
@@ -7098,6 +7102,7 @@ boolean L10_basement()
 	{
 		handleFamiliar($familiar[Puck Man]);
 	}
+	removeCombat();
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
 	handleFamiliar("item");
 
@@ -7235,6 +7240,8 @@ boolean L10_airship()
 			handleFamiliar("yellow ray");
 		}
 	}
+
+	removeCombat();
 
 	buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
 	buffMaintain($effect[Snow Shoes], 0, 1, 1);
@@ -7688,6 +7695,15 @@ boolean L7_crypt()
 		}
 		buffMaintain($effect[Song of Slowness], 110, 1, 1);
 		buffMaintain($effect[Fishy\, Oily], 0, 1, 1);
+
+		if(have_effect($effect[init.enh]) == 0)
+		{
+			int enhances = cc_sourceTerminalEnhanceLeft();
+			if(enhances > 0)
+			{
+				cc_sourceTerminalEnhance("init");
+			}
+		}
 
 		if((have_effect($effect[Soles of Glass]) == 0) && (get_property("_grimBuff") == false))
 		{
@@ -11518,6 +11534,11 @@ boolean L8_trapperYeti()
 	}
 
 	if((item_amount($item[Ninja Rope]) >= 1) && (item_amount($item[Ninja Carabiner]) >= 1) && (item_amount($item[Ninja Crampons]) >= 1))
+	{
+		return false;
+	}
+
+	if(get_property("_sourceTerminalDigitizeMonster") == $monster[Ninja Snowman Assassin])
 	{
 		return false;
 	}

@@ -524,7 +524,7 @@ void consumeStuff()
 
 		//	Try to drink more on day 1 please!
 
-		if((my_meat() > 400) && (item_amount($item[handful of smithereens]) == 3) && (get_property("cc_mosquito") == "finished"))
+		if((my_meat() > 400) && (item_amount($item[handful of smithereens]) == 3) && (get_property("cc_mosquito") == "finished") && (cc_my_path() != "KOLHS") && (cc_my_path() != "Nuclear Autumn"))
 		{
 			cli_execute("make 3 paint a vulgar pitcher");
 		}
@@ -1035,7 +1035,7 @@ void consumeStuff()
 			}
 		}
 
-		if((my_inebriety() == 0) && (my_mp() >= mpForOde) && (my_meat() > 300) && (item_amount($item[handful of smithereens]) >= 2))
+		if((my_inebriety() == 0) && (my_mp() >= mpForOde) && (my_meat() > 300) && (item_amount($item[handful of smithereens]) >= 2) && (cc_my_path() != "KOLHS") && (cc_my_path() != "Nuclear Autumn"))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 4);
@@ -1043,7 +1043,7 @@ void consumeStuff()
 			drink(2, $item[paint a vulgar pitcher]);
 		}
 
-		if((my_inebriety() == 4) && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[handful of smithereens]) >= 1))
+		if((my_inebriety() == 4) && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[handful of smithereens]) >= 1) && (cc_my_path() != "KOLHS") && (cc_my_path() != "Nuclear Autumn"))
 		{
 			shrugAT($effect[Ode to Booze]);
 			cli_execute("make 1 paint a vulgar pitcher");
@@ -1051,7 +1051,7 @@ void consumeStuff()
 			drink(1, $item[paint a vulgar pitcher]);
 		}
 
-		if((inebriety_left() >= 5) && (my_adventures() < 10) && (my_meat() > 150) && (my_mp() >= mpForOde))
+		if((inebriety_left() >= 5) && (my_adventures() < 10) && (my_meat() > 150) && (my_mp() >= mpForOde) && (cc_my_path() != "KOLHS") && (cc_my_path() != "Nuclear Autumn"))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 4);
@@ -1244,7 +1244,7 @@ void consumeStuff()
 			}
 		}
 
-		if((item_amount($item[handful of smithereens]) > 0) && (my_meat() > 300))
+		if((item_amount($item[handful of smithereens]) > 0) && (my_meat() > 300) && (cc_my_path() != "KOLHS") && (cc_my_path() != "Nuclear Autumn"))
 		{
 			cli_execute("make paint a vulgar pitcher");
 		}
