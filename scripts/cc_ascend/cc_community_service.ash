@@ -1673,6 +1673,10 @@ boolean LA_cs_communityService()
 				{
 					eatFancyDog("sleeping dog");
 				}
+				if(!get_property("_fancyHotDogEaten").to_boolean())
+				{
+					abort("Tried to eat a hot dog and failed. Move to a hot dog stand clan or 'set _fancyHotDogEaten=true' in order to resume");
+				}
 				return true;
 			}
 
