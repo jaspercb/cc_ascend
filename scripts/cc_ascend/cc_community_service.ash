@@ -1432,10 +1432,6 @@ boolean LA_cs_communityService()
 				visit_url("choice.php?whichchoice=1181&pwd=&option=3");
 				visit_url("choice.php?whichchoice=1183&pwd=&option=2");
 			}
-			else if(get_property("cc_pauseForWitchess").to_boolean())
-			{
-				user_confirm("Get the Witchess Familiar Buff and then click this away. Beep boop.");
-			}
 
 			if((have_effect($effect[Puzzle Champ]) == 0) && get_property("cc_pauseForWitchess").to_boolean())
 			{
@@ -1585,7 +1581,7 @@ boolean LA_cs_communityService()
 			#This is probably not all that effective here....
 			if(item_amount($item[Ghost Dog Chow]) > 0)
 			{
-				use(max(5,item_amount($item[Ghost Dog Chow])), $item[Ghost Dog Chow]);
+				use(min(5,item_amount($item[Ghost Dog Chow])), $item[Ghost Dog Chow]);
 			}
 
 			if(do_cs_quest(5))

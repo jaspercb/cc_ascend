@@ -4715,7 +4715,7 @@ boolean L11_hiddenCity()
 					}
 					while(have_effect($effect[Thrice-Cursed]) == 0)
 					{
-						if(inebriety_left() > 0)
+						if((inebriety_left() > 0) && (cc_my_path() != "KOLHS") && (cc_my_path() != "Nuclear Autumn"))
 						{
 							buyUpTo(1, $item[Cursed Punch]);
 							if(item_amount($item[Cursed Punch]) == 0)
@@ -9003,10 +9003,6 @@ boolean LX_phatLootToken()
 	{
 		return false;
 	}
-#	if(get_property("cc_sorceress") != "")
-#	{
-#		return false;
-#	}
 	if(get_property("cc_phatloot").to_int() >= my_daycount())
 	{
 		return false;
@@ -12992,10 +12988,6 @@ void cc_begin()
 		{
 			equip($item[Boris\'s Helm]);
 		}
-		if((item_amount($item[fudgecycle]) > 0) && can_equip($item[fudgecycle]))
-		{
-			equip($slot[acc1], $item[fudgecycle]);
-		}
 		if(item_amount($item[camp scout backpack]) > 0)
 		{
 			equip($item[camp scout backpack]);
@@ -13008,9 +13000,17 @@ void cc_begin()
 		{
 			equip($item[snow suit]);
 		}
-		if(item_amount($item[mayfly bait necklace]) > 0)
+		if(item_amount($item[mr. cheeng\'s spectacles]) > 0)
 		{
-			equip($slot[acc2], $item[mayfly bait necklace]);
+			equip($slot[acc2], $item[mr. cheeng\'s spectacles]);
+		}
+		if(item_amount($item[mr. screege\'s spectacles]) > 0)
+		{
+			equip($slot[acc3], $item[mr. screege\'s spectacles]);
+		}
+		if((item_amount($item[numberwang]) > 0) && can_equip($item[numberwang]))
+		{
+			equip($slot[acc1], $item[numberwang]);
 		}
 	}
 

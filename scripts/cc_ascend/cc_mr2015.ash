@@ -176,7 +176,7 @@ boolean cc_barrelPrayers()
 	{
 		switch(my_daycount())
 		{
-		case 1:				prayers = $strings[Protection, Glamour, Vigor];		break;
+		case 1:				prayers = $strings[Glamour, Protection, Vigor];		break;
 		case 2:				prayers = $strings[Protection, Glamour, Vigor];		break;
 		case 3:				prayers = $strings[Protection, Glamour, Vigor];		break;
 		case 4:				prayers = $strings[Protection, Glamour, Vigor];		break;

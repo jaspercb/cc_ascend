@@ -120,7 +120,7 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 	}
 	if(contains_text(page, "Combat"))
 	{
-		if(option != "null")
+		if(option != "null")// && (option != ""))
 		{
 			return ccAdv(1, loc, option);
 		}
