@@ -219,7 +219,7 @@ boolean LA_cs_communityService()
 
 			if(inebriety_left() > 9)
 			{
-				if(item_amount($item[Shot of Kardashian Gin]) > 0)
+				if((item_amount($item[Shot of Kardashian Gin]) > 0) && hippy_stone_broken())
 				{
 					if((my_mp() < mp_cost($skill[The Ode to Booze])) && (my_maxmp() >= 75))
 					{
@@ -1899,7 +1899,7 @@ boolean LA_cs_communityService()
 				buffMaintain($effect[Leash of Linguini], 12, 1, 1);
 				int runs = (familiar_weight($familiar[Pair of Stomping Boots]) + weight_adjustment()) / 5;
 				runs = runs - get_property("_banderRunaways").to_int();
-				if(runs > 0)
+				while(runs > 0)
 				{
 					handleFamiliar($familiar[Pair of Stomping Boots]);
 					backupSetting("choiceAdventure297", "3");
@@ -1908,6 +1908,10 @@ boolean LA_cs_communityService()
 					if($monsters[Ancient Insane Monk, Ferocious Bugbear, Gelatinous Cube, Knob Goblin Poseur] contains last_monster())
 					{
 						set_property("_banderRunaways", get_property("_banderRunaways").to_int() + 1);
+					}
+					if(possessEquipment($item[Li\'l Ninja Costume]))
+					{
+						break;
 					}
 				}
 			}
