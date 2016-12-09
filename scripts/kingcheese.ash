@@ -105,11 +105,11 @@ void handleKingLiberation()
 		visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
 
 		int oldToken = item_amount($item[Defective Game Grid Token]);
-		visit_url("place.php?whichplace=arcade&action=arcade_plumber", false);
-		visit_url("place.php?whichplace=arcade");
-		visit_url("place.php?whichplace=arcade&action=arcade_plumber");
-		visit_url("place.php?whichplace=arcade&action=arcade_plumber");
-		visit_url("place.php?pwd=" + my_hash() + "whichplace=arcade&action=arcade_plumber", false);
+#		visit_url("place.php?whichplace=arcade&action=arcade_plumber", false);
+#		visit_url("place.php?whichplace=arcade");
+#		visit_url("place.php?whichplace=arcade&action=arcade_plumber");
+#		visit_url("place.php?whichplace=arcade&action=arcade_plumber");
+#		visit_url("place.php?pwd=" + my_hash() + "whichplace=arcade&action=arcade_plumber", false);
 		if(item_amount($item[defective game grid token]) > oldToken)
 		{
 			abort("Woohoo!!! You got a game grid tokON!!");

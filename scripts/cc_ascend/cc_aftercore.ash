@@ -933,26 +933,6 @@ boolean cc_cheesePostCS(int leave)
 		equip($slot[acc3], $item[Mr. Cheeng\'s Spectacles]);
 	}
 
-	if(item_amount($item[Infinite BACON Machine]) > 0)
-	{
-		if(have_familiar($familiar[Hobo Monkey]))
-		{
-			handleFamiliar($familiar[Hobo Monkey]);
-		}
-		else
-		{
-			handleFamiliar($familiar[Golden Monkey]);
-		}
-	}
-	else
-	{
-		handleFamiliar($familiar[Intergnat]);
-	}
-	if(item_amount($item[Snow Suit]) > 0)
-	{
-		equip($item[Snow Suit]);
-	}
-
 	while((my_adventures() > leave) && (inebriety_left() >= 0))
 	{
 		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
@@ -971,6 +951,35 @@ boolean cc_cheesePostCS(int leave)
 		if((fullness_left() > 0) && (item_amount($item[Jumping Horseradish]) > 0))
 		{
 			eatsilent(1, $item[Jumping Horseradish]);
+		}
+
+
+		if(item_amount($item[Infinite BACON Machine]) > 0)
+		{
+			if(have_familiar($familiar[Hobo Monkey]))
+			{
+				handleFamiliar($familiar[Hobo Monkey]);
+			}
+			else
+			{
+				handleFamiliar($familiar[Golden Monkey]);
+			}
+		}
+		else
+		{
+			handleFamiliar($familiar[Intergnat]);
+		}
+		if(item_amount($item[Snow Suit]) > 0)
+		{
+			equip($item[Snow Suit]);
+		}
+		foreach fam in $familiars[Unconscious Collective, Li\'l Xenomorph, Bloovian Groose, Golden Monkey, Rogue Program, Grim Brother, Fist Turkey]
+		{
+			if(fam.drops_today < 5)
+			{
+				handleFamiliar(fam);
+				break;
+			}
 		}
 
 		boolean restoreEquip = false;
@@ -1039,6 +1048,27 @@ boolean cc_cheesePostCS(int leave)
 		}
 	}
 
+	if(item_amount($item[Infinite BACON Machine]) > 0)
+	{
+		if(have_familiar($familiar[Hobo Monkey]))
+		{
+			handleFamiliar($familiar[Hobo Monkey]);
+		}
+		else
+		{
+			handleFamiliar($familiar[Golden Monkey]);
+		}
+	}
+	else
+	{
+		handleFamiliar($familiar[Intergnat]);
+	}
+	if(item_amount($item[Snow Suit]) > 0)
+	{
+		equip($item[Snow Suit]);
+	}
+
+
 	while((inebriety_left() >= 5) && get_property("cc_breakstone").to_boolean())
 	{
 		if(!buyUpTo(1, $item[5-Hour Acrimony], 5000))
@@ -1048,6 +1078,8 @@ boolean cc_cheesePostCS(int leave)
 		}
 		drink(1, $item[5-Hour Acrimony]);
 	}
+
+
 
 
 	while((inebriety_left() >= 2) && get_property("cc_breakstone").to_boolean())

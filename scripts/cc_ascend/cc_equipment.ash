@@ -859,7 +859,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = $items[Gold Wedding Ring, Fudgecycle, Ticksilver Ring, Treads of Loathing];
+	poss = $items[Gold Wedding Ring, Gingerbeard, Fudgecycle, Ticksilver Ring, Treads of Loathing];
 
 	toEquip = handleSolveThing(poss, $slot[acc3]);
 

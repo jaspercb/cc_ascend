@@ -101,7 +101,7 @@ void shrugAT();
 void shrugAT(effect anticipated);
 boolean buyUpTo(int num, item it);
 boolean buyUpTo(int num, item it, int maxprice);
-boolean buffMaintain(effect buff, int mp_min, int cases, int turns);
+boolean buffMaintain(effect buff, int mp_min, int casts, int turns);
 effect effectNeededFirstGate(string data);
 boolean cc_deleteMail(kmessage msg);
 boolean buyableMaintain(item toMaintain, int howMany);

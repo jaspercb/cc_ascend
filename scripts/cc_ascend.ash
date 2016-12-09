@@ -1531,7 +1531,6 @@ void initializeDay(int day)
 		visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
 	}
 
-	chateaumantegna_useDesk();
 	ed_initializeDay(day);
 	boris_initializeDay(day);
 	fallout_initializeDay(day);
@@ -1775,9 +1774,52 @@ boolean dailyEvents()
 	while(cc_doPrecinct());
 	handleBarrelFullOfBarrels(true);
 
+	chateaumantegna_useDesk();
+
 	if(item_amount($item[Burned Government Manual Fragment]) > 0)
 	{
 		use(item_amount($item[Burned Government Manual Fragment]), $item[Burned Government Manual Fragment]);
+	}
+
+	if((item_amount($item[glass gnoll eye]) > 0) && !get_property("_gnollEyeUsed").to_boolean())
+	{
+		use(1, $item[Glass gnoll Eye]);
+	}
+	if((item_amount($item[chroner trigger]) > 0) && !get_property("_chronerTriggerUsed").to_boolean())
+	{
+		use(1, $item[chroner trigger]);
+	}
+	if((item_amount($item[chroner cross]) > 0) && !get_property("_chronerCrossUsed").to_boolean())
+	{
+		use(1, $item[chroner cross]);
+	}
+	if((item_amount($item[chester\'s bag of candy]) > 0) && !get_property("_bagOfCandyUsed").to_boolean())
+	{
+		use(1, $item[chester\'s bag of candy]);
+	}
+	if((item_amount($item[cheap toaster]) > 0) && !get_property("_toastSummoned").to_boolean())
+	{
+		use(1, $item[cheap toaster]);
+	}
+	if((item_amount($item[warbear breakfast machine]) > 0) && !get_property("_warbearBreakfastMachineUsed").to_boolean())
+	{
+		use(1, $item[warbear breakfast machine]);
+	}
+	if((item_amount($item[warbear soda machine]) > 0) && !get_property("_warbearSodaMachineUsed").to_boolean())
+	{
+		use(1, $item[warbear soda machine]);
+	}
+	if((item_amount($item[the cocktail shaker]) > 0) && !get_property("_cocktailShakerUsed").to_boolean())
+	{
+		use(1, $item[the cocktail shaker]);
+	}
+	if((item_amount($item[taco dan\'s taco stand flier]) > 0) && !get_property("_tacoFlierUsed").to_boolean())
+	{
+		use(1, $item[taco dan\'s taco stand flier]);
+	}
+	if((item_amount($item[Festive Warbear Bank]) > 0) && !get_property("_warbearBankUsed").to_boolean())
+	{
+		use(1, $item[Festive Warbear Bank]);
 	}
 
 	if((item_amount($item[Can of Rain-doh]) > 0) && (item_amount($item[Rain-Doh Red Wings]) == 0))
