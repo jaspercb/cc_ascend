@@ -77,7 +77,6 @@ void initializeSettings()
 		}
 	}
 
-
 	set_property("cc_abooclover", true);
 	set_property("cc_aboocount", "0");
 	set_property("cc_aboopending", 0);
@@ -1870,7 +1869,7 @@ boolean dailyEvents()
 	return true;
 }
 
-void doBedtime()
+boolean doBedtime()
 {
 	print("Starting bedtime: Pulls Left: " + pulls_remaining(), "blue");
 
@@ -1886,16 +1885,16 @@ void doBedtime()
 	{
 		if(my_inebriety() <= inebriety_limit())
 		{
-			return;
+			return false;
 		}
 	}
 	if(my_fullness() < fullness_limit())
 	{
-		return;
+		return false;
 	}
 	if(my_inebriety() < inebriety_limit())
 	{
-		return;
+		return false;
 	}
 	int spleenlimit = spleen_limit();
 	if(get_property("cc_100familiar").to_boolean())
@@ -1908,7 +1907,7 @@ void doBedtime()
 	}
 	if((my_spleen_use() < spleenlimit) && !in_hardcore() && (my_inebriety() < inebriety_limit()))
 	{
-		return;
+		return false;
 	}
 
 	if(get_property("cc_priorXiblaxianMode").to_int() == 1)
@@ -1998,7 +1997,8 @@ void doBedtime()
 		{
 			print("You have " + (5 - get_property("_machineTunnelsAdv").to_int()) + " fights in The Deep Machine Tunnels that you should use!", "blue");
 		}
-		abort("You have a rain man to cast, please do so before overdrinking and run me again.");
+		print("You have a rain man to cast, please do so before overdrinking and run me again.", "red");
+		return false;
 	}
 
 	//We are committing to end of day now...
@@ -2086,7 +2086,7 @@ void doBedtime()
 	equipRollover();
 	hr_doBedtime();
 
-	while((my_daycount() == 1) && (item_amount($item[resolution: be more adventurous]) > 0) && (get_property("_resolutionAdv").to_int() < 10))
+	while((my_daycount() == 1) && (item_amount($item[resolution: be more adventurous]) > 0) && (get_property("_resolutionAdv").to_int() < 10) && (get_property("_casualAscension").to_int() < my_ascensions()))
 	{
 		use(1, $item[resolution: be more adventurous]);
 	}
@@ -2377,13 +2377,15 @@ void doBedtime()
 			{
 				print("If you have the Frat Warrior Fatigues, rain man an Astronomer? Skinflute?", "blue");
 			}
-			abort("You have a rain man to cast, please do so before overdrinking and then run me again.");
+			print("You have a rain man to cast, please do so before overdrinking and then run me again.", "red");
+			return false;
 		}
 		if((item_amount($item[ye olde meade]) > 0) && (my_daycount() == 1))
 		{
 			print("You can drink a Ye Olde Meade as your nightcap! Yay!", "blue");
 		}
-		abort("You need to overdrink and then run me again. Beep.");
+		print("You need to overdrink and then run me again. Beep.", "red");
+		return false;
 	}
 	else
 	{
@@ -2477,7 +2479,9 @@ void doBedtime()
 		}
 
 		print("You are probably done for today, beep.", "blue");
+		return true;
 	}
+	return false;
 }
 
 boolean questOverride()
@@ -4000,6 +4004,12 @@ boolean L13_towerNSHedge()
 	{
 		set_property("cc_sorceress", "door");
 		return true;
+	}
+	if(internalQuestStatus("questL13Final") >= 5)
+	{
+		print("Should already be past the hedge maze but did not see the door", "red");
+		set_property("cc_sorceress", "door");
+		return false;
 	}
 
 	# Set this so it aborts if not enough adventures. Otherwise, well, we end up in a loop.
@@ -5726,6 +5736,13 @@ boolean L13_sorceressDoor()
 	}
 	if(get_property("cc_sorceress") != "door")
 	{
+		return false;
+	}
+
+	if(internalQuestStatus("questL13Final") >= 6)
+	{
+		print("Should already be past the tower door but did not see the First wall.", "red");
+		set_property("cc_sorceress", "tower");
 		return false;
 	}
 
@@ -11990,6 +12007,10 @@ void print_header()
 
 boolean doTasks()
 {
+	if(get_property("_casualAscension").to_int() >= my_ascensions())
+	{
+		return false;
+	}
 	if(my_thunder() > get_property("cc_lastthunder").to_int())
 	{
 		set_property("cc_lastthunderturn", "" + my_turncount());
@@ -13013,7 +13034,7 @@ void cc_begin()
 
 	dailyEvents();
 	consumeStuff();
-	while((my_adventures() > 1) && (my_inebriety() <= inebriety_limit()) && (get_property("kingLiberated") == "false") && doTasks())
+	while((my_adventures() > 1) && (my_inebriety() <= inebriety_limit()) && !get_property("kingLiberated").to_boolean() && doTasks())
 	{
 		if((my_fullness() >= fullness_limit()) && (my_inebriety() >= inebriety_limit()) && (my_spleen_use() == spleen_limit()) && (my_adventures() < 4) && (my_rain() >= 50) && (get_counters("Fortune Cookie", 0, 4) == "Fortune Cookie"))
 		{
@@ -13022,7 +13043,7 @@ void cc_begin()
 		#We save the last adventure for a rain man, damn it.
 	}
 
-	if(get_property("kingLiberated") == "true")
+	if(get_property("kingLiberated").to_boolean())
 	{
 		equipBaseline();
 		handleFamiliar("item");
@@ -13056,8 +13077,11 @@ void cc_begin()
 		}
 	}
 
-	doBedtime();
-	print("Done for today (" + my_daycount() + "), beep boop");
+	if(doBedtime())
+	{
+		print("Done for today (" + my_daycount() + "), beep boop");
+	}
+
 }
 
 void main()

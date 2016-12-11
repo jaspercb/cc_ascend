@@ -1,5 +1,7 @@
 script "cc_list.ash"
 
+# familiar, int, item defined. Define the rest at some point.
+
 #	All lists have the construct type[int] and are 0-indexed, like nature intended.
 #	Types: familiar, item
 # 	Replace TYPE with types above
@@ -43,9 +45,6 @@ familiar[int] ListInsertInorder(familiar[int] list, familiar what);
 # Searching
 int ListFind(familiar[int] list, familiar what);
 int ListFind(familiar[int] list, familiar what, int idx);
-
-# Printer
-string ListOutput(familiar[int] list);
 
 familiar[int] List()
 {
@@ -270,6 +269,195 @@ void main()
 	print(3 + ": " + list[3] + ": " + list.ListFind(list[3], 4), "blue");
 }
 
+// start of int[int]
+
+string ListOutput(int[int] list);
+
+int[int] intList();
+
+int[int] List(boolean[int] data);
+
+int[int] List(int[int] data);
+
+int[int] ListRemove(int[int] list, int what);
+int[int] ListRemove(int[int] list, int what, int idx);
+int[int] ListErase(int[int] list, int index);
+
+int[int] ListInsertFront(int[int] list, int what);
+int[int] ListInsert(int[int] list, int what);
+int[int] ListInsertAt(int[int] list, int what, int idx);
+int[int] ListInsertInorder(int[int] list, int what);
+
+int ListFind(int[int] list, int what);
+int ListFind(int[int] list, int what, int idx);
+
+int[int] intList()
+{
+	int[int] retval;
+	return retval;
+}
+
+int[int] List(boolean[int] data)
+{
+	int[int] retval;
+	int index = 0;
+
+	foreach el in data
+	{
+		retval[index] = el;
+		index = index + 1;
+	}
+	return retval;
+}
+
+int[int] List(int[int] data)
+{
+	int[int] retval;
+
+	int[int] temp;
+	foreach idx, el in data
+	{
+		temp[idx] = el;
+	}
+	sort temp by index;
+
+	int index = 0;
+	foreach idx, el in temp
+	{
+		retval[index] = el;
+		index = index + 1;
+	}
+
+	return retval;
+}
+
+int ListFind(int[int] list, int what)
+{
+	return ListFind(list, what, 0);
+}
+
+int ListFind(int[int] list, int what, int idx)
+{
+	if(idx < 0)
+	{
+		abort("Attempted index out of bounds: " + idx);
+	}
+	int[int] retval = List(list);
+	int at = idx;
+	while(at < count(retval))
+	{
+		if(what == retval[at])
+		{
+			return at;
+		}
+		at = at + 1;
+	}
+	return -1;
+}
+
+
+int[int] ListRemove(int[int] list, int what)
+{
+	return ListRemove(list, what, 0);
+}
+
+int[int] ListRemove(int[int] list, int what, int idx)
+{
+	int[int] retval = List(list);
+	foreach at, el in retval
+	{
+		if((el == what) && (at >= idx))
+		{
+			remove retval[at];
+		}
+	}
+	return List(retval);
+}
+
+int[int] ListErase(int[int] list, int index)
+{
+	int[int] retval = List(list);
+	remove retval[index];
+	return List(retval);
+}
+
+int[int] ListInsertFront(int[int] list, int what)
+{
+	int[int] retval = List(list);
+	retval[-1] = what;
+	return List(retval);
+}
+
+int[int] ListInsert(int[int] list, int what)
+{
+	int[int] retval = List(list);
+	retval[count(retval)] = what;
+	return List(retval);
+}
+
+int[int] ListInsertAt(int[int] list, int what, int idx)
+{
+	if((idx < 0) || (idx >= count(list)))
+	{
+		abort("List index " + idx + " out of bounds: " + count(list));
+	}
+	int[int] retval = List(list);
+	int shift = count(retval);
+	while(shift > idx)
+	{
+		retval[shift] = retval[shift-1];
+		shift = shift - 1;
+	}
+	retval[idx] = what;
+	return retval;
+}
+
+int[int] ListInsertInorder(int[int] list, int what)
+{
+	int[int] retval = List(list);
+	if(to_string(what) < to_string(retval[0]))
+	{
+		return ListInsertAt(list, what, 0);
+	}
+	int shift = count(retval);
+	while(shift > 0)
+	{
+		if(to_string(what) > to_string(retval[shift-1]))
+		{
+			retval[shift] = what;
+			return retval;
+		}
+		retval[shift] = retval[shift-1];
+		shift = shift - 1;
+	}
+	if(shift == 0)
+	{
+		abort("Inorder Insertion Failure");
+	}
+	return retval;
+}
+
+string ListOutput(int[int] list)
+{
+	string retval;
+	if(count(list) > 0)
+	{
+		retval = to_string(list[0]);
+		int index = 1;
+		while(index < count(list))
+		{
+			retval = retval + ", " + to_string(list[index]);
+			index = index + 1;
+		}
+	}
+
+	return retval;
+}
+
+
+//End of int[int]
+//start of item[int]
+
 string ListOutput(item[int] list);
 
 item[int] itemList();
@@ -289,8 +477,6 @@ item[int] ListInsertInorder(item[int] list, item what);
 
 int ListFind(item[int] list, item what);
 int ListFind(item[int] list, item what, int idx);
-
-string ListOutput(item[int] list);
 
 item[int] itemList()
 {
@@ -454,3 +640,4 @@ string ListOutput(item[int] list)
 
 	return retval;
 }
+//end of item[int]
