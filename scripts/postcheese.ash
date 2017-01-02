@@ -81,6 +81,10 @@ void handlePostAdventure()
 	{
 		use(1, $item[Handmade Hobby Horse]);
 	}
+	if(!get_property("_creepyVoodooDollUsed").to_boolean() && (item_amount($item[Creepy Voodoo Doll]) > 0))
+	{
+		use(1, $item[Creepy Voodoo Doll]);
+	}
 
 
 	if((my_location() == $location[The Lower Chambers]) && (item_amount($item[2334]) == 0))

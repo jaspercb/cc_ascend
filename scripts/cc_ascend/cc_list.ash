@@ -1,6 +1,6 @@
 script "cc_list.ash"
 
-# familiar, int, item defined. Define the rest at some point.
+# familiar, int, item, effect defined. Define the rest at some point.
 
 #	All lists have the construct type[int] and are 0-indexed, like nature intended.
 #	Types: familiar, item
@@ -641,3 +641,188 @@ string ListOutput(item[int] list)
 	return retval;
 }
 //end of item[int]
+//start of effect[int]
+
+string ListOutput(effect[int] list);
+
+effect[int] effectList();
+
+effect[int] List(boolean[effect] data);
+
+effect[int] List(effect[int] data);
+
+effect[int] ListRemove(effect[int] list, effect what);
+effect[int] ListRemove(effect[int] list, effect what, int idx);
+effect[int] ListErase(effect[int] list, int index);
+
+effect[int] ListInsertFront(effect[int] list, effect what);
+effect[int] ListInsert(effect[int] list, effect what);
+effect[int] ListInsertAt(effect[int] list, effect what, int idx);
+effect[int] ListInsertInorder(effect[int] list, effect what);
+
+int ListFind(effect[int] list, effect what);
+int ListFind(effect[int] list, effect what, int idx);
+
+effect[int] effectList()
+{
+	effect[int] retval;
+	return retval;
+}
+
+effect[int] List(boolean[effect] data)
+{
+	effect[int] retval;
+	int index = 0;
+
+	foreach el in data
+	{
+		retval[index] = el;
+		index = index + 1;
+	}
+	return retval;
+}
+
+effect[int] List(effect[int] data)
+{
+	effect[int] retval;
+
+	effect[int] temp;
+	foreach idx, el in data
+	{
+		temp[idx] = el;
+	}
+	sort temp by index;
+
+	int index = 0;
+	foreach idx, el in temp
+	{
+		retval[index] = el;
+		index = index + 1;
+	}
+
+	return retval;
+}
+
+int ListFind(effect[int] list, effect what)
+{
+	return ListFind(list, what, 0);
+}
+
+int ListFind(effect[int] list, effect what, int idx)
+{
+	if(idx < 0)
+	{
+		abort("Attempted index out of bounds: " + idx);
+	}
+	effect[int] retval = List(list);
+	int at = idx;
+	while(at < count(retval))
+	{
+		if(what == retval[at])
+		{
+			return at;
+		}
+		at = at + 1;
+	}
+	return -1;
+}
+
+
+effect[int] ListRemove(effect[int] list, effect what)
+{
+	return ListRemove(list, what, 0);
+}
+
+effect[int] ListRemove(effect[int] list, effect what, int idx)
+{
+	effect[int] retval = List(list);
+	foreach at, el in retval
+	{
+		if((el == what) && (at >= idx))
+		{
+			remove retval[at];
+		}
+	}
+	return List(retval);
+}
+
+effect[int] ListErase(effect[int] list, int index)
+{
+	effect[int] retval = List(list);
+	remove retval[index];
+	return List(retval);
+}
+
+effect[int] ListInsertFront(effect[int] list, effect what)
+{
+	effect[int] retval = List(list);
+	retval[-1] = what;
+	return List(retval);
+}
+
+effect[int] ListInsert(effect[int] list, effect what)
+{
+	effect[int] retval = List(list);
+	retval[count(retval)] = what;
+	return List(retval);
+}
+
+effect[int] ListInsertAt(effect[int] list, effect what, int idx)
+{
+	if((idx < 0) || (idx >= count(list)))
+	{
+		abort("List index " + idx + " out of bounds: " + count(list));
+	}
+	effect[int] retval = List(list);
+	int shift = count(retval);
+	while(shift > idx)
+	{
+		retval[shift] = retval[shift-1];
+		shift = shift - 1;
+	}
+	retval[idx] = what;
+	return retval;
+}
+
+effect[int] ListInsertInorder(effect[int] list, effect what)
+{
+	effect[int] retval = List(list);
+	if(to_string(what) < to_string(retval[0]))
+	{
+		return ListInsertAt(list, what, 0);
+	}
+	int shift = count(retval);
+	while(shift > 0)
+	{
+		if(to_string(what) > to_string(retval[shift-1]))
+		{
+			retval[shift] = what;
+			return retval;
+		}
+		retval[shift] = retval[shift-1];
+		shift = shift - 1;
+	}
+	if(shift == 0)
+	{
+		abort("Inorder Insertion Failure");
+	}
+	return retval;
+}
+
+string ListOutput(effect[int] list)
+{
+	string retval;
+	if(count(list) > 0)
+	{
+		retval = to_string(list[0]);
+		int index = 1;
+		while(index < count(list))
+		{
+			retval = retval + ", " + to_string(list[index]);
+			index = index + 1;
+		}
+	}
+
+	return retval;
+}
+//end of effect[int]

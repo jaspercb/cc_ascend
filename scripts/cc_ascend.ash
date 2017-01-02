@@ -369,6 +369,10 @@ boolean handleFamiliar(string type)
 				return handleFamiliar(fam);
 			}
 		}
+		if(!get_property("_internetViralVideoBought").to_boolean() && (item_amount($item[BACON]) >= 20))
+		{
+			cli_execute("make 1 viral video");
+		}
 	}
 	return false;
 }

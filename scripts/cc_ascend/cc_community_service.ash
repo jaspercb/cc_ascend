@@ -641,13 +641,14 @@ boolean LA_cs_communityService()
 				doFarm = true;
 			}
 
+			if(possessEquipment($item[KoL Con 13 Snowglobe]) && (equipped_item($slot[Off-Hand]) == $item[A Light That Never Goes Out]))
+			{
+				equip($slot[Off-hand], $item[KoL Con 13 Snowglobe]);
+				pulverizeThing($item[A Light That Never Goes Out]);
+			}
+
 			if(doFarm)
 			{
-				if(possessEquipment($item[KoL Con 13 Snowglobe]) && (equipped_item($slot[Off-Hand]) == $item[A Light That Never Goes Out]))
-				{
-					equip($slot[Off-hand], $item[KoL Con 13 Snowglobe]);
-					pulverizeThing($item[A Light That Never Goes Out]);
-				}
 				if(get_property("cc_tryPowerLevel").to_boolean())
 				{
 					if(elementalPlanes_access($element[stench]) && (my_hp() > 100))
@@ -1996,6 +1997,8 @@ boolean LA_cs_communityService()
 			{
 				forceEquip($slot[Familiar], $item[Li\'l Ninja Costume]);
 			}
+			
+			rethinkingCandy($effect[Synthesis: Collection]);
 
 			if(do_cs_quest(9))
 			{
@@ -2123,6 +2126,8 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Frost Tea], 0, 1, 1);
 
 			cs_eat_stuff(curQuest);
+			
+			rethinkingCandy($effect[Synthesis: Hot]);
 
 			if(do_cs_quest(10))
 			{

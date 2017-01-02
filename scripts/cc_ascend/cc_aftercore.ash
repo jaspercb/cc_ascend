@@ -746,6 +746,14 @@ boolean cc_ascendIntoCS()
 	}
 	string temp = visit_url("ascend.php?pwd=&confirm=on&confirm2=on&action=ascend&submit=Ascend", true);
 	temp = visit_url("afterlife.php?action=pearlygates");
+
+	string permery_text = visit_url("afterlife.php?place=permery");
+	if(!permery_text.contains_text("It looks like you've already got all of the skills from your last life marked permanent."))
+	{
+		abort("perm a skill");
+		return false;
+	}
+
 	temp = visit_url("afterlife.php?action=buydeli&whichitem=5046", true);
 
 	temp = visit_url("afterlife.php?place=armory");

@@ -774,7 +774,7 @@ void removeCombat()
 void equipRollover()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Sea Cowboy Hat, Hairpiece on Fire, Spelunker\'s Fedora, Leather Aviator\'s Cap, Very Pointy Crown];
+	boolean[item] poss = $items[Sea Cowboy Hat, Hairpiece on Fire, Spelunker\'s Fedora, Uncle Crimbo\'s Hat, Leather Aviator\'s Cap, Very Pointy Crown];
 
 	toEquip = handleSolveThing(poss, $slot[hat]);
 

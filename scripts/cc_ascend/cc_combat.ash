@@ -308,6 +308,10 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		return "attack with weapon";
 	}
+	if(have_equipped($item[Drunkula\'s Wineglass]))
+	{
+		return "attack with weapon";
+	}
 
 	if(!contains_text(combatState, "abstraction") && in_ronin())
 	{
@@ -960,7 +964,6 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Snokebomb];
 		}
 	}
-
 
 	#Beancannon
 	if((!contains_text(combatState, "beancannon")) && (have_skill($skill[Beancannon])) && (get_property("_beancannonUsed").to_int() < 5) && ((my_mp() - 20) >= mp_cost($skill[Beancannon])))

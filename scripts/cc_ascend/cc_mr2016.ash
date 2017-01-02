@@ -1,5 +1,6 @@
 script "cc_mr2016.ash"
 import<cc_ascend/cc_adventure.ash>
+import<cc_ascend/cc_list.ash>
 
 #	This is meant for items that have a date of 2016.
 #	Handling: Witchess Set, Snojo, Source Terminal, Protonic Accelerator Pack
@@ -31,6 +32,8 @@ boolean timeSpinnerCombat(monster goal);
 boolean timeSpinnerCombat(monster goal, string option);
 boolean timeSpinnerAdventure(string option);
 boolean timeSpinnerAdventure();
+
+boolean rethinkingCandy(effect acquire);
 
 //Supplemental
 int cc_advWitchessTargets(string target);
@@ -1231,3 +1234,150 @@ boolean timeSpinnerCombat(monster goal, string option)
 	return false;
 }
 
+
+boolean rethinkingCandy(effect acquire)
+{
+	if(!have_skill($skill[Sweet Synthesis]))
+	{
+		return false;
+	}
+	if(spleen_left() == 0)
+	{
+		return false;
+	}
+	
+	boolean[effect] synthesisList = $effects[Synthesis: Hot, Synthesis: Cold, Synthesis: Pungent, Synthesis: Scary, Synthesis: Greasy, Synthesis: Strong, Synthesis: Smart, Synthesis: Cool, Synthesis: Hardy, Synthesis: Energy, Synthesis: Greed, Synthesis: Collection, Synthesis: Movement, Synthesis: Learning, Synthesis: Style];
+	effect[int] synthesis = List(synthesisList);
+	
+	if(!(synthesisList contains acquire))
+	{
+		return false;
+	}
+	
+	item[int] simpleList;
+	item[int] complexList;
+	foreach it in $items[]
+	{
+		if(it.candy && (item_amount(it) > 0) && (mall_price(it) <= 1000))
+		{
+			if(it.candy_type == "simple")
+			{
+				simpleList[count(simpleList)] = it;
+			}
+			else if(it.candy_type == "complex")
+			{
+				complexList[count(complexList)] = it;
+			}
+		}
+	}
+	
+	sort simpleList by mall_price(value);
+	sort complexList by mall_price(value);
+	item[int] simple = List(simpleList);
+	item[int] complex = List(complexList);
+	
+#	foreach idx, it in simple
+#	{
+#		print(it + ": " + item_amount(it) + " (" + to_int(it) + "): " + it.candy_type + " Cost: " + mall_price(it), "blue");
+#	}
+#	
+#	foreach idx, it in complex
+#	{
+#		print(it + ": " + item_amount(it) + " (" + to_int(it) + "): " + it.candy_type + " Cost: " + mall_price(it), "blue");
+#	}
+	
+	int bestCost = 2000;
+	item bestFirst = $item[none];
+	item bestSecond = $item[none];
+	if($effects[Synthesis: Hot, Synthesis: Cold, Synthesis: Pungent, Synthesis: Scary, Synthesis: Greasy] contains acquire)
+	{
+		int goal = ListFind(synthesis, acquire) % 5;
+		for(int i=0; i<count(simple); i++)
+		{
+			int current = to_int(simple[i]);
+			int startNextIndex = i+1;
+			if(item_amount(simple[i]) > 1)
+			{
+				startNextIndex = i;
+			}
+			for(int j=startNextIndex; j<count(simple); j++)
+			{
+				int sum = (to_int(simple[j]) + current) % 5;
+				if(sum == goal)
+				{
+					#print("Possible: " + simple[i] + ", " + simple[j], "blue");
+					if((mall_price(simple[i]) + mall_price(simple[j])) < bestCost)
+					{
+						bestCost = mall_price(simple[i]) + mall_price(simple[j]);
+						bestFirst = simple[i];
+						bestSecond = simple[j];
+					}
+				}
+			}
+		}
+	}
+	else if($effects[Synthesis: Strong, Synthesis: Smart, Synthesis: Cool, Synthesis: Hardy, Synthesis: Energy] contains acquire)
+	{
+		int goal = ListFind(synthesis, acquire) % 5;
+		for(int i=0; i<count(simple); i++)
+		{
+			int current = to_int(simple[i]);
+			for(int j=0; j<count(complex); j++)
+			{
+				int sum = (to_int(complex[j]) + current) % 5;
+				if(sum == goal)
+				{
+					#print("Possible: " + simple[i] + ", " + complex[j], "blue");
+					if((mall_price(simple[i]) + mall_price(complex[j])) < bestCost)
+					{
+						bestCost = mall_price(simple[i]) + mall_price(complex[j]);
+						bestFirst = simple[i];
+						bestSecond = complex[j];
+					}
+				}
+			}
+		}
+	}
+	else if($effects[Synthesis: Greed, Synthesis: Collection, Synthesis: Movement, Synthesis: Learning, Synthesis: Style] contains acquire)
+	{
+		int goal = ListFind(synthesis, acquire) % 5;
+		for(int i=0; i<count(complex); i++)
+		{
+			int current = to_int(complex[i]);
+			int startNextIndex = i+1;
+			if(item_amount(complex[i]) > 1)
+			{
+				startNextIndex = i;
+			}
+			for(int j=startNextIndex; j<count(complex); j++)
+			{
+				int sum = (to_int(complex[j]) + current) % 5;
+				if(sum == goal)
+				{
+					#print("Possible: " + complex[i] + ", " + complex[j], "blue");
+					if((mall_price(complex[i]) + mall_price(complex[j])) < bestCost)
+					{
+						bestCost = mall_price(complex[i]) + mall_price(complex[j]);
+						bestFirst = complex[i];
+						bestSecond = complex[j];
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		return false;
+	}
+	
+	if(bestFirst != $item[none])
+	{
+		print("Best case: " + bestFirst + ", " + bestSecond + ": " + bestCost, "green");
+		string temp = visit_url("choice.php?whichchoice=1217&option=1&pwd=&a=" + to_int(bestFirst) + "&b=" + to_int(bestSecond));
+		if(have_effect(acquire) == 0)
+		{
+			abort("Failed to Sweetly Synthesize");
+		}
+	}
+	return true;
+}
