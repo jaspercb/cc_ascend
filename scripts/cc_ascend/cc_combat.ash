@@ -1395,6 +1395,16 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill stuffed mortar shell";
 	}
 
+	if(!contains_text(combatState, "duplicate") && contains_text(combatState, "stuffedmortarshell") && have_skill($skill[Duplicate]) && have_skill($skill[Stuffed Mortar Shell]) && (my_mp() > mp_cost($skill[Duplicate])) && (get_property("_sourceTerminalDuplicateUses").to_int() == 0) && !get_property("kingLiberated").to_boolean())
+	{
+		if($monsters[Dairy Goat, Gaudy Pirate] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(duplicate)");
+			return "skill duplicate";
+		}
+	}
+
+
 	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_class() == $class[Sauceror]) && (my_mp() >= 32))
 	{
 		set_property("cc_combatHandler", combatState + "(weaksauce)");
@@ -1405,6 +1415,18 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		set_property("cc_combatHandler", combatState + "(weaksauce)");
 		return "skill curse of weaksauce";
+	}
+
+	if(!contains_text(combatState, "digitize") && have_skill($skill[Digitize]) && (my_mp() > mp_cost($skill[Digitize])) && (get_property("_sourceTerminalDigitizeUses").to_int() == 0) && !get_property("kingLiberated").to_boolean())
+	{
+		if($monsters[Ninja Snowman Assassin, Lobsterfrogman, Writing Desk] contains enemy)
+		{
+			if(get_property("_sourceTerminalDigitizeMonster") != enemy)
+			{
+				set_property("cc_combatHandler", combatState + "(digitize)");
+				return "skill digitize";
+			}
+		}
 	}
 
 
@@ -1551,7 +1573,6 @@ string cc_combatHandler(int round, string opp, string text)
 			stunner = "skill soul bubble";
 			costStunner = mp_cost($skill[Soul Bubble]);
 		}
-
 
 		if(!contains_text(combatState, "delaymortarshell") && contains_text(combatState, "stuffedmortarshell") && (my_class() == $class[Sauceror]) && ((expected_damage() * 2) < my_hp()) && have_skill($skill[Stuffed Mortar Shell]) && have_skill($skill[Salsaball]) && (my_mp() > mp_cost($skill[Salsaball])))
 		{

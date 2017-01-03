@@ -116,7 +116,6 @@ element ns_hedge3();
 void woods_questStart();			//From Bale\'s woods.ash relay mod.
 int howLongBeforeHoloWristDrop();
 boolean is_avatar_potion(item it);	//From Veracity\'s "avatar potion" post
-string cc_my_path();
 boolean lastAdventureSpecialNC();
 //boolean zoneNonCombat(location loc);
 //boolean zoneCombat(location loc);
@@ -135,7 +134,6 @@ boolean isOverdueDigitize();
 boolean isOverdueArrow();
 boolean isExpectingArrow();
 boolean setAdvPHPFlag();
-
 
 
 // Private Prototypes
@@ -721,6 +719,28 @@ location provideAdvPHPZone()
 	}
 	return $location[none];
 }
+
+boolean hasSpookyravenLibraryKey()
+{
+	return ((item_amount($item[1764]) > 0) || (item_amount($item[7302]) > 0));
+}
+boolean hasILoveMeVolI()
+{
+	return ((item_amount($item[2258]) > 0) || (item_amount($item[7262]) > 0));
+}
+boolean useILoveMeVolI()
+{
+	if(item_amount($item[2258]) > 0)
+	{
+		return use(1, $item[2258]);
+	}
+	else if(item_amount($item[7262]) > 0)
+	{
+		return use(1, $item[7262]);
+	}
+	return false;
+}
+
 
 boolean setAdvPHPFlag()
 {

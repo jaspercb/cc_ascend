@@ -3304,7 +3304,7 @@ boolean L11_palindome()
 	total = total + item_amount($item[Photograph Of A Dog]);
 
 
-	boolean lovemeDone = (item_amount($item[&quot;I Love Me\, Vol. I&quot;]) > 0) || (internalQuestStatus("questL11Palindome") >= 1);
+	boolean lovemeDone = hasILoveMeVolI() || (internalQuestStatus("questL11Palindome") >= 1);
 	if(!lovemeDone && (get_property("palindomeDudesDefeated").to_int() >= 5))
 	{
 		string palindomeCheck = visit_url("place.php?whichplace=palindome");
@@ -3376,11 +3376,11 @@ boolean L11_palindome()
 			return true;
 		}
 	}
-	if((((total == 4) && (item_amount($item[&quot;I Love Me\, Vol. I&quot;]) > 0)) || ((total == 0) && possessEquipment($item[Mega Gem]))) && loveMeDone)
+	if((((total == 4) && hasILoveMeVolI()) || ((total == 0) && possessEquipment($item[Mega Gem]))) && loveMeDone)
 	{
-		if(item_amount($item[&quot;I Love Me\, Vol. I&quot;]) > 0)
+		if(hasILoveMeVolI())
 		{
-			use(1, $item[&quot;I Love Me\, Vol. I&quot;]);
+			useILoveMeVolI();
 		}
 		visit_url("place.php?whichplace=palindome&action=pal_drlabel");
 		visit_url("choice.php?pwd&whichchoice=872&option=1&photo1=2259&photo2=7264&photo3=7263&photo4=7265");
@@ -9365,7 +9365,7 @@ boolean LX_handleSpookyravenFirstFloor()
 
 	if(!have_skill($skill[Rain Man]) || get_property("cc_100familiar").to_boolean())
 	{
-		if(item_amount($item[Spookyraven Library Key]) == 1)
+		if(hasSpookyravenLibraryKey())
 		{
 			print("Well, we need writing desks", "blue");
 			print("Going to the liberry!", "blue");

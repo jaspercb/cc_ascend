@@ -3,7 +3,7 @@ script "cc_cooking.ash"
 import<cc_ascend/cc_clan.ash>
 import<cc_ascend/cc_util.ash>
 import<cc_ascend/cc_community_service.ash>
-
+import<cc_ascend/cc_ascend_header.ash>
 
 #
 #	Handler for in-run consumption
@@ -400,7 +400,7 @@ void consumeStuff()
 	}
 
 
-	if((my_inebriety() <= 8) || (my_adventures() < 20) || (item_amount($item[Spookyraven Library Key]) > 0) || (get_property("questM20Necklace") == "finished"))
+	if((my_inebriety() <= 8) || (my_adventures() < 20) || hasSpookyravenLibraryKey() || (get_property("questM20Necklace") == "finished"))
 	{
 		if((inebriety_left() >= 3) && (my_mp() >= mpForOde) && (my_level() >= 5))
 		{
@@ -475,7 +475,7 @@ void consumeStuff()
 		}
 	}
 
-	if((my_inebriety() <= 6) || (my_adventures() < 20) || (item_amount($item[Spookyraven Library Key]) > 0) || (get_property("questM20Necklace") == "finished"))
+	if((my_inebriety() <= 6) || (my_adventures() < 20) || hasSpookyravenLibraryKey() || (get_property("questM20Necklace") == "finished"))
 	{
 		if((inebriety_left() >= 4) && (my_mp() < mpForOde) && (my_maxmp() > mpForOde))
 		{

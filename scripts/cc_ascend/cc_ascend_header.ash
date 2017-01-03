@@ -212,3 +212,8 @@ boolean needOre();								//Defined in cc_ascend/cc_util.ash
 
 //Wrapper for my_path(), in case there are delays in Mafia translating path values
 string cc_my_path();							//Defined in cc_ascend/cc_util.ash
+
+//Item disambiguation functions
+boolean hasSpookyravenLibraryKey();				//Defined in cc_ascend/cc_util.ash
+boolean hasILoveMeVolI();						//Defined in cc_ascend/cc_util.ash
+boolean useILoveMeVolI();						//Defined in cc_ascend/cc_util.ash
