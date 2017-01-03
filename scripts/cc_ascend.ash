@@ -2073,7 +2073,7 @@ boolean doBedtime()
 		}
 	}
 
-	if((my_daycount() == 1) && ((item_amount($item[thor\'s pliers]) == 1) || (equipped_item($slot[weapon]) == $item[Thor\'s Pliers]) || (equipped_item($slot[off-hand]) == $item[Thor\'s Pliers]) || (get_property("_rapidPrototypingUsed").to_int() < 5)) && have_skill($skill[Rapid Prototyping]))
+	if((my_daycount() == 1) && ((item_amount($item[thor\'s pliers]) == 1) || (equipped_item($slot[weapon]) == $item[Thor\'s Pliers]) || (equipped_item($slot[off-hand]) == $item[Thor\'s Pliers]) || (get_property("_rapidPrototypingUsed").to_int() < 5)) && have_skill($skill[Rapid Prototyping]) && is_unrestricted($item[Crimbot ROM: Rapid Prototyping]))
 	{
 		item oreGoal = to_item(get_property("trapperOre"));
 		int need = 1;
@@ -2095,15 +2095,15 @@ boolean doBedtime()
 		use(1, $item[resolution: be more adventurous]);
 	}
 
-	if(my_daycount() <= 2)
+	if((my_daycount() <= 2) && have_skill($skill[Rapid Prototyping]) && is_unrestricted($item[Crimbot ROM: Rapid Prototyping]))
 	{
 		// Check for rapid prototyping
-		while((get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious reagent]) > 0) && (item_amount($item[cranberries]) > 0) && (item_amount($item[cranberry cordial]) < 2) && have_skill($skill[Advanced Saucecrafting]) && have_skill($skill[Rapid Prototyping]))
+		while((get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious reagent]) > 0) && (item_amount($item[cranberries]) > 0) && (item_amount($item[cranberry cordial]) < 2) && have_skill($skill[Advanced Saucecrafting]))
 		{
 			cli_execute("make cranberry cordial");
 		}
 		put_closet(item_amount($item[cranberries]), $item[cranberries]);
-		while((get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious reagent]) > 0) && (item_amount($item[glass of goat\'s milk]) > 0) && (item_amount($item[milk of magnesium]) < 2) && have_skill($skill[Advanced Saucecrafting]) && have_skill($skill[Rapid Prototyping]))
+		while((get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious reagent]) > 0) && (item_amount($item[glass of goat\'s milk]) > 0) && (item_amount($item[milk of magnesium]) < 2) && have_skill($skill[Advanced Saucecrafting]))
 		{
 			cli_execute("make milk of magnesium");
 		}
@@ -2297,7 +2297,7 @@ boolean doBedtime()
 		int craftingLeft = 10 - get_property("_thorsPliersCrafting").to_int();
 		print("Free Thor's Pliers craftings left: " + craftingLeft, "blue");
 	}
-	if(have_skill($skill[Rapid Prototyping]))
+	if(have_skill($skill[Rapid Prototyping]) && is_unrestricted($item[Crimbot ROM: Rapid Prototyping]))
 	{
 		int craftingLeft = 5 - get_property("_rapidPrototypingUsed").to_int();
 		print("Free Rapid Prototyping craftings left: " + craftingLeft, "blue");
@@ -2913,18 +2913,48 @@ boolean L11_aridDesert()
 		desertBuff = $item[UV-resistant compass];
 		progress = 2;
 	}
-	if(possessEquipment($item[Ornate Dowsing Rod]))
+	if(possessEquipment($item[Ornate Dowsing Rod]) && is_unrestricted($item[Hibernating Grimstone Golem]))
 	{
 		desertBuff = $item[Ornate Dowsing Rod];
 		progress = 3;
 	}
+
 
 	if((!possessEquipment(desertBuff)) && !($classes[Avatar of Boris, Avatar of Sneaky Pete] contains my_class()) && (cc_my_path() != "Way of the Surprising Fist"))
 	{
 		if((my_level() >= 12) && !in_hardcore())
 		{
 			print("Do you actually have a UV-resistant compass? Try 'refresh inv' in the CLI! If possible, pull a Grimstone mask and rerun, we may have missed that somehow.", "green");
-			abort("I can't do the Oasis without an Ornate Dowsing Rod. You can manually get a UV-resistant compass and I'll use that if you really hate me that much.");
+			if(is_unrestricted($item[Hibernating Grimstone Golem]))
+			{
+				abort("I can't do the Oasis without an Ornate Dowsing Rod. You can manually get a UV-resistant compass and I'll use that if you really hate me that much.");
+			}
+			else
+			{
+				cli_execute("refresh inv");
+				if(possessEquipment($item[UV-resistant compass]))
+				{
+					desertBuff = $item[UV-resistant compass];
+					progress = 2;
+				}
+				else if((my_adventures() > 3) && (my_meat() > 1200))
+				{
+					ccAdv(1, $location[The Shore\, Inc. Travel Agency]);
+					if(item_amount($item[Shore Inc. Ship Trip Scrip]) > 0)
+					{
+						cli_execute("make UV-Resistant Compass");
+					}
+					if(!possessEquipment($item[UV-Resistant Compass]))
+					{
+						abort("Could not acquire a UV-Resistant Compass. Failing.");
+					}
+					return true;
+				}
+				else
+				{
+					abort("Can not handle the desert in our current situation.");
+				}
+			}
 		}
 		else
 		{
@@ -6310,6 +6340,10 @@ boolean L12_sonofaBeach()
 			return false;
 		}
 	}
+	if(get_property("_sourceTerminalDigitizeMonster") == $monster[Lobsterfrogman])
+	{
+		return false;
+	}
 	else if(get_property("fratboysDefeated").to_int() < 64)
 	{
 		return false;
@@ -6336,6 +6370,7 @@ boolean L12_sonofaBeach()
 
 	if(chateaumantegna_havePainting() && !get_property("chateauMonsterFought").to_boolean() && (get_property("chateauMonster") == $monster[Lobsterfrogman]))
 	{
+		cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
 		if(chateaumantegna_usePainting())
 		{
 			handleFamiliar("item");
@@ -7896,7 +7931,10 @@ boolean LX_hardcoreFoodFarm()
 	}
 	if(my_level() >= 8)
 	{
-		cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
+		if(get_property("_sourceTerminalDuplicateUses").to_int() == 0)
+		{
+			cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
+		}
 		ccAdv(1, $location[The Goatlet]);
 		cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
 	}
@@ -8310,7 +8348,10 @@ boolean L8_trapperGround()
 	{
 		print("Yay for goat cheese!", "blue");
 		handleFamiliar("item");
-		cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
+		if(get_property("_sourceTerminalDuplicateUses").to_int() == 0)
+		{
+			cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
+		}
 		ccAdv(1, $location[The Goatlet]);
 		cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
 		return true;
@@ -8327,7 +8368,10 @@ boolean L8_trapperGround()
 		}
 		print("Yay for goat cheese!", "blue");
 		handleFamiliar("item");
-		cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
+		if(get_property("_sourceTerminalDuplicateUses").to_int() == 0)
+		{
+			cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
+		}
 		ccAdv(1, $location[The Goatlet]);
 		cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
 		return true;
@@ -9312,6 +9356,11 @@ boolean LX_handleSpookyravenFirstFloor()
 	if(item_amount($item[Lady Spookyraven\'s Necklace]) > 0)
 	{
 		abort("Have Lady Spookyraven's Necklace but did not give it to her....");
+	}
+
+	if(get_property("_sourceTerminalDigitizeMonster") == $monster[Writing Desk])
+	{
+		return false;
 	}
 
 	if(!have_skill($skill[Rain Man]) || get_property("cc_100familiar").to_boolean())
@@ -10583,7 +10632,10 @@ boolean L11_talismanOfNam()
 			if((item_amount($item[gaudy key]) < 2) && !possessEquipment($item[Talisman O\' Namsilat]))
 			{
 				print("Well, need to farm gaudy keys I suppose... sigh.", "blue");
-				cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
+				if(get_property("_sourceTerminalDuplicateUses").to_int() == 0)
+				{
+					cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
+				}
 				ccAdv(1, $location[Belowdecks]);
 				cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
 				handleFamiliar("item");
@@ -12461,11 +12513,12 @@ boolean doTasks()
 	{
 		paintingLevel = 9;
 	}
-	if((my_level() >= paintingLevel) && chateaumantegna_havePainting() && (my_class() == $class[Ed]) && (my_daycount() <= 3))
+	if((my_level() >= paintingLevel) && chateaumantegna_havePainting() && !get_property("chateauMonsterFought").to_boolean() && (my_class() == $class[Ed]) && (my_daycount() <= 3))
 	{
 		if((have_effect($effect[Everything Looks Yellow]) == 0) && canYellowRay())
 #		if((have_effect($effect[Everything Looks Yellow]) == 0) && have_skill($skill[Wrath of Ra]) && (my_mp() >= 40))
 		{
+			cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
 			if(chateaumantegna_usePainting())
 			{
 				return true;
@@ -12473,8 +12526,9 @@ boolean doTasks()
 		}
 	}
 
-	if((my_level() >= 9) && !get_property("_photocopyUsed").to_boolean() && (my_class() == $class[Ed]) && (my_daycount() < 3))
+	if((my_level() >= 9) && !get_property("_photocopyUsed").to_boolean() && (my_class() == $class[Ed]) && (my_daycount() < 3) && !is_unrestricted($item[Deluxe Fax Machine]))
 	{
+		cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
 		if(handleFaxMonster($monster[Lobsterfrogman]))
 		{
 			return true;
@@ -12516,19 +12570,19 @@ boolean doTasks()
 		return true;
 	}
 
-	if(organsFull() && (my_adventures() < 10) && chateaumantegna_havePainting() && (my_daycount() == 1) && (my_class() != $class[Ed]))
+	if(organsFull() && (my_adventures() < 10) && chateaumantegna_havePainting() && !get_property("chateauMonsterFought").to_boolean() && (my_daycount() == 1) && (my_class() != $class[Ed]))
 	{
+		cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
 		if(chateaumantegna_usePainting())
 		{
-#			ccAdv(1, $location[Noob Cave]);
 			return true;
 		}
 	}
-	if((my_level() >= 8) && chateaumantegna_havePainting() && (my_daycount() == 2) && (my_class() != $class[Ed]))
+	if((my_level() >= 8) && chateaumantegna_havePainting() && !get_property("chateauMonsterFought").to_boolean() && (my_daycount() == 2) && (my_class() != $class[Ed]))
 	{
+		cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
 		if(chateaumantegna_usePainting())
 		{
-#			ccAdv(1, $location[Noob Cave]);
 			return true;
 		}
 	}

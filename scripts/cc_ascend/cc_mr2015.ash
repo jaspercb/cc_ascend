@@ -6,8 +6,6 @@ import<cc_ascend/cc_elementalPlanes.ash>
 #	Handling: shrine to the Barrel God, Chateau Mantegna Room Key, Deck of Every Card
 #
 
-
-
 boolean cc_barrelPrayers();
 boolean cc_mayoItems();
 

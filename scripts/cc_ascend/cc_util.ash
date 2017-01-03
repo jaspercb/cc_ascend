@@ -1026,6 +1026,14 @@ boolean canYellowRay()
 			}
 		}
 	}
+	if(!get_property("_internetViralVideoBought").to_boolean() && (item_amount($item[BACON]) >= 20))
+	{
+		cli_execute("make 1 viral video");
+		if(item_amount($item[Viral Video]) > 0)
+		{
+			return true;
+		}
+	}
 	# Pulled Yellow Taffy	- How do we handle the underwater check?
 	# He-Boulder?			- How do we do this?
 	return false;

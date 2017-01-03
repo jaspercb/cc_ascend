@@ -209,3 +209,6 @@ int towerKeyCount();							//Defined in cc_ascend/cc_util.ash
 
 //Determines if we need ore for the trapper or not.
 boolean needOre();								//Defined in cc_ascend/cc_util.ash
+
+//Wrapper for my_path(), in case there are delays in Mafia translating path values
+string cc_my_path();							//Defined in cc_ascend/cc_util.ash

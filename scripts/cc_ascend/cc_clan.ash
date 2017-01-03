@@ -38,6 +38,10 @@ boolean handleFaxMonster(monster enemy, boolean fightIt, string option)
 	{
 		return false;
 	}
+	if(!is_unrestricted($item[Deluxe Fax Machine]))
+	{
+		return false;
+	}
 	if(item_amount($item[Clan VIP Lounge Key]) == 0)
 	{
 		return false;

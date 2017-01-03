@@ -1,10 +1,6 @@
 script "cc_adventure.ash"
 import<cc_ascend/cc_ascend_header.ash>
 
-
-
-
-
 # num is not handled properly anyway, so we'll just reject it.
 boolean ccAdv(location loc, string option)
 {
