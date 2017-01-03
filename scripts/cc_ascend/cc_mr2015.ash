@@ -271,6 +271,17 @@ boolean cc_mayoItems()
 
 	foreach mayo in mayos
 	{
+		if(mayo == $item[Mayo Lance])
+		{
+			if(have_familiar($familiar[Crimbo Shrub]))
+			{
+				continue;
+			}
+			if(have_familiar($familiar[Intergnat]))
+			{
+				continue;
+			}
+		}
 		if(mayo == $item[none])
 		{
 			return false;

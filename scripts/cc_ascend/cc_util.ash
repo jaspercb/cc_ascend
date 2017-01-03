@@ -3276,6 +3276,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Wry Smile]:					useSkill = $skill[Wry Smile];					break;
 	case $effect[Yoloswagyoloswag]:				useItem = $item[Yolo&trade; Chocolates];		break;
 	case $effect[You Read the Manual]:			useItem = $item[O\'Rly Manual];					break;
+	case $effect[Your Fifteen Minutes]:			useSkill = $skill[Fifteen Minutes of Flame];	break;
 	default: abort("Effect (" + buff + ") is not known to us. Beep.");							break;
 	}
 

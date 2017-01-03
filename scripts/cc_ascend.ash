@@ -4173,7 +4173,7 @@ boolean L13_towerNSContests()
 				{
 					doRest();
 				}
-				foreach eff in $effects[Adorable Lookout, Alacri Tea, All Fired Up, Bone Springs, Bow-Legged Swagger, Fishy\, Oily, The Glistening, Human-Machine Hybrid, Patent Alacrity, Provocative Perkiness, Sepia Tan, Sugar Rush, Ticking Clock, Well-Swabbed Ear]
+				foreach eff in $effects[Adorable Lookout, Alacri Tea, All Fired Up, Bone Springs, Bow-Legged Swagger, Fishy\, Oily, The Glistening, Human-Machine Hybrid, Patent Alacrity, Provocative Perkiness, Sepia Tan, Sugar Rush, Ticking Clock, Well-Swabbed Ear, Your Fifteen Minutes]
 				{
 					buffMaintain(eff, 0, 1, 1);
 				}
@@ -7792,6 +7792,7 @@ boolean L7_crypt()
 			buffMaintain($effect[Ticking Clock], 0, 1, 1);
 		}
 		buffMaintain($effect[Song of Slowness], 110, 1, 1);
+		buffMaintain($effect[Your Fifteen Minutes], 90, 1, 1);
 		buffMaintain($effect[Fishy\, Oily], 0, 1, 1);
 
 		if(have_effect($effect[init.enh]) == 0)
