@@ -957,7 +957,7 @@ string cc_combatHandler(int round, string opp, string text)
 	#Snokebomb replace Batter Up! pass
 	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
 	{
-		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Slick Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
+		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Possessed Laundry Press, Procrastination Giant, Protagonist, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Slick Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(snokebomb)");
 			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
@@ -968,7 +968,8 @@ string cc_combatHandler(int round, string opp, string text)
 	#Beancannon
 	if((!contains_text(combatState, "beancannon")) && (have_skill($skill[Beancannon])) && (get_property("_beancannonUsed").to_int() < 5) && ((my_mp() - 20) >= mp_cost($skill[Beancannon])))
 	{
-		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
+//		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
+		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
 		{
 			if($items[Frigid Northern Beans, Heimz Fortified Kidney Beans, Hellfire Spicy Beans, Mixed Garbanzos and Chickpeas, Pork \'n\' Pork \'n\' Pork \'n\' Beans, Shrub\'s Premium Baked Beans, Tesla\'s Electroplated Beans, Trader Olaf\'s Exotic Stinkbeans, World\'s Blackest-Eyed Peas] contains equipped_item($slot[Off-hand]))
 			{
@@ -1152,8 +1153,18 @@ string cc_combatHandler(int round, string opp, string text)
 
 
 	# Instakill handler
-	if(instakillable(enemy) && !isFreeMonster(enemy))
+	boolean doInstaKill = true;
+	if($monsters[Lobsterfrogman, Ninja Snowman Assassin, Writing Desk] contains enemy)
 	{
+		if(have_skill($skill[Digitize]) && (get_property("_sourceTerminalDigitizeMonster") != enemy))
+		{
+			doInstaKill = false;
+		}
+	}
+
+	if(instakillable(enemy) && !isFreeMonster(enemy) && doInstaKill)
+	{
+
 		if((my_lightning() >= 25) && have_skill($skill[Lightning Strike]))
 		{
 			if(have_skill($skill[lightning strike]))
@@ -1192,7 +1203,6 @@ string cc_combatHandler(int round, string opp, string text)
 				return "item " + $item[Replica Bat-oomerang];
 			}
 		}
-
 
 		if(!contains_text(combatState, "jokesterGun") && (equipped_item($slot[Weapon]) == $item[The Jokester\'s Gun]) && !get_property("_firedJokestersGun").to_boolean() && have_skill($skill[Fire the Jokester\'s Gun]))
 		{
@@ -2378,7 +2388,16 @@ string cc_edCombatHandler(int round, string opp, string text)
 	}
 
 	# Instakill handler
-	if(instakillable(enemy) && !isFreeMonster(enemy))
+	boolean doInstaKill = true;
+	if($monsters[Lobsterfrogman, Ninja Snowman Assassin, Writing Desk] contains enemy)
+	{
+		if(have_skill($skill[Digitize]) && (get_property("_sourceTerminalDigitizeMonster") != enemy))
+		{
+			doInstaKill = false;
+		}
+	}
+
+	if(instakillable(enemy) && !isFreeMonster(enemy) && doInstaKill)
 	{
 		if(!contains_text(combatState, "batoomerang") && (item_amount($item[Replica Bat-oomerang]) > 0))
 		{

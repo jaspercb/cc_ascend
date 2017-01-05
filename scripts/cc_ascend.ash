@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17350;
+since r17623;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -300,6 +300,16 @@ boolean handleFamiliar(string type)
 			fams = ListRemove(fams, $familiar[Fist Turkey]);
 			fams = ListInsertAt(fams, $familiar[Fist Turkey], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
+
+		if((item_amount($item[Yellow Pixel]) < 30) && have_familiar($familiar[Ms. Puck Man]))
+		{
+			fams = ListInsertAt(fams, $familiar[Ms. Puck Man], 0);
+		}
+		else if((item_amount($item[Yellow Pixel]) < 30) && have_familiar($familiar[Puck Man]))
+		{
+			fams = ListInsertAt(fams, $familiar[Puck Man], 0);
+		}
+
 
 		int index = 0;
 		while(index < count(fams))
@@ -951,6 +961,15 @@ boolean doThemtharHills(boolean trickMode)
 	buffMaintain($effect[Patent Avarice], 0, 1, 1);
 
 	handleFamiliar("meat");
+	if(have_familiar($familiar[Trick-or-Treating Tot]) && (available_amount($item[Li\'l Pirate Costume]) > 0))
+	{
+		use_familiar($familiar[Trick-or-Treating Tot]);
+		if(equipped_item($slot[familiar]) != $item[Li\'l Pirate Costume])
+		{
+			equip($item[Li\'l Pirate Costume]);
+		}
+		handleFamiliar($familiar[Trick-or-Treating Tot]);
+	}
 
 	if(cc_my_path() == "Heavy Rains")
 	{
