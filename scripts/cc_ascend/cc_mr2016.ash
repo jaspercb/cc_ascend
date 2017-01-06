@@ -1241,7 +1241,7 @@ boolean rethinkingCandyList()
 	boolean[effect] synthesis = $effects[Synthesis: Hot, Synthesis: Cold, Synthesis: Pungent, Synthesis: Scary, Synthesis: Greasy, Synthesis: Strong, Synthesis: Smart, Synthesis: Cool, Synthesis: Hardy, Synthesis: Energy, Synthesis: Greed, Synthesis: Collection, Synthesis: Movement, Synthesis: Learning, Synthesis: Style];
 	foreach eff in synthesis
 	{
-		print("Trying effect: " + eff, "green");
+		print("Trying effect: " + eff, "orange");
 		rethinkingCandy(eff, true);
 	}
 	return true;
@@ -1401,12 +1401,17 @@ boolean rethinkingCandy(effect acquire, boolean simulate)
 		print("Best case: " + bestFirst + ", " + bestSecond + ": " + bestCost, "green");
 		if(!simulate)
 		{
-			string temp = visit_url("choice.php?whichchoice=1217&option=1&pwd=&a=" + to_int(bestFirst) + "&b=" + to_int(bestSecond));
-			if(have_effect(acquire) == 0)
+			int prior = have_effect(acquire);
+			string temp = visit_url("runskillz.php?pwd=&targetplayer=" + my_id() + "&quantity=1&whichskill=166");
+
+			string url = "choice.php?whichchoice=1217&option=1&pwd=&a=" + to_int(bestFirst) + "&b=" + to_int(bestSecond);
+			temp = visit_url(url);
+			if(have_effect(acquire) == prior)
 			{
-				abort("Failed to Sweetly Synthesize");
+				abort("Failed to Sweetly Synthesize: " + url);
 			}
 		}
+		return true;
 	}
 	else if(simulate)
 	{
@@ -1416,5 +1421,5 @@ boolean rethinkingCandy(effect acquire, boolean simulate)
 	{
 		return false;
 	}
-	return true;
+	return false;
 }

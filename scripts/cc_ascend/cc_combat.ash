@@ -1405,7 +1405,7 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill stuffed mortar shell";
 	}
 
-	if(!contains_text(combatState, "duplicate") && contains_text(combatState, "stuffedmortarshell") && have_skill($skill[Duplicate]) && have_skill($skill[Stuffed Mortar Shell]) && (my_mp() > mp_cost($skill[Duplicate])) && (get_property("_sourceTerminalDuplicateUses").to_int() == 0) && !get_property("kingLiberated").to_boolean())
+	if(!contains_text(combatState, "duplicate") && have_skill($skill[Duplicate]) && (my_mp() > mp_cost($skill[Duplicate])) && (get_property("_sourceTerminalDuplicateUses").to_int() == 0) && !get_property("kingLiberated").to_boolean() && (cc_my_path() != "Nuclear Autumn"))
 	{
 		if($monsters[Dairy Goat, Gaudy Pirate] contains enemy)
 		{
