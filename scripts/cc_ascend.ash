@@ -20,6 +20,7 @@ import <cc_ascend/cc_adventure.ash>
 import <cc_ascend/cc_mr2014.ash>
 import <cc_ascend/cc_mr2015.ash>
 import <cc_ascend/cc_mr2016.ash>
+import <cc_ascend/cc_mr2017.ash>
 
 import <cc_ascend/cc_boris.ash>
 import <cc_ascend/cc_fallout.ash>
@@ -812,11 +813,17 @@ boolean warAdventure()
 {
 	if(!get_property("cc_hippyInstead").to_boolean())
 	{
-		ccAdv(1, $location[The Battlefield (Frat Uniform)]);
+		if(!ccAdv(1, $location[The Battlefield (Frat Uniform)]))
+		{
+			set_property("hippiesDefeated", get_property("hippiesDefeated").to_int()+1);
+		}
 	}
 	else
 	{
-		ccAdv(1, $location[The Battlefield (Hippy Uniform)]);
+		if(!ccAdv(1, $location[The Battlefield (Hippy Uniform)]))
+		{
+			set_property("fratboysDefeated", get_property("fratboysDefeated").to_int()+1);
+		}
 	}
 	return true;
 }
@@ -2025,7 +2032,7 @@ boolean doBedtime()
 	}
 
 	//We are committing to end of day now...
-
+	getSpaceJelly();
 	while(acquireHermitItem($item[Ten-leaf Clover]));
 
 	if((friars_available()) && (!get_property("friarsBlessingReceived").to_boolean()))
