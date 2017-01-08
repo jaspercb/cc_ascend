@@ -12970,6 +12970,10 @@ boolean doTasks()
 	if((get_property("hippiesDefeated").to_int() < 64) && (get_property("fratboysDefeated").to_int() < 64) && (my_level() >= 12))
 	{
 		print("First 64 combats. To orchard/lighthouse", "blue");
+		if(item_amount($item[Stuffing Fluffer]) > 0)
+		{
+			use(1, $item[Stuffing Fluffer]);
+		}
 		handleFamiliar("item");
 		warOutfit();
 		return warAdventure();

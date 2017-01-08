@@ -19,7 +19,7 @@ boolean getSpaceJelly()
 	{
 		return false;
 	}
-	if(my_level() <= 11)
+	if(my_level() < 11)
 	{
 		return false;
 	}
@@ -36,8 +36,11 @@ boolean getSpaceJelly()
 		string temp = visit_url("oldman.php");
 		temp = visit_url("place.php?whichplace=sea_oldman&action=oldman_oldman");
 	}
+	familiar old = my_familiar();
+	use_familiar($familiar[Space Jellyfish]);
 	string temp = visit_url("place.php?whichplace=thesea");
 	temp = visit_url("place.php?whichplace=thesea&action=thesea_left2");
 	temp = visit_url("choice.php?pwd=&whichchoice=1219&option=1");
+	use_familiar(old);
 	return true;
 }
