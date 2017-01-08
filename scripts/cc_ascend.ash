@@ -815,14 +815,14 @@ boolean warAdventure()
 	{
 		if(!ccAdv(1, $location[The Battlefield (Frat Uniform)]))
 		{
-			set_property("hippiesDefeated", get_property("hippiesDefeated").to_int()+1);
+			set_property("hippiesDefeated", get_property("hippiesDefeated").to_int() + 1);
 		}
 	}
 	else
 	{
 		if(!ccAdv(1, $location[The Battlefield (Hippy Uniform)]))
 		{
-			set_property("fratboysDefeated", get_property("fratboysDefeated").to_int()+1);
+			set_property("fratboysDefeated", get_property("fratboysDefeated").to_int() + 1);
 		}
 	}
 	return true;
@@ -880,7 +880,7 @@ boolean doThemtharHills(boolean trickMode)
 			copyPossible = true;
 		}
 
-		if(item_amount($item[Unfinished Ice Sculpture]) > 0) 
+		if(item_amount($item[Unfinished Ice Sculpture]) > 0)
 		{
 			copyAvailable = 4;
 			copyPossible = true;
@@ -4449,10 +4449,9 @@ boolean L13_towerNSEntrance()
 			{
 				doRest();
 				cli_execute("scripts/postcheese.ash");
-				if(get_property("cc_lastABooCycleFix").to_int() >= 3)
-				{
-					set_property("cc_lastABooCycleFix", get_property("cc_lastABooCycleFix").to_int()-1);
-				}
+				loopHandlerDelay("_cc_lastABooCycleFix");
+				loopHandlerDelay("_cc_digitizeDeskCounter");
+				loopHandlerDelay("_cc_digitizeAssassinCounter");
 				return true;
 			}
 
@@ -6208,10 +6207,10 @@ boolean L12_sonofaFinish()
 	{
 		return false;
 	}
-	if(get_property("cc_hippyInstead").to_boolean() && (get_property("fratboysDefeated").to_int() < 64))
-	{
-		return false;
-	}
+#	if(get_property("cc_hippyInstead").to_boolean() && (get_property("fratboysDefeated").to_int() < 64))
+#	{
+#		return false;
+#	}
 
 	warOutfit();
 	visit_url("bigisland.php?place=lighthouse&action=pyro&pwd");
@@ -6366,11 +6365,12 @@ boolean L12_sonofaBeach()
 			return false;
 		}
 	}
-	if(get_property("_sourceTerminalDigitizeMonster") == $monster[Lobsterfrogman])
-	{
-		return false;
-	}
-	else if(get_property("fratboysDefeated").to_int() < 64)
+	#Removing for now, we probably can not delay this at this point
+#	if(get_property("_sourceTerminalDigitizeMonster") == $monster[Lobsterfrogman])
+#	{
+#		return false;
+#	}
+	if((get_property("fratboysDefeated").to_int() < 64) && get_property("cc_hippyInstead").to_boolean())
 	{
 		return false;
 	}
@@ -6439,14 +6439,6 @@ boolean L12_sonofaBeach()
 		}
 		handleBjornify($familiar[Grim Brother]);
 	}
-#	if((equipped_item($slot[hat]) == $item[Xiblaxian stealth cowl]) && possessEquipment($item[Beer Helmet]))
-#	{
-#		equip($item[Beer Helmet]);
-#	}
-#	if((have_equipped($item[Xiblaxian Stealth Trousers])) && possessEquipment($item[Distressed Denim Pants]))
-#	{
-#		equip($slot[Pants], $item[Distressed Denim Pants]);
-#	}
 	if(equipped_item($slot[acc1]) == $item[over-the-shoulder folder holder])
 	{
 		if((item_amount($item[Ass-Stompers of Violence]) > 0) && (equipped_item($slot[acc1]) != $item[Ass-Stompers of Violence]) && can_equip($item[Ass-Stompers of Violence]))
@@ -9310,11 +9302,11 @@ boolean LX_handleSpookyravenFirstFloor()
 	{
 		return false;
 	}
-	if(possessEquipment($item[Ghost of a Necklace]))
-	{
-		set_property("cc_spookyravennecklace", "done");
-		return false;
-	}
+#	if(possessEquipment($item[Ghost of a Necklace]))
+#	{
+#		set_property("cc_spookyravennecklace", "done");
+#		return false;
+#	}
 
 	boolean delayKitchen = get_property("cc_delayHauntedKitchen").to_boolean();
 	if(get_property("cc_gaudy") == "finished")
@@ -9387,6 +9379,10 @@ boolean LX_handleSpookyravenFirstFloor()
 
 	if(get_property("_sourceTerminalDigitizeMonster") == $monster[Writing Desk])
 	{
+		if(loopHandler("_cc_digitizeDeskTurn", "_cc_digitizeDeskCounter", "Potentially unable to do anything while waiting on digitized writing desks.", 10))
+		{
+			print("Have a digitized Writing Desk, let's not bother with the Spooky First Floor", "blue");
+		}
 		return false;
 	}
 
@@ -9991,19 +9987,7 @@ boolean L9_aBooPeak()
 			mp_need = mp_need - 20;
 		}
 
-		if(my_turncount() == get_property("cc_lastABooConsider").to_int())
-		{
-			set_property("cc_lastABooCycleFix", get_property("cc_lastABooCycleFix").to_int() + 1);
-			if(get_property("cc_lastABooCycleFix").to_int() > 5)
-			{
-				abort("We are in an A-Boo Peak cycle and can't find anything else to do. Aborting. If you have actual other quests left, please report this. Otherwise, complete A-Boo peak manually");
-			}
-		}
-		else
-		{
-			set_property("cc_lastABooConsider", my_turncount());
-			set_property("cc_lastABooCycleFix", 0);
-		}
+		loopHandler("_cc_lastABooConsider", "_cc_lastABooCycleFix", "We are in an A-Boo Peak cycle and can't find anything else to do. Aborting. If you have actual other quests left, please report this. Otherwise, complete A-Boo peak manually",5);
 
 		if(get_property("booPeakProgress").to_int() == 0)
 		{
@@ -11678,6 +11662,10 @@ boolean L8_trapperYeti()
 
 	if(get_property("_sourceTerminalDigitizeMonster") == $monster[Ninja Snowman Assassin])
 	{
+		if(loopHandler("_cc_digitizeAssassinTurn", "_cc_digitizeAssassinCounter", "Potentially unable to do anything while waiting on digitized Ninja Snowman Assassin.", 10))
+		{
+			print("Have a digitized Ninja Snowman Assassin, let's put off the Ninja Snowman Lair", "blue");
+		}
 		return false;
 	}
 
@@ -12973,6 +12961,7 @@ boolean doTasks()
 		if(item_amount($item[Stuffing Fluffer]) > 0)
 		{
 			use(1, $item[Stuffing Fluffer]);
+			return true;
 		}
 		handleFamiliar("item");
 		warOutfit();

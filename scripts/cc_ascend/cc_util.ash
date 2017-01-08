@@ -134,7 +134,10 @@ boolean isOverdueDigitize();
 boolean isOverdueArrow();
 boolean isExpectingArrow();
 boolean setAdvPHPFlag();
-
+boolean loopHandler(string turnSetting, string counterSetting, string abortMessage, int threshold);
+boolean loopHandler(string turnSetting, string counterSetting, int threshold);
+boolean loopHandlerDelay(string counterSetting);
+boolean loopHandlerDelay(string counterSetting, int threshold);
 
 // Private Prototypes
 boolean buffMaintain(item source, effect buff, int uses, int turns);
@@ -741,6 +744,45 @@ boolean useILoveMeVolI()
 	return false;
 }
 
+boolean loopHandler(string turnSetting, string counterSetting, string abortMessage, int threshold)
+{
+	if(my_turncount() == get_property(turnSetting).to_int())
+	{
+		set_property(counterSetting, get_property(counterSetting).to_int() + 1);
+		if(get_property(counterSetting).to_int() > threshold)
+		{
+			abort(abortMessage);
+		}
+		return true;
+	}
+	else
+	{
+		set_property(turnSetting, my_turncount());
+		set_property(counterSetting, 0);
+	}
+	return false;
+}
+
+boolean loopHandler(string turnSetting, string counterSetting, int threshold)
+{
+	string abortMessage = "Infinite loop possibly detected for setting: " + counterSetting + ". Use up a turn to get us to consider this loop broken. This may be a more severe issue.";
+	return loopHandler(turnSetting, counterSetting, abortMessage, threshold);
+}
+
+boolean loopHandlerDelay(string counterSetting)
+{
+	return loopHandlerDelay(counterSetting, 3);
+}
+
+boolean loopHandlerDelay(string counterSetting, int threshold)
+{
+	if(get_property(counterSetting).to_int() >= threshold)
+	{
+		set_property(counterSetting, get_property(counterSetting).to_int() - 1);
+		return true;
+	}
+	return false;
+}
 
 boolean setAdvPHPFlag()
 {
