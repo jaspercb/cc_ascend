@@ -806,6 +806,25 @@ boolean cc_cheesePostCS(int leave)
 		cli_execute("florist plant aloe guv'nor");
 	}
 
+	if(hippy_stone_broken())
+	{
+		deck_cheat("fites");
+	}
+	deck_cheat("Ancestral Recall");
+	deck_cheat("Island");
+	deck_cheat("Year of Plenty");
+
+	if(!get_property("_timeSpinnerReplicatorUsed").to_boolean())
+	{
+		cli_execute("FarFuture booze");
+	}
+
+	while(get_property("_timeSpinnerMinutesUsed").to_int() <= 8)
+	{
+		cli_execute("FarFuture none");
+	}
+
+
 	while((get_property("_sourceTerminalExtrudes").to_int() < 3) && contains_text(get_property("sourceTerminalExtrudeKnown"),"booze.ext"))
 	{
 		cc_sourceTerminalExtrude($item[Hacked Gibson]);
@@ -1053,6 +1072,25 @@ boolean cc_cheesePostCS(int leave)
 			{
 				doHottub();
 			}
+		}
+
+		if(my_adventures() > leave)
+		{
+			item toGet = $item[Eldritch Elixir];
+			if(item_amount(toGet) == 0)
+			{
+				take_storage(1, toGet);
+			}
+			if((get_property("lastDMTDuplication").to_int() < my_ascensions()) && (item_amount(toGet) > 0))
+			{
+				use(1, $item[Clara\'s Bell]);
+				handleFamiliar($familiar[Machine Elf]);
+				use_familiar($familiar[Machine Elf]);
+				string temp = visit_url("adventure.php?snarfblat=458");
+				temp = visit_url("choice.php?pwd=" + my_hash() + "&whichchoice=1119&option=4");
+				temp = visit_url("choice.php?pwd=" + my_hash() + "&whichchoice=1125&option=1&iid=" + to_int(toGet));
+			}
+			put_closet(item_amount(toGet), toGet);
 		}
 	}
 
