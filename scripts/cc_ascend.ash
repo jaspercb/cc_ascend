@@ -9383,7 +9383,10 @@ boolean LX_handleSpookyravenFirstFloor()
 		{
 			print("Have a digitized Writing Desk, let's not bother with the Spooky First Floor", "blue");
 		}
-		return false;
+		if(get_property("cc_war") != "finished")
+		{
+			return false;
+		}
 	}
 
 	if(!have_skill($skill[Rain Man]) || get_property("cc_100familiar").to_boolean())
@@ -12958,6 +12961,19 @@ boolean doTasks()
 	if((get_property("hippiesDefeated").to_int() < 64) && (get_property("fratboysDefeated").to_int() < 64) && (my_level() >= 12))
 	{
 		print("First 64 combats. To orchard/lighthouse", "blue");
+		if((item_amount($item[Stuffing Fluffer]) == 0) && (item_amount($item[Cashew]) >= 3))
+		{
+			cli_execute("make 1 stuffing fluffer");
+		}
+		if((item_amount($item[Stuffing Fluffer]) == 0) && (item_amount($item[Cornucopia]) > 0))
+		{
+			use(1, $item[Cornucopia]);
+			if((item_amount($item[Stuffing Fluffer]) == 0) && (item_amount($item[Cashew]) >= 3))
+			{
+				cli_execute("make 1 stuffing fluffer");
+			}
+			return true;
+		}
 		if(item_amount($item[Stuffing Fluffer]) > 0)
 		{
 			use(1, $item[Stuffing Fluffer]);
