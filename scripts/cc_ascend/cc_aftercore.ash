@@ -814,14 +814,26 @@ boolean cc_cheesePostCS(int leave)
 	deck_cheat("Island");
 	deck_cheat("Year of Plenty");
 
-	if(!get_property("_timeSpinnerReplicatorUsed").to_boolean())
+	if(item_amount($item[Time-Spinner]) > 0)
 	{
-		cli_execute("FarFuture booze");
+		if(!get_property("_timeSpinnerReplicatorUsed").to_boolean())
+		{
+			cli_execute("FarFuture booze");
+		}
+
+		while(get_property("_timeSpinnerMinutesUsed").to_int() <= 8)
+		{
+			cli_execute("FarFuture none");
+		}
 	}
 
-	while(get_property("_timeSpinnerMinutesUsed").to_int() <= 8)
+	while(lx_witchess());
+	while(lx_freecombats());
+
+    if(!get_property("_pottedTeaTreeUsed").to_boolean())
 	{
-		cli_execute("FarFuture none");
+		cli_execute("teatree cuppa royal tea");
+		put_closet(item_amount($item[Cuppa Royal Tea]), $item[Cuppa Royal Tea]);
 	}
 
 
@@ -833,6 +845,14 @@ boolean cc_cheesePostCS(int leave)
 	{
 		doRest();
 	}
+
+	take_storage(storage_amount($item[Cold Hi Mein]), $item[Cold Hi Mein]);
+	while((fullness_left() >= 5) && (item_amount($item[Cold Hi Mein]) > 0) && (my_level() >= 13))
+	{
+		buffMaintain($effect[Got Milk], 0, 1, 5);
+		eat(1, $item[Cold Hi Mein]);
+	}
+
 	while((inebriety_left() >= 4) && (item_amount($item[Hacked Gibson]) > 0))
 	{
 		buffMaintain($effect[Ode to Booze], 50, 1, 4);
@@ -962,6 +982,7 @@ boolean cc_cheesePostCS(int leave)
 
 	while((my_adventures() > leave) && (inebriety_left() >= 0))
 	{
+		print("Have " + my_adventures() + " with target of " + leave + " adventures.", "orange");
 		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
 		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
 		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
@@ -1074,7 +1095,7 @@ boolean cc_cheesePostCS(int leave)
 			}
 		}
 
-		if(my_adventures() > leave)
+		if((my_adventures() > leave) && (get_property("lastDMTDuplication").to_int() < my_ascensions()))
 		{
 			item toGet = $item[Eldritch Elixir];
 			if(item_amount(toGet) == 0)
@@ -1083,12 +1104,16 @@ boolean cc_cheesePostCS(int leave)
 			}
 			if((get_property("lastDMTDuplication").to_int() < my_ascensions()) && (item_amount(toGet) > 0))
 			{
-				use(1, $item[Clara\'s Bell]);
+				if(!get_property("_claraBellUsed").to_boolean())
+				{
+					use(1, $item[Clara\'s Bell]);
+				}
 				handleFamiliar($familiar[Machine Elf]);
 				use_familiar($familiar[Machine Elf]);
 				string temp = visit_url("adventure.php?snarfblat=458");
 				temp = visit_url("choice.php?pwd=" + my_hash() + "&whichchoice=1119&option=4");
 				temp = visit_url("choice.php?pwd=" + my_hash() + "&whichchoice=1125&option=1&iid=" + to_int(toGet));
+				set_property("lastDMTDuplication", my_ascensions());
 			}
 			put_closet(item_amount(toGet), toGet);
 		}
@@ -1138,9 +1163,12 @@ boolean cc_cheesePostCS(int leave)
 		drink(1, $item[Beery Blood]);
 	}
 
-	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
-	tryPantsEat();
-	cli_execute("refresh all");
+	if(fullness_left() == 0)
+	{
+		put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
+		tryPantsEat();
+		cli_execute("refresh all");
+	}
 
 	while((my_adventures() > leave) && (inebriety_left() >= 0))
 	{
@@ -1150,9 +1178,12 @@ boolean cc_cheesePostCS(int leave)
 		ccAdv(1, $location[Barf Mountain]);
 	}
 
-	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
-	tryPantsEat();
-	cli_execute("refresh all");
+	if(fullness_left() == 0)
+	{
+		put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
+		tryPantsEat();
+		cli_execute("refresh all");
+	}
 
 	while((my_adventures() > leave) && (inebriety_left() >= 0))
 	{
@@ -1162,9 +1193,12 @@ boolean cc_cheesePostCS(int leave)
 		ccAdv(1, $location[Barf Mountain]);
 	}
 
-	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
-	tryPantsEat();
-	cli_execute("refresh all");
+	if(fullness_left() == 0)
+	{
+		put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
+		tryPantsEat();
+		cli_execute("refresh all");
+	}
 
 	while((my_adventures() > leave) && (inebriety_left() >= 0))
 	{

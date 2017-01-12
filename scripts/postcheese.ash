@@ -939,7 +939,7 @@ void handlePostAdventure()
 		set_property("cc_cubeItems", false);
 	}
 
-	if(!get_property("cc_cubeItems").to_boolean() && (my_familiar() == $familiar[Gelatinous cubeling]) && !get_property("cc_100familiar").to_boolean())
+	if(!get_property("cc_cubeItems").to_boolean() && (my_familiar() == $familiar[Gelatinous cubeling]) && !is100FamiliarRun())
 	{
 		if(have_familiar($familiar[Fist Turkey]))
 		{
@@ -951,7 +951,7 @@ void handlePostAdventure()
 		}
 	}
 
-	if((my_daycount() == 1) && (my_familiar() == $familiar[Fist Turkey]) && (get_property("_turkeyBooze").to_int() >= 5)  && !get_property("cc_100familiar").to_boolean())
+	if((my_daycount() == 1) && (my_familiar() == $familiar[Fist Turkey]) && (get_property("_turkeyBooze").to_int() >= 5)  && !is100FamiliarRun())
 	{
 		if(have_familiar($familiar[Angry Jung Man]))
 		{

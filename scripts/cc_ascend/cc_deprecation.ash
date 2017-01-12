@@ -80,6 +80,14 @@ boolean settingFixer()
 	{
 		set_property("cc_100familiar", false);
 	}
+	if(get_property("cc_100familiar") == "true")
+	{
+		set_property("cc_100familiar", $familiar[Egg Benedict]);
+	}
+	if(get_property("cc_100familiar") == "false")
+	{
+		set_property("cc_100familiar", $familiar[none]);
+	}
 	if(get_property("cc_ballroomsong") == "set")
 	{
 		set_property("cc_ballroomsong", "finished");

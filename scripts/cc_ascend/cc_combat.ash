@@ -657,7 +657,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "(olfaction)")) && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (!have_skill($skill[Rain Man]) || get_property("cc_100familiar").to_boolean()))
+	if((!contains_text(combatState, "(olfaction)")) && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (!have_skill($skill[Rain Man]) || is100FamiliarRun()))
 	{
 		if((enemy == $monster[Writing Desk]) && (my_location() == $location[The Haunted Library]) && (get_property("cc_spookyravennecklace") != "done"))
 		{
@@ -957,6 +957,7 @@ string cc_combatHandler(int round, string opp, string text)
 	#Snokebomb replace Batter Up! pass
 	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
 	{
+//		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Slick Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
 		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Possessed Laundry Press, Procrastination Giant, Protagonist, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Slick Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(snokebomb)");
@@ -1410,7 +1411,7 @@ string cc_combatHandler(int round, string opp, string text)
 		if($monsters[Dairy Goat, Gaudy Pirate] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(duplicate)");
-			return "skill duplicate";
+			return "skill " + $skill[Duplicate];
 		}
 	}
 

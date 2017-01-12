@@ -13,7 +13,7 @@ void boris_initializeSettings()
 {
 	if(my_path() == "Avatar of Boris")
 	{
-		set_property("cc_100familiar", true);
+		set_property("cc_100familiar", $familiar[Egg Benedict]);
 		set_property("cc_ballroomsong", "finished");
 		set_property("cc_borisSkills", -1);
 #		set_property("cc_crackpotjar", "done");

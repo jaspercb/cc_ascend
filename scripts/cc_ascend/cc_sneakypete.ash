@@ -13,7 +13,7 @@ void pete_initializeSettings()
 {
 	if(my_path() == "Avatar of Sneaky Pete")
 	{
-		set_property("cc_100familiar", true);
+		set_property("cc_100familiar", $familiar[Egg Benedict]);
 		set_property("cc_ballroomsong", "finished");
 		set_property("cc_peteSkills", -1);
 		set_property("cc_cubeItems", false);

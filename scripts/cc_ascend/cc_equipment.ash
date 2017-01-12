@@ -149,7 +149,7 @@ boolean handleBjornify(familiar fam)
 		return false;
 	}
 
-	if(get_property("cc_100familiar").to_boolean() && (fam == my_familiar()))
+	if(is100FamiliarRun() && (fam == my_familiar()))
 	{
 		return false;
 	}
@@ -869,12 +869,12 @@ void equipRollover()
 	}
 
 
-	if(have_familiar($familiar[Trick-or-Treating Tot]) && !possessEquipment($item[Li\'l Unicorn Costume]) && !get_property("cc_100familiar").to_boolean() && (my_meat() > (5000 + npc_price($item[Li\'l Unicorn Costume]))))
+	if(have_familiar($familiar[Trick-or-Treating Tot]) && !possessEquipment($item[Li\'l Unicorn Costume]) && !is100FamiliarRun() && (my_meat() > (5000 + npc_price($item[Li\'l Unicorn Costume]))))
 	{
 		cli_execute("buy Li\'l Unicorn Costume");
 	}
 
-	if(have_familiar($familiar[Trick-or-Treating Tot]) && possessEquipment($item[Li\'l Unicorn Costume]) && !get_property("cc_100familiar").to_boolean() && (my_familiar() != $familiar[none]))
+	if(have_familiar($familiar[Trick-or-Treating Tot]) && possessEquipment($item[Li\'l Unicorn Costume]) && !is100FamiliarRun($familiar[Trick-or-Treating Tot]) && (my_familiar() != $familiar[none]))
 	{
 		use_familiar($familiar[Trick-or-Treating Tot]);
 		if(equipped_item($slot[Familiar]) != $item[Li\'l Unicorn Costume])

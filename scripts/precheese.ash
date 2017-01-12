@@ -60,7 +60,7 @@ void handlePreAdventure(location place)
 	}
 
 	familiar famChoice = to_familiar(get_property("cc_familiarChoice"));
-	if((famChoice != $familiar[none]) && !get_property("cc_100familiar").to_boolean())
+	if((famChoice != $familiar[none]) && !is100FamiliarRun())
 	{
 		if((famChoice != my_familiar()) && !get_property("kingLiberated").to_boolean())
 		{

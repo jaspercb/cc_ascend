@@ -19,7 +19,7 @@ void handleKingLiberation()
 
 		if(my_familiar() != $familiar[Black Cat])
 		{
-			set_property("cc_100familiar", false);
+			set_property("cc_100familiar", $familiar[none]);
 		}
 
 		// Some items don\'t get pulled, notably, Stench Wad but some others as well (fat loot token, holiday fun, box of sunshine).

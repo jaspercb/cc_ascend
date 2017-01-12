@@ -138,6 +138,9 @@ boolean loopHandler(string turnSetting, string counterSetting, string abortMessa
 boolean loopHandler(string turnSetting, string counterSetting, int threshold);
 boolean loopHandlerDelay(string counterSetting);
 boolean loopHandlerDelay(string counterSetting, int threshold);
+boolean is100FamiliarRun();
+boolean is100FamiliarRun(familiar thisOne);
+
 
 // Private Prototypes
 boolean buffMaintain(item source, effect buff, int uses, int turns);
@@ -784,6 +787,29 @@ boolean loopHandlerDelay(string counterSetting, int threshold)
 	return false;
 }
 
+boolean is100FamiliarRun()
+{
+	if(get_property("cc_100familiar") == $familiar[none])
+	{
+		return false;
+	}
+	return true;
+}
+
+boolean is100FamiliarRun(familiar thisOne)
+{
+	if(is100FamiliarRun())
+	{
+		if(get_property("cc_100familiar") == thisOne)
+		{
+			return false;
+		}
+		return true;
+	}
+	return false;
+}
+
+
 boolean setAdvPHPFlag()
 {
 	location toAdv = provideAdvPHPZone();
@@ -1072,7 +1098,7 @@ boolean canYellowRay()
 	{
 		return true;
 	}
-	if((my_familiar() == $familiar[Crimbo Shrub]) || (!get_property("cc_100familiar").to_boolean() && have_familiar($familiar[Crimbo Shrub])))
+	if((my_familiar() == $familiar[Crimbo Shrub]) || (!is100FamiliarRun($familiar[Crimbo Shrub]) && have_familiar($familiar[Crimbo Shrub])))
 	{
 		if(get_property("shrubGifts") == "yellow")
 		{

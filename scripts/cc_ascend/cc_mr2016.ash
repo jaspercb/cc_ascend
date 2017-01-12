@@ -578,10 +578,6 @@ item cc_bestBadge()
 
 boolean cc_doPrecinct()
 {
-	if(get_property("cc_eggDetective") != "")
-	{
-		set_property("cc_eggDetective", "");
-	}
 	if(!get_property("hasDetectiveSchool").to_boolean())
 	{
 		return false;
@@ -596,6 +592,12 @@ boolean cc_doPrecinct()
 		cli_execute("ash import<Detective Solver.ash> solveAllCases(false);");
 		return true;
 	}
+
+	if(get_property("cc_eggDetective") != "")
+	{
+		set_property("cc_eggDetective", "");
+	}
+
 
 	string page = visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
 	matcher eggMatcher = create_matcher("You have been on this case for (\\d+) minute(?:s?)", page);

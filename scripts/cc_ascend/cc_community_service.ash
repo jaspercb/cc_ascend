@@ -48,11 +48,11 @@ boolean LA_cs_communityService()
 		abort("Too drunk, not sure if not aborting is safe yet");
 	}
 
-	if(get_property("cc_100familiar").to_boolean())
+	if(is100FamiliarRun())
 	{
 		if((my_familiar() != $familiar[Puck Man]) && (my_familiar() != $familiar[Ms. Puck Man]))
 		{
-			abort("100% familiar is not compatible, to disable: set cc_100familiar=false");
+			abort("100% familiar is not compatible, to disable: set cc_100familiar=none");
 		}
 		print("In 100% familiar mode with a Puck Person... well, good luck!", "red");
 	}
@@ -523,7 +523,7 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && !get_property("cc_100familiar").to_boolean())
+			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && !is100FamiliarRun($familiar[Machine Elf]))
 			{
 				backupSetting("choiceAdventure1119", 1);
 				handleFamiliar($familiar[Machine Elf]);
@@ -533,7 +533,7 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() == 5) && ($location[The Deep Machine Tunnels].turns_spent == 5) && (my_adventures() > 0) && !get_property("cc_100familiar").to_boolean())
+			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() == 5) && ($location[The Deep Machine Tunnels].turns_spent == 5) && (my_adventures() > 0) && !is100FamiliarRun($familiar[Machine Elf]))
 			{
 				backupSetting("choiceAdventure1119", 1);
 				handleFamiliar($familiar[Machine Elf]);
@@ -1944,12 +1944,6 @@ boolean LA_cs_communityService()
 			}
 
 			buffMaintain($effect[Spice Haze], 250, 1, 1);
-//			if((get_property("puzzleChampBonus").to_int() == 20) && !get_property("_witchessBuff").to_boolean())
-//			{
-//				visit_url("campground.php?action=witchess");
-//				visit_url("choice.php?whichchoice=1181&pwd=&option=3");
-//				visit_url("choice.php?whichchoice=1183&pwd=&option=2");
-//			}
 
 			if((inebriety_left() >= 1) && (have_effect($effect[Sacr&eacute; Mental]) == 0))
 			{
@@ -1997,8 +1991,16 @@ boolean LA_cs_communityService()
 			{
 				forceEquip($slot[Familiar], $item[Li\'l Ninja Costume]);
 			}
-			
-			rethinkingCandy($effect[Synthesis: Collection]);
+
+			if(have_effect($effect[Synthesis: Collection]) == 0)
+			{
+				rethinkingCandy($effect[Synthesis: Collection]);
+			}
+			if((have_effect($effect[Certainty]) == 0) && (spleen_left() > 0) && (item_amount($item[Abstraction: Certainty]) > 0))
+			{
+				chew(1, $item[Abstraction: Certainty]);
+			}
+
 
 			if(do_cs_quest(9))
 			{
@@ -2126,8 +2128,11 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Frost Tea], 0, 1, 1);
 
 			cs_eat_stuff(curQuest);
-			
-			rethinkingCandy($effect[Synthesis: Hot]);
+
+			if(have_effect($effect[Synthesis: Hot]) == 0)
+			{
+				rethinkingCandy($effect[Synthesis: Hot]);
+			}
 
 			if(do_cs_quest(10))
 			{
@@ -2342,7 +2347,7 @@ void cs_initializeDay(int day)
 			{
 				familiar last = my_familiar();
 				int gift = 1;
-				if(get_property("cc_100familiar").to_boolean() && (my_familiar() != $familiar[Crimbo Shrub]))
+				if(is100FamiliarRun() && (my_familiar() != $familiar[Crimbo Shrub]))
 				{
 					gift = 2;
 				}
@@ -2538,7 +2543,7 @@ void cs_make_stuff()
 			cli_execute("make Staff of the Headmaster\'s Victuals");
 		}
 
-		if(!have_familiar($familiar[Machine Elf]) && !get_property("cc_100familiar").to_boolean())
+		if(!have_familiar($familiar[Machine Elf]) && !is100FamiliarRun())
 		{
 			if(item_amount($item[Handful of Smithereens]) >= 3)
 			{
@@ -3271,7 +3276,7 @@ boolean cs_giant_growth()
 	}
 
 #	print("Starting LTBs: " + item_amount($item[Louder Than Bomb]), "blue");
-	if(have_familiar($familiar[Machine Elf]) && !get_property("cc_100familiar").to_boolean())
+	if(have_familiar($familiar[Machine Elf]) && !is100FamiliarRun())
 	{
 		use_familiar($familiar[Machine Elf]);
 	}

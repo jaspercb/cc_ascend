@@ -46,8 +46,16 @@ void initializeSettings()
 
 	if(my_familiar() != $familiar[none])
 	{
-		set_property("cc_100familiar", user_confirm("Familiar already set, is this a 100% familiar run? Will default to 'No' in 15 seconds.", 15000, false));
-		if(get_property("cc_100familiar").to_boolean())
+		boolean userAnswer = user_confirm("Familiar already set, is this a 100% familiar run? Will default to 'No' in 15 seconds.", 15000, false);
+		if(userAnswer)
+		{
+			set_property("cc_100familiar", my_familiar());
+		}
+		else
+		{
+			set_property("cc_100familiar", $familiar[none]);
+		}
+		if(is100FamiliarRun())
 		{
 			set_property("cc_useCubeling", false);
 		}
@@ -55,10 +63,10 @@ void initializeSettings()
 	else
 	{
 		set_property("cc_useCubeling", true);
-		set_property("cc_100familiar", false);
+		set_property("cc_100familiar", $familiar[none]);
 	}
 
-	if(!get_property("cc_100familiar").to_boolean() && have_familiar($familiar[Crimbo Shrub]))
+	if(!is100FamiliarRun() && have_familiar($familiar[Crimbo Shrub]))
 	{
 		use_familiar($familiar[Crimbo Shrub]);
 		use_familiar($familiar[none]);
@@ -390,7 +398,7 @@ boolean handleFamiliar(string type)
 
 boolean handleFamiliar(familiar fam)
 {
-	if(get_property("cc_100familiar").to_boolean())
+	if(is100FamiliarRun())
 	{
 		return true;
 	}
@@ -941,7 +949,7 @@ boolean doThemtharHills(boolean trickMode)
 	float meatDropHave = meat_drop_modifier();
 
 /*
-	if(get_property("cc_100familiar").to_boolean())
+	if(is100FamiliarRun())
 	{
 		ccMaximize("meat drop, -equip snow suit", 1500, 0, false);
 	}
@@ -968,7 +976,7 @@ boolean doThemtharHills(boolean trickMode)
 	buffMaintain($effect[Patent Avarice], 0, 1, 1);
 
 	handleFamiliar("meat");
-	if(have_familiar($familiar[Trick-or-Treating Tot]) && (available_amount($item[Li\'l Pirate Costume]) > 0))
+	if(have_familiar($familiar[Trick-or-Treating Tot]) && (available_amount($item[Li\'l Pirate Costume]) > 0) && !is100FamiliarRun($familiar[Trick-or-Treating Tot]))
 	{
 		use_familiar($familiar[Trick-or-Treating Tot]);
 		if(equipped_item($slot[familiar]) != $item[Li\'l Pirate Costume])
@@ -1263,7 +1271,7 @@ int handlePulls(int day)
 
 		pullXWhenHaveY($item[spooky-gro fertilizer], 1, 0);
 
-		if(((cc_my_path() == "Picky") || get_property("cc_100familiar").to_boolean()) && (item_amount($item[Deck of Every Card]) == 0))
+		if(((cc_my_path() == "Picky") || is100FamiliarRun()) && (item_amount($item[Deck of Every Card]) == 0))
 		{
 			if(item_amount($item[Boris\'s Key]) == 0)
 			{
@@ -1927,7 +1935,7 @@ boolean doBedtime()
 		return false;
 	}
 	int spleenlimit = spleen_limit();
-	if(get_property("cc_100familiar").to_boolean())
+	if(is100FamiliarRun())
 	{
 		spleenlimit -= 3;
 	}
@@ -3750,7 +3758,7 @@ boolean L13_towerNSTower()
 			sources = sources + 1;
 		}
 		item familiarEquip = equipped_item($slot[Familiar]);
-		if((have_familiar($familiar[warbear drone])) && !get_property("cc_100familiar").to_boolean())
+		if((have_familiar($familiar[warbear drone])) && !is100FamiliarRun())
 		{
 			sources = sources + 2;
 			handleFamiliar($familiar[Warbear Drone]);
@@ -3766,12 +3774,12 @@ boolean L13_towerNSTower()
 				sources = sources + 2;
 			}
 		}
-		else if((have_familiar($familiar[Sludgepuppy])) && !get_property("cc_100familiar").to_boolean())
+		else if((have_familiar($familiar[Sludgepuppy])) && !is100FamiliarRun())
 		{
 			handleFamiliar($familiar[Sludgepuppy]);
 			sources = sources + 3;
 		}
-		else if((have_familiar($familiar[Imitation Crab])) && !get_property("cc_100familiar").to_boolean())
+		else if((have_familiar($familiar[Imitation Crab])) && !is100FamiliarRun())
 		{
 			handleFamiliar($familiar[Imitation Crab]);
 			sources = sources + 2;
@@ -3910,7 +3918,7 @@ boolean L13_towerNSTower()
 		{
 			equip($item[Sneaky Pete\'s Leather Jacket]);
 		}
-		if(get_property("cc_100familiar").to_boolean())
+		if(is100FamiliarRun())
 		{
 			ccMaximize("meat drop, -equip snow suit", 1500, 0, false);
 		}
@@ -4211,7 +4219,7 @@ boolean L13_towerNSContests()
 				buffMaintain($effect[Song of Slowness], 100, 1, 1);
 				buffMaintain($effect[Soulerskates], 0, 1, 1);
 
-				if(get_property("cc_100familiar").to_boolean())
+				if(is100FamiliarRun())
 				{
 					ccMaximize("init, -equip snow suit", 1500, 0, false);
 				}
@@ -5842,6 +5850,11 @@ boolean L13_sorceressDoor()
 		visit_url("place.php?whichplace=nstower_door&action=ns_lock6");
 	}
 
+	if(towerKeyCount() < 3)
+	{
+		abort("Do not have enough hero keys");
+	}
+
 	if(contains_text(page, "ns_lock1"))
 	{
 		if(item_amount($item[Boris\'s Key]) == 0)
@@ -6383,7 +6396,7 @@ boolean L12_sonofaBeach()
 #	{
 #		return false;
 #	}
-#	if(!get_property("cc_100familiar").to_boolean())
+#	if(!is100FamiliarRun())
 #	{
 #		return false;
 #	}
@@ -6640,7 +6653,7 @@ boolean L12_nunsTrickGlandGet()
 #	{
 #		return false;
 #	}
-#	if(get_property("cc_100familiar").to_boolean())
+#	if(is100FamiliarRun())
 #	{
 #		return false;
 #	}
@@ -7397,7 +7410,7 @@ boolean LX_freeCombats()
 		return false;
 	}
 
-	if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && !get_property("cc_100familiar").to_boolean())
+	if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && !is100FamiliarRun())
 	{
 		if(get_property("cc_choice1119") != "")
 		{
@@ -7439,7 +7452,7 @@ boolean LX_freeCombats()
 
 boolean Lx_resolveSixthDMT()
 {
-	if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 10) && !get_property("cc_100familiar").to_boolean() && ($location[The Deep Machine Tunnels].turns_spent == 5) && (my_daycount() == 2))
+	if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 10) && !is100FamiliarRun() && ($location[The Deep Machine Tunnels].turns_spent == 5) && (my_daycount() == 2))
 	{
 		if(get_property("cc_choice1119") != "")
 		{
@@ -9302,11 +9315,11 @@ boolean LX_handleSpookyravenFirstFloor()
 	{
 		return false;
 	}
-#	if(possessEquipment($item[Ghost of a Necklace]))
-#	{
-#		set_property("cc_spookyravennecklace", "done");
-#		return false;
-#	}
+	if(possessEquipment($item[Ghost of a Necklace]))
+	{
+		set_property("cc_spookyravennecklace", "done");
+		return false;
+	}
 
 	boolean delayKitchen = get_property("cc_delayHauntedKitchen").to_boolean();
 	if(get_property("cc_gaudy") == "finished")
@@ -9389,7 +9402,7 @@ boolean LX_handleSpookyravenFirstFloor()
 		}
 	}
 
-	if(!have_skill($skill[Rain Man]) || get_property("cc_100familiar").to_boolean())
+	if(!have_skill($skill[Rain Man]) || is100FamiliarRun())
 	{
 		if(hasSpookyravenLibraryKey())
 		{
@@ -9907,7 +9920,7 @@ boolean L9_aBooPeak()
 			lihcface = "-equip lihc face";
 		}
 		string parrot = ", switch exotic parrot";
-		if(get_property("cc_100familiar").to_boolean())
+		if(is100FamiliarRun())
 		{
 			parrot = "";
 		}
@@ -12863,7 +12876,7 @@ boolean doTasks()
 		return true;
 	}
 
-	if((get_property("cc_nunsTrick") == "got") && (get_property("currentNunneryMeat").to_int() < 100000) && !get_property("cc_100familiar").to_boolean())
+	if((get_property("cc_nunsTrick") == "got") && (get_property("currentNunneryMeat").to_int() < 100000) && !is100FamiliarRun())
 	{
 		set_property("cc_nunsTrickActive", "yes");
 		if((get_property("cc_mcmuffin") == "ed") || (get_property("cc_mcmuffin") == "finished"))

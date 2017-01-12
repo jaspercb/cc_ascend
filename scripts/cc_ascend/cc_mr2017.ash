@@ -11,6 +11,10 @@ boolean getSpaceJelly();
 
 boolean getSpaceJelly()
 {
+	if(is100FamiliarRun($familiar[Space Jellyfish]))
+	{
+		return false;
+	}
 	if(get_property("_seaJellyHarvested").to_boolean())
 	{
 		return false;

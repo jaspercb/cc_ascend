@@ -444,7 +444,7 @@ void consumeStuff()
 			{
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 3);
-				drink(item_amount($item[Sacramento Wine]), $item[Sacramento Wine]);
+				drink(min(item_amount($item[Sacramento Wine]), have_effect($effect[Ode to Booze])), $item[Sacramento Wine]);
 			}
 		}
 		if((inebriety_left() >= 2) && (my_mp() >= mpForOde))
@@ -559,7 +559,7 @@ void consumeStuff()
 			}
 		}
 
-		if((my_mp() > mpForOde) && get_property("cc_100familiar").to_boolean() && (my_inebriety() == 0) && (my_meat() >= 500) && (item_amount($item[Clan VIP Lounge Key]) > 0))
+		if((my_mp() > mpForOde) && is100FamiliarRun() && (my_inebriety() == 0) && (my_meat() >= 500) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 		{
 			shrugAT($effect[Ode to Booze]);
 
@@ -576,7 +576,7 @@ void consumeStuff()
 			}
 		}
 
-		if((my_mp() > mpForOde) && get_property("cc_100familiar").to_boolean() && (my_inebriety() == 13) && (item_amount($item[Cold One]) > 0) && (my_level() >= 10))
+		if((my_mp() > mpForOde) && is100FamiliarRun() && (my_inebriety() == 13) && (item_amount($item[Cold One]) > 0) && (my_level() >= 10))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
