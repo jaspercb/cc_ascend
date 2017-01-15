@@ -407,7 +407,7 @@ void handlePostAdventure()
 
 	if(my_class() == $class[Sauceror])
 	{
-		if((my_level() >= 6) && (have_effect($effect[Blood Sugar Sauce Magic]) == 0) && have_skill($skill[Blood Sugar Sauce Magic]) && !in_hardcore())
+		if((my_level() >= 6) && (have_effect($effect[[1458]Blood Sugar Sauce Magic]) == 0) && have_skill($skill[Blood Sugar Sauce Magic]) && !in_hardcore())
 		{
 			use_skill(1, $skill[Blood Sugar Sauce Magic]);
 		}

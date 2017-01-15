@@ -2944,6 +2944,12 @@ string cs_combatNormal(int round, string opp, string text)
 		return "skill curse of weaksauce";
 	}
 
+	if((!contains_text(combatState, "(candyblast)")) && have_skill($skill[Candyblast]) && (my_mp() > (mp_cost($skill[Candyblast]) * 3)) && !danger)
+	{
+		set_property("cc_combatHandler", combatState + "(candyblast)");
+		return "skill " + $skill[Candyblast];
+	}
+
 	if((!contains_text(combatState, "love mosquito")) && get_property("lovebugsUnlocked").to_boolean())
 	{
 		set_property("cc_combatHandler", combatState + "(love mosquito)");

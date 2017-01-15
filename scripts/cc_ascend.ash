@@ -4671,7 +4671,7 @@ boolean LX_attemptPowerLevel()
 		}
 	}
 
-	if(elementalPlanes_access($element[stench]) && have_skill($skill[Summon Smithsness]))
+	if(elementalPlanes_access($element[stench]) && have_skill($skill[Summon Smithsness]) && (get_property("cc_beatenUpCount").to_int() == 0))
 	{
 		ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]);
 	}
@@ -4687,10 +4687,10 @@ boolean LX_attemptPowerLevel()
 	{
 		ccAdv(1, $location[Sloppy Seconds Diner]);
 	}
-	else if(elementalPlanes_access($element[stench]))
-	{
-		ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]);
-	}
+#	else if(elementalPlanes_access($element[stench]))
+#	{
+#		ccAdv(1, $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]);
+#	}
 	else if(elementalPlanes_access($element[sleaze]))
 	{
 		ccAdv(1, $location[Sloppy Seconds Diner]);
@@ -4700,6 +4700,11 @@ boolean LX_attemptPowerLevel()
 		if((my_level() >= 11) && (get_property("cc_hiddenzones") == "finished"))
 		{
 			ccAdv($location[The Hidden Hospital]);
+			return true;
+		}
+		if((my_level() >= 9) && ((get_property("cc_highlandlord") == "start") || (get_property("cc_highlandlord") == "finished")))
+		{
+			ccAdv($location[Oil Peak]);
 			return true;
 		}
 		return false;
@@ -11915,22 +11920,34 @@ boolean L3_tavern()
 
 	boolean enoughElement = (numeric_modifier("cold damage") >= 20) && (numeric_modifier("hot damage") >= 20) && (numeric_modifier("spooky damage") >= 20) && (numeric_modifier("stench damage") >= 20);
 
+	boolean delayTavern = false;
+
 	if(my_class() == $class[Ed])
 	{
 		set_property("choiceAdventure1000", "1");
 		set_property("choiceAdventure1001", "2");
 		if((my_mp() < 15) && have_skill($skill[Shelter of Shed]))
 		{
-			return false;
+			delayTavern = true;
 		}
 	}
 	else if(!enoughElement || (my_mp() < mpNeed))
 	{
 		if((my_daycount() <= 2) && (my_level() <= 11))
 		{
-			return false;
+			delayTavern = true;
 		}
 	}
+	if(my_level() == get_property("cc_powerLevelLastLevel").to_int())
+	{
+		delayTavern = false;
+	}
+
+	if(delayTavern)
+	{
+		return false;
+	}
+
 	print("Doing Tavern", "blue");
 
 	if((my_mp() > 60) || considerGrimstoneGolem(true))
@@ -12480,6 +12497,15 @@ boolean doTasks()
 		if(tooManyAdventures && (my_path() == "The Source"))
 		{
 			if($locations[The Haunted Ballroom, The Haunted Bathroom, The Haunted Bedroom, The Haunted Gallery] contains my_location())
+			{
+				tooManyAdventures = false;
+			}
+		}
+
+		int plCount = get_property("cc_powerLevelAdvCount").to_int();
+		if((plCount > 40) && (my_level() < 11))
+		{
+			if($locations[Oil Peak] contains my_location())
 			{
 				tooManyAdventures = false;
 			}
