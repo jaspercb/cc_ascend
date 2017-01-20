@@ -2162,7 +2162,11 @@ int turkeyBooze()
 
 int amountTurkeyBooze()
 {
-	return item_amount($item[Agitated Turkey]) + item_amount($item[Ambitious Turkey]) + item_amount($item[Friendly Turkey]);
+	if(is_unrestricted($item[Fist Turkey Outline]))
+	{
+		return item_amount($item[Agitated Turkey]) + item_amount($item[Ambitious Turkey]) + item_amount($item[Friendly Turkey]);
+	}
+	return 0;
 }
 
 int numPirateInsults()
@@ -2929,7 +2933,7 @@ boolean buffMaintain(item source, effect buff, int uses, int turns)
 boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 {
 	skill useSkill = $skill[none];
-	item useItem = $item[Instant Karma];
+	item useItem = $item[none];
 
 	if(buff == $effect[none])
 	{
@@ -3135,7 +3139,11 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Manbait]:						useItem = $item[The Most Dangerous Bait];		break;
 	case $effect[Mariachi Mood]:				useSkill = $skill[Moxie of the Mariachi];		break;
 	case $effect[Marinated]:					useItem = $item[Bowl of Marinade];				break;
-	case $effect[Mathematically Precise]:		useSkill = $skill[Mathematical Precision];		break;
+	case $effect[Mathematically Precise]:
+		if(is_unrestricted($item[Crimbot ROM: Mathematical Precision]))
+		{
+			useSkill = $skill[Mathematical Precision];
+		}																						break;
 	case $effect[Mayeaugh]:						useItem = $item[Glob of Spoiled Mayo];			break;
 	case $effect[Memories of Puppy Love]:		useItem = $item[Old Love Note];					break;
 	case $effect[Merry Smithsness]:				useItem = $item[Flaskfull of Hollow];			break;
@@ -3231,7 +3239,11 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[A Rose by Any Other Material]:	useItem = $item[Squeaky Toy Rose];				break;
 	case $effect[Rosewater Mark]:				useItem = $item[Old Rosewater Cream];			break;
 	case $effect[Rotten Memories]:				useSkill = $skill[Rotten Memories];				break;
-	case $effect[Ruthlessly Efficient]:			useSkill = $skill[Ruthless Efficiency];			break;
+	case $effect[Ruthlessly Efficient]:
+		if(is_unrestricted($item[Crimbot ROM: Ruthless Efficiency]))
+		{
+			useSkill = $skill[Ruthless Efficiency];
+		}																						break;
 	case $effect[Salamander in Your Stomach]:	useItem = $item[Salamander Slurry];				break;
 	case $effect[Saucemastery]:					useSkill = $skill[Sauce Contemplation];			break;
 	case $effect[Sauce Monocle]:				useSkill = $skill[Sauce Monocle];				break;
@@ -3474,7 +3486,12 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 		}
 	}
 
-	if(useItem != $item[Instant Karma])
+	if(!is_unrestricted(useItem))
+	{
+		return false;
+	}
+
+	if(useItem != $item[none])
 	{
 		return buffMaintain(useItem, buff, casts, turns);
 	}

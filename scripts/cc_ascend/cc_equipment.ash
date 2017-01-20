@@ -12,7 +12,6 @@ void equipBaselineAcc2();
 void equipBaselineAcc3();
 void equipBaselineHolster();
 void equipBaselineFam();
-void equipBaselineHat(boolean wantNC);
 void equipRollover();
 void handleOffHand();
 void ensureSealClubs();
@@ -215,8 +214,8 @@ void handleOffHand()
 		if((equipped_item($slot[off-hand]) != $item[Lead Umbrella]) && (have_effect($effect[Rad-Pro Tected]) == 0))
 		{
 			equip($slot[off-hand], $item[Lead Umbrella]);
+			return;
 		}
-		return;
 	}
 
 	if(weapon_hands(equipped_item($slot[weapon])) > 1)
@@ -266,7 +265,7 @@ void handleOffHand()
 
 	if(my_class() == $class[Sauceror])
 	{
-			poss = $items[Hot Plate, Low-Budget Shield, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Sawblade Shield, Wicker Shield, Keg Shield, Whatsian Ionic Pliers, Little Black Book, KoL Con 13 Snowglobe, Astral Shield, Astral Statuette, Yorick, Ox-head Shield, Operation Patriot Shield, Jarlsberg\'s Pan, Barrel Lid, Basaltamander Buckler, A Light that Never Goes Out];
+		poss = $items[Hot Plate, Low-Budget Shield, Disturbing Fanfic, Coffin Lid, Heavy-Duty Clipboard, Sawblade Shield, Wicker Shield, Keg Shield, Whatsian Ionic Pliers, Little Black Book, KoL Con 13 Snowglobe, Astral Shield, Astral Statuette, Yorick, Ox-head Shield, Operation Patriot Shield, Jarlsberg\'s Pan, Barrel Lid, Basaltamander Buckler, A Light that Never Goes Out];
 	}
 
 	if(my_class() == $class[Disco Bandit])
@@ -392,17 +391,16 @@ item handleSolveThing(boolean[item] poss, slot loc)
 	return handleSolveThing(List(poss),loc);
 }
 
-void equipBaselineHat()
-{
-	equipBaselineHat(true);
-}
-
 void equipBaselinePants()
 {
 	item toEquip = $item[none];
 
-	boolean[item] oldPoss = $items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Stylish Swimsuit, Union Scalemail Pants, Hep Waders, Bloody Clown Pants, Knob Goblin Uberpants, Filthy Corduroys, Antique Greaves, Ninja Hot Pants, Demonskin Trousers, Leotarrrd, Swashbuckling Pants, Troutpiece, Snowboarder Pants, Oil Slacks, Discarded Swimming Trunks, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving];
-	item[int] poss = List(oldPoss);
+	item[int] poss = List($items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Stylish Swimsuit, Union Scalemail Pants, Hep Waders, Bloody Clown Pants, Knob Goblin Uberpants, Filthy Corduroys, Antique Greaves, Ninja Hot Pants, Demonskin Trousers, Leotarrrd, Swashbuckling Pants, Troutpiece, Snowboarder Pants, Oil Slacks, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving]);
+
+	if(my_primestat() == $stat[Muscle])
+	{
+		poss = ListInsertAt(poss, $item[Discarded Swimming Trunks], poss.ListFind($item[Stainless Steel Slacks]));
+	}
 
 	if(my_class() == $class[Turtle Tamer])
 	{
@@ -420,9 +418,7 @@ void equipBaselinePants()
 void equipBaselineShirt()
 {
 	item toEquip = $item[none];
-
-	boolean[item] oldPoss = $items[Barskin Cloak, Thinknerd T-Shirt, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Glass Casserole Dish, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Ultracolor&trade; Shirt, Shark Jumper, Bod-Ice, Liam\'s Mail, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
-	item[int] poss = List(oldPoss);
+	item[int] poss = List($items[Barskin Cloak, Thinknerd T-Shirt, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Glass Casserole Dish, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Ultracolor&trade; Shirt, Shark Jumper, Bod-Ice, Liam\'s Mail, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)]);
 
 	toEquip = handleSolveThing(poss, $slot[shirt]);
 
@@ -436,16 +432,27 @@ void equipBaselineBack()
 {
 	item toEquip = $item[none];
 
-	boolean[item] poss;
+	item[int] poss = List($items[Whatsit-Covered Turtle Shell, Black Cloak, Pillow Shell, Oil Shell, Giant Gym Membership Card, Frozen Turtle Shell, Misty Cloak, Misty Cape, Misty Robe, Makeshift Cape, Polyester Parachute, Buddy Bjorn, Camp Scout Backpack, Protonic Accelerator Pack]);
 
-	if(my_class() == $class[Ed])
+	switch(my_primestat())
 	{
-		poss = $items[Black Cloak, Giant Gym Membership Card, Makeshift Cape, Misty Cloak, Misty Cape, Misty Robe, Camp Scout Backpack, Protonic Accelerator Pack];
+	case $stat[Muscle]:
+		poss = ListInsertAt(poss, $item[Misty Robe], poss.ListFind($item[Makeshift Cape]));
+		poss = ListInsertAt(poss, $item[Misty Cloak], poss.ListFind($item[Makeshift Cape]));
+		poss = ListInsertAt(poss, $item[Misty Cape], poss.ListFind($item[Makeshift Cape]));
+		break;
+	case $stat[Mysticality]:
+		poss = ListInsertAt(poss, $item[Misty Robe], poss.ListFind($item[Makeshift Cape]));
+		poss = ListInsertAt(poss, $item[Misty Cloak], poss.ListFind($item[Makeshift Cape]));
+		poss = ListInsertAt(poss, $item[Misty Cape], poss.ListFind($item[Makeshift Cape]));
+		break;
+	case $stat[Moxie]:
+		poss = ListInsertAt(poss, $item[Misty Robe], poss.ListFind($item[Makeshift Cape]));
+		poss = ListInsertAt(poss, $item[Misty Cloak], poss.ListFind($item[Makeshift Cape]));
+		poss = ListInsertAt(poss, $item[Misty Cape], poss.ListFind($item[Makeshift Cape]));
+		break;
 	}
-	else
-	{
-		poss = $items[Whatsit-Covered Turtle Shell, Black Cloak, Pillow Shell, Oil Shell, Giant Gym Membership Card, Frozen Turtle Shell, Misty Cloak, Misty Cape, Misty Robe, Makeshift Cape, Polyester Parachute, Buddy Bjorn, Camp Scout Backpack, Protonic Accelerator Pack];
-	}
+
 	toEquip = handleSolveThing(poss, $slot[back]);
 
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[back])))
@@ -454,12 +461,11 @@ void equipBaselineBack()
 	}
 }
 
-void equipBaselineHat(boolean wantNC)
+void equipBaselineHat()
 {
 	item toEquip = $item[none];
 
-	boolean[item] oldPoss = $items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Oversized Skullcap, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, one-gallon hat, two-gallon hat, three-gallon hat, four-gallon hat, five-gallon hat, six-gallon hat, seven-gallon hat, Van der Graaf helmet, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, eight-gallon hat, nine-gallon hat, ten-gallon hat, eleven-gallon hat, Cold Water Bottle, Beer Helmet, Mark III Steam-Hat, Mark IV Steam-Hat, Nurse\'s Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, Very Pointy Crown, Boris\'s Helm, Boris\'s Helm (askew), The Crown of Ed the Undying];
-	item[int] poss = List(oldPoss);
+	item[int] poss = List($items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Oversized Skullcap, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, one-gallon hat, two-gallon hat, three-gallon hat, four-gallon hat, five-gallon hat, six-gallon hat, seven-gallon hat, Van der Graaf helmet, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, eight-gallon hat, nine-gallon hat, ten-gallon hat, eleven-gallon hat, Cold Water Bottle, Beer Helmet, Mark III Steam-Hat, Mark IV Steam-Hat, Nurse\'s Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, Xiblaxian Stealth Cowl, Very Pointy Crown, Boris\'s Helm, Boris\'s Helm (askew), The Crown of Ed the Undying]);
 
 	if(my_class() == $class[Turtle Tamer])
 	{
@@ -467,16 +473,14 @@ void equipBaselineHat(boolean wantNC)
 	}
 	toEquip = handleSolveThing(poss, $slot[hat]);
 
-	if(wantNC)
+	# Clarify this, do we have a filter for wanting +NC?
+	if(possessEquipment($item[Very Pointy Crown]))
 	{
-		if(possessEquipment($item[Very Pointy Crown]))
-		{
-			toEquip = $item[Very Pointy Crown];
-		}
-		else if(possessEquipment($item[Xiblaxian Stealth Cowl]))
-		{
-			toEquip = $item[Xiblaxian Stealth Cowl];
-		}
+		toEquip = $item[Very Pointy Crown];
+	}
+	else if(possessEquipment($item[Xiblaxian Stealth Cowl]))
+	{
+		toEquip = $item[Xiblaxian Stealth Cowl];
 	}
 
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[hat])))
@@ -537,7 +541,6 @@ void equipBaselineWeapon()
 	case $class[Snake Oiler]:
 		poss = $items[Finger Cymbals, Double-Barreled Sling, Hilarious Comedy Prop, Space Tourist Phaser, Knife, Thor\'s Pliers, Frankly Mr. Shank];
 		break;
-
 
 	default:
 		print("If you just started an ascension (Ed primarily) enter 'refresh all' and then restart", "red");
@@ -774,10 +777,9 @@ void removeCombat()
 void equipRollover()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Sea Cowboy Hat, Hairpiece on Fire, Spelunker\'s Fedora, Uncle Crimbo\'s Hat, Leather Aviator\'s Cap, Very Pointy Crown];
+	item[int] poss = List($items[Sea Cowboy Hat, Hairpiece on Fire, Spelunker\'s Fedora, Uncle Crimbo\'s Hat, Leather Aviator\'s Cap, Very Pointy Crown]);
 
 	toEquip = handleSolveThing(poss, $slot[hat]);
-
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[hat])))
 	{
 		equip($slot[hat], toEquip);
@@ -785,10 +787,9 @@ void equipRollover()
 
 
 	toEquip = $item[none];
-	poss = $items[Time Bandit Time Towel, Auxiliary Backbone, Octolus-Skin Cloak];
+	poss = List($items[Time Bandit Time Towel, Auxiliary Backbone, Octolus-Skin Cloak]);
 
 	toEquip = handleSolveThing(poss, $slot[back]);
-
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[back])))
 	{
 		equip($slot[back], toEquip);
@@ -796,78 +797,92 @@ void equipRollover()
 
 
 	toEquip = $item[none];
-	poss = $items[General Sage\'s Lonely Diamonds Club Jacket, Glass Casserole Dish, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)];
+	poss = List($items[General Sage\'s Lonely Diamonds Club Jacket, Glass Casserole Dish, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)]);
 
 	toEquip = handleSolveThing(poss, $slot[shirt]);
-
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[shirt])))
 	{
 		equip($slot[shirt], toEquip);
 	}
 
 	toEquip = $item[none];
-	poss = $items[Chrome Sword, Sword Behind Inappropriate Prepositions, Time Sword, The Nuge\'s Favorite Crossbow];
+	poss = List($items[Chrome Sword, Sword Behind Inappropriate Prepositions, Time Sword, The Nuge\'s Favorite Crossbow]);
 
 	toEquip = handleSolveThing(poss, $slot[weapon]);
-
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[weapon])))
 	{
 		equip($slot[weapon], toEquip);
 	}
 
 	toEquip = $item[none];
-	poss = $items[Ancient Calendar, Mer-kin stopwatch, Astral Statuette, blue LavaCo Lamp&trade;, green LavaCo Lamp&trade;, red LavaCo Lamp&trade;, Silver Cow Creamer, Royal Scepter];
+	poss = List($items[Ancient Calendar, Mer-kin stopwatch, Astral Statuette, Silver Cow Creamer, Royal Scepter]);
+	switch(my_primestat())
+	{
+	case $stat[Muscle]:
+		poss = ListInsertAt(poss, $item[red LavaCo Lamp&trade;], poss.ListFind($item[Royal Scepter]));
+		break;
+	case $stat[Mysticality]:
+		poss = ListInsertAt(poss, $item[blue LavaCo Lamp&trade;], poss.ListFind($item[Royal Scepter]));
+		break;
+	case $stat[Moxie]:
+		poss = ListInsertAt(poss, $item[green LavaCo Lamp&trade;], poss.ListFind($item[Royal Scepter]));
+		break;
+	}
 
 	toEquip = handleSolveThing(poss, $slot[off-hand]);
-
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[off-hand])))
 	{
 		equip($slot[off-hand], toEquip);
 	}
 
 	toEquip = $item[none];
-	poss = $items[Paperclip Pants, Electronic Dulcimer Pants, Vicar\'s Tutu, Ninjammies, Pantaloons of Hatred, Ratskin Pajama Pants];
+	poss = List($items[Paperclip Pants, Electronic Dulcimer Pants, Vicar\'s Tutu, Ninjammies, Pantaloons of Hatred, Ratskin Pajama Pants]);
 
 	toEquip = handleSolveThing(poss, $slot[pants]);
-
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[pants])))
 	{
 		equip($slot[pants], toEquip);
 	}
+
+
+	##poss = List($items[Tiny Plastic Bitchin\' Meatcar, Dead Guy\'s Watch, Gold Wedding Ring, BGE Pocket Calendar, Wristwatch of the White Knight, Boots of Twilight Whispers, Grandfather Watch, Gingerbeard, Fudgecycle, Numberwang, Ticksilver Ring, Sasq&trade; Watch, Treads of Loathing]);
+
+	## If your cowboy boots has ticksilver, then add at +4?
+	## If over-the-shoulder has +rollover, then add it at +5/5?
+	## How do we check watches? Gingerbeard/Uncle Hobo? at +6/+9?
+
+	### Original start of rollover accessory code.
 	equip($slot[acc1], $item[none]);
 	equip($slot[acc2], $item[none]);
 	equip($slot[acc3], $item[none]);
 
 	toEquip = $item[none];
-	poss = $items[Tiny Plastic Bitchin\' Meatcar, BGE Pocket Calendar, Boots of Twilight Whispers, Numberwang];
+	poss = List($items[Tiny Plastic Bitchin\' Meatcar, BGE Pocket Calendar, Boots of Twilight Whispers, Numberwang]);
 
 	toEquip = handleSolveThing(poss, $slot[acc1]);
-
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc1])))
 	{
 		equip($slot[acc1], toEquip);
 	}
 
 	toEquip = $item[none];
-	poss = $items[Dead Guy\'s Watch, Wristwatch of the White Knight, Grandfather Watch, Sasq&trade; Watch];
+	poss = List($items[Dead Guy\'s Watch, Wristwatch of the White Knight, Grandfather Watch, Sasq&trade; Watch]);
 
 	toEquip = handleSolveThing(poss, $slot[acc2]);
-
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc2])))
 	{
 		equip($slot[acc2], toEquip);
 	}
 
 	toEquip = $item[none];
-	poss = $items[Gold Wedding Ring, Gingerbeard, Fudgecycle, Ticksilver Ring, Treads of Loathing];
+	poss = List($items[Gold Wedding Ring, Gingerbeard, Fudgecycle, Ticksilver Ring, Treads of Loathing]);
 
 	toEquip = handleSolveThing(poss, $slot[acc3]);
-
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc3])))
 	{
 		equip($slot[acc3], toEquip);
 	}
-
+	### Original end of rollover accessory code.
 
 	if(have_familiar($familiar[Trick-or-Treating Tot]) && !possessEquipment($item[Li\'l Unicorn Costume]) && !is100FamiliarRun() && (my_meat() > (5000 + npc_price($item[Li\'l Unicorn Costume]))))
 	{
@@ -885,7 +900,7 @@ void equipRollover()
 	else if(my_familiar() != $familiar[none])
 	{
 		toEquip = $item[none];
-		poss = $items[Solid Shifting Time Weirdness];
+		poss = List($items[Solid Shifting Time Weirdness]);
 
 		toEquip = handleSolveThing(poss, $slot[familiar]);
 		if((toEquip != $item[none]) && (toEquip != equipped_item($slot[familiar])))

@@ -441,13 +441,9 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if((!contains_text(combatState, "thunderstrike")) && (monster_level_adjustment() <= 150) && have_skill($skill[Thunder Bird]))
 	{
-		if((enemy == $monster[big wisnaqua]) ||
-			(enemy == $monster[the big wisniewski]) ||
-			(enemy == $monster[the man]) ||
-			(enemy == $monster[the aquaman]) ||
-			(enemy == $monster[the rain king]))
+		if($monsters[Big Wisnaqua, The Aquaman, The Big Wisniewski, The Man, The Rain King] contains enemy)
 		{
-			if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 60))
+			if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 60) && have_skill($skill[Itchy Curse Finger]))
 			{
 				set_property("cc_combatHandler", combatState + "(weaksauce)");
 				return "skill curse of weaksauce";
@@ -530,10 +526,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if((!contains_text(combatState, "winkat")) && (my_familiar() == $familiar[Reanimated Reanimator]))
 	{
-		if((enemy == $monster[lobsterfrogman]) ||
-			(enemy == $monster[modern zmobie]) ||
-			(enemy == $monster[ninja snowman assassin]) ||
-			(enemy == $monster[Writing desk]))
+		if($monsters[Lobsterfrogman, Modern Zmobie, Ninja Snowman Assassin, Writing Desk] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(winkat)");
 			if((get_property("_badlyRomanticArrows").to_int() == 1) && (round <= 1) && (get_property("romanticTarget") != enemy))
@@ -544,7 +537,7 @@ string cc_combatHandler(int round, string opp, string text)
 			{
 				set_property("cc_waitingArrowAlcove", get_property("cyrptAlcoveEvilness").to_int() - 20);
 			}
-			return "skill wink at";
+			return "skill " + $skill[Wink At];
 		}
 	}
 
@@ -621,7 +614,7 @@ string cc_combatHandler(int round, string opp, string text)
 	if((item_amount($item[The Big Book of Pirate Insults]) > 0) && (!contains_text(combatState, "insults")) && (numPirateInsults() < 8))
 	{
 		if((my_location() == $location[The Obligatory Pirate\'s Cove]) || (my_location() == $location[barrrney\'s barrr]) ||
-			(enemy == $monster[gaudy pirate]))
+			((enemy == $monster[gaudy pirate]) && (my_location() != $location[Belowdecks])))
 		{
 			set_property("cc_combatHandler", combatState + "(insults)");
 			return "item the big book of pirate insults";
@@ -903,33 +896,23 @@ string cc_combatHandler(int round, string opp, string text)
 	#First pass thunder clap
 	if((!contains_text(combatState, "thunder clap")) && (have_skill($skill[thunder clap])) && (my_thunder() >= 40))
 	{
-		if((enemy == $monster[animated mahogany nightstand]) ||
-			(enemy == $monster[coaltergeist]) ||
-			(enemy == $monster[flock of stab-bats]) ||
-			(enemy == $monster[mad wino]) ||
-			(enemy == $monster[tomb servant]) ||
-			(enemy == $monster[sabre-toothed goat]) ||
-			(enemy == $monster[pygmy witch lawyer]) ||
-			(enemy == $monster[pygmy witch nurse]) ||
-			(enemy == $monster[possessed laundry press]) ||
-			(enemy == $monster[mismatched twins]) ||
-			(enemy == $monster[crusty pirate]))
+		if($monsters[Animated Mahogany Nightstand, Coaltergeist, Crusty Pirate, Flock of Stab-Bats, Mad Wino, Mismatched Twins, Possessed Laundry Press, Pygmy Witch Lawyer, Pygmy Witch Nurse, Sabre-Toothed Goat, Tomb Servant] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(thunder clap)");
 			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
-			return "skill thunder clap";
+			return "skill " + $skill[thunder clap];
 		}
 		if((enemy == $monster[burly sidekick]) && possessEquipment($item[Mohawk Wig]))
 		{
 			set_property("cc_combatHandler", combatState + "(thunder clap)");
 			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
-			return "skill thunder clap";
+			return "skill " + $skill[thunder clap];
 		}
 		if((enemy == $monster[knob goblin madam]) && (item_amount($item[knob goblin perfume]) > 0))
 		{
 			set_property("cc_combatHandler", combatState + "(thunder clap)");
 			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
-			return "skill thunder clap";
+			return "skill " + $skill[thunder clap];
 		}
 	}
 
@@ -1226,7 +1209,6 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill curse of weaksauce";
 	}
 
-
 	if((!contains_text(combatState, "intimidating bellow")) && (have_skill($skill[Intimidating Bellow])) && (my_mp() >= 25) && have_skill($skill[Louder Bellows]))
 	{
 		set_property("cc_combatHandler", combatState + "(intimidating bellow)");
@@ -1236,7 +1218,7 @@ string cc_combatHandler(int round, string opp, string text)
 	#Default behaviors:
 	if(mcd <= 150)
 	{
-		if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 60))
+		if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 60) && have_skill($skill[Itchy Curse Finger]))
 		{
 			set_property("cc_combatHandler", combatState + "(weaksauce)");
 			return "skill curse of weaksauce";
@@ -2525,18 +2507,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 	if(!contains_text(edCombatState, "curseofstench") && (have_skill($skill[Curse of Stench])) && (my_mp() >= 35) && (get_property("stenchCursedMonster") != opp) && (get_property("cc_edStatus") == "UNDYING!"))
 	{
-		if((enemy == $monster[bob racecar]) ||
-			(enemy == $monster[pygmy bowler]) ||
-			(enemy == $monster[pygmy witch surgeon]) ||
-			(enemy == $monster[possessed wine rack]) ||
-			(enemy == $monster[cabinet of Dr. Limpieza]) ||
-			(enemy == $monster[quiet healer]) ||
-			(enemy == $monster[racecar bob]) ||
-			(enemy == $monster[dirty old lihc]) ||
-			(enemy == $monster[dairy goat]) ||
-			(enemy == $monster[green ops soldier]) ||
-			(enemy == $monster[Government Scientist]) ||
-			(enemy == $monster[Writing Desk]))
+		if($monsters[Bob Racecar, Cabinet of Dr. Limpieza, Dairy Goat, Dirty Old Lihc, Government Scientist,  Green Ops Soldier, Possessed Wine Rack, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Writing Desk] contains enemy)
 		{
 			set_property("cc_edCombatHandler", combatState + "(curseofstench)");
 			handleTracker(enemy, $skill[Curse of Stench], "cc_sniffs");
@@ -2684,22 +2655,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 	if(have_skill($skill[Curse of Vacation]) && (my_mp() >= mp_cost($skill[Curse of Vacation])))
 	{
-		if((enemy == $monster[animated mahogany nightstand]) ||
-			(enemy == $monster[coaltergeist]) ||
-			(enemy == $monster[flock of stab-bats]) ||
-			(enemy == $monster[procrastination giant]) ||
-			(enemy == $monster[mad wino]) ||
-			(enemy == $monster[Irritating Series of Random Encounters]) ||
-			(enemy == $monster[sabre-toothed goat]) ||
-			(enemy == $monster[knob goblin harem guard]) ||
-			(enemy == $monster[pygmy witch lawyer]) ||
-			(enemy == $monster[pygmy witch nurse]) ||
-			(enemy == $monster[punk rock giant]) ||
-			(enemy == $monster[slick lihc]) ||
-			(enemy == $monster[warehouse janitor]) ||
-			(enemy == $monster[possessed laundry press]) ||
-			(enemy == $monster[mismatched twins]) ||
-			(enemy == $monster[crusty pirate]))
+		if($monsters[Animated Mahogany Nightstand, Coaltergeist, Crusty Pirate, Flock of Stab-Bats, Irritating Series of Random Encounters, Knob Goblin Harem Guard, Mad Wino, Mismatched Twins, Possessed Laundry Press, Procrastination Giant, Punk Rock Giant, Pygmy Witch Lawyer, Pygmy Witch Nurse, Sabre-Toothed Goat, Slick Lihc, Warehouse Janitor] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(curse of vacation)");
 			handleTracker(enemy, $skill[Curse of Vacation], "cc_banishes");
@@ -2709,7 +2665,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 	if(item_amount($item[disposable instant camera]) > 0)
 	{
-		if((enemy == $monster[bob racecar]) || (enemy == $monster[racecar bob]))
+		if($monsters[Bob Racecar, Racecar Bob] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(disposable instant camera)");
 			return "item disposable instant camera";
@@ -2944,19 +2900,11 @@ string cc_edCombatHandler(int round, string opp, string text)
 		{
 			doRenenutet = true;
 		}
-		if(enemy == $monster[Possessed Wine Rack])
-		{
-			doRenenutet = true;
-		}
-		if(enemy == $monster[Cabinet of Dr. Limpieza])
+		if($monsters[Cabinet of Dr. Limpieza, Mountain Man, Possessed Wine Rack, Warehouse Clerk, Warehouse Guard] contains enemy)
 		{
 			doRenenutet = true;
 		}
 		if((enemy == $monster[Quiet Healer]) && !possessEquipment($item[Amulet of Extreme Plot Significance]))
-		{
-			doRenenutet = true;
-		}
-		if(enemy == $monster[Mountain Man])
 		{
 			doRenenutet = true;
 		}
@@ -2977,10 +2925,6 @@ string cc_edCombatHandler(int round, string opp, string text)
 			{
 				doRenenutet = true;
 			}
-		}
-		if((enemy == $monster[Warehouse Clerk]) || (enemy == $monster[Warehouse Guard]))
-		{
-			doRenenutet = true;
 		}
 		if(doRenenutet)
 		{

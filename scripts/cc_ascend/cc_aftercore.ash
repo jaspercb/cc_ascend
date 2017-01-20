@@ -830,7 +830,7 @@ boolean cc_cheesePostCS(int leave)
 	while(lx_witchess());
 	while(lx_freecombats());
 
-    if(!get_property("_pottedTeaTreeUsed").to_boolean())
+    if(!get_property("_pottedTeaTreeUsed").to_boolean() && (get_campground() contains $item[Potted Tea Tree]))
 	{
 		cli_execute("teatree cuppa royal tea");
 		put_closet(item_amount($item[Cuppa Royal Tea]), $item[Cuppa Royal Tea]);
@@ -1021,12 +1021,30 @@ boolean cc_cheesePostCS(int leave)
 		{
 			equip($item[Snow Suit]);
 		}
-		foreach fam in $familiars[Unconscious Collective, Li\'l Xenomorph, Bloovian Groose, Golden Monkey, Rogue Program, Grim Brother, Fist Turkey]
+		foreach fam in $familiars[Unconscious Collective, Li\'l Xenomorph, Bloovian Groose, Golden Monkey, Rogue Program, Grim Brother, Fist Turkey, Rockin\' Robin, Optimistic Candle, Intergnat]
 		{
-			if(fam.drops_today < 5)
+			if(($familiars[Rockin\' Robin] contains fam) && (get_property("rockinRobinProgress").to_int() >= 25))
 			{
 				handleFamiliar(fam);
 				break;
+			}
+			if(($familiars[Optimistic Candle] contains fam) && (get_property("optimisticCandleProgress").to_int() >= 25))
+			{
+				handleFamiliar(fam);
+				break;
+			}
+			if(($familiars[Intergnat] contains fam) && (item_amount($item[BACON]) < 150000))
+			{
+				handleFamiliar(fam);
+				break;
+			}
+			if($familiars[Unconscious Collective, Li\'l Xenomorph, Bloovian Groose, Golden Monkey, Rogue Program, Grim Brother, Fist Turkey] contains fam)
+			{
+				if(fam.drops_today < 5)
+				{
+					handleFamiliar(fam);
+					break;
+				}
 			}
 		}
 
@@ -1163,7 +1181,7 @@ boolean cc_cheesePostCS(int leave)
 		drink(1, $item[Beery Blood]);
 	}
 
-	if(fullness_left() == 0)
+	if(fullness_left() > 0)
 	{
 		put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
 		tryPantsEat();
@@ -1178,7 +1196,7 @@ boolean cc_cheesePostCS(int leave)
 		ccAdv(1, $location[Barf Mountain]);
 	}
 
-	if(fullness_left() == 0)
+	if(fullness_left() > 0)
 	{
 		put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
 		tryPantsEat();
@@ -1193,7 +1211,7 @@ boolean cc_cheesePostCS(int leave)
 		ccAdv(1, $location[Barf Mountain]);
 	}
 
-	if(fullness_left() == 0)
+	if(fullness_left() > 0)
 	{
 		put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
 		tryPantsEat();

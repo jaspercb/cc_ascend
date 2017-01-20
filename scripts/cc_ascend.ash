@@ -268,12 +268,21 @@ boolean handleFamiliar(string type)
 
 	if(type == "meat")
 	{
-		foreach fam in $familiars[Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Hobo Monkey, Piano Cat, Leprechaun]
+		familiar[int] fams = List($familiars[Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Hobo Monkey, Piano Cat, Leprechaun]);
+
+#		if(available_amount($item[Li\'l Pirate Costume]) > 0)
+#		{
+#			fams = ListInsertFront(fams, $familiar[Trick-or-Treating Tot]);
+#		}
+
+		int index = 0;
+		while(index < count(fams))
 		{
-			if(have_familiar(fam) && !(blacklist contains fam))
+			if(have_familiar(fams[index]) && !(blacklist contains fams[index]))
 			{
-				return handleFamiliar(fam);
+				return handleFamiliar(fams[index]);
 			}
+			index = index + 1;
 		}
 	}
 	else if(type == "item")
@@ -2049,7 +2058,18 @@ boolean doBedtime()
 	}
 	if((my_hp() < (0.9 * my_maxhp())) && (get_property("_hotTubSoaks").to_int() < 5))
 	{
-		doHottub();
+		boolean doTub = true;
+		foreach eff in $effects[Once-Cursed, Thrice-Cursed, Twice-Cursed]
+		{
+			if(have_effect(eff) > 0)
+			{
+				doTub = false;
+			}
+		}
+		if(doTub)
+		{
+			doHottub();
+		}
 	}
 
 	if(!get_property("_mayoTankSoaked").to_boolean() && (cc_get_campground() contains $item[Portable Mayo Clinic]) && is_unrestricted($item[Portable Mayo Clinic]))
@@ -6829,6 +6849,10 @@ boolean L12_finalizeWar()
 #	{
 #		print("Boss already defeated, ignoring", "red");
 #	}
+	if(have_effect($effect[Beaten Up]) > 0)
+	{
+		abort("Failing to complete the war.");
+	}
 	council();
 	set_property("cc_war", "finished");
 	return true;
@@ -7855,10 +7879,11 @@ boolean L7_crypt()
 	{
 		print("The Nook!", "blue");
 		buffMaintain($effect[Joyful Resolve], 0, 1, 1);
+		handleFamiliar("item");
 		ccAdv(1, $location[The Defiled Nook]);
-		if(item_amount($item[evil eye]) > 0)
+		if(item_amount($item[Evil Eye]) > 0)
 		{
-			use(item_amount($item[evil eye]), $item[evil eye]);
+			use(item_amount($item[Evil Eye]), $item[Evil Eye]);
 		}
 		return true;
 	}
@@ -8211,7 +8236,10 @@ boolean LX_steelOrgan()
 				}
 				else
 				{
-					abort("Somehow we do not have " + it + " at this point...");
+					if(available_amount(it) == 0)
+					{
+						abort("Somehow we do not have " + it + " at this point...");
+					}
 				}
 			}
 		}
@@ -9298,7 +9326,7 @@ boolean L2_mosquito()
 	{
 		council();
 		set_property("cc_mosquito", "finished");
-		visit_url("tavern.php?place=barkeep");
+		string temp = visit_url("tavern.php?place=barkeep");
 	}
 	if(get_property("cc_mosquito") == "finished")
 	{
@@ -11779,7 +11807,16 @@ boolean cc_tavern()
 	{
 		return false;
 	}
-	visit_url("cellar.php");
+
+	if(internalQuestStatus("questL03Rat") < 1)
+	{
+		string temp = visit_url("tavern.php?place=barkeep");
+	}
+	string temp = visit_url("cellar.php");
+	if(contains_text(temp, "You should probably talk to the bartender before you go poking around in the cellar."))
+	{
+		abort("Quest not yet started, talk to Bart Ender and re-run.");
+	}
 	# Mafia usually fixes tavernLayout when we visit the cellar. However, it sometimes leaves it in a broken state so we can't guarantee this will actually help. However, it will result in no net change in tavernLayout so at least we can abort.
 	string tavern = get_property("tavernLayout");
 	if(index_of(tavern, "3") != -1)
@@ -11827,7 +11864,7 @@ boolean cc_tavern()
 		tavern = get_property("tavernLayout");
 		if(tavern == "0000000000000000000000000")
 		{
-			visit_url("cellar.php");
+			string temp = visit_url("cellar.php");
 			if(tavern == "0000000000000000000000000")
 			{
 				abort("Invalid Tavern Configuration, could not visit cellar and repair. Uh oh...");
@@ -11960,6 +11997,11 @@ boolean L3_tavern()
 	buffMaintain($effect[Tortious], 0, 1, 1);
 	buffMaintain($effect[Litterbug], 0, 1, 1);
 	boolean temp = change_mcd(10);
+
+	if(get_property("questL03Rat") == "unstarted")
+	{
+		string temp = visit_url("tavern.php?place=barkeep");
+	}
 
 	while(cc_tavern())
 	{
