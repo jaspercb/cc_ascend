@@ -288,6 +288,12 @@ boolean handleFamiliar(string type)
 	else if(type == "item")
 	{
 		familiar[int] fams = List($familiars[Rockin\' Robin, Grimstone Golem, Angry Jung Man, Intergnat, Bloovian Groose, Fist Turkey, Slimeling, Jumpsuited Hound Dog, Adventurous Spelunker, Gelatinous Cubeling, Baby Gravy Fairy, Obtuse Angel, Pair of Stomping Boots, Jack-in-the-Box, Syncopated Turtle]);
+		if((my_daycount() == 1) && ($familiar[Angry Jung Man].drops_today == 0) && (get_property("cc_crackpotjar") == ""))
+		{
+			fams = ListRemove(fams, $familiar[Angry Jung Man]);
+			fams = ListInsertAt(fams, $familiar[Angry Jung Man], 0);
+		}
+
 		if((my_ascensions() > ascensionThreshold) && (get_property("rockinRobinProgress").to_int() < 20))
 		{
 			fams = ListRemove(fams, $familiar[Rockin\' Robin]);
@@ -356,6 +362,16 @@ boolean handleFamiliar(string type)
 			}
 		}
 		foreach fam in $familiars[Grim Brother, Rockin\' Robin, Golden Monkey, Reanimated Reanimator, Unconscious Collective, Bloovian Groose, Lil\' Barrel Mimic, Artistic Goth Kid, Happy Medium, Baby Z-Rex, Li\'l Xenomorph, Smiling Rat, Dramatic Hedgehog, Grinning Turtle, Frumious Bandersnatch, Blood-Faced Volleyball]
+		{
+			if(have_familiar(fam) && !(blacklist contains fam))
+			{
+				return handleFamiliar(fam);
+			}
+		}
+	}
+	else if(type == "regen")
+	{
+		foreach fam in $familiars[Galloping Grill, Mini-Hipster, Ms. Puck Man, Puck Man, Rogue Program, Stocking Mimic, Twitching Space Critter, Lil\' Barrel Mimic, Helix Fossil, Adorable Space Buddy, Cuddlefish, Personal Raincloud, Cocoabo, Midget Clownfish, Choctopus, Wild Hare, Snow Angel, Ghuol Whelp, Star Starfish]
 		{
 			if(have_familiar(fam) && !(blacklist contains fam))
 			{
@@ -1643,7 +1659,7 @@ void initializeDay(int day)
 
 			makeStartingSmiths();
 
-			handleFamiliar($familiar[Angry Jung Man]);
+			handleFamiliar("item");
 			equipBaseline();
 
 			handleBjornify($familiar[none]);
@@ -1755,7 +1771,10 @@ void initializeDay(int day)
 		}
 		if(chateaumantegna_havePainting() && (my_class() != $class[Ed]) && (cc_my_path() != "Community Service"))
 		{
-			handleFamiliar($familiar[Reanimated Reanimator]);
+			if(have_familiar($familiar[Reanimated Reanimator]))
+			{
+				handleFamiliar($familiar[Reanimated Reanimator]);
+			}
 			chateaumantegna_usePainting();
 			handleFamiliar($familiar[Angry Jung Man]);
 		}
@@ -3026,7 +3045,10 @@ boolean L11_aridDesert()
 		{
 			equip($item[Thor\'s Pliers]);
 		}
-		handleFamiliar($familiar[Artistic Goth Kid]);
+		if(have_familiar($familiar[Artistic Goth Kid]))
+		{
+			handleFamiliar($familiar[Artistic Goth Kid]);
+		}
 
 		if(possessEquipment($item[reinforced beaded headband]) && possessEquipment($item[bullet-proof corduroys]) && possessEquipment($item[round purple sunglasses]))
 		{
@@ -5132,7 +5154,7 @@ boolean L11_hiddenCityZones()
 		{
 			handleFamiliar($familiar[Unconscious Collective]);
 		}
-		else
+		else if(have_familiar($familiar[Fist Turkey]))
 		{
 			handleFamiliar($familiar[Fist Turkey]);
 		}
@@ -5527,7 +5549,7 @@ boolean LX_spookyravenSecond()
 		}
 		if(item_amount($item[Lady Spookyraven\'s Powder Puff]) == 0)
 		{
-			if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]))
+			if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]) && have_familiar($familiar[Artistic Goth Kid]))
 			{
 				handleFamiliar($familiar[Artistic Goth Kid]);
 			}
@@ -6496,7 +6518,10 @@ boolean L12_sonofaBeach()
 	buffMaintain($effect[Patent Aggression], 0, 1, 1);
 	removeNonCombat();
 
-	handleFamiliar($familiar[Jumpsuited Hound Dog]);
+	if(have_familiar($familiar[Jumpsuited Hound Dog]))
+	{
+		handleFamiliar($familiar[Jumpsuited Hound Dog]);
+	}
 
 	if(item_amount($item[barrel of gunpowder]) < 4)
 	{
@@ -6833,7 +6858,10 @@ boolean L12_finalizeWar()
 	}
 
 #	handlePreAdventure(bossFight);
-	handleFamiliar($familiar[Machine Elf]);
+	if(have_familiar($familiar[Machine Elf]))
+	{
+		handleFamiliar($familiar[Machine Elf]);
+	}
 	string[int] pages;
 	pages[0] = "bigisland.php?place=camp&whichcamp=1";
 	pages[1] = "bigisland.php?place=camp&whichcamp=2";
@@ -7384,7 +7412,7 @@ boolean L10_airship()
 		set_property("choiceAdventure182", "1");
 	}
 
-	if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]))
+	if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]) && have_familiar($familiar[Artistic Goth Kid]))
 	{
 		print("Hipster Adv: " + get_property("_hipsterAdv"), "blue");
 		handleFamiliar($familiar[Artistic Goth Kid]);
@@ -7890,7 +7918,7 @@ boolean L7_crypt()
 
 	if(get_property("cyrptNicheEvilness").to_int() > 0)
 	{
-		if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]))
+		if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]) && have_familiar($familiar[Artistic Goth Kid]))
 		{
 			handleFamiliar($familiar[Artistic Goth Kid]);
 		}
@@ -7927,7 +7955,10 @@ boolean L7_crypt()
 
 		useCocoon();
 		set_property("choiceAdventure527", 1);
-		handleFamiliar($familiar[Machine Elf]);
+		if(have_familiar($familiar[Machine Elf]))
+		{
+			handleFamiliar($familiar[Machine Elf]);
+		}
 		boolean tryBoner = ccAdv(1, $location[Haert of the Cyrpt]);
 		if(item_amount($item[chest of the bonerdagon]) == 1)
 		{
@@ -12222,29 +12253,29 @@ boolean doTasks()
 	}
 	handleFamiliar("item");
 
-	if(my_familiar() == $familiar[Crimbo Shrub])
-	{
-		if((get_property("_jungDrops").to_int() == 1) || (my_daycount() > 1))
-		{
-			handleFamiliar("item");
-		}
-		else
-		{
-			handleFamiliar($familiar[Angry Jung Man]);
-		}
-	}
+#	if(my_familiar() == $familiar[Crimbo Shrub])
+#	{
+#		if((get_property("_jungDrops").to_int() == 1) || (my_daycount() > 1))
+#		{
+#			handleFamiliar("item");
+#		}
+#		else
+#		{
+#			handleFamiliar($familiar[Angry Jung Man]);
+#		}
+#	}
 
-	if(my_familiar() == $familiar[Angry Jung Man])
-	{
-		if((get_property("_jungDrops").to_int() == 1) || (my_daycount() > 1))
-		{
-			handleFamiliar("item");
-		}
-	}
-	else if(($familiars[Adventurous Spelunker, Rockin\' Robin] contains my_familiar()) && (get_property("_jungDrops").to_int() == 0) && (my_daycount() == 1))
-	{
-		handleFamiliar($familiar[Angry Jung Man]);
-	}
+#	if(my_familiar() == $familiar[Angry Jung Man])
+#	{
+#		if((get_property("_jungDrops").to_int() == 1) || (my_daycount() > 1))
+#		{
+#			handleFamiliar("item");
+#		}
+#	}
+#	else if(($familiars[Adventurous Spelunker, Rockin\' Robin] contains my_familiar()) && (get_property("_jungDrops").to_int() == 0) && (my_daycount() == 1))
+#	{
+#		handleFamiliar($familiar[Angry Jung Man]);
+#	}
 
 	if(($familiars[Adventurous Spelunker, Rockin\' Robin] contains my_familiar()) && have_familiar($familiar[Grimstone Golem]) && (in_hardcore() || !possessEquipment($item[Buddy Bjorn])))
 	{
@@ -12273,20 +12304,20 @@ boolean doTasks()
 	}
 	if(in_hardcore() && ((my_spleen_use() + spleen_hold) <= spleen_limit()))
 	{
-		if((dreamJarDrops() < 1) && have_familiar($familiar[Unconscious Collective]))
+		if(($familiar[Unconscious Collective].drops_today < 1) && have_familiar($familiar[Unconscious Collective]))
 		{
 			handleFamiliar($familiar[Unconscious Collective]);
 		}
-		else if((grimTaleDrops() < 1) && have_familiar($familiar[Grim Brother]))
+		else if(($familiar[Grim Brother].drops_today < 1) && have_familiar($familiar[Grim Brother]))
 		{
 			handleFamiliar($familiar[Grim Brother]);
 		}
-		else if((powderedGoldDrops() < 1) && have_familiar($familiar[Golden Monkey]))
+		else if(($familiar[Golden Monkey].drops_today < 1) && have_familiar($familiar[Golden Monkey]))
 		{
 			handleFamiliar($familiar[Golden Monkey]);
 		}
 	}
-	else if(in_hardcore() && (item_amount($item[Yellow Pixel]) < 20))
+	else if(in_hardcore() && (item_amount($item[Yellow Pixel]) < 20) && (have_familiar($familiar[Ms. Puck Man]) || have_familiar($familiar[Puck Man])))
 	{
 		handleFamiliar($familiar[Ms. Puck Man]);
 	}
@@ -12310,9 +12341,10 @@ boolean doTasks()
 	{
 		handleFamiliar("item");
 	}
-	if(in_hardcore() && ($familiars[Adventurous Spelunker, Rockin\' Robin] contains my_familiar()) && (my_mp() < 50))
+#	if(in_hardcore() && ($familiars[Adventurous Spelunker, Rockin\' Robin] contains my_familiar()) && (my_mp() < 50) && ((my_maxmp() - my_mp()) > 20))
+	if(in_hardcore() && (my_mp() < 50) && ((my_maxmp() - my_mp()) > 20))
 	{
-		handleFamiliar($familiar[Galloping Grill]);
+		handleFamiliar("regen");
 	}
 
 	# This function buys missing skills in general, not just for Picky.
@@ -12593,13 +12625,13 @@ boolean doTasks()
 		{
 			set_property("cc_cubeItems", false);
 		}
-		if(get_property("cc_cubeItems").to_boolean() && (my_familiar() != $familiar[Gelatinous Cubeling]))
+		if(get_property("cc_cubeItems").to_boolean() && (my_familiar() != $familiar[Gelatinous Cubeling]) && have_familiar($familiar[Gelatinous Cubeling]))
 		{
 			handleFamiliar($familiar[Gelatinous Cubeling]);
 		}
 	}
 
-	if((my_daycount() == 1) && (turkeyBooze() < 5) && have_familiar($familiar[Fist Turkey]))
+	if((my_daycount() == 1) && ($familiar[Fist Turkey].drops_today < 5) && have_familiar($familiar[Fist Turkey]))
 	{
 		handleFamiliar($familiar[Fist Turkey]);
 	}
