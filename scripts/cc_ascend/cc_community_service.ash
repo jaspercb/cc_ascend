@@ -7,8 +7,9 @@ script "cc_community_service.ash"
 import<cc_ascend/cc_clan.ash>
 import<cc_ascend/cc_util.ash>
 import<cc_ascend/cc_ascend_header.ash>
-import<cc_ascend/cc_mr2016.ash>
 import<cc_ascend/cc_mr2014.ash>
+import<cc_ascend/cc_mr2016.ash>
+import<cc_ascend/cc_mr2017.ash>
 
 
 
@@ -129,9 +130,26 @@ boolean LA_cs_communityService()
 	{
 		autosell(item_amount($item[gold nuggets]), $item[gold nuggets]);
 	}
-
 	autosellCrap();
 
+	switch(my_daycount())
+	{
+	case 1:
+		if(curQuest == 9)
+		{
+			loveTunnelAcquire(true, $stat[none], true, 3, true, 3);
+		}
+		break;
+	case 2:
+		if(curQuest == 5)
+		{
+			loveTunnelAcquire(true, $stat[none], true, 2, true, 3);
+		}
+		break;
+	default:
+		loveTunnelAcquire(true, $stat[none], true, 3, true, 1);
+		break;
+	}
 	//Quest order on Day 1: 11, 6, 9 (Coiling Wire, Weapon Damage, Item)
 	//Day 2: 7, 10, 1, 2, 3, 4, 5, 8
 	if((my_daycount() == 2) && cc_haveWitchess() && have_skill($skill[Curse of Weaksauce]) && have_skill($skill[Tattle]) && have_skill($skill[Conspiratorial Whispers]) && have_skill($skill[Sauceshell]) && have_skill($skill[Shell Up]) && have_skill($skill[Silent Slam]) && !possessEquipment($item[Dented Scepter]) && (get_property("_cc_witchessBattles").to_int() < 5) && have_familiar($familiar[Galloping Grill]) && (my_ascensions() >= 100))
@@ -215,7 +233,7 @@ boolean LA_cs_communityService()
 				timeSpinnerGet("booze");
 			}
 
-			if(inebriety_left() > 9)
+			if((inebriety_left() > 9) && (my_inebriety() != 0))
 			{
 				if((item_amount($item[Shot of Kardashian Gin]) > 0) && hippy_stone_broken())
 				{
@@ -235,7 +253,8 @@ boolean LA_cs_communityService()
 					}
 				}
 			}
-			if(inebriety_left() > 9)
+
+			if((inebriety_left() > 9) && (my_inebriety() != 0))
 			{
 				if(item_amount($item[Sacramento Wine]) > 0)
 				{
