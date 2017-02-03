@@ -2071,6 +2071,8 @@ boolean doBedtime()
 	getSpaceJelly();
 	while(acquireHermitItem($item[Ten-leaf Clover]));
 
+	loveTunnelAcquire(true, $stat[none], true, 3, true, 1);
+
 	if((friars_available()) && (!get_property("friarsBlessingReceived").to_boolean()))
 	{
 		cli_execute("friars familiar");
@@ -12409,6 +12411,13 @@ boolean doTasks()
 	if(dna_startAcquire())
 	{
 		return true;
+	}
+
+	switch(my_daycount())
+	{
+	case 1:		loveTunnelAcquire(true, $stat[none], true, 1, true, 3);		break;
+	case 2:		loveTunnelAcquire(true, $stat[none], true, 3, true, 1);		break;
+	default:	loveTunnelAcquire(true, $stat[none], true, 2, true, 1);		break;
 	}
 
 	if(fortuneCookieEvent())
