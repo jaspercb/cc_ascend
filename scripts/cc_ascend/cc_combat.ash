@@ -1320,6 +1320,13 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Extract];
 		}
 
+		if((!contains_text(combatState, "(extract jelly)")) && have_skill($skill[Extract Jelly]) && (my_mp() > (mp_cost($skill[Extract Jelly]) * 3)) && ((expected_damage() * 2) < my_hp()) && (my_familiar() == $familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3) && ($elements[hot, spooky, stench] contains monster_element(enemy)))
+		{
+			set_property("cc_combatHandler", combatState + "(extract jelly)");
+			return "skill " + $skill[Extract Jelly];
+		}
+
+
 
 		if((!contains_text(combatState, "(scienceMedicine)")) && have_skill($skill[Science! Fight With Medicine]))
 		{

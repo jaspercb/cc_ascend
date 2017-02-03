@@ -261,11 +261,16 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
+			if(item_amount($item[A Ten-Percent Bonus]) > 0)
+			{
+				use(1, $item[A Ten-Percent Bonus]);
+			}
+
 			if((curQuest == 11) && ((my_turncount() + 60) < get_property("cc_cookie").to_int()) && (my_adventures() > 65))
 			{
 				if(do_cs_quest(11))
 				{
-					use(1, $item[a ten-percent bonus]);
+					use(1, $item[A Ten-Percent Bonus]);
 					curQuest = 0;
 					cli_execute("postcheese");
 					return true;

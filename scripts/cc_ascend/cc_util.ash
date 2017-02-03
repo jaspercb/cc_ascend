@@ -1692,6 +1692,11 @@ boolean instakillable(monster mon)
 
 	boolean[monster] timeSpinner = $monsters[Ancient Skeleton with Skin still on it, Apathetic Tyrannosaurus, Assembly Elemental, Cro-Magnon Gnoll, Krakrox the Barbarian, Wooly Duck];
 
+	if($monster[Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl] == mon)
+	{
+		return false;
+	}
+
 	if(timeSpinner contains mon)
 	{
 		return false;
@@ -3032,6 +3037,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Eau D\'enmity]:				useItem = $item[Perfume of Prejudice];			break;
 	case $effect[Eau de Tortue]:				useItem = $item[Turtle Pheromones];				break;
 	case $effect[Egged On]:						useItem = $item[Robin\'s Egg];					break;
+	case $effect[Eldritch Alignment]:			useItem = $item[Eldritch Alignment Spray];		break;
 	case $effect[Elemental Saucesphere]:		useSkill = $skill[Elemental Saucesphere];		break;
 	case $effect[Empathy]:						useSkill = $skill[Empathy of the Newt];			break;
 	case $effect[Erudite]:						useItem = $item[Black Sheepskin Diploma];		break;

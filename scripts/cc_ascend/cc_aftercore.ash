@@ -744,6 +744,10 @@ boolean cc_ascendIntoCS()
 	{
 		return false;
 	}
+	if(my_adventures() >= 3)
+	{
+		return false;
+	}
 	string temp = visit_url("ascend.php?pwd=&confirm=on&confirm2=on&action=ascend&submit=Ascend", true);
 	temp = visit_url("afterlife.php?action=pearlygates");
 
@@ -804,6 +808,17 @@ boolean cc_cheesePostCS(int leave)
 		cli_execute("florist plant stealing magnolia");
 		cli_execute("florist plant pitcher plant");
 		cli_execute("florist plant aloe guv'nor");
+	}
+
+	location loc = $location[Barf Mountain];
+	if(get_property("eldritchFissureAvailable").to_boolean())
+	{
+//		loc = $location[An Eldritch Fissure];
+	}
+	if(get_property("eldritchHorrorAvailable").to_boolean())
+	{
+		loc = $location[An Eldritch Horror];
+//		loc = $location[An Eldritch Fissure];
 	}
 
 	if(hippy_stone_broken())
@@ -1001,6 +1016,13 @@ boolean cc_cheesePostCS(int leave)
 			eatsilent(1, $item[Jumping Horseradish]);
 		}
 
+		if((closet_amount($item[Infinite BACON Machine]) > 0) && !get_property("_baconMachineUsed").to_boolean())
+		{
+			take_closet(1, $item[Infinite BACON Machine]);
+			use(1, $item[Infinite BACON Machine]);
+			put_closet(1, $item[Infinite BACON Machine]);
+		}
+
 
 		if(item_amount($item[Infinite BACON Machine]) > 0)
 		{
@@ -1021,7 +1043,7 @@ boolean cc_cheesePostCS(int leave)
 		{
 			equip($item[Snow Suit]);
 		}
-		foreach fam in $familiars[Unconscious Collective, Li\'l Xenomorph, Bloovian Groose, Golden Monkey, Rogue Program, Grim Brother, Fist Turkey, Rockin\' Robin, Optimistic Candle, Intergnat]
+		foreach fam in $familiars[Unconscious Collective, Li\'l Xenomorph, Bloovian Groose, Golden Monkey, Rogue Program, Space Jellyfish, Grim Brother, Fist Turkey, Rockin\' Robin, Optimistic Candle, Intergnat]
 		{
 			if(($familiars[Rockin\' Robin] contains fam) && (get_property("rockinRobinProgress").to_int() >= 25))
 			{
@@ -1033,7 +1055,7 @@ boolean cc_cheesePostCS(int leave)
 				handleFamiliar(fam);
 				break;
 			}
-			if(($familiars[Intergnat] contains fam) && (item_amount($item[BACON]) < 150000))
+			if(($familiars[Intergnat] contains fam) && (item_amount($item[BACON]) < 150000) && (available_amount($item[First Post Shirt - Cir Senam]) == 0))
 			{
 				handleFamiliar(fam);
 				break;
@@ -1045,6 +1067,11 @@ boolean cc_cheesePostCS(int leave)
 					handleFamiliar(fam);
 					break;
 				}
+			}
+			if(($familiars[Space Jellyfish] contains fam) && (get_property("_spaceJellyfishDrops").to_int() < 3) && (loc == $location[Barf Mountain]))
+			{
+				handleFamiliar(fam);
+				break;
 			}
 		}
 
@@ -1078,7 +1105,41 @@ boolean cc_cheesePostCS(int leave)
 			}
 		}
 
-		ccAdv(1, $location[Barf Mountain]);
+		if(loc == $location[An Eldritch Fissure])
+		{
+			if(equipped_item($slot[off-hand]) != $item[Science Notebook])
+			{
+				equip($slot[off-hand], $item[Science Notebook]);
+			}
+			if(equipped_item($slot[hat]) != $item[Eldritch Scanner])
+			{
+				equip($slot[hat], $item[Eldritch Scanner]);
+			}
+			buffMaintain($effect[Eldritch Alignment], 0, 1, 1);
+		}
+
+		if(have_effect($effect[Hot Blooded]) == 0)
+		{
+			loc = $location[Barf Mountain];
+		}
+
+
+		if(loc == $location[An Eldritch Horror])
+		{
+			outfit("Eldritch Equipage");
+			handleFamiliar($familiar[Intergnat]);
+			ccAdvBypass("place.php?whichplace=town&action=town_eicfight2");
+			if((have_effect($effect[Beaten Up]) > 0) && (my_mp() > mp_cost($skill[Tongue of the Walrus])))
+			{
+				use_skill(1, $skill[Tongue of the Walrus]);
+			}
+		}
+		else
+		{
+			ccAdv(1, loc);
+		}
+
+//		ccAdv(1, loc);
 		LX_ghostBusting();
 
 		if((back != $item[Protonic Accelerator Pack]) && (equipped_item($slot[back]) == $item[Protonic Accelerator Pack]))
@@ -1113,7 +1174,7 @@ boolean cc_cheesePostCS(int leave)
 			}
 		}
 
-		if((my_adventures() > leave) && (get_property("lastDMTDuplication").to_int() < my_ascensions()))
+		if((my_adventures() > leave) && (get_property("lastDMTDuplication").to_int() < my_ascensions()) && (item_amount($item[Clara\'s Bell]) > 0))
 		{
 			item toGet = $item[Eldritch Elixir];
 			if(item_amount(toGet) == 0)
@@ -1169,8 +1230,6 @@ boolean cc_cheesePostCS(int leave)
 	}
 
 
-
-
 	while((inebriety_left() >= 2) && get_property("cc_breakstone").to_boolean())
 	{
 		if(!buyUpTo(1, $item[Beery Blood], 500))
@@ -1190,10 +1249,13 @@ boolean cc_cheesePostCS(int leave)
 
 	while((my_adventures() > leave) && (inebriety_left() >= 0))
 	{
-		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
-		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
-		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
-		ccAdv(1, $location[Barf Mountain]);
+		if(loc == $location[Barf Mountain])
+		{
+			buffMaintain($effect[Polka of Plenty], 10, 1, 1);
+			buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
+			buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
+		}
+		ccAdv(1, loc);
 	}
 
 	if(fullness_left() > 0)
@@ -1205,10 +1267,13 @@ boolean cc_cheesePostCS(int leave)
 
 	while((my_adventures() > leave) && (inebriety_left() >= 0))
 	{
-		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
-		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
-		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
-		ccAdv(1, $location[Barf Mountain]);
+		if(loc == $location[Barf Mountain])
+		{
+			buffMaintain($effect[Polka of Plenty], 10, 1, 1);
+			buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
+			buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
+		}
+		ccAdv(1, loc);
 	}
 
 	if(fullness_left() > 0)
@@ -1220,10 +1285,13 @@ boolean cc_cheesePostCS(int leave)
 
 	while((my_adventures() > leave) && (inebriety_left() >= 0))
 	{
-		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
-		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
-		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
-		ccAdv(1, $location[Barf Mountain]);
+		if(loc == $location[Barf Mountain])
+		{
+			buffMaintain($effect[Polka of Plenty], 10, 1, 1);
+			buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
+			buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
+		}
+		ccAdv(1, loc);
 	}
 	#use_barrels();
 
@@ -1273,189 +1341,10 @@ boolean cc_cheesePostCS(int leave)
 	return true;
 }
 
-
-boolean cc_cheesePostCSWalford()
-{
-	while(((my_spleen_use() + 4) <= spleen_limit()) && (item_amount($item[Unconscious Collective Dream Jar]) > 0))
-	{
-		chew(1, $item[Unconscious Collective Dream Jar]);
-	}
-	while(((my_spleen_use() + 1) <= spleen_limit()) && (item_amount($item[Twinkly Wad]) > 0))
-	{
-		chew(1, $item[Twinkly Wad]);
-	}
-
-	boolean oldGarbage = get_property("cc_getDinseyGarbageMoney").to_boolean();
-	set_property("cc_getDinseyGarbageMoney", true);
-	dinseylandfill_garbageMoney();
-	set_property("cc_getDinseyGarbageMoney", oldGarbage);
-
-	getDiscoStyle(7);
-
-	//Equip Ice Hole Equipment
-
-	if(!didWePlantHere($location[The Ice Hole]) && (my_location() == $location[The Ice Hole]))
-	{
-		ccAdv(1, $location[The Ice Hole]);
-		cli_execute("florist plant kelptomaniac");
-		cli_execute("florist plant orca orchid");
-		cli_execute("florist plant snori");
-	}
-
-	//While bucket < 100 and enough adventures, Ice Hole
-	//Return bucket, get new bucket
-	//While bucket < 100 and enough adventures, Ice Hole
-
-	//Ice Hotel Equipment
-	//Assume mayfly
-	//Until adventures > 0, Ice Hotel
-	//Set Choice == 5, when previous adv == choice 5, set choice 4
-
-	//set choice back to 0
-
-
-	if(item_amount($item[Confusing LED Clock]) > 0)
-	{
-		use(1, $item[Confusing LED Clock]);
-		visit_url("campground.php?action=rest");
-	}
-	if(item_amount($item[The Crown of Ed the Undying]) > 0)
-	{
-		equip($item[The Crown of Ed the Undying]);
-		adjustEdHat("meat");
-	}
-	if(item_amount($item[Camp Scout Backpack]) > 0)
-	{
-		equip($item[Camp Scout Backpack]);
-	}
-	if(item_amount($item[Sneaky Pete\'s Leather Jacket]) > 0)
-	{
-		equip($item[Sneaky Pete\'s Leather Jacket]);
-	}
-	if(item_amount($item[Thor\'s Pliers]) > 0)
-	{
-		equip($item[Thor\'s Pliers]);
-	}
-	if(item_amount($item[Operation Patriot Shield]) > 0)
-	{
-		equip($item[Operation Patriot Shield]);
-	}
-	if(item_amount($item[Pantsgiving]) > 0)
-	{
-		equip($item[Pantsgiving]);
-	}
-	if(item_amount($item[Cheap Sunglasses]) > 0)
-	{
-		equip($slot[acc1], $item[Cheap Sunglasses]);
-	}
-	if(item_amount($item[Mr. Screege\'s Spectacles]) > 0)
-	{
-		equip($slot[acc2], $item[Mr. Screege\'s Spectacles]);
-	}
-	else if(item_amount($item[Sister Accessory]) > 0)
-	{
-		equip($slot[acc2], $item[Sister Accessory]);
-	}
-	if(item_amount($item[Mr. Cheeng\'s Spectacles]) > 0)
-	{
-		equip($slot[acc3], $item[Mr. Cheeng\'s Spectacles]);
-	}
-	handleFamiliar($familiar[Golden Monkey]);
-	if(item_amount($item[Snow Suit]) > 0)
-	{
-		equip($item[Snow Suit]);
-	}
-
-	use(1 + ((my_adventures() + 9)/20), $item[How to Avoid Scams]);
-	while(my_adventures() > 0)
-	{
-		ccAdv(1, $location[Barf Mountain]);
-	}
-
-	while((my_inebriety() + 5) <= inebriety_limit())
-	{
-		if(!buyUpTo(1, $item[5-Hour Acrimony], 5000))
-		{
-			print("Could not buy 5-Hour Acrimony, price too high", "red");
-			break;
-		}
-		drink(1, $item[5-Hour Acrimony]);
-	}
-
-
-	while((my_inebriety() + 2) <= inebriety_limit())
-	{
-		if(!buyUpTo(1, $item[Beery Blood], 500))
-		{
-			print("Could not buy Beery Blood, price too high", "red");
-			break;
-		}
-		drink(1, $item[Beery Blood]);
-	}
-
-	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
-	tryPantsEat();
-	cli_execute("refresh all");
-
-	while(my_adventures() > 0)
-	{
-		ccAdv(1, $location[Barf Mountain]);
-	}
-
-	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
-	tryPantsEat();
-	cli_execute("refresh all");
-
-	while(my_adventures() > 0)
-	{
-		ccAdv(1, $location[Barf Mountain]);
-	}
-
-	put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
-	tryPantsEat();
-	cli_execute("refresh all");
-
-	while(my_adventures() > 0)
-	{
-		ccAdv(1, $location[Barf Mountain]);
-	}
-	use_barrels();
-
-	if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean())
-	{
-		set_property("choiceAdventure595", 1);
-		use(1, $item[CSA fire-starting kit]);
-	}
-
-	if(item_amount($item[5-hour acrimony]) == 0)
-	{
-		if(!buyUpTo(1, $item[5-Hour Acrimony], 5000))
-		{
-			print("Could not buy 5-Hour Acrimony, price too high", "red");
-		}
-	}
-	if(item_amount($item[5-hour acrimony]) == 0)
-	{
-		cli_execute("drink 5-hour acrimony");
-	}
-
-	cli_execute("pvp loot 1");
-	cli_execute("cc_ascend");
-	return true;
-}
-
-
 boolean cc_doCS()
 {
 	cli_execute("cc_ascend");
-//	if(item_amount($item[Blood-Drive Sticker]) > 0)
-//	{
-//		cc_cheesePostCSWalford();
-//	}
-//	else
-//	{
-		cc_cheesePostCS();
-//	}
+	cc_aftercore();
 	cc_ascendIntoCS();
 	cli_execute("cc_ascend");
 	return true;

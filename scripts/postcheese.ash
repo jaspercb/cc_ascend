@@ -713,7 +713,10 @@ void handlePostAdventure()
 			#Not sure if the ASH command actually handles it properly, we'll see.
 			#cli_execute("outfit Vile Vagrant Vestments");
 			#outfit does not... damn it.
-			outfit("Vile Vagrant Vestments");
+			if(!outfit("Vile Vagrant Vestments"))
+			{
+				print("Could not wear Vile Vagrant Outfit for some raisin", "red");
+			}
 			didOutfit = true;
 		}
 
