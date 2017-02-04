@@ -116,9 +116,17 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 	}
 	if(contains_text(page, "Combat"))
 	{
-		if(option != "null")// && (option != ""))
+		if(option != "null") // && (option != ""))
 		{
-			return ccAdv(1, loc, option);
+			if(get_auto_attack() == 0)
+			{
+				return ccAdv(1, loc, option);
+			}
+			else
+			{
+				cli_execute("postcheese");
+				return true;
+			}
 		}
 		else
 		{

@@ -41,6 +41,13 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 
 	#string temp = visit_url("place.php?whichplace=town_wrong&action=townwrong_tunnel");
 	temp = visit_url("place.php?whichplace=town_wrong&action=townwrong_tunnel");
+	if(contains_text(temp, "Come back tomorrow!"))
+	{
+		print("Already visited L.O.V.E. Tunnel. Can't be visiting again.", "red");
+		temp = visit_url("choice.php?pwd=&whichchoice=1222&option=2");
+		return false;
+	}
+
 	temp = visit_url("choice.php?pwd=&whichchoice=1222&option=1");
 
 	if(enforcer || engineer || equivocator)
