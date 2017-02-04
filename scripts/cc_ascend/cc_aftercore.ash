@@ -1118,7 +1118,7 @@ boolean cc_cheesePostCS(int leave)
 			buffMaintain($effect[Eldritch Alignment], 0, 1, 1);
 		}
 
-		if(have_effect($effect[Hot Blooded]) == 0)
+		if(have_effect($effect[Chorale of Companionship]) == 0)
 		{
 			loc = $location[Barf Mountain];
 		}
@@ -1126,7 +1126,10 @@ boolean cc_cheesePostCS(int leave)
 
 		if(loc == $location[An Eldritch Horror])
 		{
-			outfit("Eldritch Equipage");
+			if(have_outfit("Eldritch Equipage"))
+			{
+				outfit("Eldritch Equipage");
+			}
 			handleFamiliar($familiar[Intergnat]);
 			ccAdvBypass("place.php?whichplace=town&action=town_eicfight2");
 			if((have_effect($effect[Beaten Up]) > 0) && (my_mp() > mp_cost($skill[Tongue of the Walrus])))

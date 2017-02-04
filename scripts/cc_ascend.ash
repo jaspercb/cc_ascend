@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17623;
+since r17773;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -3876,9 +3876,9 @@ boolean L13_towerNSTower()
 		{
 			equip($slot[acc3], $item[Groll Doll]);
 		}
-		if(item_amount($item[old-school calculator watch]) > 0)
+		if(item_amount($item[old school calculator watch]) > 0)
 		{
-			equip($slot[acc3], $item[old-school calculator watch]);
+			equip($slot[acc3], $item[old school calculator watch]);
 		}
 		if(item_amount($item[Bottle Opener Belt Buckle]) > 0)
 		{
