@@ -1722,6 +1722,8 @@ boolean isFreeMonster(monster mon)
 
 	boolean[monster] halloween = $monsters[kid who is too old to be Trick-or-Treating, suburban security civilian, vandal kid];
 
+	boolean[monster] lovecrate = $monsters[LOV Enforcer, LOV Engineer, LOV Equivocator];
+
 	boolean[monster] other = $monsters[giant rubber spider, lynyrd, time-spinner prank, Travoltron];
 
 	//boolean[monster] protonGhosts: See isProtonGhost, we want to detect these separately as well so we\'ll functionalize it here.
@@ -1751,6 +1753,10 @@ boolean isFreeMonster(monster mon)
 		return true;
 	}
 	if(halloween contains mon)
+	{
+		return true;
+	}
+	if(lovecrate contains mon)
 	{
 		return true;
 	}
