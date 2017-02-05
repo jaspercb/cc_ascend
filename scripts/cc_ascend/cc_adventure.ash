@@ -21,7 +21,24 @@ boolean ccAdv(int num, location loc, string option)
 		return ed_ccAdv(num, loc, option);
 	}
 
-	boolean retval = adv1(loc, 0, option);
+	boolean retval = false;
+	if(my_adventures() == 0)
+	{
+		string page = visit_url("game.php");
+		if(contains_text(page, "Combat"))
+		{
+			run_combat(option);
+			retval = true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		retval = adv1(loc, 0, option);
+	}
 	if(cc_my_path() == "One Crazy Random Summer")
 	{
 		if(last_monster().random_modifiers["clingy"])
