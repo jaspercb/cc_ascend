@@ -79,6 +79,20 @@ void handlePreAdventure(location place)
 		use_familiar($familiar[Machine Elf]);
 	}
 
+	if(my_familiar() == $familiar[Trick-Or-Treating Tot])
+	{
+		if($locations[A-Boo Peak, The Haunted Kitchen] contains place)
+		{
+			if(equipped_item($slot[Familiar]) != $item[Li\'l Candy Corn Costume])
+			{
+				if(item_amount($item[Li\'l Candy Corn Costume]) > 0)
+				{
+					equip($slot[Familiar], $item[Li\'l Candy Corn Costume]);
+				}
+			}
+		}
+	}
+
 	preAdvXiblaxian(place);
 
 	if(get_floundry_locations() contains place)

@@ -9581,6 +9581,13 @@ boolean LX_handleSpookyravenFirstFloor()
 		{
 			print("Looking for the Billards Room key (Hot/Stench:" + elemental_resist($element[hot]) + "/" + elemental_resist($element[stench]) + "): Progress " + get_property("manorDrawerCount") + "/24", "blue");
 			handleFamiliar($familiar[Exotic Parrot]);
+			if(is100FamiliarRun())
+			{
+				if(have_familiar($familiar[Trick-or-Treating Tot]) && (available_amount($item[Li\' Candy Corn Costume]) > 0))
+				{
+					handleFamiliar($familiar[Trick-or-Treating Tot]);
+				}
+			}
 			if(get_property("manorDrawerCount").to_int() >= 24)
 			{
 				cli_execute("refresh inv");
@@ -9985,7 +9992,7 @@ boolean L9_aBooPeak()
 		{
 			lihcface = "-equip lihc face";
 		}
-		string parrot = ", switch exotic parrot";
+		string parrot = ", switch exotic parrot, trick-or-treating tot";
 		if(is100FamiliarRun())
 		{
 			parrot = "";
