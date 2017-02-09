@@ -140,7 +140,8 @@ boolean loopHandlerDelay(string counterSetting);
 boolean loopHandlerDelay(string counterSetting, int threshold);
 boolean is100FamiliarRun();
 boolean is100FamiliarRun(familiar thisOne);
-
+boolean fightScienceTentacle(string option);
+boolean fightScienceTentacle();
 
 // Private Prototypes
 boolean buffMaintain(item source, effect buff, int uses, int turns);
@@ -1921,6 +1922,36 @@ int maxSealSummons()
 	}
 	return 5;
 }
+
+boolean fightScienceTentacle(string option)
+{
+	if(get_property("_cc_scienceTentacleFought").to_boolean())
+	{
+		return false;
+	}
+
+	set_property("_cc_scienceTentacleFought", true);
+
+	string temp = visit_url("place.php?whichplace=forestvillage&action=fv_scientist");
+	if(!(contains_text(temp,"Can I fight that tentacle")))
+	{
+		if(contains_text(temp, "publish a great paper"))
+		{
+			temp = visit_url("choice.php?whichchoice=1201&pwd=&option=1");
+		}
+		return false;
+	}
+	string[int] pages;
+	pages[0] = "choice.php?whichchoice=1201&pwd=&option=1";
+	return ccAdvBypass(0, pages, $location[Noob Cave], option);
+}
+
+
+boolean fightScienceTentacle()
+{
+	return fightScienceTentacle("");
+}
+
 
 boolean handleSealArmored()
 {

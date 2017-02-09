@@ -12654,6 +12654,18 @@ boolean doTasks()
 
 	LX_craftAcquireItems();
 
+	if(my_daycount() == 1)
+	{
+		if((my_adventures() < 10) && (my_level() >= 7))
+		{
+			fightScienceTentacle();
+		}
+	}
+	else if(my_level() >= 9)
+	{
+		fightScienceTentacle();
+	}
+
 	if((get_property("chateauMonster") == $monster[Writing Desk]) && (cc_get_campground() contains $item[Source Terminal]))
 	{
 		if(get_property("writingDesksDefeated").to_int() < 5)
