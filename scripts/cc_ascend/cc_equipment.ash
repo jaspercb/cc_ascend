@@ -1,5 +1,6 @@
 script "cc_ascend/cc_equipment.ash";
 import <cc_ascend/cc_util.ash>
+import <cc_ascend/cc_list.ash>
 import <cc_ascend/cc_ascend_header.ash>
 void equipBaseline();
 void equipBaselineWeapon();
@@ -285,7 +286,17 @@ void handleOffHand()
 		poss = $items[Jarlsberg\'s Pan, Jarlsberg\'s Pan (Cosmic Portal Mode)];
 	}
 
-	toEquip = handleSolveThing(poss, $slot[off-hand]);
+	item[int] possList = List(poss);
+	if(my_level() >= 13)
+	{
+		int barrelLid = possList.ListFind($item[Barrel Lid]);
+		if(barrelLid != -1)
+		{
+			possList = possList.ListRemove($item[Barrel Lid]);
+		}
+	}
+
+	toEquip = handleSolveThing(possList, $slot[off-hand]);
 /*
 	if(contains_text(holiday(), "Oyster Egg Day"))
 	{
@@ -418,7 +429,7 @@ void equipBaselinePants()
 void equipBaselineShirt()
 {
 	item toEquip = $item[none];
-	item[int] poss = List($items[Barskin Cloak, Thinknerd T-Shirt, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Glass Casserole Dish, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Ultracolor&trade; Shirt, Shark Jumper, Bod-Ice, Liam\'s Mail, Astral Shirt, Stephen\'s Lab Coat, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)]);
+	item[int] poss = List($items[Barskin Cloak, Thinknerd T-Shirt, Harem Girl T-Shirt, Clownskin Harness, White Snakeskin Duster, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Glass Casserole Dish, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Yak Anorak, Ultracolor&trade; Shirt, Shark Jumper, Bod-Ice, Liam\'s Mail, Astral Shirt, Stephen\'s Lab Coat, LOV Eardigan, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)]);
 
 	toEquip = handleSolveThing(poss, $slot[shirt]);
 
@@ -437,19 +448,20 @@ void equipBaselineBack()
 	switch(my_primestat())
 	{
 	case $stat[Muscle]:
-		poss = ListInsertAt(poss, $item[Misty Robe], poss.ListFind($item[Makeshift Cape]));
 		poss = ListInsertAt(poss, $item[Misty Cloak], poss.ListFind($item[Makeshift Cape]));
 		poss = ListInsertAt(poss, $item[Misty Cape], poss.ListFind($item[Makeshift Cape]));
+		poss = ListInsertAt(poss, $item[Misty Robe], poss.ListFind($item[Makeshift Cape]));
 		break;
 	case $stat[Mysticality]:
-		poss = ListInsertAt(poss, $item[Misty Robe], poss.ListFind($item[Makeshift Cape]));
 		poss = ListInsertAt(poss, $item[Misty Cloak], poss.ListFind($item[Makeshift Cape]));
 		poss = ListInsertAt(poss, $item[Misty Cape], poss.ListFind($item[Makeshift Cape]));
+		poss = ListInsertAt(poss, $item[Misty Robe], poss.ListFind($item[Makeshift Cape]));
+		poss = ListInsertAt(poss, $item[LOV Epaulettes], poss.ListFind($item[Buddy Bjorn]));
 		break;
 	case $stat[Moxie]:
-		poss = ListInsertAt(poss, $item[Misty Robe], poss.ListFind($item[Makeshift Cape]));
 		poss = ListInsertAt(poss, $item[Misty Cloak], poss.ListFind($item[Makeshift Cape]));
 		poss = ListInsertAt(poss, $item[Misty Cape], poss.ListFind($item[Makeshift Cape]));
+		poss = ListInsertAt(poss, $item[Misty Robe], poss.ListFind($item[Makeshift Cape]));
 		break;
 	}
 

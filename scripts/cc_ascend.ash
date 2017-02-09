@@ -9583,7 +9583,7 @@ boolean LX_handleSpookyravenFirstFloor()
 			handleFamiliar($familiar[Exotic Parrot]);
 			if(is100FamiliarRun())
 			{
-				if(have_familiar($familiar[Trick-or-Treating Tot]) && (available_amount($item[Li\' Candy Corn Costume]) > 0))
+				if(have_familiar($familiar[Trick-or-Treating Tot]) && (available_amount($item[Li\'l Candy Corn Costume]) > 0))
 				{
 					handleFamiliar($familiar[Trick-or-Treating Tot]);
 				}
@@ -12653,6 +12653,21 @@ boolean doTasks()
 	}
 
 	LX_craftAcquireItems();
+
+	if((get_property("chateauMonster") == $monster[Writing Desk]) && (cc_get_campground() contains $item[Source Terminal]))
+	{
+		if(get_property("writingDesksDefeated").to_int() < 5)
+		{
+			if(chateaumantegna_havePainting() && !get_property("chateauMonsterFought").to_boolean() && (my_daycount() == 1))
+			{
+				cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
+				if(chateaumantegna_usePainting())
+				{
+					return true;
+				}
+			}
+		}
+	}
 
 	consumeStuff();
 	int paintingLevel = 8;

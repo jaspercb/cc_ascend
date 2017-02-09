@@ -24,7 +24,7 @@ boolean ccAdv(int num, location loc, string option)
 	boolean retval = false;
 	if(my_adventures() == 0)
 	{
-		string page = visit_url("game.php");
+		string page = visit_url("fight.php");
 		if(contains_text(page, "Combat"))
 		{
 			run_combat(option);
