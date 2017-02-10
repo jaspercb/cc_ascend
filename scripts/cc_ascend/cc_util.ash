@@ -142,6 +142,9 @@ boolean is100FamiliarRun();
 boolean is100FamiliarRun(familiar thisOne);
 boolean fightScienceTentacle(string option);
 boolean fightScienceTentacle();
+boolean evokeEldritchHorror(string option);
+boolean evokeEldritchHorror();
+
 
 // Private Prototypes
 boolean buffMaintain(item source, effect buff, int uses, int turns);
@@ -1921,6 +1924,33 @@ int maxSealSummons()
 		return 10;
 	}
 	return 5;
+}
+
+boolean evokeEldritchHorror(string option)
+{
+	if(!have_skill($skill[Evoke Eldritch Horror]))
+	{
+		return false;
+	}
+	if(get_property("_eldritchHorrorEvoked").to_boolean())
+	{
+		return false;
+	}
+	if(my_mp() < mp_cost($skill[Evoke Eldritch Horror]))
+	{
+		return false;
+	}
+
+	string[int] pages;
+	pages[0] = "runskillz.php?pwd=&targetplayer" + my_id() + "&quantity=1&whichskill=168";
+	return ccAdvBypass(0, pages, $location[Noob Cave], option);
+
+	return true;
+}
+
+boolean evokeEldritchHorror()
+{
+	return evokeEldritchHorror("");
 }
 
 boolean fightScienceTentacle(string option)

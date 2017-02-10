@@ -12666,6 +12666,10 @@ boolean doTasks()
 		if((my_adventures() < 10) && (my_level() >= 7))
 		{
 			fightScienceTentacle();
+			if(my_mp() > (2 * mp_cost($skill[Evoke Eldritch Horror])))
+			{
+				evokeEldritchHorror();
+			}
 		}
 	}
 	else if(my_level() >= 9)
