@@ -622,8 +622,11 @@ void consumeStuff()
 
 			if((inebriety_left() >= 4) && is_unrestricted($item[Ice Island Long Tea]))
 			{
-				pullXWhenHaveY($item[ice island long tea], 1, 0);
-				drink(1, $item[Ice Island Long Tea]);
+				pullXWhenHaveY($item[Ice Island Long Tea], 1, 0);
+				if(item_amount($item[Ice Island Long Tea]) > 0)
+				{
+					drink(1, $item[Ice Island Long Tea]);
+				}
 			}
 		}
 
