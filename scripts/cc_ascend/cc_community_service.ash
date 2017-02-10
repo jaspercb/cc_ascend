@@ -204,6 +204,11 @@ boolean LA_cs_communityService()
 		cc_sourceTerminalEducate($skill[Extract], $skill[Turbo]);
 		return result;
 	}
+	if(my_daycount() == 2)
+	{
+		fightScienceTentacle();
+		evokeEldritchHorror();
+	}
 
 	if((my_daycount() != 1) && cs_witchess())
 	{
@@ -935,6 +940,9 @@ boolean LA_cs_communityService()
 				visit_url("choice.php?whichchoice=1181&pwd=&option=3");
 				visit_url("choice.php?whichchoice=1183&pwd=&option=2");
 			}
+
+			fightScienceTentacle();
+			evokeEldritchHorror();
 
 			if(!get_property("cc_saveMargarita").to_boolean() && (inebriety_left() == 0))
 			{
