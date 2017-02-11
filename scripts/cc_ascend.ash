@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17773;
+since r17789;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -99,6 +99,7 @@ void initializeSettings()
 	set_property("cc_bat", "");
 	set_property("cc_batoomerangDay", 0);
 	set_property("cc_bean", false);
+	set_property("cc_beatenUpCount", 0);
 	set_property("cc_getBeehive", false);
 	set_property("cc_blackfam", true);
 	set_property("cc_blackmap", "");
@@ -3760,7 +3761,7 @@ boolean L13_towerNSTower()
 
 	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_05_monster1"))
 	{
-		change_mcd(0);
+		cc_change_mcd(0);
 		if(item_amount($item[bottle of monsieur bubble]) > 0)
 		{
 			use(1, $item[bottle of monsieur bubble]);
@@ -5671,7 +5672,7 @@ boolean L11_mauriceSpookyraven()
 			ccAdv($location[Summoning Chamber]);
 		}
 
-		if(have_effect($effect[beaten up]) == 0)
+		if(have_effect($effect[Beaten Up]) == 0)
 		{
 			set_property("cc_ballroom", "finished");
 		}
@@ -5808,7 +5809,7 @@ boolean L11_mauriceSpookyraven()
 
 		if((cc_my_path() == "Picky") && (item_amount($item[gumshoes]) > 0))
 		{
-			change_mcd(0);
+			cc_change_mcd(0);
 			equip($slot[acc2], $item[gumshoes]);
 		}
 
@@ -6241,7 +6242,7 @@ boolean L11_defeatEd()
 		if(have_effect($effect[Beaten Up]) > 0)
 		{
 			set_property("cc_disableAdventureHandling", "no");
-			abort("Got Beaten Up by Ed the Undying.");
+			abort("Got Beaten Up by Ed the Undying - generally not safe to try to recover.");
 		}
 	}
 	set_property("cc_disableAdventureHandling", "no");
@@ -6440,15 +6441,6 @@ boolean L12_sonofaBeach()
 	{
 		return false;
 	}
-#	Probably bad exclusions here.
-#	if(have_skill($skill[Rain Man]))
-#	{
-#		return false;
-#	}
-#	if(!is100FamiliarRun())
-#	{
-#		return false;
-#	}
 
 	if(get_property("sidequestLighthouseCompleted") != "none")
 	{
@@ -6569,6 +6561,166 @@ boolean L12_sonofaBeach()
 	}
 	return true;
 }
+
+boolean L12_sonofaPrefix()
+{
+	if(my_level() < 12)
+	{
+		return false;
+	}
+	if(get_property("cc_sonofa") == "finished")
+	{
+		return false;
+	}
+	if(get_property("cc_war") == "finished")
+	{
+		return false;
+	}
+	if(!get_property("cc_hippyInstead").to_boolean())
+	{
+		if(get_property("cc_gremlins") != "finished")
+		{
+			return false;
+		}
+	}
+	if(!(cc_get_campground() contains $item[Source Terminal]))
+	{
+		return false;
+	}
+
+	if(get_property("_sourceTerminalDigitizeMonster") == $monster[Lobsterfrogman])
+	{
+		return false;
+	}
+	if((get_property("fratboysDefeated").to_int() < 64) && get_property("cc_hippyInstead").to_boolean())
+	{
+		return false;
+	}
+	if(item_amount($item[barrel of gunpowder]) >= 1)
+	{
+		return false;
+	}
+
+	if(get_property("sidequestLighthouseCompleted") != "none")
+	{
+		set_property("cc_sonofa", "finished");
+		return true;
+	}
+
+	if(chateaumantegna_havePainting() && !get_property("chateauMonsterFought").to_boolean() && (get_property("chateauMonster") == $monster[Lobsterfrogman]))
+	{
+		cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
+		if(chateaumantegna_usePainting())
+		{
+			handleFamiliar("stat");
+			return true;
+		}
+	}
+
+	if(!uneffect($effect[The Sonata of Sneakiness]))
+	{
+		return false;
+	}
+	if((my_class() == $class[Ed]) && (item_amount($item[Talisman of Horus]) == 0))
+	{
+		return false;
+	}
+
+	if(!uneffect($effect[Patent Invisibility]))
+	{
+		print("Could not uneffect Patent Invisibility for Lobsterfrogman, delaying");
+		return false;
+	}
+	if(!uneffect($effect[Shelter of Shed]))
+	{
+		print("Can not uneffect Shelter of Shed for the Lobsterfrogman, delaying");
+		return false;
+	}
+	buffMaintain($effect[Taunt of Horus], 0, 1, 1);
+	buffMaintain($effect[Hippy Stench], 0, 1, 1);
+	buffMaintain($effect[Musk of the Moose], 0, 1, 10);
+	buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 0, 1, 10);
+	buffMaintain($effect[High Colognic], 0, 1, 1);
+	buffMaintain($effect[Celestial Saltiness], 0, 1, 1);
+	buffMaintain($effect[Everything Must Go!], 0, 1, 1);
+	buffMaintain($effect[Blinking Belly], 40, 1, 1);
+	if(have_familiar($familiar[Grim Brother]) && possessEquipment($item[Buddy Bjorn]))
+	{
+		if(equipped_item($slot[back]) != $item[Buddy Bjorn])
+		{
+			equip($slot[Back], $item[Buddy Bjorn]);
+		}
+		handleBjornify($familiar[Grim Brother]);
+	}
+	if(equipped_item($slot[acc1]) == $item[over-the-shoulder folder holder])
+	{
+		if((item_amount($item[Ass-Stompers of Violence]) > 0) && (equipped_item($slot[acc1]) != $item[Ass-Stompers of Violence]) && can_equip($item[Ass-Stompers of Violence]))
+		{
+			equip($slot[acc1], $item[Ass-Stompers of Violence]);
+		}
+		else
+		{
+			equip($slot[acc1], $item[bejeweled pledge pin]);
+		}
+	}
+	if(item_amount($item[portable cassette player]) > 0)
+	{
+		equip($slot[acc2], $item[portable cassette player]);
+	}
+
+	buffMaintain($effect[Patent Aggression], 0, 1, 1);
+	removeNonCombat();
+
+	if(have_familiar($familiar[Jumpsuited Hound Dog]))
+	{
+		handleFamiliar($familiar[Jumpsuited Hound Dog]);
+	}
+
+	if(item_amount($item[barrel of gunpowder]) < 4)
+	{
+		set_property("cc_doCombatCopy", "yes");
+	}
+
+	if(numeric_modifier("Combat Rate") <= 9.0)
+	{
+		if(possessEquipment($item[Carpe]))
+		{
+			equip($slot[Back], $item[Carpe]);
+		}
+	}
+
+
+	//Seriously? http://alliancefromhell.com/viewtopic.php?t=1338
+	if(item_amount($item[Wool Hat]) == 1)
+	{
+		pulverizeThing($item[Wool Hat]);
+	}
+	if(item_amount($item[Goatskin Umbrella]) == 1)
+	{
+		pulverizeThing($item[Goatskin Umbrella]);
+	}
+
+	buffMaintain($effect[Song of Battle], 10, 1, 1);
+	buffMaintain($effect[Lion in Ambush], 0, 1, 1);
+	if(numeric_modifier("Combat Rate") < 0.0)
+	{
+		print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Lobsterfrogmen.", "red");
+		equipBaseline();
+		return false;
+	}
+	buffMaintain($effect[Blinking Belly], 45, 1, 1);
+	cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
+	ccAdv(1, $location[Sonofa Beach]);
+	set_property("cc_doCombatCopy", "no");
+	handleFamiliar("item");
+
+	if((my_class() == $class[Ed]) && (my_hp() == 0))
+	{
+		use(1, $item[Linen Bandages]);
+	}
+	return true;
+}
+
 
 boolean L12_filthworms()
 {
@@ -6872,13 +7024,7 @@ boolean L12_finalizeWar()
 	{
 		print("Boss already defeated, ignoring", "red");
 	}
-#	visit_url("bigisland.php?place=camp&whichcamp=1");
-#	visit_url("bigisland.php?place=camp&whichcamp=2");
-#	visit_url("bigisland.php?action=bossfight&pwd");
-#	if(!ccAdv(1, bossFight))
-#	{
-#		print("Boss already defeated, ignoring", "red");
-#	}
+
 	if(have_effect($effect[Beaten Up]) > 0)
 	{
 		abort("Failing to complete the war.");
@@ -8842,7 +8988,7 @@ boolean LX_craftAcquireItems()
 	if(knoll_available() && (item_amount($item[detuned radio]) == 0) && (my_meat() > 300))
 	{
 		buyUpTo(1, $item[detuned radio]);
-		change_mcd(10);
+		cc_change_mcd(11);
 		visit_url("choice.php?pwd&whichchoice=835&option=2", true);
 	}
 
@@ -9695,6 +9841,12 @@ boolean L12_startWar()
 		return false;
 	}
 
+	// Yes, we are going to make sure swordfish is complete first.
+	if(get_property("cc_swordfish") != "finished")
+	{
+		return false;
+	}
+
 	print("Must save the ferret!!", "blue");
 	outfit("frat warrior fatigues");
 	if((my_mp() > 60) || considerGrimstoneGolem(true))
@@ -9894,7 +10046,7 @@ boolean L12_flyerFinish()
 	cli_execute("refresh inv");
 	if((item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[Jam Band Flyers]) == 0))
 	{
-		boolean temp = change_mcd(0);
+		cc_change_mcd(0);
 		return true;
 	}
 	print("We thought we had enough flyeredML, but we don't. Big sadness, let's try that again.", "red");
@@ -11543,7 +11695,7 @@ boolean LX_pirateOutfit()
 		}
 		if(my_class() == $class[Ed])
 		{
-			change_mcd(0);
+			cc_change_mcd(0);
 		}
 		ccAdv(1, $location[The Obligatory Pirate\'s Cove]);
 		return true;
@@ -12043,7 +12195,7 @@ boolean L3_tavern()
 	buffMaintain($effect[Smooth Movements], 10, 1, 1);
 	buffMaintain($effect[Tortious], 0, 1, 1);
 	buffMaintain($effect[Litterbug], 0, 1, 1);
-	boolean temp = change_mcd(10);
+	cc_change_mcd(11);
 
 	if(get_property("questL03Rat") == "unstarted")
 	{
@@ -12240,58 +12392,21 @@ boolean doTasks()
 		if(base <= 150)
 		{
 			int canhave = 150 - base;
-			boolean temp = change_mcd(canhave);
+			cc_change_mcd(canhave);
 		}
 	}
 	else
 	{
 		if((get_property("flyeredML").to_int() >= 10000) && (my_level() >= 13))
 		{
-			if(current_mcd() != 0)
-			{
-				boolean temp = change_mcd(0);
-			}
+			cc_change_mcd(0);
 		}
 		else if(((monster_level_adjustment() + (10 - current_mcd())) <= 150) && (current_mcd() != 10))
 		{
-			if(get_property("cc_beatenUpCount").to_int() < 5)
-			{
-				boolean temp = change_mcd(10);
-			}
-			else
-			{
-				if(current_mcd() != 0)
-				{
-					boolean temp = change_mcd(0);
-				}
-			}
+			cc_change_mcd(10);
 		}
 	}
 	handleFamiliar("item");
-
-#	if(my_familiar() == $familiar[Crimbo Shrub])
-#	{
-#		if((get_property("_jungDrops").to_int() == 1) || (my_daycount() > 1))
-#		{
-#			handleFamiliar("item");
-#		}
-#		else
-#		{
-#			handleFamiliar($familiar[Angry Jung Man]);
-#		}
-#	}
-
-#	if(my_familiar() == $familiar[Angry Jung Man])
-#	{
-#		if((get_property("_jungDrops").to_int() == 1) || (my_daycount() > 1))
-#		{
-#			handleFamiliar("item");
-#		}
-#	}
-#	else if(($familiars[Adventurous Spelunker, Rockin\' Robin] contains my_familiar()) && (get_property("_jungDrops").to_int() == 0) && (my_daycount() == 1))
-#	{
-#		handleFamiliar($familiar[Angry Jung Man]);
-#	}
 
 	if(($familiars[Adventurous Spelunker, Rockin\' Robin] contains my_familiar()) && have_familiar($familiar[Grimstone Golem]) && (in_hardcore() || !possessEquipment($item[Buddy Bjorn])))
 	{
@@ -12299,7 +12414,7 @@ boolean doTasks()
 		{
 			handleFamiliar($familiar[Grimstone Golem]);
 		}
-	} 
+	}
 
 	int spleen_hold = 4;
 	if(!haveSpleenFamiliar())
@@ -12412,9 +12527,14 @@ boolean doTasks()
 		}
 		else if((my_mp() > 20) && ((my_hp() * 1.2) >= my_maxhp()) && have_skill($skill[Tongue of the Walrus]))
 		{
+			if(get_property("cc_beatenUpCount").to_int() > 10)
+			{
+				abort("We are getting beaten up too much, this is not good. Aborting.");
+			}
+			set_property("cc_beatenUpCount", get_property("cc_beatenUpCount").to_int() + 1);
 			use_skill(1, $skill[Tongue of the Walrus]);
 		}
-		if(have_effect($effect[beaten up]) > 0)
+		if(have_effect($effect[Beaten Up]) > 0)
 		{
 			abort("Got beaten up, please fix me");
 		}
@@ -12812,6 +12932,12 @@ boolean doTasks()
 			return true;
 		}
 	}
+
+	if(L12_sonofaPrefix())
+	{
+		return true;
+	}
+
 
 	if(LX_guildUnlock())
 	{

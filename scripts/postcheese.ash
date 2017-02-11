@@ -1007,8 +1007,16 @@ void handlePostAdventure()
 		}
 	}
 
+	if((get_property("cc_beatenUpCount").to_int() <= 10) && (have_effect($effect[Beaten Up]) > 0) && (my_mp() >= mp_cost($skill[Tongue of the Walrus])) && have_skill($skill[Tongue of the Walrus]))
+	{
+		print("Owwie, was beaten up but trying to recover", "red");
+		set_property("cc_beatenUpCount", get_property("cc_beatenUpCount").to_int() + 1);
+		use_skill(1, $skill[Tongue of the Walrus]);
+	}
+
+
 	# We only do this in aftercore because we don't want a spiralling death loop in-run.
-	if(get_property("kingLiberated").to_boolean() && (have_effect($effect[beaten up]) > 0) && (my_mp() >= mp_cost($skill[Tongue of the Walrus])) && have_skill($skill[Tongue of the Walrus]))
+	if(get_property("kingLiberated").to_boolean() && (have_effect($effect[Beaten Up]) > 0) && (my_mp() >= mp_cost($skill[Tongue of the Walrus])) && have_skill($skill[Tongue of the Walrus]))
 	{
 		print("Owwie, was beaten up but trying to recover", "red");
 		use_skill(1, $skill[Tongue of the Walrus]);

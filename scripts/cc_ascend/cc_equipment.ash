@@ -358,6 +358,10 @@ item handleSolveThing(item[int] poss, slot loc)
 		{
 			ignore = true;
 		}
+		if((get_property("cc_beatenUpCount").to_int() >= 7) && (numeric_modifier(thing, "Monster Level") > 0))
+		{
+			ignore = true;
+		}
 		if(contains_text(get_property("cc_ignoreCombat"), "(seal)") && (loc == $slot[weapon]) && (item_type(thing) != "club"))
 		{
 			ignore = true;

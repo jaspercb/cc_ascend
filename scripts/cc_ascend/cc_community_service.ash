@@ -478,6 +478,10 @@ boolean LA_cs_communityService()
 					{
 						use_skill(2, $skill[Tongue of the Walrus]);
 					}
+					else
+					{
+						set_property("cc_beatenUpCount", get_property("cc_beatenUpCount").to_int() + 1);
+					}
 				}
 				return true;
 			}

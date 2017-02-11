@@ -73,8 +73,8 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 	switch(statItem)
 	{
 	case $stat[Muscle]:			statValue = 1;		break;
-	case $stat[Moxie]:			statValue = 2;		break;
-	case $stat[Mysticality]:	statValue = 3;		break;
+	case $stat[Mysticality]:	statValue = 2;		break;
+	case $stat[Moxie]:			statValue = 3;		break;
 	}
 
 	temp = visit_url("choice.php?pwd=&whichchoice=1224&option=" + statValue);

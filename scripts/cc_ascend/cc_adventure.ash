@@ -129,6 +129,7 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 		{
 			return ed_ccAdv(1, loc, option, true);
 		}
+		#Can we just return true here?
 		abort("ccAdvBypass override abort");
 	}
 	if(contains_text(page, "Combat"))

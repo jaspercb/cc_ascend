@@ -817,7 +817,7 @@ boolean cc_cheesePostCS(int leave)
 	}
 	if(get_property("eldritchHorrorAvailable").to_boolean())
 	{
-		loc = $location[An Eldritch Horror];
+//		loc = $location[An Eldritch Horror];
 //		loc = $location[An Eldritch Fissure];
 	}
 
@@ -1115,34 +1115,10 @@ boolean cc_cheesePostCS(int leave)
 			{
 				equip($slot[hat], $item[Eldritch Scanner]);
 			}
-			buffMaintain($effect[Eldritch Alignment], 0, 1, 1);
+			#buffMaintain($effect[Eldritch Alignment], 0, 1, 1);
 		}
 
-		if(have_effect($effect[Chorale of Companionship]) == 0)
-		{
-			loc = $location[Barf Mountain];
-		}
-
-
-		if(loc == $location[An Eldritch Horror])
-		{
-			if(have_outfit("Eldritch Equipage"))
-			{
-				outfit("Eldritch Equipage");
-			}
-			handleFamiliar($familiar[Intergnat]);
-			ccAdvBypass("place.php?whichplace=town&action=town_eicfight2");
-			if((have_effect($effect[Beaten Up]) > 0) && (my_mp() > mp_cost($skill[Tongue of the Walrus])))
-			{
-				use_skill(1, $skill[Tongue of the Walrus]);
-			}
-		}
-		else
-		{
-			ccAdv(1, loc);
-		}
-
-//		ccAdv(1, loc);
+		ccAdv(1, loc);
 		LX_ghostBusting();
 
 		if((back != $item[Protonic Accelerator Pack]) && (equipped_item($slot[back]) == $item[Protonic Accelerator Pack]))

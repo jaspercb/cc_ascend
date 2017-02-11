@@ -144,7 +144,7 @@ boolean fightScienceTentacle(string option);
 boolean fightScienceTentacle();
 boolean evokeEldritchHorror(string option);
 boolean evokeEldritchHorror();
-
+boolean cc_change_mcd(int mcd);
 
 // Private Prototypes
 boolean buffMaintain(item source, effect buff, int uses, int turns);
@@ -1808,6 +1808,11 @@ boolean isFreeMonster(monster mon)
 		return true;
 	}
 
+	if($monster[Eldritch Tentacle] == mon)
+	{
+		return true;
+	}
+
 	if(($monster[Drunk Pygmy] == mon) && (item_amount($item[Bowl of Scorpions]) > 0))
 	{
 		return true;
@@ -1925,6 +1930,48 @@ int maxSealSummons()
 	}
 	return 5;
 }
+boolean cc_change_mcd(int mcd)
+{
+	int best = 10;
+	if($strings[Mongoose, Vole, Wallaby] contains my_sign())
+	{
+		if(item_amount($item[Detuned Radio]) == 0)
+		{
+			return false;
+		}
+	}
+	if($strings[Blender, Packrat, Wombat] contains my_sign())
+	{
+		if(get_property("lastDesertUnlock").to_int() < my_ascensions())
+		{
+			return false;
+		}
+	}
+	if($strings[Marmot, Opossum, Platypus] contains my_sign())
+	{
+		best = 11;
+	}
+	if(my_sign() == "Bad Moon")
+	{
+		best = 11;
+	}
+
+	int handicap = 10 - get_property("cc_beatenUpCount").to_int();
+	if(my_level() >= 13)
+	{
+		if((get_property("questL12War") == "finished") || (get_property("sidequestArenaCompleted") != "none") || (get_property("flyeredML").to_int() >= 10000))
+		{
+			mcd = 0;
+		}
+	}
+	mcd = min(mcd, best);
+	int next = max(0,min(mcd, handicap));
+	if(next == current_mcd())
+	{
+		return true;
+	}
+	return change_mcd(next);
+}
 
 boolean evokeEldritchHorror(string option)
 {
@@ -1944,8 +1991,6 @@ boolean evokeEldritchHorror(string option)
 	string[int] pages;
 	pages[0] = "runskillz.php?pwd=&targetplayer" + my_id() + "&quantity=1&whichskill=168";
 	return ccAdvBypass(0, pages, $location[Noob Cave], option);
-
-	return true;
 }
 
 boolean evokeEldritchHorror()

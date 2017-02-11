@@ -28,7 +28,7 @@ boolean ocrs_postHelper()
 
 boolean ocrs_postCombatResolve()
 {
-	if((have_effect($effect[beaten up]) > 0) && (cc_my_path() == "One Crazy Random Summer"))
+	if((have_effect($effect[Beaten Up]) > 0) && (cc_my_path() == "One Crazy Random Summer"))
 	{
 		if(contains_text(get_property("cc_funPrefix"), "annoying") ||
 			contains_text(get_property("cc_funPrefix"), "phase-shifting") ||
