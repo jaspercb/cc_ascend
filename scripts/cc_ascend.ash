@@ -6584,13 +6584,6 @@ boolean L12_sonofaPrefix()
 	{
 		return false;
 	}
-	if(!get_property("cc_hippyInstead").to_boolean())
-	{
-		if(get_property("cc_gremlins") != "finished")
-		{
-			return false;
-		}
-	}
 	if(!(cc_get_campground() contains $item[Source Terminal]))
 	{
 		return false;
