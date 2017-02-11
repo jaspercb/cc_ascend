@@ -1000,6 +1000,14 @@ boolean doThemtharHills(boolean trickMode)
 	buffMaintain($effect[Human-Fish Hybrid], 0, 1, 1);
 	buffMaintain($effect[Cranberry Cordiality], 0, 1, 1);
 	buffMaintain($effect[Patent Avarice], 0, 1, 1);
+	if(have_effect($effect[meat.enh]) == 0)
+	{
+		if(cc_sourceTerminalEnhanceLeft() > 0)
+		{
+			cc_sourceTerminalEnhance("meat");
+		}
+	}
+
 
 	handleFamiliar("meat");
 	if(have_familiar($familiar[Trick-or-Treating Tot]) && (available_amount($item[Li\'l Pirate Costume]) > 0) && !is100FamiliarRun($familiar[Trick-or-Treating Tot]))
@@ -6572,6 +6580,11 @@ boolean L12_sonofaBeach()
 
 boolean L12_sonofaPrefix()
 {
+	if(L12_sonofaFinish())
+	{
+		return true;
+	}
+
 	if(my_level() < 12)
 	{
 		return false;

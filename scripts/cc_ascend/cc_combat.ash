@@ -989,7 +989,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 
 	#Only Batter Up
-	if((!contains_text(combatState, "batter up!")) && (have_skill($skill[batter up!])) && (my_fury() >= 5))
+	if((!contains_text(combatState, "batter up!")) && (have_skill($skill[batter up!])) && (my_fury() >= 5) && (item_type(equipped_item($slot[weapon])) == "club"))
 	{
 		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Drunk Goat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Senile Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
 		{
@@ -1954,7 +1954,7 @@ string findBanisher(int round, string opp, string text)
 				handleTracker(enemy, act, "cc_banishes");
 				return "skill " + act;
 			}
-			if((act == $skill[Batter Up!]) && (my_fury() < 5))
+			if((act == $skill[Batter Up!]) && (my_fury() < 5) && (item_type(equipped_item($slot[weapon])) == "club"))
 			{
 				continue;
 			}
