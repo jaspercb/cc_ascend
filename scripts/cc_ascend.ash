@@ -1738,7 +1738,7 @@ void initializeDay(int day)
 			pullXWhenHaveY($item[hand in glove], 1, 0);
 			pullXWhenHaveY($item[wet stew], 1, 0);
 			pullXWhenHaveY($item[blackberry galoshes], 1, 0);
-			if(spleen_limit() >= 8)
+			if((spleen_limit() >= 8) && (item_amount($item[Astral Energy Drink]) >= 2))
 			{
 				pullXWhenHaveY($item[mojo filter], 1, 0);
 			}
@@ -2460,7 +2460,15 @@ boolean doBedtime()
 			print("You have a rain man to cast, please do so before overdrinking and then run me again.", "red");
 			return false;
 		}
-		if((item_amount($item[ye olde meade]) > 0) && (my_daycount() == 1))
+		if((item_amount($item[Psychotic Train Wine]) > 0) && (my_daycount() == 1))
+		{
+			print("You can drink a Psychotic Train Wine as your nightcap! Yay!", "blue");
+		}
+		else if((item_amount($item[Hacked Gibson]) > 0) && (my_daycount() == 1))
+		{
+			print("You can drink a Hacked Gibson as your nightcap! Yay!", "blue");
+		}
+		else if((item_amount($item[Ye Olde Meade]) > 0) && (my_daycount() == 1))
 		{
 			print("You can drink a Ye Olde Meade as your nightcap! Yay!", "blue");
 		}

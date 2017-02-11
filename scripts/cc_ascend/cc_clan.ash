@@ -379,7 +379,7 @@ boolean cc_floundryAction()
 			item myFloundry = trim(floundryChoice[min(count(floundryChoice), my_daycount()) - 1]).to_item();
 			if(cc_floundryAction(myFloundry))
 			{
-				if(($items[Bass Clarinet, Codpiece, Fish Hatchet] contains myFloundry) && !get_property("_floundryItemUsed").to_boolean())
+				if(($items[Bass Clarinet, Codpiece, Fish Hatchet] contains myFloundry) && !get_property("_floundryItemUsed").to_boolean() && (item_amount(myFloundry) > 0))
 				{
 					use(1, myFloundry);
 				}
