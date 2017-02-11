@@ -78,9 +78,9 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 	}
 
 	temp = visit_url("choice.php?pwd=&whichchoice=1224&option=" + statValue);
-#1		Cardigan,			LOV Eardigan	25% Muscle Stats, 8-12HP Regen, +25ML, End of Day
-#2		Epaulettes,			LOV Epaulettes	25% Myst Stats, 4-6MP Regen, -3MPCombatSkills, End of Day
-#3		Earrings			LOV Earrings	25% Moxie Stats, +3 PrismRes, +50% Meat, End of Day
+#1		Cardigan,			LOV Eardigan	Shirt - 25% Muscle Stats, 8-12HP Regen, +25ML, End of Day
+#2		Epaulettes,			LOV Epaulettes	Back  - 25% Myst Stats, 4-6MP Regen, -3MPCombatSkills, End of Day
+#3		Earrings			LOV Earrings	Acc   - 25% Moxie Stats, +3 PrismRes, +50% Meat, End of Day
 #4		Nothing
 
 

@@ -143,7 +143,7 @@ boolean LA_cs_communityService()
 	case 2:
 		if(curQuest == 5)
 		{
-			loveTunnelAcquire(true, $stat[none], true, 2, true, 3);
+			loveTunnelAcquire(true, $stat[Moxie], true, 2, true, 3);
 		}
 		break;
 	default:
