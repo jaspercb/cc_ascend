@@ -6614,7 +6614,7 @@ boolean L12_sonofaPrefix()
 	{
 		return false;
 	}
-	if(item_amount($item[barrel of gunpowder]) >= 1)
+	if(item_amount($item[barrel of gunpowder]) >= 4)
 	{
 		return false;
 	}
@@ -6720,9 +6720,15 @@ boolean L12_sonofaPrefix()
 
 	buffMaintain($effect[Song of Battle], 10, 1, 1);
 	buffMaintain($effect[Lion in Ambush], 0, 1, 1);
+
 	if(numeric_modifier("Combat Rate") < 0.0)
 	{
 		print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Lobsterfrogmen.", "red");
+		equipBaseline();
+		return false;
+	}
+	if(my_mp() < mp_cost($skill[Digitize]))
+	{
 		equipBaseline();
 		return false;
 	}
