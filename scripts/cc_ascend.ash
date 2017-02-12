@@ -6580,6 +6580,10 @@ boolean L12_sonofaBeach()
 
 boolean L12_sonofaPrefix()
 {
+	if(get_property("cc_prewar") != "started")
+	{
+		return false;
+	}
 	if(L12_sonofaFinish())
 	{
 		return true;
