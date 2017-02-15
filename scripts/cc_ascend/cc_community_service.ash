@@ -206,8 +206,18 @@ boolean LA_cs_communityService()
 	}
 	if(my_daycount() == 2)
 	{
-		fightScienceTentacle();
-		evokeEldritchHorror();
+		if(((my_hp() * 5) < my_maxhp()) && (my_mp() > 100))
+		{
+			useCocoon();
+		}
+		if(fightScienceTentacle())
+		{
+			return true;
+		}
+		if(evokeEldritchHorror())
+		{
+			return true;
+		}
 	}
 
 	if((my_daycount() != 1) && cs_witchess())

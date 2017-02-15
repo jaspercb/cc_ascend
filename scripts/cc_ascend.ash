@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17789;
+since r17801;
 
 /***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -23,6 +23,7 @@ import <cc_ascend/cc_mr2016.ash>
 import <cc_ascend/cc_mr2017.ash>
 
 import <cc_ascend/cc_boris.ash>
+import <cc_ascend/cc_jellonewbie.ash>
 import <cc_ascend/cc_fallout.ash>
 import <cc_ascend/cc_sneakypete.ash>
 import <cc_ascend/cc_heavyrains.ash>
@@ -12804,6 +12805,11 @@ boolean doTasks()
 	}
 
 	LX_craftAcquireItems();
+
+	if(((my_hp() * 5) < my_maxhp()) && (my_mp() > 100))
+	{
+		useCocoon();
+	}
 
 	if(my_daycount() == 1)
 	{
