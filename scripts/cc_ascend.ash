@@ -7673,6 +7673,10 @@ boolean LX_freeCombats()
 		handleFamiliar($familiar[Ms. Puck Man]);
 		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
 		handleFamiliar("item");
+		if(get_property("_cc_digitizeDeskCounter").to_int() > 2)
+		{
+			set_property("_cc_digitizeDeskCounter", get_property("_cc_digitizeDeskCounter").to_int() - 1);
+		}
 		return true;
 	}
 
