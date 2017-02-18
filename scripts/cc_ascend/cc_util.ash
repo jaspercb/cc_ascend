@@ -2016,8 +2016,10 @@ boolean fightScienceTentacle(string option)
 		}
 		return false;
 	}
+	temp = visit_url("choice.php?whichchoice=1201&pwd=&option=2");
 	string[int] pages;
-	pages[0] = "choice.php?whichchoice=1201&pwd=&option=1";
+	pages[0] = "place.php?whichplace=forestvillage&action=fv_scientist";
+	pages[1] = "choice.php?whichchoice=1201&pwd=&option=1";
 	return ccAdvBypass(0, pages, $location[Noob Cave], option);
 }
 

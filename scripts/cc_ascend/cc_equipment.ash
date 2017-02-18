@@ -861,12 +861,81 @@ void equipRollover()
 	}
 
 
-	##poss = List($items[Tiny Plastic Bitchin\' Meatcar, Dead Guy\'s Watch, Gold Wedding Ring, BGE Pocket Calendar, Wristwatch of the White Knight, Boots of Twilight Whispers, Grandfather Watch, Gingerbeard, Fudgecycle, Numberwang, Ticksilver Ring, Sasq&trade; Watch, Treads of Loathing]);
-
-	## If your cowboy boots has ticksilver, then add at +4?
-	## If over-the-shoulder has +rollover, then add it at +5/5?
+	poss = List($items[Tiny Plastic Bitchin\' Meatcar, Dead Guy\'s Watch, Gold Wedding Ring, BGE Pocket Calendar, Wristwatch of the White Knight, Boots of Twilight Whispers, Grandfather Watch, Gingerbeard, Fudgecycle, Numberwang, Ticksilver Ring, Sasq&trade; Watch, Counterclockwise Watch, Treads of Loathing]);
+	if(possessEquipment($item[Your Cowboy Boots]))
+	{
+		if(equipped_item($slot[bootspur]) == $item[Ticksilver Spurs])
+		{
+			poss = poss.ListInsertAt($item[Your Cowboy Boots], poss.ListFind($item[Grandfather Watch]));
+		}
+	}
+	if(possessEquipment($item[Over-the-shoulder Folder Holder]))
+	{
+		boolean adv = false;
+		boolean pvp = false;
+		foreach sl in $slots[folder1, folder2, folder3, folder4, folder5]
+		{
+			if(equipped_item(sl) == $item[Folder (Sports Car)])
+			{
+				adv = true;
+			}
+			if(equipped_item(sl) == $item[Folder (Sportsballs)])
+			{
+				pvp = true;
+			}
+			if(adv && pvp)
+			{
+				poss = poss.ListInsertAt($item[Over-The-Shoulder Folder Holder], poss.ListFind($item[Numberwang]));
+			}
+			else if(adv)
+			{
+				poss = poss.ListInsertAt($item[Over-The-Shoulder Folder Holder], poss.ListFind($item[Grandfather Watch]));
+			}
+			else if(pvp)
+			{
+				poss = poss.ListInsertAt($item[Over-The-Shoulder Folder Holder], poss.ListFind($item[Grandfather Watch]));
+			}
+		}
+	}
 	## How do we check watches? Gingerbeard/Uncle Hobo? at +6/+9?
+	boolean foundWatch = false;
+	Item[int] watches = List($items[Dead Guy\'s Watch, Wristwatch of the White Knight, Grandfather Watch, Sasq&trade; Watch, Counterclockwise Watch]);
+	for(int i=count(watches)-1; i>=0; i--)
+	{
+		if(foundWatch && possessEquipment(watches[i]))
+		{
+			poss = poss.ListRemove(watches[i]);
+		}
+		else if(possessEquipment(watches[i]))
+		{
+			foundWatch = true;
+		}
+	}
 
+	int nextRollover = count(poss) - 1;
+	foreach sl in $slots[acc1, acc2, acc3]
+	{
+		item toEquip = $item[none];
+
+		while((toEquip == $item[none]) && (nextRollover >= 0))
+		{
+			if(possessEquipment(poss[nextRollover]) && can_equip(poss[nextRollover]))
+			{
+				toEquip = poss[nextRollover];
+			}
+
+			nextRollover--;
+		}
+
+		if(toEquip == $item[none])
+		{
+			break;
+		}
+		equip(sl, toEquip);
+	}
+
+if(false)
+{
 	### Original start of rollover accessory code.
 	equip($slot[acc1], $item[none]);
 	equip($slot[acc2], $item[none]);
@@ -898,6 +967,7 @@ void equipRollover()
 	{
 		equip($slot[acc3], toEquip);
 	}
+}
 	### Original end of rollover accessory code.
 
 	if(have_familiar($familiar[Trick-or-Treating Tot]) && !possessEquipment($item[Li\'l Unicorn Costume]) && !is100FamiliarRun() && (my_meat() > (5000 + npc_price($item[Li\'l Unicorn Costume]))))
