@@ -1954,8 +1954,7 @@ boolean doBedtime()
 		abort("Our last encounter was UNDYING and we ended up trying to bedtime and failed.");
 	}
 
-
-	process_kmail("cc_deleteMail");
+	cc_process_kmail("cc_deleteMail");
 
 	if(my_adventures() > 4)
 	{
@@ -1986,12 +1985,17 @@ boolean doBedtime()
 		return false;
 	}
 
-	if(get_property("cc_priorXiblaxianMode").to_int() == 1)
-	{
-		set_property("cc_priorXiblaxianMode", 0);
-		setvar("chit.helpers.xiblaxian", true);
-		cli_execute("zlib chit.helpers.xiblaxian = true");
-	}
+
+#	Do we even need this anymore with a counterscript in the way?
+#	if(svn_info("zlib").last_changed_rev > 0)
+#	{
+#		if(get_property("cc_priorXiblaxianMode").to_int() == 1)
+#		{
+#			set_property("cc_priorXiblaxianMode", 0);
+#			setvar("chit.helpers.xiblaxian", true);
+#			cli_execute("zlib chit.helpers.xiblaxian = true");
+#		}
+#	}
 
 	ed_terminateSession();
 
@@ -13411,13 +13415,17 @@ void cc_begin()
 		visit_url("account.php?am=1&pwd=&action=flag_compactchar&value=0&ajax=0", true);
 	}
 
-	if(vars["chit.helpers.xiblaxian"] != "false")
-	{
-		print("Switching off CHiT Xiblaxian Counter, will resume during bedtime");
-		set_property("cc_priorXiblaxianMode", 1);
-		setvar("chit.helpers.xiblaxian", false);
-		cli_execute("zlib chit.helpers.xiblaxian = false");
-	}
+#	Do we even need this anymore since we have a counter script?
+#	if(svn_info("zlib").last_changed_rev > 0)
+#	{
+#		if(vars["chit.helpers.xiblaxian"] != "false")
+#		{
+#			print("Switching off CHiT Xiblaxian Counter, will resume during bedtime");
+#			set_property("cc_priorXiblaxianMode", 1);
+#			setvar("chit.helpers.xiblaxian", false);
+#			cli_execute("zlib chit.helpers.xiblaxian = false");
+#		}
+#	}
 
 	ed_initializeSession();
 

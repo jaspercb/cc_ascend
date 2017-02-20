@@ -1,5 +1,5 @@
 script "cc_util.ash";
-import <zlib.ash>
+import <cc_ascend/cc_zlib.ash>
 import <cc_ascend/cc_mr2015.ash>
 import <cc_ascend/cc_ascend_header.ash>
 import <cc_ascend/cc_monsterparts.ash>
@@ -103,7 +103,7 @@ boolean buyUpTo(int num, item it);
 boolean buyUpTo(int num, item it, int maxprice);
 boolean buffMaintain(effect buff, int mp_min, int casts, int turns);
 effect effectNeededFirstGate(string data);
-boolean cc_deleteMail(kmessage msg);
+boolean cc_deleteMail(kmailObject msg);
 boolean buyableMaintain(item toMaintain, int howMany);
 boolean buyableMaintain(item toMaintain, int howMany, int meatMin);
 boolean buyableMaintain(item toMaintain, int howMany, int meatMin, boolean condition);
@@ -1826,7 +1826,7 @@ boolean isFreeMonster(monster mon)
 }
 
 
-boolean cc_deleteMail(kmessage msg)
+boolean cc_deleteMail(kmailObject msg)
 {
 	if((msg.fromid == 0) && (contains_text(msg.message, "We found this telegram at the bottom of an old bin of mail.")))
 	{
