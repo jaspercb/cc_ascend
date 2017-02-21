@@ -2253,6 +2253,10 @@ boolean cs_witchess()
 	{
 		handleFamiliar($familiar[Reanimated Reanimator]);
 	}
+	else if((get_property("_badlyRomanticArrows").to_int() != 1) && have_familiar($familiar[Obtuse Angel]))
+	{
+		handleFamiliar($familiar[Obtuse Angel]);
+	}
 	else if(have_familiar($familiar[Galloping Grill]) && cc_haveSourceTerminal())
 	{
 		handleFamiliar($familiar[Galloping Grill]);
@@ -2940,7 +2944,20 @@ string cs_combatNormal(int round, string opp, string text)
 			{
 				abort("Have animator out but can not arrow");
 			}
-			return "skill wink at";
+			return "skill " + $skill[Wink At];
+		}
+	}
+
+	if((!contains_text(combatState, "badlyromanticarrow")) && (my_familiar() == $familiar[Obtuse Angel]))
+	{
+		if($monsters[Witchess Bishop, Witchess Knight] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(badlyromanticarrow)");
+			if((get_property("_badlyRomanticArrows").to_int() == 1) && (get_property("romanticTarget") != enemy))
+			{
+				abort("Have angel out but can not arrow");
+			}
+			return "skill " + $skill[Fire a Badly Romantic Arrow];
 		}
 	}
 
