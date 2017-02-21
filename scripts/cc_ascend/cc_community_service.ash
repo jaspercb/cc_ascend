@@ -100,7 +100,7 @@ boolean LA_cs_communityService()
 	boolean [familiar] useFam;
 	if(((curQuest == 11) || (curQuest == 6) || (curQuest == 9)) && (my_spleen_use() < 12))
 	{
-		useFam = $familiars[Unconscious Collective, Grim Brother, Golden Monkey];
+		useFam = $familiars[Unconscious Collective, Grim Brother, Golden Monkey, Bloovian Groose, Baby Sandworm];
 	}
 	else
 	{
@@ -751,6 +751,10 @@ boolean LA_cs_communityService()
 						if((get_property("_hipsterAdv").to_int() < 1) && have_familiar($familiar[Artistic Goth Kid]))
 						{
 							handleFamiliar($familiar[Artistic Goth Kid]);
+						}
+						else if((get_property("_hipsterAdv").to_int() < 1) && have_familiar($familiar[Mini-Hipster]))
+						{
+							handleFamiliar($familiar[Mini-Hipster]);
 						}
 
 						if(elementalPlanes_access($element[stench]))
@@ -2666,20 +2670,16 @@ boolean cs_eat_spleen()
 	}
 
 	int oldSpleenUse = my_spleen_use();
-	while((my_spleen_use() < 12) && ((item_amount($item[Unconscious Collective Dream Jar]) + item_amount($item[Grim Fairy Tale]) + item_amount($item[Powdered Gold])) > 0))
+	while((my_spleen_use() < 12) && ((item_amount($item[Unconscious Collective Dream Jar]) + item_amount($item[Grim Fairy Tale]) + item_amount($item[Powdered Gold]) + item_amount($item[Groose Grease]) + item_amount($item[Agua De Vida])) > 0))
 	{
-		if(item_amount($item[Unconscious Collective Dream Jar]) > 0)
+		foreach it in $items[Unconscious Collective Dream Jar, Grim Fairy Tale, Powdered Gold, Agua De Vida, Groose Grease]
 		{
-			chew(1, $item[Unconscious Collective Dream Jar]);
+			if(item_amount(it) > 0)
+			{
+				chew(1, it);
+			}
 		}
-		if(item_amount($item[Grim Fairy Tale]) > 0)
-		{
-			chew(1, $item[Grim Fairy Tale]);
-		}
-		if(item_amount($item[Powdered Gold]) > 0)
-		{
-			chew(1, $item[Powdered Gold]);
-		}
+		uneffect($effect[Just the Best Anapests]);
 	}
 	return oldSpleenUse != my_spleen_use();
 }
