@@ -25,16 +25,17 @@ import <cc_ascend/cc_mr2017.ash>
 import <cc_ascend/cc_boris.ash>
 import <cc_ascend/cc_jellonewbie.ash>
 import <cc_ascend/cc_fallout.ash>
+import <cc_ascend/cc_community_service.ash>
 import <cc_ascend/cc_sneakypete.ash>
 import <cc_ascend/cc_heavyrains.ash>
 import <cc_ascend/cc_picky.ash>
 import <cc_ascend/cc_standard.ash>
 import <cc_ascend/cc_edTheUndying.ash>
 import <cc_ascend/cc_summerfun.ash>
-import <cc_ascend/cc_community_service.ash>
 import <cc_ascend/cc_awol.ash>
 import <cc_ascend/cc_theSource.ash>
 import <cc_ascend/cc_optionals.ash>
+
 
 void initializeSettings()
 {

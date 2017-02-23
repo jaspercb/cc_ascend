@@ -217,3 +217,7 @@ string cc_my_path();							//Defined in cc_ascend/cc_util.ash
 boolean hasSpookyravenLibraryKey();				//Defined in cc_ascend/cc_util.ash
 boolean hasILoveMeVolI();						//Defined in cc_ascend/cc_util.ash
 boolean useILoveMeVolI();						//Defined in cc_ascend/cc_util.ash
+
+
+//Are we expecting a Protonic Accelerator Pack ghost report?
+boolean expectGhostReport();					//Defined in cc_ascend/cc_mr2016.ash

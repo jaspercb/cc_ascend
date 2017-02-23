@@ -460,13 +460,18 @@ void equipBaselineBack()
 		poss = ListInsertAt(poss, $item[Misty Cloak], poss.ListFind($item[Makeshift Cape]));
 		poss = ListInsertAt(poss, $item[Misty Cape], poss.ListFind($item[Makeshift Cape]));
 		poss = ListInsertAt(poss, $item[Misty Robe], poss.ListFind($item[Makeshift Cape]));
-		poss = ListInsertAt(poss, $item[LOV Epaulettes], poss.ListFind($item[Buddy Bjorn]));
+		poss = poss.ListInsert($item[LOV Epaulettes]);
 		break;
 	case $stat[Moxie]:
 		poss = ListInsertAt(poss, $item[Misty Cloak], poss.ListFind($item[Makeshift Cape]));
 		poss = ListInsertAt(poss, $item[Misty Cape], poss.ListFind($item[Makeshift Cape]));
 		poss = ListInsertAt(poss, $item[Misty Robe], poss.ListFind($item[Makeshift Cape]));
 		break;
+	}
+
+	if(expectGhostReport())
+	{
+		poss = poss.ListInsert($item[Protonic Accelerator Pack]);
 	}
 
 	toEquip = handleSolveThing(poss, $slot[back]);
