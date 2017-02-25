@@ -239,10 +239,31 @@ boolean LA_cs_communityService()
 		{
 			if((my_inebriety() == 0) && (get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (my_meat() >= 500))
 			{
-				doRest();
+				if((my_mp() < mp_cost($skill[The Ode to Booze])) && (have_effect($effect[Ode to Booze]) == 0))
+				{
+					doRest();
+				}
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 1);
 				cli_execute("drink lucky lindy");
+				if(my_inebriety() != 1)
+				{
+					if(get_clan_lounge() contains $item[Lucky Lindy])
+					{
+						print("Confused!! Mafia reports Lucky Lindy but we couldn't drink it?", "red");
+					}
+					print("Mafia knows we have a speakeasy but could not drink a Lucky Lindy", "red");
+					string temp = visit_url("clan_viplounge.php?whichfloor=2&action=speakeasy");
+					if(get_clan_lounge() contains $item[Lucky Lindy])
+					{
+						print("Mafia now knows we have a Lucky Lindy", "green");
+						return true;
+					}
+					else
+					{
+						abort("Speakeasy issue, could not resolve contents and use them. Try visiting Clan Speakeasy and run again, do not manually drink a Lucky Lindy");
+					}
+				}
 				solveCookie();
 			}
 
