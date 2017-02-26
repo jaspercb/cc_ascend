@@ -562,6 +562,9 @@ void equipBaselineWeapon()
 	case $class[Snake Oiler]:
 		poss = $items[Finger Cymbals, Double-Barreled Sling, Hilarious Comedy Prop, Space Tourist Phaser, Knife, Thor\'s Pliers, Frankly Mr. Shank];
 		break;
+	case $class[Gelatinous Noob]:
+		poss = $items[Finger Cymbals, Double-Barreled Sling, Hilarious Comedy Prop, Space Tourist Phaser, Knife, Thor\'s Pliers, Frankly Mr. Shank];
+		break;
 
 	default:
 		print("If you just started an ascension (Ed primarily) enter 'refresh all' and then restart", "red");

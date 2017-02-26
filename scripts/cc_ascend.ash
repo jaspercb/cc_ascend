@@ -245,6 +245,7 @@ void initializeSettings()
 	ocrs_initializeSettings();
 	ed_initializeSettings();
 	boris_initializeSettings();
+	jello_initializeSettings();
 	fallout_initializeSettings();
 	pete_initializeSettings();
 }
@@ -2449,7 +2450,17 @@ boolean doBedtime()
 		}
 	}
 
-	if(my_inebriety() <= inebriety_limit())
+	boolean done = (my_inebriety() > inebriety_limit());
+	if(my_class() == $class[Gelatinous Noob])
+	{
+		if(my_adventures() <= 1)
+		{
+			done = true;
+		}
+	}
+
+	//if(my_inebriety() <= inebriety_limit())
+	if(!done)
 	{
 		print("Goodnight done, please make sure to handle your overdrinking, then you can run me again.", "blue");
 		if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5))
@@ -12904,12 +12915,7 @@ boolean doTasks()
 		return true;
 	}
 	//Handle some Avatar dependent stuff, sort of..
-	if(LM_boris() || LM_pete())
-	{
-		return true;
-	}
-	//Handle some semi-avatar stuff....
-	if(LM_fallout())
+	if(LM_boris() || LM_pete() || LM_jello() || LM_fallout())
 	{
 		return true;
 	}

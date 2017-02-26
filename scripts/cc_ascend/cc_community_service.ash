@@ -230,11 +230,13 @@ boolean LA_cs_communityService()
 
 	if(get_property("_tempRelayCounters") != "")
 	{
+		print("Setting wanderer flags", "green");
 		setAdvPHPFlag();
 	}
 
 	if((curQuest == 11) || (curQuest == 6) || (curQuest == 9) || (curQuest == 7))
 	{
+		print("Beginning early quest actions (" + curQuest + ")", "green");
 		if(curQuest != 7)
 		{
 			if((my_inebriety() == 0) && (get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (my_meat() >= 500))
@@ -307,7 +309,10 @@ boolean LA_cs_communityService()
 				}
 				else if(item_amount($item[Ice Island Long Tea]) > 0)
 				{
-					doRest();
+					if((my_mp() < mp_cost($skill[The Ode to Booze])) && (have_effect($effect[Ode to Booze]) == 0))
+					{
+						doRest();
+					}
 					shrugAT($effect[Ode to Booze]);
 					buffMaintain($effect[Ode to Booze], 50, 1, 4);
 					drink(1, $item[Ice Island Long Tea]);
@@ -2269,10 +2274,16 @@ boolean cs_witchess()
 		return false;
 	}
 
-	if(get_property("_cc_witchessBattles").to_int() == 5)
+	if(get_property("_cc_witchessBattles").to_int() >= 5)
 	{
 		return false;
 	}
+	if(get_property("_witchessFights").to_int() >= 5)
+	{
+		return false;
+	}
+
+	print("Let's do a Witchess combat!", "green");
 
 	if((get_property("_badlyRomanticArrows").to_int() != 1) && have_familiar($familiar[Reanimated Reanimator]))
 	{
@@ -2601,6 +2612,10 @@ void cs_make_stuff()
 		}
 		if(!possessEquipment($item[Saucepanic]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
 		{
+			if(!possessEquipment($item[Saucepan]))
+			{
+				acquireGumItem($item[Saucepan]);
+			}
 			cli_execute("make Saucepanic");
 		}
 		if(!possessEquipment($item[A Light that Never Goes Out]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
@@ -2612,6 +2627,10 @@ void cs_make_stuff()
 	{
 		if((available_amount($item[Saucepanic]) == 1) && (item_amount($item[Lump of Brituminous Coal]) > 0) && have_skill($skill[Double-Fisted Skull Smashing]))
 		{
+			if(!possessEquipment($item[Saucepan]))
+			{
+				acquireGumItem($item[Saucepan]);
+			}
 			cli_execute("make Saucepanic");
 		}
 		if(!possessEquipment($item[Vicar\'s Tutu]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
