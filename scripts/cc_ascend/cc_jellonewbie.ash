@@ -23,6 +23,7 @@ void jello_initializeSettings()
 	if(my_path() == "Gelatinous Noob")
 	{
 		set_property("cc_cubeItems", false);
+		set_property("cc_getStarKey", true);
 	}
 }
 
@@ -36,7 +37,7 @@ boolean jello_buySkills()
 	boolean[item] blacklist = $items[LOV Enamorang, Enchanted Bean];
 	boolean[item] whitelist = $items[Dirty Bottlecap, Potted Cactus, hermit permit];
 
-	while(my_absorbs() < (my_level() + 2))
+	while(my_absorbs() < min((my_level() + 2),15))
 	{
 		string[item] available = jello_lister();
 		int start = my_absorbs();

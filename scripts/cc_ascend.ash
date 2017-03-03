@@ -8957,7 +8957,7 @@ boolean L4_batCave()
 		}
 	}
 
-	if((my_class() == $class[Ed]) && (item_amount($item[Disassembled Clover]) > 0) && (batStatus <= 1))
+	if((my_class() == $class[Ed]) && (item_amount($item[Disassembled Clover]) > 0) && (batStatus <= 1) && (numeric_modifier("stench resistance") >= 1.0))
 	{
 		backupSetting("cloverProtectActive", false);
 		use(1, $item[Disassembled Clover]);
@@ -8971,8 +8971,12 @@ boolean L4_batCave()
 		restoreSetting("cloverProtectActive");
 		return true;
 	}
-	ccAdv(1, $location[Guano Junction]);
-	return true;
+	if(numeric_modifier("stench resistance") >= 1.0)
+	{
+		ccAdv(1, $location[Guano Junction]);
+		return true;
+	}
+	return false;
 }
 
 boolean LX_craftAcquireItems()

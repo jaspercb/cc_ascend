@@ -185,7 +185,7 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 
 //	if(enemy == $monster[Your Shadow])
-	if((enemy == $monster[Your Shadow]) || (opp == "shadow cow puncher") || (opp == "shadow snake oiler") || (opp == "shadow beanslinger"))
+	if((enemy == $monster[Your Shadow]) || (opp == "shadow cow puncher") || (opp == "shadow snake oiler") || (opp == "shadow beanslinger") || (opp == "shadow gelatinous noob"))
 	{
 		if(have_skill($skill[Ambidextrous Funkslinging]))
 		{
@@ -364,7 +364,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!contains_text(combatState, "pickpocket") && ($classes[Accordion Thief, Avatar of Sneaky Pete, Disco Bandit] contains my_class()) && contains_text(text, "value=\"Pick") && ((expected_damage() * 2) < my_hp()))
+	if(!contains_text(combatState, "pickpocket") && ($classes[Accordion Thief, Avatar of Sneaky Pete, Disco Bandit, Gelatinous Noob] contains my_class()) && contains_text(text, "value=\"Pick") && ((expected_damage() * 2) < my_hp()))
 	{
 		boolean tryIt = false;
 		foreach i, drop in item_drops_array(enemy)
