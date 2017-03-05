@@ -60,7 +60,7 @@ void handlePreAdventure(location place)
 	}
 
 	familiar famChoice = to_familiar(get_property("cc_familiarChoice"));
-	if((famChoice != $familiar[none]) && !is100FamiliarRun())
+	if((famChoice != $familiar[none]) && !is100FamiliarRun() && (internalQuestStatus("questL13Final") < 13))
 	{
 		if((famChoice != my_familiar()) && !get_property("kingLiberated").to_boolean())
 		{

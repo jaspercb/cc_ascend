@@ -1962,7 +1962,10 @@ boolean doBedtime()
 	{
 		if(my_inebriety() <= inebriety_limit())
 		{
-			return false;
+			if(my_class() != $class[Gelatinous Noob])
+			{
+				return false;
+			}
 		}
 	}
 	if(my_fullness() < fullness_limit())
@@ -2453,7 +2456,7 @@ boolean doBedtime()
 	boolean done = (my_inebriety() > inebriety_limit());
 	if(my_class() == $class[Gelatinous Noob])
 	{
-		if(my_adventures() <= 1)
+		if((my_adventures() <= 1) || (internalQuestStatus("questL13Final") >= 13))
 		{
 			done = true;
 		}
@@ -7331,10 +7334,7 @@ boolean L10_topFloor()
 	{
 		pullXWhenHaveY($item[Mohawk Wig], 1, 0);
 	}
-	if((item_amount($item[Mohawk Wig]) > 0) && can_equip($item[Mohawk Wig]))
-	{
-		equip($item[mohawk wig]);
-	}
+
 	set_property("choiceAdventure678", 1);
 	if(my_class() == $class[Ed])
 	{
@@ -7347,6 +7347,10 @@ boolean L10_topFloor()
 
 	handleFamiliar("initSuggest");
 	removeCombat();
+	if((item_amount($item[Mohawk Wig]) > 0) && can_equip($item[Mohawk Wig]))
+	{
+		equip($item[mohawk wig]);
+	}
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
 	handleFamiliar("item");
 
@@ -12592,6 +12596,12 @@ boolean doTasks()
 
 
 	if(dna_startAcquire())
+	{
+		return true;
+	}
+
+	//Handle some Avatar dependent stuff, sort of..
+	if(LM_boris() || LM_pete() || LM_jello() || LM_fallout())
 	{
 		return true;
 	}
