@@ -13382,9 +13382,14 @@ boolean doTasks()
 
 void cc_begin()
 {
-	if(contains_text(visit_url("main.php"), "Being Picky"))
+	string page = visit_url("main.php");
+	if(contains_text(page, "Being Picky"))
 	{
 		picky_startAscension();
+	}
+	else if(contains_text(page, "Welcome to the Kingdom, Gelatinous Noob"))
+	{
+		jello_startAscension(page);
 	}
 
 #	if(my_class() == $class[Astral Spirit])

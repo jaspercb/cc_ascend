@@ -14,7 +14,7 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem, string option)
 {
-	if(get_property("_cc_loveTunnelDone").to_boolean())
+	if(get_property("_loveTunnelUsed").to_boolean())
 	{
 		return false;
 	}
@@ -31,7 +31,7 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 		return false;
 	}
 
-	set_property("_cc_loveTunnelDone", true);
+//	set_property("_cc_loveTunnelDone", true);
 
 	string temp = visit_url("place.php?whichplace=town_wrong");
 	if(!(contains_text(temp, "townwrong_tunnel")))

@@ -296,6 +296,11 @@ void handleOffHand()
 		}
 	}
 
+	if(my_class() == $class[Gelatinous Noob])
+	{
+		possList = possList.ListRemove($item[Barrel Lid]);
+	}
+
 	toEquip = handleSolveThing(possList, $slot[off-hand]);
 /*
 	if(contains_text(holiday(), "Oyster Egg Day"))
@@ -563,7 +568,7 @@ void equipBaselineWeapon()
 		poss = $items[Finger Cymbals, Double-Barreled Sling, Hilarious Comedy Prop, Space Tourist Phaser, Knife, Thor\'s Pliers, Frankly Mr. Shank];
 		break;
 	case $class[Gelatinous Noob]:
-		poss = $items[Finger Cymbals, Double-Barreled Sling, Hilarious Comedy Prop, Space Tourist Phaser, Frigid Derringer, Thor\'s Pliers, Frankly Mr. Shank];
+		poss = $items[Finger Cymbals, Double-Barreled Sling, Hilarious Comedy Prop, Space Tourist Phaser, Frigid Derringer, Thor\'s Pliers, Bass Clarinet, Frankly Mr. Shank];
 		break;
 
 	default:
@@ -725,7 +730,12 @@ void equipBaselineAcc2()
 void equipBaselineAcc3()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Jaunty Feather, Garish Pinky Ring, ring of telling skeletons what to do, Glowing Red Eye, Time-Twitching Toolbelt, grumpy old man charrrm bracelet, Pirate Fledges, Plastic Detective Badge, Bronze Detective Badge, Mr. Accessory Jr., Silver Detective Badge, Gold Detective Badge, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Sphygmayomanometer, Badge Of Authority, Codpiece, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
+	item[int] poss = List($items[Jaunty Feather, Garish Pinky Ring, ring of telling skeletons what to do, Glowing Red Eye, Time-Twitching Toolbelt, grumpy old man charrrm bracelet, Pirate Fledges, Plastic Detective Badge, Bronze Detective Badge, Mr. Accessory Jr., Silver Detective Badge, Gold Detective Badge, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Sphygmayomanometer, Badge Of Authority, Codpiece, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring]);
+
+	if(my_class() == $class[Gelatinous Noob])
+	{
+		poss = poss.ListInsert($item[Mr. Screege\'s Spectacles]);
+	}
 
 	toEquip = handleSolveThing(poss, $slot[acc3]);
 

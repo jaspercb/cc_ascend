@@ -3,19 +3,12 @@ import <cc_ascend/cc_util.ash>
 import <cc_ascend/cc_list.ash>
 import <cc_ascend/cc_ascend_header.ash>
 
-
-// Skills start at 23000
-// (descid % 125) + 23001 -> skill absorbed
-//	_noobSkillCount	
-//  noobDefferedPoints
-//  noobPoints
-
 void jello_initializeSettings();
 string[item] jello_lister();
 string[item] jello_lister(string goal);
 boolean jello_buySkills();
 boolean LM_jello();
-
+void jello_startAscension(string page);
 
 
 void jello_initializeSettings()
@@ -27,6 +20,38 @@ void jello_initializeSettings()
 	}
 }
 
+void jello_startAscension(string page)
+{
+	if(contains_text(page, "Welcome to the Kingdom, Gelatinous Noob"))
+	{
+		print("In starting Jello Adventure", "blue");
+		matcher my_skillPoints = create_matcher("You can pick <span class=\"num\">(\\d\+)</span> more skill", page);
+		if(my_skillPoints.find())
+		{
+			int skillPoints = to_int(my_skillPoints.group(1));
+			print("Found " + skillPoints + " skillpoints", "blue");
+			boolean [int] skills = $ints[50, 49, 48, 47, 46, 55, 45, 70, 60, 69, 30, 29, 95, 54, 105, 75, 35, 10, 20, 68, 53, 52, 51, 44, 43, 42, 85, 83, 93, 34, 58, 28, 57, 84, 8, 56, 6, 18, 17, 37, 7, 9, 67, 59, 39, 74, 73, 72, 40, 66, 77, 78, 38];
+
+			string goal = "";
+			foreach idx in skills
+			{
+				if(contains_text(page, "name=\"skills[]\" value=\"" + idx + "\""))
+				{
+					goal += "&skills[]=" + idx;
+					skillPoints--;
+				}
+				if(skillPoints == 0)
+				{
+					break;
+				}
+			}
+
+			page = visit_url("choice.php?pwd=&option=1&whichchoice=1230" + goal);
+		}
+	}
+}
+
+
 boolean jello_buySkills()
 {
 	/*
@@ -35,7 +60,7 @@ boolean jello_buySkills()
 	*/
 
 	boolean[item] blacklist = $items[LOV Enamorang, Enchanted Bean];
-	boolean[item] whitelist = $items[Dirty Bottlecap, Potted Cactus, hermit permit];
+	boolean[item] whitelist = $items[Accidental Cider, All-Purpose Cleaner, Anti-Anti-Antidote, Bat Guano, Bottle of Whiskey, Concentrated Magicalness Pill, Decorative Fountain, Demon Skin, Dirty Bottlecap, Doc Galaktik\'s Homeopathic Elixir, Doc Galaktik\'s Invigorating Tonic, Eldritch Effluvium, Falcon&trade; Maltese Liquor, Gnollish Pie Tin, Hatorade, Hermit Permit, Interesting Clod of Dirt, Meat Paste, Meat Stack, Mushroom Pizza, Orange, Patchouli Incense Stick, Phat Turquoise Bead, Pickled Egg, Pink Slime, Potted Cactus, Strawberry, Tom\'s of the Spanish Main Toothpaste, Used Beer];
 
 	while(my_absorbs() < min((my_level() + 2),15))
 	{
@@ -73,10 +98,13 @@ boolean jello_buySkills()
 				{
 					print(possible[i] + ": " + mall_price(possible[i]), "blue");
 				}
-				abort("Need to validate blacklists");
 
 				for(int i=0; (i<bound) && !have_skill(sk); i++)
 				{
+					if(!whitelist[possible[i]])
+					{
+						continue;
+					}
 					if(item_amount(possible[i]) == 0)
 					{
 						if(creatable_amount(possible[i]) == 0)
@@ -153,3 +181,4 @@ boolean LM_jello()
 	jello_buySkills();
 	return false;
 }
+

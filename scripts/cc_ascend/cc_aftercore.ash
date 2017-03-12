@@ -868,6 +868,13 @@ boolean cc_cheesePostCS(int leave)
 		eat(1, $item[Cold Hi Mein]);
 	}
 
+	while((inebriety_left() >= 1) && (item_amount($item[Astral Pilsner]) > 0))
+	{
+		buffMaintain($effect[Ode to Booze], 50, 1, 1);
+		drink(1, $item[Astral Pilsner]);
+	}
+
+
 	while((inebriety_left() >= 4) && (item_amount($item[Hacked Gibson]) > 0))
 	{
 		buffMaintain($effect[Ode to Booze], 50, 1, 4);
