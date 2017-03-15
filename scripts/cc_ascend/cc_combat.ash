@@ -1405,6 +1405,15 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 
 
+	if(contains_text(combatState, "duplicate") && have_skill($skill[Gelatinous Kick]) && (my_mp() > mp_cost($skill[Gelatinous Kick])))
+	{
+		if($monsters[Dairy Goat, Gaudy Pirate] contains enemy)
+		{
+			return "skill " + $skill[Gelatinous Kick];
+		}
+	}
+
+
 	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_class() == $class[Sauceror]) && (my_mp() >= 32))
 	{
 		set_property("cc_combatHandler", combatState + "(weaksauce)");

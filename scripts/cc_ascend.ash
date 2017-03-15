@@ -534,6 +534,10 @@ boolean LX_witchess()
 		return false;
 	}
 
+	if(my_class() == $class[Gelatinous Noob])
+	{
+		return cc_advWitchess("ml");
+	}
 
 	switch(my_daycount())
 	{
@@ -1853,7 +1857,7 @@ boolean dailyEvents()
 
 	chateaumantegna_useDesk();
 
-	if(item_amount($item[Burned Government Manual Fragment]) > 0)
+	if((item_amount($item[Burned Government Manual Fragment]) > 0) && is_unrestricted($item[Burned Government Manual Fragment]))
 	{
 		use(item_amount($item[Burned Government Manual Fragment]), $item[Burned Government Manual Fragment]);
 	}
@@ -8101,6 +8105,11 @@ boolean L7_crypt()
 			visit_url("choice.php?pwd&whichchoice=835&option=1", true);
 		}
 
+		if((item_amount($item[Gravy Boat]) > 0) && can_equip($item[Gravy Boat]))
+		{
+			equip($item[Gravy Boat]);
+		}
+
 		print("The Alcove! (" + initiative_modifier() + ")", "blue");
 		ccAdv(1, $location[The Defiled Alcove]);
 		handleFamiliar("item");
@@ -8112,6 +8121,11 @@ boolean L7_crypt()
 		print("The Nook!", "blue");
 		buffMaintain($effect[Joyful Resolve], 0, 1, 1);
 		handleFamiliar("item");
+		if((item_amount($item[Gravy Boat]) > 0) && can_equip($item[Gravy Boat]))
+		{
+			equip($item[Gravy Boat]);
+		}
+
 		ccAdv(1, $location[The Defiled Nook]);
 		if(item_amount($item[Evil Eye]) > 0)
 		{
@@ -8126,7 +8140,12 @@ boolean L7_crypt()
 		{
 			handleFamiliar($familiar[Artistic Goth Kid]);
 		}
+		if((item_amount($item[Gravy Boat]) > 0) && can_equip($item[Gravy Boat]))
+		{
+			equip($item[Gravy Boat]);
+		}
 		print("The Niche!", "blue");
+
 		ccAdv(1, $location[The Defiled Niche]);
 
 		handleFamiliar("item");
@@ -8141,6 +8160,11 @@ boolean L7_crypt()
 		if(my_mp() > 60)
 		{
 			handleBjornify($familiar[Grimstone Golem]);
+		}
+
+		if((item_amount($item[Gravy Boat]) > 0) && can_equip($item[Gravy Boat]))
+		{
+			equip($item[Gravy Boat]);
 		}
 
 		ccAdv(1, $location[The Defiled Cranny]);

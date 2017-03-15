@@ -2710,16 +2710,26 @@ string beerPong(string page)
 boolean useCocoon()
 {
 	int mpCost = 0;
+	int casts = 1;
 	skill cocoon = $skill[none];
 	if(have_skill($skill[Cannelloni Cocoon]))
 	{
 		cocoon = $skill[Cannelloni Cocoon];
 		mpCost = mp_cost(cocoon);
 	}
-	if(have_skill($skill[Shake It Off]))
+	else if(have_skill($skill[Shake It Off]))
 	{
 		cocoon = $skill[Shake It Off];
 		mpCost = mp_cost(cocoon);
+	}
+	else if(have_skill($skill[Gelatinous Reconstruction]))
+	{
+		cocoon = $skill[Gelatinous Reconstruction];
+		mpCost = mp_cost(cocoon);
+		int hpNeed = (my_maxhp() - my_hp()) / 15;
+		int maxCasts = my_mp() / mpCost;
+		int worst = min(hpNeed, maxCasts);
+		casts = min(worst, 7);
 	}
 	if(cocoon == $skill[none])
 	{
@@ -2727,9 +2737,9 @@ boolean useCocoon()
 	}
 	if(my_hp() < my_maxhp())
 	{
-		if(my_mp() >= mpCost)
+		if(my_mp() >= (mpCost* casts))
 		{
-			use_skill(1, cocoon);
+			use_skill(casts, cocoon);
 			return true;
 		}
 		return false;

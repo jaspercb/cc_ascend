@@ -258,13 +258,20 @@ boolean cc_mayoItems()
 		case 4:				mayos = $items[Sphygmayomanometer];					break;
 		}
 	}
+	else if((my_path() == "Gelatinous Noob"))
+	{
+		switch(my_daycount())
+		{
+		default:			mayos = $items[none];								break;
+		}
+	}
 	else
 	{
 		switch(my_daycount())
 		{
-		case 1:				mayos = $items[Tomayohawk-Style Reflex Hammer];		break;
+		case 1:				mayos = $items[Mayo Lance];							break;
 		case 2:				mayos = $items[Mayo Lance];							break;
-		case 3:				mayos = $items[Sphygmayomanometer];					break;
+		case 3:				mayos = $items[Mayo Lance];							break;
 		case 4:				mayos = $items[Mayo Lance];							break;
 		}
 	}

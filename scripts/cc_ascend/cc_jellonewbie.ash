@@ -60,17 +60,26 @@ boolean jello_buySkills()
 	*/
 
 	boolean[item] blacklist = $items[LOV Enamorang, Enchanted Bean];
-	boolean[item] whitelist = $items[Accidental Cider, All-Purpose Cleaner, Anti-Anti-Antidote, Bat Guano, Bottle of Whiskey, Concentrated Magicalness Pill, Decorative Fountain, Demon Skin, Dirty Bottlecap, Doc Galaktik\'s Homeopathic Elixir, Doc Galaktik\'s Invigorating Tonic, Eldritch Effluvium, Falcon&trade; Maltese Liquor, Gnollish Pie Tin, Hatorade, Hermit Permit, Interesting Clod of Dirt, Meat Paste, Meat Stack, Mushroom Pizza, Orange, Patchouli Incense Stick, Phat Turquoise Bead, Pickled Egg, Pink Slime, Potted Cactus, Strawberry, Tom\'s of the Spanish Main Toothpaste, Used Beer];
+	boolean[item] whitelist = $items[Abstraction: Thought, Accidental Cider, All-Purpose Cleaner, All-Purpose Flower, Anti-Anti-Antidote, Barrel Pickle, Bat Guano, Black No. 2, Black Pension Check, Bottle of Popskull, Bottle of Whiskey, Buckler Buckle, Cog, Concentrated Magicalness Pill, Cranberries, Crossbow String, Decorative Fountain, Demon Skin, Dire Fudgesicle, Dirty Bottlecap, Disintegrating Quill Pen, Doc Galaktik\'s Homeopathic Elixir, Doc Galaktik\'s Invigorating Tonic, Eldritch Effluvium, Falcon&trade; Maltese Liquor, Fermenting Powder, Fine Wine, Fricasseed Brains, Ghuol Egg, Gnollish Casserole Dish, Gnollish Pie Tin, Greek Fire, Hatorade, Hermit Permit, Imp Ale, Interesting Clod of Dirt, Lemon, Meat Paste, Meat Stack, Mushroom Pizza, Old Coin Purse, Orange, Patchouli Incense Stick, Phat Turquoise Bead, pickle-flavored chewing gum, Pickled Egg, Pink Pony, Pink Slime, Polysniff Perfume, Potted Cactus, Ruby W, Seal Tooth, Slap and Tickle, Snifter of Thoroughly Aged Brandy, Spring, Sprocket, Steampunk Potion, Stench Powder, Strawberry, Tom\'s of the Spanish Main Toothpaste, Unstable Quark, Used Beer, Weremoose Spit, Whiskey Sour, Wussiness Potion];
+
+	if(internalQuestStatus("questM21Dance") >= 1)
+	{
+//		whitelist[$item[Handful of Hand Chalk]] = true;
+	}
 
 	while(my_absorbs() < min((my_level() + 2),15))
 	{
 		string[item] available = jello_lister();
 		int start = my_absorbs();
-		int earlyTerm = max(5, get_property("_noobSkillCount").to_int() * my_daycount());
+		int earlyTerm = max(5, get_property("_noobSkillCount").to_int() + ((my_daycount() - 1) * min(my_level()+2, 15))) + get_property("noobPoints").to_int();
 		foreach sk in $skills[Large Intestine, Small Intestine, Stomach-Like Thing, Rudimentary Alimentary Canal, Central Hypothalamus, Arrogance, Sense of Pride, Sense of Purpose, Basic Self-Worth, Work Ethic, Visual Cortex, Saccade Reflex, Optic Nerves, Right Eyeball, Left Eyeball, Thumbs, Index Fingers, Middle Fingers, Ring Fingers, Pinky Fingers, Sunglasses, Sense of Sarcasm, Beating Human Heart, Oversized Right Kidney, Anterior Cruciate Ligaments, Achilles Tendons, Kneecaps, Ankle Joints, Hamstrings, Pathological Greed, Sense of Entitlement, Business Acumen, Financial Ambition, The Concept of Property, Bravery Gland, Subcutaneous Fat, Adrenal Gland, Nasal Septum, Hyperactive Amygdala, Nasal Lamina Propria, Right Eyelid, Pinchable Nose, Left Eyelid, Nose Hair, Overalls, Rigid Rib Cage, Rigid Headbone]
 		{
 			earlyTerm --;
 			if(earlyTerm <= 0)
+			{
+				break;
+			}
+			if(my_absorbs() >= min((my_level() + 2),15))
 			{
 				break;
 			}
@@ -140,7 +149,7 @@ boolean jello_buySkills()
 string[item] jello_lister(string goal)
 {
 	string[item] retval;
-	int output = 0;
+//	int output = 0;
 	foreach it in $items[]
 	{
 		boolean canGet = (item_amount(it) > 0) || (creatable_amount(it) > 0); # || (available_amount(it) > 0);
@@ -153,13 +162,13 @@ string[item] jello_lister(string goal)
 			string result = string_modifier(it.noob_skill, "Modifiers");
 			if(contains_text(result, goal))
 			{
-				string color = "green";
-				if((output % 2) == 1)
-				{
-					color = "blue";
-				}
-				print(it + ": " + result, color);
-				output++;
+//				string color = "green";
+//				if((output % 2) == 1)
+//				{
+//					color = "blue";
+//				}
+//				print(it + ": " + result, color);
+//				output++;
 				retval[it] = result;
 			}
 		}
