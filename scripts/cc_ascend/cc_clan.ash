@@ -81,6 +81,8 @@ boolean handleFaxMonster(monster enemy, boolean fightIt, string option)
 		if(count == 10)
 		{
 			print("La de da, this is going swell ain't it.", "red");
+			print("Been too long, rejecting outright...", "red");
+			break;
 		}
 		if(count == 20)
 		{
