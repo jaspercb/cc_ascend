@@ -1950,7 +1950,7 @@ boolean providePlusCombat(int amt)
 		return true;
 	}
 
-	uneffect($effect[Carlweather\'s Cantata Of Confrontation]);
+	shrugAT($effect[Carlweather\'s Cantata Of Confrontation]);
 	foreach eff in $effects[Musk of the Moose, Carlweather\'s Cantata of Confrontation, Blinking Belly, Song of Battle, Frown, Angry, Screaming! \ SCREAMING! \ AAAAAAAH!]
 	{
 		buffMaintain(eff, 0, 1, 1);

@@ -189,12 +189,11 @@ void handlePreAdventure(location place)
 		#+C Maintenance
 		if($locations[The Black Forest, The F\'c\'le, Sonofa Beach] contains place)
 		{
+			providePlusCombat(5);
+		}
+		if($locations[The F\'c\'le, Sonofa Beach] contains place)
+		{
 			providePlusCombat(25);
-			uneffect($effect[The Sonata Of Sneakiness]);
-			shrugAT($effect[Carlweather\'s Cantata of Confrontation]);
-			buffMaintain($effect[Hippy Stench], 0, 1, 10);
-			buffMaintain($effect[Musk of the Moose], 15, 1, 2);
-			buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 25, 1, 2);
 		}
 		#+C Maintenance
 		if(place == $location[Barrrney\'s Barrr])
@@ -202,10 +201,6 @@ void handlePreAdventure(location place)
 			if(numPirateInsults() < 7)
 			{
 				providePlusCombat(25);
-				uneffect($effect[The Sonata Of Sneakiness]);
-				shrugAT($effect[Carlweather\'s Cantata of Confrontation]);
-				buffMaintain($effect[Musk of the Moose], 15, 1, 2);
-				buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 25, 1, 2);
 			}
 			else
 			{
