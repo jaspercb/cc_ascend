@@ -8964,7 +8964,7 @@ boolean LX_craftAcquireItems()
 		cli_execute("make 1 snow cleats");
 	}
 
-	if((item_amount($item[snow berries]) > 0) && (my_daycount() > 1) && (get_property("chasmBridgeProgress").to_int() >= 30))
+	if((item_amount($item[snow berries]) > 0) && (my_daycount() > 1) && (get_property("chasmBridgeProgress").to_int() >= 30) && (my_level() >= 9))
 	{
 		visit_url("place.php?whichplace=orc_chasm");
 		if(get_property("chasmBridgeProgress").to_int() >= 30)
@@ -12526,6 +12526,8 @@ boolean doTasks()
 	default:	loveTunnelAcquire(true, $stat[none], true, 2, true, 1);		break;
 	}
 
+	LX_craftAcquireItems();
+
 	if(fortuneCookieEvent())
 	{
 		return true;
@@ -12750,8 +12752,6 @@ boolean doTasks()
 	{
 		handleFamiliar($familiar[Fist Turkey]);
 	}
-
-	LX_craftAcquireItems();
 
 	if(((my_hp() * 5) < my_maxhp()) && (my_mp() > 100))
 	{
