@@ -1,9 +1,10 @@
 script "precheese.ash";
-import<cc_ascend/cc_ascend_header.ash>
-import<cc_ascend/cc_util.ash>
-import<cc_ascend/cc_edTheUndying.ash>
-import<cc_ascend/cc_adventure.ash>
-import<cc_ascend/cc_mr2016.ash>
+import<cc_ascend.ash>
+#import<cc_ascend/cc_ascend_header.ash>
+#import<cc_ascend/cc_util.ash>
+#import<cc_ascend/cc_edTheUndying.ash>
+#import<cc_ascend/cc_adventure.ash>
+#import<cc_ascend/cc_mr2016.ash>
 
 
 //	handlePreAdventure methods, first allows explicit location declaration
