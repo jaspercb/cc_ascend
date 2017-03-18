@@ -9,7 +9,7 @@ string[item] jello_lister(string goal);
 boolean jello_buySkills();
 boolean LM_jello();
 void jello_startAscension(string page);
-
+int jello_absorbsLeft();
 
 void jello_initializeSettings()
 {
@@ -17,6 +17,7 @@ void jello_initializeSettings()
 	{
 		set_property("cc_cubeItems", false);
 		set_property("cc_getStarKey", true);
+		set_property("cc_holeinthesky", true);
 	}
 }
 
@@ -60,14 +61,14 @@ boolean jello_buySkills()
 	*/
 
 	boolean[item] blacklist = $items[LOV Enamorang, Enchanted Bean];
-	boolean[item] whitelist = $items[Abstraction: Thought, Accidental Cider, All-Purpose Cleaner, All-Purpose Flower, Ancient Vinyl Coin Purse, Anti-Anti-Antidote, Barrel Pickle, Bat Guano, Beach Glass Bead, Black No. 2, Black Pension Check, Bottle of Popskull, Bottle of Whiskey, Buckler Buckle, Catgut Taco, Cog, Concentrated Magicalness Pill, Cranberries, Crossbow String, Decorative Fountain, Demon Skin, Dire Fudgesicle, Dirty Bottlecap, Disintegrating Quill Pen, Doc Galaktik\'s Homeopathic Elixir, Doc Galaktik\'s Invigorating Tonic, Eldritch Effluvium, Falcon&trade; Maltese Liquor, Fermenting Powder, Fine Wine, Flaregun, Fricasseed Brains, Ghuol Egg, Gnollish Casserole Dish, Gnollish Pie Tin, Greek Fire, Hatorade, Herbs, Hermit Permit, Imp Ale, Interesting Clod of Dirt, Lemon, Meat Paste, Meat Stack, Mushroom Pizza, Old Coin Purse, Orange, Patchouli Incense Stick, Petrified Noodles, Phat Turquoise Bead, pickle-flavored chewing gum, Pickled Egg, Pile of Gold Coins, Pink Pony, Pink Slime, Plain Pizza, Polysniff Perfume, Potted Cactus, Redrum, Ruby W, Seal Tooth, Slap and Tickle, Snifter of Thoroughly Aged Brandy, Spring, Sprocket, Steampunk Potion, Stench Powder, Strawberry, Sturdy Sword Hilt, Super-Spiky Hair Gel, Tenderizing Hammer, Tires, Tom\'s of the Spanish Main Toothpaste, Unnamed Cocktail, Unstable Quark, Used Beer, Wad of Tofu, Weremoose Spit, Whiskey Sour, Wussiness Potion];
+	boolean[item] whitelist = $items[Abstraction: Thought, Accidental Cider, All-Purpose Cleaner, All-Purpose Flower, Ancient Vinyl Coin Purse, Anti-Anti-Antidote, Barrel Pickle, Bat Guano, Beach Glass Bead, Black No. 2, Black Pension Check, Bottle of Popskull, Bottle of Whiskey, Buckler Buckle, Catgut Taco, Cog, Concentrated Magicalness Pill, Cranberries, Crossbow String, Decomposed Boot, Decorative Fountain, Demon Skin, Dire Fudgesicle, Dirty Bottlecap, Disintegrating Quill Pen, Doc Galaktik\'s Homeopathic Elixir, Doc Galaktik\'s Invigorating Tonic, Eldritch Effluvium, Falcon&trade; Maltese Liquor, Fermenting Powder, Fine Wine, Flaregun, Fricasseed Brains, Ghuol Egg, Gnollish Casserole Dish, Gnollish Pie Tin, Greek Fire, Hatorade, Herbs, Hermit Permit, Imp Ale, Interesting Clod of Dirt, Lemon, Meat Paste, Meat Stack, Mushroom Pizza, Old Coin Purse, Orange, Patchouli Incense Stick, Petrified Noodles, Phat Turquoise Bead, pickle-flavored chewing gum, Pickled Egg, Pile of Gold Coins, Pink Pony, Pink Slime, Plain Pizza, Polysniff Perfume, Potted Cactus, Redrum, Ruby W, Seal Tooth, Shot of Grapefruit Schnapps, Slap and Tickle, Snifter of Thoroughly Aged Brandy, Spring, Sprocket, Steampunk Potion, Stench Powder, Strawberry, Sturdy Sword Hilt, Super-Spiky Hair Gel, Tenderizing Hammer, Tires, Tom\'s of the Spanish Main Toothpaste, Unnamed Cocktail, Unstable Quark, Used Beer, Wad of Tofu, Weremoose Spit, Whiskey Sour, Wussiness Potion];
 
 	if(internalQuestStatus("questM21Dance") >= 1)
 	{
 //		whitelist[$item[Handful of Hand Chalk]] = true;
 	}
 
-	while(my_absorbs() < min((my_level() + 2),15))
+	while(jello_absorbsLeft() > 0)
 	{
 		string[item] available = jello_lister();
 		int start = my_absorbs();
@@ -79,7 +80,7 @@ boolean jello_buySkills()
 			{
 				break;
 			}
-			if(my_absorbs() >= min((my_level() + 2),15))
+			if(jello_absorbsLeft() <= 0)
 			{
 				break;
 			}
@@ -174,6 +175,16 @@ string[item] jello_lister(string goal)
 		}
 	}
 	return retval;
+}
+
+int jello_absorbsLeft()
+{
+	if(my_path() != "Gelatinous Noob")
+	{
+		return 0;
+	}
+	int absorbs = min(my_level() + 2, 15);
+	return absorbs - my_absorbs();
 }
 
 string[item] jello_lister()

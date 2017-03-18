@@ -962,8 +962,19 @@ boolean LX_ghostBusting()
 	}
 
 	location goal = get_property("ghostLocation").to_location();
-	if((goal != $location[none]) && have_equipped($item[Protonic Accelerator Pack]))
+	boolean canAttempt = have_equipped($item[Protonic Accelerator Pack]);
+	if(possessEquipment($item[Protonic Accelerator Pack]) && can_equip($item[Protonic Accelerator Pack]))
 	{
+		canAttempt = true;
+	}
+
+	if((goal != $location[none]) && canAttempt)
+	{
+		if((cc_my_path() == "Community Service") && (my_daycount() == 1) && (goal == $location[The Spooky Forest]))
+		{
+			return false;
+		}
+
 		useCocoon();
 		print("Ghost busting time! At: " + get_property("ghostLocation"), "blue");
 		boolean newbieFail = false;
@@ -1110,6 +1121,11 @@ boolean LX_ghostBusting()
 			set_property("questPAGhost", "unstarted");
 			set_property("ghostLocation", "");
 			return false;
+		}
+
+		if((equipped_item($slot[Back]) != $item[Protonic Accelerator Pack]) && can_equip($item[Protonic Accelerator Pack]))
+		{
+			equip($slot[Back], $item[Protonic Accelerator Pack]);
 		}
 
 		print("Time to bust some ghosts!!!", "green");

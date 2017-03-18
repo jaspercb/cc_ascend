@@ -188,6 +188,7 @@ void handlePreAdventure(location place)
 		#+C Maintenance
 		if($locations[The Black Forest, The F\'c\'le, Sonofa Beach] contains place)
 		{
+			providePlusCombat(25);
 			uneffect($effect[The Sonata Of Sneakiness]);
 			shrugAT($effect[Carlweather\'s Cantata of Confrontation]);
 			buffMaintain($effect[Hippy Stench], 0, 1, 10);
@@ -199,6 +200,7 @@ void handlePreAdventure(location place)
 		{
 			if(numPirateInsults() < 7)
 			{
+				providePlusCombat(25);
 				uneffect($effect[The Sonata Of Sneakiness]);
 				shrugAT($effect[Carlweather\'s Cantata of Confrontation]);
 				buffMaintain($effect[Musk of the Moose], 15, 1, 2);
@@ -206,15 +208,17 @@ void handlePreAdventure(location place)
 			}
 			else
 			{
+				providePlusNonCombat(25);
 				uneffect($effect[Carlweather\'s Cantata Of Confrontation]);
 				shrugAT($effect[The Sonata of Sneakiness]);
 				buffMaintain($effect[Smooth Movements], 15, 1, 2);
-			buffMaintain($effect[The Sonata of Sneakiness], 25, 1, 2);
+				buffMaintain($effect[The Sonata of Sneakiness], 25, 1, 2);
 			}
 		}
 		#+NC Maintenance
 		if($locations[A Maze of Sewer Tunnels, The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Defiled Alcove, The Defiled Cranny, The Haunted Ballroom, The Haunted Bathroom, The Haunted Billiards Room, The Haunted Gallery, The Hidden Hospital, The Ice Hotel, Inside the Palindome, The Middle Chamber, The Obligatory Pirate\'s Cove, The Penultimate Fantasy Airship, The Poop Deck, The Spooky Forest, Twin Peak, The Upper Chamber, Wartime Hippy Camp] contains place)
 		{
+			providePlusNonCombat(25);
 			uneffect($effect[Carlweather\'s Cantata Of Confrontation]);
 			shrugAT($effect[The Sonata of Sneakiness]);
 			buffMaintain($effect[Smooth Movements], 15, 1, 2);

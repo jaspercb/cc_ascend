@@ -4618,7 +4618,7 @@ boolean L12_lastDitchFlyer()
 			set_property("choiceAdventure677", "2");
 			set_property("choiceAdventure678", "3");
 			handleFamiliar("initSuggest");
-			removeCombat();
+			providePlusNonCombat(25);
 			ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
 			handleFamiliar("item");
 		}
@@ -6498,41 +6498,16 @@ boolean L12_sonofaBeach()
 		}
 	}
 
-	if(!uneffect($effect[The Sonata of Sneakiness]))
-	{
-		return false;
-	}
 	if((my_class() == $class[Ed]) && (item_amount($item[Talisman of Horus]) == 0))
 	{
 		return false;
 	}
+	if(!providePlusCombat(25))
+	{
+		print("Failure in +Combat acquisition or -Combat shrugging (lobsterfrogman), delaying", "red");
+		return false;
+	}
 
-	if(!uneffect($effect[Patent Invisibility]))
-	{
-		print("Could not uneffect Patent Invisibility for Lobsterfrogman, delaying");
-		return false;
-	}
-	if(!uneffect($effect[Shelter of Shed]))
-	{
-		print("Can not uneffect Shelter of Shed for the Lobsterfrogman, delaying");
-		return false;
-	}
-	buffMaintain($effect[Taunt of Horus], 0, 1, 1);
-	buffMaintain($effect[Hippy Stench], 0, 1, 1);
-	buffMaintain($effect[Musk of the Moose], 0, 1, 10);
-	buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 0, 1, 10);
-	buffMaintain($effect[High Colognic], 0, 1, 1);
-	buffMaintain($effect[Celestial Saltiness], 0, 1, 1);
-	buffMaintain($effect[Everything Must Go!], 0, 1, 1);
-	buffMaintain($effect[Blinking Belly], 40, 1, 1);
-	if(have_familiar($familiar[Grim Brother]) && possessEquipment($item[Buddy Bjorn]))
-	{
-		if(equipped_item($slot[back]) != $item[Buddy Bjorn])
-		{
-			equip($slot[Back], $item[Buddy Bjorn]);
-		}
-		handleBjornify($familiar[Grim Brother]);
-	}
 	if(equipped_item($slot[acc1]) == $item[over-the-shoulder folder holder])
 	{
 		if((item_amount($item[Ass-Stompers of Violence]) > 0) && (equipped_item($slot[acc1]) != $item[Ass-Stompers of Violence]) && can_equip($item[Ass-Stompers of Violence]))
@@ -6547,14 +6522,6 @@ boolean L12_sonofaBeach()
 	if(item_amount($item[portable cassette player]) > 0)
 	{
 		equip($slot[acc2], $item[portable cassette player]);
-	}
-
-	buffMaintain($effect[Patent Aggression], 0, 1, 1);
-	removeNonCombat();
-
-	if(have_familiar($familiar[Jumpsuited Hound Dog]))
-	{
-		handleFamiliar($familiar[Jumpsuited Hound Dog]);
 	}
 
 	if(item_amount($item[barrel of gunpowder]) < 4)
@@ -6581,15 +6548,12 @@ boolean L12_sonofaBeach()
 		pulverizeThing($item[Goatskin Umbrella]);
 	}
 
-	buffMaintain($effect[Song of Battle], 10, 1, 1);
-	buffMaintain($effect[Lion in Ambush], 0, 1, 1);
 	if(numeric_modifier("Combat Rate") < 0.0)
 	{
 		print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Lobsterfrogmen.", "red");
 		equipBaseline();
 		return false;
 	}
-	buffMaintain($effect[Blinking Belly], 45, 1, 1);
 
 	ccAdv(1, $location[Sonofa Beach]);
 	set_property("cc_doCombatCopy", "no");
@@ -6659,41 +6623,16 @@ boolean L12_sonofaPrefix()
 		}
 	}
 
-	if(!uneffect($effect[The Sonata of Sneakiness]))
-	{
-		return false;
-	}
 	if((my_class() == $class[Ed]) && (item_amount($item[Talisman of Horus]) == 0))
 	{
 		return false;
 	}
+	if(!providePlusCombat(25))
+	{
+		print("Failure in +Combat acquisition or -Combat shrugging (lobsterfrogman), delaying", "red");
+		return false;
+	}
 
-	if(!uneffect($effect[Patent Invisibility]))
-	{
-		print("Could not uneffect Patent Invisibility for Lobsterfrogman, delaying");
-		return false;
-	}
-	if(!uneffect($effect[Shelter of Shed]))
-	{
-		print("Can not uneffect Shelter of Shed for the Lobsterfrogman, delaying");
-		return false;
-	}
-	buffMaintain($effect[Taunt of Horus], 0, 1, 1);
-	buffMaintain($effect[Hippy Stench], 0, 1, 1);
-	buffMaintain($effect[Musk of the Moose], 0, 1, 10);
-	buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 0, 1, 10);
-	buffMaintain($effect[High Colognic], 0, 1, 1);
-	buffMaintain($effect[Celestial Saltiness], 0, 1, 1);
-	buffMaintain($effect[Everything Must Go!], 0, 1, 1);
-	buffMaintain($effect[Blinking Belly], 40, 1, 1);
-	if(have_familiar($familiar[Grim Brother]) && possessEquipment($item[Buddy Bjorn]))
-	{
-		if(equipped_item($slot[back]) != $item[Buddy Bjorn])
-		{
-			equip($slot[Back], $item[Buddy Bjorn]);
-		}
-		handleBjornify($familiar[Grim Brother]);
-	}
 	if(equipped_item($slot[acc1]) == $item[over-the-shoulder folder holder])
 	{
 		if((item_amount($item[Ass-Stompers of Violence]) > 0) && (equipped_item($slot[acc1]) != $item[Ass-Stompers of Violence]) && can_equip($item[Ass-Stompers of Violence]))
@@ -6708,14 +6647,6 @@ boolean L12_sonofaPrefix()
 	if(item_amount($item[portable cassette player]) > 0)
 	{
 		equip($slot[acc2], $item[portable cassette player]);
-	}
-
-	buffMaintain($effect[Patent Aggression], 0, 1, 1);
-	removeNonCombat();
-
-	if(have_familiar($familiar[Jumpsuited Hound Dog]))
-	{
-		handleFamiliar($familiar[Jumpsuited Hound Dog]);
 	}
 
 	if(item_amount($item[barrel of gunpowder]) < 4)
@@ -6742,9 +6673,6 @@ boolean L12_sonofaPrefix()
 		pulverizeThing($item[Goatskin Umbrella]);
 	}
 
-	buffMaintain($effect[Song of Battle], 10, 1, 1);
-	buffMaintain($effect[Lion in Ambush], 0, 1, 1);
-
 	if(numeric_modifier("Combat Rate") < 0.0)
 	{
 		print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Lobsterfrogmen.", "red");
@@ -6756,7 +6684,6 @@ boolean L12_sonofaPrefix()
 		equipBaseline();
 		return false;
 	}
-	buffMaintain($effect[Blinking Belly], 45, 1, 1);
 	cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
 	ccAdv(1, $location[Sonofa Beach]);
 	set_property("cc_doCombatCopy", "no");
@@ -7295,7 +7222,7 @@ boolean L10_holeInTheSkyUnlock()
 	{
 		handleFamiliar($familiar[Puck Man]);
 	}
-	removeCombat();
+	providePlusNonCombat(25);
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Top Floor)]);
 	handleFamiliar("item");
 
@@ -7350,7 +7277,7 @@ boolean L10_topFloor()
 	}
 
 	handleFamiliar("initSuggest");
-	removeCombat();
+	providePlusNonCombat(25);
 	if((item_amount($item[Mohawk Wig]) > 0) && can_equip($item[Mohawk Wig]))
 	{
 		equip($item[mohawk wig]);
@@ -7423,7 +7350,7 @@ boolean L10_ground()
 	}
 
 	cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
-	removeCombat();
+	providePlusNonCombat(25);
 
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Ground Floor)]);
 	handleFamiliar("item");
@@ -7485,7 +7412,7 @@ boolean L10_basement()
 	{
 		handleFamiliar($familiar[Puck Man]);
 	}
-	removeCombat();
+	providePlusNonCombat(25);
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
 	handleFamiliar("item");
 
@@ -7624,7 +7551,7 @@ boolean L10_airship()
 		}
 	}
 
-	removeCombat();
+	providePlusNonCombat(25);
 
 	buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
 	buffMaintain($effect[Snow Shoes], 0, 1, 1);
@@ -11154,7 +11081,8 @@ boolean L11_blackMarket()
 		}
 	}
 
-	removeNonCombat();
+	providePlusCombat(5);
+
 	if((item_amount($item[Blackberry Galoshes]) > 0) && !have_equipped($item[Blackberry Galoshes]) && can_equip($item[Blackberry Galoshes]))
 	{
 		equip($slot[acc3], $item[Blackberry Galoshes]);
@@ -11399,17 +11327,6 @@ boolean LX_fcle()
 		}
 	}
 
-	if(!uneffect($effect[Patent Invisibility]))
-	{
-		print("Could not uneffect Patent Invisibility for F'C'le, delaying");
-		return false;
-	}
-	if(!uneffect($effect[Shelter Of Shed]))
-	{
-		print("Could not uneffect Shelter of Shed for F'C'le, delaying");
-		return false;
-	}
-
 	print("Fcle time!", "blue");
 	if(!outfit("swashbuckling getup"))
 	{
@@ -11419,19 +11336,14 @@ boolean LX_fcle()
 	{
 		equip($slot[acc1], $item[numberwang]);
 	}
-	buffMaintain($effect[Taunt of Horus], 0, 1, 1);
-	buffMaintain($effect[Patent Aggression], 0, 1, 1);
 
-	removeNonCombat();
 	outfit("swashbuckling getup");
 
-	if(have_familiar($familiar[Jumpsuited Hound Dog]))
+	handleFamiliar("item");
+	if(!providePlusCombat(10))
 	{
-		handleFamiliar($familiar[Jumpsuited Hound Dog]);
-	}
-	else
-	{
-		handleFamiliar("item");
+		print("Could not uneffect for F'C'le, delaying", "red");
+		return false;
 	}
 
 	if(numeric_modifier("Combat Rate") <= 9.0)
@@ -12016,35 +11928,12 @@ boolean L8_trapperYeti()
 			return false;
 		}
 
-		uneffect($effect[The Sonata of Sneakiness]);
-		if(!uneffect($effect[Patent Invisibility]))
+		handleFamiliar("item");
+		if(!providePlusCombat(25))
 		{
-			print("Could not uneffect Patent Invisibility for ninja snowmen, delaying");
+			print("Could not uneffect for ninja snowmen, delaying", "red");
 			return false;
 		}
-		if(!uneffect($effect[Shelter Of Shed]))
-		{
-			print("Could not uneffect Shelter of Shed for ninja snowmen, delaying");
-			return false;
-		}
-
-		buffMaintain($effect[Patent Aggression], 0, 1, 1);
-		removeNonCombat();
-
-		if(have_familiar($familiar[Jumpsuited Hound Dog]))
-		{
-			handleFamiliar($familiar[Jumpsuited Hound Dog]);
-		}
-		else
-		{
-			handleFamiliar("item");
-		}
-
-		buffMaintain($effect[Hippy Stench], 0, 1, 1);
-		buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 10, 1, 1);
-		buffMaintain($effect[Musk of the Moose], 10, 1, 1);
-		buffMaintain($effect[Taunt of Horus], 0, 1, 1);
-		buffMaintain($effect[Song of Battle], 10, 1, 1);
 
 		if((my_class() == $class[Ed]) && (!elementalPlanes_access($element[spooky])))
 		{

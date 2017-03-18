@@ -199,6 +199,13 @@ boolean dailyEvents();
 //Do we have a some item either equipped or in inventory (not closet or hagnk\'s.
 boolean possessEquipment(item equipment);		//Defined in cc_ascend/cc_equipment.ash
 
+//Do Bjorn stuff
+boolean handleBjornify(familiar fam);			//Defined in cc_ascend/cc_equipment.ash
+
+//Remove +NC or +C equipment
+void removeNonCombat();							//Defined in cc_ascend/cc_equipment.ash
+void removeCombat();							//Defined in cc_ascend/cc_equipment.ash
+
 //Wrapper for get_campground(), primarily deals with the oven issue in Ed.
 //Also uses Garden item as identifier for the garden in addition to what get_campground() does
 int[item] cc_get_campground();					//Defined in cc_ascend/cc_util.ash

@@ -16,13 +16,10 @@ void equipBaselineFam();
 void equipRollover();
 void handleOffHand();
 void ensureSealClubs();
-void removeNonCombat();
-void removeCombat();
 item handleSolveThing(item[int] poss, slot loc);
 item handleSolveThing(item[int] poss);
 item handleSolveThing(boolean[item] poss, slot loc);
 item handleSolveThing(boolean[item] poss);
-boolean handleBjornify(familiar fam);
 void makeStartingSmiths();
 
 

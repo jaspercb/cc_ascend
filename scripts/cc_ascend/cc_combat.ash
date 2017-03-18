@@ -1326,12 +1326,15 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Extract Jelly];
 		}
 
-
-
-		if((!contains_text(combatState, "(scienceMedicine)")) && have_skill($skill[Science! Fight With Medicine]))
+		if((!contains_text(combatState, "(scienceMedicine)")) && have_skill($skill[Science! Fight With Medicine]) && ((my_hp() * 2) < my_maxhp()))
 		{
 			set_property("cc_combatHandler", combatState + "(scienceMedicine)");
 			return "skill " + $skill[Science! Fight With Medicine];
+		}
+		if((!contains_text(combatState, "(rationalThought)")) && have_skill($skill[Science! Fight With Rational Thought]))
+		{
+			set_property("cc_combatHandler", combatState + "(rationalThought)");
+			return "skill " + $skill[Science! Fight With Rational Thought];
 		}
 
 		if((!contains_text(combatState, "(time-spinner)")) && (item_amount($item[Time-Spinner]) > 0))
