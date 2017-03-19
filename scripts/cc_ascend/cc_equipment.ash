@@ -805,6 +805,10 @@ void removeCombat()
 
 void equipRollover()
 {
+	if(my_class() == $class[Gelatinous Noob])
+	{
+		return;
+	}
 	item toEquip = $item[none];
 	item[int] poss = List($items[Sea Cowboy Hat, Hairpiece on Fire, Spelunker\'s Fedora, Uncle Crimbo\'s Hat, Leather Aviator\'s Cap, Very Pointy Crown]);
 

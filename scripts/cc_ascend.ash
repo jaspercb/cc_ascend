@@ -1835,7 +1835,12 @@ void initializeDay(int day)
 	{
 		if(cc_get_campground() contains $item[Packet of Thanksgarden Seeds])
 		{
-			if((my_daycount() % 2) == 0)
+			int modulo = 2;
+			if(my_class() == $class[Gelatinous Noob])
+			{
+				modulo = 3;
+			}
+			if((my_daycount() % modulo) == 0)
 			{
 				cli_execute("garden pick");
 			}
@@ -7390,6 +7395,14 @@ boolean L10_ground()
 	cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
 	providePlusNonCombat(25);
 
+	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	{
+		if(!have_skill($skill[Bendable Knees]) && (item_amount($item[Bottle of Gregnadigne]) == 0))
+		{
+			handleFamiliar($familiar[Robortender]);
+		}
+	}
+
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Ground Floor)]);
 	handleFamiliar("item");
 
@@ -7451,6 +7464,14 @@ boolean L10_basement()
 		handleFamiliar($familiar[Puck Man]);
 	}
 	providePlusNonCombat(25);
+	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	{
+		if(!have_skill($skill[Bendable Knees]) && (item_amount($item[Bottle of Gregnadigne]) == 0))
+		{
+			handleFamiliar($familiar[Robortender]);
+		}
+	}
+
 	ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
 	handleFamiliar("item");
 
@@ -8109,8 +8130,12 @@ boolean L7_crypt()
 		{
 			equip($item[Gravy Boat]);
 		}
-		print("The Niche!", "blue");
 
+		if(have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3))
+		{
+			handleFamiliar($familiar[Space Jellyfish]);
+		}
+		print("The Niche!", "blue");
 		ccAdv(1, $location[The Defiled Niche]);
 
 		handleFamiliar("item");
@@ -8132,6 +8157,10 @@ boolean L7_crypt()
 			equip($item[Gravy Boat]);
 		}
 
+		if(have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3))
+		{
+			handleFamiliar($familiar[Space Jellyfish]);
+		}
 		ccAdv(1, $location[The Defiled Cranny]);
 		return true;
 	}
@@ -8255,6 +8284,22 @@ boolean L6_friarsGetParts()
 	{
 		equip($slot[Shirt], $item[none]);
 	}
+
+	if(have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 2))
+	{
+		handleFamiliar($familiar[Space Jellyfish]);
+	}
+
+	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	{
+		if(!have_skill($skill[Frown Muscles]) && (item_amount($item[Bottle of Novelty Hot Sauce]) == 0))
+		{
+			handleFamiliar($familiar[Robortender]);
+		}
+	}
+
+
+
 
 	if(item_amount($item[box of birthday candles]) == 0)
 	{
@@ -9828,6 +9873,14 @@ boolean L5_getEncryptionKey()
 		return false;
 	}
 
+	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	{
+		if(!have_skill($skill[Retractable Toes]) && (item_amount($item[Cocktail Mushroom]) == 0))
+		{
+			handleFamiliar($familiar[Robortender]);
+		}
+	}
+
 	print("Looking for the knob.", "blue");
 	ccAdv(1, $location[The Outskirts of Cobb\'s Knob]);
 	return true;
@@ -10044,6 +10097,15 @@ boolean L12_preOutfit()
 		return false;
 	}
 	print("Trying to acquire a filthy hippy outfit", "blue");
+
+	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	{
+		if(!have_skill($skill[Ink Gland]) && (item_amount($item[Shot of Granola Liqueur]) == 0))
+		{
+			handleFamiliar($familiar[Robortender]);
+		}
+	}
+
 	if(my_level() < 12)
 	{
 		ccAdv(1, $location[Hippy Camp]);
@@ -10752,6 +10814,15 @@ boolean L9_chasmBuild()
 			return true;
 		}
 
+		if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+		{
+			if(!have_skill($skill[Powerful Vocal Chords]) && (item_amount($item[Baby Oil Shooter]) == 0))
+			{
+				handleFamiliar($familiar[Robortender]);
+			}
+		}
+
+
 		ccAdv(1, $location[The Smut Orc Logging Camp]);
 
 		if(item_amount($item[Smut Orc Keepsake Box]) > 0)
@@ -11425,6 +11496,15 @@ boolean LX_pirateBeerPong()
 	#	We can get a Doghouse adventure here....
 
 	set_property("choiceAdventure184", 6);
+
+
+	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	{
+		if(!have_skill($skill[Anger Glands]) && (item_amount($item[Limepatch]) == 0))
+		{
+			handleFamiliar($familiar[Robortender]);
+		}
+	}
 
 	if(numPirateInsults() < 6)
 	{
