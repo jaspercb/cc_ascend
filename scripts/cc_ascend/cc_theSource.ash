@@ -1,8 +1,5 @@
 script "cc_theSource.ash"
 
-import<cc_ascend/cc_util.ash>
-import<cc_ascend/cc_ascend_header.ash>
-
 boolean theSource_initializeSettings();
 boolean theSource_buySkills();
 boolean LX_theSource();

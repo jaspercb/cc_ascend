@@ -1,12 +1,5 @@
 script "postcheese.ash";
-import <cc_ascend/cc_util.ash>
-import <cc_ascend/cc_summerfun.ash>
-import <cc_ascend/cc_awol.ash>
-import <cc_ascend/cc_combat.ash>
-import <cc_ascend/cc_ascend_header.ash>
-import <cc_ascend/cc_edTheUndying.ash>
-import <cc_ascend/cc_adventure.ash>
-
+import<cc_ascend.ash>
 
 void handlePostAdventure()
 {
@@ -1041,6 +1034,7 @@ void handlePostAdventure()
 	print("Post Adventure done, beep.", "purple");
 }
 
-void main(){
+void main()
+{
 	handlePostAdventure();
 }

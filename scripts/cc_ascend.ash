@@ -2,9 +2,17 @@ script "cc_ascend.ash";
 notify cheesecookie;
 since r17816;
 
-/***	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
-		Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
+/***
+	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
+	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
+
+	cc_ascend_header.ash must be first import
+	All non-accessory scripts must be imported here
+
+	Accessory scripts can import cc_ascend.ash
+
 ***/
+
 
 import <cc_ascend/cc_ascend_header.ash>
 import <cc_ascend/cc_deprecation.ash>
@@ -35,6 +43,8 @@ import <cc_ascend/cc_summerfun.ash>
 import <cc_ascend/cc_awol.ash>
 import <cc_ascend/cc_theSource.ash>
 import <cc_ascend/cc_optionals.ash>
+import <cc_ascend/cc_list.ash>
+import <cc_ascend/cc_zlib.ash>
 
 
 void initializeSettings()
@@ -2889,6 +2899,34 @@ boolean questOverride()
 		print("Found completed Junkyard (12)");
 		set_property("cc_gremlins", "finished");
 	}
+
+	if((get_property("fratboysDefeated").to_int() >= 1000) || (get_property("hippiesDefeated").to_int() >= 1000) || (get_property("questL12War") == "finished"))
+	{
+		if(get_property("cc_gremlins") != "finished")
+		{
+			print("Found completed Junkyard (12)");
+			set_property("cc_gremlins", "finished");
+		}
+
+		if(get_property("cc_sonofa") != "finished")
+		{
+			print("Found completed Lighthouse (12)");
+			set_property("cc_sonofa", "finished");
+		}
+
+		if(get_property("cc_orchard") != "finished")
+		{
+			print("Found completed Orchard (12)");
+			set_property("cc_orchard", "finished");
+		}
+
+		if((get_property("cc_nuns") != "done") && (get_property("cc_nuns") != "finished"))
+		{
+			print("Found completed Nuns (12)");
+			set_property("cc_nuns", "finished");
+		}
+	}
+
 	if((get_property("sidequestOrchardCompleted") != "none") && (get_property("cc_orchard") != "finished"))
 	{
 		print("Found completed Orchard (12)");
@@ -3757,7 +3795,7 @@ boolean L13_towerNSFinal()
 				abort("User wanted to stay in run (cc_stayInRun), we are done.");
 			}
 
-			if($classes[Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete] contains my_class())
+			if($classes[Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Gelatinous Noob] contains my_class())
 			{
 				set_property("cc_disableAdventureHandling", "no");
 				if(get_property("cc_sorceress") == "finished")

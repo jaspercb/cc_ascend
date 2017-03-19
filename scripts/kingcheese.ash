@@ -1,7 +1,5 @@
 script "kingcheese.ash";
-import <cc_ascend/cc_util.ash>
-
-boolean pullPVPJunk();
+import <cc_ascend.ash>
 
 void handleKingLiberation()
 {
@@ -194,6 +192,7 @@ boolean pullPVPJunk()
 	return true;
 }
 
-void main(){
+void main()
+{
 	handleKingLiberation();
 }

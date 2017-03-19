@@ -1,6 +1,4 @@
 script "cc_mr2015.ash"
-import<cc_ascend/cc_ascend_header.ash>
-import<cc_ascend/cc_elementalPlanes.ash>
 
 #	This is meant for items that have a date of 2015
 #	Handling: shrine to the Barrel God, Chateau Mantegna Room Key, Deck of Every Card

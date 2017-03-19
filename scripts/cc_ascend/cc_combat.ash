@@ -1,7 +1,4 @@
 script "cc_combat.ash"
-import <cc_ascend/cc_util.ash>
-import <cc_ascend/cc_equipment.ash>
-import <cc_ascend/cc_edTheUndying.ash>
 
 monster ocrs_helper(string page);
 void awol_helper(string page);

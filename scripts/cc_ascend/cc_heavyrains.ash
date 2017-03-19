@@ -1,9 +1,5 @@
 script "heavyrains.ash"
 
-import<cc_ascend/cc_util.ash>
-import<cc_ascend/cc_mr2014.ash>
-import<cc_ascend/cc_ascend_header.ash>
-
 boolean rainManSummon(string monsterName, boolean copy, boolean wink);
 
 void hr_initializeSettings()

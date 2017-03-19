@@ -1,19 +1,5 @@
 script "precheese.ash";
 import<cc_ascend.ash>
-#import<cc_ascend/cc_ascend_header.ash>
-#import<cc_ascend/cc_util.ash>
-#import<cc_ascend/cc_edTheUndying.ash>
-#import<cc_ascend/cc_adventure.ash>
-#import<cc_ascend/cc_mr2016.ash>
-
-
-//	handlePreAdventure methods, first allows explicit location declaration
-//	second uses my_location(), this is called defaultly by preadventure.
-//	Primarily, we use the explicit location declaration whenever we bypass adv1
-void handlePreAdventure(location place);
-void handlePreAdventure();
-
-
 
 void handlePreAdventure()
 {
@@ -22,7 +8,6 @@ void handlePreAdventure()
 
 void handlePreAdventure(location place)
 {
-
 	if((place == $location[The Deep Machine Tunnels]) && (my_familiar() != $familiar[Machine Elf]))
 	{
 		if(!have_familiar($familiar[Machine Elf]))
@@ -284,6 +269,7 @@ void handlePreAdventure(location place)
 	print("Pre Adventure at " + place + " done, beep.", "blue");
 }
 
-void main(){
+void main()
+{
 	handlePreAdventure();
 }

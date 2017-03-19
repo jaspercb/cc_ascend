@@ -1,7 +1,4 @@
 script "cc_jellonewbie.ash"
-import <cc_ascend/cc_util.ash>
-import <cc_ascend/cc_list.ash>
-import <cc_ascend/cc_ascend_header.ash>
 
 void jello_initializeSettings();
 string[item] jello_lister();

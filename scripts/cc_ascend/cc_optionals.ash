@@ -1,7 +1,5 @@
 script "cc_optionals.ash"
 
-import <cc_ascend/cc_ascend_header.ash>
-
 // All prototypes for this code described in cc_ascend_header.ash
 
 boolean LX_artistQuest()

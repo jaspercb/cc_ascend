@@ -1,8 +1,5 @@
 script "awol.ash"
 
-import<cc_ascend/cc_util.ash>
-import<cc_ascend/cc_ascend_header.ash>
-
 boolean awol_initializeSettings()
 {
 	if(my_path() == "Avatar of West of Loathing")

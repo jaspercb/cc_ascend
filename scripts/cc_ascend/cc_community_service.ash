@@ -3,16 +3,6 @@ script "cc_community_service.ash"
 #	Some details derived some yojimbos_law's forum post:
 #	http://forums.kingdomofloathing.com/vb/showpost.php?p=4769933&postcount=345
 
-
-import<cc_ascend/cc_clan.ash>
-import<cc_ascend/cc_util.ash>
-import<cc_ascend/cc_ascend_header.ash>
-import<cc_ascend/cc_mr2014.ash>
-import<cc_ascend/cc_mr2016.ash>
-import<cc_ascend/cc_mr2017.ash>
-
-
-
 int get_cs_questNum(string input);
 int get_cs_questCost(int quest);
 int get_cs_questCost(string input);

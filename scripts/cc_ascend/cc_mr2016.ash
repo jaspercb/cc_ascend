@@ -1,6 +1,4 @@
 script "cc_mr2016.ash"
-import<cc_ascend/cc_adventure.ash>
-import<cc_ascend/cc_list.ash>
 
 #	This is meant for items that have a date of 2016.
 #	Handling: Witchess Set, Snojo, Source Terminal, Protonic Accelerator Pack

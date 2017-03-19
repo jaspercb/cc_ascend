@@ -1,9 +1,4 @@
 script "cc_util.ash";
-import <cc_ascend/cc_zlib.ash>
-import <cc_ascend/cc_mr2015.ash>
-import <cc_ascend/cc_ascend_header.ash>
-import <cc_ascend/cc_monsterparts.ash>
-import <cc_ascend/cc_list.ash>
 
 // Public Prototypes
 void debugMaximize(string req, int meat);			//This function will be removed.
@@ -2650,6 +2645,10 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 				if(my_storage_meat() < curPrice)
 				{
 					print("Do not have enough meat in Hagnk's to buy " + it + ". Need " + curPrice + " have " + my_storage_meat() + ".", "blue");
+					if(curPrice > 10000000)
+					{
+						print("You must be a poor meatbag.", "green");
+					}
 				}
 			}
 			if(lastStorage == storage_amount(it))

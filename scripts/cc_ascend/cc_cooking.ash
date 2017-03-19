@@ -1,15 +1,8 @@
 script "cc_cooking.ash"
 
-import<cc_ascend/cc_clan.ash>
-import<cc_ascend/cc_util.ash>
-import<cc_ascend/cc_community_service.ash>
-import<cc_ascend/cc_ascend_header.ash>
-
 #
 #	Handler for in-run consumption
 #
-#
-
 
 void consumeStuff();
 boolean makePerfectBooze();

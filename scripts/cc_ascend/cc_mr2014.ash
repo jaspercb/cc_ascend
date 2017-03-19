@@ -1,5 +1,4 @@
 script "cc_mr2014.ash"
-import<cc_ascend/cc_elementalPlanes.ash>
 
 #	This is meant for items that have a date of 2014.
 #	Handling: Little Geneticist DNA-Splicing Lab, Xi-Receiver Unit

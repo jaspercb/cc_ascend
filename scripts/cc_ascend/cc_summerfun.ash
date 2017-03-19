@@ -1,8 +1,4 @@
 script "cc_summerfun.ash"
-
-import<cc_ascend/cc_util.ash>
-import<cc_ascend/cc_clan.ash>
-
 boolean ocrs_initializeSettings()
 {
 	if(my_path() == "One Crazy Random Summer")

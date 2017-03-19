@@ -1,11 +1,4 @@
 script "cc_edTheUndying.ash"
-import <cc_ascend/cc_util.ash>
-import <cc_ascend/cc_equipment.ash>
-import <cc_ascend/cc_eudora.ash>
-import <cc_ascend/cc_clan.ash>
-import <cc_ascend/cc_ascend_header.ash>
-import <cc_ascend/cc_elementalPlanes.ash>
-import <cc_ascend/cc_mr2014.ash>
 
 int ed_spleen_limit()
 {

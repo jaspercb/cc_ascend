@@ -228,3 +228,495 @@ boolean useILoveMeVolI();						//Defined in cc_ascend/cc_util.ash
 
 //Are we expecting a Protonic Accelerator Pack ghost report?
 boolean expectGhostReport();					//Defined in cc_ascend/cc_mr2016.ash
+
+
+
+//Large pile dump.
+boolean L11_ed_mauriceSpookyraven();						//Defined in cc_ascend/cc_edTheUndying.ash
+boolean L12_sonofaPrefix();									//Defined in cc_ascend.ash
+boolean L9_ed_chasmBuild();									//Defined in cc_ascend/cc_edTheUndying.ash
+boolean L9_ed_chasmBuildClover(int need);					//Defined in cc_ascend/cc_edTheUndying.ash
+boolean L9_ed_chasmStart();									//Defined in cc_ascend/cc_edTheUndying.ash
+boolean LM_boris();											//Defined in cc_ascend/cc_boris.ash
+boolean LM_fallout();										//Defined in cc_ascend/cc_fallout.ash
+boolean LM_jello();											//Defined in cc_ascend/cc_jellonewbie.ash
+boolean LM_pete();											//Defined in cc_ascend/cc_sneakypete.ash
+boolean LX_ghostBusting();									//Defined in cc_ascend/cc_mr2016.ash
+boolean LX_theSource();										//Defined in cc_ascend/cc_theSource.ash
+familiar[int] List();										//Defined in cc_ascend/cc_list.ash
+effect[int] List(boolean[effect] data);						//Defined in cc_ascend/cc_list.ash
+familiar[int] List(boolean[familiar] data);					//Defined in cc_ascend/cc_list.ash
+int[int] List(boolean[int] data);							//Defined in cc_ascend/cc_list.ash
+item[int] List(boolean[item] data);							//Defined in cc_ascend/cc_list.ash
+effect[int] List(effect[int] data);							//Defined in cc_ascend/cc_list.ash
+familiar[int] List(familiar[int] data);						//Defined in cc_ascend/cc_list.ash
+int[int] List(int[int] data);								//Defined in cc_ascend/cc_list.ash
+item[int] List(item[int] data);								//Defined in cc_ascend/cc_list.ash
+effect[int] ListErase(effect[int] list, int index);			//Defined in cc_ascend/cc_list.ash
+familiar[int] ListErase(familiar[int] list, int index);		//Defined in cc_ascend/cc_list.ash
+int[int] ListErase(int[int] list, int index);				//Defined in cc_ascend/cc_list.ash
+item[int] ListErase(item[int] list, int index);				//Defined in cc_ascend/cc_list.ash
+int ListFind(effect[int] list, effect what);				//Defined in cc_ascend/cc_list.ash
+int ListFind(effect[int] list, effect what, int idx);		//Defined in cc_ascend/cc_list.ash
+int ListFind(familiar[int] list, familiar what);			//Defined in cc_ascend/cc_list.ash
+int ListFind(familiar[int] list, familiar what, int idx);	//Defined in cc_ascend/cc_list.ash
+int ListFind(int[int] list, int what);						//Defined in cc_ascend/cc_list.ash
+int ListFind(int[int] list, int what, int idx);				//Defined in cc_ascend/cc_list.ash
+int ListFind(item[int] list, item what);					//Defined in cc_ascend/cc_list.ash
+int ListFind(item[int] list, item what, int idx);			//Defined in cc_ascend/cc_list.ash
+effect[int] ListInsert(effect[int] list, effect what);		//Defined in cc_ascend/cc_list.ash
+familiar[int] ListInsert(familiar[int] list, familiar what);//Defined in cc_ascend/cc_list.ash
+int[int] ListInsert(int[int] list, int what);				//Defined in cc_ascend/cc_list.ash
+item[int] ListInsert(item[int] list, item what);			//Defined in cc_ascend/cc_list.ash
+effect[int] ListInsertAt(effect[int] list, effect what, int idx);//Defined in cc_ascend/cc_list.ash
+familiar[int] ListInsertAt(familiar[int] list, familiar what, int idx);//Defined in cc_ascend/cc_list.ash
+int[int] ListInsertAt(int[int] list, int what, int idx);	//Defined in cc_ascend/cc_list.ash
+item[int] ListInsertAt(item[int] list, item what, int idx);	//Defined in cc_ascend/cc_list.ash
+effect[int] ListInsertFront(effect[int] list, effect what);	//Defined in cc_ascend/cc_list.ash
+familiar[int] ListInsertFront(familiar[int] list, familiar what);//Defined in cc_ascend/cc_list.ash
+int[int] ListInsertFront(int[int] list, int what);			//Defined in cc_ascend/cc_list.ash
+item[int] ListInsertFront(item[int] list, item what);		//Defined in cc_ascend/cc_list.ash
+effect[int] ListInsertInorder(effect[int] list, effect what);//Defined in cc_ascend/cc_list.ash
+familiar[int] ListInsertInorder(familiar[int] list, familiar what);//Defined in cc_ascend/cc_list.ash
+int[int] ListInsertInorder(int[int] list, int what);		//Defined in cc_ascend/cc_list.ash
+item[int] ListInsertInorder(item[int] list, item what);		//Defined in cc_ascend/cc_list.ash
+string ListOutput(effect[int] list);						//Defined in cc_ascend/cc_list.ash
+string ListOutput(familiar[int] list);						//Defined in cc_ascend/cc_list.ash
+string ListOutput(int[int] list);							//Defined in cc_ascend/cc_list.ash
+string ListOutput(item[int] list);							//Defined in cc_ascend/cc_list.ash
+effect[int] ListRemove(effect[int] list, effect what);		//Defined in cc_ascend/cc_list.ash
+effect[int] ListRemove(effect[int] list, effect what, int idx);//Defined in cc_ascend/cc_list.ash
+familiar[int] ListRemove(familiar[int] list, familiar what);//Defined in cc_ascend/cc_list.ash
+familiar[int] ListRemove(familiar[int] list, familiar what, int idx);//Defined in cc_ascend/cc_list.ash
+int[int] ListRemove(int[int] list, int what);				//Defined in cc_ascend/cc_list.ash
+int[int] ListRemove(int[int] list, int what, int idx);		//Defined in cc_ascend/cc_list.ash
+item[int] ListRemove(item[int] list, item what);			//Defined in cc_ascend/cc_list.ash
+item[int] ListRemove(item[int] list, item what, int idx);	//Defined in cc_ascend/cc_list.ash
+int [int] get_cs_questList();								//Defined in cc_ascend/cc_community_service.ash
+int [item] cc_get_campground();								//Defined in cc_ascend/cc_util.ash
+boolean [location] get_floundry_locations();				//Defined in cc_ascend/cc_clan.ash
+boolean acquireGumItem(item it);							//Defined in cc_ascend/cc_util.ash
+boolean acquireHermitItem(item it);							//Defined in cc_ascend/cc_util.ash
+boolean adjustEdHat(string goal);							//Defined in cc_ascend/cc_edTheUndying.ash
+int amountTurkeyBooze();									//Defined in cc_ascend/cc_util.ash
+boolean awol_buySkills();									//Defined in cc_ascend/cc_awol.ash
+void awol_helper(string page);								//Defined in cc_ascend/cc_combat.ash
+boolean awol_initializeSettings();							//Defined in cc_ascend/cc_awol.ash
+void awol_useStuff();										//Defined in cc_ascend/cc_awol.ash
+effect awol_walkBuff();										//Defined in cc_ascend/cc_awol.ash
+boolean backupSetting(string setting, string newValue);		//Defined in cc_ascend/cc_util.ash
+int[monster] banishedMonsters();							//Defined in cc_ascend/cc_util.ash
+boolean beehiveConsider();									//Defined in cc_ascend/cc_util.ash
+string beerPong(string page);								//Defined in cc_ascend/cc_util.ash
+boolean boris_buySkills();									//Defined in cc_ascend/cc_boris.ash
+void boris_initializeDay(int day);							//Defined in cc_ascend/cc_boris.ash
+void boris_initializeSettings();							//Defined in cc_ascend/cc_boris.ash
+boolean buffMaintain(effect buff, int mp_min, int casts, int turns);//Defined in cc_ascend/cc_util.ash
+boolean buffMaintain(item source, effect buff, int uses, int turns);//Defined in cc_ascend/cc_util.ash
+boolean buffMaintain(skill source, effect buff, int mp_min, int casts, int turns);//Defined in cc_ascend/cc_util.ash
+boolean buyUpTo(int num, item it);							//Defined in cc_ascend/cc_util.ash
+boolean buyUpTo(int num, item it, int maxprice);			//Defined in cc_ascend/cc_util.ash
+boolean buy_item(item it, int quantity, int maxprice);		//Defined in cc_ascend/cc_util.ash
+boolean buyableMaintain(item toMaintain, int howMany);		//Defined in cc_ascend/cc_util.ash
+boolean buyableMaintain(item toMaintain, int howMany, int meatMin);//Defined in cc_ascend/cc_util.ash
+boolean buyableMaintain(item toMaintain, int howMany, int meatMin, boolean condition);//Defined in cc_ascend/cc_util.ash
+boolean canYellowRay();										//Defined in cc_ascend/cc_util.ash
+boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string option);//Defined in cc_ascend/cc_adventure.ash
+boolean ccChew(int howMany, item toChew);					//Defined in cc_ascend/cc_cooking.ash
+int ccCraft(string mode, int count, item item1, item item2);//Defined in cc_ascend/cc_util.ash
+boolean ccDrink(int howMany, item toDrink);					//Defined in cc_ascend/cc_cooking.ash
+boolean ccEat(int howMany, item toEat);						//Defined in cc_ascend/cc_cooking.ash
+boolean ccMaximize(string req, boolean simulate);			//Defined in cc_ascend/cc_util.ash
+boolean ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate);//Defined in cc_ascend/cc_util.ash
+aggregate ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate, boolean includeEquip);//Defined in cc_ascend/cc_util.ash
+boolean ccOverdrink(int howMany, item toOverdrink);			//Defined in cc_ascend/cc_cooking.ash
+boolean cc_advWitchess(string target);						//Defined in cc_ascend/cc_mr2016.ash
+boolean cc_advWitchess(string target, string option);		//Defined in cc_ascend/cc_mr2016.ash
+int cc_advWitchessTargets(string target);					//Defined in cc_ascend/cc_mr2016.ash
+boolean cc_autosell(int quantity, item toSell);				//Defined in cc_ascend/cc_util.ash
+boolean cc_barrelPrayers();									//Defined in cc_ascend/cc_mr2015.ash
+void cc_begin();											//Defined in cc_ascend.ash
+item cc_bestBadge();										//Defined in cc_ascend/cc_mr2016.ash
+boolean cc_change_mcd(int mcd);								//Defined in cc_ascend/cc_util.ash
+string cc_combatHandler(int round, string opp, string text);//Defined in cc_ascend/cc_combat.ash
+boolean cc_doPrecinct();									//Defined in cc_ascend/cc_mr2016.ash
+string cc_edCombatHandler(int round, string opp, string text);//Defined in cc_ascend/cc_combat.ash
+boolean cc_floundryAction();								//Defined in cc_ascend/cc_clan.ash
+boolean cc_floundryAction(item it);							//Defined in cc_ascend/cc_clan.ash
+boolean cc_haveSourceTerminal();							//Defined in cc_ascend/cc_mr2016.ash
+boolean cc_haveWitchess();									//Defined in cc_ascend/cc_mr2016.ash
+boolean cc_mayoItems();										//Defined in cc_ascend/cc_mr2015.ash
+void cc_process_kmail(string functionname);					//Defined in cc_ascend/cc_zlib.ash
+boolean cc_sourceTerminalEducate(skill first);				//Defined in cc_ascend/cc_mr2016.ash
+boolean cc_sourceTerminalEducate(skill first, skill second);//Defined in cc_ascend/cc_mr2016.ash
+boolean cc_sourceTerminalEnhance(string request);			//Defined in cc_ascend/cc_mr2016.ash
+int cc_sourceTerminalEnhanceLeft();							//Defined in cc_ascend/cc_mr2016.ash
+boolean cc_sourceTerminalExtrude(string request);			//Defined in cc_ascend/cc_mr2016.ash
+int cc_sourceTerminalExtrudeLeft();							//Defined in cc_ascend/cc_mr2016.ash
+int[string] cc_sourceTerminalMissing();						//Defined in cc_ascend/cc_mr2016.ash
+boolean cc_sourceTerminalRequest(string request);			//Defined in cc_ascend/cc_mr2016.ash
+int[string] cc_sourceTerminalStatus();						//Defined in cc_ascend/cc_mr2016.ash
+boolean cc_tavern();										//Defined in cc_ascend.ash
+string ccsJunkyard(int round, string opp, string text);		//Defined in cc_ascend/cc_combat.ash
+int changeClan();											//Defined in cc_ascend/cc_clan.ash
+int changeClan(int toClan);									//Defined in cc_ascend/cc_clan.ash
+boolean chateaumantegna_available();						//Defined in cc_ascend/cc_mr2015.ash
+void chateaumantegna_buyStuff(item toBuy);					//Defined in cc_ascend/cc_mr2015.ash
+boolean[item] chateaumantegna_decorations();				//Defined in cc_ascend/cc_mr2015.ash
+boolean chateaumantegna_havePainting();						//Defined in cc_ascend/cc_mr2015.ash
+boolean chateaumantegna_nightstandSet();					//Defined in cc_ascend/cc_mr2015.ash
+void chateaumantegna_useDesk();								//Defined in cc_ascend/cc_mr2015.ash
+boolean chateaumantegna_usePainting();						//Defined in cc_ascend/cc_mr2015.ash
+boolean chateaumantegna_usePainting(string option);			//Defined in cc_ascend/cc_mr2015.ash
+boolean clear_property_if(string setting, string cond);		//Defined in cc_ascend/cc_util.ash
+boolean considerGrimstoneGolem(boolean bjornCrown);			//Defined in cc_ascend/cc_util.ash
+void consumeStuff();										//Defined in cc_ascend/cc_cooking.ash
+boolean containsCombat(item it);							//Defined in cc_ascend/cc_combat.ash
+boolean containsCombat(skill sk);							//Defined in cc_ascend/cc_combat.ash
+boolean containsCombat(string action);						//Defined in cc_ascend/cc_combat.ash
+string cs_combatKing(int round, string opp, string text);	//Defined in cc_ascend/cc_community_service.ash
+string cs_combatLTB(int round, string opp, string text);	//Defined in cc_ascend/cc_community_service.ash
+string cs_combatNormal(int round, string opp, string text);	//Defined in cc_ascend/cc_community_service.ash
+string cs_combatWitch(int round, string opp, string text);	//Defined in cc_ascend/cc_community_service.ash
+string cs_combatYR(int round, string opp, string text);		//Defined in cc_ascend/cc_community_service.ash
+void cs_dnaPotions();										//Defined in cc_ascend/cc_community_service.ash
+boolean cs_eat_spleen();									//Defined in cc_ascend/cc_community_service.ash
+boolean cs_eat_stuff(int quest);							//Defined in cc_ascend/cc_community_service.ash
+boolean cs_giant_growth();									//Defined in cc_ascend/cc_community_service.ash
+void cs_initializeDay(int day);								//Defined in cc_ascend/cc_community_service.ash
+void cs_make_stuff();										//Defined in cc_ascend/cc_community_service.ash
+boolean cs_spendRests();									//Defined in cc_ascend/cc_community_service.ash
+boolean cs_witchess();										//Defined in cc_ascend/cc_community_service.ash
+boolean dealWithMilkOfMagnesium(boolean useAdv);			//Defined in cc_ascend/cc_cooking.ash
+void debugMaximize(string req, int meat);					//Defined in cc_ascend/cc_util.ash
+boolean deck_available();									//Defined in cc_ascend/cc_mr2015.ash
+boolean deck_cheat(string cheat);							//Defined in cc_ascend/cc_mr2015.ash
+boolean deck_draw();										//Defined in cc_ascend/cc_mr2015.ash
+int deck_draws_left();										//Defined in cc_ascend/cc_mr2015.ash
+boolean deck_useScheme(string action);						//Defined in cc_ascend/cc_mr2015.ash
+boolean didWePlantHere(location loc);						//Defined in cc_ascend/cc_floristfriar.ash
+boolean dinseylandfill_garbageMoney();						//Defined in cc_ascend/cc_elementalPlanes.ash
+boolean dna_bedtime();										//Defined in cc_ascend/cc_mr2014.ash
+boolean dna_generic();										//Defined in cc_ascend/cc_mr2014.ash
+boolean dna_sorceressTest();								//Defined in cc_ascend/cc_mr2014.ash
+boolean dna_startAcquire();									//Defined in cc_ascend/cc_mr2014.ash
+boolean doBedtime();										//Defined in cc_ascend.ash
+boolean doHRSkills();										//Defined in cc_ascend/cc_heavyrains.ash
+int doHottub();												//Defined in cc_ascend/cc_clan.ash
+int doNumberology(string goal);								//Defined in cc_ascend/cc_util.ash
+int doNumberology(string goal, boolean doIt);				//Defined in cc_ascend/cc_util.ash
+int doNumberology(string goal, boolean doIt, string option);//Defined in cc_ascend/cc_util.ash
+int doNumberology(string goal, string option);				//Defined in cc_ascend/cc_util.ash
+int doRest();												//Defined in cc_ascend/cc_util.ash
+boolean doTasks();											//Defined in cc_ascend.ash
+boolean doThemtharHills(boolean trickMode);					//Defined in cc_ascend.ash
+boolean do_chateauGoat();									//Defined in cc_ascend/cc_community_service.ash
+boolean do_cs_quest(int quest);								//Defined in cc_ascend/cc_community_service.ash
+boolean do_cs_quest(string quest);							//Defined in cc_ascend/cc_community_service.ash
+int dreamJarDrops();										//Defined in cc_ascend/cc_util.ash
+boolean drinkSpeakeasyDrink(item drink);					//Defined in cc_ascend/cc_clan.ash
+boolean drinkSpeakeasyDrink(string drink);					//Defined in cc_ascend/cc_clan.ash
+int drunk_left();											//Defined in cc_ascend/cc_util.ash
+boolean eatFancyDog(string dog);							//Defined in cc_ascend/cc_clan.ash
+float edMeatBonus();										//Defined in cc_ascend/cc_edTheUndying.ash
+boolean ed_buySkills();										//Defined in cc_ascend/cc_edTheUndying.ash
+boolean ed_ccAdv(int num, location loc, string option);		//Defined in cc_ascend/cc_edTheUndying.ash
+boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife);//Defined in cc_ascend/cc_edTheUndying.ash
+boolean ed_doResting();										//Defined in cc_ascend/cc_edTheUndying.ash
+boolean ed_eatStuff();										//Defined in cc_ascend/cc_edTheUndying.ash
+boolean ed_handleAdventureServant(int num, location loc, string option);//Defined in cc_ascend/cc_edTheUndying.ash
+void ed_initializeDay(int day);								//Defined in cc_ascend/cc_edTheUndying.ash
+void ed_initializeSession();								//Defined in cc_ascend/cc_edTheUndying.ash
+void ed_initializeSettings();								//Defined in cc_ascend/cc_edTheUndying.ash
+boolean ed_needShop();										//Defined in cc_ascend/cc_edTheUndying.ash
+boolean ed_preAdv(int num, location loc, string option);	//Defined in cc_ascend/cc_edTheUndying.ash
+boolean ed_shopping();										//Defined in cc_ascend/cc_edTheUndying.ash
+int ed_spleen_limit();										//Defined in cc_ascend/cc_edTheUndying.ash
+void ed_terminateSession();									//Defined in cc_ascend/cc_edTheUndying.ash
+effect[int] effectList();									//Defined in cc_ascend/cc_list.ash
+boolean elementalPlanes_access(element ele);				//Defined in cc_ascend/cc_elementalPlanes.ash
+boolean elementalPlanes_initializeSettings();				//Defined in cc_ascend/cc_elementalPlanes.ash
+boolean elementalPlanes_takeJob(element ele);				//Defined in cc_ascend/cc_elementalPlanes.ash
+int elemental_resist(element goal);							//Defined in cc_ascend/cc_util.ash
+float elemental_resist_value(int resistance);				//Defined in cc_ascend/cc_util.ash
+void ensureSealClubs();										//Defined in cc_ascend/cc_equipment.ash
+void equipBaseline();										//Defined in cc_ascend/cc_equipment.ash
+void equipBaselineAcc1();									//Defined in cc_ascend/cc_equipment.ash
+void equipBaselineAcc2();									//Defined in cc_ascend/cc_equipment.ash
+void equipBaselineAcc3();									//Defined in cc_ascend/cc_equipment.ash
+void equipBaselineBack();									//Defined in cc_ascend/cc_equipment.ash
+void equipBaselineFam();									//Defined in cc_ascend/cc_equipment.ash
+void equipBaselineHat();									//Defined in cc_ascend/cc_equipment.ash
+void equipBaselineHolster();								//Defined in cc_ascend/cc_equipment.ash
+void equipBaselinePants();									//Defined in cc_ascend/cc_equipment.ash
+void equipBaselineShirt();									//Defined in cc_ascend/cc_equipment.ash
+void equipBaselineWeapon();									//Defined in cc_ascend/cc_equipment.ash
+void equipRollover();										//Defined in cc_ascend/cc_equipment.ash
+boolean eudora_available();									//Defined in cc_ascend/cc_eudora.ash
+item eudora_current();										//Defined in cc_ascend/cc_eudora.ash
+boolean[item] eudora_initializeSettings();					//Defined in cc_ascend/cc_eudora.ash
+int[item] eudora_xiblaxian();								//Defined in cc_ascend/cc_eudora.ash
+boolean evokeEldritchHorror();								//Defined in cc_ascend/cc_util.ash
+boolean evokeEldritchHorror(string option);					//Defined in cc_ascend/cc_util.ash
+int expected_next_cs_quest();								//Defined in cc_ascend/cc_community_service.ash
+int expected_next_cs_quest_internal();						//Defined in cc_ascend/cc_community_service.ash
+boolean fallout_buySkills();								//Defined in cc_ascend/cc_fallout.ash
+void fallout_initializeDay(int day);						//Defined in cc_ascend/cc_fallout.ash
+void fallout_initializeSettings();							//Defined in cc_ascend/cc_fallout.ash
+int fastenerCount();										//Defined in cc_ascend/cc_util.ash
+boolean fightScienceTentacle();								//Defined in cc_ascend/cc_util.ash
+boolean fightScienceTentacle(string option);				//Defined in cc_ascend/cc_util.ash
+string findBanisher(int round, string opp, string text);	//Defined in cc_ascend/cc_combat.ash
+void florist_initializeSettings();							//Defined in cc_ascend/cc_floristfriar.ash
+boolean forceEquip(slot sl, item it);						//Defined in cc_ascend/cc_util.ash
+int fullness_left();										//Defined in cc_ascend/cc_util.ash
+item getAvailablePerfectBooze();							//Defined in cc_ascend/cc_cooking.ash
+item[element] getCharterIndexable();						//Defined in cc_ascend/cc_elementalPlanes.ash
+boolean getDiscoStyle();									//Defined in cc_ascend/cc_elementalPlanes.ash
+boolean getDiscoStyle(int choice);							//Defined in cc_ascend/cc_elementalPlanes.ash
+boolean getSpaceJelly();									//Defined in cc_ascend/cc_mr2017.ash
+int get_cs_questCost(int quest);							//Defined in cc_ascend/cc_community_service.ash
+int get_cs_questCost(string input);							//Defined in cc_ascend/cc_community_service.ash
+int get_cs_questNum(string input);							//Defined in cc_ascend/cc_community_service.ash
+int grimTaleDrops();										//Defined in cc_ascend/cc_util.ash
+boolean handleBarrelFullOfBarrels(boolean daily);			//Defined in cc_ascend/cc_util.ash
+boolean handleCopiedMonster(item itm);						//Defined in cc_ascend/cc_util.ash
+boolean handleCopiedMonster(item itm, string option);		//Defined in cc_ascend/cc_util.ash
+boolean handleFamiliar(string type);						//Defined in cc_ascend.ash
+boolean handleFaxMonster(monster enemy);					//Defined in cc_ascend/cc_clan.ash
+boolean handleFaxMonster(monster enemy, boolean fightIt);	//Defined in cc_ascend/cc_clan.ash
+boolean handleFaxMonster(monster enemy, boolean fightIt, string option);//Defined in cc_ascend/cc_clan.ash
+boolean handleFaxMonster(monster enemy, string option);		//Defined in cc_ascend/cc_clan.ash
+void handleJar();											//Defined in cc_ascend.ash
+void handleOffHand();										//Defined in cc_ascend/cc_equipment.ash
+int handlePulls(int day);									//Defined in cc_ascend.ash
+boolean handleSealAncient();								//Defined in cc_ascend/cc_util.ash
+boolean handleSealAncient(string option);					//Defined in cc_ascend/cc_util.ash
+boolean handleSealArmored();								//Defined in cc_ascend/cc_util.ash
+boolean handleSealArmored(string option);					//Defined in cc_ascend/cc_util.ash
+boolean handleSealElement(element flavor);					//Defined in cc_ascend/cc_util.ash
+boolean handleSealElement(element flavor, string option);	//Defined in cc_ascend/cc_util.ash
+boolean handleServant(servant who);							//Defined in cc_ascend/cc_edTheUndying.ash
+boolean handleServant(string name);							//Defined in cc_ascend/cc_edTheUndying.ash
+item handleSolveThing(boolean[item] poss);					//Defined in cc_ascend/cc_equipment.ash
+item handleSolveThing(boolean[item] poss, slot loc);		//Defined in cc_ascend/cc_equipment.ash
+item handleSolveThing(item[int] poss);						//Defined in cc_ascend/cc_equipment.ash
+item handleSolveThing(item[int] poss, slot loc);			//Defined in cc_ascend/cc_equipment.ash
+void handleTracker(item used, string tracker);				//Defined in cc_ascend/cc_util.ash
+void handleTracker(monster enemy, item toTrack, string tracker);//Defined in cc_ascend/cc_util.ash
+void handleTracker(monster enemy, skill toTrack, string tracker);//Defined in cc_ascend/cc_util.ash
+void handleTracker(monster enemy, string toTrack, string tracker);//Defined in cc_ascend/cc_util.ash
+void handleTracker(monster enemy, string tracker);			//Defined in cc_ascend/cc_util.ash
+boolean hasArm(monster enemy);								//Defined in cc_ascend/cc_monsterparts.ash
+boolean hasHead(monster enemy);								//Defined in cc_ascend/cc_monsterparts.ash
+boolean hasLeg(monster enemy);								//Defined in cc_ascend/cc_monsterparts.ash
+boolean hasShieldEquipped();								//Defined in cc_ascend/cc_util.ash
+boolean hasTail(monster enemy);								//Defined in cc_ascend/cc_monsterparts.ash
+boolean hasTorso(monster enemy);							//Defined in cc_ascend/cc_monsterparts.ash
+boolean haveAny(boolean[item] array);						//Defined in cc_ascend/cc_util.ash
+boolean haveGhostReport();									//Defined in cc_ascend/cc_mr2016.ash
+boolean haveSpleenFamiliar();								//Defined in cc_ascend/cc_util.ash
+int howLongBeforeHoloWristDrop();							//Defined in cc_ascend/cc_util.ash
+void hr_doBedtime();										//Defined in cc_ascend/cc_heavyrains.ash
+boolean hr_handleFamiliar(familiar fam);					//Defined in cc_ascend/cc_heavyrains.ash
+void hr_initializeDay(int day);								//Defined in cc_ascend/cc_heavyrains.ash
+void hr_initializeSettings();								//Defined in cc_ascend/cc_heavyrains.ash
+boolean in_ronin();											//Defined in cc_ascend/cc_util.ash
+int inebriety_left();										//Defined in cc_ascend/cc_util.ash
+void initializeDay(int day);								//Defined in cc_ascend.ash
+void initializeSettings();									//Defined in cc_ascend.ash
+boolean instakillable(monster mon);							//Defined in cc_ascend/cc_util.ash
+int[int] intList();											//Defined in cc_ascend/cc_list.ash
+int internalQuestStatus(string prop);						//Defined in cc_ascend/cc_util.ash
+boolean is100FamiliarRun();									//Defined in cc_ascend/cc_util.ash
+boolean is100FamiliarRun(familiar thisOne);					//Defined in cc_ascend/cc_util.ash
+boolean isBanished(monster enemy);							//Defined in cc_ascend/cc_util.ash
+boolean isExpectingArrow();									//Defined in cc_ascend/cc_util.ash
+boolean isFreeMonster(monster mon);							//Defined in cc_ascend/cc_util.ash
+boolean isGalaktikAvailable();								//Defined in cc_ascend/cc_util.ash
+boolean isGeneralStoreAvailable();							//Defined in cc_ascend/cc_util.ash
+boolean isGhost(monster mon);								//Defined in cc_ascend/cc_util.ash
+boolean isGuildClass();										//Defined in cc_ascend/cc_util.ash
+boolean isHermitAvailable();								//Defined in cc_ascend/cc_util.ash
+boolean isOverdueArrow();									//Defined in cc_ascend/cc_util.ash
+boolean isOverdueDigitize();								//Defined in cc_ascend/cc_util.ash
+boolean isProtonGhost(monster mon);							//Defined in cc_ascend/cc_util.ash
+boolean isUnclePAvailable();								//Defined in cc_ascend/cc_util.ash
+boolean is_avatar_potion(item it);							//Defined in cc_ascend/cc_util.ash
+item[int] itemList();										//Defined in cc_ascend/cc_list.ash
+int jello_absorbsLeft();									//Defined in cc_ascend/cc_jellonewbie.ash
+boolean jello_buySkills();									//Defined in cc_ascend/cc_jellonewbie.ash
+void jello_initializeSettings();							//Defined in cc_ascend/cc_jellonewbie.ash
+string[item] jello_lister();								//Defined in cc_ascend/cc_jellonewbie.ash
+string[item] jello_lister(string goal);						//Defined in cc_ascend/cc_jellonewbie.ash
+void jello_startAscension(string page);						//Defined in cc_ascend/cc_jellonewbie.ash
+boolean lastAdventureSpecialNC();							//Defined in cc_ascend/cc_util.ash
+boolean loopHandler(string turnSetting, string counterSetting, int threshold);//Defined in cc_ascend/cc_util.ash
+boolean loopHandler(string turnSetting, string counterSetting, string abortMessage, int threshold);//Defined in cc_ascend/cc_util.ash
+boolean loopHandlerDelay(string counterSetting);			//Defined in cc_ascend/cc_util.ash
+boolean loopHandlerDelay(string counterSetting, int threshold);//Defined in cc_ascend/cc_util.ash
+boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem);//Defined in cc_ascend/cc_mr2017.ash
+boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem, string option);//Defined in cc_ascend/cc_mr2017.ash
+int lumberCount();											//Defined in cc_ascend/cc_util.ash
+boolean makePerfectBooze();									//Defined in cc_ascend/cc_cooking.ash
+void makeStartingSmiths();									//Defined in cc_ascend/cc_equipment.ash
+int maxSealSummons();										//Defined in cc_ascend/cc_util.ash
+void maximize_hedge();										//Defined in cc_ascend.ash
+boolean mayo_acquireMayo(item it);							//Defined in cc_ascend/cc_mr2015.ash
+int ns_crowd1();											//Defined in cc_ascend/cc_util.ash
+stat ns_crowd2();											//Defined in cc_ascend/cc_util.ash
+element ns_crowd3();										//Defined in cc_ascend/cc_util.ash
+element ns_hedge1();										//Defined in cc_ascend/cc_util.ash
+element ns_hedge2();										//Defined in cc_ascend/cc_util.ash
+element ns_hedge3();										//Defined in cc_ascend/cc_util.ash
+int numPirateInsults();										//Defined in cc_ascend/cc_util.ash
+monster ocrs_helper(string page);							//Defined in cc_ascend/cc_combat.ash
+boolean ocrs_initializeSettings();							//Defined in cc_ascend/cc_summerfun.ash
+boolean ocrs_postCombatResolve();							//Defined in cc_ascend/cc_summerfun.ash
+boolean ocrs_postHelper();									//Defined in cc_ascend/cc_summerfun.ash
+void oldPeoplePlantStuff();									//Defined in cc_ascend/cc_floristfriar.ash
+boolean organsFull();										//Defined in cc_ascend/cc_util.ash
+boolean ovenHandle();										//Defined in cc_ascend/cc_util.ash
+boolean pete_buySkills();									//Defined in cc_ascend/cc_sneakypete.ash
+void pete_initializeDay(int day);							//Defined in cc_ascend/cc_sneakypete.ash
+void pete_initializeSettings();								//Defined in cc_ascend/cc_sneakypete.ash
+boolean picky_buyskills();									//Defined in cc_ascend/cc_picky.ash
+void picky_initializeSettings();							//Defined in cc_ascend/cc_picky.ash
+void picky_pulls();											//Defined in cc_ascend/cc_picky.ash
+void picky_startAscension();								//Defined in cc_ascend/cc_picky.ash
+int powderedGoldDrops();									//Defined in cc_ascend/cc_util.ash
+skill preferredLibram();									//Defined in cc_ascend/cc_util.ash
+location provideAdvPHPZone();								//Defined in cc_ascend/cc_util.ash
+boolean providePlusCombat(int amt);							//Defined in cc_ascend/cc_util.ash
+boolean providePlusCombat(int amt, boolean doEquips);		//Defined in cc_ascend/cc_util.ash
+boolean providePlusNonCombat(int amt);						//Defined in cc_ascend/cc_util.ash
+boolean providePlusNonCombat(int amt, boolean doEquips);	//Defined in cc_ascend/cc_util.ash
+void pullAll(item it);										//Defined in cc_ascend/cc_util.ash
+void pullAndUse(item it, int uses);							//Defined in cc_ascend/cc_util.ash
+boolean pullXWhenHaveY(item it, int howMany, int whenHave);	//Defined in cc_ascend/cc_util.ash
+int pullsNeeded(string data);								//Defined in cc_ascend.ash
+boolean pulverizeThing(item it);							//Defined in cc_ascend/cc_util.ash
+boolean rainManSummon(string monsterName, boolean copy, boolean wink);//Defined in cc_ascend/cc_heavyrains.ash
+boolean rainManSummon(string monsterName, boolean copy, boolean wink, string option);//Defined in cc_ascend/cc_heavyrains.ash
+boolean registerCombat(item it);							//Defined in cc_ascend/cc_combat.ash
+boolean registerCombat(skill sk);							//Defined in cc_ascend/cc_combat.ash
+boolean registerCombat(string action);						//Defined in cc_ascend/cc_combat.ash
+void replaceBaselineAcc3();									//Defined in cc_ascend/cc_equipment.ash
+boolean restoreAllSettings();								//Defined in cc_ascend/cc_util.ash
+boolean restoreSetting(string setting);						//Defined in cc_ascend/cc_util.ash
+boolean restore_property(string setting, string source);	//Defined in cc_ascend/cc_util.ash
+boolean rethinkingCandy(effect acquire);					//Defined in cc_ascend/cc_mr2016.ash
+boolean rethinkingCandy(effect acquire, boolean simulate);	//Defined in cc_ascend/cc_mr2016.ash
+boolean rethinkingCandyList();								//Defined in cc_ascend/cc_mr2016.ash
+boolean routineRainManHandler();							//Defined in cc_ascend/cc_heavyrains.ash
+string runChoice(string page_text);							//Defined in cc_ascend/cc_util.ash
+string safeString(item input);								//Defined in cc_ascend/cc_util.ash
+string safeString(monster input);							//Defined in cc_ascend/cc_util.ash
+string safeString(skill input);								//Defined in cc_ascend/cc_util.ash
+string safeString(string input);							//Defined in cc_ascend/cc_util.ash
+boolean setAdvPHPFlag();									//Defined in cc_ascend/cc_util.ash
+boolean set_property_ifempty(string setting, string change);//Defined in cc_ascend/cc_util.ash
+boolean settingFixer();										//Defined in cc_ascend/cc_deprecation.ash
+void shrugAT();												//Defined in cc_ascend/cc_util.ash
+void shrugAT(effect anticipated);							//Defined in cc_ascend/cc_util.ash
+boolean snojoFightAvailable();								//Defined in cc_ascend/cc_mr2016.ash
+int solveCookie();											//Defined in cc_ascend/cc_util.ash
+int spleen_left();											//Defined in cc_ascend/cc_util.ash
+void standard_initializeSettings();							//Defined in cc_ascend/cc_standard.ash
+void standard_pulls();										//Defined in cc_ascend/cc_standard.ash
+boolean startArmorySubQuest();								//Defined in cc_ascend/cc_util.ash
+boolean startGalaktikSubQuest();							//Defined in cc_ascend/cc_util.ash
+boolean startMeatsmithSubQuest();							//Defined in cc_ascend/cc_util.ash
+string statCard();											//Defined in cc_ascend/cc_util.ash
+int stomach_left();											//Defined in cc_ascend/cc_util.ash
+boolean theSource_buySkills();								//Defined in cc_ascend/cc_theSource.ash
+boolean theSource_initializeSettings();						//Defined in cc_ascend/cc_theSource.ash
+boolean theSource_oracle();									//Defined in cc_ascend/cc_theSource.ash
+boolean timeSpinnerAdventure();								//Defined in cc_ascend/cc_mr2016.ash
+boolean timeSpinnerAdventure(string option);				//Defined in cc_ascend/cc_mr2016.ash
+boolean timeSpinnerCombat(monster goal);					//Defined in cc_ascend/cc_mr2016.ash
+boolean timeSpinnerCombat(monster goal, string option);		//Defined in cc_ascend/cc_mr2016.ash
+boolean timeSpinnerConsume(item goal);						//Defined in cc_ascend/cc_mr2016.ash
+boolean timeSpinnerGet(string goal);						//Defined in cc_ascend/cc_mr2016.ash
+void tootGetMeat();											//Defined in cc_ascend/cc_util.ash
+boolean tophatMaker();										//Defined in cc_ascend.ash
+boolean trackingSplitterFixer(string oldSetting, int day, string newSetting);//Defined in cc_ascend/cc_deprecation.ash
+void trickMafiaAboutFlorist();								//Defined in cc_ascend/cc_floristfriar.ash
+string trim(string input);									//Defined in cc_ascend/cc_util.ash
+string tryBeerPong();										//Defined in cc_ascend/cc_util.ash
+boolean tryCookies();										//Defined in cc_ascend/cc_cooking.ash
+boolean tryPantsEat();										//Defined in cc_ascend/cc_cooking.ash
+int turkeyBooze();											//Defined in cc_ascend/cc_util.ash
+boolean uneffect(effect toRemove);							//Defined in cc_ascend/cc_util.ash
+boolean useCocoon();										//Defined in cc_ascend/cc_util.ash
+boolean use_barrels();										//Defined in cc_ascend/cc_util.ash
+boolean volcano_bunkerJob();								//Defined in cc_ascend/cc_elementalPlanes.ash
+boolean volcano_lavaDogs();									//Defined in cc_ascend/cc_elementalPlanes.ash
+boolean warAdventure();										//Defined in cc_ascend.ash
+boolean warOutfit();										//Defined in cc_ascend.ash
+item whatHiMein();											//Defined in cc_ascend/cc_util.ash
+effect whatStatSmile();										//Defined in cc_ascend/cc_util.ash
+string what_cs_quest(int quest);							//Defined in cc_ascend/cc_community_service.ash
+void woods_questStart();									//Defined in cc_ascend/cc_util.ash
+boolean xiblaxian_makeStuff();								//Defined in cc_ascend/cc_mr2014.ash
+string yellowRayCombatString();								//Defined in cc_ascend/cc_util.ash
+boolean zoneCombat(location loc);							//Defined in cc_ascend/cc_util.ash
+boolean zoneItem(location loc);								//Defined in cc_ascend/cc_util.ash
+boolean zoneMeat(location loc);								//Defined in cc_ascend/cc_util.ash
+boolean zoneNonCombat(location loc);						//Defined in cc_ascend/cc_util.ash
+
+//From Zlib Stuff
+record kmailObject {
+	int id;                   // message id
+	string type;              // possible values observed thus far: normal, giftshop
+	int fromid;               // sender\'s playerid (0 for npcs)
+	int azunixtime;           // KoL server\'s unix timestamp
+	string message;           // message (not including items/meat)
+	int[item] items;          // items included in the message
+	int meat;                 // meat included in the message
+	string fromname;          // sender\'s playername
+	string localtime;         // your local time according to your KoL account, human-readable string
+};
+boolean cc_deleteMail(kmailObject msg);						//Defined in cc_ascend/cc_util.ash
+
+//Dump from accessory scripts.
+void handlePreAdventure();									//Defined in precheese.ash
+void handlePreAdventure(location place);					//Defined in precheese.ash
+
+void handlePostAdventure();									//Defined in postcheese.ash
+
+void handleKingLiberation();								//Defined in kingcheese.ash
+boolean pullPVPJunk();										//Defined in kingcheese.ash
+
+boolean cc_acquireKeycards();								//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_aftercore();										//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_aftercore(int leave);							//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_ascendIntoCS();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_cheeseAftercore(int leave);						//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_cheesePostCS();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_cheesePostCS(int leave);							//Defined in cc_ascend/cc_aftercore.ash
+void cc_combatTest();										//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_dailyDungeon();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_doCS();											//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_doWalford();										//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_fingernail();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_goreBucket();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_guildClown();									//Defined in cc_ascend/cc_aftercore.ash
+item cc_guildEpicWeapon();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_guildUnlock();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_junglePuns();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_jungleSandwich();								//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_lubeBarfMountain();								//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_mtMolehill();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_nastyBears();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_nemesisCave();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_nemesisIsland();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_packOfSmokes();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_racismReduction();								//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_sexismReduction();								//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_sloppySecondsDiner();							//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_toxicGlobules();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_toxicMascot();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_trashNet();										//Defined in cc_ascend/cc_aftercore.ash
+string simpleCombatFilter(int round, string opp, string text);//Defined in cc_ascend/cc_aftercore.ash
+

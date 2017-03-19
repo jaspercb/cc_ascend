@@ -1,6 +1,4 @@
 script "picky.ash"
-
-import<cc_ascend/cc_util.ash>
 # Code here is supplementary handlers and specialized handlers
 
 void picky_initializeSettings()

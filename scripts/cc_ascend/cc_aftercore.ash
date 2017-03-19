@@ -1,5 +1,5 @@
 script "cc_aftercore.ash"
-import "cc_ascend.ash"
+import <cc_ascend.ash>
 
 #Prototypes
 boolean cc_sloppySecondsDiner();
@@ -1335,4 +1335,3 @@ boolean cc_doCS()
 	cli_execute("cc_ascend");
 	return true;
 }
-

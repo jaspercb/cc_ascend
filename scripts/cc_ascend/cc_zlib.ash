@@ -18,7 +18,10 @@ script "cc_zlib.ash"
 
 ******************************************************************************/
 
-record kmailObject {
+/*
+//Now defined in cc_ascend_header.ash
+record kmailObject
+{
 	int id;                   // message id
 	string type;              // possible values observed thus far: normal, giftshop
 	int fromid;               // sender\'s playerid (0 for npcs)
@@ -29,7 +32,7 @@ record kmailObject {
 	string fromname;          // sender\'s playername
 	string localtime;         // your local time according to your KoL account, human-readable string
 };
-
+*/
 void cc_process_kmail(string functionname)
 {
 	// calls a function designed to parse a kmail.  It must accept a single kmailObject parameter,
