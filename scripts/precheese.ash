@@ -60,6 +60,7 @@ void handlePreAdventure(location place)
 		return;
 	}
 
+
 	familiar famChoice = to_familiar(get_property("cc_familiarChoice"));
 	if((famChoice != $familiar[none]) && !is100FamiliarRun() && (internalQuestStatus("questL13Final") < 13))
 	{
@@ -189,22 +190,22 @@ void handlePreAdventure(location place)
 		#+C Maintenance
 		if($locations[The Black Forest, The F\'c\'le, Sonofa Beach] contains place)
 		{
-			providePlusCombat(5);
+			providePlusCombat(5, false);
 		}
 		if($locations[The F\'c\'le, Sonofa Beach] contains place)
 		{
-			providePlusCombat(25);
+			providePlusCombat(25, false);
 		}
 		#+C Maintenance
 		if(place == $location[Barrrney\'s Barrr])
 		{
 			if(numPirateInsults() < 7)
 			{
-				providePlusCombat(25);
+				providePlusCombat(25, false);
 			}
 			else
 			{
-				providePlusNonCombat(25);
+				providePlusNonCombat(25, false);
 				uneffect($effect[Carlweather\'s Cantata Of Confrontation]);
 				shrugAT($effect[The Sonata of Sneakiness]);
 				buffMaintain($effect[Smooth Movements], 15, 1, 2);
@@ -214,7 +215,7 @@ void handlePreAdventure(location place)
 		#+NC Maintenance
 		if($locations[A Maze of Sewer Tunnels, The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Defiled Alcove, The Defiled Cranny, The Haunted Ballroom, The Haunted Bathroom, The Haunted Billiards Room, The Haunted Gallery, The Hidden Hospital, The Ice Hotel, Inside the Palindome, The Middle Chamber, The Obligatory Pirate\'s Cove, The Penultimate Fantasy Airship, The Poop Deck, The Spooky Forest, Twin Peak, The Upper Chamber, Wartime Hippy Camp] contains place)
 		{
-			providePlusNonCombat(25);
+			providePlusNonCombat(25, false);
 			uneffect($effect[Carlweather\'s Cantata Of Confrontation]);
 			shrugAT($effect[The Sonata of Sneakiness]);
 			buffMaintain($effect[Smooth Movements], 15, 1, 2);
@@ -250,6 +251,30 @@ void handlePreAdventure(location place)
 			}
 		}
 	}
+
+	if(place == $location[The Palindome])
+	{
+		if(!have_equipped($item[Talisman O\' Namsilat]))
+		{
+			if(!possessEquipment($item[Talisman O\' Namsilat]))
+			{
+				abort("Tried to go to The Palindome but don't have the Namsilat");
+			}
+			equip($slot[acc3], $item[Talisman O\' Namsilat]);
+		}
+	}
+
+	if(place == $location[The Black Forest])
+	{
+		if(!have_equipped($item[Blackberry Galoshes]))
+		{
+			if(possessEquipment($item[Blackberry Galoshes]) && can_equip($item[Blackberry Galoshes]))
+			{
+				equip($slot[acc3], $item[Blackberry Galoshes]);
+			}
+		}
+	}
+
 
 	if(in_hardcore() && (my_class() == $class[Sauceror]) && (my_mp() < 32))
 	{

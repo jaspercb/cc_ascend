@@ -147,6 +147,8 @@ boolean evokeEldritchHorror();
 boolean cc_change_mcd(int mcd);
 boolean providePlusCombat(int amt);
 boolean providePlusNonCombat(int amt);
+boolean providePlusCombat(int amt, boolean doEquips);
+boolean providePlusNonCombat(int amt, boolean doEquips);
 
 
 
@@ -1937,6 +1939,15 @@ int maxSealSummons()
 
 boolean providePlusCombat(int amt)
 {
+	return providePlusCombat(amt, true);
+}
+boolean providePlusNonCombat(int amt)
+{
+	return providePlusNonCombat(amt, true);
+}
+
+boolean providePlusCombat(int amt, boolean doEquips)
+{
 	foreach eff in $effects[The Sonata of Sneakiness, Patent Invisibility, Shelter of Shed]
 	{
 		if(!uneffect(eff))
@@ -1969,17 +1980,18 @@ boolean providePlusCombat(int amt)
 		}
 	}
 
-
-	if(have_familiar($familiar[Grim Brother]) && possessEquipment($item[Buddy Bjorn]))
+	if(doEquips)
 	{
-		if(equipped_item($slot[back]) != $item[Buddy Bjorn])
+		if(have_familiar($familiar[Grim Brother]) && possessEquipment($item[Buddy Bjorn]))
 		{
-			equip($slot[Back], $item[Buddy Bjorn]);
+			if(equipped_item($slot[back]) != $item[Buddy Bjorn])
+			{
+				equip($slot[Back], $item[Buddy Bjorn]);
+			}
+			handleBjornify($familiar[Grim Brother]);
 		}
-		handleBjornify($familiar[Grim Brother]);
+		removeNonCombat();
 	}
-
-	removeNonCombat();
 
 	if(have_familiar($familiar[Jumpsuited Hound Dog]))
 	{
@@ -1988,7 +2000,7 @@ boolean providePlusCombat(int amt)
 
 	return true;
 }
-boolean providePlusNonCombat(int amt)
+boolean providePlusNonCombat(int amt, boolean doEquips)
 {
 	amt = -1 * amt;
 
@@ -2023,16 +2035,18 @@ boolean providePlusNonCombat(int amt)
 		}
 	}
 
-	if(have_familiar($familiar[Grimstone Golem]) && possessEquipment($item[Buddy Bjorn]))
+	if(doEquips)
 	{
-		if(equipped_item($slot[back]) != $item[Buddy Bjorn])
+		if(have_familiar($familiar[Grimstone Golem]) && possessEquipment($item[Buddy Bjorn]))
 		{
-			equip($slot[Back], $item[Buddy Bjorn]);
+			if(equipped_item($slot[back]) != $item[Buddy Bjorn])
+			{
+				equip($slot[Back], $item[Buddy Bjorn]);
+			}
+			handleBjornify($familiar[Grimstone Golem]);
 		}
-		handleBjornify($familiar[Grimstone Golem]);
+		removeCombat();
 	}
-
-	removeCombat();
 
 	return true;
 }
