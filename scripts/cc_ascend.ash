@@ -11437,14 +11437,10 @@ boolean LX_fcle()
 	}
 
 	print("Fcle time!", "blue");
-	if(!outfit("swashbuckling getup"))
-	{
-		abort("Could not put on Swashbuckling Getup, aborting");
-	}
-	if(item_amount($item[numberwang]) > 0)
-	{
-		equip($slot[acc1], $item[numberwang]);
-	}
+//	if(item_amount($item[numberwang]) > 0)
+//	{
+//		equip($slot[acc1], $item[numberwang]);
+//	}
 
 	outfit("swashbuckling getup");
 
@@ -11453,6 +11449,10 @@ boolean LX_fcle()
 	{
 		print("Could not uneffect for F'C'le, delaying", "red");
 		return false;
+	}
+	if(!outfit("swashbuckling getup"))
+	{
+		abort("Could not put on Swashbuckling Getup, aborting");
 	}
 
 	if(numeric_modifier("Combat Rate") <= 9.0)
