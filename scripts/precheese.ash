@@ -237,7 +237,7 @@ void handlePreAdventure(location place)
 		}
 	}
 
-	if(place == $location[The Palindome])
+	if(place == $location[Inside The Palindome])
 	{
 		if(!have_equipped($item[Talisman O\' Namsilat]))
 		{

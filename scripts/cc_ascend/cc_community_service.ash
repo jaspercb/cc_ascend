@@ -259,6 +259,11 @@ boolean LA_cs_communityService()
 				solveCookie();
 			}
 
+			if((my_inebriety() == 0) && !(get_clan_lounge() contains $item[Clan Speakeasy]))
+			{
+				abort("Your clan does not have a Clan Speakeasy or mafia doesn't understand that you do. Change clans and try again");
+			}
+
 			if((item_amount($item[Time-Spinner]) > 0) && (get_property("_timeSpinnerMinutesUsed").to_int() == 0))
 			{
 				timeSpinnerGet("booze");

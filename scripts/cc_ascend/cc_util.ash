@@ -1986,11 +1986,10 @@ boolean providePlusCombat(int amt, boolean doEquips)
 			handleBjornify($familiar[Grim Brother]);
 		}
 		removeNonCombat();
-	}
-
-	if(have_familiar($familiar[Jumpsuited Hound Dog]))
-	{
-		handleFamiliar($familiar[Jumpsuited Hound Dog]);
+		if(have_familiar($familiar[Jumpsuited Hound Dog]))
+		{
+			handleFamiliar($familiar[Jumpsuited Hound Dog]);
+		}
 	}
 
 	return true;

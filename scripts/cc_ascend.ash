@@ -11573,6 +11573,14 @@ boolean LX_pirateBlueprint()
 		}
 	}
 
+	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	{
+		if(!have_skill($skill[Anger Glands]) && (item_amount($item[Limepatch]) == 0))
+		{
+			handleFamiliar($familiar[Robortender]);
+		}
+	}
+
 	print("Trying to blueprint handle", "blue");
 	LX_getDictionary();
 	if(LX_nastyBooty())
@@ -11698,6 +11706,14 @@ boolean LX_pirateInsults()
 		else if(have_familiar($familiar[Puck Man]))
 		{
 			handleFamiliar($familiar[Puck Man]);
+		}
+
+		if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+		{
+			if(!have_skill($skill[Anger Glands]) && (item_amount($item[Limepatch]) == 0))
+			{
+				handleFamiliar($familiar[Robortender]);
+			}
 		}
 		ccAdv(1, $location[barrrney\'s barrr]);
 		handleFamiliar("item");

@@ -820,7 +820,7 @@ void equipRollover()
 
 
 	toEquip = $item[none];
-	poss = List($items[Time Bandit Time Towel, Auxiliary Backbone, Octolus-Skin Cloak]);
+	poss = List($items[Time Bandit Time Towel, Auxiliary Backbone, First Post Shirt - Cir Senam, Octolus-Skin Cloak]);
 
 	toEquip = handleSolveThing(poss, $slot[back]);
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[back])))

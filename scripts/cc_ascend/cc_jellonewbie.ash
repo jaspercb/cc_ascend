@@ -58,7 +58,7 @@ boolean jello_buySkills()
 	*/
 
 	boolean[item] blacklist = $items[LOV Enamorang, Enchanted Bean];
-	boolean[item] whitelist = $items[Abstraction: Thought, Accidental Cider, All-Purpose Cleaner, All-Purpose Flower, Ancient Vinyl Coin Purse, Anti-Anti-Antidote, Baby Oil Shooter, Barrel Pickle, Bat Guano, Beach Glass Bead, Black No. 2, Black Pension Check, Bottle of Gregnadigne, Bottle of Novelty Hot Sauce, Bottle of Popskull, Bottle of Whiskey, Buckler Buckle, Catgut Taco, Cocktail Mushroom, Cog, Concentrated Magicalness Pill, Cranberries, Crossbow String, Decomposed Boot, Decorative Fountain, Demon Skin, Dire Fudgesicle, Dirty Bottlecap, Disintegrating Quill Pen, Doc Galaktik\'s Homeopathic Elixir, Doc Galaktik\'s Invigorating Tonic, Eldritch Effluvium, Falcon&trade; Maltese Liquor, Fermenting Powder, Fine Wine, Flaregun, Fricasseed Brains, Ghuol Egg, Gnollish Casserole Dish, Gnollish Pie Tin, Greek Fire, Hatorade, Herbs, Hermit Permit, Imp Ale, Interesting Clod of Dirt, Lemon, Limepatch, Meat Engine, Meat Paste, Meat Stack, Mushroom Pizza, Old Coin Purse, Orange, Patchouli Incense Stick, Petrified Noodles, Phat Turquoise Bead, pickle-flavored chewing gum, Pickled Egg, Pile of Gold Coins, Pink Pony, Pink Slime, Plain Pizza, Polysniff Perfume, Potted Cactus, Redrum, Ruby W, Seal Tooth, Shot of Granola Liqueur, Shot of Grapefruit Schnapps, Slap and Tickle, Snifter of Thoroughly Aged Brandy, Spring, Sprocket, Steampunk Potion, Stench Powder, Strawberry, Sturdy Sword Hilt, Super-Spiky Hair Gel, Tenderizing Hammer, Tires, Tom\'s of the Spanish Main Toothpaste, Unnamed Cocktail, Unstable Quark, Used Beer, Wad of Tofu, Weremoose Spit, Whiskey Sour, Wussiness Potion];
+	boolean[item] whitelist = $items[Abstraction: Thought, Accidental Cider, All-Purpose Cleaner, All-Purpose Flower, Ancient Vinyl Coin Purse, Anti-Anti-Antidote, Anticheese, Baby Oil Shooter, Barrel Pickle, Bat Guano, Bat Wing Kabob, Beach Glass Bead, Black No. 2, Black Pension Check, Bottle of Gregnadigne, Bottle of Novelty Hot Sauce, Bottle of Popskull, Bottle of Whiskey, Buckler Buckle, Carob Chunks, Catgut Taco, Cocktail Mushroom, Cog, Concentrated Magicalness Pill, Cranberries, Crossbow String, Decomposed Boot, Decorative Fountain, Demon Skin, Dire Fudgesicle, Dirty Bottlecap, Disintegrating Quill Pen, Doc Galaktik\'s Homeopathic Elixir, Doc Galaktik\'s Invigorating Tonic, Dusty Bottle of Zinfandel, Eldritch Effluvium, Falcon&trade; Maltese Liquor, Fermenting Powder, Fine Wine, Fish-Liver Oil, Flaregun, Fricasseed Brains, Ghuol-Ear Kabob, Ghuol Egg, Gnollish Casserole Dish, Gnollish Pie Tin, Greek Fire, Hatorade, Herbs, Hermit Permit, Imp Ale, Interesting Clod of Dirt, Lemon, Limepatch, Meat Engine, Meat Paste, Meat Stack, Mushroom Pizza, Old Coin Purse, Orange, Overpriced &quot;imported&quot; beer, Pants Kit, Patchouli Incense Stick, Petrified Noodles, Phat Turquoise Bead, pickle-flavored chewing gum, Pickled Egg, Pile of Gold Coins, Pink Pony, Pink Slime, Plain Pizza, Polysniff Perfume, Potted Cactus, Redrum, Ruby W, Seal Tooth, Shot of Granola Liqueur, Shot of Grapefruit Schnapps, Slap and Tickle, Snifter of Thoroughly Aged Brandy, Spring, Sprocket, Steampunk Potion, Stench Powder, Strawberry, Sturdy Sword Hilt, Super-Spiky Hair Gel, Tenderizing Hammer, Tires, Tom\'s of the Spanish Main Toothpaste, Unnamed Cocktail, Unstable Quark, Used Beer, Wad of Tofu, Weremoose Spit, Whiskey Sour, Wussiness Potion];
 
 	if(internalQuestStatus("questM21Dance") >= 1)
 	{
@@ -69,8 +69,9 @@ boolean jello_buySkills()
 	{
 		string[item] available = jello_lister();
 		int start = my_absorbs();
-		int earlyTerm = max(5, get_property("_noobSkillCount").to_int() + ((my_daycount() - 1) * min(my_level()+2, 15))) + get_property("noobPoints").to_int();
-		foreach sk in $skills[Large Intestine, Small Intestine, Stomach-Like Thing, Rudimentary Alimentary Canal, Central Hypothalamus, Arrogance, Sense of Pride, Sense of Purpose, Retractable Toes, Basic Self-Worth, Work Ethic, Visual Cortex, Saccade Reflex, Optic Nerves, Right Eyeball, Left Eyeball, Thumbs, Index Fingers, Middle Fingers, Ring Fingers, Pinky Fingers, Hot Headedness, Sunglasses, Sense of Sarcasm, Beating Human Heart, Oversized Right Kidney, Anterior Cruciate Ligaments, Achilles Tendons, Kneecaps, Ankle Joints, Hamstrings, Pathological Greed, Sense of Entitlement, Business Acumen, Financial Ambition, The Concept of Property, Bravery Gland, Subcutaneous Fat, Adrenal Gland, Nasal Septum, Hyperactive Amygdala, Nasal Lamina Propria, Right Eyelid, Pinchable Nose, Left Eyelid, Nose Hair, Overalls, Rigid Rib Cage, Rigid Headbone]
+		int earlyTerm = max(5, get_property("_noobSkillCount").to_int() + ((my_daycount() - 1) * min(my_level()+2, 15))) + get_property("noobPoints").to_int() + 2;
+
+		foreach sk in $skills[Large Intestine, Small Intestine, Stomach-Like Thing, Rudimentary Alimentary Canal, Central Hypothalamus, Arrogance, Sense of Pride, Sense of Purpose, Retractable Toes, Bendable Knees, Ink Gland, Anger Glands, Basic Self-Worth, Work Ethic, Visual Cortex, Saccade Reflex, Frown Muscles, Powerful Vocal Chords, Optic Nerves, Right Eyeball, Left Eyeball, Thumbs, Index Fingers, Middle Fingers, Ring Fingers, Pinky Fingers, Hot Headedness, Sunglasses, Sense of Sarcasm, Beating Human Heart, Oversized Right Kidney, Anterior Cruciate Ligaments, Achilles Tendons, Kneecaps, Ankle Joints, Hamstrings, Pathological Greed, Sense of Entitlement, Business Acumen, Financial Ambition, The Concept of Property, Bravery Gland, Subcutaneous Fat, Adrenal Gland, Nasal Septum, Hyperactive Amygdala, Nasal Lamina Propria, Right Eyelid, Pinchable Nose, Left Eyelid, Nose Hair, Overalls, Rigid Rib Cage, Rigid Headbone]
 		{
 			earlyTerm --;
 			if(earlyTerm <= 0)
@@ -158,6 +159,10 @@ string[item] jello_lister(string goal)
 		if(canGet && (it.noob_skill != $skill[none]) && !have_skill(it.noob_skill))
 		{
 			string result = string_modifier(it.noob_skill, "Modifiers");
+			if($skills[Anger Glands, Bendable Knees, Frown Muscles, Ink Gland, Powerful Vocal Chords, Retractable Toes] contains it.noob_skill)
+			{
+				result = "Combat Rate";
+			}
 			if(contains_text(result, goal))
 			{
 //				string color = "green";
