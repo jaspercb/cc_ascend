@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17816;
+since r17907;
 
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
@@ -85,7 +85,6 @@ void initializeSettings()
 	}
 
 	set_property("chasmBridgeProgress", 0);
-	set_property("nosyNoseMonster", 0);
 	string pool = visit_url("questlog.php?which=3");
 	matcher my_pool = create_matcher("a skill level of (\\d+) at shooting pool", pool);
 	if(my_pool.find() && (my_turncount() == 0))
