@@ -1212,6 +1212,11 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill " + $skill[Intimidating Bellow];
 	}
 
+	if(enemy == $monster[Eldritch Tentacle])
+	{
+		mcd = 151;
+	}
+
 	#Default behaviors:
 	if(mcd <= 150)
 	{
@@ -1954,7 +1959,7 @@ string findBanisher(int round, string opp, string text)
 		}
 	}
 
-	foreach act in $skills[Banishing Shout, Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Snokebomb, Beancannon]
+	foreach act in $skills[Banishing Shout, Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Breathe Out, Snokebomb, Beancannon]
 	{
 		if((!contains_text(get_property("cc_gremlinBanishes"), act)) && have_skill(act) && (my_mp() >= mp_cost(act)) && (my_thunder() >= thunder_cost(act)) && have_skill(act))
 		{
@@ -1963,7 +1968,7 @@ string findBanisher(int round, string opp, string text)
 				handleTracker(enemy, act, "cc_banishes");
 				return "skill " + act;
 			}
-			if((act == $skill[Batter Up!]) && (my_fury() < 5) && (item_type(equipped_item($slot[weapon])) == "club"))
+			if((act == $skill[Batter Up!]) && ((my_fury() < 5) || (item_type(equipped_item($slot[weapon])) != "club")))
 			{
 				continue;
 			}

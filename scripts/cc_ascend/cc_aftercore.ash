@@ -852,7 +852,7 @@ boolean cc_cheesePostCS(int leave)
 	}
 
 
-	while((get_property("_sourceTerminalExtrudes").to_int() < 3) && contains_text(get_property("sourceTerminalExtrudeKnown"),"booze.ext"))
+	while((get_property("_sourceTerminalExtrudes").to_int() < 3) && contains_text(get_property("sourceTerminalExtrudeKnown"),"booze.ext") && (item_amount($item[Source Essence]) >= 10))
 	{
 		cc_sourceTerminalExtrude($item[Hacked Gibson]);
 	}

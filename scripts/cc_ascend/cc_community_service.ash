@@ -800,7 +800,15 @@ boolean LA_cs_communityService()
 				}
 				else if(elementalPlanes_access($element[cold]))
 				{
-					backupSetting("choiceAdventure1115", 4);
+					if(!get_property("_VYKEALoungeRaided").to_boolean())
+					{
+						backupSetting("choiceAdventure1115", 4);
+					}
+					else
+					{
+						backupSetting("choiceAdventure1115", 6);
+					}
+				
 					ccAdv(1, $location[VYKEA], "cs_combatNormal");
 				}
 				else if(elementalPlanes_access($element[hot]))
@@ -1156,6 +1164,11 @@ boolean LA_cs_communityService()
 			if(!get_property("_streamsCrossed").to_boolean() && possessEquipment($item[Protonic Accelerator Pack]))
 			{
 				cli_execute("crossstreams");
+			}
+
+			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean())
+			{
+				cli_execute("spacegate vaccine 2");
 			}
 
 			if(is_unrestricted($item[Colorful Plastic Ball]))
@@ -1804,8 +1817,11 @@ boolean LA_cs_communityService()
 			}
 			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 2))
 			{
+				backupSetting("choiceAdventure1119", 1);
 				handleFamiliar($familiar[Machine Elf]);
 				ccAdv(1, $location[The Deep Machine Tunnels]);
+				restoreSetting("choiceAdventure1119");
+				set_property("choiceAdventure1119", "");
 				return true;
 			}
 
@@ -1922,6 +1938,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Snow Shoes], 0, 1, 1);
 			buffMaintain($effect[Obscuri Tea], 0, 1, 1);
 			buffMaintain($effect[Gummed Shoes], 0, 1, 1);
+			buffMaintain($effect[Become Superficially Interested], 0, 1, 1);
 			if(is_unrestricted($item[Olympic-sized Clan Crate]) && !get_property("_olympicSwimmingPool").to_boolean())
 			{
 				cli_execute("swim noncombat");
@@ -2205,6 +2222,11 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Frost Tea], 0, 1, 1);
 
 			cs_eat_stuff(curQuest);
+
+			if(get_property("spacegateVaccine1").to_boolean() && !get_property("_spacegateVaccine").to_boolean())
+			{
+				cli_execute("spacegate vaccine 1");
+			}
 
 			if(have_effect($effect[Synthesis: Hot]) == 0)
 			{
@@ -3393,7 +3415,11 @@ boolean cs_giant_growth()
 
 	if(my_familiar() == $familiar[Machine Elf])
 	{
+		backupSetting("choiceAdventure1119", 1);
+		handleFamiliar($familiar[Machine Elf]);
 		ccAdv(1, $location[The Deep Machine Tunnels], "cs_combatLTB");
+		restoreSetting("choiceAdventure1119");
+		set_property("choiceAdventure1119", "");
 	}
 	else
 	{

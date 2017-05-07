@@ -1,7 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r17907;
-
+since r17933;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -15,9 +14,9 @@ since r17907;
 
 
 import <cc_ascend/cc_ascend_header.ash>
+import <cc_ascend/cc_util.ash>
 import <cc_ascend/cc_deprecation.ash>
 import <cc_ascend/cc_combat.ash>
-import <cc_ascend/cc_util.ash>
 import <cc_ascend/cc_floristfriar.ash>
 import <cc_ascend/cc_equipment.ash>
 import <cc_ascend/cc_eudora.ash>
@@ -8340,9 +8339,9 @@ boolean LX_steelOrgan()
 	{
 		return false;
 	}
-	if(my_class() == $class[Ed])
+	if($classes[Ed, Gelatinous Noob] contains my_class())
 	{
-		print("Ed can not get a Steel Organ, turning off setting.", "blue");
+		print(my_class() + " can not use a Steel Organ, turning off setting.", "blue");
 		set_property("cc_getSteelOrgan", false);
 		return false;
 	}

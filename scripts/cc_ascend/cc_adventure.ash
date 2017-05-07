@@ -147,6 +147,7 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 		}
 		else
 		{
+			string temp = run_combat();
 			cli_execute("postcheese");
 			return true;
 		}

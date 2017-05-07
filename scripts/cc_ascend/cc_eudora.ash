@@ -27,6 +27,10 @@ boolean[item] eudora_initializeSettings()
 		{
 			retval[$item[My Own Pen Pal Kit]] = true;
 		}
+		if((contains_text(eudora, "New-You Club")) && is_unrestricted($item[New-You Club Membership Form]))
+		{
+			retval[$item[New-You Club Membership Form]] = true;
+		}
 	}
 	return retval;
 }
@@ -47,6 +51,10 @@ item eudora_current()
 		if((contains_text(eudora, "selected\' value=\"1")) && is_unrestricted($item[My Own Pen Pal Kit]))
 		{
 			return $item[My Own Pen Pal Kit];
+		}
+		if((contains_text(eudora, "selected\' value=\"4")) && is_unrestricted($item[New-You Club Membership Form]))
+		{
+			return $item[New-You Club Membership Form];
 		}
 	}
 	return $item[none];

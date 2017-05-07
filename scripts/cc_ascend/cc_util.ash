@@ -98,7 +98,7 @@ boolean buyUpTo(int num, item it);
 boolean buyUpTo(int num, item it, int maxprice);
 boolean buffMaintain(effect buff, int mp_min, int casts, int turns);
 effect effectNeededFirstGate(string data);
-boolean cc_deleteMail(kmailObject msg);
+#boolean cc_deleteMail(kmailObject msg);
 boolean buyableMaintain(item toMaintain, int howMany);
 boolean buyableMaintain(item toMaintain, int howMany, int meatMin);
 boolean buyableMaintain(item toMaintain, int howMany, int meatMin, boolean condition);
@@ -794,6 +794,14 @@ boolean loopHandlerDelay(string counterSetting, int threshold)
 
 boolean is100FamiliarRun()
 {
+	if(get_property("cc_100familiar") == $familiar[Egg Benedict])
+	{
+		if(have_familiar($familiar[Mosquito]))
+		{
+			return false;
+		}
+	}
+
 	if(get_property("cc_100familiar") == $familiar[none])
 	{
 		return false;
@@ -2116,12 +2124,10 @@ boolean evokeEldritchHorror()
 
 boolean fightScienceTentacle(string option)
 {
-	if(get_property("_cc_scienceTentacleFought").to_boolean())
+	if(get_property("_eldritchTentacleFought").to_boolean())
 	{
 		return false;
 	}
-
-	set_property("_cc_scienceTentacleFought", true);
 
 	string temp = visit_url("place.php?whichplace=forestvillage&action=fv_scientist");
 	if(!(contains_text(temp,"Can I fight that tentacle")))
@@ -2138,7 +2144,6 @@ boolean fightScienceTentacle(string option)
 	pages[1] = "choice.php?whichchoice=1201&pwd=&option=1";
 	return ccAdvBypass(0, pages, $location[Noob Cave], option);
 }
-
 
 boolean fightScienceTentacle()
 {
@@ -3238,6 +3243,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Balls of Ectoplasm]:			useItem = $item[Ectoplasmic Orbs];				break;
 	case $effect[Baited Hook]:					useItem = $item[Wriggling Worm];				break;
 	case $effect[Barbecue Saucy]:				useItem = $item[Dollop of Barbecue Sauce];		break;
+	case $effect[Become Superficially Interested]:	useItem = $item[Daily Affirmation: Be Superficially Interested];	break;
 	case $effect[Bendin\' Hell]:					useSkill = $skill[Bend Hell];					break;
 	case $effect[Bent Knees]:					useSkill = $skill[Bendable Knees];					break;
 	case $effect[Big Meat Big Prizes]:			useItem = $item[Meat-Inflating Powder];			break;

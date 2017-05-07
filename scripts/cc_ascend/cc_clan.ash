@@ -403,6 +403,10 @@ boolean drinkSpeakeasyDrink(string drink)
 
 boolean cc_floundryAction()
 {
+	if(get_property("_floundryItemCreated").to_boolean())
+	{
+		return false;
+	}
 	if(!get_property("_floundryItemGot").to_boolean() && (get_clan_lounge() contains $item[Clan Floundry]) && !get_property("kingLiberated").to_boolean())
 	{
 		if(get_property("cc_floundryChoice") != "")
@@ -431,6 +435,10 @@ boolean cc_floundryAction()
 
 boolean cc_floundryAction(item it)
 {
+	if(get_property("_floundryItemCreated").to_boolean())
+	{
+		return false;
+	}
 	int[item] fish = get_clan_lounge();
 	if(fish[it] > 0)
 	{

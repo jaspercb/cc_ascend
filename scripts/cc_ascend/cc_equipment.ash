@@ -410,7 +410,7 @@ void equipBaselinePants()
 {
 	item toEquip = $item[none];
 
-	item[int] poss = List($items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Stylish Swimsuit, Union Scalemail Pants, Hep Waders, Bloody Clown Pants, Knob Goblin Uberpants, Filthy Corduroys, Antique Greaves, Ninja Hot Pants, Demonskin Trousers, Leotarrrd, Swashbuckling Pants, Troutpiece, Snowboarder Pants, Oil Slacks, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving]);
+	item[int] poss = List($items[Old Sweatpants, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Stylish Swimsuit, Union Scalemail Pants, Hep Waders, Bloody Clown Pants, Knob Goblin Uberpants, Filthy Corduroys, Antique Greaves, Ninja Hot Pants, Demonskin Trousers, Leotarrrd, Swashbuckling Pants, Burnt Snowpants, Troutpiece, Snowboarder Pants, Oil Slacks, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving]);
 
 	if(my_primestat() == $stat[Muscle])
 	{
