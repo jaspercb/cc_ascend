@@ -3261,6 +3261,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Balls of Ectoplasm]:			useItem = $item[Ectoplasmic Orbs];				break;
 	case $effect[Baited Hook]:					useItem = $item[Wriggling Worm];				break;
 	case $effect[Barbecue Saucy]:				useItem = $item[Dollop of Barbecue Sauce];		break;
+	case $effect[Be A Mind Master]:				useItem = $item[Daily Affirmation: Be A Mind Master];	break;
 	case $effect[Become Superficially Interested]:	useItem = $item[Daily Affirmation: Be Superficially Interested];	break;
 	case $effect[Bendin\' Hell]:					useSkill = $skill[Bend Hell];					break;
 	case $effect[Bent Knees]:					useSkill = $skill[Bendable Knees];					break;

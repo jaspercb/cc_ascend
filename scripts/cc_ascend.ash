@@ -1831,17 +1831,9 @@ void initializeDay(int day)
 	}
 	if(!get_property("kingLiberated").to_boolean())
 	{
-		if(cc_get_campground() contains $item[Packet of Thanksgarden Seeds])
+		if((cc_get_campground() contains $item[Packet of Thanksgarden Seeds]) && (internalQuestStatus("questL12War") >= 1))
 		{
-			int modulo = 2;
-			if(my_class() == $class[Gelatinous Noob])
-			{
-				modulo = 3;
-			}
-			if((my_daycount() % modulo) == 0)
-			{
-				cli_execute("garden pick");
-			}
+			cli_execute("garden pick");
 		}
 		else
 		{

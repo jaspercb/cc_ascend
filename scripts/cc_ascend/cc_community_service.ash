@@ -991,6 +991,11 @@ boolean LA_cs_communityService()
 				cli_execute("hatter 11");
 			}
 
+			if(get_property("spacegateVaccine1").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0))
+			{
+				cli_execute("spacegate vaccine 2");
+			}
+
 			if(item_amount($item[Experimental Serum G-9]) > 2)
 			{
 				buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
@@ -1177,7 +1182,7 @@ boolean LA_cs_communityService()
 				cli_execute("crossstreams");
 			}
 
-			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean())
+			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0))
 			{
 				cli_execute("spacegate vaccine 2");
 			}
@@ -1886,6 +1891,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Arched Eyebrow of the Archmage], 10, 1, 1);
 			buffMaintain($effect[Jackasses\' Symphony of Destruction], 8, 1, 1);
 			buffMaintain($effect[Puzzle Fury], 0, 1, 1);
+			buffMaintain($effect[Be A Mind Master], 0, 1, 1);
 			if(is_unrestricted($item[Clan Pool Table]) && (have_effect($effect[Mental A-cue-ity]) == 0))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=2");
@@ -2234,7 +2240,7 @@ boolean LA_cs_communityService()
 
 			cs_eat_stuff(curQuest);
 
-			if(get_property("spacegateVaccine1").to_boolean() && !get_property("_spacegateVaccine").to_boolean())
+			if(get_property("spacegateVaccine1").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Rainbow Vaccine]) == 0))
 			{
 				cli_execute("spacegate vaccine 1");
 			}
