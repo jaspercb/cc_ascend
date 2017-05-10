@@ -2977,6 +2977,7 @@ string cs_combatNormal(int round, string opp, string text)
 
 	}
 
+
 	if((!contains_text(combatState, "cleesh")) && (my_mp() > mp_cost($skill[Cleesh])) && ((enemy == $monster[creepy little girl]) || (enemy == $monster[lab monkey]) || (enemy == $monster[super-sized cola wars soldier])) && (item_amount($item[Experimental Serum G-9]) < 2))
 	{
 		set_property("cc_combatHandler", combatState + "(cleesh)");

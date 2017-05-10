@@ -1135,6 +1135,10 @@ boolean canYellowRay()
 			return true;
 		}
 	}
+	if(have_skill($skill[Disintegrate]) && (my_mp() >= mp_cost($skill[Disintegrate])))
+	{
+		return true;
+	}
 	# Pulled Yellow Taffy	- How do we handle the underwater check?
 	# He-Boulder?			- How do we do this?
 	return false;
@@ -1190,6 +1194,10 @@ string yellowRayCombatString()
 	if(item_amount($item[Viral Video]) > 0)
 	{
 		return "item " + $item[Viral Video];
+	}
+	if(have_skill($skill[Disintegrate]) && (my_mp() >= mp_cost($skill[Disintegrate])))
+	{
+		return "skill " + $skill[Disintegrate];
 	}
 	return "";
 }
@@ -3014,9 +3022,19 @@ boolean haveSpleenFamiliar()
 {
 	boolean [familiar] spleenies = $familiars[Baby Sandworm, Rogue Program, Pair of Stomping Boots, Bloovian Groose, Unconscious Collective, Grim Brother, Golden Monkey];
 
+	int[familiar] blacklist;
+	if(get_property("cc_blacklistFamiliar") != "")
+	{
+		string[int] noFams = split_string(get_property("cc_blacklistFamiliar"), ";");
+		foreach index, fam in noFams
+		{
+			blacklist[to_familiar(trim(fam))] = 1;
+		}
+	}
+
 	foreach fam in spleenies
 	{
-		if(have_familiar(fam))
+		if(have_familiar(fam) && !(blacklist contains fam))
 		{
 			return true;
 		}
