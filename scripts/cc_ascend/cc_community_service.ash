@@ -104,12 +104,23 @@ boolean LA_cs_communityService()
 		}
 	}
 
+
+	int[familiar] blacklist;
+	if(get_property("cc_blacklistFamiliar") != "")
+	{
+		string[int] noFams = split_string(get_property("cc_blacklistFamiliar"), ";");
+		foreach index, fam in noFams
+		{
+			blacklist[to_familiar(trim(fam))] = 1;
+		}
+	}
+
 	handleFamiliar("item");
 	#familiar toFam = $familiar[Cocoabo];
 	familiar toFam = get_property("cc_familiarChoice").to_familiar();
 	foreach fam in useFam
 	{
-		if(have_familiar(fam))
+		if(have_familiar(fam) && !(blacklist contains fam))
 		{
 			toFam = fam;
 		}
