@@ -1611,8 +1611,8 @@ void initializeDay(int day)
 		}
 	}
 
-	if((my_daycount() != 1) && (possessEquipment($item[Plastic Detective Badge]) || possessEquipment($item[Bronze Detective Badge])))
-#	if((my_daycount() != 1) && (possessEquipment($item[Plastic Detective Badge]) || possessEquipment($item[Bronze Detective Badge]) || possessEquipment($item[Silver Detective Badge]) || possessEquipment($item[Gold Detective Badge])))
+//	if((my_daycount() != 1) && (possessEquipment($item[Plastic Detective Badge]) || possessEquipment($item[Bronze Detective Badge])))
+	if((my_daycount() != 1) && (possessEquipment($item[Plastic Detective Badge]) || possessEquipment($item[Bronze Detective Badge]) || possessEquipment($item[Silver Detective Badge]) || possessEquipment($item[Gold Detective Badge])))
 	{
 		visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
 	}
@@ -1626,8 +1626,7 @@ void initializeDay(int day)
 	if(day == 1)
 	{
 
-		if(!possessEquipment($item[Plastic Detective Badge]) && !possessEquipment($item[Bronze Detective Badge]))
-#		if(!possessEquipment($item[Plastic Detective Badge]) && !possessEquipment($item[Bronze Detective Badge]) && !possessEquipment($item[Silver Detective Badge]) && !possessEquipment($item[Gold Detective Badge]))
+		if(!possessEquipment($item[Plastic Detective Badge]) && !possessEquipment($item[Bronze Detective Badge]) && !possessEquipment($item[Silver Detective Badge]) && !possessEquipment($item[Gold Detective Badge]))
 		{
 			visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
 		}

@@ -655,7 +655,7 @@ boolean LA_cs_communityService()
 				}
 			}
 
-			if((item_amount($item[Black Pixel]) < 2) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
+			if((item_amount($item[Black Pixel]) < 2) && (item_amount($item[Pixel Star]) == 0) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
 				equip($slot[acc1], $item[Continuum Transfunctioner]);
 
@@ -1007,11 +1007,11 @@ boolean LA_cs_communityService()
 				visit_url("choice.php?whichchoice=1183&pwd=&option=2");
 			}
 
-			if(my_ascensions() > 200)
-			{
-				fightScienceTentacle();
-				evokeEldritchHorror();
-			}
+//			if(my_ascensions() > 200)
+//			{
+//				fightScienceTentacle();
+//				evokeEldritchHorror();
+//			}
 
 			if(!get_property("cc_saveMargarita").to_boolean() && (inebriety_left() == 0))
 			{
