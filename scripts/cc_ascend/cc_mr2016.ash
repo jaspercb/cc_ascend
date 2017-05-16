@@ -926,6 +926,19 @@ boolean expectGhostReport()
 {
 	if(total_turns_played() >= get_property("nextParanormalActivity").to_int())
 	{
+		if(total_turns_played() > get_property("nextParanormalActivity").to_int())
+		{
+			string page = visit_url("charpane.php");
+			matcher myGhost = create_matcher("<tr rel=\"protonquest\">(?:.*?)<b>(.*?)</b>", page);
+			if(myGhost.find())
+			{
+				location goal = to_location(myGhost.group(1));
+				set_property("ghostLocation", goal);
+				set_property("questPAGhost", "started");
+			}
+		}
+#<tr rel="protonquest"><td class="small" colspan="2"><div>Investigate the paranormal activity reported at <A class=nounder target=mainpane href=place.php?whichplace=manor1><b>The Haunted Conservatory</b></a>.</div></td></tr>
+
 		if(get_property("questPAGhost") == "unstarted")
 		{
 			return true;
@@ -956,7 +969,14 @@ boolean LX_ghostBusting()
 	}
 	if(get_property("questPAGhost") == "unstarted")
 	{
-		return false;
+		if(!expectGhostReport())
+		{
+			return false;
+		}
+		if(get_property("questPAGhost") == "unstarted")
+		{
+			return false;
+		}
 	}
 
 	location goal = get_property("ghostLocation").to_location();
