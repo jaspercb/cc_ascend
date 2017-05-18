@@ -1277,7 +1277,7 @@ boolean rethinkingCandyList()
 	boolean[effect] synthesis = $effects[Synthesis: Hot, Synthesis: Cold, Synthesis: Pungent, Synthesis: Scary, Synthesis: Greasy, Synthesis: Strong, Synthesis: Smart, Synthesis: Cool, Synthesis: Hardy, Synthesis: Energy, Synthesis: Greed, Synthesis: Collection, Synthesis: Movement, Synthesis: Learning, Synthesis: Style];
 	foreach eff in synthesis
 	{
-		print("Trying effect: " + eff, "orange");
+		print("Trying effect: " + eff + ": " + string_modifier(eff, "Modifiers") , "orange");
 		rethinkingCandy(eff, true);
 	}
 	return true;

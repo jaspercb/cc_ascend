@@ -1834,10 +1834,6 @@ void initializeDay(int day)
 		{
 			cli_execute("garden pick");
 		}
-		else
-		{
-			cli_execute("garden pick");
-		}
 	}
 	string campground = visit_url("campground.php");
 	if(contains_text(campground, "beergarden7.gif"))
