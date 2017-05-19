@@ -12799,7 +12799,7 @@ boolean doTasks()
 	if(my_location().turns_spent > 50)
 	{
 		boolean tooManyAdventures = false;
-		if(($locations[The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), The Deep Dark Jungle, Hippy Camp, Noob Cave, Pirates of the Garbage Barges, The Secret Government Laboratory, Sloppy Seconds Diner, The SMOOCH Army HQ, Uncle Gator\'s Country Fun-Time Liquid Waste Sluice, VYKEA, The X-32-F Combat Training Snowman] contains my_location()) == false)
+		if(($locations[The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), The Deep Dark Jungle, Hippy Camp, Noob Cave, Pirates of the Garbage Barges, The Secret Government Laboratory, Sloppy Seconds Diner, The SMOOCH Army HQ, Super Villain\'s Lair, Uncle Gator\'s Country Fun-Time Liquid Waste Sluice, VYKEA, The X-32-F Combat Training Snowman] contains my_location()) == false)
 		{
 			tooManyAdventures = true;
 		}
@@ -13466,7 +13466,7 @@ void cc_begin()
 	}
 
 	string charpane = visit_url("charpane.php");
-	if(contains_text(charpane, "<hr width=50%>"))
+	if(contains_text(charpane, "<hr width=50%><table"))
 	{
 		print("Switching off Compact Character Mode, will resume during bedtime");
 		set_property("cc_priorCharpaneMode", 1);
