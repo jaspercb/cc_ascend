@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18016;
+since r18035;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -12799,7 +12799,7 @@ boolean doTasks()
 	if(my_location().turns_spent > 50)
 	{
 		boolean tooManyAdventures = false;
-		if(($locations[The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), The Deep Dark Jungle, Hippy Camp, Noob Cave, Pirates of the Garbage Barges, The Secret Government Laboratory, Sloppy Seconds Diner, The SMOOCH Army HQ, Super Villain\'s Lair, Uncle Gator\'s Country Fun-Time Liquid Waste Sluice, VYKEA, The X-32-F Combat Training Snowman] contains my_location()) == false)
+		if(($locations[The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), The Deep Dark Jungle, Hippy Camp, Noob Cave, Pirates of the Garbage Barges, The Secret Government Laboratory, Sloppy Seconds Diner, The SMOOCH Army HQ, Uncle Gator\'s Country Fun-Time Liquid Waste Sluice, VYKEA, The X-32-F Combat Training Snowman] contains my_location()) == false)
 		{
 			tooManyAdventures = true;
 		}
