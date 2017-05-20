@@ -173,10 +173,16 @@ void handlePreAdventure(location place)
 	if(!get_property("kingLiberated").to_boolean())
 	{
 		#+C Maintenance
-		if($locations[The Black Forest, The F\'c\'le, Sonofa Beach] contains place)
+		if(($locations[The Black Forest] contains place) && (internalQuestStatus("questL13Final") < 5))
 		{
 			providePlusCombat(5, false);
 		}
+
+		if($locations[The F\'c\'le, Sonofa Beach] contains place)
+		{
+			providePlusCombat(5, false);
+		}
+
 		if($locations[The F\'c\'le, Sonofa Beach] contains place)
 		{
 			providePlusCombat(25, false);

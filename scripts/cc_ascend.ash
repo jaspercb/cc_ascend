@@ -892,6 +892,11 @@ boolean doThemtharHills(boolean trickMode)
 		return false;
 	}
 
+	if((get_property("hippiesDefeated").to_int() >= 1000) || (get_property("fratboysDefeated").to_int() >= 1000))
+	{
+		return false;
+	}
+
 	if(get_property("cc_hippyInstead").to_boolean() || (get_property("hippiesDefeated").to_int() >= 192))
 	{
 		print("Themthar Nuns!", "blue");
@@ -1611,11 +1616,7 @@ void initializeDay(int day)
 		}
 	}
 
-//	if((my_daycount() != 1) && (possessEquipment($item[Plastic Detective Badge]) || possessEquipment($item[Bronze Detective Badge])))
-	if((my_daycount() != 1) && (possessEquipment($item[Plastic Detective Badge]) || possessEquipment($item[Bronze Detective Badge]) || possessEquipment($item[Silver Detective Badge]) || possessEquipment($item[Gold Detective Badge])))
-	{
-		visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
-	}
+	cc_doPrecinct();
 
 	ed_initializeDay(day);
 	boris_initializeDay(day);
@@ -1625,13 +1626,6 @@ void initializeDay(int day)
 
 	if(day == 1)
 	{
-
-		if(!possessEquipment($item[Plastic Detective Badge]) && !possessEquipment($item[Bronze Detective Badge]) && !possessEquipment($item[Silver Detective Badge]) && !possessEquipment($item[Gold Detective Badge]))
-		{
-			visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
-		}
-
-
 		if(get_property("cc_day1_init") != "finished")
 		{
 			set_property("_beancannonUsed", 0);
@@ -3830,17 +3824,20 @@ boolean L13_towerNSTower()
 	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_05_monster1"))
 	{
 		cc_change_mcd(0);
-		if(item_amount($item[bottle of monsieur bubble]) > 0)
+		if(my_mp() < 120)
 		{
-			use(1, $item[bottle of monsieur bubble]);
-		}
-		else if(item_amount($item[carbonated soy milk]) > 0)
-		{
-			use(1, $item[carbonated soy milk]);
-		}
-		else if(item_amount($item[tiny house]) > 1)
-		{
-			use(2, $item[tiny house]);
+			if(item_amount($item[bottle of monsieur bubble]) > 0)
+			{
+				use(1, $item[bottle of monsieur bubble]);
+			}
+			else if(item_amount($item[carbonated soy milk]) > 0)
+			{
+				use(1, $item[carbonated soy milk]);
+			}
+			else if(item_amount($item[tiny house]) > 1)
+			{
+				use(2, $item[tiny house]);
+			}
 		}
 
 		int sources = 0;
@@ -3980,6 +3977,7 @@ boolean L13_towerNSTower()
 		{
 			sourceNeed -= 2;
 		}
+		print("I think I have " + sources + " sources of damage, let's do this!", "blue");
 		if((item_amount($item[beehive]) > 0) || (sources > sourceNeed))
 		{
 			if(item_amount($item[beehive]) == 0)
@@ -3987,7 +3985,7 @@ boolean L13_towerNSTower()
 				useCocoon();
 			}
 			ccAdvBypass("place.php?whichplace=nstower&action=ns_05_monster1", $location[Noob Cave]);
-			if(have_effect($effect[Beaten Up]) > 0)
+			if(internalQuestStatus("questL13Final") < 7)
 			{
 				set_property("cc_getBeehive", true);
 				print("I probably failed the Wall of Skin, I assume that I tried without a beehive. Well, I'm going back to get it.", "red");
@@ -4117,7 +4115,7 @@ boolean L13_towerNSTower()
 
 			useCocoon();
 			ccAdvBypass("place.php?whichplace=nstower&action=ns_07_monster3", $location[Noob Cave]);
-			if(have_effect($effect[Beaten Up]) > 0)
+			if(internalQuestStatus("questL13Final") < 9)
 			{
 				print("Could not towerkill Wall of Bones, reverting to Boning Knife", "red");
 				doHottub();
@@ -5719,7 +5717,7 @@ boolean L11_mauriceSpookyraven()
 		set_property("choiceAdventure891", "1");
 	}
 
-	if((get_property("cc_winebomb") == "finished") || get_property("cc_masonryWall").to_boolean())
+	if((get_property("cc_winebomb") == "finished") || get_property("cc_masonryWall").to_boolean() || (internalQuestStatus("questL11Manor") >= 3))
 	{
 		print("Down with the tyrant of Spookyraven!", "blue");
 		if(my_mp() >= 20)
@@ -5740,7 +5738,7 @@ boolean L11_mauriceSpookyraven()
 			ccAdv($location[Summoning Chamber]);
 		}
 
-		if(have_effect($effect[Beaten Up]) == 0)
+		if(internalQuestStatus("questL11Manor") >= 4)
 		{
 			set_property("cc_ballroom", "finished");
 		}
@@ -5977,7 +5975,7 @@ boolean L13_sorceressDoor()
 	{
 		if(item_amount($item[Boris\'s Key]) == 0)
 		{
-			cli_execute("make Boris's Key");
+			boolean temp = cli_execute("make Boris's Key");
 		}
 		if(item_amount($item[Boris\'s Key]) == 0)
 		{
@@ -5989,7 +5987,7 @@ boolean L13_sorceressDoor()
 	{
 		if(item_amount($item[Jarlsberg\'s Key]) == 0)
 		{
-			cli_execute("make Jarlsberg's Key");
+			boolean temp = cli_execute("make Jarlsberg's Key");
 		}
 		if(item_amount($item[Jarlsberg\'s Key]) == 0)
 		{
@@ -6001,7 +5999,7 @@ boolean L13_sorceressDoor()
 	{
 		if(item_amount($item[Sneaky Pete\'s Key]) == 0)
 		{
-			cli_execute("make Sneaky Pete's Key");
+			boolean temp = cli_execute("make Sneaky Pete's Key");
 		}
 		if(item_amount($item[Sneaky Pete\'s Key]) == 0)
 		{
@@ -6014,7 +6012,7 @@ boolean L13_sorceressDoor()
 	{
 		if(item_amount($item[Richard\'s Star Key]) == 0)
 		{
-			cli_execute("make richard's star key");
+			boolean temp = cli_execute("make richard's star key");
 		}
 		if(item_amount($item[Richard\'s Star Key]) == 0)
 		{
@@ -6027,7 +6025,7 @@ boolean L13_sorceressDoor()
 	{
 		if(item_amount($item[Digital Key]) == 0)
 		{
-			cli_execute("make digital key");
+			boolean temp = cli_execute("make digital key");
 		}
 		if(item_amount($item[Digital Key]) == 0)
 		{
@@ -7028,7 +7026,7 @@ boolean L12_finalizeWar()
 		print("Boss already defeated, ignoring", "red");
 	}
 
-	if(have_effect($effect[Beaten Up]) > 0)
+	if(get_property("questL12War") != "finished")
 	{
 		abort("Failing to complete the war.");
 	}
@@ -7047,7 +7045,7 @@ boolean LX_getDigitalKey()
 	{
 		return false;
 	}
-	while((item_amount($item[Red Pixel]) > 0) && (item_amount($item[Blue Pixel]) > 0) && (item_amount($item[Green Pixel]) > 0) && (item_amount($item[White Pixel]) < 30))
+	while((item_amount($item[Red Pixel]) > 0) && (item_amount($item[Blue Pixel]) > 0) && (item_amount($item[Green Pixel]) > 0) && (item_amount($item[White Pixel]) < 30) && (item_amount($item[Digital Key]) == 0))
 	{
 		cli_execute("make white pixel");
 	}
@@ -8890,16 +8888,8 @@ boolean L5_goblinKing()
 	}
 
 	ccAdv(1, $location[Throne Room]);
-	if(have_effect($effect[Beaten Up]) > 0)
-	{
-		return true;
-	}
-	if((item_amount($item[Crown of the Goblin King]) > 0) || (item_amount($item[Glass Balls of the Goblin King]) > 0) || (item_amount($item[Codpiece of the Goblin King]) > 0))
-	{
-		set_property("cc_goblinking", "finished");
-		council();
-	}
-	if(item_amount($item[Goblin Water]) > 0)
+
+	if((item_amount($item[Crown of the Goblin King]) > 0) || (item_amount($item[Glass Balls of the Goblin King]) > 0) || (item_amount($item[Codpiece of the Goblin King]) > 0) || (get_property("questL05Goblin") == "finished"))
 	{
 		set_property("cc_goblinking", "finished");
 		council();
@@ -13300,7 +13290,10 @@ boolean doTasks()
 
 	if((get_property("cc_orchard") == "finished") && (get_property("sidequestOrchardCompleted") == "none"))
 	{
-		abort("The script thinks we completed the orchard but mafia doesn't, return the heart?");
+		if((get_property("hippiesDefeated").to_int() < 1000) && (get_property("fratboysDefeated").to_int() < 1000))
+		{
+			abort("The script thinks we completed the orchard but mafia doesn't, return the heart?");
+		}
 	}
 
 	if(L12_orchardStart() || L12_filthworms() || L12_orchardFinalize())

@@ -576,6 +576,10 @@ item cc_bestBadge()
 
 boolean cc_doPrecinct()
 {
+	if(!is_unrestricted($item[Detective School Application]))
+	{
+		return false;
+	}
 	if(!get_property("hasDetectiveSchool").to_boolean())
 	{
 		return false;
