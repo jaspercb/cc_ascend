@@ -65,7 +65,17 @@ boolean cc_barrelPrayers()
 
 	boolean[string] prayers;
 
-	if(my_path() == "Nuclear Autumn")
+	if(my_path() == "License to Adventure")
+	{
+		switch(my_daycount())
+		{
+		case 1:				prayers = $strings[Glamour, Protection, Vigor];		break;
+		case 2:				prayers = $strings[Protection, Glamour, Vigor];		break;
+		case 3:				prayers = $strings[Protection, Glamour, Vigor];		break;
+		case 4:				prayers = $strings[Protection, Glamour, Vigor];		break;
+		}
+	}
+	else if(my_path() == "Nuclear Autumn")
 	{
 		switch(my_daycount())
 		{
@@ -257,6 +267,13 @@ boolean cc_mayoItems()
 		}
 	}
 	else if((my_path() == "Gelatinous Noob"))
+	{
+		switch(my_daycount())
+		{
+		default:			mayos = $items[none];								break;
+		}
+	}
+	else if((my_path() == "License to Adventure"))
 	{
 		switch(my_daycount())
 		{
@@ -698,6 +715,7 @@ boolean deck_cheat(string cheat)
 	cards["green mana"] = 34;
 	cards["blue mana"] = 36;
 	cards["key"] = 47;
+	cards["tower"] = 47;
 	cards["init"] = 48;
 	cards["moxie buff"] = 49;
 	cards["myst buff"] = 50;
@@ -880,7 +898,7 @@ boolean deck_useScheme(string action)
 				{
 				case 1:				cards["Candlestick"] = true;		break;
 				case 2:				cards["Candlestick"] = true;		break;
-				case 3:				cards["Candlestick"] = true;		break;
+#				case 3:				cards["Candlestick"] = true;		break;
 				}
 			}
 			else
@@ -951,6 +969,10 @@ boolean deck_useScheme(string action)
 		}
 
 		if(my_path() == "Nuclear Autumn")
+		{
+			cards["key"] = true;
+		}
+		if(my_path() == "License to Adventure")
 		{
 			cards["key"] = true;
 		}

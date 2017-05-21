@@ -87,6 +87,13 @@ boolean snojoFightAvailable()
 			standard[2] = "Muscle";
 			standard[3] = "Mysticality";
 		}
+		if(my_path() == "License to Adventure")
+		{
+			standard[0] = "Mysticality";
+			standard[1] = "Moxie";
+			standard[2] = "Muscle";
+			standard[3] = "Mysticality";
+		}
 
 		if((get_property("snojo" + standard[0] + "Wins").to_int() < 14) && (get_property("snojoSetting") != to_upper_case(standard[0])))
 		{

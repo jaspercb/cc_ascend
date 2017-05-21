@@ -30,6 +30,10 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 	{
 		return false;
 	}
+	if((loveEffect == 2) && !have_familiar($familiar[Mosquito]))
+	{
+		loveEffect = 3;
+	}
 
 //	set_property("_cc_loveTunnelDone", true);
 

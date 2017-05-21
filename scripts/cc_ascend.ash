@@ -30,6 +30,7 @@ import <cc_ascend/cc_mr2016.ash>
 import <cc_ascend/cc_mr2017.ash>
 
 import <cc_ascend/cc_boris.ash>
+import <cc_ascend/cc_bondmember.ash>
 import <cc_ascend/cc_jellonewbie.ash>
 import <cc_ascend/cc_fallout.ash>
 import <cc_ascend/cc_community_service.ash>
@@ -229,7 +230,7 @@ void initializeSettings()
 	beehiveConsider();
 
 	cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
-	if(contains_text(get_property("sourceTerminalEnquiryKnown"), "familiar.enq"))
+	if(contains_text(get_property("sourceTerminalEnquiryKnown"), "familiar.enq") && have_familiar($familiar[Mosquito]))
 	{
 		cc_sourceTerminalRequest("enquiry familiar.enq");
 	}
@@ -254,6 +255,7 @@ void initializeSettings()
 	ed_initializeSettings();
 	boris_initializeSettings();
 	jello_initializeSettings();
+	bond_initializeSettings();
 	fallout_initializeSettings();
 	pete_initializeSettings();
 }
@@ -12623,7 +12625,7 @@ boolean doTasks()
 	}
 
 	//Handle some Avatar dependent stuff, sort of..
-	if(LM_boris() || LM_pete() || LM_jello() || LM_fallout())
+	if(LM_boris() || LM_pete() || LM_jello() || LM_fallout() || LM_bond())
 	{
 		return true;
 	}
@@ -13407,6 +13409,7 @@ boolean doTasks()
 
 void cc_begin()
 {
+	//This also should set our path too.
 	string page = visit_url("main.php");
 	if(contains_text(page, "Being Picky"))
 	{
