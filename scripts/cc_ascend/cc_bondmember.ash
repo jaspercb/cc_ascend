@@ -36,3 +36,18 @@ boolean LM_bond()
 
 	return false;
 }
+
+item[int] bondDrinks()
+{
+	item[int] retval = itemList();
+
+	foreach it in $items[]
+	{
+		if((it.smallimage == "martini.gif") && is_unrestricted(it))
+		{
+			retval = retval.ListInsert(it);
+		}
+	}
+	return retval;
+
+}

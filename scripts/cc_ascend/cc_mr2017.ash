@@ -81,6 +81,18 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 	case $stat[Moxie]:			statValue = 3;		break;
 	}
 
+	if(!have_skill($skill[Torso Awaregness]) && !have_skill($skill[Best Dressed]) && (statValue == 1))
+	{
+		if(possessEquipment($item[Protonic Accelerator Pack]))
+		{
+			statValue = 3;
+		}
+		else
+		{
+			statValue = 2;
+		}
+	}
+
 	temp = visit_url("choice.php?pwd=&whichchoice=1224&option=" + statValue);
 #1		Cardigan,			LOV Eardigan	Shirt - 25% Muscle Stats, 8-12HP Regen, +25ML, End of Day
 #2		Epaulettes,			LOV Epaulettes	Back  - 25% Myst Stats, 4-6MP Regen, -3MPCombatSkills, End of Day

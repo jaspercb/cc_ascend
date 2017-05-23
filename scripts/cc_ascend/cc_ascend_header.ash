@@ -724,3 +724,5 @@ string simpleCombatFilter(int round, string opp, string text);//Defined in cc_as
 boolean LM_bond();											//Defined in cc_ascend/cc_bondmember.ash
 boolean bond_buySkills();									//Defined in cc_ascend/cc_bondmember.ash
 void bond_initializeSettings();								//Defined in cc_ascend/cc_bondmember.ash
+item[int] bondDrinks();										//Defined in cc_ascend/cc_bondmember.ash
+
