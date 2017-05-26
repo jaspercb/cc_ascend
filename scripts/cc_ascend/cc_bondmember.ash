@@ -5,6 +5,7 @@ void bond_initializeSettings()
 	if(my_path() == "License to Adventure")
 	{
 		set_property("cc_100familiar", $familiar[Egg Benedict]);
+		set_property("cc_getBeehive", true);
 		set_property("cc_cubeItems", true);
 		set_property("cc_getStarKey", true);
 		set_property("cc_grimstoneOrnateDowsingRod", true);

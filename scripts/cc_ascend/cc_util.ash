@@ -3324,7 +3324,11 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Egged On]:						useItem = $item[Robin\'s Egg];					break;
 	case $effect[Eldritch Alignment]:			useItem = $item[Eldritch Alignment Spray];		break;
 	case $effect[Elemental Saucesphere]:		useSkill = $skill[Elemental Saucesphere];		break;
-	case $effect[Empathy]:						useSkill = $skill[Empathy of the Newt];			break;
+	case $effect[Empathy]:
+		if(have_familiar($familiar[Mosquito]))
+		{
+			useSkill = $skill[Empathy of the Newt];
+		}																						break;
 	case $effect[Erudite]:						useItem = $item[Black Sheepskin Diploma];		break;
 	case $effect[Expert Oiliness]:				useItem = $item[Oil of Expertise];				break;
 	case $effect[Experimental Effect G-9]:		useItem = $item[Experimental Serum G-9];		break;
@@ -3413,7 +3417,11 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Joyful Resolve]:				useItem = $item[Resolution: Be Happier];		break;
 	case $effect[Juiced and Jacked]:			useItem = $item[Pumpkin Juice];					break;
 	case $effect[Juiced and Loose]:				useSkill = $skill[Steroid Bladder];				break;
-	case $effect[Leash of Linguini]:			useSkill = $skill[Leash of Linguini];			break;
+	case $effect[Leash of Linguini]:
+		if(have_familiar($familiar[Mosquito]))
+		{
+			useSkill = $skill[Leash of Linguini];
+		}																						break;
 	case $effect[Leisurely Amblin\']:			useSkill = $skill[Walk: Leisurely Amble];		break;
 	case $effect[Lion in Ambush]:				useItem = $item[Lion Musk];						break;
 	case $effect[Liquidy Smoky]:				useItem = $item[Liquid Smoke];					break;

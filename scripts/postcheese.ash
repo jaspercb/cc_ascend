@@ -1031,6 +1031,11 @@ void handlePostAdventure()
 		print("Fought " + get_property("cc_modernzmobiecount") + " modern zmobies.", "blue");
 	}
 
+	if(have_effect($effect[Disavowed]) > 0)
+	{
+		abort("We have been disavowed...");
+	}
+
 	print("Post Adventure done, beep.", "purple");
 }
 

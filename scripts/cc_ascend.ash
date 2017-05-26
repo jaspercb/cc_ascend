@@ -1824,7 +1824,7 @@ void initializeDay(int day)
 	{
 		ovenHandle();
 	}
-	if(!get_property("kingLiberated").to_boolean())
+	if(!get_property("kingLiberated").to_boolean() && (my_inebriety() < inebriety_limit()))
 	{
 		if((cc_get_campground() contains $item[Packet of Thanksgarden Seeds]) && (internalQuestStatus("questL12War") >= 1))
 		{
