@@ -1727,12 +1727,19 @@ boolean instakillable(monster mon)
 
 	boolean[monster] timeSpinner = $monsters[Ancient Skeleton with Skin still on it, Apathetic Tyrannosaurus, Assembly Elemental, Cro-Magnon Gnoll, Krakrox the Barbarian, Wooly Duck];
 
+	boolean[monster] lovetunnel = $monsters[LOV Enforcer, LOV Engineer, LOV Equivocator];
+
 	if($monster[Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl] == mon)
 	{
 		return false;
 	}
 
 	if(timeSpinner contains mon)
+	{
+		return false;
+	}
+
+	if(lovetunnel contains mon)
 	{
 		return false;
 	}
