@@ -414,7 +414,6 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-
 	if(get_property("cc_useCleesh").to_boolean())
 	{
 		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
@@ -1367,6 +1366,27 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Summon Love Stinkbug];
 		}
 	}
+
+	if((my_location() == $location[Super Villain\'s Lair]) && (cc_my_path() == "License to Adventure") && ((expected_damage() * 2) < my_hp()))
+	{
+		if(!get_property("_cc_bondCanLid").to_boolean() && (item_amount($item[Razor-Sharp Can Lid]) > 0))
+		{
+			set_property("_cc_bondCanLid", true);
+			return "item " + $item[Razor-Sharp Can Lid];
+		}
+		if(!get_property("_cc_bondSpiderWeb").to_boolean() && (item_amount($item[Spider Web]) > 0))
+		{
+			set_property("_cc_bondSpiderWeb", true);
+			return "item " + $item[Spider Web];
+		}
+		if(!get_property("_cc_bondFirecracker").to_boolean() && (item_amount($item[Knob Goblin Firecracker]) > 0))
+		{
+			set_property("_cc_bondFirecracker", true);
+			return "item " + $item[Knob Goblin Firecracker];
+		}
+	}
+
+
 
 	if(!contains_text(combatState, "portscan") && have_skill($skill[Portscan]) && (my_location().turns_spent < 8) && (get_property("_sourceTerminalPortscanUses").to_int() < 3) && (my_mp() > mp_cost($skill[Portscan])))
 	{
