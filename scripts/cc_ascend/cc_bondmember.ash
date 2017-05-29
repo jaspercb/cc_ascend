@@ -12,6 +12,7 @@ void bond_initializeSettings()
 		set_property("cc_holeinthesky", true);
 		set_property("cc_useCubeling", true);
 		set_property("cc_wandOfNagamar", false);
+		set_property("choiceAdventure1261", 1);
 	}
 }
 
@@ -31,6 +32,21 @@ boolean LM_bond()
 	if(my_path() != "License to Adventure")
 	{
 		return false;
+	}
+
+	if(get_property("_cc_bondBriefing") == "finished")
+	{
+		return false;
+	}
+
+	if(get_property("_cc_bondBriefing") == "started")
+	{
+		boolean retval = ccAdv($location[Super Villain\'s Lair]);
+		if(!retval)
+		{
+			set_property("_cc_bondBriefing", "finished");
+		}
+		return retval;
 	}
 
 	bond_buySkills();

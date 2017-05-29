@@ -56,6 +56,11 @@ void handlePostAdventure()
 		}
 	}
 
+	if((get_property("lastEncounter") == "Daily Briefing") && (cc_my_path() == "License to Adventure"))
+	{
+		set_property("_cc_bondBriefing", "started");
+	}
+
 	if(get_property("cc_disableAdventureHandling") == "yes")
 	{
 		print("Postadventure skipped by standard adventure handler.", "green");
