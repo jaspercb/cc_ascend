@@ -1029,6 +1029,12 @@ boolean doThemtharHills(boolean trickMode)
 			cc_sourceTerminalEnhance("meat");
 		}
 	}
+	if(have_effect($effect[Synthesis: Greed]) == 0)
+	{
+		rethinkingCandy($effect[Synthesis: Greed]);
+	}
+
+
 
 
 	handleFamiliar("meat");
@@ -12629,7 +12635,7 @@ boolean doTasks()
 	}
 
 	//Handle some Avatar dependent stuff, sort of..
-	if(LM_boris() || LM_pete() || LM_jello() || LM_fallout() || LM_bond())
+	if(LM_boris() || LM_pete() || LM_jello() || LM_fallout())
 	{
 		return true;
 	}
@@ -12693,6 +12699,11 @@ boolean doTasks()
 	if(cc_my_path() == "Community Service")
 	{
 		abort("Should not have gotten here, aborted LA_cs_communityService method allowed return to caller. Uh oh.");
+	}
+
+	if(LM_bond())
+	{
+		return true;
 	}
 
 	if(my_daycount() >= 2)

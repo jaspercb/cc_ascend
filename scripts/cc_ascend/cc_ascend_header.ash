@@ -330,6 +330,8 @@ boolean ccMaximize(string req, boolean simulate);			//Defined in cc_ascend/cc_ut
 boolean ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate);//Defined in cc_ascend/cc_util.ash
 aggregate ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate, boolean includeEquip);//Defined in cc_ascend/cc_util.ash
 boolean ccOverdrink(int howMany, item toOverdrink);			//Defined in cc_ascend/cc_cooking.ash
+boolean canDrink(item toDrink);								//Defined in cc_ascend/cc_cooking.ash
+boolean canEat(item toEat);									//Defined in cc_ascend/cc_cooking.ash
 boolean cc_advWitchess(string target);						//Defined in cc_ascend/cc_mr2016.ash
 boolean cc_advWitchess(string target, string option);		//Defined in cc_ascend/cc_mr2016.ash
 int cc_advWitchessTargets(string target);					//Defined in cc_ascend/cc_mr2016.ash

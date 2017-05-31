@@ -14,6 +14,8 @@ boolean ccOverdrink(int howMany, item toOverdrink);
 boolean ccChew(int howMany, item toChew);
 boolean tryPantsEat();
 boolean tryCookies();
+boolean canDrink(item toDrink);
+boolean canEat(item toEat);
 
 item getAvailablePerfectBooze()
 {
@@ -164,6 +166,10 @@ boolean tryCookies()
 	{
 		return false;
 	}
+	if(!canEat($item[Fortune Cookie]))
+	{
+		return false;
+	}
 	if((cc_my_path() == "Heavy Rains") && (get_property("cc_orchard") == "finished"))
 	{
 		return false;
@@ -192,7 +198,7 @@ boolean tryPantsEat()
 	{
 		foreach it in $items[Tasty Tart, Deviled Egg, Actual Tapas, Cold Mashed Potatoes, Dinner Roll, Whole Turkey Leg, Can of Sardines, High-Calorie Sugar Substitute, Pat of Butter]
 		{
-			if(!is_unrestricted(it))
+			if(!canEat(it))
 			{
 				continue;
 			}
@@ -239,7 +245,7 @@ boolean ccDrink(int howMany, item toDrink)
 	{
 		return false;
 	}
-	if(!is_unrestricted(toDrink))
+	if(!canDrink(toDrink))
 	{
 		return false;
 	}
@@ -274,7 +280,7 @@ boolean ccDrink(int howMany, item toDrink)
 
 boolean ccOverdrink(int howMany, item toOverdrink)
 {
-	if(!is_unrestricted(toOverdrink))
+	if(!canDrink(toOverdrink))
 	{
 		return false;
 	}
@@ -296,7 +302,7 @@ boolean ccEat(int howMany, item toEat)
 	{
 		return false;
 	}
-	if(!is_unrestricted(toEat))
+	if(!canEat(toEat))
 	{
 		return false;
 	}
@@ -374,6 +380,64 @@ boolean dealWithMilkOfMagnesium(boolean useAdv)
 	return true;
 }
 
+boolean canDrink(item toDrink)
+{
+	if(!can_drink())
+	{
+		return false;
+	}
+	if(!is_unrestricted(toDrink))
+	{
+		return false;
+	}
+	if((cc_my_path() == "Nuclear Autumn") && (toDrink.inebriety != 1))
+	{
+		return false;
+	}
+	if(cc_my_path() == "KOLHS")
+	{
+		if(!($items[Bottle of Fruity &quot;Wine&quot;, Can of the Cheapest Beer, Single Swig of Vodka, Steel Margarita] contains toDrink))
+		{
+			return false;
+		}
+	}
+	if(cc_my_path() == "License to Adventure")
+	{
+		item [int] martinis = bondDrinks();
+		boolean found = false;
+		foreach idx, it in martinis
+		{
+			if(it == toDrink)
+			{
+				found = true;
+			}
+		}
+		if(!found)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+boolean canEat(item toEat)
+{
+	if(!can_eat())
+	{
+		return false;
+	}
+	if(!is_unrestricted(toEat))
+	{
+		return false;
+	}
+	if((cc_my_path() == "Nuclear Autumn") && (toEat.fullness != 1))
+	{
+		return false;
+	}
+	return true;
+}
+
 void consumeStuff()
 {
 	if(ed_eatStuff())
@@ -396,7 +460,7 @@ void consumeStuff()
 		mpForOde = 0;
 	}
 
-	if(!have_skill($skill[Advanced Saucecrafting]))
+	if(!have_skill($skill[Advanced Saucecrafting]) && canEat($item[Pixel Lemon]))
 	{
 		if((fullness_left() >= 5) && (inebriety_left() >= 2) && is_unrestricted($item[Yellow Puck]))
 		{
@@ -419,7 +483,7 @@ void consumeStuff()
 
 	if((my_inebriety() <= 8) || (my_adventures() < 20) || hasSpookyravenLibraryKey() || (get_property("questM20Necklace") == "finished"))
 	{
-		if((inebriety_left() >= 3) && (my_mp() >= mpForOde) && (my_level() >= 5))
+		if((inebriety_left() >= 3) && (my_mp() >= mpForOde) && (my_level() >= 5) && canDrink($item[Perfect Mimosa]))
 		{
 			makePerfectBooze();
 			item booze = getAvailablePerfectBooze();
@@ -437,21 +501,21 @@ void consumeStuff()
 			boolean robinCondition = false;
 			boolean witchessCondition = false;
 
-			if(is_unrestricted($item[Yellow Puck]))
+			if(is_unrestricted($item[Yellow Puck]) && canDrink($item[Pixel Daiquiri]))
 			{
 				if((item_amount($item[Yellow Pixel]) >= 10) || (item_amount($item[Pixel Daiquiri]) > 0))
 				{
 					pixelCondition = true;
 				}
 			}
-			if(is_unrestricted($item[Basking Robin]))
+			if(is_unrestricted($item[Basking Robin]) && canDrink($item[Robin Nog]))
 			{
 				if(item_amount($item[Robin Nog]) > 0)
 				{
 					robinCondition = true;
 				}
 			}
-			if(is_unrestricted($item[Witchess Set]))
+			if(is_unrestricted($item[Witchess Set]) && canDrink($item[Sacramento Wine]))
 			{
 				if(item_amount($item[Sacramento Wine]) > 0)
 				{
@@ -482,7 +546,7 @@ void consumeStuff()
 			}
 		}
 
-		if(((my_inebriety() + item_amount($item[Sacramento Wine])) <= inebriety_limit()) && (my_mp() >= mpForOde) && is_unrestricted($item[Witchess Set]))
+		if(((my_inebriety() + item_amount($item[Sacramento Wine])) <= inebriety_limit()) && (my_mp() >= mpForOde) && is_unrestricted($item[Witchess Set]) && canDrink($item[Sacramento Wine]))
 		{
 			if(item_amount($item[Sacramento Wine]) > 0)
 			{
@@ -491,7 +555,7 @@ void consumeStuff()
 				drink(min(item_amount($item[Sacramento Wine]), have_effect($effect[Ode to Booze])), $item[Sacramento Wine]);
 			}
 		}
-		if((inebriety_left() >= 2) && (my_mp() >= mpForOde) && is_unrestricted($item[Yellow Puck]))
+		if((inebriety_left() >= 2) && (my_mp() >= mpForOde) && is_unrestricted($item[Yellow Puck]) && canDrink($item[Pixel Daiquiri]))
 		{
 			if((item_amount($item[Yellow Pixel]) >= 10) && (item_amount($item[Pixel Daiquiri]) == 0))
 			{
@@ -504,7 +568,7 @@ void consumeStuff()
 				drink(1, $item[Pixel Daiquiri]);
 			}
 		}
-		if((inebriety_left() >= 2) && (my_mp() >= mpForOde) && is_unrestricted($item[Basking Robin]))
+		if((inebriety_left() >= 2) && (my_mp() >= mpForOde) && is_unrestricted($item[Basking Robin]) && canDrink($item[Robin Nog]))
 		{
 			if((item_amount($item[Robin\'s Egg]) >= 10) && (item_amount($item[Robin Nog]) == 0) && (my_meat() >= npc_price($item[Fermenting Powder])) && isGeneralStoreAvailable())
 			{
@@ -521,7 +585,7 @@ void consumeStuff()
 
 	if((my_inebriety() <= 6) || (my_adventures() < 20) || hasSpookyravenLibraryKey() || (get_property("questM20Necklace") == "finished"))
 	{
-		if((inebriety_left() >= 4) && (my_mp() < mpForOde) && (my_maxmp() > mpForOde))
+		if((inebriety_left() >= 4) && (my_mp() < mpForOde) && (my_maxmp() > mpForOde) && canDrink($item[Hacked Gibson]))
 		{
 			if((item_amount($item[Hacked Gibson]) > 0) && (my_level() >= 4) && is_unrestricted($item[Source Terminal]))
 			{
@@ -544,7 +608,7 @@ void consumeStuff()
 			}
 		}
 
-		if((inebriety_left() >= 4) && (my_mp() >= mpForOde) && (item_amount($item[Hacked Gibson]) > 0) && (my_level() >= 4) && is_unrestricted($item[Source Terminal]))
+		if((inebriety_left() >= 4) && (my_mp() >= mpForOde) && (item_amount($item[Hacked Gibson]) > 0) && (my_level() >= 4) && is_unrestricted($item[Source Terminal]) && canDrink($item[Hacked Gibson]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 3);
@@ -552,7 +616,7 @@ void consumeStuff()
 		}
 	}
 
-	if((fullness_left() >= 4) && (my_level() >= 4) && is_unrestricted($item[Browser Cookie]))
+	if((fullness_left() >= 4) && (my_level() >= 4) && is_unrestricted($item[Browser Cookie]) && canEat($item[Browser Cookie]))
 	{
 		int browserCookies = min(fullness_left()/4, item_amount($item[Browser Cookie]));
 		ccEat(browserCookies, $item[Browser Cookie]);
@@ -568,19 +632,19 @@ void consumeStuff()
 
 		//	Try to drink more on day 1 please!
 
-		if((my_meat() > 400) && (item_amount($item[handful of smithereens]) == 3) && (get_property("cc_mosquito") == "finished") && (cc_my_path() != "KOLHS") && (cc_my_path() != "Nuclear Autumn"))
+		if((my_meat() > 400) && (item_amount($item[handful of smithereens]) == 3) && (get_property("cc_mosquito") == "finished") && canDrink($item[Paint A Vulgar Pitcher]))
 		{
 			cli_execute("make 3 paint a vulgar pitcher");
 		}
 
-		if((inebriety_left() >= 2) && (my_mp() >= mpForOde) && (item_amount($item[Agitated Turkey]) >= 2) && is_unrestricted($item[Fist Turkey Outline]))
+		if((inebriety_left() >= 2) && (my_mp() >= mpForOde) && (item_amount($item[Agitated Turkey]) >= 2) && is_unrestricted($item[Fist Turkey Outline]) && canDrink($item[Agitated Turkey]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(2, $item[Agitated Turkey]);
 		}
 
-		if((inebriety_left() >= 1) && (my_mp() >= mpForOde) && (item_amount($item[Cold One]) >= 1) && (my_level() >= 11))
+		if((inebriety_left() >= 1) && (my_mp() >= mpForOde) && (item_amount($item[Cold One]) >= 1) && (my_level() >= 11) && canDrink($item[Cold One]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -592,7 +656,7 @@ void consumeStuff()
 			chew(1, $item[astral energy drink]);
 		}
 
-		if((my_mp() > mpForOde) && (my_level() >= 3) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()) && is_unrestricted($item[The Smith\'s Tome]))
+		if((my_mp() > mpForOde) && (my_level() >= 3) && (item_amount($item[Paint a Vulgar Pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()) && is_unrestricted($item[The Smith\'s Tome]) && canDrink($item[Paint A Vulgar Pitcher]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -613,7 +677,7 @@ void consumeStuff()
 				cli_execute("drink 1 lucky lindy");
 			}
 
-			if((inebriety_left() >= 4) && is_unrestricted($item[Ice Island Long Tea]))
+			if((inebriety_left() >= 4) && canDrink($item[Ice Island Long Tea]))
 			{
 				pullXWhenHaveY($item[Ice Island Long Tea], 1, 0);
 				if(item_amount($item[Ice Island Long Tea]) > 0)
@@ -623,14 +687,14 @@ void consumeStuff()
 			}
 		}
 
-		if((my_mp() > mpForOde) && is100FamiliarRun() && (my_inebriety() == 13) && (item_amount($item[Cold One]) > 0) && (my_level() >= 10))
+		if((my_mp() > mpForOde) && is100FamiliarRun() && (my_inebriety() == 13) && (item_amount($item[Cold One]) > 0) && (my_level() >= 10) && canDrink($item[Cold One]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
 			drink(1, $item[Cold One]);
 		}
 
-		if((my_mp() > mpForOde) && (amountTurkeyBooze() >= 2) && (my_inebriety() == 0) && (my_meat() >= 500) && (item_amount($item[Clan VIP Lounge Key]) > 0) && is_unrestricted($item[Fist Turkey Outline]))
+		if((my_mp() > mpForOde) && (amountTurkeyBooze() >= 2) && (my_inebriety() == 0) && (my_meat() >= 500) && (item_amount($item[Clan VIP Lounge Key]) > 0) && is_unrestricted($item[Fist Turkey Outline]) && canDrink($item[Friendly Turkey]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 3);
@@ -652,7 +716,7 @@ void consumeStuff()
 			}
 		}
 
-		if((my_mp() > mpForOde) && (turkeyBooze() >= 5) && (amountTurkeyBooze() >= 3) && (my_inebriety() < 6) && is_unrestricted($item[Fist Turkey Outline]))
+		if((my_mp() > mpForOde) && (turkeyBooze() >= 5) && (amountTurkeyBooze() >= 3) && (my_inebriety() < 6) && is_unrestricted($item[Fist Turkey Outline]) && canDrink($item[Friendly Turkey]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 3);
@@ -684,35 +748,35 @@ void consumeStuff()
 			while(acquireHermitItem($item[Ten-leaf Clover]));
 		}
 
-		if((my_adventures() < 4) && (my_fullness() == 0) && (my_level() >= 7) && !in_hardcore())
+		if((my_adventures() < 4) && (my_fullness() == 0) && (my_level() >= 7) && !in_hardcore() && can_eat())
 		{
 			dealWithMilkOfMagnesium(true);
-			if((item_amount($item[Spaghetti Breakfast]) > 0) && (fullness_left() >= 1))
+			if((item_amount($item[Spaghetti Breakfast]) > 0) && (fullness_left() >= 1) && canEat($item[Spaghetti Breakfast]))
 			{
 				buffMaintain($effect[Got Milk], 0, 1, 1);
 				buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 				ccEat(1, $item[Spaghetti Breakfast]);
 			}
-			if(fullness_left() >= 10)
+			if((fullness_left() >= 10) && canEat(whatHiMein()))
 			{
 				pullXWhenHaveY(whatHiMein(), 2, 0);
 			}
-			if((item_amount(whatHiMein()) >= 2) && (fullness_left() >= 10))
+			if((item_amount(whatHiMein()) >= 2) && (fullness_left() >= 10) && canEat(whatHiMein()))
 			{
 				buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 				buffMaintain($effect[Got Milk], 0, 1, 1);
 				ccEat(2, whatHiMein());
 			}
-			if((item_amount($item[digital key lime pie]) > 0) && (fullness_left() >= 4))
+			if((item_amount($item[Digital Key Lime Pie]) > 0) && (fullness_left() >= 4) && canEat($item[Digital Key Lime Pie]))
 			{
 				buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 				buffMaintain($effect[Got Milk], 0, 1, 1);
-				ccEat(1, $item[digital key lime pie]);
+				ccEat(1, $item[Digital Key Lime Pie]);
 				tryPantsEat();
 			}
 			else
 			{
-				if(fullness_left() == 5)
+				if((fullness_left() == 5) && canEat(whatHiMein()))
 				{
 					pullXWhenHaveY(whatHiMein(), 1, 0);
 					if(item_amount(whatHiMein()) > 0)
@@ -722,7 +786,7 @@ void consumeStuff()
 						ccEat(1, whatHiMein());
 					}
 				}
-				else if(fullness_left() >= 4)
+				else if((fullness_left() >= 4) && canEat($item[Digital Key Lime Pie]))
 				{
 					pullXWhenHaveY($item[Digital Key Lime Pie], 1, 0);
 					if(item_amount($item[Digital Key Lime Pie]) > 0)
@@ -755,7 +819,7 @@ void consumeStuff()
 			int haveToEat = 0;
 			foreach it in toEat
 			{
-				if(is_unrestricted(it))
+				if(canEat(it))
 				{
 					haveToEat = haveToEat + item_amount(it);
 				}
@@ -804,7 +868,7 @@ void consumeStuff()
 				dealWithMilkOfMagnesium(!in_hardcore());
 				foreach it in toEat
 				{
-					while((canEat > 0) && (item_amount(it) > 0) && (fullness_left() >= 5))
+					while((canEat > 0) && (item_amount(it) > 0) && (fullness_left() >= 5) && canEat(it))
 					{
 						buffMaintain($effect[Got Milk], 0, 1, 1);
 						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
@@ -815,7 +879,7 @@ void consumeStuff()
 			}
 		}
 
-		if((my_adventures() < 4) && (fullness_left() >= 12) && (my_level() >= 6) && (item_amount($item[Boris\'s Key Lime Pie]) > 0) && (item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) && (item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0) && !in_hardcore())
+		if((my_adventures() < 4) && (fullness_left() >= 12) && (my_level() >= 6) && (item_amount($item[Boris\'s Key Lime Pie]) > 0) && (item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) && (item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0) && !in_hardcore() && canEat($item[Boris\'s Key Lime Pie]))
 		{
 			dealWithMilkOfMagnesium(true);
 			buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -910,7 +974,7 @@ void consumeStuff()
 
 			if(towerKeyCount() == 3)
 			{
-				if((item_amount(whatHiMein()) >= 3) && (fullness_left() >= 15))
+				if((item_amount(whatHiMein()) >= 3) && (fullness_left() >= 15) && canEat(whatHiMein()))
 				{
 					buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 					buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -926,7 +990,7 @@ void consumeStuff()
 				}
 				if(count >= 2)
 				{
-					if((item_amount($item[Spaghetti Breakfast]) > 0) && (fullness_left() > 0))
+					if((item_amount($item[Spaghetti Breakfast]) > 0) && (fullness_left() > 0) && canEat($item[Spaghetti Breakfast]))
 					{
 						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -936,11 +1000,11 @@ void consumeStuff()
 						}
 						ccEat(1, $item[Spaghetti Breakfast]);
 					}
-					if(fullness_left() >= 4)
+					if((fullness_left() >= 4) && canEat($item[Boris\'s Key Lime Pie]))
 					{
 						pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
 					}
-					if((item_amount($item[Boris\'s Key Lime Pie]) > 0) && (fullness_left() >= 4))
+					if((item_amount($item[Boris\'s Key Lime Pie]) > 0) && (fullness_left() >= 4) && canEat($item[Boris\'s Key Lime Pie]))
 					{
 						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -950,11 +1014,11 @@ void consumeStuff()
 						}
 						ccEat(1, $item[Boris\'s Key Lime Pie]);
 					}
-					if(fullness_left() >= 10)
+					if((fullness_left() >= 10) && canEat(whatHiMein()))
 					{
 						pullXWhenHaveY(whatHiMein(), 2, 0);
 					}
-					if((item_amount(whatHiMein()) > 0) && (fullness_left() >= 5))
+					if((item_amount(whatHiMein()) > 0) && (fullness_left() >= 5) && canEat(whatHiMein()))
 					{
 						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -964,7 +1028,7 @@ void consumeStuff()
 						}
 						ccEat(1, whatHiMein());
 					}
-					if((item_amount(whatHiMein()) > 0) && (fullness_left() >= 5))
+					if((item_amount(whatHiMein()) > 0) && (fullness_left() >= 5) && canEat(whatHiMein()))
 					{
 						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -978,20 +1042,20 @@ void consumeStuff()
 			}
 			else if(!get_property("cc_useCubeling").to_boolean())
 			{
-				if(((item_amount($item[Boris\'s Key Lime Pie]) > 0) || (item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) || (item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0)) && (fullness_left() >= 4))
+				if(((item_amount($item[Boris\'s Key Lime Pie]) > 0) || (item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) || (item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0)) && (fullness_left() >= 4) && canEat($item[Boris\'s Key Lime Pie]))
 				{
 					buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 					buffMaintain($effect[Got Milk], 0, 1, 1);
 				}
-				if((item_amount($item[Boris\'s Key Lime Pie]) > 0) && (fullness_left() >= 4))
+				if((item_amount($item[Boris\'s Key Lime Pie]) > 0) && (fullness_left() >= 4) && canEat($item[Boris\'s Key Lime Pie]))
 				{
 					ccEat(1, $item[Boris\'s Key Lime Pie]);
 				}
-				if((item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) && (fullness_left() >= 4))
+				if((item_amount($item[Jarlsberg\'s Key Lime Pie]) > 0) && (fullness_left() >= 4) && canEat($item[Jarlsberg\'s Key Lime Pie]))
 				{
 					ccEat(1, $item[Jarlsberg\'s Key Lime Pie]);
 				}
-				if((item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0) && (fullness_left() >= 4))
+				if((item_amount($item[Sneaky Pete\'s Key Lime Pie]) > 0) && (fullness_left() >= 4) && canEat($item[Sneaky Pete\'s Key Lime Pie]))
 				{
 					ccEat(1, $item[Sneaky Pete\'s Key Lime Pie]);
 				}
@@ -1068,7 +1132,7 @@ void consumeStuff()
 				dealWithMilkOfMagnesium(true);
 				foreach it in toEat
 				{
-					while((canEat > 0) && (item_amount(it) > 0) && (fullness_left() >= 5))
+					while((canEat > 0) && (item_amount(it) > 0) && (fullness_left() >= 5) && canEat(it))
 					{
 						buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 						buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -1088,20 +1152,20 @@ void consumeStuff()
 			}
 		}
 
-		if((my_inebriety() == 0) && (my_mp() >= mpForOde) && (my_meat() > 300) && (item_amount($item[handful of smithereens]) >= 2) && (cc_my_path() != "KOLHS") && (cc_my_path() != "Nuclear Autumn"))
+		if((my_inebriety() == 0) && (my_mp() >= mpForOde) && (my_meat() > 300) && (item_amount($item[handful of smithereens]) >= 2) && canDrink($item[Paint A Vulgar Pitcher]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 4);
 			cli_execute("make 2 paint a vulgar pitcher");
-			drink(2, $item[paint a vulgar pitcher]);
+			drink(2, $item[Paint A Vulgar Pitcher]);
 		}
 
-		if((my_inebriety() == 4) && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[handful of smithereens]) >= 1) && (cc_my_path() != "KOLHS") && (cc_my_path() != "Nuclear Autumn"))
+		if((my_inebriety() == 4) && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[handful of smithereens]) >= 1) && canDrink($item[Paint A Vulgar Pitcher]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			cli_execute("make 1 paint a vulgar pitcher");
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
-			drink(1, $item[paint a vulgar pitcher]);
+			drink(1, $item[Paint A Vulgar Pitcher]);
 		}
 
 		if((inebriety_left() >= 5) && (my_adventures() < 10) && (my_meat() > 150) && (my_mp() >= mpForOde) && (cc_my_path() != "KOLHS") && (cc_my_path() != "Nuclear Autumn"))
@@ -1110,10 +1174,10 @@ void consumeStuff()
 			{
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 4);
-				if(item_amount($item[handful of smithereens]) > 0)
+				if((item_amount($item[handful of smithereens]) > 0) && canDrink($item[Paint A Vulgar Pitcher]))
 				{
 					cli_execute("make 1 paint a vulgar pitcher");
-					drink(1, $item[paint a vulgar pitcher]);
+					drink(1, $item[Paint A Vulgar Pitcher]);
 				}
 				else if((my_meat() > 35000) && is_unrestricted($item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 				{
@@ -1126,7 +1190,7 @@ void consumeStuff()
 		{
 			if((get_property("cc_mcmuffin") == "ed") || (get_property("cc_mcmuffin") == "finished"))
 			{
-				if((my_inebriety() >= 6) && (my_inebriety() <= 11) && (my_mp() >= mpForOde))
+				if((my_inebriety() >= 6) && (my_inebriety() <= 11) && (my_mp() >= mpForOde) && canDrink($item[Ambitious Turkey]))
 				{
 					if(item_amount($item[ambitious turkey]) > 0)
 					{
@@ -1139,20 +1203,20 @@ void consumeStuff()
 		}
 
 
-		if(in_hardcore() && (my_mp() > mpForOde) && (item_amount($item[Pixel Daiquiri]) > 0) && (inebriety_left() >= 2) && is_unrestricted($item[Yellow Puck]))
+		if(in_hardcore() && (my_mp() > mpForOde) && (item_amount($item[Pixel Daiquiri]) > 0) && (inebriety_left() >= 2) && is_unrestricted($item[Yellow Puck]) && canDrink($item[Pixel Daiquiri]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[Pixel Daiquiri]);
 		}
-		if(in_hardcore() && (my_mp() > mpForOde) && (item_amount($item[Dinsey Whinskey]) > 0) && (inebriety_left() >= 2) && is_unrestricted($item[Airplane Charter: Dinseylandfill]))
+		if(in_hardcore() && (my_mp() > mpForOde) && (item_amount($item[Dinsey Whinskey]) > 0) && (inebriety_left() >= 2) && is_unrestricted($item[Airplane Charter: Dinseylandfill]) && canDrink($item[Dinsey Whinskey]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[Dinsey Whinskey]);
 		}
 
-		if((my_level() >= 11) && (my_mp() > mpForOde) && (item_amount($item[Cold One]) > 1) && (inebriety_left() >= 2))
+		if((my_level() >= 11) && (my_mp() > mpForOde) && (item_amount($item[Cold One]) > 1) && (inebriety_left() >= 2) && canDrink($item[Cold One]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -1163,7 +1227,7 @@ void consumeStuff()
 		{
 			if((get_property("cc_nuns") != "finished") && (get_property("cc_nuns") != "done") && (get_property("currentNunneryMeat").to_int() == 0))
 			{
-				if(item_amount($item[ambitious turkey]) > 0)
+				if((item_amount($item[ambitious turkey]) > 0) && canDrink($item[Ambitious Turkey]))
 				{
 					shrugAT($effect[Ode to Booze]);
 					buffMaintain($effect[Ode to Booze], 50, 1, 1);
@@ -1172,7 +1236,7 @@ void consumeStuff()
 			}
 		}
 
-		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
+		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()) && canDrink($item[Paint A Vulgar Pitcher]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -1180,7 +1244,7 @@ void consumeStuff()
 		}
 
 
-		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()))
+		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()) && canDrink($item[Ambitious Turkey]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
@@ -1212,7 +1276,7 @@ void consumeStuff()
 		}
 
 /*****	This section needs to merge into a "Standard equivalent"		*****/
-		if((cc_my_path() == "Standard") && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()) && is_unrestricted($item[The Smith\'s Tome]))
+		if((cc_my_path() == "Standard") && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()) && is_unrestricted($item[The Smith\'s Tome]) && canDrink($item[Paint A Vulgar Pitcher]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -1220,7 +1284,7 @@ void consumeStuff()
 		}
 
 
-		if((cc_my_path() == "Standard") && (my_mp() >= mpForOde) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()) && is_unrestricted($item[Fist Turkey Outline]))
+		if((cc_my_path() == "Standard") && (my_mp() >= mpForOde) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()) && is_unrestricted($item[Fist Turkey Outline]) && canDrink($item[Ambitious Turkey]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
@@ -1272,11 +1336,11 @@ void consumeStuff()
 	}
 	else if(my_daycount() == 3)
 	{
-		if((my_level() >= 7) && (my_fullness() == 0) && (my_adventures() < 10))
+		if((my_level() >= 7) && (my_fullness() == 0) && (my_adventures() < 10) && canEat($item[Star Key Lime Pie]))
 		{
 			dealWithMilkOfMagnesium(true);
 
-			if((item_amount($item[Star Key Lime Pie]) >= 3) && (fullness_left() >= 12))
+			if((item_amount($item[Star Key Lime Pie]) >= 3) && (fullness_left() >= 12) && canEat($item[Star Key Lime Pie]))
 			{
 				buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 				buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -1287,11 +1351,11 @@ void consumeStuff()
 			}
 			else
 			{
-				if(fullness_left() >= 15)
+				if((fullness_left() >= 15) && canEat(whatHiMein()))
 				{
 					pullXWhenHaveY(whatHiMein(), 3, 0);
 				}
-				if((item_amount(whatHiMein()) >= 3) && (fullness_left() >= 15))
+				if((item_amount(whatHiMein()) >= 3) && (fullness_left() >= 15) && canEat(whatHiMein()))
 				{
 					buffMaintain($effect[Song of the Glorious Lunch], 10, 1, 1);
 					buffMaintain($effect[Got Milk], 0, 1, 1);
@@ -1300,19 +1364,19 @@ void consumeStuff()
 			}
 		}
 
-		if((item_amount($item[handful of smithereens]) > 0) && (my_meat() > 300) && (cc_my_path() != "KOLHS") && (cc_my_path() != "Nuclear Autumn"))
+		if((item_amount($item[handful of smithereens]) > 0) && (my_meat() > 300) && canDrink($item[Paint A Vulgar Pitcher]))
 		{
 			cli_execute("make paint a vulgar pitcher");
 		}
 
-		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
+		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()) && canDrink($item[Paint A Vulgar Pitcher]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[paint a vulgar pitcher]);
 		}
 
-		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()))
+		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()) && canDrink($item[Ambitious Turkey]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
