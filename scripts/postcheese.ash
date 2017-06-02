@@ -1038,7 +1038,19 @@ void handlePostAdventure()
 
 	if(have_effect($effect[Disavowed]) > 0)
 	{
-		abort("We have been disavowed...");
+		if(get_property("_cc_bondBriefing") != "finished")
+		{
+			set_property("_cc_bondBriefing", "started");
+		}
+		if(have_skill($skill[Disco Nap]) && (my_mp() > mp_cost($skill[Disco Nap])))
+		{
+			print("We have been disavowed...", "red");
+			use_skill(1, $skill[Disco Nap]);
+		}
+		else
+		{
+			abort("We have been disavowed...");
+		}
 	}
 
 	print("Post Adventure done, beep.", "purple");
