@@ -1367,21 +1367,18 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((my_location() == $location[Super Villain\'s Lair]) && (cc_my_path() == "License to Adventure") && ((expected_damage() * 2) < my_hp()))
+	if((my_location() == $location[Super Villain\'s Lair]) && (cc_my_path() == "License to Adventure") && ((expected_damage() * 2) < my_hp()) && (enemy == $monster[Villainous Minion]))
 	{
-		if(!get_property("_cc_bondCanLid").to_boolean() && (item_amount($item[Razor-Sharp Can Lid]) > 0))
+		if(!get_property("_villainLairCanLidUsed").to_boolean() && (item_amount($item[Razor-Sharp Can Lid]) > 0))
 		{
-			set_property("_cc_bondCanLid", true);
 			return "item " + $item[Razor-Sharp Can Lid];
 		}
-		if(!get_property("_cc_bondSpiderWeb").to_boolean() && (item_amount($item[Spider Web]) > 0))
+		if(!get_property("_villainLairWebUsed").to_boolean() && (item_amount($item[Spider Web]) > 0))
 		{
-			set_property("_cc_bondSpiderWeb", true);
 			return "item " + $item[Spider Web];
 		}
-		if(!get_property("_cc_bondFirecracker").to_boolean() && (item_amount($item[Knob Goblin Firecracker]) > 0))
+		if(!get_property("_villainLairFirecrackerUsed").to_boolean() && (item_amount($item[Knob Goblin Firecracker]) > 0))
 		{
-			set_property("_cc_bondFirecracker", true);
 			return "item " + $item[Knob Goblin Firecracker];
 		}
 	}
@@ -1979,7 +1976,7 @@ string findBanisher(int round, string opp, string text)
 		}
 	}
 
-	foreach act in $skills[Banishing Shout, Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Breathe Out, Snokebomb, Beancannon]
+	foreach act in $skills[Banishing Shout, Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Breathe Out, Snokebomb, KGB Tranquilizer Dart, Beancannon]
 	{
 		if((!contains_text(get_property("cc_gremlinBanishes"), act)) && have_skill(act) && (my_mp() >= mp_cost(act)) && (my_thunder() >= thunder_cost(act)) && have_skill(act))
 		{

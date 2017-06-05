@@ -688,7 +688,7 @@ void equipBaseline()
 void equipBaselineAcc1()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Vampire Collar, Infernal Insoles, Batskin Belt, Plastic Detective Badge, Bronze Detective Badge, Ghost of a Necklace, Silver Detective Badge, Gold Detective Badge, Sphygmayomanometer, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Astral Ring, Astral Bracer, Codpiece, Over-The-Shoulder Folder Holder];
+	boolean[item] poss = $items[Vampire Collar, Infernal Insoles, Batskin Belt, Plastic Detective Badge, Bronze Detective Badge, Ghost of a Necklace, Silver Detective Badge, Gold Detective Badge, Sphygmayomanometer, Kremlin\'s Greatest Briefcase, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Astral Ring, Astral Bracer, Codpiece, Over-The-Shoulder Folder Holder];
 
 	if(possessEquipment($item[barrel hoop earring]))
 	{

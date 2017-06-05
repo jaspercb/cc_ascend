@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18061;
+since r18082;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -2173,7 +2173,7 @@ boolean doBedtime()
 		}
 	}
 
-	if((my_daycount() == 1) && ((item_amount($item[thor\'s pliers]) == 1) || (equipped_item($slot[weapon]) == $item[Thor\'s Pliers]) || (equipped_item($slot[off-hand]) == $item[Thor\'s Pliers]) || (get_property("_rapidPrototypingUsed").to_int() < 5)) && have_skill($skill[Rapid Prototyping]) && is_unrestricted($item[Crimbot ROM: Rapid Prototyping]))
+	if((my_daycount() == 1) && ((item_amount($item[thor\'s pliers]) == 1) || (equipped_item($slot[weapon]) == $item[Thor\'s Pliers]) || (equipped_item($slot[off-hand]) == $item[Thor\'s Pliers]) || (get_property("_rapidPrototypingUsed").to_int() < 5)) && have_skill($skill[Rapid Prototyping]) && is_unrestricted($item[Crimbot ROM: Rapid Prototyping]) && !possessEquipment($item[Chrome Sword]) && !get_property("kingLiberated").to_boolean())
 	{
 		item oreGoal = to_item(get_property("trapperOre"));
 		int need = 1;

@@ -58,6 +58,10 @@ void handlePostAdventure()
 
 	if((get_property("lastEncounter") == "Daily Briefing") && (cc_my_path() == "License to Adventure"))
 	{
+		if(item_amount($item[Can Of Minions-Be-Gone]) > 0)
+		{
+			use(1, $item[Can Of Minions-Be-Gone]);
+		}
 		set_property("_cc_bondBriefing", "started");
 	}
 
