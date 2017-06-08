@@ -1830,13 +1830,7 @@ void initializeDay(int day)
 	{
 		ovenHandle();
 	}
-	if(!get_property("kingLiberated").to_boolean() && (my_inebriety() < inebriety_limit()))
-	{
-		if((cc_get_campground() contains $item[Packet of Thanksgarden Seeds]) && (internalQuestStatus("questL12War") >= 1))
-		{
-			cli_execute("garden pick");
-		}
-	}
+
 	string campground = visit_url("campground.php");
 	if(contains_text(campground, "beergarden7.gif"))
 	{
@@ -4958,7 +4952,7 @@ boolean L11_hiddenCity()
 					}
 					while(have_effect($effect[Thrice-Cursed]) == 0)
 					{
-						if((inebriety_left() > 0) && (cc_my_path() != "KOLHS") && (cc_my_path() != "Nuclear Autumn"))
+						if((inebriety_left() > 0) && canDrink($item[Cursed Punch]))
 						{
 							buyUpTo(1, $item[Cursed Punch]);
 							if(item_amount($item[Cursed Punch]) == 0)
@@ -13353,6 +13347,15 @@ boolean doTasks()
 	if(L12_lastDitchFlyer())
 	{
 		return true;
+	}
+
+
+	if(!get_property("kingLiberated").to_boolean() && (my_inebriety() < inebriety_limit()))
+	{
+		if((cc_get_campground() contains $item[Packet of Thanksgarden Seeds]) && (cc_get_campground() contains $item[Cornucopia]) && (internalQuestStatus("questL12War") >= 1))
+		{
+			cli_execute("garden pick");
+		}
 	}
 
 	if((get_property("hippiesDefeated").to_int() < 64) && (get_property("fratboysDefeated").to_int() < 64) && (my_level() >= 12) && (get_property("cc_prewar") == "started") && (get_property("cc_war") != "finished"))

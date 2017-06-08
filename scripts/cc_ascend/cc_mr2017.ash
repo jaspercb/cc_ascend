@@ -6,6 +6,8 @@ script "cc_mr2017.ash"
 boolean getSpaceJelly();
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem);
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem, string option);
+boolean solveKGBMastermind();
+
 
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem)
 {
@@ -140,6 +142,173 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 	}
 
 	return true;
+}
+
+boolean solveKGBMastermind()
+{
+	if(!possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+	if(!is_unrestricted($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+
+	string page = visit_url("place.php?whichplace=kgb");
+	if(contains_text(page, "A pair of antennae"))
+	{
+		return false;
+	}
+	if(contains_text(get_property("_cc_kgbScoresLeft"), "3 0"))
+	{
+		if(contains_text(get_property("_cc_kgbScoresRight"), "3 0"))
+		{
+			return false;
+		}
+	}
+
+	if(contains_text(page, "kgb_handledown"))
+	{
+		string temp = visit_url("place.php?whichplace=kgb&action=kgb_handledown");
+	}
+	if(!contains_text(page, "kgb_handleup"))
+	{
+		abort("KGB Handle borken!!");
+	}
+
+	string guessString = "";
+	int clicks = 0;
+	while(!contains_text(page, "A pair of antennae"))
+	{
+		int[int] dials;
+		int count = 0;
+		matcher dial_matcher = create_matcher("title=\"Weird Character (.)", page);
+		while(dial_matcher.find())
+		{
+			string temp = dial_matcher.group(1);
+			if(temp == "a")
+			{
+				dials[count] = 10;
+			}
+			else
+			{
+				dials[count] = to_int(dial_matcher.group(1));
+			}
+			count++;
+		}
+
+		print("Left side: " + dials[0] + " " + dials[1] + " " + dials[2], "green");
+		print("Right side: " + dials[3] + " " + dials[4] + " " + dials[5], "green");
+
+		int[int] guess;
+		if(guessString == "")
+		{
+			guess[0] = 0;
+			guess[1] = 1;
+			guess[2] = 2;
+		}
+		else
+		{
+			string[int] digits = split_string(guessString, " ");
+			guess[0] = to_int(digits[count(digits)-3]);
+			guess[1] = to_int(digits[count(digits)-2]);
+			guess[2] = to_int(digits[count(digits)-1]);
+		}
+
+		string prop = "_cc_kgbScoresLeft";
+		int dialOffset = 0;
+		string action = "1";
+
+		if(contains_text(get_property("_cc_kgbScoresLeft"), "3 0"))
+		{
+			prop = "_cc_kgbScoresRight";
+			dialOffset = 3;
+			string action = "2";
+		}
+
+		//Which one are we doing, if ScoresLeft has 3 0, we are done with it.
+		print("About to guess: " + guess[0] + ", " + guess[1] + ", " + guess[2], "green");
+		for(int i=0; i<3; i++)
+		{
+			while(dials[dialOffset + i] != guess[i])
+			{
+				print("Clicking: " + i);
+				page = visit_url("place.php?whichplace=kgb&action=kgb_dial" + (i+1), false);
+				dials[dialOffset + i] = (dials[dialOffset + i] + 1) % 11;
+			}
+		}
+
+		//Verify the dials are correct before pushing anything!
+		int[int] vDials;
+		int vCount = 0;
+		matcher vDial_matcher = create_matcher("title=\"Weird Character (.)", page);
+		while(vDial_matcher.find())
+		{
+			string temp = vDial_matcher.group(1);
+			if(temp == "a")
+			{
+				vDials[vCount] = 10;
+			}
+			else
+			{
+				vDials[vCount] = to_int(vDial_matcher.group(1));
+			}
+			vCount++;
+		}
+
+		if((vDials[dialOffset+0] != guess[0]) || (vDials[dialOffset+1] != guess[1]) || (vDials[dialOffset+2] != guess[2]))
+		{
+			abort("Dials not set correctly");
+		}
+
+		string page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + action);
+		if(contains_text(page, "Nothing happens"))
+		{
+			print("Out of clicks. Derp.", "red");
+			return false;
+		}
+		int correct = 0;
+		int blink = 0;
+		matcher light_match = create_matcher("kgb_mastermind(\\d)(?:.*?)A light (.*?)\"", page);
+		while(light_match.find())
+		{
+			int bulb = to_int(light_match.group(1));
+			string status = light_match.group(2);
+			print("Light " + bulb + ": " + status, "blue");
+			if(status == "(on)")
+			{
+				correct++;
+			}
+			if(status == "(blinking)")
+			{
+				blink++;
+			}
+		}
+		print("Correct: " + correct + " Blinking: " + blink, "blue");
+
+		clicks++;
+
+		if(get_property(prop) == "")
+		{
+			set_property(prop, correct + " " + blink);
+		}
+		else
+		{
+			set_property(prop, get_property(prop) + " " + correct + " " + blink);
+		}
+
+		guessString = visit_url("http://cheesellc.com/kol/kgb.php?data=" + url_encode(get_property(prop)), false);
+		print("Subresult: " + guessString, "green");
+
+		if(contains_text(guessString, "3 0"))
+		{
+			guessString = "";
+		}
+	}
+	print("Clicks used: " + clicks, "red");
+
+	return contains_text(page, "A pair of antennae");
 }
 
 
