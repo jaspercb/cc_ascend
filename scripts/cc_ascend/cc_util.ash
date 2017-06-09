@@ -1966,6 +1966,11 @@ boolean providePlusNonCombat(int amt)
 
 boolean providePlusCombat(int amt, boolean doEquips)
 {
+	if(have_effect($effect[Become Superficially Interested]) > 0)
+	{
+		string temp = visit_url("charsheet.php?pwd=&action=newyouinterest");
+	}
+
 	foreach eff in $effects[The Sonata of Sneakiness, Patent Invisibility, Shelter of Shed]
 	{
 		if(!uneffect(eff))
@@ -2020,6 +2025,12 @@ boolean providePlusCombat(int amt, boolean doEquips)
 boolean providePlusNonCombat(int amt, boolean doEquips)
 {
 	amt = -1 * amt;
+
+	if(have_effect($effect[Become Intensely Interested]) > 0)
+	{
+		string temp = visit_url("charsheet.php?pwd=&action=newyouinterest");
+	}
+
 
 	foreach eff in $effects[Carlweather\'s Cantata Of Confrontation]
 	{

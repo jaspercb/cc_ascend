@@ -7604,6 +7604,7 @@ boolean L10_airship()
 	buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
 	buffMaintain($effect[Snow Shoes], 0, 1, 1);
 	buffMaintain($effect[Fishy\, Oily], 0, 1, 1);
+	buffMaintain($effect[Gummed Shoes], 0, 1, 1);
 
 	ccAdv(1, $location[The Penultimate Fantasy Airship]);
 	handleFamiliar("item");
@@ -7664,6 +7665,9 @@ boolean LX_freeCombats()
 		set_property("choiceAdventure1119", get_property("cc_choice1119"));
 		set_property("cc_choice1119", "");
 		handleFamiliar("item");
+		loopHandlerDelay("_cc_lastABooCycleFix");
+		loopHandlerDelay("_cc_digitizeDeskCounter");
+		loopHandlerDelay("_cc_digitizeAssassinCounter");
 		return true;
 	}
 
@@ -7676,6 +7680,10 @@ boolean LX_freeCombats()
 		{
 			set_property("_cc_digitizeDeskCounter", get_property("_cc_digitizeDeskCounter").to_int() - 1);
 		}
+		loopHandlerDelay("_cc_lastABooCycleFix");
+		loopHandlerDelay("_cc_digitizeDeskCounter");
+		loopHandlerDelay("_cc_digitizeAssassinCounter");
+
 		return true;
 	}
 
@@ -9935,7 +9943,7 @@ boolean L12_startWar()
 	set_property("choiceAdventure142", "3");
 	if(contains_text(get_property("lastEncounter"), "Blockin\' Out the Scenery"))
 	{
-		set_property("cc_prewar", "started");	
+		set_property("cc_prewar", "started");
 		visit_url("bigisland.php?action=junkman&pwd");
 		if(!get_property("cc_hippyInstead").to_boolean())
 		{
@@ -11913,6 +11921,10 @@ boolean L8_trapperExtreme()
 		return false;
 	}
 	if(internalQuestStatus("questL08Trapper") >= 3)
+	{
+		return false;
+	}
+	if(get_property("_sourceTerminalDigitizeMonster") == $monster[Ninja Snowman Assassin])
 	{
 		return false;
 	}

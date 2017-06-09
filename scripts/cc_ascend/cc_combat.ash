@@ -923,6 +923,16 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+	if(!contains_text(combatState, "kgbdart") && have_skill($skill[KGB Tranquilizer Dart]) && (my_mp() >= mp_cost($skill[KGB Tranquilizer Dart])))
+	{
+		if($monsters[Doughbat, Natural Spider, plaid ghost, slick lihc, skeletal sommelier, taco cat, wardr&ouml;b nightstand, upgraded ram] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(kgbdart)");
+			handleTracker(enemy, $skill[KGB Tranquilizer Dart], "cc_banishes");
+			return "skill " + $skill[KGB Tranquilizer Dart];
+		}
+	}
+
 	#Unlikely path: Louder than bomb
 	if((!contains_text(combatState, "louderthanbomb")) && (item_amount($item[louder than bomb]) > 0))
 	{
