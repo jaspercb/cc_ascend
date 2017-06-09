@@ -8781,6 +8781,8 @@ boolean LX_guildUnlock()
 		return false;
 	}
 	print("Let's unlock the guild.", "green");
+
+	string pref;
 	location loc = $location[None];
 	item goal = $item[none];
 	switch(my_primestat())
@@ -8791,6 +8793,7 @@ boolean LX_guildUnlock()
 			set_property("choiceAdventure118", "2");//When Rocks Attack -> "Sorry, gotta run."
 			set_property("choiceAdventure120", "4");//Ennui is Wasted on the Young -> "Since you\'re bored, you\'re boring. I\'m outta here."
 			set_property("choiceAdventure543", "1");//Up In Their Grill -> Grab the sausage, so to speak. I mean... literally.
+			pref = "questG09Muscle";
 			loc = $location[The Outskirts of Cobb\'s Knob];
 			goal = $item[11-Inch Knob Sausage];
 			break;
@@ -8800,6 +8803,7 @@ boolean LX_guildUnlock()
 			set_property("choiceAdventure117", "1");//Trespasser -> Tackle him
 			set_property("choiceAdventure114", "2");//The Baker\'s Dilemma -> "Sorry, I\'m busy right now."
 			set_property("choiceAdventure544", "1");//A Sandwich Appears! -> sudo exorcise me a sandwich
+			pref = "questG07Myst";
 			loc = $location[The Haunted Pantry];
 			goal = $item[Exorcised Sandwich];
 			break;
@@ -8811,6 +8815,7 @@ boolean LX_guildUnlock()
 			set_property("choiceAdventure112", "2");//Please, Hammer -> "Sorry, no time."
 			set_property("choiceAdventure121", "2");//Under the Knife -> Umm, no thanks. Seriously.
 			set_property("choiceAdventure542", "1");//Now\'s Your Pants! I Mean... Your Chance! -> Yoink
+			pref = "questG08Moxie";
 			if(goal != $item[none])
 			{
 				loc = $location[The Sleazy Back Alley];
@@ -8819,6 +8824,16 @@ boolean LX_guildUnlock()
 	}
 	if(loc != $location[none])
 	{
+		if(get_property(pref) != "started")
+		{
+			string temp = visit_url("guild.php?place=challenge");
+		}
+		if(internalQuestStatus(pref) < 0)
+		{
+			print("Visiting the guild failed to set guild quest.", "red");
+			return false;
+		}
+
 		ccAdv(1, loc);
 		if(item_amount(goal) > 0)
 		{
