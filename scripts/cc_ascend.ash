@@ -1625,6 +1625,10 @@ void initializeDay(int day)
 	}
 
 	cc_doPrecinct();
+	if((item_amount($item[Cop Dollar]) >= 10) && (item_amount($item[Shoe Gum]) == 0))
+	{
+		boolean temp = cli_execute("make shoe gum");
+	}
 
 	ed_initializeDay(day);
 	boris_initializeDay(day);
@@ -10771,7 +10775,7 @@ boolean L9_oilPeak()
 	{
 		buffMaintain($effect[The Dinsey Look], 0, 1, 1);
 	}
-	if(monster_level_adjustment() <= 75)
+	if(monster_level_adjustment() < 100)
 	{
 		buffMaintain($effect[Sweetbreads Flamb&eacute;], 0, 1, 1);
 	}

@@ -58,11 +58,15 @@ void handlePostAdventure()
 
 	if((get_property("lastEncounter") == "Daily Briefing") && (cc_my_path() == "License to Adventure"))
 	{
+		set_property("_cc_bondBriefing", "started");
+	}
+
+	if((get_property("_cc_bondBriefing") == "started") && (cc_my_path() == "License to Adventure"))
+	{
 		if(item_amount($item[Can Of Minions-Be-Gone]) > 0)
 		{
 			use(1, $item[Can Of Minions-Be-Gone]);
 		}
-		set_property("_cc_bondBriefing", "started");
 	}
 
 	if(get_property("cc_disableAdventureHandling") == "yes")
@@ -620,7 +624,7 @@ void handlePostAdventure()
 		{
 			buffMaintain($effect[Spiky Shell], 40, 1, 10);
 			buffMaintain($effect[Scarysauce], 40, 1, 10);
-			buffMaintain($effect[Jalape&ntilde;o Saucesphere], 50, 1, 10);
+#			buffMaintain($effect[Jalape&ntilde;o Saucesphere], 50, 1, 10);
 		}
 		buffMaintain($effect[Ghostly Shell], 45, 1, 10);
 		if(my_class() == $class[Turtle Tamer])
@@ -672,7 +676,7 @@ void handlePostAdventure()
 		{
 			buffMaintain($effect[Spiky Shell], 80, 1, 10);
 			buffMaintain($effect[Scarysauce], 80, 1, 10);
-			buffMaintain($effect[Jalape&ntilde;o Saucesphere], 60, 1, 10);
+#			buffMaintain($effect[Jalape&ntilde;o Saucesphere], 60, 1, 10);
 		}
 		buffMaintain($effect[Ghostly Shell], 80, 1, 10);
 		if(my_class() == $class[Turtle Tamer])
@@ -816,7 +820,7 @@ void handlePostAdventure()
 		{
 			buffMaintain($effect[Spiky Shell], 80, 1, 10);
 			buffMaintain($effect[Scarysauce], 80, 1, 10);
-			buffMaintain($effect[Jalape&ntilde;o Saucesphere], 60, 1, 10);
+			buffMaintain($effect[Jalape&ntilde;o Saucesphere], 225, 1, 10);
 		}
 		buffMaintain($effect[Ghostly Shell], 80, 1, 10);
 		buffMaintain($effect[Disdain of the War Snapper], 80, 1, 10);

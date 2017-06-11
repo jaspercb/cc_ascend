@@ -1322,7 +1322,7 @@ boolean rethinkingCandy(effect acquire, boolean simulate)
 	item[int] complexList;
 	foreach it in $items[]
 	{
-		if(it.candy && (item_amount(it) > 0) && (mall_price(it) <= 1000))
+		if(it.candy && (item_amount(it) > 0) && (mall_price(it) <= 2500))
 		{
 			if(it.candy_type == "simple")
 			{
@@ -1350,7 +1350,7 @@ boolean rethinkingCandy(effect acquire, boolean simulate)
 #		print(it + ": " + item_amount(it) + " (" + to_int(it) + "): " + it.candy_type + " Cost: " + mall_price(it), "blue");
 #	}
 
-	int bestCost = 2000;
+	int bestCost = 5000;
 	item bestFirst = $item[none];
 	item bestSecond = $item[none];
 	if($effects[Synthesis: Hot, Synthesis: Cold, Synthesis: Pungent, Synthesis: Scary, Synthesis: Greasy] contains acquire)

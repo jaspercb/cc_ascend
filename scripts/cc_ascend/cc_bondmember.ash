@@ -42,6 +42,14 @@ boolean LM_bond()
 
 	if(get_property("_cc_bondBriefing") == "started")
 	{
+		if(my_meat() < 1000)
+		{
+			set_property("choiceAdventure1261", 4);
+		}
+		else
+		{
+			set_property("choiceAdventure1261", 1);
+		}
 		boolean retval = ccAdv($location[Super Villain\'s Lair]);
 		if(!retval)
 		{
