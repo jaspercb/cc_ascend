@@ -1640,6 +1640,7 @@ void initializeDay(int day)
 	{
 		if(get_property("cc_day1_init") != "finished")
 		{
+			kgbSetup();
 			set_property("_beancannonUsed", 0);
 			if(item_amount($item[transmission from planet Xi]) > 0)
 			{

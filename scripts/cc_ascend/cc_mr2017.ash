@@ -7,7 +7,8 @@ boolean getSpaceJelly();
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem);
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem, string option);
 boolean solveKGBMastermind();
-
+boolean kgbDial(int dial, int curVal, int target);
+boolean kgbSetup();
 
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem)
 {
@@ -144,6 +145,188 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 	return true;
 }
 
+
+boolean kgbSetup()
+{
+	if(!possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+	if(!is_unrestricted($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+	if(get_property("_cc_kgbSetup").to_boolean())
+	{
+		return false;
+	}
+
+	if(my_daycount() != 1)
+	{
+		return false;
+	}
+
+	set_property("_cc_kgbSetup", true);
+
+	string page = visit_url("place.php?whichplace=kgb");
+	if(contains_text(page, "kgb_drawer") || contains_text(page, "kgb_crank") || contains_text(page, "kgb_button"))
+	{
+		return false;
+	}
+	kgbDial(1, -1, 6);
+	kgbDial(2, -1, 6);
+	kgbDial(3, -1, 6);
+	kgbDial(4, -1, 6);
+	kgbDial(5, -1, 6);
+	kgbDial(6, -1, 6);
+	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
+	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 2, false);
+	page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+	page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 2, false);
+	//Crank extruded.
+	if(!contains_text(page, "kgb_crank"))
+	{
+		abort("Failed to unlock kgb_crank");
+	}
+	page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+	for(int i=0; i<11; i++)
+	{
+		page = visit_url("place.php?whichplace=kgb&action=kgb_crank", false);
+	}
+	if(!contains_text(page, "..........."))
+	{
+		abort("11 cranks failed");
+	}
+	page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+
+	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
+	page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
+	if(!contains_text(page, "kgb_dispenser"))
+	{
+		abort("Failed to unlock kgb_dispenser");
+	}
+	//Martini Hose extruded.
+
+	page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+	kgbDial(1, -1, 3);
+	kgbDial(2, -1, 3);
+	kgbDial(3, -1, 3);
+	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
+	if(!contains_text(page, "kgb_drawer2"))
+	{
+		abort("Failed to unlock kgb_drawer2");
+	}
+	page = visit_url("place.php?whichplace=kgb&action=kgb_drawer2", false);
+
+	kgbDial(4, -1, 2);
+	kgbDial(5, -1, 2);
+	kgbDial(6, -1, 2);
+	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 2, false);
+	if(!contains_text(page, "kgb_drawer1"))
+	{
+		abort("Failed to unlock kgb_drawer1");
+	}
+	page = visit_url("place.php?whichplace=kgb&action=kgb_drawer1", false);
+
+
+	kgbDial(1, -1, 7);
+	kgbDial(2, -1, 9);
+	kgbDial(3, -1, 8);
+	kgbDial(4, -1, 8);
+	kgbDial(5, -1, 9);
+	kgbDial(6, -1, 7);
+	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
+	if(!contains_text(page, "kgb_button"))
+	{
+		abort("Failed to unlock kgb_button");
+	}
+
+	page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+	for(int i=1; i<=6; i++)
+	{
+		page = visit_url("place.php?whichplace=kgb&action=kgb_button" + i, false);
+		matcher tabCount = create_matcher("kgb_tab(\\d)(?:.*?)height=(\\d+)", page);
+		int count = 0;
+		int height = 0;
+		while(tabCount.find())
+		{
+			count++;
+			int val = to_int(tabCount.group(2));
+			if(val == 15)
+			{
+				height++;
+			}
+			else if(val == 30)
+			{
+				height += 2;
+			}
+		}
+
+		if(count >= 3)
+		{
+			i--;
+		}
+
+		if(height == 12)
+		{
+			break;
+		}
+
+	}
+
+	page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
+	page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
+	page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
+
+	return true;
+
+}
+
+
+boolean kgbDial(int dial, int curVal, int target)
+{
+	if(!possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+	if(!is_unrestricted($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+
+	if(curVal == target)
+	{
+		return true;
+	}
+
+	while(curVal != target)
+	{
+		string page = visit_url("place.php?whichplace=kgb&action=kgb_dial" + dial, false);
+		int[int] dials;
+		matcher dial_matcher = create_matcher("title=\"Weird Character (.)", page);
+		int count = 1;
+		while(dial_matcher.find())
+		{
+			string temp = dial_matcher.group(1);
+			if(temp == "a")
+			{
+				dials[count] = 10;
+			}
+			else
+			{
+				dials[count] = to_int(dial_matcher.group(1));
+			}
+			count++;
+		}
+		curVal = dials[dial];
+		print("Clicking " + dial + " and now: " + curVal, "blue");
+	}
+	return true;
+}
+
+
 boolean solveKGBMastermind()
 {
 	if(!possessEquipment($item[Kremlin\'s Greatest Briefcase]))
@@ -204,16 +387,16 @@ boolean solveKGBMastermind()
 		int[int] guess;
 		if(guessString == "")
 		{
-			guess[0] = 0;
-			guess[1] = 1;
-			guess[2] = 2;
+			guess[1] = 0;
+			guess[2] = 1;
+			guess[3] = 2;
 		}
 		else
 		{
 			string[int] digits = split_string(guessString, " ");
-			guess[0] = to_int(digits[count(digits)-3]);
-			guess[1] = to_int(digits[count(digits)-2]);
-			guess[2] = to_int(digits[count(digits)-1]);
+			guess[1] = to_int(digits[count(digits)-3]);
+			guess[2] = to_int(digits[count(digits)-2]);
+			guess[3] = to_int(digits[count(digits)-1]);
 		}
 
 		string prop = "_cc_kgbScoresLeft";
@@ -228,15 +411,16 @@ boolean solveKGBMastermind()
 		}
 
 		//Which one are we doing, if ScoresLeft has 3 0, we are done with it.
-		print("About to guess: " + guess[0] + ", " + guess[1] + ", " + guess[2], "green");
-		for(int i=0; i<3; i++)
+		print("About to guess: " + guess[1] + ", " + guess[2] + ", " + guess[3], "green");
+		for(int i=1; i<=3; i++)
 		{
-			while(dials[dialOffset + i] != guess[i])
-			{
-				print("Clicking: " + i);
-				page = visit_url("place.php?whichplace=kgb&action=kgb_dial" + (i+1), false);
-				dials[dialOffset + i] = (dials[dialOffset + i] + 1) % 11;
-			}
+			kgbDial(dialOffset+i, dials[dialOffset + i], guess[i]);
+#			while(dials[dialOffset + i] != guess[i])
+#			{
+#				print("Clicking: " + i);
+#				page = visit_url("place.php?whichplace=kgb&action=kgb_dial" + (i+1), false);
+#				dials[dialOffset + i] = (dials[dialOffset + i] + 1) % 11;
+#			}
 		}
 
 		//Verify the dials are correct before pushing anything!
@@ -257,12 +441,12 @@ boolean solveKGBMastermind()
 			vCount++;
 		}
 
-		if((vDials[dialOffset+0] != guess[0]) || (vDials[dialOffset+1] != guess[1]) || (vDials[dialOffset+2] != guess[2]))
+		if((vDials[dialOffset+1] != guess[1]) || (vDials[dialOffset+2] != guess[2]) || (vDials[dialOffset+3] != guess[3]))
 		{
 			abort("Dials not set correctly");
 		}
 
-		string page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + action);
+		string page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + action, false);
 		if(contains_text(page, "Nothing happens"))
 		{
 			print("Out of clicks. Derp.", "red");

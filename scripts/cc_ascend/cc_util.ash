@@ -2200,6 +2200,7 @@ boolean handleSealNormal(item it, string option)
 
 	if((get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount(it) > 0) && (item_amount($item[seal-blubber candle]) >= candles) && (my_level() >= level))
 	{
+		ensureSealClubs();
 		return ccAdvBypass("inv_use.php?pwd=&whichitem=" + to_int(it) + "&checked=1", $location[Noob Cave], option);
 	}
 	else

@@ -477,6 +477,9 @@ item[element] getCharterIndexable();						//Defined in cc_ascend/cc_elementalPla
 boolean getDiscoStyle();									//Defined in cc_ascend/cc_elementalPlanes.ash
 boolean getDiscoStyle(int choice);							//Defined in cc_ascend/cc_elementalPlanes.ash
 boolean getSpaceJelly();									//Defined in cc_ascend/cc_mr2017.ash
+boolean solveKGBMastermind();								//Defined in cc_ascend/cc_mr2017.ash
+boolean kgbDial(int dial, int curVal, int target);			//Defined in cc_ascend/cc_mr2017.ash
+boolean kgbSetup();											//Defined in cc_ascend/cc_mr2017.ash
 int get_cs_questCost(int quest);							//Defined in cc_ascend/cc_community_service.ash
 int get_cs_questCost(string input);							//Defined in cc_ascend/cc_community_service.ash
 int get_cs_questNum(string input);							//Defined in cc_ascend/cc_community_service.ash
