@@ -247,7 +247,7 @@ boolean kgbSetup()
 	for(int i=1; i<=6; i++)
 	{
 		page = visit_url("place.php?whichplace=kgb&action=kgb_button" + i, false);
-		matcher tabCount = create_matcher("kgb_tab(\\d)(?:.*?)/images/otherimages/kgb/tab(\\d+).gif", page);
+		matcher tabCount = create_matcher("kgb_tab(\\d)(?:.*?)otherimages/kgb/tab(\\d+).gif", page);
 		int count = 0;
 		int height = 0;
 		while(tabCount.find())
@@ -266,17 +266,23 @@ boolean kgbSetup()
 		{
 			break;
 		}
-
 	}
 
+
+	//Do verification instead.
+
+	int have = item_amount($item[Splendid Martini]);
 	page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
+	if(have == item_amount($item[Splendid Martini]))
+	{
+		abort("Failed to get a splendid martini");
+	}
 	page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
 	page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
 
 	return true;
 
 }
-
 
 boolean kgbDial(int dial, int curVal, int target)
 {
