@@ -3079,6 +3079,10 @@ boolean L11_aridDesert()
 		desertBuff = $item[Ornate Dowsing Rod];
 		progress = 3;
 	}
+	if(get_property("bondDesert").to_boolean())
+	{
+		progress++;
+	}
 
 
 	if((!possessEquipment(desertBuff)) && !($classes[Avatar of Boris, Avatar of Sneaky Pete] contains my_class()) && (cc_my_path() != "Way of the Surprising Fist"))

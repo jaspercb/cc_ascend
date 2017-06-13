@@ -247,21 +247,14 @@ boolean kgbSetup()
 	for(int i=1; i<=6; i++)
 	{
 		page = visit_url("place.php?whichplace=kgb&action=kgb_button" + i, false);
-		matcher tabCount = create_matcher("kgb_tab(\\d)(?:.*?)height=(\\d+)", page);
+		matcher tabCount = create_matcher("kgb_tab(\\d)(?:.*?)/images/otherimages/kgb/tab(\\d+).gif", page);
 		int count = 0;
 		int height = 0;
 		while(tabCount.find())
 		{
 			count++;
 			int val = to_int(tabCount.group(2));
-			if(val == 15)
-			{
-				height++;
-			}
-			else if(val == 30)
-			{
-				height += 2;
-			}
+			height += to_int(tabCount.group(2));
 		}
 
 		if(count >= 3)
