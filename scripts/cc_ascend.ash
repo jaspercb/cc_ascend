@@ -2370,9 +2370,11 @@ boolean doBedtime()
 				string[int] extrudeDays = split_string(get_property("cc_extrudeChoice"), ":");
 				extrudeChoice = split_string(trim(extrudeDays[min(count(extrudeDays), my_daycount()) - 1]), ";");
 			}
-			while(count(extrudeChoice) < 3)
+			int amt = count(extrudeChoice);
+			while(amt < 3)
 			{
 				extrudeChoice[count(extrudeChoice)] = "booze";
+				amt++;
 			}
 
 			while((count > 0) && (item_amount($item[Source Essence]) >= 10))
