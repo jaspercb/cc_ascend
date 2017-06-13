@@ -52,8 +52,8 @@ boolean ovenHandle();
 boolean isGuildClass();
 boolean handleCopiedMonster(item itm);
 boolean handleCopiedMonster(item itm, string option);
-boolean handleSealArmored();
-boolean handleSealArmored(string option);
+boolean handleSealNormal(item it);
+boolean handleSealNormal(item it, string option);
 boolean handleSealAncient();
 boolean handleSealAncient(string option);
 boolean handleSealElement(element flavor);
@@ -2177,20 +2177,34 @@ boolean fightScienceTentacle()
 }
 
 
-boolean handleSealArmored()
+boolean handleSealNormal(item it)
 {
-	return handleSealArmored("");
+	return handleSealNormal(it, "");
 }
 
-boolean handleSealArmored(string option)
+boolean handleSealNormal(item it, string option)
 {
-	if((get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount($item[figurine of an armored seal]) > 0) && (item_amount($item[seal-blubber candle]) >= 10))
+	int candles = 0;
+	int level = 0;
+	switch(it)
 	{
-		return ccAdvBypass("inv_use.php?pwd=&whichitem=3904&checked=1", $location[Noob Cave], option);
+	case $item[Figurine of an Armored Seal]:			candles = 10;		level = 9;		break;
+	case $item[Figurine of a Cute Baby Seal]:			candles = 5;		level = 5;		break;
+	case $item[Figurine of a Wretched-Looking Seal]:	candles = 1;		level = 1;		break;
+	}
+
+	if(candles == 0)
+	{
+		return false;
+	}
+
+	if((get_property("_sealsSummoned").to_int() < maxSealSummons()) && (item_amount(it) > 0) && (item_amount($item[seal-blubber candle]) >= candles) && (my_level() >= level))
+	{
+		return ccAdvBypass("inv_use.php?pwd=&whichitem=" + to_int(it) + "&checked=1", $location[Noob Cave], option);
 	}
 	else
 	{
-		abort("Can't use an Armored Seal for some raisin");
+		abort("Can't use " + it + " for some raisin");
 	}
 	return false;
 }

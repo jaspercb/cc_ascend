@@ -2016,22 +2016,38 @@ boolean doBedtime()
 		int oldSeals = get_property("_sealsSummoned").to_int();
 		while((get_property("_sealsSummoned").to_int() < 5) && (!get_property("kingLiberated").to_boolean()) && (my_meat() > 4500))
 		{
-			if(my_daycount() == 1)
+			boolean summoned = false;
+			if((my_daycount() == 1) && (my_level() >= 6))
 			{
 				cli_execute("make figurine of an ancient seal");
 				buyUpTo(3, $item[seal-blubber candle]);
 				ensureSealClubs();
 				handleSealAncient();
+				summoned = true;
 			}
-			else
+			else if(my_level() >= 9)
 			{
 				buyUpTo(1, $item[figurine of an armored seal]);
 				buyUpTo(10, $item[seal-blubber candle]);
-				ensureSealClubs();
-				handleSealArmored();
+				handleSealNormal($item[Figurine of an Armored Seal]);
+				summoned = true;
+			}
+			else if(my_level() >= 5)
+			{
+				buyUpTo(1, $item[figurine of a Cute Baby Seal]);
+				buyUpTo(5, $item[seal-blubber candle]);
+				handleSealNormal($item[Figurine of a Cute Baby Seal]);
+				summoned = true;
+			}
+			else 
+			{
+				buyUpTo(1, $item[figurine of a Wretched-Looking Seal]);
+				buyUpTo(1, $item[seal-blubber candle]);
+				handleSealNormal($item[Figurine of a Wretched-Looking Seal]);
+				summoned = true;
 			}
 			int newSeals = get_property("_sealsSummoned").to_int();
-			if(newSeals == oldSeals)
+			if((newSeals == oldSeals) && summoned)
 			{
 				abort("Unable to summon seals.");
 			}
