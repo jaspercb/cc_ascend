@@ -549,6 +549,11 @@ boolean LX_witchess()
 		return cc_advWitchess("ml");
 	}
 
+	if(cc_my_path() == "License to Adventure")
+	{
+		return cc_advWitchess("ml");
+	}
+
 	switch(my_daycount())
 	{
 	case 1:
@@ -1330,8 +1335,6 @@ int handlePulls(int day)
 				}
 			}
 		}
-
-		pullXWhenHaveY($item[spooky-gro fertilizer], 1, 0);
 
 		if(((cc_my_path() == "Picky") || is100FamiliarRun()) && (item_amount($item[Deck of Every Card]) == 0))
 		{
@@ -7824,8 +7827,7 @@ boolean Lsc_flyerSeals()
 			buyUpTo(10, $item[seal-blubber candle]);
 			if((item_amount($item[Figurine of an Armored Seal]) > 0) && (item_amount($item[Seal-Blubber Candle]) >= 10))
 			{
-				ensureSealClubs();
-				handleSealArmored();
+				handleSealNormal($item[Figurine of an Armored Seal]);
 				clubbedSeal = true;
 			}
 		}
@@ -9551,13 +9553,14 @@ boolean L2_spookyMap()
 
 boolean L2_spookyFertilizer()
 {
-	if(item_amount($item[Spooky-Gro Fertilizer]) > 0)
-	{
-		set_property("cc_spookyfertilizer", "finished");
-	}
 	if(get_property("cc_spookyfertilizer") == "finished")
 	{
 		return false;
+	}
+	pullXWhenHaveY($item[spooky-gro fertilizer], 1, 0);
+	if(item_amount($item[Spooky-Gro Fertilizer]) > 0)
+	{
+		set_property("cc_spookyfertilizer", "finished");
 	}
 	print("Need some poop, I mean fertilizer now", "blue");
 	set_property("choiceAdventure502", "3");

@@ -1436,6 +1436,11 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+	if(!contains_text(combatState, "explodingcigar") && contains_text(combatState, "duplicate") && (item_amount($item[Exploding Cigar]) > 0))
+	{
+		set_property("cc_combatHandler", combatState + "(explodingcigar)");
+		return "item " + $item[Exploding Cigar];
+	}
 
 	if(contains_text(combatState, "duplicate") && have_skill($skill[Gelatinous Kick]) && (my_mp() > mp_cost($skill[Gelatinous Kick])))
 	{

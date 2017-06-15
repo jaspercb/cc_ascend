@@ -497,8 +497,8 @@ void handleOffHand();										//Defined in cc_ascend/cc_equipment.ash
 int handlePulls(int day);									//Defined in cc_ascend.ash
 boolean handleSealAncient();								//Defined in cc_ascend/cc_util.ash
 boolean handleSealAncient(string option);					//Defined in cc_ascend/cc_util.ash
-boolean handleSealArmored();								//Defined in cc_ascend/cc_util.ash
-boolean handleSealArmored(string option);					//Defined in cc_ascend/cc_util.ash
+boolean handleSealNormal(item it);							//Defined in cc_ascend/cc_util.ash
+boolean handleSealNormal(item it, string option);			//Defined in cc_ascend/cc_util.ash
 boolean handleSealElement(element flavor);					//Defined in cc_ascend/cc_util.ash
 boolean handleSealElement(element flavor, string option);	//Defined in cc_ascend/cc_util.ash
 boolean handleServant(servant who);							//Defined in cc_ascend/cc_edTheUndying.ash
