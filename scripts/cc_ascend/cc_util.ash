@@ -75,6 +75,7 @@ boolean playwith(item toy, string prop);
 boolean playwith(skill sk, string prop);
 boolean ok_skill(skill sk, string prop);
 boolean haveAny(boolean[item] array);
+boolean have_skills(boolean[skill] array);
 int spleen_left();
 int stomach_left();
 int fullness_left();
@@ -2618,6 +2619,18 @@ int doNumberology(string goal, boolean doIt, string option)
 		i = i + 1;
 	}
 	return -1;
+}
+
+boolean have_skills(boolean[skill] array)
+{
+	foreach sk in array
+	{
+		if(!have_skill(sk))
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 boolean haveAny(boolean[item] array)

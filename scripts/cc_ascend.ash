@@ -1768,11 +1768,14 @@ void initializeDay(int day)
 				pullXWhenHaveY($item[frost flower], 1, 0);
 			}
 			pullXWhenHaveY($item[hand in glove], 1, 0);
-			pullXWhenHaveY($item[wet stew], 1, 0);
 			pullXWhenHaveY($item[blackberry galoshes], 1, 0);
+			pullXWhenHaveY($item[wet stew], 1, 0);
 			if((spleen_limit() >= 8) && (item_amount($item[Astral Energy Drink]) >= 2))
 			{
-				pullXWhenHaveY($item[mojo filter], 1, 0);
+				if(spleen_left() == 15)
+				{
+					pullXWhenHaveY($item[mojo filter], 1, 0);
+				}
 			}
 
 			if(!get_property("cc_useCubeling").to_boolean() && (towerKeyCount() == 0) && (fullness_left() >= 4))
@@ -3086,11 +3089,37 @@ boolean L11_aridDesert()
 	}
 	if(get_property("bondDesert").to_boolean())
 	{
-		progress++;
+		progress += 2;
+		if(get_revision() < 18103)
+		{
+			//Due to a combat isue in 18097, maybe some people aren\'t updating.
+			string temp = visit_url("place.php?whichplace=desertbeach");
+			if(get_property("desertExploration").to_int() >= 100)
+			{
+				return false;
+			}
+		}
 	}
 
+	boolean failDesert = true;
+	if(possessEquipment(desertBuff))
+	{
+		failDesert = false;
+	}
+	if($classes[Avatar of Boris, Avatar of Sneaky Pete] contains my_class())
+	{
+		failDesert = false;
+	}
+	if(cc_my_path() == "Way of the Surprising Fist")
+	{
+		failDesert = false;
+	}
+	if(get_property("bondDesert").to_boolean())
+	{
+		failDesert = false;
+	}
 
-	if((!possessEquipment(desertBuff)) && !($classes[Avatar of Boris, Avatar of Sneaky Pete] contains my_class()) && (cc_my_path() != "Way of the Surprising Fist"))
+	if(failDesert)
 	{
 		if((my_level() >= 12) && !in_hardcore())
 		{
@@ -3186,7 +3215,7 @@ boolean L11_aridDesert()
 		}
 
 #		if(in_hardcore() && isGuildClass() && (item_amount($item[Worm-Riding Hooks]) > 0) && (get_property("desertExploration").to_int() <= (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 16) != 16))
-		if(in_hardcore() && (item_amount($item[Worm-Riding Hooks]) > 0) && (get_property("desertExploration").to_int() <= (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 16) != 16))
+		if((in_hardcore() || (pulls_remaining() == 0))&& (item_amount($item[Worm-Riding Hooks]) > 0) && (get_property("desertExploration").to_int() <= (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 16) != 16))
 		{
 			if(item_amount($item[Drum Machine]) > 0)
 			{
@@ -8183,6 +8212,11 @@ boolean L7_crypt()
 			equip($item[Gravy Boat]);
 		}
 
+		if(get_property("spacegateVaccine3").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Emotional Vaccine]) == 0))
+		{
+			cli_execute("spacegate vaccine 3");
+		}
+
 		if(have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3))
 		{
 			handleFamiliar($familiar[Space Jellyfish]);
@@ -8299,6 +8333,7 @@ boolean L6_friarsGetParts()
 #		handleFamiliar($familiar[Artistic Goth Kid]);
 #	}
 	buffMaintain($effect[Snow Shoes], 0, 1, 1);
+	buffMaintain($effect[Gummed Shoes], 0, 1, 1);
 
 	if($location[The Dark Heart of the Woods].turns_spent == 0)
 	{
@@ -8373,7 +8408,7 @@ boolean LX_steelOrgan()
 		set_property("cc_getSteelOrgan", false);
 		return false;
 	}
-	if(my_path() == "Nuclear Autumn")
+	if((cc_my_path() == "Nuclear Autumn") || (cc_my_path() == "License to Adventure"))
 	{
 		print("You could get a Steel Organ for aftercore, but why? We won't help with this deviant and perverse behavior. Turning off setting.", "blue");
 		set_property("cc_getSteelOrgan", false);
@@ -9065,7 +9100,7 @@ boolean LX_craftAcquireItems()
 	}
 	else
 	{
-		if(have_effect($effect[Adventurer\'s Best Friendship]) > 30)
+		if((have_effect($effect[Adventurer\'s Best Friendship]) > 30) && have_familiar($familiar[Mosquito]))
 		{
 			set_property("choiceAdventure1106", 3);
 		}
@@ -9557,7 +9592,7 @@ boolean L2_spookyFertilizer()
 	{
 		return false;
 	}
-	pullXWhenHaveY($item[spooky-gro fertilizer], 1, 0);
+	pullXWhenHaveY($item[Spooky-Gro Fertilizer], 1, 0);
 	if(item_amount($item[Spooky-Gro Fertilizer]) > 0)
 	{
 		set_property("cc_spookyfertilizer", "finished");
@@ -9970,7 +10005,8 @@ boolean L12_startWar()
 		return false;
 	}
 
-	// Yes, we are going to make sure swordfish is complete first.
+	//Yes, we are going to make sure swordfish is complete first.
+	//We might want to put this on a timer
 	if(get_property("cc_swordfish") != "finished")
 	{
 		return false;
@@ -12168,6 +12204,9 @@ boolean cc_tavern()
 	boolean [int] locations = $ints[3, 2, 1, 0, 5, 10, 15, 20, 16, 21];
 	foreach loc in locations
 	{
+		//Sleaze is the only one we don\'t care about
+		//What can we do to get more here?
+
 		if(numeric_modifier("Cold Damage") >= 20.0)
 		{
 			set_property("choiceAdventure513", "2");
@@ -13489,6 +13528,7 @@ void cc_begin()
 {
 	//This also should set our path too.
 	string page = visit_url("main.php");
+	page = visit_url("api.php?what=status&for=4", false);
 	if(contains_text(page, "Being Picky"))
 	{
 		picky_startAscension();
@@ -13642,11 +13682,10 @@ void cc_begin()
 	{
 		print("Done for today (" + my_daycount() + "), beep boop");
 	}
-
 }
 
 void main()
 {
-	cc_begin();
+	cc_begin(); 
 }
 

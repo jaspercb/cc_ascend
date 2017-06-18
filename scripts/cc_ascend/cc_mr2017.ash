@@ -246,6 +246,7 @@ boolean kgbSetup()
 	page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
 	for(int i=1; i<=6; i++)
 	{
+		print("Hitting tab modification button: " + i, "blue");
 		page = visit_url("place.php?whichplace=kgb&action=kgb_button" + i, false);
 		matcher tabCount = create_matcher("kgb_tab(\\d)(?:.*?)otherimages/kgb/tab(\\d+).gif", page);
 		int count = 0;

@@ -802,6 +802,7 @@ boolean cc_cheesePostCS()
 
 boolean cc_cheesePostCS(int leave)
 {
+	int startMeat = my_meat();
 	if(!didWePlantHere($location[Barf Mountain]) && florist_available() && (my_adventures() > 0) && (inebriety_left() >= 0))
 	{
 		ccAdv(1, $location[Barf Mountain]);
@@ -1323,7 +1324,11 @@ boolean cc_cheesePostCS(int leave)
 		}
 		cli_execute("pvp loot 10");
 	}
+	int endMeat = my_meat();
+	int gainedMeat = endMeat - startMeat;
+	print("Meat gained:  " + gainedMeat, "blue");
 	cli_execute("cc_ascend");
+	print("Meat gained:  " + gainedMeat, "blue");
 	return true;
 }
 

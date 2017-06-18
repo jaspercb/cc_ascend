@@ -519,6 +519,7 @@ boolean hasShieldEquipped();								//Defined in cc_ascend/cc_util.ash
 boolean hasTail(monster enemy);								//Defined in cc_ascend/cc_monsterparts.ash
 boolean hasTorso(monster enemy);							//Defined in cc_ascend/cc_monsterparts.ash
 boolean haveAny(boolean[item] array);						//Defined in cc_ascend/cc_util.ash
+boolean have_skills(boolean[skill] array);					//Defined in cc_ascend/cc_util.ash
 boolean haveGhostReport();									//Defined in cc_ascend/cc_mr2016.ash
 boolean haveSpleenFamiliar();								//Defined in cc_ascend/cc_util.ash
 int howLongBeforeHoloWristDrop();							//Defined in cc_ascend/cc_util.ash

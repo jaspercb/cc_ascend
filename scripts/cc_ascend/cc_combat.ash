@@ -98,6 +98,39 @@ string cc_combatHandler(int round, string opp, string text)
 		awol_helper(text);
 	}
 
+	if(get_property("cc_combatDirective") != "")
+	{
+		string[int] actions = split_string(get_property("cc_combatDirective"), ";");
+		int idx = 0;
+		if(round == 0)
+		{
+			if(actions[0] != "start")
+			{
+				set_property("cc_combatDirective", "");
+				idx = -1;
+			}
+			else
+			{
+				idx = 1;
+			}
+		}
+		if(idx >= 0)
+		{
+			string doThis = actions[idx];
+			string restore = "";
+			for(int i=idx+1; i<count(actions); i++)
+			{
+				restore += actions[i];
+				if((i+1) < count(actions))
+				{
+					restore += ";";
+				}
+			}
+			set_property("cc_combatDirective", restore);
+			return doThis;
+		}
+	}
+
 	phylum type = monster_phylum(enemy);
 
 	phylum fish = $phylum[fish];
@@ -1466,6 +1499,18 @@ string cc_combatHandler(int round, string opp, string text)
 	if(!contains_text(combatState, "digitize") && have_skill($skill[Digitize]) && (my_mp() > mp_cost($skill[Digitize])) && (get_property("_sourceTerminalDigitizeUses").to_int() == 0) && !get_property("kingLiberated").to_boolean())
 	{
 		if($monsters[Ninja Snowman Assassin, Lobsterfrogman, Writing Desk] contains enemy)
+		{
+			if(get_property("_sourceTerminalDigitizeMonster") != enemy)
+			{
+				set_property("cc_combatHandler", combatState + "(digitize)");
+				return "skill digitize";
+			}
+		}
+	}
+
+	if(!contains_text(combatState, "digitize") && have_skill($skill[Digitize]) && (my_mp() > mp_cost($skill[Digitize])) && (get_property("_sourceTerminalDigitizeUses").to_int() < 3) && !get_property("kingLiberated").to_boolean())
+	{
+		if(get_property("cc_digitizeDirective") == enemy)
 		{
 			if(get_property("_sourceTerminalDigitizeMonster") != enemy)
 			{

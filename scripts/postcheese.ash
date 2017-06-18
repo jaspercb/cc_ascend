@@ -648,7 +648,10 @@ void handlePostAdventure()
 	else if(my_maxmp() < 170)
 	{
 		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 50, 1, 10);
-		buffMaintain(whatStatSmile(), 40, 1, 10);
+		if(my_level() < 13)
+		{
+			buffMaintain(whatStatSmile(), 40, 1, 10);
+		}
 
 		buffMaintain($effect[Empathy], 50, 1, 10);
 		buffMaintain($effect[Leash of Linguini], 35, 1, 10);
@@ -671,11 +674,11 @@ void handlePostAdventure()
 		buffMaintain($effect[Singer\'s Faithful Ocelot], 80, 1, 10);
 		buffMaintain($effect[Rage of the Reindeer], 80, 1, 10);
 		buffMaintain($effect[Astral Shell], 80, 1, 10);
-		buffMaintain($effect[Elemental Saucesphere], 80, 1, 10);
+		buffMaintain($effect[Elemental Saucesphere], 120, 1, 10);
 		if(my_location() != $location[The Broodling Grounds])
 		{
 			buffMaintain($effect[Spiky Shell], 80, 1, 10);
-			buffMaintain($effect[Scarysauce], 80, 1, 10);
+			buffMaintain($effect[Scarysauce], 120, 1, 10);
 #			buffMaintain($effect[Jalape&ntilde;o Saucesphere], 60, 1, 10);
 		}
 		buffMaintain($effect[Ghostly Shell], 80, 1, 10);
@@ -686,9 +689,9 @@ void handlePostAdventure()
 		buffMaintain($effect[Walberg\'s Dim Bulb], 80, 1, 10);
 		buffMaintain($effect[Springy Fusilli], 80, 1, 10);
 #		buffMaintain($effect[Flimsy Shield of the Pastalord], 80, 1, 10);
-		buffMaintain($effect[Blubbered Up], 80, 1, 10);
+		buffMaintain($effect[Blubbered Up], 120, 1, 10);
 #		buffMaintain($effect[Tenacity of the Snapper], 80, 1, 10);
-		buffMaintain($effect[Reptilian Fortitude], 80, 1, 10);
+		buffMaintain($effect[Reptilian Fortitude], 150, 1, 10);
 		buffMaintain($effect[Disco Fever], 80, 1, 10);
 		buffMaintain($effect[Seal Clubbing Frenzy], 50, 5, 4);
 		buffMaintain($effect[Patience of the Tortoise], 50, 5, 4);
@@ -763,7 +766,10 @@ void handlePostAdventure()
 
 		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 50, 1, 10);
 
-		buffMaintain(whatStatSmile(), 40, 1, 10);
+		if(my_level() < 13)
+		{
+			buffMaintain(whatStatSmile(), 40, 1, 10);
+		}
 
 		buffMaintain($effect[Empathy], 50, 1, 10);
 		buffMaintain($effect[Leash of Linguini], 35, 1, 10);
@@ -815,33 +821,42 @@ void handlePostAdventure()
 		}
 		buffMaintain($effect[Rage of the Reindeer], 80, 1, 10);
 		buffMaintain($effect[Astral Shell], 80, 1, 10);
-		buffMaintain($effect[Elemental Saucesphere], 80, 1, 10);
+		buffMaintain($effect[Elemental Saucesphere], 120, 1, 10);
 		if(my_location() != $location[The Broodling Grounds])
 		{
-			buffMaintain($effect[Spiky Shell], 80, 1, 10);
-			buffMaintain($effect[Scarysauce], 80, 1, 10);
+			buffMaintain($effect[Spiky Shell], 120, 1, 10);
+			buffMaintain($effect[Scarysauce], 160, 1, 10);
 			buffMaintain($effect[Jalape&ntilde;o Saucesphere], 225, 1, 10);
 		}
 		buffMaintain($effect[Ghostly Shell], 80, 1, 10);
-		buffMaintain($effect[Disdain of the War Snapper], 80, 1, 10);
+		buffMaintain($effect[Disdain of the War Snapper], 200, 1, 10);
 		buffMaintain($effect[Walberg\'s Dim Bulb], 80, 1, 10);
 		buffMaintain($effect[Springy Fusilli], 80, 1, 10);
-		buffMaintain($effect[Flimsy Shield of the Pastalord], 100, 1, 10);
-		buffMaintain($effect[Blubbered Up], 80, 1, 10);
+		buffMaintain($effect[Flimsy Shield of the Pastalord], 180, 1, 10);
+		buffMaintain($effect[Blubbered Up], 120, 1, 10);
 		if(my_level() < 13)
 		{
-			buffMaintain($effect[Aloysius\' Antiphon of Aptitude], 80, 1, 10);
+			buffMaintain($effect[Aloysius\' Antiphon of Aptitude], 150, 1, 10);
 		}
 		buffMaintain($effect[Tenacity of the Snapper], 120, 1, 10);
-		buffMaintain($effect[Reptilian Fortitude], 80, 1, 10);
-		buffMaintain($effect[Antibiotic Saucesphere], 300, 1, 10);
-		buffMaintain($effect[Disco Fever], 80, 1, 10);
-		buffMaintain($effect[Seal Clubbing Frenzy], 50, 5, 4);
-		buffMaintain($effect[Patience of the Tortoise], 50, 5, 4);
-		buffMaintain($effect[Mariachi Mood], 50, 5, 4);
-		buffMaintain($effect[Saucemastery], 50, 5, 4);
-		buffMaintain($effect[Disco State of Mind], 50, 5, 4);
-		buffMaintain($effect[Pasta Oneness], 50, 5, 4);
+		buffMaintain($effect[Reptilian Fortitude], 120, 1, 10);
+		buffMaintain($effect[Antibiotic Saucesphere], 350, 1, 10);
+		buffMaintain($effect[Disco Fever], 120, 1, 10);
+		if(my_primestat() == $stat[Muscle])
+		{
+			buffMaintain($effect[Seal Clubbing Frenzy], 50, 5, 4);
+			buffMaintain($effect[Patience of the Tortoise], 50, 5, 4);
+		}
+		if(my_primestat() == $stat[Moxie])
+		{
+			buffMaintain($effect[Mariachi Mood], 50, 5, 4);
+			buffMaintain($effect[Disco State of Mind], 50, 5, 4);
+		}
+		if(my_primestat() == $stat[Mysticality])
+		{
+			buffMaintain($effect[Saucemastery], 50, 5, 4);
+			buffMaintain($effect[Pasta Oneness], 50, 5, 4);
+		}
 		if(familiar_weight(my_familiar()) < 20)
 		{
 			buffMaintain($effect[Curiosity of Br\'er Tarrypin], 50, 1, 2);
@@ -1060,6 +1075,9 @@ void handlePostAdventure()
 			abort("We have been disavowed...");
 		}
 	}
+
+	set_property("cc_combatDirective", "");
+	set_property("cc_digitizeDirective", "");
 
 	print("Post Adventure done, beep.", "purple");
 }
