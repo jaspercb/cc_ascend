@@ -446,7 +446,7 @@ boolean LM_bond()
 		//Time spinner bloopers.
 		//+adv chateau
 		//Get kgb buffs.
-		//A View to Some Meat (3)
+		//A View to Some Meat
 	}
 
 
