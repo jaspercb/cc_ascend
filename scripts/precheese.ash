@@ -211,7 +211,10 @@ void handlePreAdventure(location place)
 			shrugAT($effect[The Sonata of Sneakiness]);
 			buffMaintain($effect[Smooth Movements], 15, 1, 2);
 			buffMaintain($effect[The Sonata of Sneakiness], 25, 1, 2);
-			buffMaintain($effect[Patent Invisibility], 0, 1, 1);
+			if(item_amount($item[Patent Invisibility Tonic]) > 0)
+			{
+				buffMaintain($effect[Patent Invisibility], 0, 1, 1);
+			}
 			buffMaintain($effect[Song of Solitude], 22, 1, 1);
 			buffMaintain($effect[Inked Well], 45, 1, 1);
 		}

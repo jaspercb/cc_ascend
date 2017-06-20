@@ -61,7 +61,7 @@ void handlePostAdventure()
 		set_property("_cc_bondBriefing", "started");
 	}
 
-	if((get_property("_cc_bondBriefing") == "started") && (cc_my_path() == "License to Adventure"))
+	if((get_property("_cc_bondBriefing") == "started") && (cc_my_path() == "License to Adventure") && (my_location() == $location[Super Villain\'s Lair]))
 	{
 		if(item_amount($item[Can Of Minions-Be-Gone]) > 0)
 		{

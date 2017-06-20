@@ -36,7 +36,7 @@ void bond_initializeSettings()
 		use(1, $item[Infinite BACON Machine]);
 		if(!get_property("_internetViralVideoBought").to_boolean() && (item_amount($item[BACON]) >= 20))
 		{
-			cli_execute("make 1 viral video");
+			cli_execute("make 1 " + $item[Viral Video]);
 		}
 		if(!get_property("_pottedTeaTreeUsed").to_boolean())
 		{
@@ -49,6 +49,92 @@ void bond_initializeSettings()
 		}
 		doNumberology("battlefield");
 		adjustEdHat("hyena");
+	}
+}
+
+void bond_initializeDay(int day)
+{
+	if(day == 2)
+	{
+		if(get_property("cc_dickstab").to_boolean())
+		{
+			if(item_amount($item[Hacked Gibson]) > 0)
+			{
+				put_closet(item_amount($item[Hacked Gibson]), $item[Hacked Gibson]);
+			}
+			deck_cheat("tower");
+			deck_cheat("mine");
+			if(!get_property("_cc_kgbSetup").to_boolean())
+			{
+				set_property("_cc_kgbSetup", true);
+				string page;
+				for(int i=0; i<11; i++)
+				{
+					page = visit_url("place.php?whichplace=kgb&action=kgb_crank", false);
+				}
+				if(!contains_text(page, "..........."))
+				{
+					abort("11 cranks failed");
+				}
+				page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+				page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+				page = visit_url("place.php?whichplace=kgb&action=kgb_drawer2", false);
+				page = visit_url("place.php?whichplace=kgb&action=kgb_drawer1", false);
+				page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
+				page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
+				page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
+			}
+			pullXWhenHaveY($item[Improved Martini], 13, 0);
+			use(1, $item[Infinite BACON Machine]);
+			if(!get_property("_internetDailyDungeonMalwareBought").to_boolean() && (item_amount($item[BACON]) >= 150))
+			{
+				cli_execute("make 1 " + $item[Daily Dungeon Malware]);
+			}
+			if(!get_property("_internetViralVideoBought").to_boolean() && (item_amount($item[BACON]) >= 20))
+			{
+				cli_execute("make 1 " + $item[Viral Video]);
+			}
+			if(!get_property("_pottedTeaTreeUsed").to_boolean())
+			{
+				cli_execute("teatree " + $item[Cuppa Sobrie Tea]);
+			}
+			L8_trapperGround();
+			//Digitize a blooper? Time spin it?
+			equipBaseline();
+
+			if(get_property("cc_dickstab").to_boolean() && !possessEquipment($item[Dented Scepter]) && is_unrestricted($item[Witchess Set]) && get_property("lovebugsUnlocked").to_boolean() && possessEquipment($item[Your Cowboy Boots]) && have_skills($skills[Curse of Weaksauce, Shell Up, Lunging Thrust-Smack, Sauceshell, Itchy Curse Finger]) && is_unrestricted($item[Source Terminal]) && (cc_get_campground() contains $item[Witchess Set]) && (cc_get_campground() contains $item[Source Terminal]))
+			{
+				cc_sourceTerminalEducate($skill[Turbo], $skill[Compress]);
+				if(my_mp() < 55)
+				{
+					doRest();
+				}
+				buffMaintain($effect[Pyromania], 15, 1, 1);
+				buffMaintain($effect[Frostbeard], 15, 1, 1);
+				buffMaintain($effect[Power Ballad of the Arrowsmith], 5, 1, 1);
+				set_property("cc_combatDirective", "start;skill weaksauce;skill cowboy kick;item time-spinner;skill love stinkbug;skill love mosquito;skill compress;skill turbo;skill shell up;skill sauceshell;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack;skill lunging thrust-smack");
+				boolean retval = cc_advWitchess("king");
+				set_property("cc_combatDirective", "");
+
+				cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
+				if(!possessEquipment($item[Dented Scepter]))
+				{
+					abort("Dickstab failed");
+				}
+			}
+			cli_execute("garden pick");
+			if(item_amount($item[Cornucopia]) >= 3)
+			{
+				use(3, $item[Cornucopia]);
+				cli_execute("make 3 " + $item[Stuffing Fluffer]);
+				if(get_property("nsChallenge2") == $element[sleaze])
+				{
+					cli_execute("make 1 " + $item[Glass Casserole Dish]);
+				}
+			}
+			set_property("_cc_bondBriefing", "started");
+
+		}
 	}
 }
 
@@ -164,7 +250,7 @@ boolean bond_buySkills()
 			if(points >= 1)
 			{
 				print("Getting bondMeat", "blue");
-				page = visit_url("choice.php?whichchoice=1259&pwd=&option=2&k=11&w=p");
+				page = visit_url("choice.php?whichchoice=1259&pwd=&option=1&k=2&w=p");
 				points -= 1;
 			}
 		}
@@ -173,7 +259,7 @@ boolean bond_buySkills()
 			if(points >= 1)
 			{
 				print("Getting bondItem1", "blue");
-				page = visit_url("choice.php?whichchoice=1259&pwd=&option=1&k=2&w=p");
+				page = visit_url("choice.php?whichchoice=1259&pwd=&option=1&k=3&w=p");
 				points -= 1;
 			}
 		}
@@ -252,6 +338,10 @@ boolean LM_bond()
 
 	if(get_property("cc_dickstab").to_boolean())
 	{
+		if((internalQuestStatus("questL12War") >= 1) && (item_amount($item[Stuffing Fluffer]) == 3))
+		{
+			use(1, $item[Stuffing Fluffer]);
+		}
 		if((get_property("_cc_bondBriefing") == "finished") && get_property("gingerbreadCityAvailable").to_boolean() && (get_property("_gingerbreadCityTurns").to_int() < 5))
 		{
 			if(!get_property("_gingerbreadClockAdvanced").to_boolean())
@@ -366,9 +456,12 @@ boolean LM_bond()
 		if((my_level() >= 9) && (item_amount($item[Victor\'s Spoils]) > 0))
 		{
 			use(1, $item[Victor\'s Spoils]);
-			if(LX_freeCombats())
+			if(my_daycount() == 1)
 			{
-				return true;
+				if(LX_freeCombats())
+				{
+					return true;
+				}
 			}
 		}
 		if(get_property("questM20Necklace") == "finished")
@@ -383,9 +476,57 @@ boolean LM_bond()
 					set_property("cc_digitizeDirective", $monster[Blooper]);
 					ccAdv(1, $location[8-bit Realm]);
 					set_property("cc_digitizeDirective", "");
+					return true;
 				}
 			}
 		}
+
+		if(get_property("sidequestLighthouseCompleted") != "none")
+		{
+			if(get_property("_sourceTerminalDigitizeMonster") == $monster[Lobsterfrogman])
+			{
+				if((get_property("_sourceTerminalDigitizeUses").to_int() == 1) && (get_property("_timeSpinnerMinutesUsed").to_int() < 7))
+				{
+					cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
+					set_property("cc_combatDirective", "start;skill digitize");
+					timeSpinnerCombat($monster[Blooper]);
+					set_property("cc_combatDirective", "");
+					return true;
+				}
+			}
+		}
+
+		if((internalQuestStatus("questL12War") >= 1) && (get_property("sidequestOrchardCompleted") == "none"))
+		{
+			if((item_amount($item[Filthworm Royal Guard Scent Gland]) == 0) && (item_amount($item[Heart Of The Filthworm Queen]) == 0) && have_skill($skill[Disintegrate]) && (have_effect($effect[Everything Looks Yellow]) == 0))
+			{
+				while((get_property("timesRested").to_int() < total_free_rests()) && (my_mp() < mp_cost($skill[Disintegrate])))
+				{
+					doRest();
+				}
+				set_property("cc_combatDirective", "start;skill disintegrate");
+				location loc = $location[The Hatching Chamber];
+				if(item_amount($item[Filthworm Hatchling Scent Gland]) > 0)
+				{
+					use(1, $item[Filthworm Hatchling Scent Gland]);
+					loc = $location[The Feeding Chamber];
+				}
+				if(item_amount($item[Filthworm Drone Scent Gland]) > 0)
+				{
+					use(1, $item[Filthworm Drone Scent Gland]);
+					loc = $location[The Royal Guard Chamber];
+				}
+				if(my_mp() < 150)
+				{
+					abort("Lack of MP for disintegrate issue");
+				}
+				boolean retval = ccAdv(loc);
+				set_property("cc_combatDirective", "");
+				return retval;
+			}
+		}
+
+
 		if(my_level() >= 10)
 		{
 			if(!get_property("_incredibleSelfEsteemCast").to_boolean() && (my_mp() > 20))
@@ -405,7 +546,7 @@ boolean LM_bond()
 			}
 			if(!get_property("cc_getStarKey").to_boolean())
 			{
-				if(item_amount($item[Richard\'s Star Key]) == 0)
+				if((item_amount($item[Richard\'s Star Key]) == 0) && !contains_text(get_property("nsTowerDoorKeysUsed"), $item[Richard\'s Star Key]))
 				{
 					if(item_amount($item[Star Chart]) == 0)
 					{

@@ -1638,6 +1638,7 @@ void initializeDay(int day)
 	fallout_initializeDay(day);
 	pete_initializeDay(day);
 	cs_initializeDay(day);
+	bond_initializeDay(day);
 
 	if(day == 1)
 	{
@@ -6186,6 +6187,10 @@ boolean L11_unlockEd()
 				uneffect($effect[On The Trail]);
 			}
 		}
+		if(have_effect($effect[items.enh]) == 0)
+		{
+			cc_sourceTerminalEnhance("items");
+		}
 		handleFamiliar("item");
 	}
 
@@ -10019,6 +10024,11 @@ boolean L12_startWar()
 		handleBjornify($familiar[Grimstone Golem]);
 	}
 	buffMaintain($effect[Snow Shoes], 0, 1, 1);
+	buffMaintain($effect[Become Superficially Interested], 0, 1, 1);
+	if((my_mp() > 50) && have_skill($skill[Incredible Self-Esteem]) && !get_property("_incredibleSelfEsteemCast").to_boolean())
+	{
+		use_skill(1, $skill[Incredible Self-Esteem]);
+	}
 
 	ccAdv(1, $location[Wartime Hippy Camp]);
 	set_property("choiceAdventure142", "3");
@@ -13526,6 +13536,12 @@ boolean doTasks()
 
 void cc_begin()
 {
+
+	if(get_property("_casualAscension").to_int() >= my_ascensions())
+	{
+		return;
+	}
+
 	//This also should set our path too.
 	string page = visit_url("main.php");
 	page = visit_url("api.php?what=status&for=4", false);

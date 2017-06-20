@@ -3252,7 +3252,10 @@ boolean buffMaintain(item source, effect buff, int uses, int turns)
 	}
 	if((item_amount(source) < uses) && (my_path() != "Way of the Surprising Fist"))
 	{
-		buy(uses - item_amount(source), source, 1000);
+		if(historical_price(source) < 2000)
+		{
+			buy(uses - item_amount(source), source, 1000);
+		}
 	}
 	if(item_amount(source) < uses)
 	{
