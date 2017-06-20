@@ -6030,7 +6030,11 @@ boolean L13_sorceressDoor()
 
 	if(towerKeyCount() < 3)
 	{
-		abort("Do not have enough hero keys");
+		while(LX_malware());
+		if(towerKeyCount() < 3)
+		{
+			abort("Do not have enough hero keys");
+		}
 	}
 
 	if(contains_text(page, "ns_lock1"))
@@ -7104,6 +7108,84 @@ boolean L12_finalizeWar()
 	set_property("cc_war", "finished");
 	return true;
 }
+
+boolean LX_malware()
+{
+	if(towerKeyCount() >= 3)
+	{
+		return false;
+	}
+
+	if(item_amount($item[Daily Dungeon Malware]) == 0)
+	{
+		return false;
+	}
+
+	if(get_property("dailyDungeonDone").to_boolean())
+	{
+		return false;
+	}
+
+
+	backupSetting("choiceAdventure692", 4);
+	if(item_amount($item[Platinum Yendorian Express Card]) > 0)
+	{
+		backupSetting("choiceAdventure692", 7);
+	}
+	else if(item_amount($item[Pick-O-Matic Lockpicks]) > 0)
+	{
+		backupSetting("choiceAdventure692", 3);
+	}
+	else
+	{
+		int keysNeeded = 2;
+		if(contains_text(get_property("nsTowerDoorKeysUsed"), $item[Skeleton Key]))
+		{
+			keysNeeded = 1;
+		}
+
+		if((item_amount($item[Skeleton Key]) < keysNeeded) && (available_amount($item[Skeleton Key]) >= keysNeeded))
+		{
+			cli_execute("make 1 " + $item[Skeleton Key]);
+		}
+		if((item_amount($item[Skeleton Key]) < keysNeeded) && (available_amount($item[Skeleton Key]) >= keysNeeded))
+		{
+			cli_execute("make 1 " + $item[Skeleton Key]);
+		}
+		if(item_amount($item[Skeleton Key]) >= keysNeeded)
+		{
+			backupSetting("choiceAdventure692", 2);
+		}
+	}
+
+	if(item_amount($item[Eleven-Foot Pole]) > 0)
+	{
+		backupSetting("choiceAdventure693", 2);
+	}
+	else
+	{
+		backupSetting("choiceAdventure693", 1);
+	}
+	if(equipped_amount($item[Ring of Detect Boring Doors]) > 0)
+	{
+		backupSetting("choiceAdventure690", 2);
+	}
+	else
+	{
+		backupSetting("choiceAdventure690", 3);
+	}
+
+
+	//Wanderers may appear but they don\'t cause us to lose the malware.
+	set_property("cc_combatDirective", "start;item daily dungeon malware");
+	ccAdv($location[The Daily Dungeon]);
+	set_property("cc_combatDirective", "");
+	restoreSetting("choiceAdventure692");
+	restoreSetting("choiceAdventure693");
+	restoreSetting("choiceAdventure690");
+	return true;
+}
+
 
 boolean LX_getDigitalKey()
 {
@@ -13536,15 +13618,17 @@ boolean doTasks()
 
 void cc_begin()
 {
-
+	//This also should set our path too.
+	string page = visit_url("main.php");
+	if(my_ascensions() == 0)
+	{
+		page = visit_url("api.php?what=status&for=4", false);
+	}
 	if(get_property("_casualAscension").to_int() >= my_ascensions())
 	{
 		return;
 	}
 
-	//This also should set our path too.
-	string page = visit_url("main.php");
-	page = visit_url("api.php?what=status&for=4", false);
 	if(contains_text(page, "Being Picky"))
 	{
 		picky_startAscension();

@@ -19,8 +19,11 @@ void bond_initializeSettings()
 
 	if(get_property("cc_dickstab").to_boolean())
 	{
-		pullXWhenHaveY($item[Improved Martini], 10, 0);
-		pullXWhenHaveY($item[Splendid Martini], 3, 0);
+		if(my_inebriety() == 0)
+		{
+			pullXWhenHaveY($item[Improved Martini], 10, 0);
+			pullXWhenHaveY($item[Splendid Martini], 3, 0);
+		}
 		pullXWhenHaveY($item[The Crown of Ed the Undying], 1, 0);
 		pullXWhenHaveY($item[Infinite BACON Machine], 1, 0);
 		pullXWhenHaveY($item[Stuffed Shoulder Parrot], 1, 0);
@@ -84,7 +87,10 @@ void bond_initializeDay(int day)
 				page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
 				page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
 			}
-			pullXWhenHaveY($item[Improved Martini], 13, 0);
+			if(my_inebriety() == 0)
+			{
+				pullXWhenHaveY($item[Improved Martini], 13, 0);
+			}
 			use(1, $item[Infinite BACON Machine]);
 			if(!get_property("_internetDailyDungeonMalwareBought").to_boolean() && (item_amount($item[BACON]) >= 150))
 			{
