@@ -2683,6 +2683,10 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 	{
 		return false;
 	}
+	if(pulls_remaining() == 0)
+	{
+		return false;
+	}
 	if((item_amount(it) + equipped_amount(it)) == whenHave)
 	{
 		int lastStorage = storage_amount(it);

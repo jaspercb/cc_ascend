@@ -459,14 +459,24 @@ boolean LM_bond()
 				return L8_trapperGround();
 			}
 		}
-		if((my_level() >= 9) && (item_amount($item[Victor\'s Spoils]) > 0))
+		if(my_level() >= 9)
 		{
-			use(1, $item[Victor\'s Spoils]);
 			if(my_daycount() == 1)
 			{
+				if(item_amount($item[Victor\'s Spoils]) > 0)
+				{
+					use(1, $item[Victor\'s Spoils]);
+				}
 				if(LX_freeCombats())
 				{
 					return true;
+				}
+			}
+			else
+			{
+				if(item_amount($item[Victor\'s Spoils]) > 0)
+				{
+					use(1, $item[Victor\'s Spoils]);
 				}
 			}
 		}
