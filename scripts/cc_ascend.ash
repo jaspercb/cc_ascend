@@ -12562,7 +12562,7 @@ boolean autosellCrap()
 		cc_autosell(1, $item[meat stack]);
 	}
 
-	foreach it in $items[Anticheese, Awful Poetry Journal, Beach Glass Bead, Blue Pixel, Clay Peace-Sign Bead, Decorative Fountain, Empty Cloaca-Cola Bottle, Enchanted Barbell, Fancy Bath Salts, Frigid Ninja Stars, Giant Moxie Weed, Green Pixel, Half of a Gold Tooth, Imp Ale, Keel-Haulin\' Knife, Kokomo Resort Pass, Mad Train Wine, Margarita, Martini, Meat Paste, Mineapple, Moxie Weed, Patchouli Incense Stick, Phat Turquoise Bead, Photoprotoneutron Torpedo, Procrastination Potion, Ratgut, Red Pixel, Smelted Roe, Spicy Jumping Bean Burrito, Spicy Bean Burrito, Strongness Elixir, Sunken Chest, Tambourine Bells, Tequila Sunrise, Windchimes]
+	foreach it in $items[Anticheese, Awful Poetry Journal, Beach Glass Bead, Beer Bomb, Chaos Butterfly, Clay Peace-Sign Bead, Decorative Fountain, Dense Meat Stack, Empty Cloaca-Cola Bottle, Enchanted Barbell, Fancy Bath Salts, Frigid Ninja Stars, Giant Moxie Weed, Half of a Gold Tooth, Imp Ale, Keel-Haulin\' Knife, Kokomo Resort Pass, Mad Train Wine, Margarita, Meat Paste, Mineapple, Moxie Weed, Patchouli Incense Stick, Phat Turquoise Bead, Photoprotoneutron Torpedo, Plot Hole, Procrastination Potion, Ratgut, Smelted Roe, Spicy Jumping Bean Burrito, Spicy Bean Burrito, Strongness Elixir, Sunken Chest, Tambourine Bells, Tequila Sunrise, Windchimes]
 	{
 		if(item_amount(it) > 0)
 		{

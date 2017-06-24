@@ -413,7 +413,14 @@ boolean LM_bond()
 				if(inebriety_left() >= 10)
 				{
 					buffMaintain($effect[Ode to Booze], 50, 1, 10);
-					ccDrink(10, $item[Improved Martini]);
+					if(item_amount($item[Splendid Martini]) >= 10)
+					{
+						ccDrink(10, $item[Splendid Martini]);
+					}
+					else
+					{
+						ccDrink(10, $item[Improved Martini]);
+					}
 				}
 				else if(inebriety_left() >= 3)
 				{
@@ -463,7 +470,7 @@ boolean LM_bond()
 		{
 			if(my_daycount() == 1)
 			{
-				if(item_amount($item[Victor\'s Spoils]) > 0)
+				if((item_amount($item[Victor\'s Spoils]) > 0) && !get_property("_victorsSpoiledUsed").to_boolean())
 				{
 					use(1, $item[Victor\'s Spoils]);
 				}
@@ -474,7 +481,7 @@ boolean LM_bond()
 			}
 			else
 			{
-				if(item_amount($item[Victor\'s Spoils]) > 0)
+				if((item_amount($item[Victor\'s Spoils]) > 0) && !get_property("_victorsSpoiledUsed").to_boolean())
 				{
 					use(1, $item[Victor\'s Spoils]);
 				}
