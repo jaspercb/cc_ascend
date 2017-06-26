@@ -117,6 +117,16 @@ string cc_combatHandler(int round, string opp, string text)
 		if(idx >= 0)
 		{
 			string doThis = actions[idx];
+			while(contains_text(doThis, "(") && contains_text(doThis, ")") && (idx < count(actions)))
+			{
+				set_property("cc_combatHandler", get_property("cc_combatHandler") + doThis);
+				idx++;
+				if(idx >= count(actions))
+				{
+					break;
+				}
+				doThis = actions[idx];
+			}
 			string restore = "";
 			for(int i=idx+1; i<count(actions); i++)
 			{
@@ -127,7 +137,10 @@ string cc_combatHandler(int round, string opp, string text)
 				}
 			}
 			set_property("cc_combatDirective", restore);
-			return doThis;
+			if(idx < count(actions))
+			{
+				return doThis;
+			}
 		}
 	}
 

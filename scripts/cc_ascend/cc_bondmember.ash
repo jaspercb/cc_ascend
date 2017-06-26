@@ -21,8 +21,15 @@ void bond_initializeSettings()
 	{
 		if(my_inebriety() == 0)
 		{
-			pullXWhenHaveY($item[Improved Martini], 10, 0);
-			pullXWhenHaveY($item[Splendid Martini], 3, 0);
+			if(storage_amount($item[Improved Martini]) >= 10)
+			{
+				pullXWhenHaveY($item[Improved Martini], 10, 0);
+				pullXWhenHaveY($item[Splendid Martini], 3, 0);
+			}
+			else
+			{
+				pullXWhenHaveY($item[Splendid Martini], 13, 0);
+			}
 		}
 		pullXWhenHaveY($item[The Crown of Ed the Undying], 1, 0);
 		pullXWhenHaveY($item[Infinite BACON Machine], 1, 0);
@@ -442,10 +449,13 @@ boolean LM_bond()
 			if(item_amount($item[Goat Cheese]) == 0)
 			{
 				L8_trapperStart();
+				set_property("cc_combatDirective", "start;(olfaction)");
 				if(L8_trapperGround())
 				{
+					set_property("cc_combatDirective", "");
 					return true;
 				}
+				set_property("cc_combatDirective", "");
 			}
 			else if(item_amount($item[Goat Cheese]) == 2)
 			{
@@ -527,7 +537,6 @@ boolean LM_bond()
 				{
 					doRest();
 				}
-				set_property("cc_combatDirective", "start;skill disintegrate");
 				location loc = $location[The Hatching Chamber];
 				if(item_amount($item[Filthworm Hatchling Scent Gland]) > 0)
 				{
@@ -543,6 +552,7 @@ boolean LM_bond()
 				{
 					abort("Lack of MP for disintegrate issue");
 				}
+				set_property("cc_combatDirective", "start;skill disintegrate");
 				boolean retval = ccAdv(loc);
 				set_property("cc_combatDirective", "");
 				return retval;
