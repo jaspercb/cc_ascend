@@ -145,6 +145,27 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 	return true;
 }
 
+int kgb_tabCount(string page)
+{
+	int count = 0;
+	matcher tabCount = create_matcher("kgb_tab(\\d)(?:.*?)otherimages/kgb/tab(\\d+).gif", page);
+	while(tabCount.find())
+	{
+		count++;
+	}
+	return count;
+}
+
+int kgb_tabHeight(string page)
+{
+	int height = 0;
+	matcher tabCount = create_matcher("kgb_tab(\\d)(?:.*?)otherimages/kgb/tab(\\d+).gif", page);
+	while(tabCount.find())
+	{
+		height += to_int(tabCount.group(2));
+	}
+	return height;
+}
 
 boolean kgbSetup()
 {
@@ -249,14 +270,9 @@ boolean kgbSetup()
 	{
 		print("Hitting tab modification button: " + i, "blue");
 		page = visit_url("place.php?whichplace=kgb&action=kgb_button" + i, false);
-		matcher tabCount = create_matcher("kgb_tab(\\d)(?:.*?)otherimages/kgb/tab(\\d+).gif", page);
-		int count = 0;
-		int height = 0;
-		while(tabCount.find())
-		{
-			count++;
-			height += to_int(tabCount.group(2));
-		}
+
+		int count = kgb_tabCount(page);
+		int height = kgb_tabHeight(page);
 
 		if(count >= 3)
 		{
@@ -269,21 +285,76 @@ boolean kgbSetup()
 			break;
 		}
 	}
+	set_property("cc_kgbAscension", my_ascensions());
+	set_property("cc_kgbButton100", button);
 
-
-	//Do verification instead.
-
-	int have = item_amount($item[Splendid Martini]);
-	page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
-	if(have == item_amount($item[Splendid Martini]))
+	if(!kgb_getMartini(page))
 	{
-		abort("Failed to get a splendid martini");
+		print("Failed to get martini", "red");
 	}
-	page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
-	page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
 
 	return true;
 
+}
+
+boolean kgb_getMartini()
+{
+	return kgb_getMartini("", false);
+}
+
+boolean kgb_getMartini(string page)
+{
+	return kgb_getMartini(page, false);
+}
+
+boolean kgb_getMartini(string page, boolean dontCare)
+{
+	if(!possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+	if(!is_unrestricted($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+	if(get_property("_kgbMartinisServed").to_int() >= 3)
+	{
+		return false;
+	}
+
+	if(get_property("cc_kgbAscension").to_int() != my_ascensions())
+	{
+		if(!dontCare)
+		{
+			print("We did not initialize the briefcase this ascension, we can not care", "red");
+			dontCare = true;
+		}
+	}
+
+	int button = get_property("cc_kgbButton100").to_int();
+
+	while(get_property("_kgbMartinisServed").to_int() < 3)
+	{
+		int served = get_property("_kgbMartinisServed").to_int();
+		int have = item_amount($item[Splendid Martini]);
+		page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
+		if((kgb_tabHeight(page) < 11) && !dontCare)
+		{
+			print("Did we accidentally solve a puzzle? Gonna assume so...", "green");
+			print("Hitting tab modification button: " + button, "blue");
+			page = visit_url("place.php?whichplace=kgb&action=kgb_button" + button, false);
+			if(kgb_tabHeight(page) < 11)
+			{
+				abort("Can not seem to recover situation regarding splendid martinis");
+			}
+		}
+		if((have == item_amount($item[Splendid Martini])) && !dontCare)
+		{
+			abort("Failed to get a splendid martini and we cared about it");
+		}
+		set_property("_kgbMartinisServed", served + 1);
+	}
+	return true;
 }
 
 boolean kgbDial(int dial, int curVal, int target)

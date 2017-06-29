@@ -102,15 +102,14 @@ void handleKingLiberation()
 
 		visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
 
-		int oldToken = item_amount($item[Defective Game Grid Token]);
-#		visit_url("place.php?whichplace=arcade&action=arcade_plumber", false);
-#		visit_url("place.php?whichplace=arcade");
-#		visit_url("place.php?whichplace=arcade&action=arcade_plumber");
-#		visit_url("place.php?whichplace=arcade&action=arcade_plumber");
-#		visit_url("place.php?pwd=" + my_hash() + "whichplace=arcade&action=arcade_plumber", false);
-		if(item_amount($item[defective game grid token]) > oldToken)
+		if((item_amount($item[Game Grid Token]) > 0) || (item_amount($item[Game Grid Ticket]) > 0))
 		{
-			abort("Woohoo!!! You got a game grid tokON!!");
+			int oldToken = item_amount($item[Defective Game Grid Token]);
+			visit_url("place.php?whichplace=arcade&action=arcade_plumber", false);
+			if(item_amount($item[Defective Game Grid Token]) > oldToken)
+			{
+				print("Woohoo!!! You got a game grid tokON!!", "green");
+			}
 		}
 	}
 
@@ -141,13 +140,12 @@ void handleKingLiberation()
 			{
 				adventure(1, $location[The Shore\, Inc. Travel Agency]);
 			}
-//			buy_item($item[frost flower], 1, 50000);
 		}
 
-//		if(!have_familiar($familiar[grimstone golem]))
-//		{
-//			buy_item($item[grimstone mask], 0, 7500);
-//		}
+		if(possessEquipment($item[Snow Suit]) && (get_property("snowsuit") != "nose"))
+		{
+			cli_execute("snowsuit nose");
+		}
 
 		if(have_skill($skill[Iron Palm Technique]) && (have_effect($effect[Iron Palms]) == 0))
 		{

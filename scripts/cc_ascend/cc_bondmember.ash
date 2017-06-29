@@ -98,7 +98,7 @@ void bond_initializeDay(int day)
 			{
 				if(storage_amount($item[Improved Martini]) < 13)
 				{
-					pullXWhenHaveY($item[Splendid Martini], 13, 0);
+					pullXWhenHaveY($item[Splendid Martini], 13, 3);
 				}
 				else
 				{
@@ -308,6 +308,11 @@ boolean LM_bond()
 		return false;
 	}
 
+	if((item_amount($item[Victor\'s Spoils]) > 0) && !get_property("_victorsSpoiledUsed").to_boolean() && (my_adventures() < 10))
+	{
+		use(1, $item[Victor\'s Spoils]);
+	}
+
 	if(have_effect($effect[Disavowed]) > 0)
 	{
 		if(have_skill($skill[Disco Nap]) && (my_mp() > mp_cost($skill[Disco Nap])))
@@ -315,6 +320,11 @@ boolean LM_bond()
 			use_skill(1, $skill[Disco Nap]);
 		}
 		set_property("_cc_bondBriefing", "started");
+	}
+
+	if((get_property("_cc_bondBriefing") == "started") && (get_property("_villainLairProgress").to_int() >= 999))
+	{
+		set_property("_cc_bondBriefing", "finished");
 	}
 
 	if(get_property("_cc_bondBriefing") == "started")
@@ -340,7 +350,6 @@ boolean LM_bond()
 			}
 			return retval;
 		}
-
 
 		if(my_meat() < 1000)
 		{
@@ -369,7 +378,7 @@ boolean LM_bond()
 	{
 		if((internalQuestStatus("questL12War") >= 1) && (item_amount($item[Stuffing Fluffer]) == 3))
 		{
-			use(1, $item[Stuffing Fluffer]);
+			use(3, $item[Stuffing Fluffer]);
 		}
 		if((get_property("_cc_bondBriefing") == "finished") && get_property("gingerbreadCityAvailable").to_boolean() && (get_property("_gingerbreadCityTurns").to_int() < 5))
 		{
@@ -416,7 +425,7 @@ boolean LM_bond()
 					buyUpTo(1, $item[Antique Accordion]);
 				}
 			}
-			else if((my_mp() > 85) && (my_level() > 8) && (my_adventures() < 20))
+			else if((my_mp() > 85) && (my_level() > 8) && (my_adventures() < 10))
 			{
 				if((inebriety_left() < 3) && (inebriety_left() >= 1))
 				{
@@ -431,7 +440,7 @@ boolean LM_bond()
 					}
 				}
 			}
-			else if((my_mp() > 85) && (my_level() > 6))
+			else if((my_mp() > 85) && (my_level() > 6) && (my_adventures() < 10))
 			{
 				if(inebriety_left() >= 10)
 				{
@@ -604,6 +613,19 @@ boolean LM_bond()
 				}
 			}
 		}
+
+		if(get_property("middleChamberUnlock").to_boolean() && (get_property("_kgbClicksUsed").to_int() == 0) && possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+		{
+			string temp = visit_url("place.php?whichplace=kgb&action=kgb_tab1");
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2");
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab3");
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab4");
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab5");
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab6");
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab1");
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2");
+		}
+
 		if(internalQuestStatus("questM21Dance") >= 4)
 		{
 			if((get_property("cc_swordfish") != "finished") && (item_amount($item[Disposable Instant Camera]) == 0))

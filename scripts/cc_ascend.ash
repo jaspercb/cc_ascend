@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18082;
+since r18115;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1865,6 +1865,8 @@ void initializeDay(int day)
 		ovenHandle();
 	}
 
+	kgb_getMartini();
+
 	string campground = visit_url("campground.php");
 	if(contains_text(campground, "beergarden7.gif"))
 	{
@@ -2475,6 +2477,10 @@ boolean doBedtime()
 	if((item_amount($item[Glenn\'s Golden Dice]) > 0) && (!get_property("_glennGoldenDiceUsed").to_boolean()))
 	{
 		print("Still have some of Glenn's Golden Dice that you can use!", "blue");
+	}
+	if((item_amount($item[License to Chill]) > 0) && (!get_property("_licenseToChillUsed").to_boolean()))
+	{
+		print("You are still licensed enough to be able to chill.", "blue");
 	}
 
 	if((item_amount($item[School of Hard Knocks Diploma]) > 0) && (!get_property("_hardKnocksDiplomaUsed").to_boolean()))
