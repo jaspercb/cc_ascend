@@ -1336,7 +1336,7 @@ int handlePulls(int day)
 			}
 		}
 
-		if(((cc_my_path() == "Picky") || is100FamiliarRun()) && (item_amount($item[Deck of Every Card]) == 0))
+		if(((cc_my_path() == "Picky") || is100FamiliarRun()) && (item_amount($item[Deck of Every Card]) == 0) && (fullness_left() >= 4))
 		{
 			if(item_amount($item[Boris\'s Key]) == 0)
 			{
@@ -1586,11 +1586,33 @@ void initializeDay(int day)
 		}
 		else if(day == 1)
 		{
-			boolean buff = cli_execute("teatree " + $item[Cuppa Voraci Tea]);
+			if(fullness_limit() > 0)
+			{
+				boolean buff = cli_execute("teatree " + $item[Cuppa Voraci Tea]);
+			}
+			else if(inebriety_limit() > 0)
+			{
+				boolean buff = cli_execute("teatree " + $item[Cuppa Sobrie Tea]);
+			}
+			else
+			{
+				boolean buff = cli_execute("teatree " + $item[Cuppa Royal Tea]);
+			}
 		}
 		else if(day == 2)
 		{
-			boolean buff = cli_execute("teatree " + $item[Cuppa Sobrie Tea]);
+			if(inebriety_limit() > 0)
+			{
+				boolean buff = cli_execute("teatree " + $item[Cuppa Sobrie Tea]);
+			}
+			else if(fullness_limit() > 0)
+			{
+				boolean buff = cli_execute("teatree " + $item[Cuppa Voraci Tea]);
+			}
+			else
+			{
+				boolean buff = cli_execute("teatree " + $item[Cuppa Royal Tea]);
+			}
 		}
 		else
 		{
@@ -6379,6 +6401,10 @@ boolean L11_defeatEd()
 		{
 			set_property("cc_disableAdventureHandling", "no");
 			abort("Got Beaten Up by Ed the Undying - generally not safe to try to recover.");
+		}
+		if(x > 10)
+		{
+			abort("Trying to fight too many Eds, leave the poor dude alone!");
 		}
 	}
 	set_property("cc_disableAdventureHandling", "no");

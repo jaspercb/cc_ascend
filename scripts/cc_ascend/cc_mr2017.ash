@@ -243,6 +243,7 @@ boolean kgbSetup()
 		abort("Failed to unlock kgb_button");
 	}
 
+	int button = -1;
 	page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
 	for(int i=1; i<=6; i++)
 	{
@@ -254,16 +255,16 @@ boolean kgbSetup()
 		while(tabCount.find())
 		{
 			count++;
-			int val = to_int(tabCount.group(2));
 			height += to_int(tabCount.group(2));
 		}
 
 		if(count >= 3)
 		{
+			button = i;
 			i--;
 		}
 
-		if(height == 12)
+		if(height >= 11)
 		{
 			break;
 		}

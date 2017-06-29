@@ -96,7 +96,14 @@ void bond_initializeDay(int day)
 			}
 			if(my_inebriety() == 0)
 			{
-				pullXWhenHaveY($item[Improved Martini], 13, 0);
+				if(storage_amount($item[Improved Martini]) < 13)
+				{
+					pullXWhenHaveY($item[Splendid Martini], 13, 0);
+				}
+				else
+				{
+					pullXWhenHaveY($item[Improved Martini], 13, 0);
+				}
 			}
 			use(1, $item[Infinite BACON Machine]);
 			if(!get_property("_internetDailyDungeonMalwareBought").to_boolean() && (item_amount($item[BACON]) >= 150))
@@ -274,6 +281,15 @@ boolean bond_buySkills()
 				print("Getting bondItem1", "blue");
 				page = visit_url("choice.php?whichchoice=1259&pwd=&option=1&k=3&w=p");
 				points -= 1;
+			}
+		}
+		else if(!get_property("bondItem2").to_boolean())
+		{
+			if(points >= 2)
+			{
+				print("Getting bondItem2", "blue");
+				page = visit_url("choice.php?whichchoice=1259&pwd=&option=1&k=6&w=s");
+				points -= 2;
 			}
 		}
 		if(start == points)

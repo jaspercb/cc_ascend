@@ -2386,24 +2386,24 @@ boolean cc_autosell(int quantity, item toSell)
 
 string runChoice(string page_text)
 {
-    while(contains_text(page_text , "choice.php"))
-    {
-        ## Get choice adventure number
-        int begin_choice_adv_num = index_of(page_text , "whichchoice value=") + 18;
-        int end_choice_adv_num = index_of(page_text , "><input" , begin_choice_adv_num);
-        string choice_adv_num = substring(page_text , begin_choice_adv_num , end_choice_adv_num);
+	while(contains_text(page_text , "choice.php"))
+	{
+		## Get choice adventure number
+		int begin_choice_adv_num = index_of(page_text , "whichchoice value=") + 18;
+		int end_choice_adv_num = index_of(page_text , "><input" , begin_choice_adv_num);
+		string choice_adv_num = substring(page_text , begin_choice_adv_num , end_choice_adv_num);
 
-        string choice_adv_prop = "choiceAdventure" + choice_adv_num;
-        string choice_num = get_property(choice_adv_prop);
-        if(choice_num == "")
-        {
-            abort("Unsupported Choice Adventure!");
-        }
+		string choice_adv_prop = "choiceAdventure" + choice_adv_num;
+		string choice_num = get_property(choice_adv_prop);
+		if(choice_num == "")
+		{
+			abort("Unsupported Choice Adventure!");
+		}
 
-        string url = "choice.php?pwd&whichchoice=" + choice_adv_num + "&option=" + choice_num;
-        page_text = visit_url(url);
-    }
-    return page_text;
+		string url = "choice.php?pwd&whichchoice=" + choice_adv_num + "&option=" + choice_num;
+		page_text = visit_url(url);
+	}
+	return page_text;
 }
 
 boolean zoneNonCombat(location loc)
@@ -2596,7 +2596,7 @@ int doNumberology(string goal, boolean doIt, string option)
 		int current = (score + (melancholy * i)) % 100;
 		if(numberwang[current] == goal)
 		{
-			print("Found option for Numberology: " + current, "blue");
+			print("Found option for Numberology: " + current + " (" + goal + ")" , "blue");
 			if(!doIt)
 			{
 				return i;
