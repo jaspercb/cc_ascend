@@ -338,6 +338,12 @@ boolean kgb_getMartini(string page, boolean dontCare)
 		int served = get_property("_kgbMartinisServed").to_int();
 		int have = item_amount($item[Splendid Martini]);
 		page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
+		if(contains_text(page, "Nothing happens."))
+		{
+			set_property("_kgbMartinisServed", 3);
+			print("The martini dispenser is empty, weird.", "red");
+			return true;
+		}
 		if((kgb_tabHeight(page) < 11) && !dontCare)
 		{
 			print("Did we accidentally solve a puzzle? Gonna assume so...", "green");
