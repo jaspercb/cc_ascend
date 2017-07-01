@@ -93,6 +93,7 @@ void bond_initializeDay(int day)
 				page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
 				page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
 				page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
+				set_property("_kgbMartinisServed", 3);
 			}
 			if(my_inebriety() == 0)
 			{
@@ -194,15 +195,6 @@ boolean bond_buySkills()
 				points -= 3;
 			}
 		}
-		else if(!get_property("bondDrunk1").to_boolean())
-		{
-			if(points >= 2)
-			{
-				print("Getting bondDrunk1", "blue");
-				page = visit_url("choice.php?whichchoice=1259&pwd=&option=1&k=8&w=s");
-				points -= 2;
-			}
-		}
 		else if(!get_property("bondDrunk2").to_boolean())
 		{
 			if(points >= 3)
@@ -212,13 +204,13 @@ boolean bond_buySkills()
 				points -= 3;
 			}
 		}
-		else if(!get_property("bondMartiniPlus").to_boolean())
+		else if(!get_property("bondDrunk1").to_boolean())
 		{
-			if(points >= 3)
+			if(points >= 2)
 			{
-				print("Getting bondMartiniPlus", "blue");
-				page = visit_url("choice.php?whichchoice=1259&pwd=&option=1&k=13&w=p");
-				points -= 3;
+				print("Getting bondDrunk1", "blue");
+				page = visit_url("choice.php?whichchoice=1259&pwd=&option=1&k=8&w=s");
+				points -= 2;
 			}
 		}
 		else if(!get_property("bondMartiniTurn").to_boolean())
@@ -228,6 +220,15 @@ boolean bond_buySkills()
 				print("Getting bondMartiniTurn", "blue");
 				page = visit_url("choice.php?whichchoice=1259&pwd=&option=1&k=1&w=p");
 				points -= 1;
+			}
+		}
+		else if(!get_property("bondMartiniPlus").to_boolean())
+		{
+			if(points >= 3)
+			{
+				print("Getting bondMartiniPlus", "blue");
+				page = visit_url("choice.php?whichchoice=1259&pwd=&option=1&k=13&w=p");
+				points -= 3;
 			}
 		}
 		else if(!get_property("bondAdv").to_boolean())
