@@ -352,6 +352,10 @@ boolean dealWithMilkOfMagnesium(boolean useAdv)
 	{
 		return true;
 	}
+	if(fullness_left() == 0)
+	{
+		return false;
+	}
 
 	ovenHandle();
 	if((item_amount($item[glass of goat\'s milk]) > 0) && have_skill($skill[Advanced Saucecrafting]))

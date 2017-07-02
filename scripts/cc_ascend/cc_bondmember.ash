@@ -90,10 +90,7 @@ void bond_initializeDay(int day)
 				page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
 				page = visit_url("place.php?whichplace=kgb&action=kgb_drawer2", false);
 				page = visit_url("place.php?whichplace=kgb&action=kgb_drawer1", false);
-				page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
-				page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
-				page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
-				set_property("_kgbMartinisServed", 3);
+				kgb_getMartini();
 			}
 			if(my_inebriety() == 0)
 			{
