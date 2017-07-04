@@ -57,7 +57,14 @@ void bond_initializeSettings()
 			equip($slot[Hat], $item[The Crown of Ed the Undying]);
 			adjustEdHat("weasel");
 		}
-		doNumberology("battlefield");
+		if(get_property("_universeCalculated").to_int() == 0)
+		{
+			while((my_mp() < 150) && (my_maxmp() >= 150) && (my_adventures() > 0))
+			{
+				doRest();
+			}
+			doNumberology("battlefield");
+		}
 		adjustEdHat("hyena");
 	}
 }
@@ -77,19 +84,6 @@ void bond_initializeDay(int day)
 			if(!get_property("_cc_kgbSetup").to_boolean())
 			{
 				set_property("_cc_kgbSetup", true);
-				string page;
-				for(int i=0; i<11; i++)
-				{
-					page = visit_url("place.php?whichplace=kgb&action=kgb_crank", false);
-				}
-				if(!contains_text(page, "..........."))
-				{
-					abort("11 cranks failed");
-				}
-				page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
-				page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
-				page = visit_url("place.php?whichplace=kgb&action=kgb_drawer2", false);
-				page = visit_url("place.php?whichplace=kgb&action=kgb_drawer1", false);
 				kgb_getMartini();
 			}
 			if(my_inebriety() == 0)
@@ -120,7 +114,7 @@ void bond_initializeDay(int day)
 			//Digitize a blooper? Time spin it?
 			equipBaseline();
 
-			if(get_property("cc_dickstab").to_boolean() && !possessEquipment($item[Dented Scepter]) && is_unrestricted($item[Witchess Set]) && get_property("lovebugsUnlocked").to_boolean() && possessEquipment($item[Your Cowboy Boots]) && have_skills($skills[Curse of Weaksauce, Shell Up, Lunging Thrust-Smack, Sauceshell, Itchy Curse Finger]) && is_unrestricted($item[Source Terminal]) && (cc_get_campground() contains $item[Witchess Set]) && (cc_get_campground() contains $item[Source Terminal]))
+			if(get_property("cc_dickstab").to_boolean() && !possessEquipment($item[Dented Scepter]) && is_unrestricted($item[Witchess Set]) && get_property("lovebugsUnlocked").to_boolean() && possessEquipment($item[Your Cowboy Boots]) && have_skills($skills[Curse of Weaksauce, Shell Up, Lunging Thrust-Smack, Sauceshell, Itchy Curse Finger]) && is_unrestricted($item[Source Terminal]) && (cc_get_campground() contains $item[Witchess Set]) && (cc_get_campground() contains $item[Source Terminal]) && (get_property("_witchessFights").to_int() < 5))
 			{
 				cc_sourceTerminalEducate($skill[Turbo], $skill[Compress]);
 				if(my_mp() < 55)
@@ -327,7 +321,7 @@ boolean LM_bond()
 
 	if(get_property("_cc_bondBriefing") == "started")
 	{
-		if(get_property("cc_dickstab").to_boolean() && !possessEquipment($item[Dented Scepter]) && is_unrestricted($item[Witchess Set]) && get_property("lovebugsUnlocked").to_boolean() && possessEquipment($item[Your Cowboy Boots]) && have_skills($skills[Curse of Weaksauce, Shell Up, Lunging Thrust-Smack, Sauceshell, Itchy Curse Finger]) && is_unrestricted($item[Source Terminal]) && (cc_get_campground() contains $item[Witchess Set]) && (cc_get_campground() contains $item[Source Terminal]))
+		if(get_property("cc_dickstab").to_boolean() && !possessEquipment($item[Dented Scepter]) && is_unrestricted($item[Witchess Set]) && get_property("lovebugsUnlocked").to_boolean() && possessEquipment($item[Your Cowboy Boots]) && have_skills($skills[Curse of Weaksauce, Shell Up, Lunging Thrust-Smack, Sauceshell, Itchy Curse Finger]) && is_unrestricted($item[Source Terminal]) && (cc_get_campground() contains $item[Witchess Set]) && (cc_get_campground() contains $item[Source Terminal]) && (get_property("_witchessFights").to_int() < 5))
 		{
 			cc_sourceTerminalEducate($skill[Turbo], $skill[Compress]);
 			if(my_mp() < 55)
@@ -585,7 +579,7 @@ boolean LM_bond()
 
 		if(my_level() >= 10)
 		{
-			if(!get_property("_incredibleSelfEsteemCast").to_boolean() && (my_mp() > 20))
+			if(!get_property("_incredibleSelfEsteemCast").to_boolean() && (my_mp() > 20) && have_skill($skill[Incredible Self-Esteem]))
 			{
 				use_skill(1, $skill[Incredible Self-Esteem]);
 			}
@@ -648,7 +642,7 @@ boolean LM_bond()
 				}
 			}
 		}
-		if((my_daycount() == 1) && (get_property("cc_swordfish") == "finished"))
+		if((my_daycount() == 1) && (get_property("cc_gaudy") == "start"))
 		{
 			abort("Made it too far. Need to fix for this.");
 		}

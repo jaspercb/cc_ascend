@@ -488,6 +488,7 @@ int kgb_tabCount(string page);								//Defined in cc_ascend/cc_mr2017.ash
 boolean kgb_getMartini();									//Defined in cc_ascend/cc_mr2017.ash
 boolean kgb_getMartini(string page);						//Defined in cc_ascend/cc_mr2017.ash
 boolean kgb_getMartini(string page, boolean dontCare);		//Defined in cc_ascend/cc_mr2017.ash
+boolean kgbModifiers(string mod);							//Defined in cc_ascend/cc_mr2017.ash
 int get_cs_questCost(int quest);							//Defined in cc_ascend/cc_community_service.ash
 int get_cs_questCost(string input);							//Defined in cc_ascend/cc_community_service.ash
 int get_cs_questNum(string input);							//Defined in cc_ascend/cc_community_service.ash

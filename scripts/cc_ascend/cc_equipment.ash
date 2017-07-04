@@ -839,7 +839,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = List($items[Chrome Sword, Sword Behind Inappropriate Prepositions, Time Sword, The Nuge\'s Favorite Crossbow]);
+	poss = List($items[Meatspout Staff, Chrome Staff, Chrome Sword, Sword Behind Inappropriate Prepositions, Time Sword, The Nuge\'s Favorite Crossbow]);
 
 	toEquip = handleSolveThing(poss, $slot[weapon]);
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[weapon])))
@@ -878,12 +878,21 @@ void equipRollover()
 	}
 
 
-	poss = List($items[Tiny Plastic Bitchin\' Meatcar, Dead Guy\'s Watch, Gold Wedding Ring, BGE Pocket Calendar, Wristwatch of the White Knight, Boots of Twilight Whispers, Grandfather Watch, Gingerbeard, Fudgecycle, Numberwang, Ticksilver Ring, Sasq&trade; Watch, Counterclockwise Watch, Treads of Loathing]);
+	poss = List($items[Coarse Hemp Socks, Red Armband, Tiny Plastic Crimbo Reindeer, Tiny Plastic Bitchin\' Meatcar, Dead Guy\'s Watch, Gold Wedding Ring, Tiny Plastic Golden Gundam, Tiny Die-Cast Golden Ring, BGE Pocket Calendar, Wristwatch of the White Knight, Imitation Nice Watch, Boots of Twilight Whispers, Aerogel Ascot, Official Council Aide Pin, Grandfather Watch, Gingerbeard, Fudgecycle, Spacegate Scientist\'s Insignia, Numberwang, Ticksilver Ring, Sasq&trade; Watch, Counterclockwise Watch, Treads of Loathing]);
 	if(possessEquipment($item[Your Cowboy Boots]))
 	{
 		if(equipped_item($slot[bootspur]) == $item[Ticksilver Spurs])
 		{
 			poss = poss.ListInsertAt($item[Your Cowboy Boots], poss.ListFind($item[Grandfather Watch]));
+		}
+	}
+	if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+	{
+		string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
+#		if(contains_text(mod, "Adventures"))
+		if(kgbModifiers("Adventure"))
+		{
+			poss = poss.ListInsertAt($item[Kremlin\'s Greatest Briefcase], poss.ListFind($item[Grandfather Watch]));
 		}
 	}
 	if(possessEquipment($item[Over-the-shoulder Folder Holder]))
@@ -916,7 +925,7 @@ void equipRollover()
 	}
 	## How do we check watches? Gingerbeard/Uncle Hobo? at +6/+9?
 	boolean foundWatch = false;
-	Item[int] watches = List($items[Dead Guy\'s Watch, Wristwatch of the White Knight, Grandfather Watch, Sasq&trade; Watch, Counterclockwise Watch]);
+	Item[int] watches = List($items[Dead Guy\'s Watch, Imitation Nice Watch, Wristwatch of the White Knight, Grandfather Watch, Sasq&trade; Watch, Counterclockwise Watch]);
 	for(int i=count(watches)-1; i>=0; i--)
 	{
 		if(foundWatch && possessEquipment(watches[i]))
@@ -951,40 +960,6 @@ void equipRollover()
 		equip(sl, toEquip);
 	}
 
-if(false)
-{
-	### Original start of rollover accessory code.
-	equip($slot[acc1], $item[none]);
-	equip($slot[acc2], $item[none]);
-	equip($slot[acc3], $item[none]);
-
-	toEquip = $item[none];
-	poss = List($items[Tiny Plastic Bitchin\' Meatcar, BGE Pocket Calendar, Boots of Twilight Whispers, Numberwang]);
-
-	toEquip = handleSolveThing(poss, $slot[acc1]);
-	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc1])))
-	{
-		equip($slot[acc1], toEquip);
-	}
-
-	toEquip = $item[none];
-	poss = List($items[Dead Guy\'s Watch, Wristwatch of the White Knight, Grandfather Watch, Sasq&trade; Watch]);
-
-	toEquip = handleSolveThing(poss, $slot[acc2]);
-	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc2])))
-	{
-		equip($slot[acc2], toEquip);
-	}
-
-	toEquip = $item[none];
-	poss = List($items[Gold Wedding Ring, Gingerbeard, Fudgecycle, Ticksilver Ring, Treads of Loathing]);
-
-	toEquip = handleSolveThing(poss, $slot[acc3]);
-	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[acc3])))
-	{
-		equip($slot[acc3], toEquip);
-	}
-}
 	### Original end of rollover accessory code.
 
 	if(have_familiar($familiar[Trick-or-Treating Tot]) && !possessEquipment($item[Li\'l Unicorn Costume]) && !is100FamiliarRun() && (my_meat() > (5000 + npc_price($item[Li\'l Unicorn Costume]))))

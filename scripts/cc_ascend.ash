@@ -1865,8 +1865,6 @@ void initializeDay(int day)
 		ovenHandle();
 	}
 
-	kgb_getMartini();
-
 	string campground = visit_url("campground.php");
 	if(contains_text(campground, "beergarden7.gif"))
 	{
@@ -1886,6 +1884,8 @@ boolean dailyEvents()
 {
 	while(cc_doPrecinct());
 	handleBarrelFullOfBarrels(true);
+
+	kgb_getMartini();
 
 	chateaumantegna_useDesk();
 
@@ -2454,6 +2454,11 @@ boolean doBedtime()
 	{
 		cs_spendRests();
 		print("You have " + (total_free_rests() - get_property("timesRested").to_int()) + " free rests remaining.", "blue");
+	}
+	if(possessEquipment($item[Kremlin\'s Greatest Briefcase]) && (get_property("_kgbClicksUsed").to_int() < 22))
+	{
+		int clicks = 22 - get_property("_kgbClicksUsed").to_int();
+		print("You have some KGB clicks (" + clicks + ") left!", "green");
 	}
 	if((get_property("sidequestNunsCompleted") == "fratboy") && (get_property("nunsVisits").to_int() < 3))
 	{
@@ -12329,7 +12334,38 @@ boolean cc_tavern()
 	foreach loc in locations
 	{
 		//Sleaze is the only one we don\'t care about
-		//What can we do to get more here?
+
+		if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+		{
+			string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
+			if(contains_text(mod, "Weapon Damage Percent"))
+			{
+				string page = visit_url("place.php?whichplace=kgb");
+				boolean flipped = false;
+				if(contains_text(page, "handleup"))
+				{
+					page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+					flipped = true;
+				}
+
+				page = visit_url("place.php?whichplace=kgb&action=kgb_button1", false);
+				page = visit_url("place.php?whichplace=kgb&action=kgb_button1", false);
+				if(flipped)
+				{
+					page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+				}
+			}
+			mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
+			if(contains_text(mod, "Hot Damage"))
+			{
+				buffMaintain($effect[Pyromania], 20, 1, 1);
+				buffMaintain($effect[Frostbeard], 20, 1, 1);
+				buffMaintain($effect[Rotten Memories], 20, 1, 1);
+				buffMaintain($effect[Intimidating Mien], 20, 1, 1);
+				equip($slot[acc3], $item[Kremlin\'s Greatest Briefcase]);
+			}
+		}
+
 
 		if(numeric_modifier("Cold Damage") >= 20.0)
 		{
@@ -13679,7 +13715,7 @@ void cc_begin()
 	}
 
 	print("Hello " + my_name() + ", time to explode!");
-	print("This is version: " + svn_info("ccascend-cc_ascend").last_changed_rev);
+	print("This is version: " + svn_info("ccascend-cc_ascend").last_changed_rev + " Mafia: " + get_revision());
 	print("This is day " + my_daycount() + ".");
 	print("Turns played: " + my_turncount() + " current adventures: " + my_adventures());
 	print("Current Ascension: " + cc_my_path());

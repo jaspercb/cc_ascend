@@ -1919,6 +1919,30 @@ boolean LA_cs_communityService()
 				}
 			}
 
+			if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+			{
+				string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
+				if(contains_text(mod, "Weapon Damage Percent"))
+				{
+					string page = visit_url("place.php?whichplace=kgb");
+					boolean flipped = false;
+					if(contains_text(page, "handleup"))
+					{
+						page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+						flipped = true;
+					}
+
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button1", false);
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button3", false);
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button3", false);
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button5", false);
+					if(flipped)
+					{
+						page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+					}
+				}
+			}
+
 			if(do_cs_quest(7))
 			{
 				curQuest = 0;
@@ -1950,6 +1974,28 @@ boolean LA_cs_communityService()
 			if((item_amount($item[Cop Dollar]) >= 10) && (have_effect($effect[Gummed Shoes]) == 0) && (item_amount($item[shoe gum]) == 0))
 			{
 				cli_execute("make 1 shoe gum");
+			}
+
+			if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+			{
+				string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
+#				if(contains_text(mod, "Adventures"))
+				if(kgbModifiers("Adventure"))
+				{
+					string page = visit_url("place.php?whichplace=kgb");
+					boolean flipped = false;
+					if(contains_text(page, "handleup"))
+					{
+						page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+						flipped = true;
+					}
+
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button5", false);
+					if(flipped)
+					{
+						page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+					}
+				}
 			}
 
 			buffMaintain($effect[Snow Shoes], 0, 1, 1);
@@ -1988,7 +2034,6 @@ boolean LA_cs_communityService()
 				pulverizeThing($item[A Light That Never Goes Out]);
 				pulverizeThing($item[Vicar\'s Tutu]);
 				chew(item_amount($item[Handful of Smithereens]), $item[Handful of Smithereens]);
-
 			}
 
 			if(do_cs_quest(8))

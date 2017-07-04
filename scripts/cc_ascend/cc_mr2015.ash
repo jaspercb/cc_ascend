@@ -812,21 +812,6 @@ boolean deck_useScheme(string action)
 			cards = $strings[Ancestral Recall, Island, Mine];
 		}
 	}
-#	else if((action == "") && !in_hardcore() && !isGuildClass())
-#	{
-#		switch(my_daycount())
-#		{
-#		case 1:				cards = $strings[none];		break;
-#		}
-#	}
-#	else if((action == "") && !in_hardcore() && isGuildClass())
-#	{
-#		switch(my_daycount())
-#		{
-#		case 1:				cards = $strings[none];		break;
-#		}
-#	}
-#	else if((action == "") && in_hardcore() && !isGuildClass())
 	else
 	{
 		switch(my_class())
@@ -837,8 +822,8 @@ boolean deck_useScheme(string action)
 				switch(my_daycount())
 				{
 				case 1:				cards["Lead Pipe"] = true;		break;
-				case 2:				cards["Lead Pipe"] = true;		break;
-				case 3:				cards["Lead Pipe"] = true;		break;
+				#case 2:				cards["Lead Pipe"] = true;		break;
+				#case 3:				cards["Lead Pipe"] = true;		break;
 				}
 			}
 			else
@@ -857,8 +842,8 @@ boolean deck_useScheme(string action)
 				switch(my_daycount())
 				{
 				case 1:				cards["Lead Pipe"] = true;		break;
-				case 2:				cards["Lead Pipe"] = true;		break;
-				case 3:				cards["Lead Pipe"] = true;		break;
+				#case 2:				cards["Lead Pipe"] = true;		break;
+				#case 3:				cards["Lead Pipe"] = true;		break;
 				}
 			}
 			else
@@ -877,8 +862,8 @@ boolean deck_useScheme(string action)
 				switch(my_daycount())
 				{
 				case 1:				cards["Wrench"] = true;		break;
-				case 2:				cards["Wrench"] = true;		break;
-				case 3:				cards["Wrench"] = true;		break;
+				#case 2:				cards["Wrench"] = true;		break;
+				#case 3:				cards["Wrench"] = true;		break;
 				}
 			}
 			else
@@ -897,7 +882,7 @@ boolean deck_useScheme(string action)
 				switch(my_daycount())
 				{
 				case 1:				cards["Candlestick"] = true;		break;
-				case 2:				cards["Candlestick"] = true;		break;
+				#case 2:				cards["Candlestick"] = true;		break;
 #				case 3:				cards["Candlestick"] = true;		break;
 				}
 			}
@@ -917,8 +902,8 @@ boolean deck_useScheme(string action)
 				switch(my_daycount())
 				{
 				case 1:				cards["Knife"] = true;		break;
-				case 2:				cards["Knife"] = true;		break;
-				case 3:				cards["Knife"] = true;		break;
+				#case 2:				cards["Knife"] = true;		break;
+				#case 3:				cards["Knife"] = true;		break;
 				}
 			}
 			else
@@ -980,7 +965,7 @@ boolean deck_useScheme(string action)
 		switch(my_daycount())
 		{
 		case 1:
-			cards[my_primestat() + " stat"] = true;
+			#cards[my_primestat() + " stat"] = true;
 			cards["1952 Mickey Mantle"] = true;
 			break;
 		case 2:

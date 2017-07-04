@@ -9,6 +9,7 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 boolean solveKGBMastermind();
 boolean kgbDial(int dial, int curVal, int target);
 boolean kgbSetup();
+boolean kgbModifiers(string mod);
 
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem)
 {
@@ -159,11 +160,30 @@ int kgb_tabCount(string page)
 int kgb_tabHeight(string page)
 {
 	int height = 0;
+
+	boolean printTabs = false;
+	matcher ring_matcher = create_matcher("lightrings(\\d+)", page);
+	if(ring_matcher.find())
+	{
+		int image = to_int(ring_matcher.group(1));
+		print("Found rings of value " + image, "blue");
+		printTabs = true;
+	}
+
+
 	matcher tabCount = create_matcher("kgb_tab(\\d)(?:.*?)otherimages/kgb/tab(\\d+).gif", page);
 	while(tabCount.find())
 	{
 		height += to_int(tabCount.group(2));
+		if(printTabs)
+		{
+			int id = to_int(tabCount.group(1));
+			int height = to_int(tabCount.group(2));
+			print("Tab " + id + " with height of " + height, "green");
+		}
 	}
+
+
 	return height;
 }
 
@@ -177,6 +197,7 @@ boolean kgbSetup()
 	{
 		return false;
 	}
+
 	if(get_property("_cc_kgbSetup").to_boolean())
 	{
 		return false;
@@ -322,6 +343,11 @@ boolean kgb_getMartini(string page, boolean dontCare)
 		return false;
 	}
 
+	if(!get_property("_cc_kgbSetup").to_boolean())
+	{
+		kgbSetup();
+	}
+
 	if(get_property("cc_kgbAscension").to_int() != my_ascensions())
 	{
 		if(!dontCare)
@@ -329,6 +355,53 @@ boolean kgb_getMartini(string page, boolean dontCare)
 			print("We did not initialize the briefcase this ascension, we can not care", "red");
 			dontCare = true;
 		}
+	}
+
+	if(page == "")
+	{
+		page = visit_url("place.php?whichplace=kgb");
+	}
+
+	if(!get_property("_kgbDailyStuff").to_boolean())
+	{
+		boolean flipped = false;
+		if(contains_text(page, "handledown"))
+		{
+			page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+			flipped = true;
+		}
+		for(int i=0; i<11; i++)
+		{
+			page = visit_url("place.php?whichplace=kgb&action=kgb_crank", false);
+			if(contains_text(page, "Nothing seems to happen"))
+			{
+				break;
+			}
+		}
+		if(!contains_text(page, "..........."))
+		{
+			print("Cranking did not work, uh oh!", "red");
+		}
+		else
+		{
+			page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+			page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+			print("Crank power!!", "green");
+		}
+
+		if(flipped)
+		{
+			page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+		}
+
+		page = visit_url("place.php?whichplace=kgb&action=kgb_drawer2", false);
+		page = visit_url("place.php?whichplace=kgb&action=kgb_drawer1", false);
+		page = visit_url("place.php?whichplace=kgb&action=kgb_daily", false);
+		set_property("_kgbDailyStuff", true);
+	}
+	if(get_property("_kgbMartinisServed").to_int() >= 3)
+	{
+		return false;
 	}
 
 	int button = get_property("cc_kgbButton100").to_int();
@@ -361,6 +434,12 @@ boolean kgb_getMartini(string page, boolean dontCare)
 		set_property("_kgbMartinisServed", served + 1);
 	}
 	return true;
+}
+
+boolean kgbModifiers(string mod)
+{
+	string page = visit_url("desc_item.php?whichitem=311743898");
+	return contains_text(page, mod);
 }
 
 boolean kgbDial(int dial, int curVal, int target)
@@ -418,6 +497,10 @@ boolean solveKGBMastermind()
 
 	string page = visit_url("place.php?whichplace=kgb");
 	if(contains_text(page, "A pair of antennae"))
+	{
+		return false;
+	}
+	if(contains_text(page, "kgb_daily"))
 	{
 		return false;
 	}
