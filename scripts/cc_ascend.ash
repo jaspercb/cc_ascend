@@ -12361,7 +12361,15 @@ boolean cc_tavern()
 				buffMaintain($effect[Pyromania], 20, 1, 1);
 				buffMaintain($effect[Frostbeard], 20, 1, 1);
 				buffMaintain($effect[Rotten Memories], 20, 1, 1);
-				buffMaintain($effect[Intimidating Mien], 20, 1, 1);
+				if(have_skill($skill[Intimidating Mien]))
+				{
+					buffMaintain($effect[Intimidating Mien], 20, 1, 1);
+				}
+				else
+				{
+					buffMaintain($effect[Dirge of Dreadfulness], 20, 1, 1);
+					buffMaintain($effect[Snarl of the Timberwolf], 20, 1, 1);
+				}
 				equip($slot[acc3], $item[Kremlin\'s Greatest Briefcase]);
 			}
 		}

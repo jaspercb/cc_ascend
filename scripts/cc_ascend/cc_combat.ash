@@ -653,10 +653,10 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((item_amount($item[The Big Book of Pirate Insults]) > 0) && (!contains_text(combatState, "insults")) && (numPirateInsults() < 8))
+	if((item_amount($item[The Big Book of Pirate Insults]) > 0) && (!contains_text(combatState, "insults")) && (numPirateInsults() < 8) && (internalQuestStatus("questM12Pirate") < 5))
 	{
-		if((my_location() == $location[The Obligatory Pirate\'s Cove]) || (my_location() == $location[barrrney\'s barrr]) ||
-			((enemy == $monster[gaudy pirate]) && (my_location() != $location[Belowdecks])))
+		if((my_location() == $location[The Obligatory Pirate\'s Cove]) || (my_location() == $location[Barrrney\'s Barrr]) ||
+			((enemy == $monster[Gaudy Pirate]) && (my_location() != $location[Belowdecks])))
 		{
 			set_property("cc_combatHandler", combatState + "(insults)");
 			return "item the big book of pirate insults";

@@ -698,3 +698,25 @@ boolean getSpaceJelly()
 	use_familiar(old);
 	return true;
 }
+
+/*
+boolean asdonFuel
+boolean asdonFeed
+boolean asdonBuff
+	obnoxiously			+combat
+	stealthily			+non-combat
+	wastefully			oil slicks?
+	recklessly			+25ML
+	safely				+all res/+dr/+da
+	quickly				+init
+	intimidatingly		-ML
+	observantly			+item/+meat/+booze
+	waterproofly		underwater stuff
+
+	Asdon Martin: Missile Launcher		100 Fuel (YR?)
+	Asdon Martin: Bean Bag Cannon		10 Fuel	(instakill, not-free?)
+	Asdon Martin: Spring-Loaded Front Bumper	50 Fuel (30 turn banish)
+
+
+
+*/

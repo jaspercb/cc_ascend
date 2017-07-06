@@ -88,7 +88,7 @@ void bond_initializeDay(int day)
 				kgb_getMartini();
 			}
 			int have = item_amount($item[Improved Martini]) + item_amount($item[Splendid Martini]);
-			if((my_inebriety() == 0) && (have == 0))
+			if((my_inebriety() == 0) && (have <= 3))
 			{
 				if(storage_amount($item[Improved Martini]) < 13)
 				{
