@@ -323,6 +323,17 @@ boolean LA_cs_communityService()
 					buffMaintain($effect[Ode to Booze], 50, 1, 4);
 					drink(1, $item[Ice Island Long Tea]);
 				}
+				else if(item_amount($item[Splendid Martini]) > 0)
+				{
+					if((my_mp() < mp_cost($skill[The Ode to Booze])) && (my_maxmp() >= 75))
+					{
+						doRest();
+					}
+					shrugAT($effect[Ode to Booze]);
+					buffMaintain($effect[Ode to Booze], 50, 1, (inebriety_left() - 9));
+					drink(min(item_amount($item[Splendid Martini]), (inebriety_left() - 9)), $item[Splendid Martini]);
+				}
+
 			}
 
 			if(get_property("cc_csDoWheel").to_boolean() && do_chateauGoat())
@@ -1980,7 +1991,7 @@ boolean LA_cs_communityService()
 			{
 				string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
 #				if(contains_text(mod, "Adventures"))
-				if(kgbModifiers("Adventure"))
+				if(kgbModifiers("Adventure(s)"))
 				{
 					string page = visit_url("place.php?whichplace=kgb");
 					boolean flipped = false;

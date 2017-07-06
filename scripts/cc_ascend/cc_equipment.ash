@@ -890,7 +890,7 @@ void equipRollover()
 	{
 		string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
 #		if(contains_text(mod, "Adventures"))
-		if(kgbModifiers("Adventure"))
+		if(kgbModifiers("Adventure(s)"))
 		{
 			poss = poss.ListInsertAt($item[Kremlin\'s Greatest Briefcase], poss.ListFind($item[Grandfather Watch]));
 		}

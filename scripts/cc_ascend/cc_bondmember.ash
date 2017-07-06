@@ -19,7 +19,8 @@ void bond_initializeSettings()
 
 	if(get_property("cc_dickstab").to_boolean())
 	{
-		if(my_inebriety() == 0)
+		int have = item_amount($item[Improved Martini]) + item_amount($item[Splendid Martini]);
+		if((my_inebriety() == 0) && (have == 0))
 		{
 			if(storage_amount($item[Improved Martini]) >= 10)
 			{
@@ -86,7 +87,8 @@ void bond_initializeDay(int day)
 				set_property("_cc_kgbSetup", true);
 				kgb_getMartini();
 			}
-			if(my_inebriety() == 0)
+			int have = item_amount($item[Improved Martini]) + item_amount($item[Splendid Martini]);
+			if((my_inebriety() == 0) && (have == 0))
 			{
 				if(storage_amount($item[Improved Martini]) < 13)
 				{
