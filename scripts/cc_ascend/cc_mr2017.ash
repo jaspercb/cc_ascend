@@ -763,6 +763,10 @@ boolean asdonBuff(effect goal)
 	{
 		return false;
 	}
+	if(have_effect(goal) > 0)
+	{
+		return false;
+	}
 
 	boolean needShrug = false;
 	foreach eff in $effects[Driving Intimidatingly, Driving Obnoxiously, Driving Observantly, Driving Quickly, Driving Recklessly, Driving Safely, Driving Stealthily, Driving Wastefully, Driving Waterproofly]
@@ -815,7 +819,7 @@ boolean asdonAutoFeed()
 		return false;
 	}
 
-	foreach it in $items[Bean Burrito, Bilge Wine, Insanely Spicy Bean Burrito, Slip \'N\' Slide, Strawberry Daiquiri]
+	foreach it in $items[A Little Sump\'m Sump\'m, Bean Burrito, Bilge Wine, Enchanted Bean Burrito, Gin And Tonic, Insanely Spicy Bean Burrito, Insanely Spicy Enchanted Bean Burrito, Insanely Spicy Jumping Bean Burrito, Jumping Bean Burrito, Margarita, Mimosette, Mornington Crescent Roll, Pink Pony, Roll In The Hay, Screwdriver, Slap And Tickle, Slip \'N\' Slide, Spicy Bean Burrito, Spicy Enchanted Bean Burrito, Spicy Jumping Bean Burrito, Stolen Sushi, Strawberry Daiquiri, Tequila Sunrise, Tequila Sunset, Vodka And Tonic, Zmobie]
 	{
 		asdonFeed(it, item_amount(it));
 		if(get_fuel() > 137)

@@ -6884,6 +6884,7 @@ boolean L12_filthworms()
 		buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
 		buffMaintain($effect[Human-Machine Hybrid], 0, 1, 1);
 		buffMaintain($effect[Unusual Perspective], 0, 1, 1);
+		asdonBuff($effect[Driving Observantly]);
 
 		if(get_property("cc_dickstab").to_boolean())
 		{

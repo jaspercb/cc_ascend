@@ -619,7 +619,6 @@ boolean LM_bond()
 			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab1", false);
 			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2", false);
 			asdonBuff($effect[Driving Observantly]);
-			asdonBuff($effect[Driving Observantly]);
 		}
 
 		if(internalQuestStatus("questM21Dance") >= 4)
