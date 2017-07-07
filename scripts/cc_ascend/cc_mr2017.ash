@@ -406,7 +406,7 @@ boolean kgb_getMartini(string page, boolean dontCare)
 
 	int button = get_property("cc_kgbButton100").to_int();
 
-	while(get_property("_kgbMartinisServed").to_int() < 3)
+	while((get_property("_kgbMartinisServed").to_int() < 3) && (get_property("_kgbClicksUsed").to_int() < 22))
 	{
 		int served = get_property("_kgbMartinisServed").to_int();
 		int have = item_amount($item[Splendid Martini]);
@@ -424,7 +424,12 @@ boolean kgb_getMartini(string page, boolean dontCare)
 			page = visit_url("place.php?whichplace=kgb&action=kgb_button" + button, false);
 			if(kgb_tabHeight(page) < 11)
 			{
-				abort("Can not seem to recover situation regarding splendid martinis");
+				if(button == 0)
+				{
+					abort("Can not seem to recover situation regarding splendid martinis");
+				}
+				print("Trying to restore tabs", "green");
+				continue;
 			}
 		}
 		if((have == item_amount($item[Splendid Martini])) && !dontCare)
@@ -819,7 +824,7 @@ boolean asdonAutoFeed()
 		return false;
 	}
 
-	foreach it in $items[A Little Sump\'m Sump\'m, Bean Burrito, Bilge Wine, Enchanted Bean Burrito, Gin And Tonic, Insanely Spicy Bean Burrito, Insanely Spicy Enchanted Bean Burrito, Insanely Spicy Jumping Bean Burrito, Jumping Bean Burrito, Margarita, Mimosette, Mornington Crescent Roll, Pink Pony, Roll In The Hay, Screwdriver, Slap And Tickle, Slip \'N\' Slide, Spicy Bean Burrito, Spicy Enchanted Bean Burrito, Spicy Jumping Bean Burrito, Stolen Sushi, Strawberry Daiquiri, Tequila Sunrise, Tequila Sunset, Vodka And Tonic, Zmobie]
+	foreach it in $items[A Little Sump\'m Sump\'m, Bean Burrito, Bilge Wine, Black Forest Ham, Enchanted Bean Burrito, Gin And Tonic, Insanely Spicy Bean Burrito, Insanely Spicy Enchanted Bean Burrito, Insanely Spicy Jumping Bean Burrito, Jumping Bean Burrito, Margarita, Mimosette, Mornington Crescent Roll, Pink Pony, Roll In The Hay, Screwdriver, Slap And Tickle, Slip \'N\' Slide, Spicy Bean Burrito, Spicy Enchanted Bean Burrito, Spicy Jumping Bean Burrito, Stolen Sushi, Strawberry Daiquiri, Tequila Sunrise, Tequila Sunset, Vodka And Tonic, Zmobie]
 	{
 		asdonFeed(it, item_amount(it));
 		if(get_fuel() > 137)
