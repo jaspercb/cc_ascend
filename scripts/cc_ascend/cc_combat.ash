@@ -2049,7 +2049,7 @@ string findBanisher(int round, string opp, string text)
 		}
 	}
 
-	foreach act in $skills[Banishing Shout, Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Breathe Out, Snokebomb, KGB Tranquilizer Dart, Beancannon]
+	foreach act in $skills[Banishing Shout, Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Breathe Out, Snokebomb, KGB Tranquilizer Dart, Beancannon, Asdon Martin: Spring-Loaded Front Bumper]
 	{
 		if((!contains_text(get_property("cc_gremlinBanishes"), act)) && have_skill(act) && (my_mp() >= mp_cost(act)) && (my_thunder() >= thunder_cost(act)) && have_skill(act))
 		{
@@ -2059,6 +2059,10 @@ string findBanisher(int round, string opp, string text)
 				return "skill " + act;
 			}
 			if((act == $skill[Batter Up!]) && ((my_fury() < 5) || (item_type(equipped_item($slot[weapon])) != "club")))
+			{
+				continue;
+			}
+			if((act == $skill[Asdon Martin: Spring-Loaded Front Bumper]) && (get_fuel() < fuel_cost($skill[Asdon Martin: Spring-Loaded Front Bumper])) && (cc_get_campground() contains $item[Asdon Martin Keyfob]))
 			{
 				continue;
 			}

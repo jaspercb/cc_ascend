@@ -2017,6 +2017,7 @@ boolean LA_cs_communityService()
 			{
 				cli_execute("swim noncombat");
 			}
+			asdonBuff($effect[Driving Stealthily]);
 
 			int questCost = get_cs_questCost(curQuest);
 			if(my_adventures() < questCost)
@@ -2104,6 +2105,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 11, 1, 1);
 			buffMaintain($effect[Steely-Eyed Squint], 101, 1, 1);
 			buffMaintain($effect[Heightened Senses], 0, 1, 1);
+			asdonBuff($effect[Driving Observantly]);
 
 			if(get_property("cc_csDoWheel").to_boolean())
 			{
@@ -2244,6 +2246,8 @@ boolean LA_cs_communityService()
 			{
 				equip($slot[acc3], $item[heat-resistant necktie]);
 			}
+
+			asdonBuff($effect[Driving Safely]);
 
 			while((my_mp() < 37) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{

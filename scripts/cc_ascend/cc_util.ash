@@ -1071,6 +1071,10 @@ int inebriety_left()
 boolean canYellowRay()
 {
 	# Use this to determine if it is safe to enter a yellow ray combat.
+	if((cc_get_campground() contains $item[Asdon Martin Keyfob]) && (get_fuel() >= fuel_cost($skill[Asdon Martin: Missile Launcher])) && !get_property("_missileLauncherUsed").to_boolean())
+	{
+		return true;
+	}
 	if(have_effect($effect[Everything Looks Yellow]) > 0)
 	{
 		return false;
@@ -1199,6 +1203,10 @@ string yellowRayCombatString()
 	if(have_skill($skill[Disintegrate]) && (my_mp() >= mp_cost($skill[Disintegrate])))
 	{
 		return "skill " + $skill[Disintegrate];
+	}
+	if((cc_get_campground() contains $item[Asdon Martin Keyfob]) && (get_fuel() >= fuel_cost($skill[Asdon Martin: Missile Launcher])) && !get_property("_missileLauncherUsed").to_boolean())
+	{
+		return "skill " + $skill[Asdon Martin: Missile Launcher];
 	}
 	return "";
 }

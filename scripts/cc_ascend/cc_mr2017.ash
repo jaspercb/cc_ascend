@@ -699,24 +699,158 @@ boolean getSpaceJelly()
 	return true;
 }
 
-/*
-boolean asdonFuel
-boolean asdonFeed
-boolean asdonBuff
-	obnoxiously			+combat
-	stealthily			+non-combat
-	wastefully			oil slicks?
-	recklessly			+25ML
-	safely				+all res/+dr/+da
-	quickly				+init
-	intimidatingly		-ML
-	observantly			+item/+meat/+booze
-	waterproofly		underwater stuff
 
-	Asdon Martin: Missile Launcher		100 Fuel (YR?)
-	Asdon Martin: Bean Bag Cannon		10 Fuel	(instakill, not-free?)
-	Asdon Martin: Spring-Loaded Front Bumper	50 Fuel (30 turn banish)
+boolean asdonBuff(string goal)
+{
+	if((goal == $effect[Driving Obnoxiously]) || (goal == "combat") || (goal == "+combat"))
+	{
+		return asdonBuff($effect[Driving Obnoxiously]);
+	}
+	if((goal == $effect[Driving Stealthily]) || (goal == "noncombat") || (goal == "-combat") || (goal == "non-combat"))
+	{
+		return asdonBuff($effect[Driving Stealthily]);
+	}
+	if((goal == $effect[Driving Wastefully]) || (goal == "oil"))
+	{
+		return asdonBuff($effect[Driving Wastefully]);
+	}
+	if((goal == $effect[Driving Safely]) || (goal == "resistance") || (goal == "absorb") || (goal == "res"))
+	{
+		return asdonBuff($effect[Driving Safely]);
+	}
+	if((goal == $effect[Driving Recklessly]) || (goal == "ml"))
+	{
+		return asdonBuff($effect[Driving Recklessly]);
+	}
+	if((goal == $effect[Driving Intimidatingly]) || (goal == "-ml"))
+	{
+		return asdonBuff($effect[Driving Intimidatingly]);
+	}
+	if((goal == $effect[Driving Quickly]) || (goal == "init"))
+	{
+		return asdonBuff($effect[Driving Quickly]);
+	}
+	if((goal == $effect[Driving Observantly]) || (goal == "drops") || (goal == "meat") || (goal == "item") || (goal == "items") || (goal == "booze"))
+	{
+		return asdonBuff($effect[Driving Observantly]);
+	}
+	if((goal == $effect[Driving Waterproofly]) || (goal == "sea") || (goal == "breathe") || (goal == "dive") || (goal == "diver") || (goal == "underwater"))
+	{
+		return asdonBuff($effect[Driving Waterproofly]);
+	}
+	return false;
+}
 
+boolean asdonBuff(effect goal)
+{
+	if(!(cc_get_campground() contains $item[Asdon Martin Keyfob]))
+	{
+		return false;
+	}
+	if(!is_unrestricted($item[Asdon Martin Keyfob]))
+	{
+		return false;
+	}
+	if(!($effects[Driving Intimidatingly, Driving Obnoxiously, Driving Observantly, Driving Quickly, Driving Recklessly, Driving Safely, Driving Stealthily, Driving Wastefully, Driving Waterproofly] contains goal))
+	{
+		return false;
+	}
+	if(get_fuel() < 37)
+	{
+		return false;
+	}
+	if(($effect[Driving Wastefully] == goal) && (get_property("oilPeakProgress").to_float() == 0.0))
+	{
+		return false;
+	}
 
+	boolean needShrug = false;
+	foreach eff in $effects[Driving Intimidatingly, Driving Obnoxiously, Driving Observantly, Driving Quickly, Driving Recklessly, Driving Safely, Driving Stealthily, Driving Wastefully, Driving Waterproofly]
+	{
+		if((have_effect(eff) > 0) && (eff != goal))
+		{
+			needShrug = true;
+		}
+	}
 
-*/
+	if(needShrug)
+	{
+		string temp = visit_url("campground.php?pwd=&preaction=undrive");
+	}
+
+	int effectNum = -1;
+	switch(goal)
+	{
+	case $effect[Driving Intimidatingly]:	effectNum = 6;	break;
+	case $effect[Driving Obnoxiously]:		effectNum = 0;	break;
+	case $effect[Driving Observantly]:		effectNum = 7;	break;
+	case $effect[Driving Quickly]:			effectNum = 5;	break;
+	case $effect[Driving Recklessly]:		effectNum = 4;	break;
+	case $effect[Driving Safely]:			effectNum = 3;	break;
+	case $effect[Driving Stealthily]:		effectNum = 1;	break;
+	case $effect[Driving Wastefully]:		effectNum = 2;	break;
+	case $effect[Driving Waterproofly]:		effectNum = 8;	break;
+	}
+	string temp = visit_url("campground.php?pwd=&preaction=drive&whichdrive=" + effectNum);
+
+	return true;
+}
+
+boolean asdonAutoFeed()
+{
+	if(!(cc_get_campground() contains $item[Asdon Martin Keyfob]))
+	{
+		return false;
+	}
+	if(!is_unrestricted($item[Asdon Martin Keyfob]))
+	{
+		return false;
+	}
+	if(get_fuel() > 137)
+	{
+		return false;
+	}
+	if(get_property("kingLiberated").to_boolean())
+	{
+		return false;
+	}
+
+	foreach it in $items[Bean Burrito, Bilge Wine, Insanely Spicy Bean Burrito, Slip \'N\' Slide, Strawberry Daiquiri]
+	{
+		asdonFeed(it, item_amount(it));
+		if(get_fuel() > 137)
+		{
+			break;
+		}
+	}
+
+	return true;
+}
+
+boolean asdonFeed(item it, int qty)
+{
+	if(!(cc_get_campground() contains $item[Asdon Martin Keyfob]))
+	{
+		return false;
+	}
+	if(!is_unrestricted($item[Asdon Martin Keyfob]))
+	{
+		return false;
+	}
+	if((qty < 1) || (item_amount(it) < qty))
+	{
+		return false;
+	}
+
+	int oldFuel = get_fuel();
+	string temp = visit_url("campground.php?pwd=&action=fuelconvertor&qty=" + qty + "&iid=" + to_int(it));
+	int newFuel = get_fuel();
+
+	print("Compressed " + qty + " " + it + " into sheep, I mean fuel: " + oldFuel + " --> " + newFuel, "green");
+	return true;
+}
+
+boolean asdonFeed(item it)
+{
+	return asdonFeed(it, 1);
+}

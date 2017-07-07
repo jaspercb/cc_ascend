@@ -610,14 +610,16 @@ boolean LM_bond()
 
 		if(get_property("middleChamberUnlock").to_boolean() && (get_property("_kgbClicksUsed").to_int() == 0) && possessEquipment($item[Kremlin\'s Greatest Briefcase]))
 		{
-			string temp = visit_url("place.php?whichplace=kgb&action=kgb_tab1");
-			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2");
-			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab3");
-			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab4");
-			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab5");
-			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab6");
-			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab1");
-			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2");
+			string temp = visit_url("place.php?whichplace=kgb&action=kgb_tab1", false);
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2", false);
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab3", false);
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab4", false);
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab5", false);
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab6", false);
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab1", false);
+			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2", false);
+			asdonBuff($effect[Driving Observantly]);
+			asdonBuff($effect[Driving Observantly]);
 		}
 
 		if(internalQuestStatus("questM21Dance") >= 4)
