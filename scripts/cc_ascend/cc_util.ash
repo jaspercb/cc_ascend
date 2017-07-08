@@ -1270,6 +1270,12 @@ boolean uneffect(effect toRemove)
 	{
 		return true;
 	}
+	if($effects[Driving Intimidatingly, Driving Obnoxiously, Driving Observantly, Driving Quickly, Driving Recklessly, Driving Safely, Driving Stealthily, Driving Wastefully, Driving Waterproofly] contains toRemove)
+	{
+		string temp = visit_url("campground.php?pwd=&preaction=undrive");
+		return true;
+	}
+
 	if(cli_execute("uneffect " + toRemove))
 	{
 		//Either we don\'t have the effect or it is shruggable.
@@ -2052,6 +2058,8 @@ boolean providePlusNonCombat(int amt, boolean doEquips)
 			return true;
 		}
 	}
+
+	asdonBuff($effect[Driving Stealthily]);
 
 	foreach eff in $effects[Patent Invisibility]
 	{
