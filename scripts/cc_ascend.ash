@@ -12272,6 +12272,7 @@ boolean L8_trapperYeti()
 		}
 
 		handleFamiliar("item");
+		asdonBuff($effect[Driving Obnoxiously]);
 		if(!providePlusCombat(25))
 		{
 			print("Could not uneffect for ninja snowmen, delaying", "red");
