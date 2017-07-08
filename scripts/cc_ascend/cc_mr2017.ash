@@ -824,13 +824,22 @@ boolean asdonAutoFeed()
 		return false;
 	}
 
-	foreach it in $items[A Little Sump\'m Sump\'m, Bean Burrito, Bilge Wine, Black Forest Ham, Enchanted Bean Burrito, Gin And Tonic, Insanely Spicy Bean Burrito, Insanely Spicy Enchanted Bean Burrito, Insanely Spicy Jumping Bean Burrito, Jumping Bean Burrito, Margarita, Mimosette, Mornington Crescent Roll, Pink Pony, Roll In The Hay, Screwdriver, Slap And Tickle, Slip \'N\' Slide, Spicy Bean Burrito, Spicy Enchanted Bean Burrito, Spicy Jumping Bean Burrito, Stolen Sushi, Strawberry Daiquiri, Tequila Sunrise, Tequila Sunset, Vodka And Tonic, Zmobie]
+	boolean didOnce = false;
+	foreach it in $items[A Little Sump\'m Sump\'m, Bean Burrito, Bilge Wine, Black Forest Ham, Enchanted Bean Burrito, Gin And Tonic, Insanely Spicy Bean Burrito, Insanely Spicy Enchanted Bean Burrito, Insanely Spicy Jumping Bean Burrito, Jumping Bean Burrito, Margarita, Mimosette, Mornington Crescent Roll, Pink Pony, Roll In The Hay, Screwdriver, Slap And Tickle, Slip \'N\' Slide, Snifter Of Thoroughly Aged Brandy, Spicy Bean Burrito, Spicy Enchanted Bean Burrito, Spicy Jumping Bean Burrito, Stolen Sushi, Strawberry Daiquiri, Tequila Sunrise, Tequila Sunset, Vodka And Tonic, Zmobie]
 	{
-		asdonFeed(it, item_amount(it));
+		if(item_amount(it) > 0)
+		{
+			asdonFeed(it, item_amount(it));
+			didOnce = true;
+		}
 		if(get_fuel() > 137)
 		{
 			break;
 		}
+	}
+	if(didOnce)
+	{
+		cli_execute("refresh inv");
 	}
 
 	return true;

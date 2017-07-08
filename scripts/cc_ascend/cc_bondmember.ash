@@ -370,6 +370,22 @@ boolean LM_bond()
 
 	if(get_property("cc_dickstab").to_boolean())
 	{
+		if((inebriety_left() == 0) && (my_adventures() <= 2) && (my_daycount() == 1))
+		{
+			if(item_amount($item[Disposable Instant Camera]) == 0)
+			{
+				print("Can you time spin an Animated Ornate Nightstand?", "red");
+			}
+			if(item_amount($item[Knob Goblin Firecracker]) == 0)
+			{
+				print("Can you time spin a Sub-Assistant Knob Mad Scientist?", "red");
+			}
+			if(item_amount($item[Knob Goblin Harem Veil]) == 0)
+			{
+				print("Can you YR (or equivalent) a Knob Goblin Harem Girl?", "red");
+			}
+		}
+
 		if((internalQuestStatus("questL12War") >= 1) && (item_amount($item[Stuffing Fluffer]) == 3))
 		{
 			use(3, $item[Stuffing Fluffer]);
