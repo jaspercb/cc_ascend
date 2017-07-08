@@ -40,11 +40,17 @@ void bond_initializeSettings()
 		pullXWhenHaveY($item[Gravy Boat], 1, 0);
 		pullXWhenHaveY($item[Blackberry Galoshes], 1, 0);
 		bond_buySkills();
-		deck_cheat("tower");
-		deck_cheat("mine");
-		deck_cheat("sheep");
+		if(get_property("_deckCardsDrawn").to_int() == 0)
+		{
+			deck_cheat("tower");
+			deck_cheat("mine");
+			deck_cheat("sheep");
+		}
 		kgbSetup();
-		use(1, $item[Infinite BACON Machine]);
+		if((item_amount($item[Infinite BACON Machine]) > 0) && !get_property("_baconMachineUsed").to_boolean())
+		{
+			use(1, $item[Infinite BACON Machine]);
+		}
 		if(!get_property("_internetViralVideoBought").to_boolean() && (item_amount($item[BACON]) >= 20))
 		{
 			cli_execute("make 1 " + $item[Viral Video]);
@@ -80,8 +86,11 @@ void bond_initializeDay(int day)
 			{
 				put_closet(item_amount($item[Hacked Gibson]), $item[Hacked Gibson]);
 			}
-			deck_cheat("tower");
-			deck_cheat("mine");
+			if(get_property("_deckCardsDrawn").to_int() == 0)
+			{
+				deck_cheat("tower");
+				deck_cheat("mine");
+			}
 			if(!get_property("_cc_kgbSetup").to_boolean())
 			{
 				set_property("_cc_kgbSetup", true);
@@ -99,7 +108,11 @@ void bond_initializeDay(int day)
 					pullXWhenHaveY($item[Improved Martini], 13, 0);
 				}
 			}
-			use(1, $item[Infinite BACON Machine]);
+			if((item_amount($item[Infinite BACON Machine]) > 0) && !get_property("_baconMachineUsed").to_boolean())
+			{
+				use(1, $item[Infinite BACON Machine]);
+			}
+
 			if(!get_property("_internetDailyDungeonMalwareBought").to_boolean() && (item_amount($item[BACON]) >= 150))
 			{
 				cli_execute("make 1 " + $item[Daily Dungeon Malware]);
