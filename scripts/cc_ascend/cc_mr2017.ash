@@ -60,7 +60,7 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 
 	if(enforcer || engineer || equivocator)
 	{
-		set_property("cc_disableAdventureHandling", "yes");
+		set_property("cc_disableAdventureHandling", true);
 	}
 
 	if(enforcer)
@@ -139,7 +139,7 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 
 	if(enforcer || engineer || equivocator)
 	{
-		set_property("cc_disableAdventureHandling", "no");
+		set_property("cc_disableAdventureHandling", false);
 		cli_execute("postcheese");
 	}
 
@@ -825,7 +825,7 @@ boolean asdonAutoFeed()
 	}
 
 	boolean didOnce = false;
-	foreach it in $items[A Little Sump\'m Sump\'m, Bean Burrito, Bilge Wine, Black Forest Ham, Enchanted Bean Burrito, Gin And Tonic, Insanely Spicy Bean Burrito, Insanely Spicy Enchanted Bean Burrito, Insanely Spicy Jumping Bean Burrito, Jumping Bean Burrito, Margarita, Mimosette, Mornington Crescent Roll, Pink Pony, Roll In The Hay, Screwdriver, Slap And Tickle, Slip \'N\' Slide, Snifter Of Thoroughly Aged Brandy, Spicy Bean Burrito, Spicy Enchanted Bean Burrito, Spicy Jumping Bean Burrito, Stolen Sushi, Strawberry Daiquiri, Tequila Sunrise, Tequila Sunset, Vodka And Tonic, Zmobie]
+	foreach it in $items[A Little Sump\'m Sump\'m, Backwoods Screwdriver, Ballroom Blintz, Bean Burrito, Bilge Wine,  Bottle Of Laundry Sherry, Black Forest Ham, Cactus Fruit, Dusty Bottle Of Marsala, Dusty Bottle Of Merlot, Dusty Bottle Of Pinot Noir, Enchanted Bean Burrito, Gin And Tonic, Insanely Spicy Bean Burrito, Insanely Spicy Enchanted Bean Burrito, Insanely Spicy Jumping Bean Burrito, Jumping Bean Burrito, Jungle Floor Wax, Margarita, Mimosette, Mornington Crescent Roll, Open Sauce, Pink Pony, Roll In The Hay, Screwdriver, Slap And Tickle, Slip \'N\' Slide, Snifter Of Thoroughly Aged Brandy, Spicy Bean Burrito, Spicy Enchanted Bean Burrito, Spicy Jumping Bean Burrito, Stolen Sushi, Strawberry Daiquiri, Tequila Sunrise, Tequila Sunset, Typical Tavern Swill, Vodka And Tonic, Zmobie]
 	{
 		if(item_amount(it) > 0)
 		{

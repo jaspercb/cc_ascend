@@ -190,9 +190,9 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 		}
 		else
 		{
-			set_property("cc_disableAdventureHandling", "yes");
+			set_property("cc_disableAdventureHandling", true);
 			boolean retval = ccAdv(1, loc, option);
-			set_property("cc_disableAdventureHandling", "no");
+			set_property("cc_disableAdventureHandling", false);
 			cli_execute("postcheese");
 		}
 		return retval;

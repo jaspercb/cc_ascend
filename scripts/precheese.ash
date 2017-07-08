@@ -27,7 +27,7 @@ void handlePreAdventure(location place)
 		}
 	}
 
-	if(get_property("cc_disableAdventureHandling") == "yes")
+	if(get_property("cc_disableAdventureHandling").to_boolean())
 	{
 		print("Preadventure skipped by standard adventure handler.", "green");
 		return;

@@ -1153,6 +1153,10 @@ string yellowRayCombatString()
 {
 	if(have_effect($effect[Everything Looks Yellow]) > 0)
 	{
+		if((cc_get_campground() contains $item[Asdon Martin Keyfob]) && (get_fuel() >= fuel_cost($skill[Asdon Martin: Missile Launcher])) && !get_property("_missileLauncherUsed").to_boolean())
+		{
+			return "skill " + $skill[Asdon Martin: Missile Launcher];
+		}
 		return "";
 	}
 	if(!canYellowRay())

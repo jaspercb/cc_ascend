@@ -69,7 +69,7 @@ void handlePostAdventure()
 		}
 	}
 
-	if(get_property("cc_disableAdventureHandling") == "yes")
+	if(get_property("cc_disableAdventureHandling").to_boolean())
 	{
 		print("Postadventure skipped by standard adventure handler.", "green");
 		return;

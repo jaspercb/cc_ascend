@@ -1360,7 +1360,7 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 		{
 			print("This fight and " + num + " more left.", "blue");
 		}
-		set_property("cc_disableAdventureHandling", "yes");
+		set_property("cc_disableAdventureHandling", true);
 		set_property("cc_edCombatHandler", "");
 
 		if(!skipFirstLife)
@@ -1370,7 +1370,7 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 			status = adv1(loc, 0, option);
 			if(!status && (get_property("lastEncounter") == "Like a Bat Into Hell"))
 			{
-				set_property("cc_disableAdventureHandling", "no");
+				set_property("cc_disableAdventureHandling", false);
 				abort("Either a) We had a connection problem and lost track of the battle, or we were defeated multiple times beyond our usual UNDYING. Manually handle the fight and rerun.");
 			}
 		}
@@ -1395,7 +1395,7 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 			{
 				print("Monster defeated in initialization, aborting attempt.", "red");
 				set_property("cc_edCombatStage", 0);
-				set_property("cc_disableAdventureHandling", "no");
+				set_property("cc_disableAdventureHandling", false);
 				cli_execute("postcheese.ash");
 				return true;
 			}
@@ -1422,7 +1422,7 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 				{
 					print("Monster defeated in initialization, aborting attempt.", "red");
 					set_property("cc_edCombatStage", 0);
-					set_property("cc_disableAdventureHandling", "no");
+					set_property("cc_disableAdventureHandling", false);
 					cli_execute("postcheese.ash");
 					return true;
 				}
@@ -1435,7 +1435,7 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 			}
 		}
 		set_property("cc_edCombatStage", 0);
-		set_property("cc_disableAdventureHandling", "no");
+		set_property("cc_disableAdventureHandling", false);
 
 		if(get_property("_edDefeats").to_int() > get_property("edDefeatAbort").to_int())
 		{

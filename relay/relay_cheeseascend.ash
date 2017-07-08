@@ -90,6 +90,8 @@ void generateTrackingData(string tracked, boolean hasSkill)
 		}
 		matcher paren = create_matcher("[()]", tracking[x]);
 		tracking[x] = replace_all(paren, "");
+		matcher asdon = create_matcher("Asdon Martin:", tracking[x]);
+		tracking[x] = replace_all(asdon, "Asdon Martin -");
 		string[int] current = split_string(tracking[x], ":");
 		int curDay = to_int(current[0]);
 		string enemy = current[1];

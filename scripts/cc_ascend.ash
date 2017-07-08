@@ -133,7 +133,7 @@ void initializeSettings()
 	set_property("cc_day2_init", "");
 	set_property("cc_day3_init", "");
 	set_property("cc_day4_init", "");
-	set_property("cc_disableAdventureHandling", "no");
+	set_property("cc_disableAdventureHandling", false);
 	set_property("cc_doCombatCopy", "no");
 	set_property("cc_drunken", "");
 	set_property("cc_eaten", "");
@@ -1038,7 +1038,7 @@ boolean doThemtharHills(boolean trickMode)
 	{
 		rethinkingCandy($effect[Synthesis: Greed]);
 	}
-
+	asdonBuff($effect[Driving Observantly]);
 
 
 
@@ -1627,9 +1627,9 @@ void initializeDay(int day)
 	{
 		visit_url("inv_use.php?pwd=&which=3&whichitem=6174", true);
 		visit_url("inv_use.php?pwd=&which=3&whichitem=6174&confirm=Yep.", true);
-		set_property("cc_disableAdventureHandling", "yes");
+		set_property("cc_disableAdventureHandling", true);
 		ccAdv(1, $location[Video Game Level 1]);
-		set_property("cc_disableAdventureHandling", "no");
+		set_property("cc_disableAdventureHandling", false);
 		if(item_amount($item[Dungeoneering Kit]) > 0)
 		{
 			use(1, $item[Dungeoneering Kit]);
@@ -1640,9 +1640,9 @@ void initializeDay(int day)
 	{
 		visit_url("inv_use.php?pwd=&which=3&whichitem=6174", true);
 		visit_url("inv_use.php?pwd=&which=3&whichitem=6174&confirm=Yep.", true);
-		set_property("cc_disableAdventureHandling", "yes");
+		set_property("cc_disableAdventureHandling", true);
 		ccAdv(1, $location[Video Game Level 1]);
-		set_property("cc_disableAdventureHandling", "no");
+		set_property("cc_disableAdventureHandling", false);
 		if(item_amount($item[Dungeoneering Kit]) > 0)
 		{
 			use(1, $item[Dungeoneering Kit]);
@@ -3844,12 +3844,12 @@ boolean L13_towerNSFinal()
 	if(internalQuestStatus("questL13Final") < 12)
 	{
 		cli_execute("scripts/precheese.ash");
-		set_property("cc_disableAdventureHandling", "yes");
+		set_property("cc_disableAdventureHandling", true);
 		ccAdvBypass("place.php?whichplace=nstower&action=ns_10_sorcfight", $location[Noob Cave]);
 		if(have_effect($effect[Beaten Up]) > 0)
 		{
 			print("Sorceress beat us up. Wahhh.", "red");
-			set_property("cc_disableAdventureHandling", "no");
+			set_property("cc_disableAdventureHandling", false);
 			return true;
 		}
 		if(last_monster() == $monster[Naughty Sorceress])
@@ -3858,25 +3858,25 @@ boolean L13_towerNSFinal()
 			if(have_effect($effect[Beaten Up]) > 0)
 			{
 				print("Blobbers Sorceress beat us up. Wahhh.", "red");
-				set_property("cc_disableAdventureHandling", "no");
+				set_property("cc_disableAdventureHandling", true);
 				return true;
 			}
 			ccAdv(1, $location[Noob Cave]);
 			if(have_effect($effect[Beaten Up]) > 0)
 			{
 				print("We got beat up by a sausage....", "red");
-				set_property("cc_disableAdventureHandling", "no");
+				set_property("cc_disableAdventureHandling", false);
 				return true;
 			}
 			if(get_property("cc_stayInRun").to_boolean())
 			{
-				set_property("cc_disableAdventureHandling", "no");
+				set_property("cc_disableAdventureHandling", false);
 				abort("User wanted to stay in run (cc_stayInRun), we are done.");
 			}
 
 			if($classes[Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Gelatinous Noob] contains my_class())
 			{
-				set_property("cc_disableAdventureHandling", "no");
+				set_property("cc_disableAdventureHandling", false);
 				if(get_property("cc_sorceress") == "finished")
 				{
 					abort("Freeing the king will result in a path change and we can barely handle The Sleazy Back Alley. Aborting, run the script again after selecting your aftercore path in order for it to clean up.");
@@ -3886,7 +3886,7 @@ boolean L13_towerNSFinal()
 			}
 			visit_url("place.php?whichplace=nstower&action=ns_11_prism");
 		}
-		set_property("cc_disableAdventureHandling", "no");
+		set_property("cc_disableAdventureHandling", false);
 	}
 	else
 	{
@@ -6402,7 +6402,7 @@ boolean L11_defeatEd()
 	set_property("choiceAdventure976", "1");
 
 	int x = 0;
-	set_property("cc_disableAdventureHandling", "yes");
+	set_property("cc_disableAdventureHandling", true);
 	while(item_amount($item[2334]) == 0)
 	{
 		x = x + 1;
@@ -6410,7 +6410,7 @@ boolean L11_defeatEd()
 		ccAdv(1, $location[The Lower Chambers]);
 		if(have_effect($effect[Beaten Up]) > 0)
 		{
-			set_property("cc_disableAdventureHandling", "no");
+			set_property("cc_disableAdventureHandling", false);
 			abort("Got Beaten Up by Ed the Undying - generally not safe to try to recover.");
 		}
 		if(x > 10)
@@ -6418,7 +6418,7 @@ boolean L11_defeatEd()
 			abort("Trying to fight too many Eds, leave the poor dude alone!");
 		}
 	}
-	set_property("cc_disableAdventureHandling", "no");
+	set_property("cc_disableAdventureHandling", false);
 
 	#if(item_amount($item[Holy MacGuffin]) != 0)
 	if(item_amount($item[2334]) != 0)
@@ -13733,7 +13733,7 @@ void cc_begin()
 	print("Turns played: " + my_turncount() + " current adventures: " + my_adventures());
 	print("Current Ascension: " + cc_my_path());
 
-	set_property("cc_disableAdventureHandling", "no");
+	set_property("cc_disableAdventureHandling", false);
 	set_property("cc_bedroomHandler1", "no");
 	set_property("cc_bedroomHandler2", "no");
 
