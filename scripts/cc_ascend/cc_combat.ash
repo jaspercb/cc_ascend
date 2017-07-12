@@ -962,6 +962,29 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+
+	if((!contains_text(combatState, "spring-loaded front bumper")) && have_skill($skill[Asdon Martin: Spring-Loaded Front Bumper]) && (get_fuel() >= fuel_cost($skill[Asdon Martin: Spring-Loaded Front Bumper])))
+	{
+		if($monsters[Animated Mahogany Nightstand, Coaltergeist, Crusty Pirate, Flock of Stab-Bats, Mad Wino, Mismatched Twins, Possessed Laundry Press, Pygmy Witch Lawyer, Pygmy Witch Nurse, Sabre-Toothed Goat, Tomb Servant] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(spring-loaded front bumper)");
+			handleTracker(enemy, $skill[Asdon Martin: Spring-Loaded Front Bumper], "cc_banishes");
+			return "skill " + $skill[Asdon Martin: Spring-Loaded Front Bumper];
+		}
+		if((enemy == $monster[burly sidekick]) && possessEquipment($item[Mohawk Wig]))
+		{
+			set_property("cc_combatHandler", combatState + "(spring-loaded front bumper)");
+			handleTracker(enemy, $skill[Asdon Martin: Spring-Loaded Front Bumper], "cc_banishes");
+			return "skill " + $skill[Asdon Martin: Spring-Loaded Front Bumper];
+		}
+		if((enemy == $monster[knob goblin madam]) && (item_amount($item[knob goblin perfume]) > 0))
+		{
+			set_property("cc_combatHandler", combatState + "(spring-loaded front bumper)");
+			handleTracker(enemy, $skill[Asdon Martin: Spring-Loaded Front Bumper], "cc_banishes");
+			return "skill " + $skill[Asdon Martin: Spring-Loaded Front Bumper];
+		}
+	}
+
 	#First pass politics
 	if((!contains_text(combatState, "politics")) && (have_skill($skill[talk about politics])) && (get_property("_pantsgivingBanish").to_int() < 5))
 	{
@@ -2053,7 +2076,7 @@ string findBanisher(int round, string opp, string text)
 		}
 	}
 
-	foreach act in $skills[Banishing Shout, Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Breathe Out, Snokebomb, KGB Tranquilizer Dart, Beancannon, Asdon Martin: Spring-Loaded Front Bumper]
+	foreach act in $skills[Banishing Shout, Asdon Martin: Spring-Loaded Front Bumper, Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Breathe Out, Snokebomb, KGB Tranquilizer Dart, Beancannon]
 	{
 		if((!contains_text(get_property("cc_gremlinBanishes"), act)) && have_skill(act) && (my_mp() >= mp_cost(act)) && (my_thunder() >= thunder_cost(act)) && have_skill(act) && (get_fuel() < fuel_cost(act)))
 		{
