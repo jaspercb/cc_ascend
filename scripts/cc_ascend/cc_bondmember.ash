@@ -219,15 +219,6 @@ boolean bond_buySkills()
 				points -= 2;
 			}
 		}
-		else if(!get_property("bondMartiniTurn").to_boolean())
-		{
-			if(points >= 1)
-			{
-				print("Getting bondMartiniTurn", "blue");
-				page = visit_url("choice.php?whichchoice=1259&pwd=&option=1&k=1&w=p");
-				points -= 1;
-			}
-		}
 		else if(!get_property("bondMartiniPlus").to_boolean())
 		{
 			if(points >= 3)
@@ -235,6 +226,15 @@ boolean bond_buySkills()
 				print("Getting bondMartiniPlus", "blue");
 				page = visit_url("choice.php?whichchoice=1259&pwd=&option=1&k=13&w=p");
 				points -= 3;
+			}
+		}
+		else if(!get_property("bondMartiniTurn").to_boolean())
+		{
+			if(points >= 1)
+			{
+				print("Getting bondMartiniTurn", "blue");
+				page = visit_url("choice.php?whichchoice=1259&pwd=&option=1&k=1&w=p");
+				points -= 1;
 			}
 		}
 		else if(!get_property("bondAdv").to_boolean())
@@ -245,7 +245,7 @@ boolean bond_buySkills()
 				points -= 1;
 			}
 		}
-		else if(!get_property("bondBridge").to_boolean())
+		else if(!get_property("bondBridge").to_boolean() && (get_property("chasmBridgeProgress").to_int() < 28))
 		{
 			if(points >= 3)
 			{
@@ -254,7 +254,7 @@ boolean bond_buySkills()
 				points -= 3;
 			}
 		}
-		else if(!get_property("bondSpleen").to_boolean())
+		else if(!get_property("bondSpleen").to_boolean() && (item_amount($item[Astral Energy Drink]) >= 2))
 		{
 			if(points >= 4)
 			{
@@ -263,7 +263,7 @@ boolean bond_buySkills()
 				points -= 4;
 			}
 		}
-		else if(!get_property("bondDesert").to_boolean())
+		else if(!get_property("bondDesert").to_boolean() && (get_property("desertExploration").to_int() < 100))
 		{
 			if(points >= 5)
 			{
@@ -637,7 +637,7 @@ boolean LM_bond()
 			}
 		}
 
-		if(get_property("middleChamberUnlock").to_boolean() && (get_property("_kgbClicksUsed").to_int() == 0) && possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+		if(get_property("middleChamberUnlock").to_boolean() && (get_property("_kgbClicksUsed").to_int() <= 1) && possessEquipment($item[Kremlin\'s Greatest Briefcase]))
 		{
 			string temp = visit_url("place.php?whichplace=kgb&action=kgb_tab1", false);
 			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2", false);

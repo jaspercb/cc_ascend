@@ -1415,7 +1415,7 @@ int handlePulls(int day)
 			//Possibly pull other smiths gear?
 		}
 
-		if((cc_my_path() != "Heavy Rains") && !($classes[Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()))
+		if((cc_my_path() != "Heavy Rains") && (cc_my_path() != "License to Adventure") && !($classes[Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()))
 		{
 			if(!possessEquipment($item[Snow Suit]) && !possessEquipment($item[Astral Pet Sweater]))
 			{
@@ -1562,7 +1562,8 @@ void initializeDay(int day)
 	{
 		if(item_amount($item[Telegram From Lady Spookyraven]) > 0)
 		{
-			use(1, $item[Telegram From Lady Spookyraven]);
+			print("Lady Spookyraven quest not started and we have a Telegram so let us use it.", "red");
+			boolean temp = use(1, $item[Telegram From Lady Spookyraven]);
 		}
 		else
 		{

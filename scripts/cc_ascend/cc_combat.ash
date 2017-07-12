@@ -900,6 +900,10 @@ string cc_combatHandler(int round, string opp, string text)
 				{
 					print("Unable to track yellow ray behavior: " + combatAction, "red");
 				}
+				if(combatAction == ("skill " + $skill[Asdon Martin: Missile Launcher]))
+				{
+					set_property("_missileLauncherUsed", true);
+				}
 				return combatAction;
 			}
 			else
