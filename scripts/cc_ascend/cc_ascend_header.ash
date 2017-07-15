@@ -446,6 +446,7 @@ int elemental_resist(element goal);							//Defined in cc_ascend/cc_util.ash
 float elemental_resist_value(int resistance);				//Defined in cc_ascend/cc_util.ash
 void ensureSealClubs();										//Defined in cc_ascend/cc_equipment.ash
 void equipBaseline();										//Defined in cc_ascend/cc_equipment.ash
+void equipBaselineAccessories();							//Defined in cc_ascend/cc_equipment.ash
 void equipBaselineAcc1();									//Defined in cc_ascend/cc_equipment.ash
 void equipBaselineAcc2();									//Defined in cc_ascend/cc_equipment.ash
 void equipBaselineAcc3();									//Defined in cc_ascend/cc_equipment.ash
@@ -680,10 +681,12 @@ string what_cs_quest(int quest);							//Defined in cc_ascend/cc_community_servi
 void woods_questStart();									//Defined in cc_ascend/cc_util.ash
 boolean xiblaxian_makeStuff();								//Defined in cc_ascend/cc_mr2014.ash
 string yellowRayCombatString();								//Defined in cc_ascend/cc_util.ash
+string banisherCombatString(monster enemy, location loc);	//Defined in cc_ascend/cc_util.ash
 boolean zoneCombat(location loc);							//Defined in cc_ascend/cc_util.ash
 boolean zoneItem(location loc);								//Defined in cc_ascend/cc_util.ash
 boolean zoneMeat(location loc);								//Defined in cc_ascend/cc_util.ash
 boolean zoneNonCombat(location loc);						//Defined in cc_ascend/cc_util.ash
+boolean declineTrades();									//Defined in cc_ascend/cc_util.ash
 
 //From Zlib Stuff
 record kmailObject {
@@ -712,6 +715,7 @@ boolean cc_acquireKeycards();								//Defined in cc_ascend/cc_aftercore.ash
 boolean cc_aftercore();										//Defined in cc_ascend/cc_aftercore.ash
 boolean cc_aftercore(int leave);							//Defined in cc_ascend/cc_aftercore.ash
 boolean cc_ascendIntoCS();									//Defined in cc_ascend/cc_aftercore.ash
+boolean cc_ascendIntoBond();								//Defined in cc_ascend/cc_aftercore.ash
 boolean cc_cheeseAftercore(int leave);						//Defined in cc_ascend/cc_aftercore.ash
 boolean cc_cheesePostCS();									//Defined in cc_ascend/cc_aftercore.ash
 boolean cc_cheesePostCS(int leave);							//Defined in cc_ascend/cc_aftercore.ash
@@ -746,3 +750,28 @@ boolean bond_buySkills();									//Defined in cc_ascend/cc_bondmember.ash
 void bond_initializeSettings();								//Defined in cc_ascend/cc_bondmember.ash
 item[int] bondDrinks();										//Defined in cc_ascend/cc_bondmember.ash
 void bond_initializeDay(int day);							//Defined in cc_ascend/cc_bondmember.ash
+
+
+//Record from cc_ascend/cc_zone.ash
+record generic_t
+{
+	boolean _error;
+	boolean _boolean;
+	int _int;
+	float _float;
+	string _string;
+	item _item;
+	location _location;
+	class _class;
+	stat _stat;
+	skill _skill;
+	effect _effect;
+	familiar _familiar;
+	slot _slot;
+	monster _monster;
+	element _element;
+	phylum _phylum;
+};
+generic_t zone_needItem(location loc);						//Defined in cc_ascend/cc_zone.ash
+generic_t zone_combatMod(location loc);						//Defined in cc_ascend/cc_zone.ash
+generic_t zone_delay(location loc);							//Defined in cc_ascend/cc_zone.ash

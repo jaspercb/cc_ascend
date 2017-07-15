@@ -1144,9 +1144,175 @@ boolean canYellowRay()
 	{
 		return true;
 	}
+	if(have_skill($skill[Unleash Cowrruption]) && (have_effect($effect[Cowrruption]) >= 30))
+	{
+		return true;
+	}
 	# Pulled Yellow Taffy	- How do we handle the underwater check?
 	# He-Boulder?			- How do we do this?
 	return false;
+}
+
+string banisherCombatString(monster enemy, location loc)
+{
+	if(get_property("kingLiberated").to_boolean())
+	{
+		return "";
+	}
+
+	//Check that we actually want to banish this thing.
+
+
+	// Is it a special banish? (cocktail napkin?)
+
+	if(!($monsters[Animated Mahogany Nightstand, Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Burly Sidekick, Chatty Pirate, Clingy Pirate (Female), Clingy Pirate (Male), Coaltergeist, Crusty Pirate, Doughbat, Drunk Goat, Evil Olive, Flock Of Stab-Bats, Knob Goblin Harem Guard, Knob Goblin Madam, Mad Wino, Mismatched Twins, Natural Spider, Plaid Ghost, Possessed Laundry Press, Procrastination Giant, Protagonist, Pygmy Headhunter, Pygmy Janitor, Pygmy Orderlies, Pygmy Witch Lawyer, Pygmy Witch Nurse, Sabre-Toothed Goat, Senile Lihc, Slick Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Taco Cat, Tan Gnat, Tomb Asp, Tomb Servant, Wardr&ouml;b Nightstand, Warehouse Janitor, Upgraded Ram] contains enemy))
+	{
+		return "";
+	}
+
+	if((enemy == $monster[Knob Goblin Madam]) && (item_amount($item[Knob Goblin Perfume]) == 0))
+	{
+		return "";
+	}
+	if((enemy == $monster[Burly Sidekick]) && !possessEquipment($item[Mohawk Wig]))
+	{
+		return "";
+	}
+	if((enemy == $monster[Pygmy Janitor]) && (get_property("hiddenTavernUnlock").to_int() < my_ascensions()))
+	{
+		return "";
+	}
+
+	string banished = get_property("banishedMonsters");
+	string[int] banishList = split_string(banished, ":");
+	monster[int] atLoc = get_monsters(loc);
+
+	//src/net/sourceforge/kolmafia/session/BanishManager.java
+	boolean[string] used;
+	for(int i=0; (i+1)<count(banishList); i = i + 3)
+	{
+		monster curMon = to_monster(banishList[i]);
+		string curUsed = banishList[i+1];
+
+		for(int j=0; j<count(atLoc); j++)
+		{
+			if(atLoc[j] == curMon)
+			{
+				used[curUsed] = true;
+			}
+		}
+	}
+
+	/*	If we have banished anything else in this zone, make sure we do not undo the banishing.
+		mad wino:batter up!:378:skeletal sommelier:KGB tranquilizer dart:381
+		We are not going to worry about turn costs, it probably only matters for older paths anyway.
+
+		Thunder Clap: no limit, no turn limit
+		Batter Up!: no limit, no turn limit
+		Asdon Martin: Spring-Loaded Front Bumper: no limit
+		Curse of Vacation: no limit? No turn limit?
+		Walk Away Explosion: no limit, turn limited irrelavant.
+
+		Banishing Shout: no turn limit
+		Talk About Politics: no turn limit
+		KGB Tranquilizer Dart: no turn limit
+		Snokebomb: no turn limit
+
+		Louder Than Bomb: item, no turn limit
+		Beancannon: item, no turn limit, no limit
+		Tennis Ball: item, no turn limit
+	*/
+
+	//Peel out with Extra-Smelly Muffler, note 10 limit, increased to 30 with Racing Slicks
+
+	if(have_skill($skill[Thunder Clap]) && (my_thunder() >= thunder_cost($skill[Thunder Clap])) && (!(used contains "thunder clap")))
+	{
+		return "skill " + $skill[Thunder Clap];
+	}
+	if(have_skill($skill[Batter Up!]) && (my_fury() >= 5) && (item_type(equipped_item($slot[weapon])) == "club") && (!(used contains "batter up!")))
+	{
+		return "skill " + $skill[Batter Up!];
+	}
+	if(have_skill($skill[Asdon Martin: Spring-Loaded Front Bumper]) && (get_fuel() >= fuel_cost($skill[Asdon Martin: Spring-Loaded Front Bumper])) && (!(used contains "Spring-Loaded Front Bumper")))
+	{
+		if(!contains_text(get_property("banishedMonsters"), "Spring-Loaded Front Bumper"))
+		{
+			return "skill " + $skill[Asdon Martin: Spring-Loaded Front Bumper];
+		}
+	}
+	if(have_skill($skill[Banishing Shout]) && (my_mp() > mp_cost($skill[Banishing Shout])) && (!(used contains "banishing shout")))
+	{
+		return "skill " + $skill[Banishing Shout];
+	}
+	if(have_skill($skill[Walk Away From Explosion]) && (my_mp() > mp_cost($skill[Walk Away From Explosion])) && (have_effect($effect[Bored With Explosions]) == 0) && (!(used contains "walk away from explosion")))
+	{
+		return "skill " + $skill[Walk Away From Explosion];
+	}
+
+	if(have_skill($skill[Curse Of Vacation]) && (my_mp() > mp_cost($skill[Curse Of Vacation])) && (!(used contains "curse of vacation")))
+	{
+		return "skill " + $skill[Curse Of Vacation];
+	}
+	if(have_skill($skill[Talk About Politics]) && (get_property("_pantsgivingBanish").to_int() < 5) && (!(used contains "pantsgiving")))
+	{
+		return "skill " + $skill[Talk About Politics];
+	}
+	if(have_skill($skill[KGB Tranquilizer Dart]) && (get_property("_kgbTranquilizerDartUses").to_int() < 3) && (my_mp() >= mp_cost($skill[KGB Tranquilizer Dart])) && (!(used contains "KGB tranquilizer dart")))
+	{
+		boolean useIt = true;
+		if((get_property("cc_gremlins") == "finished") && (my_daycount() >= 2) && (get_property("_kgbTranquilizerDartUses").to_int() >= 2))
+		{
+			useIt = false;
+		}
+
+		if(useIt)
+		{
+			return "skill " + $skill[KGB Tranquilizer Dart];
+		}
+	}
+	if(have_skill($skill[Snokebomb]) && (get_property("_snokebombUses").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])) && (!(used contains "snokebomb")))
+	{
+		return "skill " + $skill[Snokebomb];
+	}
+	if(have_skill($skill[Beancannon]) && (get_property("_beancannonUses").to_int() < 5) && ((my_mp() - 20) >= mp_cost($skill[Beancannon])) && (!(used contains "beancannon")))
+	{
+		if($items[Frigid Northern Beans, Heimz Fortified Kidney Beans, Hellfire Spicy Beans, Mixed Garbanzos and Chickpeas, Pork \'n\' Pork \'n\' Pork \'n\' Beans, Shrub\'s Premium Baked Beans, Tesla\'s Electroplated Beans, Trader Olaf\'s Exotic Stinkbeans, World\'s Blackest-Eyed Peas] contains equipped_item($slot[Off-hand]))
+		{
+			return "skill " + $skill[Beancannon];
+		}
+	}
+	if(have_skill($skill[Breathe Out]) && (!(used contains "breathe out")))
+	{
+		return "skill " + $skill[Breathe Out];
+	}
+
+	//We want to limit usage of these much more than the others.
+	if(!($monsters[Natural Spider, Tan Gnat, Tomb Servant, Upgraded Ram] contains enemy))
+	{
+		return "";
+	}
+
+	int keep = 1;
+	if(get_property("cc_gremlins") == "finished")
+	{
+		keep = 0;
+	}
+
+	if((item_amount($item[Louder Than Bomb]) > keep) && (!(used contains "louder than bomb")))
+	{
+		return "item " + $item[Louder Than Bomb];
+	}
+	if((item_amount($item[Tennis Ball]) > keep) && (!(used contains "tennis ball")))
+	{
+		return "item " + $item[Tennis Ball];
+	}
+	if((item_amount($item[Deathchucks]) > keep) && (!(used contains "deathchucks")))
+	{
+		return "item " + $item[Deathchucks];
+	}
+
+
+	return "";
 }
 
 string yellowRayCombatString()
@@ -1208,6 +1374,11 @@ string yellowRayCombatString()
 	{
 		return "skill " + $skill[Disintegrate];
 	}
+	if(have_skill($skill[Unleash Cowrruption]) && (have_effect($effect[Cowrruption]) >= 30))
+	{
+		return "skill " + $skill[Unleash Cowrruption];
+	}
+
 	if((cc_get_campground() contains $item[Asdon Martin Keyfob]) && (get_fuel() >= fuel_cost($skill[Asdon Martin: Missile Launcher])) && !get_property("_missileLauncherUsed").to_boolean())
 	{
 		return "skill " + $skill[Asdon Martin: Missile Launcher];
@@ -1868,6 +2039,24 @@ boolean isFreeMonster(monster mon)
 	return false;
 }
 
+boolean declineTrades()
+{
+	int count = 0;
+	string trades = visit_url("makeoffer.php");
+	string digit = "(\\d*)";
+	matcher trade_matcher = create_matcher("makeoffer.php[?]action=decline&whichoffer=" + digit, trades);
+	while(trade_matcher.find())
+	{
+		string temp = visit_url("makeoffer.php?action=decline&whichoffer=" + trade_matcher.group(1), false);
+		count++;
+	}
+	if(count > 0)
+	{
+		print("Declined " + count + " trades.", "blue");
+		return true;
+	}
+	return false;
+}
 
 boolean cc_deleteMail(kmailObject msg)
 {
@@ -1990,7 +2179,7 @@ boolean providePlusCombat(int amt, boolean doEquips)
 		string temp = visit_url("charsheet.php?pwd=&action=newyouinterest");
 	}
 
-	foreach eff in $effects[The Sonata of Sneakiness, Patent Invisibility, Shelter of Shed]
+	foreach eff in $effects[Driving Stealthily, The Sonata of Sneakiness, Patent Invisibility, Shelter of Shed]
 	{
 		if(!uneffect(eff))
 		{
@@ -2039,6 +2228,10 @@ boolean providePlusCombat(int amt, boolean doEquips)
 		}
 	}
 
+	if(numeric_modifier("Combat Rate") >= amt)
+	{
+		asdonBuff($effect[Driving Obnoxiously]);
+	}
 	return true;
 }
 boolean providePlusNonCombat(int amt, boolean doEquips)
@@ -2051,24 +2244,22 @@ boolean providePlusNonCombat(int amt, boolean doEquips)
 	}
 
 
-	foreach eff in $effects[Carlweather\'s Cantata Of Confrontation]
+	foreach eff in $effects[Carlweather\'s Cantata Of Confrontation, Driving Obnoxiously]
 	{
 		if(!uneffect(eff))
 		{
 			return false;
 		}
-		if(numeric_modifier("Combat Rate") >= amt)
+		if(numeric_modifier("Combat Rate") <= amt)
 		{
 			return true;
 		}
 	}
 
-	asdonBuff($effect[Driving Stealthily]);
-
 	foreach eff in $effects[Patent Invisibility]
 	{
 		buffMaintain(eff, 0, 1, 1);
-		if(numeric_modifier("Combat Rate") >= amt)
+		if(numeric_modifier("Combat Rate") <= amt)
 		{
 			return true;
 		}
@@ -2078,7 +2269,7 @@ boolean providePlusNonCombat(int amt, boolean doEquips)
 	foreach eff in $effects[Smooth Movements, The Sonata of Sneakiness, Song of Solitude, Inked Well, Bent Knees, Extended Toes, Ink Cloud]
 	{
 		buffMaintain(eff, 0, 1, 1);
-		if(numeric_modifier("Combat Rate") >= amt)
+		if(numeric_modifier("Combat Rate") <= amt)
 		{
 			return true;
 		}
@@ -2097,6 +2288,10 @@ boolean providePlusNonCombat(int amt, boolean doEquips)
 		removeCombat();
 	}
 
+	if(numeric_modifier("Combat Rate") <= amt)
+	{
+		asdonBuff($effect[Driving Stealthily]);
+	}
 	return true;
 }
 
@@ -3458,6 +3653,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Hardened Sweatshirt]:			useSkill = $skill[Magic Sweat];					break;
 	case $effect[Hardly Poisoned At All]:		useSkill = $skill[Disco Nap];					break;
 	case $effect[Healthy Blue Glow]:			useItem = $item[gold star];						break;
+	case $effect[Heavy Petting]:				useItem = $item[Knob Goblin Pet-Buffing Spray];	break;
 	case $effect[Heightened Senses]:			useItem = $item[airborne mutagen];				break;
 	case $effect[Hide of Sobek]:				useSkill = $skill[Hide of Sobek];				break;
 	case $effect[High Colognic]:				useItem = $item[Musk Turtle];					break;

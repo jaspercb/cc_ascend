@@ -1990,8 +1990,7 @@ boolean LA_cs_communityService()
 			if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
 			{
 				string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
-#				if(contains_text(mod, "Adventures"))
-				if(kgbModifiers("Adventure(s)"))
+				if(contains_text(mod, "Adventures"))
 				{
 					string page = visit_url("place.php?whichplace=kgb");
 					boolean flipped = false;

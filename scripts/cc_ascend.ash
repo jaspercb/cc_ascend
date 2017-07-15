@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18140;
+since r18148;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -45,6 +45,7 @@ import <cc_ascend/cc_theSource.ash>
 import <cc_ascend/cc_optionals.ash>
 import <cc_ascend/cc_list.ash>
 import <cc_ascend/cc_zlib.ash>
+import <cc_ascend/cc_zone.ash>
 
 
 void initializeSettings()
@@ -1668,7 +1669,6 @@ void initializeDay(int day)
 		if(get_property("cc_day1_init") != "finished")
 		{
 			kgbSetup();
-			set_property("_beancannonUsed", 0);
 			if(item_amount($item[transmission from planet Xi]) > 0)
 			{
 				use(1, $item[transmission from planet xi]);
@@ -1746,7 +1746,6 @@ void initializeDay(int day)
 
 		if(get_property("cc_day2_init") == "")
 		{
-			set_property("_beancannonUsed", 0);
 			if(item_amount($item[tonic djinn]) > 0)
 			{
 				set_property("choiceAdventure778", "2");
@@ -1843,7 +1842,6 @@ void initializeDay(int day)
 	{
 		if(get_property("cc_day3_init") == "")
 		{
-			set_property("_beancannonUsed", 0);
 			while(acquireHermitItem($item[Ten-leaf Clover]));
 
 			picky_pulls();
@@ -1856,7 +1854,6 @@ void initializeDay(int day)
 	{
 		if(get_property("cc_day4_init") == "")
 		{
-			set_property("_beancannonUsed", 0);
 			while(acquireHermitItem($item[Ten-leaf Clover]));
 			set_property("cc_day4_init", "finished");
 		}
@@ -2400,7 +2397,11 @@ boolean doBedtime()
 			if(get_property("cc_extrudeChoice") != "")
 			{
 				string[int] extrudeDays = split_string(get_property("cc_extrudeChoice"), ":");
-				extrudeChoice = split_string(trim(extrudeDays[min(count(extrudeDays), my_daycount()) - 1]), ";");
+				string[int] tempChoice = split_string(trim(extrudeDays[min(count(extrudeDays), my_daycount()) - 1]), ";");
+				for(int i=0; i<count(tempChoice); i++)
+				{
+					extrudeChoice[i] = tempChoice[i];
+				}
 			}
 			int amt = count(extrudeChoice);
 			while(amt < 3)
@@ -3676,13 +3677,14 @@ boolean L11_palindome()
 			return false;
 		}
 		equip($slot[acc2], $item[Mega Gem]);
-		set_property("choiceAdventure131", 1);
+		int palinChoice = random(3) + 1;
+		set_property("choiceAdventure131", palinChoice);
 
 		print("War sir is raw!!", "blue");
 
 		string[int] pages;
 		pages[0] = "place.php?whichplace=palindome&action=pal_drlabel";
-		pages[1] = "choice.php?pwd&whichchoice=131&option=1";
+		pages[1] = "choice.php?pwd&whichchoice=131&option=" + palinChoice;
 		if(ccAdvBypass(0, pages, $location[Noob Cave], "")) {}
 
 		if(item_amount($item[2268]) == 1)
@@ -4275,10 +4277,17 @@ boolean L13_towerNSHedge()
 	{
 		return false;
 	}
-	if(contains_text(visit_url("place.php?whichplace=nstower"), "nstower_door"))
+	string page = visit_url("place.php?whichplace=nstower");
+	if(contains_text(page, "nstower_door"))
 	{
 		set_property("cc_sorceress", "door");
 		return true;
+	}
+	if(contains_text(page, "hedgemaze"))
+	{
+		//If we got beaten up by the last hedgemaze, mafia might set questL13Final to step5 anyway. Fix that.
+		print("Hedge maze not solved, the mysteries are still there (correcting step5 -> step4)", "red");
+		set_property("questL13Final", "step4");
 	}
 	if(internalQuestStatus("questL13Final") >= 5)
 	{
@@ -5577,8 +5586,15 @@ boolean L11_nostrilOfTheSerpent()
 
 boolean LX_spookyBedroomCombat()
 {
-	set_property("cc_bedroomHandler1", "yes");
-	set_property("cc_bedroomHandler2", "yes");
+#	set_property("cc_bedroomHandler1", "yes");
+#	set_property("cc_bedroomHandler2", "yes");
+	set_property("cc_disableAdventureHandling", true);
+
+	if((get_property("_kgbTranquilizerDartUses").to_int() < 3) && (item_amount($item[Kremlin\'s Greatest Briefcase]) > 0))
+	{
+		equip($slot[acc3], $item[Kremlin\'s Greatest Briefcase]);
+	}
+
 	ccAdv(1, $location[The Haunted Bedroom]);
 	if(contains_text(visit_url("main.php"), "choice.php"))
 	{
@@ -5590,8 +5606,9 @@ boolean LX_spookyBedroomCombat()
 		print("Bedroom post-combat super combat get!", "green");
 		ccAdv(1, $location[The Haunted Bedroom]);
 	}
-	set_property("cc_bedroomHandler1", "no");
-	set_property("cc_bedroomHandler2", "no");
+	set_property("cc_disableAdventureHandling", false);
+#	set_property("cc_bedroomHandler1", "no");
+#	set_property("cc_bedroomHandler2", "no");
 	return false;
 }
 
@@ -5670,12 +5687,12 @@ boolean LX_spookyravenSecond()
 		}
 	}
 
-	if(get_property("cc_bedroomHandler1") == "yes")
-	{
-		set_property("cc_bedroomHandler1", "no");
-		set_property("cc_bedroomHandler2", "no");
-		abort("We are currently in a choice and mafia won't automatically handle this. It's usually One Simple Nightstand that causes this but you might have a bonus. Woo.");
-	}
+#	if(get_property("cc_bedroomHandler1") == "yes")
+#	{
+#		set_property("cc_bedroomHandler1", "no");
+#		set_property("cc_bedroomHandler2", "no");
+#		abort("We are currently in a choice and mafia won't automatically handle this. It's usually One Simple Nightstand that causes this but you might have a bonus. Woo.");
+#	}
 
 	set_property("choiceAdventure877", "1");
 	if((get_property("cc_ballroomopen") == "open") || (get_property("questM21Dance") == "finished") || (get_property("questM21Dance") == "step3"))
@@ -7793,6 +7810,11 @@ boolean L10_airship()
 	buffMaintain($effect[Fishy\, Oily], 0, 1, 1);
 	buffMaintain($effect[Gummed Shoes], 0, 1, 1);
 
+	if((get_property("_kgbTranquilizerDartUses").to_int() < 3) && (item_amount($item[Kremlin\'s Greatest Briefcase]) > 0))
+	{
+		equip($slot[acc3], $item[Kremlin\'s Greatest Briefcase]);
+	}
+
 	ccAdv(1, $location[The Penultimate Fantasy Airship]);
 	handleFamiliar("item");
 	return true;
@@ -8318,6 +8340,12 @@ boolean L7_crypt()
 		{
 			handleFamiliar($familiar[Space Jellyfish]);
 		}
+
+		if((get_property("_kgbTranquilizerDartUses").to_int() < 3) && (item_amount($item[Kremlin\'s Greatest Briefcase]) > 0))
+		{
+			equip($slot[acc3], $item[Kremlin\'s Greatest Briefcase]);
+		}
+
 		print("The Niche!", "blue");
 		ccAdv(1, $location[The Defiled Niche]);
 
@@ -10978,6 +11006,10 @@ boolean L9_oilPeak()
 	{
 		buffMaintain($effect[Punchable Face], 50, 1, 1);
 	}
+	if((monster_level_adjustment() < 60) && (item_amount($item[Oil Slacks]) > 0))
+	{
+		equip($slot[Pants], $item[Oil Slacks]);
+	}
 	ccAdv(1, $location[Oil Peak]);
 	handleFamiliar("item");
 	return true;
@@ -12979,8 +13011,7 @@ boolean doTasks()
 		{
 			doNumberology("adventures3");
 		}
-
-		if((doNumberology("battlefield", false) != -1) && (my_mp() >= mp_cost($skill[Calculate the Universe])) && canYellowRay() && !have_outfit("Frat Warrior Fatigues"))
+		else if((my_mp() >= mp_cost($skill[Calculate the Universe])) && canYellowRay() && (doNumberology("battlefield", false) != -1))
 		{
 			if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
 			{
@@ -13735,8 +13766,8 @@ void cc_begin()
 	print("Current Ascension: " + cc_my_path());
 
 	set_property("cc_disableAdventureHandling", false);
-	set_property("cc_bedroomHandler1", "no");
-	set_property("cc_bedroomHandler2", "no");
+#	set_property("cc_bedroomHandler1", "no");
+#	set_property("cc_bedroomHandler2", "no");
 
 	settingFixer();
 

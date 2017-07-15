@@ -6,6 +6,7 @@ void equipBaselinePants();
 void equipBaselineBack();
 void equipBaselineShirt();
 void equipBaselineHat();
+void equipBaselineAccessories();
 void equipBaselineAcc1();
 void equipBaselineAcc2();
 void equipBaselineAcc3();
@@ -236,7 +237,7 @@ void handleOffHand()
 		{
 			poss = $items[7-ball, 5-ball, 2-ball, 1-ball, Hot Plate, Disturbing Fanfic, Coffin Lid, Tesla\'s Electroplated Beans, Heavy-Duty Clipboard, Sawblade Shield, Wicker Shield, Keg Shield, Six-Rainbow Shield, Whatsian Ionic Pliers, Little Black Book, KoL Con 13 Snowglobe, Yorick, Astral Shield, A Light That Never Goes Out, Astral Statuette, Operation Patriot Shield, Ox-head Shield, Fake Washboard, Barrel Lid];
 
-			if(have_skill($skill[Beancannon]) && (get_property("_beancannonUsed").to_int() < 5))
+			if(have_skill($skill[Beancannon]) && (get_property("_beancannonUses").to_int() < 5))
 			{
 				poss = $items[7-ball, 5-ball, 2-ball, 1-ball, Hot Plate, Disturbing Fanfic, Coffin Lid, Astral Statuette, Heavy-Duty Clipboard, KoL Con 13 Snowglobe, Sawblade Shield, Wicker Shield, Keg Shield, Whatsian Ionic Pliers, Little Black Book, Tesla\'s Electroplated Beans, World\'s Blackest-Eyed Peas, Trader Olaf\'s Exotic Stinkbeans, Shrub\'s Premium Baked Beans, Hellfire Spicy Beans, Frigid Northern Beans, Heimz Fortified Kidney Beans, Pork \'n\' Pork \'n\' Pork \'n\' Beans, Mixed Garbanzos and Chickpeas, Yorick, Astral Shield, A Light That Never Goes Out, Ox-head Shield, Operation Patriot Shield, Fake Washboard, Barrel Lid];
 			}
@@ -685,6 +686,73 @@ void equipBaseline()
 	}
 }
 
+void equipBaselineAccessories()
+{
+	item[int] poss = List($items[Jaunty Feather, Vampire Collar, Stuffed Shoulder Parrot, Infernal Insoles, Imp Unity Ring, Ring Of Telling Skeletons What To Do, Garish Pinky Ring, Batskin Belt, Bonerdagon Necklace, Grumpy Old Man Charrrm Bracelet, Jolly Roger Charrrm Bracelet, Glowing Red Eye, Jangly Bracelet, Plastic Detective Badge, Pirate Fledges, Glow-In-The-Dark Necklace, Compression Stocking, Wicker Kickers, Perfume-Soaked Bandana, Iron Beta of Industry, Mr. Accessory Jr., Time-Twitching Toolbelt, Xiblaxian Holo-Wrist-Puter, Badge Of Authority, Bronze Detective Badge, Ghost of a Necklace, Silver Detective Badge, Gold Detective Badge, Sphygmayomanometer, Kremlin\'s Greatest Briefcase, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Mr. Cheeng\'s Spectacles, Astral Ring, Astral Bracer, Hand In Glove, Codpiece, Gumshoes, Caveman Dan\'s Favorite Rock, Barrel Hoop Earring, Battle Broom, Your Cowboy Boots, Over-The-Shoulder Folder Holder, World\'s Best Adventurer Sash]);
+
+	if((my_level() >= 13) && (get_property("flyeredML").to_int() >= 10000))
+	{
+		//Remove ML Stuff
+	}
+
+	//Remove things based on needs:
+	//cc_beatenupcount (sp)
+	//DO we want +item
+	//World\'s Best Adventurer Sash value, sphygmayomanometer value
+	//spectacles value
+
+	if(my_class() == $class[Gelatinous Noob])
+	{
+		poss = poss.ListInsert($item[Mr. Screege\'s Spectacles]);
+	}
+	if(get_property("_kgbTranquilizerDartUses").to_int() >= 3)
+	{
+		poss = poss.ListRemove($item[Kremlin\'s Greatest Briefcase]);
+	}
+
+
+
+#	if(possessEquipment($item[Your Cowboy Boots]))
+#	{
+#		if(equipped_item($slot[bootspur]) == $item[Ticksilver Spurs])
+#		{
+#			poss = poss.ListInsertAt($item[Your Cowboy Boots], poss.ListFind($item[Grandfather Watch]));
+#		}
+#	}
+
+#	if(possessEquipment($item[Over-the-shoulder Folder Holder]))
+#	{
+#		foreach sl in $slots[folder1, folder2, folder3, folder4, folder5]
+#		{
+#			if(equipped_item(sl) == $item[Folder (Sports Car)])
+#			{
+#			}
+#		}
+#	}
+
+	int nextAcc = count(poss) - 1;
+	foreach sl in $slots[acc1, acc2, acc3]
+	{
+		item toEquip = $item[none];
+
+		while((toEquip == $item[none]) && (nextAcc >= 0))
+		{
+			if(possessEquipment(poss[nextAcc]) && can_equip(poss[nextAcc]))
+			{
+				toEquip = poss[nextAcc];
+			}
+
+			nextAcc--;
+		}
+
+		if(toEquip == $item[none])
+		{
+			break;
+		}
+		equip(sl, toEquip);
+	}
+}
+
 void equipBaselineAcc1()
 {
 	item toEquip = $item[none];
@@ -889,8 +957,7 @@ void equipRollover()
 	if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
 	{
 		string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
-#		if(contains_text(mod, "Adventures"))
-		if(kgbModifiers("Adventure(s)"))
+		if(contains_text(mod, "Adventures"))
 		{
 			poss = poss.ListInsertAt($item[Kremlin\'s Greatest Briefcase], poss.ListFind($item[Grandfather Watch]));
 		}

@@ -30,6 +30,7 @@ boolean cc_cheeseAftercore(int leave);
 boolean cc_aftercore();
 boolean cc_aftercore(int leave);
 boolean cc_ascendIntoCS();
+boolean cc_ascendIntoBond();
 boolean cc_doCS();
 
 #Definitons here
@@ -738,6 +739,72 @@ boolean cc_nemesisIsland()
 	return true;
 }
 
+boolean cc_ascendIntoBond()
+{
+	if(!get_property("_workshedItemUsed").to_boolean())
+	{
+		if(!(cc_get_campground() contains $item[Asdon Martin Keyfob]))
+		{
+			if(item_amount($item[Asdon Martin Keyfob]) > 0)
+			{
+				use(1, $item[Asdon Martin Keyfob]);
+			}
+		}
+	}
+
+	if(my_inebriety() <= inebriety_limit())
+	{
+		return false;
+	}
+
+	declineTrades();
+
+	string temp = visit_url("ascend.php?pwd=&confirm=on&confirm2=on&action=ascend&submit=Ascend", true);
+	if(contains_text(temp, "You may not enter the Astral Gash again until tomorrow."))
+	{
+		print("Could not ascend, refractory period required.", "red");
+		return false;
+	}
+	temp = visit_url("afterlife.php?action=pearlygates");
+
+	string permery_text = visit_url("afterlife.php?place=permery");
+	if(!permery_text.contains_text("It looks like you've already got all of the skills from your last life marked permanent."))
+	{
+		abort("perm a skill");
+		return false;
+	}
+
+	temp = visit_url("afterlife.php?action=buydeli&whichitem=" + to_int($item[Carton Of Astral Energy Drinks]), true);
+
+	temp = visit_url("afterlife.php?place=armory");
+	if(contains_text(temp, "astral pet sweater"))
+	{
+		temp = visit_url("afterlife.php?action=buyarmory&whichitem=5040", true);
+	}
+	else
+	{
+		temp = visit_url("afterlife.php?action=buyarmory&whichitem=5037", true);
+	}
+	temp = visit_url("afterlife.php?place=reincarnate");
+	int gender = 1;
+	if(contains_text(temp, "option selected value=2>Female"))
+	{
+		gender = 2;
+	}
+	temp = visit_url("afterlife.php?action=ascend&asctype=2&whichclass=" + to_int($class[Seal Clubber]) +"&gender=" + gender + "&whichpath=30&whichsign=3", true);
+	temp = visit_url("afterlife.php?action=ascend&confirmascend=1&asctype=2&whichclass=" + to_int($class[Seal Clubber]) + "&gender=" + gender + "&whichpath=30&whichsign=3&noskillsok=1&lamesignok=1&nopetok=1", true);
+
+
+	temp = visit_url("choice.php?pwd=&whichchoice=1257&option=1");
+	temp = visit_url("choice.php?pwd=&whichchoice=1258&option=2");
+	temp = visit_url("main.php");
+	temp = visit_url("api.php?what=status&for=4", false);
+
+	return true;
+}
+
+
+
 boolean cc_ascendIntoCS()
 {
 	if(my_inebriety() <= inebriety_limit())
@@ -748,6 +815,9 @@ boolean cc_ascendIntoCS()
 	{
 		return false;
 	}
+
+	declineTrades();
+
 	string temp = visit_url("ascend.php?pwd=&confirm=on&confirm2=on&action=ascend&submit=Ascend", true);
 	temp = visit_url("afterlife.php?action=pearlygates");
 
@@ -1009,6 +1079,7 @@ boolean cc_cheesePostCS(int leave)
 		buffMaintain($effect[Polka of Plenty], 10, 1, 1);
 		buffMaintain($effect[Leisurely Amblin\'], 50, 1, 1);
 		buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
+		asdonBuff($effect[Driving Observantly]);
 		if(have_effect($effect[meat.enh]) == 0)
 		{
 			cc_sourceTerminalEnhance("meat");

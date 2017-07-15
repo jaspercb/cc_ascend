@@ -877,7 +877,11 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			doYellow = true;
 		}
-		if($monsters[Filthworm Royal Guard, Knob Goblin Harem Girl] contains enemy)
+		if(($monsters[Knob Goblin Harem Girl] contains enemy) && !have_outfit("Knob Goblin Harem Girl Disguise"))
+		{
+			doYellow = true;
+		}
+		if($monsters[Filthworm Royal Guard] contains enemy)
 		{
 			doYellow = true;
 		}
@@ -926,190 +930,47 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(get_property("kingLiberated") == "false")
+	if(!get_property("kingLiberated").to_boolean())
 	{
-		if((enemy == $monster[pygmy orderlies]) ||
-			(enemy == $monster[pygmy witch lawyer]) ||
-			(enemy == $monster[pygmy witch nurse]))
+		if($monsters[Pygmy Orderlies, Pygmy Witch Lawyer, Pygmy Witch Nurse] contains enemy)
 		{
 			if(item_amount($item[short writ of habeas corpus]) > 0)
 			{
-				return "item short writ of habeas corpus";
+				return "item " + $item[Short Writ Of Habeas Corpus];
 			}
 		}
 	}
 
-	#First pass thunder clap
-	if((!contains_text(combatState, "thunder clap")) && (have_skill($skill[thunder clap])) && (my_thunder() >= 40))
+	if(!contains_text(combatState, "banishercheck"))
 	{
-		if($monsters[Animated Mahogany Nightstand, Coaltergeist, Crusty Pirate, Flock of Stab-Bats, Mad Wino, Mismatched Twins, Possessed Laundry Press, Pygmy Witch Lawyer, Pygmy Witch Nurse, Sabre-Toothed Goat, Tomb Servant] contains enemy)
+		string banishAction = banisherCombatString(enemy, my_location());
+		if(banishAction != "")
 		{
-			set_property("cc_combatHandler", combatState + "(thunder clap)");
-			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
-			return "skill " + $skill[thunder clap];
+			print("Looking at banishAction: " + banishAction, "green");
+			#abort("Banisher considered here. Weee");
+			#wait(10);
+			#banishAction = "";
 		}
-		if((enemy == $monster[burly sidekick]) && possessEquipment($item[Mohawk Wig]))
+		if(banishAction != "")
 		{
-			set_property("cc_combatHandler", combatState + "(thunder clap)");
-			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
-			return "skill " + $skill[thunder clap];
-		}
-		if((enemy == $monster[knob goblin madam]) && (item_amount($item[knob goblin perfume]) > 0))
-		{
-			set_property("cc_combatHandler", combatState + "(thunder clap)");
-			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
-			return "skill " + $skill[thunder clap];
-		}
-	}
-
-
-	if((!contains_text(combatState, "spring-loaded front bumper")) && have_skill($skill[Asdon Martin: Spring-Loaded Front Bumper]) && (get_fuel() >= fuel_cost($skill[Asdon Martin: Spring-Loaded Front Bumper])))
-	{
-		if($monsters[Animated Mahogany Nightstand, Coaltergeist, Crusty Pirate, Flock of Stab-Bats, Mad Wino, Mismatched Twins, Possessed Laundry Press, Pygmy Witch Lawyer, Pygmy Witch Nurse, Sabre-Toothed Goat, Tomb Servant] contains enemy)
-		{
-			set_property("cc_combatHandler", combatState + "(spring-loaded front bumper)");
-			handleTracker(enemy, $skill[Asdon Martin: Spring-Loaded Front Bumper], "cc_banishes");
-			return "skill " + $skill[Asdon Martin: Spring-Loaded Front Bumper];
-		}
-		if((enemy == $monster[burly sidekick]) && possessEquipment($item[Mohawk Wig]))
-		{
-			set_property("cc_combatHandler", combatState + "(spring-loaded front bumper)");
-			handleTracker(enemy, $skill[Asdon Martin: Spring-Loaded Front Bumper], "cc_banishes");
-			return "skill " + $skill[Asdon Martin: Spring-Loaded Front Bumper];
-		}
-		if((enemy == $monster[knob goblin madam]) && (item_amount($item[knob goblin perfume]) > 0))
-		{
-			set_property("cc_combatHandler", combatState + "(spring-loaded front bumper)");
-			handleTracker(enemy, $skill[Asdon Martin: Spring-Loaded Front Bumper], "cc_banishes");
-			return "skill " + $skill[Asdon Martin: Spring-Loaded Front Bumper];
-		}
-	}
-
-	#First pass politics
-	if((!contains_text(combatState, "politics")) && (have_skill($skill[talk about politics])) && (get_property("_pantsgivingBanish").to_int() < 5))
-	{
-		if($monsters[Doughbat, Natural Spider, plaid ghost, slick lihc, skeletal sommelier, taco cat, wardr&ouml;b nightstand, upgraded ram] contains enemy)
-		{
-			set_property("cc_combatHandler", combatState + "(politics)");
-			handleTracker(enemy, $skill[talk about politics], "cc_banishes");
-			return "skill talk about politics";
-		}
-	}
-
-	if(!contains_text(combatState, "kgbdart") && have_skill($skill[KGB Tranquilizer Dart]) && (my_mp() >= mp_cost($skill[KGB Tranquilizer Dart])))
-	{
-		if($monsters[Doughbat, Natural Spider, plaid ghost, slick lihc, skeletal sommelier, taco cat, wardr&ouml;b nightstand, upgraded ram] contains enemy)
-		{
-			set_property("cc_combatHandler", combatState + "(kgbdart)");
-			handleTracker(enemy, $skill[KGB Tranquilizer Dart], "cc_banishes");
-			return "skill " + $skill[KGB Tranquilizer Dart];
-		}
-	}
-
-	#Unlikely path: Louder than bomb
-	if((!contains_text(combatState, "louderthanbomb")) && (item_amount($item[louder than bomb]) > 0))
-	{
-		if($monsters[Natural Spider, Tan Gnat, Upgraded Ram] contains enemy)
-		{
-			set_property("cc_combatHandler", combatState + "(louderthanbomb)");
-			return "item louder than bomb";
-		}
-	}
-
-	#Snokebomb replace Batter Up! pass
-	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
-	{
-//		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Slick Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
-		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Possessed Laundry Press, Procrastination Giant, Protagonist, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Slick Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
-		{
-			set_property("cc_combatHandler", combatState + "(snokebomb)");
-			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
-			return "skill " + $skill[Snokebomb];
-		}
-	}
-
-	#Beancannon
-	if((!contains_text(combatState, "beancannon")) && (have_skill($skill[Beancannon])) && (get_property("_beancannonUsed").to_int() < 5) && ((my_mp() - 20) >= mp_cost($skill[Beancannon])))
-	{
-//		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
-		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Doughbat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Pygmy Headhunter, Pygmy Orderlies, Sabre-Toothed Goat, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
-		{
-			if($items[Frigid Northern Beans, Heimz Fortified Kidney Beans, Hellfire Spicy Beans, Mixed Garbanzos and Chickpeas, Pork \'n\' Pork \'n\' Pork \'n\' Beans, Shrub\'s Premium Baked Beans, Tesla\'s Electroplated Beans, Trader Olaf\'s Exotic Stinkbeans, World\'s Blackest-Eyed Peas] contains equipped_item($slot[Off-hand]))
+			set_property("cc_combatHandler", combatState + "(banisher)");
+			if(index_of(banishAction, "skill") == 0)
 			{
-				set_property("_beancannonUsed", get_property("_beancannonUsed").to_int() + 1);
-				set_property("cc_combatHandler", combatState + "(beancannon)");
-				handleTracker(enemy, $skill[Beancannon], "cc_banishes");
-				return "skill " + $skill[Beancannon];
+				handleTracker(enemy, to_skill(substring(banishAction, 6)), "cc_banishes");
 			}
+			else if(index_of(banishAction, "item") == 0)
+			{
+				handleTracker(enemy, to_item(substring(banishAction, 5)), "cc_banishes");
+			}
+			else
+			{
+				print("Unable to track banisher behavior: " + banishAction, "red");
+			}
+			return banishAction;
 		}
+		set_property("cc_combatHandler", combatState + "(banishercheck)");
+		combatState += "(banishercheck)";
 	}
-
-	#Minimal Tennis Ball usage
-	if((!contains_text(combatState, "tennisball")) && (item_amount($item[Tennis Ball]) > 0))
-	{
-		if($monsters[Tomb Servant] contains enemy)
-		{
-			set_property("cc_combatHandler", combatState + "(tennisball)");
-			handleTracker(enemy, $item[Tennis Ball], "cc_banishes");
-			return "item " + $item[Tennis Ball];
-		}
-	}
-
-
-	if((!contains_text(combatState, "banishing shout")) && (have_skill($skill[Banishing Shout])) && (my_mp() > mp_cost($skill[Banishing Shout])) && !isBanished(enemy))
-	{
-		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Drunk Goat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Natural Spider, Plaid Ghost, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Janitor, Pygmy Orderlies, Senile Lihc, Skeletal Sommelier, Slick Lihc, Snow Queen, Steam Elemental, Taco Cat, Tan Gnat, Tomb Asp, Tomb Servant, wardr&ouml;b nightstand] contains enemy)
-		{
-			set_property("cc_combatHandler", combatState + "(banishing shout)");
-			handleTracker(enemy, $skill[Banishing Shout], "cc_banishes");
-			return "skill " + $skill[Banishing Shout];
-		}
-	}
-
-
-	#Only Batter Up
-	if((!contains_text(combatState, "batter up!")) && (have_skill($skill[batter up!])) && (my_fury() >= 5) && (item_type(equipped_item($slot[weapon])) == "club"))
-	{
-		if($monsters[Animated Possessions, Animated Rustic Nightstand, Bubblemint Twins, Bullet Bill, Chatty Pirate, Coaltergeist, Drunk Goat, Evil Olive, Knob Goblin Harem Guard, Mad Wino, Possessed Laundry Press, Procrastination Giant, Protagonist, Punk Rock Giant, Pygmy Headhunter, Pygmy Orderlies, Senile Lihc, Skeletal Sommelier, Snow Queen, Steam Elemental, Tomb Asp] contains enemy)
-		{
-			set_property("cc_combatHandler", combatState + "(batter up!)");
-			handleTracker(enemy, $skill[batter up!], "cc_banishes");
-			return "skill batter up!";
-		}
-	}
-
-	#Second thunder clap pass
-	if((!contains_text(combatState, "thunder clap")) && (have_skill($skill[thunder clap])) && (my_thunder() >= 40))
-	{
-		if($monsters[Natural Spider, Plaid Ghost, Procrastination Giant, Slick Lihc, Skeletal Sommelier, Steam Elemental] contains enemy)
-		{
-			set_property("cc_combatHandler", combatState + "(thunder clap)");
-			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
-			return "skill " + $skill[thunder clap];
-		}
-	}
-
-	#Second poltiics pass
-	if((!contains_text(combatState, "politics")) && (have_skill($skill[talk about politics])) && (get_property("_pantsgivingBanish").to_int() < 5))
-	{
-		if($monsters[Clingy Pirate (Female), Clingy Pirate (Male), Pygmy Orderlies, Tomb Asp] contains enemy)
-		{
-			set_property("cc_combatHandler", combatState + "(politics)");
-			handleTracker(enemy, $skill[talk about politics], "cc_banishes");
-			return "skill talk about politics";
-		}
-	}
-
-	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
-	{
-		if($monsters[Clingy Pirate (Female), Clingy Pirate (Male), Pygmy Orderlies, Tomb Asp] contains enemy)
-		{
-			set_property("cc_combatHandler", combatState + "(Snokebomb)");
-			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
-			return "skill " + $skill[Snokebomb];
-		}
-	}
-
 
 	if(item_amount($item[disposable instant camera]) > 0)
 	{
@@ -1282,7 +1143,17 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill " + $skill[Bad Medicine];
 	}
 
-	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 60) && have_skill($skill[Itchy Curse Finger]))
+	boolean doWeaksauce = true;
+	if((buffed_hit_stat() - 20) > monster_defense())
+	{
+		doWeaksauce = false;
+	}
+	if(my_class() == $class[Sauceror])
+	{
+		doWeaksauce = true;
+	}
+
+	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 60) && have_skill($skill[Itchy Curse Finger]) && doWeaksauce)
 	{
 		set_property("cc_combatHandler", combatState + "(weaksauce)");
 		return "skill curse of weaksauce";
@@ -1302,7 +1173,7 @@ string cc_combatHandler(int round, string opp, string text)
 	#Default behaviors:
 	if(mcd <= 150)
 	{
-		if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 60) && have_skill($skill[Itchy Curse Finger]))
+		if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 60) && have_skill($skill[Itchy Curse Finger]) && doWeaksauce)
 		{
 			set_property("cc_combatHandler", combatState + "(weaksauce)");
 			return "skill curse of weaksauce";
@@ -2097,7 +1968,7 @@ string findBanisher(int round, string opp, string text)
 			{
 				continue;
 			}
-			if((act == $skill[Beancannon]) && (get_property("_beancannonUsed").to_int() >= 5))
+			if((act == $skill[Beancannon]) && (get_property("_beancannonUses").to_int() >= 5))
 			{
 				continue;
 			}
@@ -2108,11 +1979,6 @@ string findBanisher(int round, string opp, string text)
 			if((act == $skill[Snokebomb]) && (get_property("_snokebombUsed").to_int() >= 3))
 			{
 				continue;
-			}
-
-			if(act == $skill[Beancannon])
-			{
-				set_property("_beancannonUsed", get_property("_beancannonUsed").to_int() + 1);
 			}
 			set_property("cc_gremlinBanishes", get_property("cc_gremlinBanishes") + "(" + act + ")");
 			handleTracker(enemy, act, "cc_banishes");
@@ -2744,39 +2610,62 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "yellowray")) && (have_effect($effect[everything looks yellow]) == 0) && (have_skill($skill[Wrath of Ra])) && (my_mp() >= 40))
+	if(!contains_text(combatState, "yellowray"))
 	{
-		boolean doWrath = false;
-		if((my_location() == $location[Hippy Camp]) && !possessEquipment($item[Filthy Corduroys]) && !possessEquipment($item[Filthy Knitted Dread Sack]))
+		boolean doYellow = false;
+		if((my_location() == $location[Hippy Camp]) && !have_outfit("Filthy Hippy Disguise"))
 		{
-			doWrath = true;
+			doYellow = true;
 		}
-		if((enemy == $monster[burly sidekick]) && (item_amount($item[mohawk wig]) == 0))
+		if((enemy == $monster[Burly sidekick]) && !possessEquipment($item[Mohawk Wig]))
 		{
-			doWrath = true;
+			doYellow = true;
 		}
-		if(enemy == $monster[knob goblin harem girl])
+		if((enemy == $monster[Knob Goblin Harem Girl]) && !have_outfit("Knob Goblin Harem Girl Disguise"))
 		{
-			doWrath = true;
+			doYellow = true;
 		}
-		if(enemy == $monster[Mountain Man])
+		if((enemy == $monster[Mountain Man]) && (internalQuestStatus("questL08Trapper") < 2))
 		{
-			doWrath = true;
+			doYellow = true;
 		}
 
 		if((enemy == $monster[Frat Warrior Drill Sergeant]) || (enemy == $monster[War Pledge]))
 		{
-			if(!possessEquipment($item[Bullet-Proof Corduroys]) && !possessEquipment($item[Reinforced Beaded Headband]) && !possessEquipment($item[Round Purple Sunglasses]))
+			if(!have_outfit("War Hippy Fatigues"))
 			{
-				doWrath = true;
+				doYellow = true;
 			}
 		}
 
-		if(doWrath)
+		if(doYellow)
 		{
-			set_property("cc_combatHandler", combatState + "(yellowray)");
-			handleTracker(enemy, $skill[Wrath of Ra], , "cc_yellowRays");
-			return "skill wrath of ra";
+			string combatAction = yellowRayCombatString();
+			if(combatAction != "")
+			{
+				set_property("cc_combatHandler", combatState + "(yellowray)");
+				if(index_of(combatAction, "skill") == 0)
+				{
+					handleTracker(enemy, to_skill(substring(combatAction, 6)), "cc_yellowRays");
+				}
+				else if(index_of(combatAction, "item") == 0)
+				{
+					handleTracker(enemy, to_item(substring(combatAction, 5)), "cc_yellowRays");
+				}
+				else
+				{
+					print("Unable to track yellow ray behavior: " + combatAction, "red");
+				}
+				if(combatAction == ("skill " + $skill[Asdon Martin: Missile Launcher]))
+				{
+					set_property("_missileLauncherUsed", true);
+				}
+				return combatAction;
+			}
+			else
+			{
+				print("Wanted a yellow ray but we can not find one.", "red");
+			}
 		}
 	}
 

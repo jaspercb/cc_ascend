@@ -82,6 +82,30 @@ void bond_initializeDay(int day)
 	{
 		if(get_property("cc_dickstab").to_boolean())
 		{
+			if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+			{
+				string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
+				if(contains_text(mod, "Adventures"))
+				{
+					string page = visit_url("place.php?whichplace=kgb");
+					boolean flipped = false;
+					if(contains_text(page, "handleup"))
+					{
+						page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+						flipped = true;
+					}
+
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button5", false);
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button5", false);
+					if(flipped)
+					{
+						page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+					}
+				}
+			}
+
+
+
 			if(item_amount($item[Hacked Gibson]) > 0)
 			{
 				put_closet(item_amount($item[Hacked Gibson]), $item[Hacked Gibson]);
@@ -498,6 +522,10 @@ boolean LM_bond()
 			{
 				L8_trapperStart();
 				set_property("cc_combatDirective", "start;(olfaction)");
+				if((get_property("_kgbTranquilizerDartUses").to_int() < 3) && (item_amount($item[Kremlin\'s Greatest Briefcase]) > 0))
+				{
+					equip($slot[acc3], $item[Kremlin\'s Greatest Briefcase]);
+				}
 				if(L8_trapperGround())
 				{
 					set_property("cc_combatDirective", "");
@@ -637,7 +665,7 @@ boolean LM_bond()
 			}
 		}
 
-		if(get_property("middleChamberUnlock").to_boolean() && (get_property("_kgbClicksUsed").to_int() <= 1) && possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+		if(get_property("middleChamberUnlock").to_boolean() && (get_property("_kgbClicksUsed").to_int() <= 10) && possessEquipment($item[Kremlin\'s Greatest Briefcase]))
 		{
 			string temp = visit_url("place.php?whichplace=kgb&action=kgb_tab1", false);
 			temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2", false);
@@ -657,8 +685,9 @@ boolean LM_bond()
 				if(contains_text($location[The Haunted Bedroom], $monster[Animated Ornate Nightstand]))
 				{
 					set_property("choiceAdventure878", 4);
-					set_property("cc_bedroomHandler1", "yes");
-					set_property("cc_bedroomHandler2", "yes");
+					set_property("cc_disableAdventureHandling", true);
+#					set_property("cc_bedroomHandler1", "yes");
+#					set_property("cc_bedroomHandler2", "yes");
 					timeSpinnerCombat($monster[Animated Ornate Nightstand]);
 					if(contains_text(visit_url("main.php"), "choice.php"))
 					{
@@ -668,8 +697,9 @@ boolean LM_bond()
 					{
 						ccAdv($location[The Haunted Bedroom]);
 					}
-					set_property("cc_bedroomHandler1", "no");
-					set_property("cc_bedroomHandler2", "no");
+					set_property("cc_disableAdventureHandling", false);
+#					set_property("cc_bedroomHandler1", "no");
+#					set_property("cc_bedroomHandler2", "no");
 
 				}
 			}

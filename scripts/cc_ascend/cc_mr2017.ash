@@ -9,7 +9,6 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 boolean solveKGBMastermind();
 boolean kgbDial(int dial, int curVal, int target);
 boolean kgbSetup();
-boolean kgbModifiers(string mod);
 
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem)
 {
@@ -338,7 +337,7 @@ boolean kgb_getMartini(string page, boolean dontCare)
 	{
 		return false;
 	}
-	if(get_property("_kgbMartinisServed").to_int() >= 3)
+	if(get_property("_kgbDispenserUses").to_int() >= 3)
 	{
 		return false;
 	}
@@ -394,26 +393,35 @@ boolean kgb_getMartini(string page, boolean dontCare)
 			page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
 		}
 
-		page = visit_url("place.php?whichplace=kgb&action=kgb_drawer2", false);
-		page = visit_url("place.php?whichplace=kgb&action=kgb_drawer1", false);
-		page = visit_url("place.php?whichplace=kgb&action=kgb_daily", false);
+		if(!get_property("_kgbRightDrawerUsed").to_boolean())
+		{
+			page = visit_url("place.php?whichplace=kgb&action=kgb_drawer1", false);
+		}
+		if(!get_property("_kgbLeftDrawerUsed").to_boolean())
+		{
+			page = visit_url("place.php?whichplace=kgb&action=kgb_drawer2", false);
+		}
+		if(!get_property("_kgbOpened").to_boolean())
+		{
+			page = visit_url("place.php?whichplace=kgb&action=kgb_daily", false);
+		}
 		set_property("_kgbDailyStuff", true);
 	}
-	if(get_property("_kgbMartinisServed").to_int() >= 3)
+	if(get_property("_kgbDispenserUses").to_int() >= 3)
 	{
 		return false;
 	}
 
 	int button = get_property("cc_kgbButton100").to_int();
 
-	while((get_property("_kgbMartinisServed").to_int() < 3) && (get_property("_kgbClicksUsed").to_int() < 22))
+	while((get_property("_kgbDispenserUses").to_int() < 3) && (get_property("_kgbClicksUsed").to_int() < 22))
 	{
-		int served = get_property("_kgbMartinisServed").to_int();
+		int served = get_property("_kgbDispenserUses").to_int();
 		int have = item_amount($item[Splendid Martini]);
 		page = visit_url("place.php?whichplace=kgb&action=kgb_dispenser", false);
 		if(contains_text(page, "Nothing happens."))
 		{
-			set_property("_kgbMartinisServed", 3);
+			set_property("_kgbDispenserUses", 3);
 			print("The martini dispenser is empty, weird.", "red");
 			return true;
 		}
@@ -436,15 +444,9 @@ boolean kgb_getMartini(string page, boolean dontCare)
 		{
 			abort("Failed to get a splendid martini and we cared about it");
 		}
-		set_property("_kgbMartinisServed", served + 1);
+		set_property("_kgbDispenserUses", served + 1);
 	}
 	return true;
-}
-
-boolean kgbModifiers(string mod)
-{
-	string page = visit_url("desc_item.php?whichitem=311743898");
-	return contains_text(page, mod);
 }
 
 boolean kgbDial(int dial, int curVal, int target)
@@ -824,6 +826,12 @@ boolean asdonAutoFeed()
 		return false;
 	}
 
+	int goal = 137;
+	if(get_property("_missileLauncherUsed").to_boolean())
+	{
+		goal = 87;
+	}
+
 	boolean didOnce = false;
 	foreach it in $items[A Little Sump\'m Sump\'m, Backwoods Screwdriver, Ballroom Blintz, Bean Burrito, Bilge Wine,  Bottle Of Laundry Sherry, Black Forest Ham, Cactus Fruit, Dusty Bottle Of Marsala, Dusty Bottle Of Merlot, Dusty Bottle Of Pinot Noir, Enchanted Bean Burrito, Giant Heirloom Grape Tomato, Gin And Tonic, Insanely Spicy Bean Burrito, Insanely Spicy Enchanted Bean Burrito, Insanely Spicy Jumping Bean Burrito, Jumping Bean Burrito, Jungle Floor Wax, Loaf of Soda Bread, Margarita, Mimosette, Mornington Crescent Roll, Open Sauce, Pink Pony, Roll In The Hay, Salacious Crumbs, Screwdriver, Slap And Tickle, Slip \'N\' Slide, Snifter Of Thoroughly Aged Brandy, Spicy Bean Burrito, Spicy Enchanted Bean Burrito, Spicy Jumping Bean Burrito, Stolen Sushi, Strawberry Daiquiri, Succulent Marrow, Tequila Sunrise, Tequila Sunset, Typical Tavern Swill, Vodka And Tonic, Zmobie]
 	{
@@ -832,15 +840,24 @@ boolean asdonAutoFeed()
 			asdonFeed(it, item_amount(it));
 			didOnce = true;
 		}
-		if(get_fuel() > 137)
+		if(get_fuel() > goal)
 		{
 			break;
 		}
 	}
 
-	if((get_fuel() < 137) && (my_meat() > 12000) && knoll_available() && isGeneralStoreAvailable())
+	if((get_fuel() < goal) && (my_meat() > 12000) && knoll_available() && isGeneralStoreAvailable())
 	{
-		int want = (142 - get_fuel()) / 6;
+		int want = ((goal + 5) - get_fuel()) / 6;
+		cli_execute("make " + want + " " + $item[Loaf of Soda Bread]);
+		asdonFeed($item[Loaf of Soda Bread], want);
+		didOnce = true;
+	}
+
+	goal = 40;
+	if((get_fuel() < goal) && (my_meat() > 3500) && knoll_available() && isGeneralStoreAvailable())
+	{
+		int want = ((goal + 5) - get_fuel()) / 6;
 		cli_execute("make " + want + " " + $item[Loaf of Soda Bread]);
 		asdonFeed($item[Loaf of Soda Bread], want);
 		didOnce = true;

@@ -1,4 +1,4 @@
-script "awol.ash"
+script "cc_awol.ash"
 
 boolean awol_initializeSettings()
 {

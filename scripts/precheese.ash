@@ -17,15 +17,15 @@ void handlePreAdventure(location place)
 		print("Somehow we are considering the DMT without a Machine Elf...", "red");
 	}
 
-	if(get_property("cc_bedroomHandler2") == "yes")
-	{
-		set_property("cc_bedroomHandler2", "no");
-		if(contains_text(visit_url("main.php"), "choice.php"))
-		{
-			print("Preadventure skipped by bedroom handler.", "green");
-			return;
-		}
-	}
+#	if(get_property("cc_bedroomHandler2") == "yes")
+#	{
+#		set_property("cc_bedroomHandler2", "no");
+#		if(contains_text(visit_url("main.php"), "choice.php"))
+#		{
+#			print("Preadventure skipped by bedroom handler.", "green");
+#			return;
+#		}
+#	}
 
 	if(get_property("cc_disableAdventureHandling").to_boolean())
 	{
@@ -269,6 +269,12 @@ void handlePreAdventure(location place)
 		}
 	}
 
+	generic_t itemNeed = zone_needItem(place);
+	if(itemNeed._boolean && (item_drop_modifier() < itemNeed._float))
+	{
+		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 20, 1, 10);
+		buffMaintain($effect[Singer\'s Faithful Ocelot], 35, 1, 10);
+	}
 
 	if(in_hardcore() && (my_class() == $class[Sauceror]) && (my_mp() < 32))
 	{

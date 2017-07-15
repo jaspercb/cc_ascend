@@ -46,22 +46,22 @@ void handlePostAdventure()
 		run_choice(1);
 	}
 
-	if(get_property("cc_bedroomHandler1") == "yes")
-	{
-		set_property("cc_bedroomHandler1", "no");
-		if(contains_text(visit_url("main.php"), "choice.php"))
-		{
-			print("Postadventure skipped by bedroom handler.", "green");
-			return;
-		}
-	}
+#	if(get_property("cc_bedroomHandler1") == "yes")
+#	{
+#		set_property("cc_bedroomHandler1", "no");
+#		if(contains_text(visit_url("main.php"), "choice.php"))
+#		{
+#			print("Postadventure skipped by bedroom handler.", "green");
+#			return;
+#		}
+#	}
 
 	if((get_property("lastEncounter") == "Daily Briefing") && (cc_my_path() == "License to Adventure"))
 	{
 		set_property("_cc_bondBriefing", "started");
 	}
 
-	if((get_property("_cc_bondBriefing") == "started") && (cc_my_path() == "License to Adventure") && (my_location() == $location[Super Villain\'s Lair]))
+	if((get_property("_villainLairProgress").to_int() < 999) && ((get_property("_villainLairColor") != "") || get_property("_villainLairColorChoiceUsed").to_boolean()) && (cc_my_path() == "License to Adventure") && (my_location() == $location[Super Villain\'s Lair]))
 	{
 		if(item_amount($item[Can Of Minions-Be-Gone]) > 0)
 		{
@@ -553,7 +553,7 @@ void handlePostAdventure()
 	{
 		buffMaintain($effect[Power Ballad of the Arrowsmith], 7, 1, 5);
 		buffMaintain(whatStatSmile(), 15, 1, 10);
-		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 20, 1, 10);
+#		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 20, 1, 10);
 		buffMaintain($effect[Leash of Linguini], 20, 1, 10);
 		if(regen > 10.0)
 		{
@@ -574,7 +574,7 @@ void handlePostAdventure()
 
 		if(regen > 10.0)
 		{
-			buffMaintain($effect[Singer\'s Faithful Ocelot], 35, 1, 10);
+#			buffMaintain($effect[Singer\'s Faithful Ocelot], 35, 1, 10);
 			buffMaintain($effect[Rage of the Reindeer], 30, 1, 10);
 		}
 		buffMaintain($effect[Astral Shell], 35, 1, 10);
@@ -610,7 +610,7 @@ void handlePostAdventure()
 	{
 		buffMaintain($effect[Power Ballad of the Arrowsmith], 7, 1, 5);
 		buffMaintain(whatStatSmile(), 20, 1, 10);
-		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 30, 1, 10);
+#		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 30, 1, 10);
 		buffMaintain($effect[Leash of Linguini], 30, 1, 10);
 		if(regen > 10.0)
 		{
@@ -631,7 +631,7 @@ void handlePostAdventure()
 		}
 #		buffMaintain($effect[Prayer of Seshat], 5, 1, 10);
 
-		buffMaintain($effect[Singer\'s Faithful Ocelot], 40, 1, 10);
+#		buffMaintain($effect[Singer\'s Faithful Ocelot], 40, 1, 10);
 		if(regen > 10.0)
 		{
 			buffMaintain($effect[Rage of the Reindeer], 40, 1, 10);
@@ -671,7 +671,7 @@ void handlePostAdventure()
 	}
 	else if(my_maxmp() < 170)
 	{
-		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 50, 1, 10);
+#		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 50, 1, 10);
 		if(my_level() < 13)
 		{
 			buffMaintain(whatStatSmile(), 40, 1, 10);
@@ -698,7 +698,7 @@ void handlePostAdventure()
 
 #		buffMaintain($effect[Prayer of Seshat], 5, 1, 10);
 
-		buffMaintain($effect[Singer\'s Faithful Ocelot], 80, 1, 10);
+#		buffMaintain($effect[Singer\'s Faithful Ocelot], 80, 1, 10);
 		buffMaintain($effect[Rage of the Reindeer], 80, 1, 10);
 		buffMaintain($effect[Astral Shell], 80, 1, 10);
 		buffMaintain($effect[Elemental Saucesphere], 120, 1, 10);
@@ -794,7 +794,7 @@ void handlePostAdventure()
 			useCocoon();
 		}
 
-		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 50, 1, 10);
+		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 250, 1, 10);
 
 		if(my_level() < 13)
 		{
@@ -833,7 +833,7 @@ void handlePostAdventure()
 
 #		buffMaintain($effect[Prayer of Seshat], 5, 1, 10);
 
-		buffMaintain($effect[Singer\'s Faithful Ocelot], 80, 1, 10);
+		buffMaintain($effect[Singer\'s Faithful Ocelot], 280, 1, 10);
 		if(doML)
 		{
 			if((monster_level_adjustment() + (2 * my_level())) <= 150)
