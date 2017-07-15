@@ -82,6 +82,15 @@ void bond_initializeDay(int day)
 	{
 		if(get_property("cc_dickstab").to_boolean())
 		{
+			if(chateaumantegna_available())
+			{
+				boolean[item] furniture = chateaumantegna_decorations();
+				if(!furniture[$item[Ceiling Fan]])
+				{
+					chateaumantegna_buyStuff($item[Ceiling Fan]);
+				}
+			}
+
 			if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
 			{
 				string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
@@ -103,8 +112,6 @@ void bond_initializeDay(int day)
 					}
 				}
 			}
-
-
 
 			if(item_amount($item[Hacked Gibson]) > 0)
 			{
@@ -278,7 +285,7 @@ boolean bond_buySkills()
 				points -= 3;
 			}
 		}
-		else if(!get_property("bondSpleen").to_boolean() && ((item_amount($item[Astral Energy Drink]) >= 2) || (item_amount($item[Carton Of Astral Energy Drinks]) > 0)))
+		else if(!get_property("bondSpleen").to_boolean() && ((item_amount($item[Astral Energy Drink]) >= 1) || (item_amount($item[Carton Of Astral Energy Drinks]) > 0)))
 		{
 			if(points >= 4)
 			{
@@ -607,7 +614,9 @@ boolean LM_bond()
 
 		if((internalQuestStatus("questL12War") >= 1) && (get_property("sidequestOrchardCompleted") == "none"))
 		{
-			if((item_amount($item[Filthworm Royal Guard Scent Gland]) == 0) && (item_amount($item[Heart Of The Filthworm Queen]) == 0) && have_skill($skill[Disintegrate]) && (have_effect($effect[Everything Looks Yellow]) == 0))
+			if((item_amount($item[Filthworm Royal Guard Scent Gland]) == 0) && (item_amount($item[Heart Of The Filthworm Queen]) == 0) && canYellowRay())
+
+#have_skill($skill[Disintegrate]) && (have_effect($effect[Everything Looks Yellow]) == 0))
 			{
 				while((get_property("timesRested").to_int() < total_free_rests()) && (my_mp() < mp_cost($skill[Disintegrate])))
 				{
@@ -619,18 +628,48 @@ boolean LM_bond()
 					use(1, $item[Filthworm Hatchling Scent Gland]);
 					loc = $location[The Feeding Chamber];
 				}
-				if(item_amount($item[Filthworm Drone Scent Gland]) > 0)
+				else if(item_amount($item[Filthworm Drone Scent Gland]) > 0)
 				{
 					use(1, $item[Filthworm Drone Scent Gland]);
 					loc = $location[The Royal Guard Chamber];
 				}
-				if(my_mp() < 150)
+				else if(have_effect($effect[Filthworm Drone Stench]) > 0)
 				{
-					abort("Lack of MP for disintegrate issue");
+					loc = $location[The Royal Guard Chamber];
 				}
-				set_property("cc_combatDirective", "start;skill disintegrate");
+				else if(have_effect($effect[Filthworm Larva Stench]) > 0)
+				{
+					loc = $location[The Feeding Chamber];
+				}
+
+				while(my_mp() < 150)
+				{
+					boolean passed = false;
+					foreach it in $items[Tiny House, Cloaca-Cola, Psychokinetic Energy Blob]
+					{
+						if(item_amount(it) > 0)
+						{
+							use(1, it);
+							passed = true;
+							break;
+						}
+					}
+					if(!passed)
+					{
+						//Can we manually restore mp from Doc Galaktik now?
+						if((my_meat() < npc_price($item[Doc Galaktik\'s Invigorating Tonic])) && isGeneralStoreAvailable())
+						{
+							abort("Can not restore MP in order to disintegrate a filthworm. Please YR the filthworm we can access next. Thank you.");
+						}
+						buy(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+						use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+						
+					}
+				}
+
+#				set_property("cc_combatDirective", "start;skill disintegrate");
 				boolean retval = ccAdv(loc);
-				set_property("cc_combatDirective", "");
+#				set_property("cc_combatDirective", "");
 				return retval;
 			}
 		}
@@ -704,18 +743,101 @@ boolean LM_bond()
 				}
 			}
 		}
-		if((my_daycount() == 1) && (get_property("cc_gaudy") == "start"))
+		if(my_daycount() == 1)
 		{
-			abort("Made it too far. Need to fix for this.");
+			if((my_inebriety() == 16) && (spleen_left() < 8) && (my_adventures() < 4))
+			{
+				string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
+				if(contains_text(mod, "Weapon Damage Percent"))
+				{
+					string page = visit_url("place.php?whichplace=kgb");
+					boolean flipped = false;
+					if(contains_text(page, "handleup"))
+					{
+						page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+						flipped = true;
+					}
+
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button1", false);
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button1", false);
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button5", false);
+					if(flipped)
+					{
+						page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+					}
+				}
+				else if(contains_text(mod, "Adventures") && (get_property("_kgbClicksUsed").to_int() <= 22))
+				{
+					string temp = visit_url("place.php?whichplace=kgb&action=kgb_tab1", false);
+					temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2", false);
+					temp = visit_url("place.php?whichplace=kgb&action=kgb_tab3", false);
+					temp = visit_url("place.php?whichplace=kgb&action=kgb_tab4", false);
+				}
+
+				if(!have_outfit("Knob Goblin Harem Girl Disguise"))
+				{
+					while((my_mp() < 160) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
+					{
+						doRest();
+					}
+					while(my_mp() < 160)
+					{
+						boolean passed = false;
+						foreach it in $items[Tiny House, Cloaca-Cola, Psychokinetic Energy Blob]
+						{
+							if(item_amount(it) > 0)
+							{
+								use(1, it);
+								passed = true;
+								break;
+							}
+						}
+						if(!passed)
+						{
+							//Can we manually restore mp from Doc Galaktik now?
+							if((my_meat() < npc_price($item[Doc Galaktik\'s Invigorating Tonic])) && isGeneralStoreAvailable())
+							{
+								abort("Can not restore MP for a Harem Girl disintegrate. Her whorish ways shall continue unabated!");
+							}
+							buy(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+							use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+							
+						}
+					}
+					set_property("cc_disableAdventureHandling", true);
+					boolean result = L5_haremOutfit();
+					set_property("cc_disableAdventureHandling", false);
+					if(!result)
+					{
+						abort("Some restrictive event is preventing us from going to the Harem. This is serious. You might have an STD. Please report this.");
+					}
+				}
+				if((item_amount($item[Disposable Instant Camera]) == 0) && (get_property("_timeSpinnerMinutesUsed").to_int() <= 7))
+				{
+					if(contains_text($location[The Haunted Bedroom].combat_queue, $monster[Animated Ornate Nightstand]))
+					{
+						set_property("choiceAdventure878", "4");
+						set_property("cc_disableAdventureHandling", true);
+						boolean result = timeSpinnerCombat($monster[Animated Ornate Nightstand]);
+						set_property("cc_disableAdventureHandling", false);
+						string page = visit_url("main.php");
+						page = run_choice(4);
+					}
+				}
+				if((item_amount($item[Knob Goblin Firecracker]) == 0) && (get_property("_timeSpinnerMinutesUsed").to_int() <= 7))
+				{
+					if(contains_text($location[The Outskirts of Cobb\'s Knob].combat_queue, $monster[Sub-Assistant Knob Mad Scientist]))
+					{
+						return timeSpinnerCombat($monster[Sub-Assistant Knob Mad Scientist]);
+					}
+				}
+			}
+			if(get_property("cc_gaudy") == "start")
+			{
+				abort("Made it too far. Need to fix for this.");
+			}
 		}
-		//End of day:
-		//Time spinner bloopers.
-		//+adv chateau
-		//Get kgb buffs.
-		//A View to Some Meat
 	}
-
-
 
 	if(get_property("_cc_bondBriefing") == "finished")
 	{

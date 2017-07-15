@@ -11281,7 +11281,7 @@ boolean L11_mcmuffinDiary()
 		set_property("cc_mcmuffin", "start");
 		return true;
 	}
-	if(my_adventures() <= 4)
+	if(my_adventures() < 4)
 	{
 		return false;
 	}
