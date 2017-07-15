@@ -1270,7 +1270,7 @@ string banisherCombatString(monster enemy, location loc)
 			return "skill " + $skill[KGB Tranquilizer Dart];
 		}
 	}
-	if(have_skill($skill[Snokebomb]) && (get_property("_snokebombUses").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])) && (!(used contains "snokebomb")))
+	if(have_skill($skill[Snokebomb]) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])) && (!(used contains "snokebomb")))
 	{
 		return "skill " + $skill[Snokebomb];
 	}
