@@ -2187,7 +2187,7 @@ boolean providePlusCombat(int amt, boolean doEquips)
 		}
 	}
 
-	if(numeric_modifier("Combat Rate") >= amt)
+	if(numeric_modifier("Combat Rate").to_int() >= amt)
 	{
 		return true;
 	}
@@ -2196,7 +2196,7 @@ boolean providePlusCombat(int amt, boolean doEquips)
 	foreach eff in $effects[Musk of the Moose, Carlweather\'s Cantata of Confrontation, Blinking Belly, Song of Battle, Frown, Angry, Screaming! \ SCREAMING! \ AAAAAAAH!]
 	{
 		buffMaintain(eff, 0, 1, 1);
-		if(numeric_modifier("Combat Rate") >= amt)
+		if(numeric_modifier("Combat Rate").to_int() >= amt)
 		{
 			return true;
 		}
@@ -2205,7 +2205,7 @@ boolean providePlusCombat(int amt, boolean doEquips)
 	foreach eff in $effects[Taunt of Horus, Hippy Stench, High Colognic, Celestial Saltiness, Everything Must Go!, Patent Aggression, Lion in Ambush]
 	{
 		buffMaintain(eff, 0, 1, 1);
-		if(numeric_modifier("Combat Rate") >= amt)
+		if(numeric_modifier("Combat Rate").to_int() >= amt)
 		{
 			return true;
 		}
@@ -2228,7 +2228,7 @@ boolean providePlusCombat(int amt, boolean doEquips)
 		}
 	}
 
-	if(numeric_modifier("Combat Rate") >= amt)
+	if(numeric_modifier("Combat Rate").to_int() < amt)
 	{
 		asdonBuff($effect[Driving Obnoxiously]);
 	}
@@ -2250,7 +2250,7 @@ boolean providePlusNonCombat(int amt, boolean doEquips)
 		{
 			return false;
 		}
-		if(numeric_modifier("Combat Rate") <= amt)
+		if(numeric_modifier("Combat Rate").to_int() <= amt)
 		{
 			return true;
 		}
@@ -2259,7 +2259,7 @@ boolean providePlusNonCombat(int amt, boolean doEquips)
 	foreach eff in $effects[Patent Invisibility]
 	{
 		buffMaintain(eff, 0, 1, 1);
-		if(numeric_modifier("Combat Rate") <= amt)
+		if(numeric_modifier("Combat Rate").to_int() <= amt)
 		{
 			return true;
 		}
@@ -2269,7 +2269,7 @@ boolean providePlusNonCombat(int amt, boolean doEquips)
 	foreach eff in $effects[Smooth Movements, The Sonata of Sneakiness, Song of Solitude, Inked Well, Bent Knees, Extended Toes, Ink Cloud]
 	{
 		buffMaintain(eff, 0, 1, 1);
-		if(numeric_modifier("Combat Rate") <= amt)
+		if(numeric_modifier("Combat Rate").to_int() <= amt)
 		{
 			return true;
 		}
@@ -2288,7 +2288,7 @@ boolean providePlusNonCombat(int amt, boolean doEquips)
 		removeCombat();
 	}
 
-	if(numeric_modifier("Combat Rate") <= amt)
+	if(numeric_modifier("Combat Rate").to_int() > amt)
 	{
 		asdonBuff($effect[Driving Stealthily]);
 	}
