@@ -278,7 +278,7 @@ boolean bond_buySkills()
 				points -= 3;
 			}
 		}
-		else if(!get_property("bondSpleen").to_boolean() && (item_amount($item[Astral Energy Drink]) >= 2))
+		else if(!get_property("bondSpleen").to_boolean() && ((item_amount($item[Astral Energy Drink]) >= 2) || (item_amount($item[Carton Of Astral Energy Drinks]) > 0)))
 		{
 			if(points >= 4)
 			{

@@ -11448,6 +11448,8 @@ boolean L11_blackMarket()
 	}
 
 	handleFamiliar($familiar[Reassembled Blackbird]);
+
+	//If we want the Beehive, and don\'t have enough adventures, this is dangerous.
 	ccAdv(1, $location[The Black Forest]);
 	handleFamiliar("item");
 	return true;
