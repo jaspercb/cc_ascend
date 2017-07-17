@@ -5513,10 +5513,20 @@ boolean L11_unlockHiddenCity()
 	}
 	buffMaintain($effect[Stone-Faced], 0, 1, 1);
 
+	if(have_effect($effect[Stone-Faced]) == 0)
+	{
+		abort("We do not smell like Stone nor have the face of one. We currently donut farm Stone Wool. Please get some");
+	}
+
 	if(ccAdvBypass(280))
 	{
 		print("Wandering monster interrupted our attempt at the Hidden City", "red");
 		return true;
+	}
+
+	if(get_property("lastEncounter") != "Fitting In")
+	{
+		abort("We donut fit in. You are not a munchkin or your donut is invalid. Failed getting the correct adventure at the Hidden Temple. Exit adventure and restart.");
 	}
 
 	visit_url("choice.php?whichchoice=582&option=2&pwd");
@@ -11510,7 +11520,7 @@ boolean L5_haremOutfit()
 	{
 		return false;
 	}
-	if(possessEquipment($item[Knob Goblin Harem Veil]) && possessEquipment($item[Knob Goblin Harem Pants]))
+	if(have_outfit("knob goblin harem girl disguise"))
 	{
 		return false;
 	}
@@ -11536,18 +11546,6 @@ boolean L5_haremOutfit()
 			return false;
 		}
 	}
-#	if(cc_my_path() == "Heavy Rains")
-#	{
-#		if(have_skill($skill[Ball Lightning]) && (my_lightning() >= 5))
-#		{
-#			buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
-#			print("Ditch attempt at the Harem Girl", "blue");
-#		}
-#		else if(!in_hardcore())
-#		{
-#			return false;
-#		}
-#	}
 
 	if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
 	{

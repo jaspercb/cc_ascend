@@ -55,7 +55,7 @@ void bond_initializeSettings()
 		{
 			cli_execute("make 1 " + $item[Viral Video]);
 		}
-		if(!get_property("_pottedTeaTreeUsed").to_boolean())
+		if(!get_property("_pottedTeaTreeUsed").to_boolean() && (cc_get_campground() contains $item[Potted Tea Tree]))
 		{
 			cli_execute("teatree " + $item[Cuppa Sobrie Tea]);
 		}
@@ -152,7 +152,7 @@ void bond_initializeDay(int day)
 			{
 				cli_execute("make 1 " + $item[Viral Video]);
 			}
-			if(!get_property("_pottedTeaTreeUsed").to_boolean())
+			if(!get_property("_pottedTeaTreeUsed").to_boolean() && (cc_get_campground() contains $item[Potted Tea Tree]))
 			{
 				cli_execute("teatree " + $item[Cuppa Sobrie Tea]);
 			}
@@ -745,7 +745,7 @@ boolean LM_bond()
 		}
 		if(my_daycount() == 1)
 		{
-			if((my_inebriety() == 16) && (spleen_left() < 8) && (my_adventures() < 4))
+			if(((my_inebriety() == 16) && (spleen_left() < 8) && (my_adventures() < 4)) || (get_property("cc_gaudy") == "start"))
 			{
 				string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
 				if(contains_text(mod, "Weapon Damage Percent"))
@@ -801,7 +801,6 @@ boolean LM_bond()
 							}
 							buy(1, $item[Doc Galaktik\'s Invigorating Tonic]);
 							use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
-							
 						}
 					}
 					set_property("cc_disableAdventureHandling", true);
@@ -811,6 +810,7 @@ boolean LM_bond()
 					{
 						abort("Some restrictive event is preventing us from going to the Harem. This is serious. You might have an STD. Please report this.");
 					}
+					return result;
 				}
 				if((item_amount($item[Disposable Instant Camera]) == 0) && (get_property("_timeSpinnerMinutesUsed").to_int() <= 7))
 				{
@@ -822,6 +822,7 @@ boolean LM_bond()
 						set_property("cc_disableAdventureHandling", false);
 						string page = visit_url("main.php");
 						page = run_choice(4);
+						return result;
 					}
 				}
 				if((item_amount($item[Knob Goblin Firecracker]) == 0) && (get_property("_timeSpinnerMinutesUsed").to_int() <= 7))
