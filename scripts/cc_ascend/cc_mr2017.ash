@@ -837,7 +837,7 @@ boolean asdonAutoFeed()
 	{
 		if(item_amount(it) > 0)
 		{
-			asdonFeed(it, item_amount(it));
+			asdonFeed(it, min(10,item_amount(it)));
 			didOnce = true;
 		}
 		if(get_fuel() > goal)

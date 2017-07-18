@@ -1062,9 +1062,9 @@ boolean deck_useScheme(string action)
 		}
 	}
 
-	if(action == "")
+	if((action == "") && (my_meat() < 10000))
 	{
-		autosell(min(1, item_amount($item[1952 Mickey Mantle Card])), $item[1952 Mickey Mantle Card]);
+		cc_autosell(min(1, item_amount($item[1952 Mickey Mantle Card])), $item[1952 Mickey Mantle Card]);
 	}
 
 	if((action == "farming") || (action == "turns"))
