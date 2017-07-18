@@ -41,6 +41,7 @@ import <cc_ascend/cc_standard.ash>
 import <cc_ascend/cc_edTheUndying.ash>
 import <cc_ascend/cc_summerfun.ash>
 import <cc_ascend/cc_awol.ash>
+import <cc_ascend/cc_monsterparts.ash>
 import <cc_ascend/cc_theSource.ash>
 import <cc_ascend/cc_optionals.ash>
 import <cc_ascend/cc_list.ash>
