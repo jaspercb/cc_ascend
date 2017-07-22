@@ -1253,7 +1253,7 @@ string banisherCombatString(monster enemy, location loc)
 	{
 		return "skill " + $skill[Curse Of Vacation];
 	}
-	if(have_skill($skill[Talk About Politics]) && (get_property("_pantsgivingBanish").to_int() < 5) && (!(used contains "pantsgiving")))
+	if(have_skill($skill[Talk About Politics]) && (get_property("_pantsgivingBanish").to_int() < 5) && have_equipped($item[Pantsgiving]) && (!(used contains "pantsgiving")))
 	{
 		return "skill " + $skill[Talk About Politics];
 	}

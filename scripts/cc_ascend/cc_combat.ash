@@ -723,12 +723,19 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if((!contains_text(combatState, "(olfaction)")) && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
 	{
-		if($monsters[Blooper, Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat] contains enemy)
+		if($monsters[Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
 			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
 			return "skill " + $skill[Transcendent Olfaction];
 		}
+		if(($monsters[Blooper] contains enemy) && (my_location() == $location[8-Bit Realm]))
+		{
+			set_property("cc_combatHandler", combatState + "(olfaction)");
+			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
+			return "skill " + $skill[Transcendent Olfaction];
+		}
+
 	}
 	if(have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
 	{
@@ -758,6 +765,7 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 
 
+	//This should probably be removed.
 	if(contains_text(combatState, "insults"))
 	{
 		if((enemy == $monster[shady pirate]) && have_skill($skill[Thunder Clap]) && (my_thunder() >= 40))
@@ -765,7 +773,7 @@ string cc_combatHandler(int round, string opp, string text)
 			handleTracker(enemy, $skill[thunder clap], "cc_banishes");
 			return "skill thunder clap";
 		}
-		if(enemy == $monster[shifty pirate])
+		if((enemy == $monster[shifty pirate]) && have_skill($skill[Talk About Politics]))
 		{
 			if(get_property("_pantsgivingBanish").to_int() < 5)
 			{

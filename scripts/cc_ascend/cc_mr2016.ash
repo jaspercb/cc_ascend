@@ -1322,7 +1322,7 @@ boolean rethinkingCandy(effect acquire, boolean simulate)
 	item[int] complexList;
 	foreach it in $items[]
 	{
-		if(it.candy && (item_amount(it) > 0) && (mall_price(it) <= 2500))
+		if(it.candy && (item_amount(it) > 0) && (mall_price(it) <= 2500) && it.tradeable)
 		{
 			if(it.candy_type == "simple")
 			{

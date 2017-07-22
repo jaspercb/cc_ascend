@@ -458,6 +458,10 @@ boolean LM_bond()
 				set_property("choiceAdventure1204", 1);
 				ccAdv($location[Gingerbread Train Station]);
 				set_property("choiceAdventure1204", old);
+				if(item_amount($item[Ultra Mega Sour Ball]) > 0)
+				{
+					put_closet(item_amount($item[Ultra Mega Sour Ball]), $item[Ultra Mega Sour Ball]);
+				}
 				return true;
 			}
 			abort("Gingerdickstab error");
