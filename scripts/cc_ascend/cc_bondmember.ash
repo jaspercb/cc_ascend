@@ -469,6 +469,14 @@ boolean LM_bond()
 
 		if(get_property("_cc_bondBriefing") == "finished")
 		{
+			if(my_daycount() == 1)
+			{
+				if((my_level() > 8) && (my_adventures() < 10) && (my_mp() <= 60) && (inebriety_left() > 0))
+				{
+					acquireMP(61, true);
+				}
+			}
+
 			if(get_property("lastDesertUnlock").to_int() < my_ascensions())
 			{
 				if(my_meat() > 5000)
@@ -483,7 +491,7 @@ boolean LM_bond()
 					buyUpTo(1, $item[Antique Accordion]);
 				}
 			}
-			else if((my_mp() > 85) && (my_level() > 8) && (my_adventures() < 10))
+			else if((my_mp() > 60) && (my_level() > 8) && (my_adventures() < 10))
 			{
 				if((inebriety_left() < 3) && (inebriety_left() >= 1))
 				{
@@ -498,7 +506,7 @@ boolean LM_bond()
 					}
 				}
 			}
-			else if((my_mp() > 85) && (my_level() > 6) && (my_adventures() < 10))
+			else if((my_mp() > 60) && (my_level() > 6) && (my_adventures() < 10))
 			{
 				if(inebriety_left() >= 10)
 				{
@@ -646,34 +654,12 @@ boolean LM_bond()
 					loc = $location[The Feeding Chamber];
 				}
 
-				while(my_mp() < 150)
+				if(!acquireMP(150, true))
 				{
-					boolean passed = false;
-					foreach it in $items[Tiny House, Cloaca-Cola, Psychokinetic Energy Blob]
-					{
-						if(item_amount(it) > 0)
-						{
-							use(1, it);
-							passed = true;
-							break;
-						}
-					}
-					if(!passed)
-					{
-						//Can we manually restore mp from Doc Galaktik now?
-						if((my_meat() < npc_price($item[Doc Galaktik\'s Invigorating Tonic])) && isGeneralStoreAvailable())
-						{
-							abort("Can not restore MP in order to disintegrate a filthworm. Please YR the filthworm we can access next. Thank you.");
-						}
-						buy(1, $item[Doc Galaktik\'s Invigorating Tonic]);
-						use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
-						
-					}
+					abort("Can not restore MP in order to disintegrate a filthworm. Please YR the filthworm we can access next. Thank you.");
 				}
 
-#				set_property("cc_combatDirective", "start;skill disintegrate");
 				boolean retval = ccAdv(loc);
-#				set_property("cc_combatDirective", "");
 				return retval;
 			}
 		}
@@ -784,29 +770,11 @@ boolean LM_bond()
 					{
 						doRest();
 					}
-					while(my_mp() < 160)
+					if(!acquireMP(160, true))
 					{
-						boolean passed = false;
-						foreach it in $items[Tiny House, Cloaca-Cola, Psychokinetic Energy Blob]
-						{
-							if(item_amount(it) > 0)
-							{
-								use(1, it);
-								passed = true;
-								break;
-							}
-						}
-						if(!passed)
-						{
-							//Can we manually restore mp from Doc Galaktik now?
-							if((my_meat() < npc_price($item[Doc Galaktik\'s Invigorating Tonic])) && isGeneralStoreAvailable())
-							{
-								abort("Can not restore MP for a Harem Girl disintegrate. Her whorish ways shall continue unabated!");
-							}
-							buy(1, $item[Doc Galaktik\'s Invigorating Tonic]);
-							use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
-						}
+						abort("Can not restore MP for a Harem Girl disintegrate. Her whorish ways shall continue unabated!");
 					}
+
 					set_property("cc_disableAdventureHandling", true);
 					boolean result = L5_haremOutfit();
 					set_property("cc_disableAdventureHandling", false);
@@ -839,7 +807,7 @@ boolean LM_bond()
 			}
 			if(get_property("cc_gaudy") == "start")
 			{
-				abort("Made it too far. Need to fix for this.");
+				abort("Made it too far. Done with BondStab Day 1, make sure you have a harem girl disguise, instant disposable camera, knob goblin firecracker");
 			}
 		}
 	}

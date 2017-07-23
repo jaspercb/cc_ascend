@@ -389,10 +389,15 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		if(item_amount($item[Dictionary]) > 0)
 		{
-			return "item dictionary";
+			return "item " + $item[dictionary];
 		}
 	}
 
+	if(!contains_text(combatState, "cigaretteLighter") && (my_location() == $location[A Mob Of Zeppelin Protesters]) && (get_property("questL11Ron") == "step1") && (item_amount($item[Cigarette Lighter]) > 0))
+	{
+		set_property("cc_combatHandler", combatState + "(cigaretteLighter)");
+		return "item " + $item[Cigarette Lighter];
+	}
 
 	if((my_class() == $class[Avatar of Sneaky Pete]) && ((expected_damage() * 2) < my_hp()))
 	{

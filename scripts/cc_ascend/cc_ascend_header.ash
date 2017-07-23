@@ -298,6 +298,8 @@ item[int] ListRemove(item[int] list, item what, int idx);	//Defined in cc_ascend
 int [int] get_cs_questList();								//Defined in cc_ascend/cc_community_service.ash
 int [item] cc_get_campground();								//Defined in cc_ascend/cc_util.ash
 boolean [location] get_floundry_locations();				//Defined in cc_ascend/cc_clan.ash
+boolean acquireMP(int goal);								//Defined in cc_ascend/cc_util.ash
+boolean acquireMP(int goal, boolean buyIt);					//Defined in cc_ascend/cc_util.ash
 boolean acquireGumItem(item it);							//Defined in cc_ascend/cc_util.ash
 boolean acquireHermitItem(item it);							//Defined in cc_ascend/cc_util.ash
 boolean adjustEdHat(string goal);							//Defined in cc_ascend/cc_edTheUndying.ash

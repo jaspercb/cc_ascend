@@ -27,6 +27,8 @@ boolean set_property_ifempty(string setting, string change);
 boolean restore_property(string setting, string source);
 boolean clear_property_if(string setting, string cond);
 int doRest();
+boolean acquireMP(int goal);
+boolean acquireMP(int goal, boolean buyIt);
 boolean acquireGumItem(item it);
 boolean acquireHermitItem(item it);
 boolean isHermitAvailable();
@@ -1759,6 +1761,68 @@ boolean isProtonGhost(monster mon)
 		return true;
 	}
 	return false;
+}
+
+boolean acquireMP(int goal)
+{
+	return acquireMP(goal, false);
+}
+
+boolean acquireMP(int goal, boolean buyIt)
+{
+	if(goal > my_maxmp())
+	{
+		return false;
+	}
+
+	item[int] recovers = List($items[Bottle Of Monsieur Bubble, Tiny House, Marquis De Poivre Soda, Cloaca-Cola, Psychokinetic Energy Blob]);
+	int at = 0;
+	while((at < count(recovers)) && (my_mp() < goal))
+	{
+		item it = recovers[at];
+		int expectedMP = (it.minmp + it.maxmp) / 2;
+		int overage = (my_mp() + expectedMP) - goal;
+		if(overage > 0)
+		{
+			float waste = overage / expectedMP;
+			if(waste > 0.35)
+			{
+				at++;
+				continue;
+			}
+		}
+		if(item_amount(it) > 0)
+		{
+			use(1, it);
+			continue;
+		}
+		at++;
+	}
+
+	while(buyIt && (my_mp() < goal))
+	{
+		if((get_property("questM24Doc") == "finished") && isGeneralStoreAvailable() && (my_meat() > npc_price($item[Doc Galaktik\'s Invigorating Tonic])))
+		{
+			buy(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+			use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+		}
+		else if(black_market_available() && (my_meat() > npc_price($item[Black Cherry Soda])))
+		{
+			buy(1, $item[Black Cherry Soda]);
+			use(1, $item[Black Cherry Soda]);
+		}
+		else if(isGeneralStoreAvailable() && (my_meat() > npc_price($item[Doc Galaktik\'s Invigorating Tonic])))
+		{
+			buy(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+			use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	return (my_mp() >= goal);
 }
 
 boolean acquireGumItem(item it)

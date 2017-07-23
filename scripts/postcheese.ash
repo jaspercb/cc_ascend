@@ -1073,6 +1073,11 @@ void handlePostAdventure()
 	if((get_property("cc_beatenUpCount").to_int() <= 10) && (have_effect($effect[Beaten Up]) > 0) && (my_mp() >= mp_cost($skill[Tongue of the Walrus])) && have_skill($skill[Tongue of the Walrus]))
 	{
 		print("Owwie, was beaten up but trying to recover", "red");
+		if(my_location() == $location[The X-32-F Combat Training Snowman])
+		{
+			print("At the snojo, let's not keep going there and dying....", "red");
+			set_property("_snojoFreeFights", 10);
+		}
 		set_property("cc_beatenUpCount", get_property("cc_beatenUpCount").to_int() + 1);
 		use_skill(1, $skill[Tongue of the Walrus]);
 	}

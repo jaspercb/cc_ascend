@@ -543,6 +543,18 @@ boolean chateaumantegna_nightstandSet()
 	{
 		return false;
 	}
+	if(my_level() >= 13)
+	{
+		if(get_property("nsContestants2").to_int() == -1)
+		{
+			myStat = get_property("nsChallenge1").to_stat();
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 
 	boolean[item] furniture = chateaumantegna_decorations();
 	item need = $item[none];
@@ -559,11 +571,16 @@ boolean chateaumantegna_nightstandSet()
 		need = $item[Bowl of Potpourri];
 	}
 
+	if(need == $item[none])
+	{
+		//If we do not have a telescope, this can happen.
+		return false;
+	}
 	if(furniture[need])
 	{
 		return false;
 	}
-	if(my_meat() < 500)
+	if(my_meat() < npc_price(need))
 	{
 		return false;
 	}
