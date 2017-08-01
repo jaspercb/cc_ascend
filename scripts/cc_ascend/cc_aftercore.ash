@@ -32,6 +32,8 @@ boolean cc_aftercore(int leave);
 boolean cc_ascendIntoCS();
 boolean cc_ascendIntoBond();
 boolean cc_doCS();
+boolean cc_customMafiaAddress();
+
 
 #Definitons here
 void cc_combatTest()
@@ -1404,6 +1406,12 @@ boolean cc_cheesePostCS(int leave)
 	print("Meat gained:  " + gainedMeat, "blue");
 	cli_execute("cc_ascend");
 	print("Meat gained:  " + gainedMeat, "blue");
+	return true;
+}
+
+boolean cc_customMafiaAddress()
+{
+	print_html("<a href=\"http://cheesellc.com/kol/KoLmafia-" + get_revision() + "M.jar\" target=\"_blank\">Link to possible copy of Cheesecookie\'s Custom Mafia build.</a>");
 	return true;
 }
 

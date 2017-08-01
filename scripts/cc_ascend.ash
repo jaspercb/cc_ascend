@@ -9492,7 +9492,7 @@ boolean councilMaintenance()
 	if(my_level() > get_property("lastCouncilVisit").to_int())
 	{
 		council();
-		if(!florist_available() && contains_text(visit_url("place.php?whichplace=forestvillage"), "The Florist Friar's Cottage"))
+		if(is_unrestricted($item[Order Of The Green Thumb Order Form]) && !florist_available() && contains_text(visit_url("place.php?whichplace=forestvillage"), "The Florist Friar's Cottage"))
 		{
 			print("Mafia does not think you have a Florist Friar but one seems to live in your forest.", "red");
 			trickMafiaAboutFlorist();
