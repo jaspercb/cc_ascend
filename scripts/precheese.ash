@@ -8,6 +8,11 @@ void handlePreAdventure()
 
 void handlePreAdventure(location place)
 {
+	if((equipped_item($slot[familiar]) == $item[none]) && (my_familiar() != $familiar[none]) && (cc_my_path() == "Heavy Rains"))
+	{
+		abort("Familiar has no equipment, WTF");
+	}
+
 	if((place == $location[The Deep Machine Tunnels]) && (my_familiar() != $familiar[Machine Elf]))
 	{
 		if(!have_familiar($familiar[Machine Elf]))
@@ -16,16 +21,6 @@ void handlePreAdventure(location place)
 		}
 		print("Somehow we are considering the DMT without a Machine Elf...", "red");
 	}
-
-#	if(get_property("cc_bedroomHandler2") == "yes")
-#	{
-#		set_property("cc_bedroomHandler2", "no");
-#		if(contains_text(visit_url("main.php"), "choice.php"))
-#		{
-#			print("Preadventure skipped by bedroom handler.", "green");
-#			return;
-#		}
-#	}
 
 	if(get_property("cc_disableAdventureHandling").to_boolean())
 	{

@@ -400,6 +400,21 @@ boolean drinkSpeakeasyDrink(string drink)
 	return drinkSpeakeasyDrink(realDrink);
 }
 
+boolean cc_floundryUse()
+{
+	if(!get_property("_floundryItemUsed").to_boolean())
+	{
+		foreach it in $items[Bass Clarinet, Codpiece, Fish Hatchet]
+		{
+			if(possessEquipment(it))
+			{
+				use(1, it);
+				return true;
+			}
+		}
+	}
+	return false;
+}
 
 boolean cc_floundryAction()
 {

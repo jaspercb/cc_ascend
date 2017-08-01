@@ -46,16 +46,6 @@ void handlePostAdventure()
 		run_choice(1);
 	}
 
-#	if(get_property("cc_bedroomHandler1") == "yes")
-#	{
-#		set_property("cc_bedroomHandler1", "no");
-#		if(contains_text(visit_url("main.php"), "choice.php"))
-#		{
-#			print("Postadventure skipped by bedroom handler.", "green");
-#			return;
-#		}
-#	}
-
 	if((get_property("lastEncounter") == "Daily Briefing") && (cc_my_path() == "License to Adventure"))
 	{
 		set_property("_cc_bondBriefing", "started");
@@ -1069,6 +1059,36 @@ void handlePostAdventure()
 			put_closet(item_amount($item[Bowling Ball]), $item[Bowling Ball]);
 		}
 	}
+
+	if(my_level() < 13)
+	{
+		if(item_amount($item[pulled red taffy]) >= 6)
+		{
+			buffMaintain($effect[Cinnamon Challenger], 0, 6, 10);
+		}
+		if(item_amount($item[pulled orange taffy]) >= 6)
+		{
+			buffMaintain($effect[Orange Crusher], 0, 6, 10);
+		}
+		if(item_amount($item[pulled violet taffy]) >= 6)
+		{
+			buffMaintain($effect[Purple Reign], 0, 6, 10);
+		}
+
+		buffMaintain($effect[Gummi-Grin], 0, 1, 1);
+		buffMaintain($effect[Strong Resolve], 0, 1, 1);
+		buffMaintain($effect[Irresistible Resolve], 0, 1, 1);
+		buffMaintain($effect[Brilliant Resolve], 0, 1, 1);
+		buffMaintain($effect[From Nantucket], 0, 1, 1);
+		buffMaintain($effect[Squatting and Thrusting], 0, 1, 1);
+		buffMaintain($effect[You Read the Manual], 0, 1, 1);
+	}
+
+	buyableMaintain($item[Ben-gal&trade; Balm], 1, 200);
+	buyableMaintain($item[Turtle Pheromones], 1, 800, my_class() == $class[Turtle Tamer]);
+	buyableMaintain($item[Hair Spray], 1, 200, my_class() != $class[Turtle Tamer]);
+	buyableMaintain($item[Blood of the Wereseal], 1, 3500, (monster_level_adjustment() > 135));
+
 
 	if((get_property("cc_beatenUpCount").to_int() <= 10) && (have_effect($effect[Beaten Up]) > 0) && (my_mp() >= mp_cost($skill[Tongue of the Walrus])) && have_skill($skill[Tongue of the Walrus]))
 	{

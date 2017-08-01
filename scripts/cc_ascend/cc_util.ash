@@ -43,9 +43,6 @@ boolean in_ronin();
 boolean cc_autosell(int quantity, item toSell);
 boolean forceEquip(slot sl, item it);
 item whatHiMein();
-int dreamJarDrops();
-int powderedGoldDrops();
-int grimTaleDrops();
 int maxSealSummons();
 string statCard();
 effect whatStatSmile();
@@ -147,7 +144,7 @@ boolean providePlusCombat(int amt);
 boolean providePlusNonCombat(int amt);
 boolean providePlusCombat(int amt, boolean doEquips);
 boolean providePlusNonCombat(int amt, boolean doEquips);
-
+boolean basicAdjustML();
 
 
 // Private Prototypes
@@ -557,7 +554,10 @@ boolean backupSetting(string setting, string newValue)
 			return false;
 		}
 
-		set_property("cc_backup_" + setting, oldValue);
+		if(get_property("cc_backup_" + setting) == "")
+		{
+			set_property("cc_backup_" + setting, oldValue);
+		}
 		set_property(setting, newValue);
 		return true;
 	}
@@ -591,7 +591,7 @@ boolean restoreSetting(string setting)
 		{
 			set_property(setting, get_property("cc_backup_" + setting));
 		}
-		set_property("cc_backup_" + setting, "");
+		remove_property("cc_backup_" + setting);
 		return true;
 	}
 
@@ -1007,21 +1007,6 @@ int solveCookie()
 	}
 
 	return get_property("cc_cookie").to_int();
-}
-
-int dreamJarDrops()
-{
-	return get_property("_dreamJarDrops").to_int();
-}
-
-int powderedGoldDrops()
-{
-	return get_property("_powderedGoldDrops").to_int();
-}
-
-int grimTaleDrops()
-{
-	return get_property("_grimFairyTaleDrops").to_int();
 }
 
 
@@ -1775,7 +1760,7 @@ boolean acquireMP(int goal, boolean buyIt)
 		return false;
 	}
 
-	item[int] recovers = List($items[Bottle Of Monsieur Bubble, Tiny House, Marquis De Poivre Soda, Cloaca-Cola, Psychokinetic Energy Blob]);
+	item[int] recovers = List($items[Carbonated Soy Milk, Natural Fennel Soda, Bottle Of Monsieur Bubble, Tiny House, Marquis De Poivre Soda, Cloaca-Cola, Phonics Down, Psychokinetic Energy Blob]);
 	int at = 0;
 	while((at < count(recovers)) && (my_mp() < goal))
 	{
@@ -2357,6 +2342,32 @@ boolean providePlusNonCombat(int amt, boolean doEquips)
 		asdonBuff($effect[Driving Stealthily]);
 	}
 	return true;
+}
+
+boolean basicAdjustML()
+{
+	if((monster_level_adjustment() > 150) && (monster_level_adjustment() <= 160))
+	{
+		int base = (monster_level_adjustment() - current_mcd());
+		if(base <= 150)
+		{
+			int canhave = 150 - base;
+			cc_change_mcd(canhave);
+		}
+	}
+	else
+	{
+		if((get_property("flyeredML").to_int() >= 10000) && (my_level() >= 13))
+		{
+			cc_change_mcd(0);
+		}
+		else if(((monster_level_adjustment() + (10 - current_mcd())) <= 150) && (current_mcd() != 10))
+		{
+			cc_change_mcd(10);
+		}
+	}
+	return false;
+
 }
 
 

@@ -6,6 +6,53 @@ script "cc_zone.ash"
 generic_t zone_needItem(location loc);
 generic_t zone_combatMod(location loc);
 generic_t zone_delay(location loc);
+generic_t zone_available(location loc);
+location[int] zone_list();
+int[location] zone_delayable();
+boolean zone_isAvailable(location loc);
+
+
+boolean zone_isAvailable(location loc)
+{
+	return zone_available(loc)._boolean;
+}
+
+int[location] zone_delayable()
+{
+	location[int] locs = zone_list();
+	int[location] retval;
+	foreach idx, loc in locs
+	{
+		generic_t locValue = zone_delay(loc);
+		if(locValue._boolean && zone_isAvailable(loc))
+		{
+			retval[loc] = locValue._int;
+		}
+	}
+	return retval;
+}
+
+/*
+record generic_t
+{
+	boolean _error;
+	boolean _boolean;
+	int _int;
+	float _float;
+	string _string;
+	item _item;
+	location _location;
+	class _class;
+	stat _stat;
+	skill _skill;
+	effect _effect;
+	familiar _familiar;
+	slot _slot;
+	monster _monster;
+	element _element;
+	phylum _phylum;
+};
+*/
 
 generic_t zone_needItem(location loc)
 {
@@ -432,9 +479,467 @@ generic_t zone_delay(location loc)
 	return retval;
 }
 
+generic_t zone_available(location loc)
+{
+	generic_t retval;
+
+	switch(loc)
+	{
+	case $location[Super Villain\'s Lair]:
+		if((cc_my_path() == "License to Adventure") && (get_property("_villainLairProgress").to_int() < 999) && (get_property("_cc_bondBriefing") == "started"))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Shore\, Inc. Travel Agency]:
+		if(get_property("lastDesertUnlock").to_int() == my_ascensions())
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Arid\, Extra-Dry Desert]:
+		if(internalQuestStatus("questL11Desert") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Oasis]:
+		if($location[The Arid\, Extra-Dry Desert].turns_spent > 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Upper Chamber]:
+		if(internalQuestStatus("questL11Pyramid") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Middle Chamber]:
+		retval._boolean = get_property("middleChamberUnlock").to_boolean();
+		break;
+	case $location[The Lower Chambers]:
+		retval._boolean = get_property("lowerChamberUnlock").to_boolean();
+		break;
+	case $location[The Daily Dungeon]:
+		retval._boolean = get_property("dailyDungeonDone").to_boolean();
+		break;
+	case $location[The Skeleton Store]:
+		if(internalQuestStatus("questM23Meatsmith") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Madness Bakery]:
+		if(internalQuestStatus("questM25Armorer") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Deep Machine Tunnels]:
+		if(have_familiar($familiar[Machine Elf]) || (have_effect($effect[Inside The Snowglobe]) > 0))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Haunted Pantry]:
+	case $location[The Haunted Kitchen]:
+	case $location[The Haunted Conservatory]:
+		if(internalQuestStatus("questM20Necklace") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Haunted Gallery]:
+	case $location[The Haunted Bathroom]:
+	case $location[The Haunted Bedroom]:
+		if(internalQuestStatus("questM21Dance") >= 1)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Haunted Billiards Room]:
+		if(item_amount($item[Spookyraven Billiards Room Key]) > 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Haunted Library]:
+		if(item_amount($item[[7302]Spookyraven Library Key]) > 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Haunted Ballroom]:
+		if(internalQuestStatus("questM21Dance") >= 3)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Haunted Boiler Room]:
+	case $location[The Haunted Laundry Room]:
+	case $location[The Haunted Wine Cellar]:
+		if(internalQuestStatus("questL11Manor") >= 1)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Summoning Chamber]:
+		if(internalQuestStatus("questL11Manor") >= 11)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Hidden Park]:
+	case $location[An Overgrown Shrine (Northwest)]:
+	case $location[An Overgrown Shrine (Southwest)]:
+	case $location[An Overgrown Shrine (Northeast)]:
+	case $location[An Overgrown Shrine (Southeast)]:
+	case $location[A Massive Ziggurat]:
+		if(internalQuestStatus("questL11Worship") >= 3)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Hidden Apartment Building]:
+		if(internalQuestStatus("questL11Curses") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Hidden Hospital]:
+		if(internalQuestStatus("questL11Doctor") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Hidden Office Building]:
+		if(internalQuestStatus("questL11Business") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Hidden Bowling Alley]:
+		if(internalQuestStatus("questL11Spare") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Typical Tavern Cellar]:
+		if(internalQuestStatus("questL03Rat") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Spooky Forest]:
+		if((internalQuestStatus("questL02Larva") >= 0) || (internalQuestStatus("questG02Whitecastle") >= 0))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Hidden Temple]:
+		if(get_property("lastTempleUnlock").to_int() == my_ascensions())
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[8-Bit Realm]:
+		if(possessEquipment($item[Continuum Transfunctioner]) && ((internalQuestStatus("questL02Larva") >= 0) || (internalQuestStatus("questG02Whitecastle") >= 0)))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Black Forest]:
+		if(internalQuestStatus("questL11MacGuffin") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Bat Hole Entrance]:
+		if(internalQuestStatus("questL04Bat") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Guano Junction]:
+		if(elemental_resist($element[stench]) >= 1)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Batrat And Ratbat Burrow]:
+		if(internalQuestStatus("questL04Bat") >= 1)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Beanbat Chamber]:
+		if(internalQuestStatus("questL04Bat") >= 2)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Boss Bat\'s Lair]:
+		if(internalQuestStatus("questL04Bat") >= 3)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The VERY Unquiet Garves]:
+		if(get_property("questL07Cyrptic") == "finished")
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Inside the Palindome]:
+		if(possessEquipment($item[Talisman O\' Namsilat]))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Noob Cave]:
+	case $location[The Outskirts of Cobb\'s Knob]:
+		retval._boolean = true;
+		break;
+	case $location[Cobb\'s Knob Harem]:
+	case $location[Cobb\'s Knob Treasury]:
+	case $location[Throne Room]:
+		if(internalQuestStatus("questL05Goblin") >= 1)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Dark Neck of the Woods]:
+	case $location[The Dark Heart of the Woods]:
+	case $location[The Dark Elbow of the Woods]:
+		if(internalQuestStatus("questL06Friar") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Defiled Nook]:
+	case $location[The Defiled Cranny]:
+	case $location[The Defiled Alcove]:
+	case $location[The Defiled Niche]:
+		if(internalQuestStatus("questL07Cyrptic") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Barrrney\'s Barrr]:
+		if((have_outfit("swashbuckling getup") || possessEquipment($item[Pirate Fledges])) && (get_property("lastIslandUnlock").to_int() == my_ascensions()))
+		{
+			if((get_property("questL12War") == "unstarted") || (get_property("questL12War") == "finished"))
+			{
+				retval._boolean = true;
+			}
+		}
+		break;
+	case $location[The F\'c\'le]:
+		if((have_outfit("swashbuckling getup") || possessEquipment($item[Pirate Fledges])) && (get_property("lastIslandUnlock").to_int() == my_ascensions()) && (internalQuestStatus("questM12Pirate") >= 5))
+		{
+			if((get_property("questL12War") == "unstarted") || (get_property("questL12War") == "finished"))
+			{
+				retval._boolean = true;
+			}
+		}
+		break;
+	case $location[The Poop Deck]:
+		if((have_outfit("swashbuckling getup") || possessEquipment($item[Pirate Fledges])) && (get_property("lastIslandUnlock").to_int() == my_ascensions()) && (internalQuestStatus("questM12Pirate") >= 6) && (get_property("cc_mcmuffin") != ""))
+		{
+			if((get_property("questL12War") == "unstarted") || (get_property("questL12War") == "finished"))
+			{
+				retval._boolean = true;
+			}
+		}
+		break;
+	case $location[Belowdecks]:
+		if((have_outfit("swashbuckling getup") || possessEquipment($item[Pirate Fledges])) && (get_property("lastIslandUnlock").to_int() == my_ascensions()) && (get_property("questM12Pirate") == "finished") && (get_property("cc_mcmuffin") != ""))
+		{
+			if((get_property("questL12War") == "unstarted") || (get_property("questL12War") == "finished"))
+			{
+				retval._boolean = true;
+			}
+		}
+		break;
+	case $location[The Smut Orc Logging Camp]:
+		if(internalQuestStatus("questL09Topping") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[A-Boo Peak]:
+	case $location[Twin Peak]:
+	case $location[Oil Peak]:
+		if(internalQuestStatus("questL09Topping") >= 1)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Wartime Hippy Camp (Frat Disguise)]:
+		if((internalQuestStatus("questL12War") == 0) && have_outfit("frat warrior fatigues"))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Battlefield (Frat Uniform)]:
+		if((internalQuestStatus("questL12War") >= 1) && (get_property("hippiesDefeated").to_int() < 1000) && have_outfit("frat warrior fatigues") && (get_property("questL12War") != "finished"))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Next to that Barrel with Something Burning in it]:
+	case $location[Near an Abandoned Refrigerator]:
+	case $location[Over Where the Old Tires Are]:
+	case $location[Out by that Rusted-Out Car]:
+		if((internalQuestStatus("questL12War") >= 1) && (get_property("sidequestJunkyardCompleted") == "none") && (get_property("questL12War") != "finished"))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Sonofa Beach]:
+		if(internalQuestStatus("questL12War") >= 1)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Themthar Hills]:
+		if((internalQuestStatus("questL12War") >= 1) && (get_property("sidequestNunsCompleted") == "none") && (get_property("questL12War") != "finished"))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Hatching Chamber]:
+		if((internalQuestStatus("questL12War") >= 1) && (get_property("sidequestOrchardCompleted") == "none") && (get_property("questL12War") != "finished"))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Feeding Chamber]:
+		if((internalQuestStatus("questL12War") >= 1) && (get_property("sidequestOrchardCompleted") == "none") && (have_effect($effect[Filthworm Larva Stench]) > 0) && (get_property("questL12War") != "finished"))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Royal Guard Chamber]:
+		if((internalQuestStatus("questL12War") >= 1) && (get_property("sidequestOrchardCompleted") == "none") && (have_effect($effect[Filthworm Drone Stench]) > 0) && (get_property("questL12War") != "finished"))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Filthworm Queen\'s Chamber]:
+		if((internalQuestStatus("questL12War") >= 1) && (get_property("sidequestOrchardCompleted") == "none") && (item_amount($item[Heart Of The Filthworm Queen]) == 0) && (have_effect($effect[Filthworm Guard Stench]) > 0) && (get_property("questL12War") != "finished"))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Itznotyerzitz Mine]:
+	case $location[The Goatlet]:
+		if(internalQuestStatus("questL08Trapper") >= 1)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Extreme Slope]:
+	case $location[Lair of the Ninja Snowmen]:
+		if(internalQuestStatus("questL08Trapper") >= 2)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Mist-Shrouded Peak]:
+		if(internalQuestStatus("questL08Trapper") >= 3)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Icy Peak]:
+		if(internalQuestStatus("questL08Trapper") >= 6)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Penultimate Fantasy Airship]:
+		if(internalQuestStatus("questL10Garbage") >= 1)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Castle in the Clouds in the Sky (Basement)]:
+		if(item_amount($item[S.O.C.K.]) > 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Castle in the Clouds in the Sky (Ground Floor)]:
+		if(get_property("lastCastleGroundUnlock").to_int() == my_ascensions())
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Castle in the Clouds in the Sky (Top Floor)]:
+		if(get_property("lastCastleTopUnlock").to_int() == my_ascensions())
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Hole in the Sky]:
+		if(item_amount($item[Steam-Powered Model Rocketship]) > 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Fastest Adventurer Contest]:
+		if(get_property("nsContestants1").to_int() > 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Smartest Adventurer Contest]:
+	case $location[Strongest Adventurer Contest]:
+	case $location[Smoothest Adventurer Contest]:
+		if(get_property("nsContestants2").to_int() > 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Coldest Adventurer Contest]:
+	case $location[Hottest Adventurer Contest]:
+	case $location[Sleaziest Adventurer Contest]:
+	case $location[Spookiest Adventurer Contest]:
+	case $location[Stinkiest Adventurer Contest]:
+		if(get_property("nsContestants3").to_int() > 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Barf Mountain]:
+		retval._boolean = get_property("stenchAirportAlways").to_boolean() || get_property("_stenchAirportToday").to_boolean();
+		break;
+	case $location[The Bubblin\' Caldera]:
+		retval._boolean = get_property("hotAirportAlways").to_boolean() || get_property("_hotAirportToday").to_boolean();
+		break;
+	case $location[The X-32-F Combat Training Snowman]:
+		retval._boolean = get_property("snojoAvailable").to_boolean();
+		break;
+	case $location[Through the Spacegate]:
+		retval._boolean = get_property("spacegateAlways").to_boolean() || get_property("_spacegateToday").to_boolean();
+		break;
+	case $location[Gingerbread Upscale Retail District]:
+		retval._boolean = get_property("gingerbreadCityAvailable").to_boolean() || get_property("_gingerbreadCityToday").to_boolean();
+		break;
+	}
+
+	return retval;
+}
+location[int] zone_list()
+{
+	return List($locations[8-Bit Realm, A-Boo Peak, The Arid\, Extra-Dry Desert, Barf Mountain, Barrrney\'s Barrr, The Bat Hole Entrance, The Batrat And Ratbat Burrow, The Battlefield (Frat Uniform), The Beanbat Chamber, Belowdecks, The Black Forest, The Boss Bat\'s Lair, The Bubblin\' Caldera, The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), Cobb\'s Knob Harem, Cobb\'s Knob Treasury, Coldest Adventurer Contest, The Daily Dungeon, The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Deep Machine Tunnels, The Defiled Alcove, The Defiled Cranny, The Defiled Niche, The Defiled Nook, The Extreme Slope, The F\'c\'le, Fastest Adventurer Contest, The Feeding Chamber, The Filthworm Queen\'s Chamber, Gingerbread Upscale Retail District, The Goatlet, Guano Junction, The Hatching Chamber, The Haunted Ballroom, The Haunted Bathroom, The Haunted Bedroom, The Haunted Billiards Room, The Haunted Boiler Room, The Haunted Conservatory, The Haunted Gallery, The Haunted Kitchen, The Haunted Laundry Room, The Haunted Library, The Haunted Pantry, The Haunted Wine Cellar, The Hidden Apartment Building, The Hidden Bowling Alley, The Hidden Hospital, The Hidden Office Building, The Hidden Park, The Hidden Temple, The Hole in the Sky, Hottest Adventurer Contest, The Icy Peak, Inside the Palindome, Itznotyerzitz Mine, Lair of the Ninja Snowmen, The Lower Chambers, Madness Bakery, A Massive Ziggurat, The Middle Chamber, Mist-Shrouded Peak, Near an Abandoned Refrigerator, Next to that Barrel with Something Burning in it, Noob Cave, The Oasis, Oil Peak, Out by that Rusted-Out Car, The Outskirts of Cobb\'s Knob, Over Where the Old Tires Are, An Overgrown Shrine (Northeast), An Overgrown Shrine (Northwest), An Overgrown Shrine (Southeast), An Overgrown Shrine (Southwest), The Penultimate Fantasy Airship, The Poop Deck, The Royal Guard Chamber, The Shore\, Inc. Travel Agency, The Skeleton Store, Sleaziest Adventurer Contest, Smartest Adventurer Contest, Smoothest Adventurer Contest, Spookiest Adventurer Contest, Stinkiest Adventurer Contest, Strongest Adventurer Contest, The Smut Orc Logging Camp, Sonofa Beach, The Spooky Forest, Summoning Chamber, Super Villain\'s Lair, The Themthar Hills, Throne Room, Through the Spacegate, Twin Peak, The Typical Tavern Cellar, The Upper Chamber, The VERY Unquiet Garves, The X-32-F Combat Training Snowman, Wartime Hippy Camp (Frat Disguise)]);
+}
+
+
 
 /*
-
 	case $location[The Oasis]:
 	case $location[The Arid\, Extra-Dry Desert]:
 	case $location[The Shore\, Inc. Travel Agency]:
@@ -473,6 +978,7 @@ generic_t zone_delay(location loc)
 	case $location[The Black Forest]:
 	case $location[The Beanbat Chamber]:
 	case $location[The Bat Hole Entrance]:
+	case $location[The Batrat And Ratbat Burrow]:
 	case $location[Guano Junction]:
 	case $location[The Boss Bat\'s Lair]:
 	case $location[The VERY Unquiet Garves]:

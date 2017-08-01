@@ -47,6 +47,9 @@ boolean LX_dolphinKingMap();
 boolean LX_steelOrgan();
 boolean Lx_resolveSixthDMT();
 boolean LX_witchess();
+boolean LX_chateauPainting();
+boolean LX_faxing();
+boolean LX_universeFrat();
 
 
 //*********** Section of stuff moved into cc_optionals.ash *******************/
@@ -74,6 +77,7 @@ boolean L3_tavern();
 
 boolean L4_batCave();
 boolean L5_haremOutfit();
+boolean L5_findKnob();
 boolean L5_goblinKing();
 boolean L5_getEncryptionKey();
 boolean L6_friarsGetParts();
@@ -182,6 +186,7 @@ boolean fortuneCookieEvent();
 // Familiar Behavior, good stuff.
 boolean handleFamiliar(familiar fam);
 boolean handleFamiliar(string fam);
+boolean basicFamiliarOverrides();
 
 // Meat Generation
 boolean autosellCrap();
@@ -295,8 +300,26 @@ int[int] ListRemove(int[int] list, int what);				//Defined in cc_ascend/cc_list.
 int[int] ListRemove(int[int] list, int what, int idx);		//Defined in cc_ascend/cc_list.ash
 item[int] ListRemove(item[int] list, item what);			//Defined in cc_ascend/cc_list.ash
 item[int] ListRemove(item[int] list, item what, int idx);	//Defined in cc_ascend/cc_list.ash
+location ListOutput(location[int] list);					//Defined in cc_ascend/cc_list.ash
+location[int] locationList();								//Defined in cc_ascend/cc_list.ash
+location[int] List(boolean[location] data);					//Defined in cc_ascend/cc_list.ash
+location[int] List(location[int] data);						//Defined in cc_ascend/cc_list.ash
+location[int] ListRemove(location[int] list, location what);//Defined in cc_ascend/cc_list.ash
+location[int] ListRemove(location[int] list, location what, int idx);//Defined in cc_ascend/cc_list.ash
+location[int] ListErase(location[int] list, int index);		//Defined in cc_ascend/cc_list.ash
+location[int] ListInsertFront(location[int] list, location what);//Defined in cc_ascend/cc_list.ash
+location[int] ListInsert(location[int] list, location what);//Defined in cc_ascend/cc_list.ash
+location[int] ListInsertAt(location[int] list, location what, int idx);//Defined in cc_ascend/cc_list.ash
+location[int] ListInsertInorder(location[int] list, location what);//Defined in cc_ascend/cc_list.ash
+int ListFind(location[int] list, location what);			//Defined in cc_ascend/cc_list.ash
+int ListFind(location[int] list, location what, int idx);	//Defined in cc_ascend/cc_list.ash
+location ListOutput(location[int] list);					//Defined in cc_ascend/cc_list.ash
 int [int] get_cs_questList();								//Defined in cc_ascend/cc_community_service.ash
 int [item] cc_get_campground();								//Defined in cc_ascend/cc_util.ash
+boolean basicAdjustML();									//Defined in cc_ascend/cc_util.ash
+boolean beatenUpResolution();								//Defined in cc_ascend.ash
+boolean adventureFailureHandler();							//Defined in cc_ascend.ash
+boolean councilMaintenance();								//Defined in cc_ascend.ash
 boolean [location] get_floundry_locations();				//Defined in cc_ascend/cc_clan.ash
 boolean acquireMP(int goal);								//Defined in cc_ascend/cc_util.ash
 boolean acquireMP(int goal, boolean buyIt);					//Defined in cc_ascend/cc_util.ash
@@ -349,6 +372,7 @@ string cc_combatHandler(int round, string opp, string text);//Defined in cc_asce
 boolean cc_doPrecinct();									//Defined in cc_ascend/cc_mr2016.ash
 string cc_edCombatHandler(int round, string opp, string text);//Defined in cc_ascend/cc_combat.ash
 boolean cc_floundryAction();								//Defined in cc_ascend/cc_clan.ash
+boolean cc_floundryUse();									//Defined in cc_ascend/cc_clan.ash
 boolean cc_floundryAction(item it);							//Defined in cc_ascend/cc_clan.ash
 boolean cc_haveSourceTerminal();							//Defined in cc_ascend/cc_mr2016.ash
 boolean cc_haveWitchess();									//Defined in cc_ascend/cc_mr2016.ash
@@ -420,7 +444,6 @@ boolean doThemtharHills(boolean trickMode);					//Defined in cc_ascend.ash
 boolean do_chateauGoat();									//Defined in cc_ascend/cc_community_service.ash
 boolean do_cs_quest(int quest);								//Defined in cc_ascend/cc_community_service.ash
 boolean do_cs_quest(string quest);							//Defined in cc_ascend/cc_community_service.ash
-int dreamJarDrops();										//Defined in cc_ascend/cc_util.ash
 boolean drinkSpeakeasyDrink(item drink);					//Defined in cc_ascend/cc_clan.ash
 boolean drinkSpeakeasyDrink(string drink);					//Defined in cc_ascend/cc_clan.ash
 int drunk_left();											//Defined in cc_ascend/cc_util.ash
@@ -500,7 +523,6 @@ boolean asdonAutoFeed();									//Defined in cc_ascend/cc_mr2017.ash
 int get_cs_questCost(int quest);							//Defined in cc_ascend/cc_community_service.ash
 int get_cs_questCost(string input);							//Defined in cc_ascend/cc_community_service.ash
 int get_cs_questNum(string input);							//Defined in cc_ascend/cc_community_service.ash
-int grimTaleDrops();										//Defined in cc_ascend/cc_util.ash
 boolean handleBarrelFullOfBarrels(boolean daily);			//Defined in cc_ascend/cc_util.ash
 boolean handleCopiedMonster(item itm);						//Defined in cc_ascend/cc_util.ash
 boolean handleCopiedMonster(item itm, string option);		//Defined in cc_ascend/cc_util.ash
@@ -607,7 +629,6 @@ boolean picky_buyskills();									//Defined in cc_ascend/cc_picky.ash
 void picky_initializeSettings();							//Defined in cc_ascend/cc_picky.ash
 void picky_pulls();											//Defined in cc_ascend/cc_picky.ash
 void picky_startAscension();								//Defined in cc_ascend/cc_picky.ash
-int powderedGoldDrops();									//Defined in cc_ascend/cc_util.ash
 skill preferredLibram();									//Defined in cc_ascend/cc_util.ash
 location provideAdvPHPZone();								//Defined in cc_ascend/cc_util.ash
 boolean providePlusCombat(int amt);							//Defined in cc_ascend/cc_util.ash
@@ -777,3 +798,7 @@ record generic_t
 generic_t zone_needItem(location loc);						//Defined in cc_ascend/cc_zone.ash
 generic_t zone_combatMod(location loc);						//Defined in cc_ascend/cc_zone.ash
 generic_t zone_delay(location loc);							//Defined in cc_ascend/cc_zone.ash
+generic_t zone_available(location loc);						//Defined in cc_ascend/cc_zone.ash
+location[int] zone_list();									//Defined in cc_ascend/cc_zone.ash
+int[location] zone_delayable();								//Defined in cc_ascend/cc_zone.ash
+boolean zone_isAvailable(location loc);						//Defined in cc_ascend/cc_zone.ash

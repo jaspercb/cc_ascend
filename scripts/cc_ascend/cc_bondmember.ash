@@ -715,8 +715,6 @@ boolean LM_bond()
 				{
 					set_property("choiceAdventure878", 4);
 					set_property("cc_disableAdventureHandling", true);
-#					set_property("cc_bedroomHandler1", "yes");
-#					set_property("cc_bedroomHandler2", "yes");
 					timeSpinnerCombat($monster[Animated Ornate Nightstand]);
 					if(contains_text(visit_url("main.php"), "choice.php"))
 					{
@@ -727,9 +725,6 @@ boolean LM_bond()
 						ccAdv($location[The Haunted Bedroom]);
 					}
 					set_property("cc_disableAdventureHandling", false);
-#					set_property("cc_bedroomHandler1", "no");
-#					set_property("cc_bedroomHandler2", "no");
-
 				}
 			}
 		}
@@ -807,7 +802,28 @@ boolean LM_bond()
 			}
 			if(get_property("cc_gaudy") == "start")
 			{
-				abort("Made it too far. Done with BondStab Day 1, make sure you have a harem girl disguise, instant disposable camera, knob goblin firecracker");
+				if(!have_outfit("Knob Goblin Harem Girl Disguise"))
+				{
+					print("Need Harem Girl Disguise", "red");
+				}
+				if(item_amount($item[Disposable Instant Camera]) == 0)
+				{
+					print("Need Disposable Instant Camera", "red");
+				}
+				if(item_amount($item[Knob Goblin Firecracker]) == 0)
+				{
+					print("Need Knob Goblin Firecracker", "red");
+				}
+				if((item_amount($item[Perforated Battle Paddle]) > 0) && (spleen_left() > 0))
+				{
+					pulverizeThing($item[Perforated Battle Paddle]);
+					if((spleen_left() == 1) && (item_amount($item[Twinkly Wad]) > 0))
+					{
+						chew(1, $item[Twinkly Wad]);
+					}
+				}
+				abort("Made it too far. Done with BondStab Day 1");
+
 			}
 		}
 	}

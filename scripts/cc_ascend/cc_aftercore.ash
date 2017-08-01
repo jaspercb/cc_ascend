@@ -1121,6 +1121,10 @@ boolean cc_cheesePostCS(int leave)
 		if(item_amount($item[Snow Suit]) > 0)
 		{
 			equip($item[Snow Suit]);
+			if(get_property("snowsuit") != "nose")
+			{
+				cli_execute("snowsuit nose");
+			}
 		}
 		foreach fam in $familiars[Unconscious Collective, Li\'l Xenomorph, Bloovian Groose, Golden Monkey, Rogue Program, Space Jellyfish, Grim Brother, Fist Turkey, Rockin\' Robin, Optimistic Candle, Intergnat]
 		{
