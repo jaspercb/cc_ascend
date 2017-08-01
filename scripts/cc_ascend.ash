@@ -5057,7 +5057,7 @@ boolean L11_hiddenCity()
 		return false;
 	}
 
-	if(item_amount($item[[2180]Ancient Amulet]) == 0)
+	if(item_amount($item[[2180]Ancient Amulet]) == 1)
 	{
 		set_property("cc_hiddencity", "finished");
 		return true;
