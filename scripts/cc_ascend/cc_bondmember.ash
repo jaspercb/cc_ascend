@@ -596,7 +596,7 @@ boolean LM_bond()
 		{
 			if(get_property("_sourceTerminalDigitizeMonster") == $monster[Writing Desk])
 			{
-				if(get_property("_sourceTerminalDigitizeUses").to_int() == 1)
+				if((get_property("_sourceTerminalDigitizeUses").to_int() == 1) && (item_amount($item[White Pixel]) < 30) && (item_amount($item[Richard\'s Star Key]) == 0) && !contains_text(get_property("nsTowerDoorKeysUsed"), $item[Richard\'s Star Key]))
 				{
 					woods_questStart();
 					equip($slot[acc2], $item[Continuum Transfunctioner]);
@@ -613,7 +613,7 @@ boolean LM_bond()
 		{
 			if(get_property("_sourceTerminalDigitizeMonster") == $monster[Lobsterfrogman])
 			{
-				if((get_property("_sourceTerminalDigitizeUses").to_int() == 1) && (get_property("_timeSpinnerMinutesUsed").to_int() < 7))
+				if((get_property("_sourceTerminalDigitizeUses").to_int() == 1) && (get_property("_timeSpinnerMinutesUsed").to_int() < 7) && (item_amount($item[White Pixel]) < 30) && (item_amount($item[Richard\'s Star Key]) == 0) && !contains_text(get_property("nsTowerDoorKeysUsed"), $item[Richard\'s Star Key]))
 				{
 					cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
 					set_property("cc_combatDirective", "start;skill digitize");
@@ -627,8 +627,6 @@ boolean LM_bond()
 		if((internalQuestStatus("questL12War") >= 1) && (get_property("sidequestOrchardCompleted") == "none"))
 		{
 			if((item_amount($item[Filthworm Royal Guard Scent Gland]) == 0) && (item_amount($item[Heart Of The Filthworm Queen]) == 0) && canYellowRay())
-
-#have_skill($skill[Disintegrate]) && (have_effect($effect[Everything Looks Yellow]) == 0))
 			{
 				while((get_property("timesRested").to_int() < total_free_rests()) && (my_mp() < mp_cost($skill[Disintegrate])))
 				{
@@ -658,8 +656,9 @@ boolean LM_bond()
 				{
 					abort("Can not restore MP in order to disintegrate a filthworm. Please YR the filthworm we can access next. Thank you.");
 				}
-
+				set_property("cc_combatDirective", "start;" + yellowRayCombatString());
 				boolean retval = ccAdv(loc);
+				set_property("cc_combatDirective", "");
 				return retval;
 			}
 		}

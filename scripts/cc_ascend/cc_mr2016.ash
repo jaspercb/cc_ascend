@@ -1147,6 +1147,7 @@ boolean LX_ghostBusting()
 		if(newbieFail)
 		{
 			print("Can't bust that ghost, we don't feel good!!", "blue");
+			abort("Ghost busting failure, this should not happen");
 			set_property("questPAGhost", "unstarted");
 			set_property("ghostLocation", "");
 			return false;
