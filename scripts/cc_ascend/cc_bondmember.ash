@@ -346,7 +346,7 @@ boolean LM_bond()
 		return false;
 	}
 
-	if((item_amount($item[Victor\'s Spoils]) > 0) && !get_property("_victorsSpoiledUsed").to_boolean() && (my_adventures() < 10))
+	if((item_amount($item[Victor\'s Spoils]) > 0) && !get_property("_victorSpoilsUsed").to_boolean() && (my_adventures() < 10))
 	{
 		use(1, $item[Victor\'s Spoils]);
 	}
@@ -575,7 +575,7 @@ boolean LM_bond()
 		{
 			if(my_daycount() == 1)
 			{
-				if((item_amount($item[Victor\'s Spoils]) > 0) && !get_property("_victorsSpoiledUsed").to_boolean())
+				if((item_amount($item[Victor\'s Spoils]) > 0) && !get_property("_victorSpoilsUsed").to_boolean())
 				{
 					use(1, $item[Victor\'s Spoils]);
 				}
@@ -586,7 +586,7 @@ boolean LM_bond()
 			}
 			else
 			{
-				if((item_amount($item[Victor\'s Spoils]) > 0) && !get_property("_victorsSpoiledUsed").to_boolean())
+				if((item_amount($item[Victor\'s Spoils]) > 0) && !get_property("_victorSpoilsUsed").to_boolean())
 				{
 					use(1, $item[Victor\'s Spoils]);
 				}

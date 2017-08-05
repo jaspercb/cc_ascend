@@ -4429,6 +4429,7 @@ boolean L13_towerNSHedge()
 	visit_url("place.php?whichplace=nstower&action=ns_03_hedgemaze");
 	if(get_property("lastEncounter") == "This Maze is... Mazelike...")
 	{
+		run_choice(2);
 		abort("May not have enough adventures for the hedge maze. Failing");
 	}
 
@@ -7390,9 +7391,9 @@ boolean L11_getBeehive()
 	{
 		return false;
 	}
-	if(internalQuestStatus("questL13Final") >= 7)
+	if((internalQuestStatus("questL13Final") >= 7) || (item_amount($item[Beehive]) > 0))
 	{
-		print("Nevermind, wall of skin already defeated. We do not need a beehive. Bloop.", "blue");
+		print("Nevermind, wall of skin already defeated (or we already have a beehiven). We do not need a beehive. Bloop.", "blue");
 		set_property("cc_getBeehive", false);
 		return false;
 	}

@@ -1338,6 +1338,11 @@ boolean cc_cheesePostCS(int leave)
 			buffMaintain($effect[How to Scam Tourists], 0, 1, 1);
 		}
 		ccAdv(1, loc);
+		if((item_amount($item[License To Chill]) > 0) && !get_property("_licenseToChillUsed").to_boolean())
+		{
+			use(1, $item[License To Chill]);
+		}
+
 	}
 
 	if(fullness_left() > 0)

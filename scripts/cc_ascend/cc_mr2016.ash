@@ -477,16 +477,16 @@ boolean cc_advWitchess(string target, string option)
 		return false;
 	}
 
-	if(get_property("_witchessFights").to_int() >= 5)
-	{
-		return false;
-	}
+#	if(get_property("_witchessFights").to_int() >= 5)
+#	{
+#		return false;
+#	}
 
-	if(get_property("_witchessFights").to_int() > get_property("_cc_witchessBattles").to_int())
-	{
-		print("_witchessFights is greater than our tracking, it is probably more accurate at this point (assuming manual Witchess combats).", "red");
-		set_property("_cc_witchessBattles", get_property("_witchessFights"));
-	}
+#	if(get_property("_witchessFights").to_int() > get_property("_cc_witchessBattles").to_int())
+#	{
+#		print("_witchessFights is greater than our tracking, it is probably more accurate at this point (assuming manual Witchess combats).", "red");
+#		set_property("_cc_witchessBattles", get_property("_witchessFights"));
+#	}
 
 	set_property("_cc_witchessBattles", get_property("_cc_witchessBattles").to_int() + 1);
 
