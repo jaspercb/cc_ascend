@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18162;
+since r18171;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -595,7 +595,7 @@ boolean LX_universeFrat()
 {
 	if(my_daycount() >= 2)
 	{
-		if(have_outfit("Frat Warrior Fatigues"))
+		if(possessEquipment($item[Beer Helmet]) && possessEquipment($item[Distressed Denim Pants]) && possessEquipment($item[Bejeweled Pledge Pin]))
 		{
 			doNumberology("adventures3");
 		}
@@ -10449,7 +10449,7 @@ boolean L12_getOutfit()
 		pullXWhenHaveY($item[Distressed Denim Pants], 1, 0);
 	}
 
-	if(have_outfit("Frat Warrior Fatigues"))
+	if(possessEquipment($item[Beer Helmet]) && possessEquipment($item[Distressed Denim Pants]) && possessEquipment($item[Bejeweled Pledge Pin]))
 	{
 		set_property("choiceAdventure139", "3");
 		set_property("choiceAdventure140", "3");
@@ -10522,7 +10522,7 @@ boolean L12_preOutfit()
 		set_property("cc_prehippy", "firstOutfit");
 		return true;
 	}
-	if(have_outfit("Frat Warrior Fatigues"))
+	if(possessEquipment($item[Beer Helmet]) && possessEquipment($item[Distressed Denim Pants]) && possessEquipment($item[Bejeweled Pledge Pin]))
 	{
 		set_property("cc_prehippy", "firstOutfit");
 		return true;

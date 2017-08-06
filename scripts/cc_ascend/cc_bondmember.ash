@@ -801,6 +801,14 @@ boolean LM_bond()
 			}
 			if(get_property("cc_gaudy") == "start")
 			{
+				if((item_amount($item[Perforated Battle Paddle]) > 0) && (spleen_left() > 0))
+				{
+					pulverizeThing($item[Perforated Battle Paddle]);
+					if((spleen_left() == 1) && (item_amount($item[Twinkly Wad]) > 0))
+					{
+						chew(1, $item[Twinkly Wad]);
+					}
+				}
 				if(!have_outfit("Knob Goblin Harem Girl Disguise"))
 				{
 					print("Need Harem Girl Disguise", "red");
@@ -812,14 +820,6 @@ boolean LM_bond()
 				if(item_amount($item[Knob Goblin Firecracker]) == 0)
 				{
 					print("Need Knob Goblin Firecracker", "red");
-				}
-				if((item_amount($item[Perforated Battle Paddle]) > 0) && (spleen_left() > 0))
-				{
-					pulverizeThing($item[Perforated Battle Paddle]);
-					if((spleen_left() == 1) && (item_amount($item[Twinkly Wad]) > 0))
-					{
-						chew(1, $item[Twinkly Wad]);
-					}
 				}
 				abort("Made it too far. Done with BondStab Day 1");
 
