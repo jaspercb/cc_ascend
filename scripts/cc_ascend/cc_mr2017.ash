@@ -429,7 +429,14 @@ boolean kgb_getMartini(string page, boolean dontCare)
 		{
 			print("Did we accidentally solve a puzzle? Gonna assume so...", "green");
 			print("Hitting tab modification button: " + button, "blue");
+			int oldClicks = get_property("_kgbClicksUsed").to_int();
 			page = visit_url("place.php?whichplace=kgb&action=kgb_button" + button, false);
+			int newClicks = get_property("_kgbClicksUsed").to_int();
+			if(newClicks == oldClicks)
+			{
+				print("_kgbClicksUsed appears to not be tracking, please let the spies in.", "red");
+				set_property("_kgbClicksUSed", newClicks + 1);
+			}
 			if(kgb_tabHeight(page) < 11)
 			{
 				if(button == 0)

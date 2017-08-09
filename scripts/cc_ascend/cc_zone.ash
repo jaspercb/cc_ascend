@@ -420,7 +420,10 @@ generic_t zone_delay(location loc)
 		value = 5 - loc.turns_spent;
 		break;
 	case $location[The Hidden Park]:
-		value = 6 - loc.turns_spent;
+		if(!possessEquipment($item[Antique Machete]) || !possessEquipment($item[Muculent Machete]))
+		{
+			value = 6 - loc.turns_spent;
+		}
 		break;
 	case $location[The Hidden Apartment Building]:
 		value = 8 - loc.turns_spent;

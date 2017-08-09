@@ -3316,7 +3316,7 @@ string cs_combatKing(int round, string opp, string text)
 		abort("Wrong combat script called");
 	}
 
-	foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Tattle, Summon Love Mosquito, Shell Up, Silent Slam, Sauceshell, Summon Love Stinkbug, Extract, Turbo]
+	foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Tattle, Micrometeorite, Summon Love Mosquito, Shell Up, Silent Slam, Sauceshell, Summon Love Stinkbug, Extract, Turbo]
 	{
 		if((!contains_text(combatState, "(" + action + ")")) && have_skill(action) && (my_mp() > mp_cost(action)))
 		{
@@ -3350,7 +3350,7 @@ string cs_combatWitch(int round, string opp, string text)
 	{
 		abort("Wrong combat script called");
 	}
-	foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Compress, Summon Love Mosquito, Summon Love Stinkbug]
+	foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Compress, Micrometeorite, Summon Love Mosquito, Summon Love Stinkbug]
 	{
 		if((!contains_text(combatState, "(" + action + ")")) && have_skill(action) && (my_mp() > mp_cost(action)))
 		{

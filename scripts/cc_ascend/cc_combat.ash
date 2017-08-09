@@ -1213,6 +1213,12 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill pocket crumbs";
 		}
 
+		if((!contains_text(combatState, "micrometeorite")) && (have_skill($skill[Micrometeorite])))
+		{
+			set_property("cc_combatHandler", combatState + "(micrometeorite)");
+			return "skill " + $skill[Micrometeorite];
+		}
+
 		if((!contains_text(combatState, $item[Cow Poker])) && (item_amount($item[Cow Poker]) > 0))
 		{
 			if($monsters[Caugr, Moomy, Pharaoh Amoon-Ra Cowtep, Pyrobove, Spidercow] contains enemy)
@@ -1221,7 +1227,6 @@ string cc_combatHandler(int round, string opp, string text)
 				return "item " + $item[Cow Poker];
 			}
 		}
-
 
 		if((!contains_text(combatState, $item[Western-Style Skinning Knife])) && (item_amount($item[Western-Style Skinning Knife]) > 0))
 		{
@@ -2311,6 +2316,12 @@ string cc_edCombatHandler(int round, string opp, string text)
 		return "skill pocket crumbs";
 	}
 
+	if((!contains_text(combatState, "micrometeorite")) && (have_skill($skill[Micrometeorite])))
+	{
+		set_property("cc_combatHandler", combatState + "(micrometeorite)");
+		return "skill " + $skill[Micrometeorite];
+	}
+
 	if((!contains_text(combatState, "air dirty laundry")) && (have_skill($skill[air dirty laundry])))
 	{
 		set_property("cc_combatHandler", combatState + "(air dirty laundry)");
@@ -3128,7 +3139,7 @@ monster ocrs_helper(string page)
 	{
 		if(!contains_text(combatState, "unstoppable"))
 		{
-			set_property("cc_combatHandler", combatState + "(DNA)(air dirty laundry)(ply reality)(indigo cup)(love mosquito)(blue balls)(love gnats)(unstoppable)");
+			set_property("cc_combatHandler", combatState + "(DNA)(air dirty laundry)(ply reality)(indigo cup)(love mosquito)(blue balls)(love gnats)(unstoppable)(micrometeorite)");
 			#Block weaksauce and pocket crumbs?
 		}
 	}

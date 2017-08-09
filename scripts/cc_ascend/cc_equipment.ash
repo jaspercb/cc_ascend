@@ -946,7 +946,7 @@ void equipRollover()
 	}
 
 
-	poss = List($items[Coarse Hemp Socks, Red Armband, Tiny Plastic Crimbo Reindeer, Tiny Plastic Bitchin\' Meatcar, Dead Guy\'s Watch, Gold Wedding Ring, Tiny Plastic Golden Gundam, Tiny Die-Cast Golden Ring, BGE Pocket Calendar, Wristwatch of the White Knight, Imitation Nice Watch, Boots of Twilight Whispers, Aerogel Ascot, Official Council Aide Pin, Grandfather Watch, Gingerbeard, Fudgecycle, Spacegate Scientist\'s Insignia, Numberwang, Ticksilver Ring, Sasq&trade; Watch, Counterclockwise Watch, Treads of Loathing]);
+	poss = List($items[Coarse Hemp Socks, Red Armband, Tiny Plastic Crimbo Reindeer, Tiny Plastic Bitchin\' Meatcar, Dead Guy\'s Watch, Gold Wedding Ring, Tiny Plastic Golden Gundam, Tiny Die-Cast Golden Ring, BGE Pocket Calendar, Wristwatch of the White Knight, Imitation Nice Watch, Boots of Twilight Whispers, Aerogel Ascot, Official Council Aide Pin, Meteorthopedic Shoes, Grandfather Watch, Gingerbeard, Fudgecycle, Spacegate Scientist\'s Insignia, Numberwang, Ticksilver Ring, Sasq&trade; Watch, Counterclockwise Watch, Treads of Loathing]);
 	if(possessEquipment($item[Your Cowboy Boots]))
 	{
 		if(equipped_item($slot[bootspur]) == $item[Ticksilver Spurs])
