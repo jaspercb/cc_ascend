@@ -10,6 +10,9 @@ boolean solveKGBMastermind();
 boolean kgbDial(int dial, int curVal, int target);
 boolean kgbSetup();
 
+int horseCost();
+boolean getHorse(string type);
+
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem)
 {
 	return loveTunnelAcquire(enforcer, statItem, engineer, loveEffect, equivocator, giftItem, "");
@@ -904,4 +907,77 @@ boolean asdonFeed(item it, int qty)
 boolean asdonFeed(item it)
 {
 	return asdonFeed(it, 1);
+}
+
+int horseCost()
+{
+	if(get_property("_horseryRented").to_int() > 0)
+	{
+		return 500;
+	}
+	return 0;
+}
+
+boolean getHorse(string type)
+{
+	if(!get_property("horseryAvailable").to_boolean())
+	{
+		return false;
+	}
+	type = to_lower_case(type);
+	if((my_meat() < horseCost()) && (type != "return"))
+	{
+		return false;
+	}
+
+	int choice = -1;
+	if((type == "regen") || (type == "init"))
+	{
+		choice = 1;
+		if(get_property("_horsery") == "Initiative: +10")
+		{
+			return false;
+		}
+
+	}
+	else if((type == "-combat") || (type == "noncombat") || (type == "non-combat") || (type == "meat"))
+	{
+		if(get_property("_horsery") == "Combat Rate: -5")
+		{
+			return false;
+		}
+		choice = 2;
+	}
+	else if((type == "random") || (type == "hookah"))
+	{
+		if(contains_text(get_property("_horsery"), "Muscle Percent"))
+		{
+			return false;
+		}
+		choice = 3;
+	}
+	else if((type == "res") || (type == "resistance") || (type == "spooky") || (type == "damage"))
+	{
+		if(contains_text(get_property("_horsery"), "Cold Resistance"))
+		{
+			return false;
+		}
+		choice = 4;
+	}
+	else if(type == "return")
+	{
+		choice = 5;
+		set_property("_horsery", "");
+	}
+
+	if(choice == -1)
+	{
+		return false;
+	}
+	visit_url("choice.php?pwd=&whichchoice=1266&option=" + choice);
+	if(choice <= 4)
+	{
+		set_property("_horseryRented", get_property("_horseryRented").to_int() + 1);
+	}
+	return true;
 }

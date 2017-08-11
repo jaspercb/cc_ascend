@@ -506,6 +506,8 @@ item[element] getCharterIndexable();						//Defined in cc_ascend/cc_elementalPla
 boolean getDiscoStyle();									//Defined in cc_ascend/cc_elementalPlanes.ash
 boolean getDiscoStyle(int choice);							//Defined in cc_ascend/cc_elementalPlanes.ash
 boolean getSpaceJelly();									//Defined in cc_ascend/cc_mr2017.ash
+int horseCost();											//Defined in cc_ascend/cc_mr2017.ash
+boolean getHorse(string type);								//Defined in cc_ascend/cc_mr2017.ash
 boolean solveKGBMastermind();								//Defined in cc_ascend/cc_mr2017.ash
 boolean kgbDial(int dial, int curVal, int target);			//Defined in cc_ascend/cc_mr2017.ash
 boolean kgbSetup();											//Defined in cc_ascend/cc_mr2017.ash

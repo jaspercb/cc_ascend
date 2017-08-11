@@ -399,7 +399,10 @@ generic_t zone_delay(location loc)
 	switch(loc)
 	{
 	case $location[The Oasis]:
-		value = 5 - loc.turns_spent;
+		if(get_property("desertExploration").to_int() < 100)
+		{
+			value = 5 - loc.turns_spent;
+		}
 		break;
 	case $location[The Upper Chamber]:
 		value = 5 - loc.turns_spent;
@@ -420,7 +423,7 @@ generic_t zone_delay(location loc)
 		value = 5 - loc.turns_spent;
 		break;
 	case $location[The Hidden Park]:
-		if(!possessEquipment($item[Antique Machete]) || !possessEquipment($item[Muculent Machete]))
+		if(!possessEquipment($item[Antique Machete]) && !possessEquipment($item[Muculent Machete]))
 		{
 			value = 6 - loc.turns_spent;
 		}
