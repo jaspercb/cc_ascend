@@ -422,6 +422,11 @@ boolean canDrink(item toDrink)
 		}
 	}
 
+	if((toDrink == $item[Splendid Martini]) && (my_level() < 6))
+	{
+		return false;
+	}
+
 	return true;
 }
 

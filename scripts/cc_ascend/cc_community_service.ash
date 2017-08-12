@@ -324,7 +324,7 @@ boolean LA_cs_communityService()
 					buffMaintain($effect[Ode to Booze], 50, 1, 4);
 					drink(1, $item[Ice Island Long Tea]);
 				}
-				else if(item_amount($item[Splendid Martini]) > 0)
+				else if((item_amount($item[Splendid Martini]) > 0) && canDrink($item[Splendid Martini]))
 				{
 					if((my_mp() < mp_cost($skill[The Ode to Booze])) && (my_maxmp() >= 75))
 					{
