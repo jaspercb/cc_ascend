@@ -9490,6 +9490,10 @@ boolean LX_craftAcquireItems()
 
 boolean councilMaintenance()
 {
+	if(cc_my_path() == "Community Service")
+	{
+		return false;
+	}
 	if(my_level() > get_property("lastCouncilVisit").to_int())
 	{
 		council();
