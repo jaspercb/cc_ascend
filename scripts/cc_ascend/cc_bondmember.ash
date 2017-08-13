@@ -16,6 +16,10 @@ void bond_initializeSettings()
 		set_property("choiceAdventure1261", 1);
 		set_property("cc_familiarChoice", "");
 	}
+	else
+	{
+		return;
+	}
 
 	if(get_property("cc_dickstab").to_boolean())
 	{
