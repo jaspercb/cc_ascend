@@ -90,7 +90,7 @@ boolean LA_cs_communityService()
 	boolean [familiar] useFam;
 	if(((curQuest == 11) || (curQuest == 6) || (curQuest == 9)) && (my_spleen_use() < 12))
 	{
-		useFam = $familiars[Unconscious Collective, Grim Brother, Golden Monkey, Bloovian Groose, Baby Sandworm];
+		useFam = $familiars[Baby Sandworm, Unconscious Collective, Grim Brother, Golden Monkey, Bloovian Groose];
 	}
 	else
 	{
@@ -2808,11 +2808,17 @@ boolean cs_eat_spleen()
 	int oldSpleenUse = my_spleen_use();
 	while((my_spleen_use() < 12) && ((item_amount($item[Unconscious Collective Dream Jar]) + item_amount($item[Grim Fairy Tale]) + item_amount($item[Powdered Gold]) + item_amount($item[Groose Grease]) + item_amount($item[Agua De Vida])) > 0))
 	{
-		foreach it in $items[Unconscious Collective Dream Jar, Grim Fairy Tale, Powdered Gold, Agua De Vida, Groose Grease]
+		if((item_amount($item[Agua De Vida]) > 0) && (my_level() >= 4))
+		{
+			chew(1, $item[Agua De Vida]);
+			continue;
+		}
+		foreach it in $items[Unconscious Collective Dream Jar, Grim Fairy Tale, Powdered Gold, Groose Grease]
 		{
 			if(item_amount(it) > 0)
 			{
 				chew(1, it);
+				break;
 			}
 		}
 		uneffect($effect[Just the Best Anapests]);
