@@ -151,6 +151,26 @@ boolean LA_cs_communityService()
 		loveTunnelAcquire(true, $stat[none], true, 3, true, 1);
 		break;
 	}
+
+	//If they took a Thanksgarden, they get 4 cashews on day 1. Day 2?
+	//We want 5 cashews total.
+	//Make Mini-Marshmallow Dispenser, Glass Pie Plate, Potato Masher, Glass Casserole Dish
+
+
+	if(item_amount($item[Metal Meteoroid]) > 0)
+	{
+		foreach it in $items[Meteorthopedic Shoes, Meteorite Guard, Shooting Morning Star, Meteortarboard]
+		{
+			if(!possessEquipment(it))
+			{
+				int choice = 1 + to_int(it) - to_int($item[Meteortarboard]);
+				string temp = visit_url("inv_use.php?pwd=&which=3&whichitem=9516");
+				temp = visit_url("choice.php?pwd=&whichchoice=1264&option=" + choice);
+				break;
+			}
+		}
+	}
+
 	//Quest order on Day 1: 11, 6, 9 (Coiling Wire, Weapon Damage, Item)
 	//Day 2: 7, 10, 1, 2, 3, 4, 5, 8
 	if((my_daycount() == 2) && cc_haveWitchess() && have_skill($skill[Curse of Weaksauce]) && have_skill($skill[Tattle]) && have_skill($skill[Conspiratorial Whispers]) && have_skill($skill[Sauceshell]) && have_skill($skill[Shell Up]) && have_skill($skill[Silent Slam]) && !possessEquipment($item[Dented Scepter]) && (get_property("_cc_witchessBattles").to_int() < 5) && have_familiar($familiar[Galloping Grill]) && (my_ascensions() >= 100))
@@ -333,6 +353,16 @@ boolean LA_cs_communityService()
 					shrugAT($effect[Ode to Booze]);
 					buffMaintain($effect[Ode to Booze], 50, 1, (inebriety_left() - 9));
 					drink(min(item_amount($item[Splendid Martini]), (inebriety_left() - 9)), $item[Splendid Martini]);
+				}
+				else if(item_amount($item[Meadeorite]) > 0)
+				{
+					if((my_mp() < mp_cost($skill[The Ode to Booze])) && (my_maxmp() >= 75))
+					{
+						doRest();
+					}
+					shrugAT($effect[Ode to Booze]);
+					buffMaintain($effect[Ode to Booze], 50, 1, (inebriety_left() - 9));
+					drink(min(item_amount($item[Meadeorite]), (inebriety_left() - 9)), $item[Meadeorite]);
 				}
 
 			}
@@ -659,6 +689,11 @@ boolean LA_cs_communityService()
 				{
 					buffMaintain($effect[Ode to Booze], 50, 1, 1);
 					drink(1, $item[Iced Plum Wine]);
+				}
+				else if(item_amount($item[Meadeorite]) > 0)
+				{
+					buffMaintain($effect[Ode to Booze], 50, 1, 1);
+					drink(1, $item[Meadeorite]);
 				}
 				else if((get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 				{
@@ -1821,6 +1856,31 @@ boolean LA_cs_communityService()
 				curQuest = 0;
 				abort("Could not handle our quest and can not recover");
 			}
+
+			if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+			{
+				string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
+				if(contains_text(mod, "Weapon Damage Percent"))
+				{
+					string page = visit_url("place.php?whichplace=kgb");
+					boolean flipped = false;
+					if(contains_text(page, "handleup"))
+					{
+						page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+						flipped = true;
+					}
+
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button1", false);
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button3", false);
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button3", false);
+					page = visit_url("place.php?whichplace=kgb&action=kgb_button5", false);
+					if(flipped)
+					{
+						page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+					}
+				}
+			}
+
 		break;
 
 	case 7:		#Spell Damage
@@ -1927,30 +1987,6 @@ boolean LA_cs_communityService()
 					if(item_amount($item[Obsidian Nutcracker]) > 0)
 					{
 						equip($slot[familiar], $item[Obsidian Nutcracker]);
-					}
-				}
-			}
-
-			if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
-			{
-				string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
-				if(contains_text(mod, "Weapon Damage Percent"))
-				{
-					string page = visit_url("place.php?whichplace=kgb");
-					boolean flipped = false;
-					if(contains_text(page, "handleup"))
-					{
-						page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
-						flipped = true;
-					}
-
-					page = visit_url("place.php?whichplace=kgb&action=kgb_button1", false);
-					page = visit_url("place.php?whichplace=kgb&action=kgb_button3", false);
-					page = visit_url("place.php?whichplace=kgb&action=kgb_button3", false);
-					page = visit_url("place.php?whichplace=kgb&action=kgb_button5", false);
-					if(flipped)
-					{
-						page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
 					}
 				}
 			}
@@ -2876,6 +2912,10 @@ boolean cs_eat_stuff(int quest)
 			cli_execute("make 1 this charming flan");
 			eat(1, $item[This Charming Flan]);
 		}
+		if((item_amount($item[Meteoreo]) > 0) && (my_fullness() <= 4))
+		{
+			eat(1, $item[Meteoreo]);
+		}
 		if((item_amount($item[Snow Berries]) > 1) && (my_fullness() <= 4))
 		{
 			cli_execute("make 1 snow crab");
@@ -2920,6 +2960,10 @@ boolean cs_eat_stuff(int quest)
 			{
 				cli_execute("make 1 this charming flan");
 				eat(1, $item[This Charming Flan]);
+			}
+			if((item_amount($item[Meteoreo]) > 0) && (fullness_left() >= 1))
+			{
+				eat(1, $item[Meteoreo]);
 			}
 			if((item_amount($item[Snow Berries]) > 1) && (fullness_left() >= 1))
 			{
@@ -2997,23 +3041,28 @@ string cs_combatNormal(int round, string opp, string text)
 		}
 	}
 
+	if((my_location() == $location[The Skeleton Store]) && have_skill($skill[Meteor Lore]) &&(get_property("_macrometeoriteUses").to_int() < 10))
+	{
+		if($monsters[Factory-Irregular Skeleton, Remaindered Skeleton, Swarm of Skulls] contains enemy)
+		{
+			return "skill " + $skill[Macrometeorite];
+		}		
+	}
+
 	if((my_familiar() == $familiar[Pair of Stomping Boots]) && ($monsters[Ancient Insane Monk, Ferocious Bugbear, Gelatinous Cube, Knob Goblin Poseur] contains enemy))
 	{
 		return "runaway";
 	}
-/*
-	if(have_skill($skill[Duplicate]) && have_skill($skill[Curse of Weaksauce]) && have_skill($skill[Conspiratorial Whispers]) && (enemy == $monster[Sk8 Gnome]))
+
+	if((my_location() == $location[The Haiku Dungeon]) && have_skill($skill[Meteor Lore]) &&(get_property("_macrometeoriteUses").to_int() < 10))
 	{
-		foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Summon Love Mosquito, Shell Up, Silent Slam, Summon Love Stinkbug, Extract, Duplicate]
+		if($monsters[Ancient Insane Monk, Ferocious Bugbear, Gelatinous Cube, Knob Goblin Poseur] contains enemy)
 		{
-			if((!contains_text(combatState, "(" + action + ")")) && have_skill(action) && (my_mp() > mp_cost(action)))
-			{
-				set_property("cc_combatHandler", combatState + "(" + action + ")");
-				return "skill " + action;
-			}
-		}
+			return "skill " + $skill[Macrometeorite];
+		}		
 	}
-*/
+
+
 	if((my_location() == $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]) && !contains_text(combatState, "love gnats"))
 	{
 		combatState = combatState + "(love gnats)(love stinkbug)(love mosquito)";
@@ -3249,7 +3298,38 @@ string cs_combatYR(int round, string opp, string text)
 		}
 	}
 
-	boolean [monster] lookFor = $monsters[Dairy Goat, factory overseer (female), factory worker (female), mine overseer (male), mine overseer (female), mine worker (male), mine worker (female), sk8 gnome];
+	if((my_location() == $location[LavaCo&trade; Lamp Factory]) && have_skill($skill[Meteor Lore]) &&(get_property("_macrometeoriteUses").to_int() < 10))
+	{
+		if($monsters[Lava Golem] contains enemy)
+		{
+			return "skill " + $skill[Macrometeorite];
+		}		
+	}
+
+	if((my_location() == $location[The Velvet / Gold Mine]) && have_skill($skill[Meteor Lore]) &&(get_property("_macrometeoriteUses").to_int() < 10))
+	{
+		if($monsters[Healing Crystal Golem] contains enemy)
+		{
+			return "skill " + $skill[Macrometeorite];
+		}
+		if(possessEquipment($item[High-Temperature Mining Mask]))
+		{
+			if($monsters[Mine Worker (female), Mine Worker (male)] contains enemy)
+			{
+				return "skill " + $skill[Macrometeorite];
+			}
+		}
+		else
+		{
+			if($monsters[Mine Overseer (female), Mine Overseer (male)] contains enemy)
+			{
+				return "skill " + $skill[Macrometeorite];
+			}
+		}
+		
+	}
+
+	boolean [monster] lookFor = $monsters[Dairy Goat, Factory Overseer (female), Factory Overseer (male), Factory Worker (female), Factory Worker (male), Mine Overseer (male), Mine Overseer (female), Mine Worker (male), Mine Worker (female), sk8 Gnome];
 	if((have_effect($effect[Everything Looks Yellow]) == 0) && (lookFor contains enemy))
 	{
 		if(!contains_text(combatState, "yellowray"))
@@ -3278,6 +3358,7 @@ string cs_combatYR(int round, string opp, string text)
 			}
 		}
 	}
+
 
 	if((!contains_text(combatState, "summon love stinkbug")) && get_property("lovebugsUnlocked").to_boolean())
 	{
@@ -3324,7 +3405,7 @@ string cs_combatKing(int round, string opp, string text)
 		abort("Wrong combat script called");
 	}
 
-	foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Tattle, Micrometeorite, Summon Love Mosquito, Shell Up, Silent Slam, Sauceshell, Summon Love Stinkbug, Extract, Turbo]
+	foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Tattle, Micrometeorite, Summon Love Mosquito, Shell Up, Silent Slam, Sauceshell, Summon Love Stinkbug, Extract, Turbo, Meteor Shower]
 	{
 		if((!contains_text(combatState, "(" + action + ")")) && have_skill(action) && (my_mp() > mp_cost(action)))
 		{
@@ -3358,7 +3439,7 @@ string cs_combatWitch(int round, string opp, string text)
 	{
 		abort("Wrong combat script called");
 	}
-	foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Compress, Micrometeorite, Summon Love Mosquito, Summon Love Stinkbug]
+	foreach action in $skills[Curse of Weaksauce, Conspiratorial Whispers, Compress, Micrometeorite, Summon Love Mosquito, Summon Love Stinkbug, Meteor Shower]
 	{
 		if((!contains_text(combatState, "(" + action + ")")) && have_skill(action) && (my_mp() > mp_cost(action)))
 		{
