@@ -2815,7 +2815,7 @@ int doNumberology(string goal, boolean doIt, string option)
 	{
 		return -1;
 	}
-	if(my_mp() < 12)
+	if(my_mp() < 2)
 	{
 		return -1;
 	}

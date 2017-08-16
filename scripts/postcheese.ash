@@ -1060,7 +1060,7 @@ void handlePostAdventure()
 		}
 	}
 
-	if(my_level() < 13)
+	if((my_level() < 13) && !get_property("kingLiberated").to_boolean())
 	{
 		if(item_amount($item[pulled red taffy]) >= 6)
 		{
@@ -1082,13 +1082,12 @@ void handlePostAdventure()
 		buffMaintain($effect[From Nantucket], 0, 1, 1);
 		buffMaintain($effect[Squatting and Thrusting], 0, 1, 1);
 		buffMaintain($effect[You Read the Manual], 0, 1, 1);
+		buyableMaintain($item[Hair Spray], 1, 200, my_class() != $class[Turtle Tamer]);
+		buyableMaintain($item[Blood of the Wereseal], 1, 3500, (monster_level_adjustment() > 135));
+		buyableMaintain($item[Ben-gal&trade; Balm], 1, 200);
 	}
 
-	buyableMaintain($item[Ben-gal&trade; Balm], 1, 200);
 	buyableMaintain($item[Turtle Pheromones], 1, 800, my_class() == $class[Turtle Tamer]);
-	buyableMaintain($item[Hair Spray], 1, 200, my_class() != $class[Turtle Tamer]);
-	buyableMaintain($item[Blood of the Wereseal], 1, 3500, (monster_level_adjustment() > 135));
-
 
 	if((get_property("cc_beatenUpCount").to_int() <= 10) && (have_effect($effect[Beaten Up]) > 0) && (my_mp() >= mp_cost($skill[Tongue of the Walrus])) && have_skill($skill[Tongue of the Walrus]))
 	{

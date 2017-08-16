@@ -178,6 +178,11 @@ void handlePreAdventure(location place)
 			providePlusCombat(5, false);
 		}
 
+		if($locations[Whitey\'s Grove] contains place)
+		{
+			providePlusCombat(15, false);
+		}
+
 		if($locations[The F\'c\'le, Sonofa Beach] contains place)
 		{
 			providePlusCombat(25, false);

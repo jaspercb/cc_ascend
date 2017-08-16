@@ -10,7 +10,7 @@ generic_t zone_available(location loc);
 location[int] zone_list();
 int[location] zone_delayable();
 boolean zone_isAvailable(location loc);
-
+location[int] zones_available();
 
 boolean zone_isAvailable(location loc)
 {
@@ -130,6 +130,12 @@ generic_t zone_needItem(location loc)
 		if((item_amount($item[Stunt Nuts]) == 0) && (item_amount($item[Wet Stew]) == 0))
 		{
 			value = 10000.0/32.0;
+		}
+		break;
+	case $location[Whitey\'s Grove]:
+		if(((item_amount($item[Lion Oil]) == 0) || (item_amount($item[Bird Rib]) == 0)) && (item_amount($item[Wet Stew]) == 0) && (item_amount($item[Wet Stunt Nut Stew]) == 0) && (internalQuestStatus("questL11Palindome") < 5))
+		{
+			value = 10000.0/25.0;
 		}
 		break;
 	case $location[Cobb\'s Knob Harem]:
@@ -317,6 +323,12 @@ generic_t zone_combatMod(location loc)
 		if((item_amount($item[Photograph Of A Red Nugget]) == 0) || (item_amount($item[Photograph Of An Ostrich Egg]) == 0) || (item_amount($item[Photograph Of God]) == 0))
 		{
 			value = -70;
+		}
+		break;
+	case $location[Whitey\'s Grove]:
+		if(((item_amount($item[Lion Oil]) == 0) || (item_amount($item[Bird Rib]) == 0)) && (item_amount($item[Wet Stew]) == 0) && (item_amount($item[Wet Stunt Nut Stew]) == 0) && (internalQuestStatus("questL11Palindome") < 5))
+		{
+			value = 15;
 		}
 		break;
 	case $location[The Dark Neck of the Woods]:
@@ -528,7 +540,7 @@ generic_t zone_available(location loc)
 		retval._boolean = get_property("lowerChamberUnlock").to_boolean();
 		break;
 	case $location[The Daily Dungeon]:
-		retval._boolean = get_property("dailyDungeonDone").to_boolean();
+		retval._boolean = !get_property("dailyDungeonDone").to_boolean();
 		break;
 	case $location[The Skeleton Store]:
 		if(internalQuestStatus("questM23Meatsmith") >= 0)
@@ -668,7 +680,7 @@ generic_t zone_available(location loc)
 		}
 		break;
 	case $location[Guano Junction]:
-		if(elemental_resist($element[stench]) >= 1)
+		if((elemental_resist($element[stench]) >= 1) && (my_level() >= 4))
 		{
 			retval._boolean = true;
 		}
@@ -693,6 +705,12 @@ generic_t zone_available(location loc)
 		break;
 	case $location[The VERY Unquiet Garves]:
 		if(get_property("questL07Cyrptic") == "finished")
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Whitey\'s Grove]:
+		if((internalQuestStatus("questG02Whitecastle") >= 0) || (internalQuestStatus("questL11Palindome") >= 3))
 		{
 			retval._boolean = true;
 		}
@@ -901,6 +919,10 @@ generic_t zone_available(location loc)
 			retval._boolean = true;
 		}
 		break;
+	case $location[The Sleazy Back Alley]:
+	case $location[The Haiku Dungeon]:
+		retval._boolean = true;
+		break;
 	case $location[Smartest Adventurer Contest]:
 	case $location[Strongest Adventurer Contest]:
 	case $location[Smoothest Adventurer Contest]:
@@ -940,10 +962,21 @@ generic_t zone_available(location loc)
 }
 location[int] zone_list()
 {
-	return List($locations[8-Bit Realm, A-Boo Peak, The Arid\, Extra-Dry Desert, Barf Mountain, Barrrney\'s Barrr, The Bat Hole Entrance, The Batrat And Ratbat Burrow, The Battlefield (Frat Uniform), The Beanbat Chamber, Belowdecks, The Black Forest, The Boss Bat\'s Lair, The Bubblin\' Caldera, The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), Cobb\'s Knob Harem, Cobb\'s Knob Treasury, Coldest Adventurer Contest, The Daily Dungeon, The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Deep Machine Tunnels, The Defiled Alcove, The Defiled Cranny, The Defiled Niche, The Defiled Nook, The Extreme Slope, The F\'c\'le, Fastest Adventurer Contest, The Feeding Chamber, The Filthworm Queen\'s Chamber, Gingerbread Upscale Retail District, The Goatlet, Guano Junction, The Hatching Chamber, The Haunted Ballroom, The Haunted Bathroom, The Haunted Bedroom, The Haunted Billiards Room, The Haunted Boiler Room, The Haunted Conservatory, The Haunted Gallery, The Haunted Kitchen, The Haunted Laundry Room, The Haunted Library, The Haunted Pantry, The Haunted Wine Cellar, The Hidden Apartment Building, The Hidden Bowling Alley, The Hidden Hospital, The Hidden Office Building, The Hidden Park, The Hidden Temple, The Hole in the Sky, Hottest Adventurer Contest, The Icy Peak, Inside the Palindome, Itznotyerzitz Mine, Lair of the Ninja Snowmen, The Lower Chambers, Madness Bakery, A Massive Ziggurat, The Middle Chamber, Mist-Shrouded Peak, Near an Abandoned Refrigerator, Next to that Barrel with Something Burning in it, Noob Cave, The Oasis, Oil Peak, Out by that Rusted-Out Car, The Outskirts of Cobb\'s Knob, Over Where the Old Tires Are, An Overgrown Shrine (Northeast), An Overgrown Shrine (Northwest), An Overgrown Shrine (Southeast), An Overgrown Shrine (Southwest), The Penultimate Fantasy Airship, The Poop Deck, The Royal Guard Chamber, The Shore\, Inc. Travel Agency, The Skeleton Store, Sleaziest Adventurer Contest, Smartest Adventurer Contest, Smoothest Adventurer Contest, Spookiest Adventurer Contest, Stinkiest Adventurer Contest, Strongest Adventurer Contest, The Smut Orc Logging Camp, Sonofa Beach, The Spooky Forest, Summoning Chamber, Super Villain\'s Lair, The Themthar Hills, Throne Room, Through the Spacegate, Twin Peak, The Typical Tavern Cellar, The Upper Chamber, The VERY Unquiet Garves, The X-32-F Combat Training Snowman, Wartime Hippy Camp (Frat Disguise)]);
+	return List($locations[8-Bit Realm, A-Boo Peak, The Arid\, Extra-Dry Desert, Barf Mountain, Barrrney\'s Barrr, The Bat Hole Entrance, The Batrat And Ratbat Burrow, The Battlefield (Frat Uniform), The Beanbat Chamber, Belowdecks, The Black Forest, The Boss Bat\'s Lair, The Bubblin\' Caldera, The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), Cobb\'s Knob Harem, Cobb\'s Knob Treasury, Coldest Adventurer Contest, The Daily Dungeon, The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Deep Machine Tunnels, The Defiled Alcove, The Defiled Cranny, The Defiled Niche, The Defiled Nook, The Extreme Slope, The F\'c\'le, Fastest Adventurer Contest, The Feeding Chamber, The Filthworm Queen\'s Chamber, Gingerbread Upscale Retail District, The Goatlet, Guano Junction, The Haiku Dungeon, The Hatching Chamber, The Haunted Ballroom, The Haunted Bathroom, The Haunted Bedroom, The Haunted Billiards Room, The Haunted Boiler Room, The Haunted Conservatory, The Haunted Gallery, The Haunted Kitchen, The Haunted Laundry Room, The Haunted Library, The Haunted Pantry, The Haunted Wine Cellar, The Hidden Apartment Building, The Hidden Bowling Alley, The Hidden Hospital, The Hidden Office Building, The Hidden Park, The Hidden Temple, The Hole in the Sky, Hottest Adventurer Contest, The Icy Peak, Inside the Palindome, Itznotyerzitz Mine, Lair of the Ninja Snowmen, The Lower Chambers, Madness Bakery, A Massive Ziggurat, The Middle Chamber, Mist-Shrouded Peak, Near an Abandoned Refrigerator, Next to that Barrel with Something Burning in it, Noob Cave, The Oasis, Oil Peak, Out by that Rusted-Out Car, The Outskirts of Cobb\'s Knob, Over Where the Old Tires Are, An Overgrown Shrine (Northeast), An Overgrown Shrine (Northwest), An Overgrown Shrine (Southeast), An Overgrown Shrine (Southwest), The Penultimate Fantasy Airship, The Poop Deck, The Royal Guard Chamber, The Shore\, Inc. Travel Agency, The Skeleton Store, Sleaziest Adventurer Contest, The Sleazy Back Alley, Smartest Adventurer Contest, Smoothest Adventurer Contest, Spookiest Adventurer Contest, Stinkiest Adventurer Contest, Strongest Adventurer Contest, The Smut Orc Logging Camp, Sonofa Beach, The Spooky Forest, Summoning Chamber, Super Villain\'s Lair, The Themthar Hills, Throne Room, Through the Spacegate, Twin Peak, The Typical Tavern Cellar, The Upper Chamber, The VERY Unquiet Garves, The X-32-F Combat Training Snowman, Wartime Hippy Camp (Frat Disguise), Whitey\'s Grove]);
 }
 
-
+location[int] zones_available()
+{
+	location[int] retval;
+	foreach idx, loc in zone_list()
+	{
+		if(zone_isAvailable(loc))
+		{
+			retval[count(retval)] = loc;
+		}
+	}
+	return retval;
+}
 
 /*
 	case $location[The Oasis]:

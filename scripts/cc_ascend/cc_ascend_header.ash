@@ -804,3 +804,5 @@ generic_t zone_available(location loc);						//Defined in cc_ascend/cc_zone.ash
 location[int] zone_list();									//Defined in cc_ascend/cc_zone.ash
 int[location] zone_delayable();								//Defined in cc_ascend/cc_zone.ash
 boolean zone_isAvailable(location loc);						//Defined in cc_ascend/cc_zone.ash
+location[int] zones_available();							//Defined in cc_ascend/cc_zone.ash
+

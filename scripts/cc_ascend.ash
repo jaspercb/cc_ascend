@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18174;
+since r18188;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -5063,7 +5063,7 @@ boolean L11_hiddenCity()
 		set_property("cc_hiddencity", "finished");
 		return true;
 	}
-	else if(item_amount($item[[7963]Ancient Amulet]) == 1)
+	else if((item_amount($item[[7963]Ancient Amulet]) == 0) && (my_class() == $class[Ed]))
 	{
 		set_property("cc_hiddencity", "finished");
 		return true;
@@ -9900,7 +9900,7 @@ boolean LX_islandAccess()
 
 boolean LX_phatLootToken()
 {
-	if(!possessEquipment($item[Ring of Detect Boring Doors]) || (item_amount($item[Eleven-Foot Pole]) == 0) || (item_amount($item[Pick-O-Matic Lockpicks]) == 0))
+	if((!possessEquipment($item[Ring of Detect Boring Doors]) || (item_amount($item[Eleven-Foot Pole]) == 0) || (item_amount($item[Pick-O-Matic Lockpicks]) == 0)) && have_familiar($familiar[Gelatinous Cubeling]))
 	{
 		return false;
 	}
@@ -9922,9 +9922,15 @@ boolean LX_phatLootToken()
 	set_property("choiceAdventure691", "2");
 	set_property("choiceAdventure692", "3");
 	set_property("choiceAdventure693", "2");
-	equip($slot[acc3], $item[Ring Of Detect Boring Doors]);
+	if(item_amount($item[Ring Of Detect Boring Doors]) > 0)
+	{
+		equip($slot[acc3], $item[Ring Of Detect Boring Doors]);
+	}
 	ccAdv(1, $location[The Daily Dungeon]);
-	cli_execute("unequip acc3");
+	if(possessEquipment($item[Ring Of Detect Boring Doors]))
+	{
+		cli_execute("unequip acc3");
+	}
 	if(get_property("_lastDailyDungeonRoom").to_int() == 15)
 	{
 		set_property("cc_phatloot", "" + my_daycount());
