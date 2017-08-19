@@ -11534,8 +11534,9 @@ boolean L11_forgedDocuments()
 	{
 		return false;
 	}
-	if(my_meat() < 5500)
+	if(my_meat() < 5000)
 	{
+		print("Could not buy Forged Identification Documents, can not steal identities!", "red");
 		return false;
 	}
 

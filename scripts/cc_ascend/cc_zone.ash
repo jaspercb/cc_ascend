@@ -680,7 +680,7 @@ generic_t zone_available(location loc)
 		}
 		break;
 	case $location[Guano Junction]:
-		if((elemental_resist($element[stench]) >= 1) && (my_level() >= 4))
+		if((elemental_resist($element[stench]) >= 1) && (internalQuestStatus("questL04Bat") >= 0))
 		{
 			retval._boolean = true;
 		}

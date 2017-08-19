@@ -1060,7 +1060,7 @@ void handlePostAdventure()
 		}
 	}
 
-	if((my_level() < 13) && !get_property("kingLiberated").to_boolean())
+	if((my_level() < 13) && !get_property("kingLiberated").to_boolean() && (my_meat() > 1000))
 	{
 		if(item_amount($item[pulled red taffy]) >= 6)
 		{

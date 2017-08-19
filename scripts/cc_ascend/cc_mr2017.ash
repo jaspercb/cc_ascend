@@ -843,7 +843,7 @@ boolean asdonAutoFeed()
 	}
 
 	boolean didOnce = false;
-	foreach it in $items[A Little Sump\'m Sump\'m, Backwoods Screwdriver, Ballroom Blintz, Bean Burrito, Bilge Wine,  Bottle Of Laundry Sherry, Black Forest Ham, Cactus Fruit, Dusty Bottle Of Marsala, Dusty Bottle Of Merlot, Dusty Bottle Of Pinot Noir, Enchanted Bean Burrito, Giant Heirloom Grape Tomato, Gin And Tonic, Insanely Spicy Bean Burrito, Insanely Spicy Enchanted Bean Burrito, Insanely Spicy Jumping Bean Burrito, Jumping Bean Burrito, Jungle Floor Wax, Loaf of Soda Bread, Margarita, Mimosette, Mornington Crescent Roll, Open Sauce, Pestopiary, Pink Pony, Roll In The Hay, Salacious Crumbs, Screwdriver, Slap And Tickle, Slip \'N\' Slide, Snifter Of Thoroughly Aged Brandy, Spicy Bean Burrito, Spicy Enchanted Bean Burrito, Spicy Jumping Bean Burrito, Stolen Sushi, Strawberry Daiquiri, Succulent Marrow, Tequila Sunrise, Tequila Sunset, Typical Tavern Swill, Vodka And Tonic, Zmobie]
+	foreach it in $items[A Little Sump\'m Sump\'m, Backwoods Screwdriver, Bag Of GORP, Ballroom Blintz, Bean Burrito, Bilge Wine,  Bottle Of Laundry Sherry, Black Forest Ham, Cactus Fruit, CSA Scoutmaster\'s &quot;water&quot;, Dusty Bottle Of Marsala, Dusty Bottle Of Merlot, Dusty Bottle Of Pinot Noir, Enchanted Bean Burrito, Giant Heirloom Grape Tomato, Gin And Tonic, Haggis-Wrapped Haggis-Stuffed Haggis, Insanely Spicy Bean Burrito, Insanely Spicy Enchanted Bean Burrito, Insanely Spicy Jumping Bean Burrito, Jumping Bean Burrito, Jungle Floor Wax, Loaf of Soda Bread, Margarita, McLeod\'s Hard Haggis-Ade, Mimosette, Mornington Crescent Roll, Open Sauce, Pestopiary, Pink Pony, Roll In The Hay, Salacious Crumbs, Screwdriver, Slap And Tickle, Slip \'N\' Slide, Snifter Of Thoroughly Aged Brandy, Spicy Bean Burrito, Spicy Enchanted Bean Burrito, Spicy Jumping Bean Burrito, Stolen Sushi, Strawberry Daiquiri, Succulent Marrow, Tequila Sunrise, Tequila Sunset, Typical Tavern Swill, Vodka And Tonic, Water Purification Pills, Zmobie]
 	{
 		if(item_amount(it) > 0)
 		{
@@ -859,6 +859,7 @@ boolean asdonAutoFeed()
 	if((get_fuel() < goal) && (my_meat() > 12000) && knoll_available() && isGeneralStoreAvailable())
 	{
 		int want = ((goal + 5) - get_fuel()) / 6;
+		want = min(3 + ((my_meat() - 12000) / 1000), want);
 		cli_execute("make " + want + " " + $item[Loaf of Soda Bread]);
 		asdonFeed($item[Loaf of Soda Bread], want);
 		didOnce = true;
