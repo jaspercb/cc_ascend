@@ -6153,7 +6153,7 @@ boolean L13_sorceressDoor()
 		}
 	}
 
-	if(item_amount($item[white pixel]) >= 30)
+	if((item_amount($item[white pixel]) >= 30) && (item_amount($item[Digital Key]) == 0))
 	{
 		cli_execute("make digital key");
 		set_property("cc_crackpotjar", "finished");

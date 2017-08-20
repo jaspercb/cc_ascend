@@ -3031,13 +3031,23 @@ string cs_combatNormal(int round, string opp, string text)
 	phylum current = to_phylum(get_property("dnaSyringe"));
 	phylum type = monster_phylum(enemy);
 
-	if((!contains_text(combatState, "snokebomb")) && (have_skill($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
+	if((!contains_text(combatState, "snokebomb")) && have_skill($skill[Snokebomb]) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
 	{
 		if($monsters[Flame-Broiled Meat Blob, Overdone Flame-Broiled Meat Blob, Swarm of Skulls] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(Snokebomb)");
 			handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
 			return "skill " + $skill[Snokebomb];
+		}
+	}
+
+	if((!contains_text(combatState, $skill[KGB Tranquilizer Dart])) && have_skill($skill[KGB Tranquilizer Dart]) && (get_property("_kgbTranquilizerDartUses").to_int() < 3))
+	{
+		if($monsters[Flame-Broiled Meat Blob, Keese, Overdone Flame-Broiled Meat Blob, Remaindered Skeleton] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(" + $skill[KGB Tranquilizer Dart] + ")");
+			handleTracker(enemy, $skill[KGB Tranquilizer Dart], "cc_banishes");
+			return "skill " + $skill[KGB Tranquilizer Dart];
 		}
 	}
 
