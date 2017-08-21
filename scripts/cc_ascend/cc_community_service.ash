@@ -2410,10 +2410,10 @@ boolean cs_witchess()
 	{
 		return false;
 	}
-	if(get_property("_witchessFights").to_int() >= 5)
-	{
-		return false;
-	}
+#	if(get_property("_witchessFights").to_int() >= 5)
+#	{
+#		return false;
+#	}
 
 	print("Let's do a Witchess combat!", "green");
 
