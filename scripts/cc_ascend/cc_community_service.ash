@@ -140,6 +140,15 @@ boolean LA_cs_communityService()
 		{
 			loveTunnelAcquire(true, $stat[none], true, 3, true, 3);
 		}
+		getHorse("regen");
+		if((item_amount($item[Cashew]) == 4) && !possessEquipment($item[Glass Casserole Dish]))
+		{
+			cli_execute("make " + $item[Glass Casserole Dish]);
+		}
+		if((item_amount($item[Cashew]) == 3) && !possessEquipment($item[Glass Pie Plate]))
+		{
+			cli_execute("make " + $item[Glass Pie Plate]);
+		}
 		break;
 	case 2:
 		if(curQuest == 5)
@@ -152,9 +161,10 @@ boolean LA_cs_communityService()
 		break;
 	}
 
+
 	//If they took a Thanksgarden, they get 4 cashews on day 1. Day 2?
 	//We want 5 cashews total.
-	//Make Mini-Marshmallow Dispenser, Glass Pie Plate, Potato Masher, Glass Casserole Dish
+	//Make Mini-Marshmallow Dispenser, Potato Masher
 
 
 	if(item_amount($item[Metal Meteoroid]) > 0)
