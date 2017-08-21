@@ -141,11 +141,15 @@ boolean LA_cs_communityService()
 			loveTunnelAcquire(true, $stat[none], true, 3, true, 3);
 		}
 		getHorse("regen");
-		if((item_amount($item[Cashew]) == 4) && !possessEquipment($item[Glass Casserole Dish]))
+		if(item_amount($item[Cornucopia]) == 1)
+		{
+			use(1, $item[Cornucopia]);
+		}
+		if((item_amount($item[Cashew]) >= 1) && !possessEquipment($item[Glass Casserole Dish]))
 		{
 			cli_execute("make " + $item[Glass Casserole Dish]);
 		}
-		if((item_amount($item[Cashew]) == 3) && !possessEquipment($item[Glass Pie Plate]))
+		if((item_amount($item[Cashew]) >= 2) && !possessEquipment($item[Glass Pie Plate]) && !have_skill($skill[Meteor Lore]))
 		{
 			cli_execute("make " + $item[Glass Pie Plate]);
 		}
@@ -155,17 +159,23 @@ boolean LA_cs_communityService()
 		{
 			loveTunnelAcquire(true, $stat[Moxie], true, 2, true, 3);
 		}
+		if(item_amount($item[Cornucopia]) == 1)
+		{
+			use(1, $item[Cornucopia]);
+		}
+		if((item_amount($item[Cashew]) >= 2) && !possessEquipment($item[Mini-Marshmallow Dispenser]))
+		{
+			cli_execute("make " + $item[Mini-Marshmallow Dispenser]);
+		}
+		if((item_amount($item[Cashew]) >= 2) && !possessEquipment($item[Potato Masher]))
+		{
+			cli_execute("make " + $item[Potato Masher]);
+		}
 		break;
 	default:
 		loveTunnelAcquire(true, $stat[none], true, 3, true, 1);
 		break;
 	}
-
-
-	//If they took a Thanksgarden, they get 4 cashews on day 1. Day 2?
-	//We want 5 cashews total.
-	//Make Mini-Marshmallow Dispenser, Potato Masher
-
 
 	if(item_amount($item[Metal Meteoroid]) > 0)
 	{
