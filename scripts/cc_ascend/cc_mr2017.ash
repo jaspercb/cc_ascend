@@ -819,6 +819,10 @@ boolean asdonBuff(effect goal)
 
 boolean asdonAutoFeed()
 {
+	if(my_class() == $class[Ed])
+	{
+		return false;
+	}
 	if(!(cc_get_campground() contains $item[Asdon Martin Keyfob]))
 	{
 		return false;
