@@ -274,7 +274,7 @@ boolean LA_cs_communityService()
 		print("Setting wanderer flags", "green");
 		setAdvPHPFlag();
 	}
-	asdonAutoFeed();
+	asdonAutoFeed(37);
 
 	if((curQuest == 11) || (curQuest == 6) || (curQuest == 9) || (curQuest == 7))
 	{

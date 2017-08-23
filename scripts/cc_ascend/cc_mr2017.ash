@@ -819,6 +819,11 @@ boolean asdonBuff(effect goal)
 
 boolean asdonAutoFeed()
 {
+	return asdonAutoFeed(-1);
+}
+
+boolean asdonAutoFeed(int goal)
+{
 	if(my_class() == $class[Ed])
 	{
 		return false;
@@ -840,10 +845,13 @@ boolean asdonAutoFeed()
 		return false;
 	}
 
-	int goal = 137;
-	if(get_property("_missileLauncherUsed").to_boolean())
+	if(goal == -1)
 	{
-		goal = 87;
+		goal = 137;
+		if(get_property("_missileLauncherUsed").to_boolean())
+		{
+			goal = 87;
+		}
 	}
 
 	boolean didOnce = false;
