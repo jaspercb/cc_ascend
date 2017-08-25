@@ -1029,7 +1029,7 @@ void equipRollover()
 
 	### Original end of rollover accessory code.
 
-	if(have_familiar($familiar[Trick-or-Treating Tot]) && !possessEquipment($item[Li\'l Unicorn Costume]) && !is100FamiliarRun() && (my_meat() > (5000 + npc_price($item[Li\'l Unicorn Costume]))))
+	if(have_familiar($familiar[Trick-or-Treating Tot]) && !possessEquipment($item[Li\'l Unicorn Costume]) && !is100FamiliarRun() && (my_meat() > (3000 + npc_price($item[Li\'l Unicorn Costume]))))
 	{
 		cli_execute("buy Li\'l Unicorn Costume");
 	}

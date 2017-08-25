@@ -1317,6 +1317,10 @@ string yellowRayCombatString()
 		return "";
 	}
 
+	if(have_skill($skill[Disintegrate]) && (my_mp() >= (100 + mp_cost($skill[Disintegrate]))))
+	{
+		return "skill " + $skill[Disintegrate];
+	}
 	if(item_amount($item[Yellowcake Bomb]) > 0)
 	{
 		return "item " + $item[Yellowcake Bomb];

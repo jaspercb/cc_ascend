@@ -2133,34 +2133,52 @@ boolean LA_cs_communityService()
 		break;
 
 	case 9:		#item/booze drops
-			if(have_familiar($familiar[Trick-or-Treating Tot]) && have_familiar($familiar[Pair of Stomping Boots]) && !possessEquipment($item[Li\'l Ninja Costume]))
-			{
-				buffMaintain($effect[Empathy], 15, 1, 1);
-				buffMaintain($effect[Leash of Linguini], 12, 1, 1);
-				int runs = (familiar_weight($familiar[Pair of Stomping Boots]) + weight_adjustment()) / 5;
-				runs = runs - get_property("_banderRunaways").to_int();
-				while(runs > 0)
-				{
-					handleFamiliar($familiar[Pair of Stomping Boots]);
-					backupSetting("choiceAdventure297", "3");
-					ccAdv(1, $location[The Haiku Dungeon], "cs_combatNormal");
-					restoreSetting("choiceAdventure297");
-					if($monsters[Ancient Insane Monk, Ferocious Bugbear, Gelatinous Cube, Knob Goblin Poseur] contains last_monster())
-					{
-						set_property("_banderRunaways", get_property("_banderRunaways").to_int() + 1);
-					}
-					if(possessEquipment($item[Li\'l Ninja Costume]))
-					{
-						break;
-					}
-				}
-			}
-
-			cs_eat_stuff(curQuest);
 			if(have_effect($effect[Drenched in Lava]) > 0)
 			{
 				doHottub();
 			}
+
+			if((isOverdueDigitize() || isOverdueArrow()) && elementalPlanes_access($element[stench]))
+			{
+				print("A Wanderer event is expected now.", "blue");
+				ccAdv(1, $location[Barf Mountain], "cs_combatNormal");
+				return true;
+			}
+
+			if(have_familiar($familiar[Trick-or-Treating Tot]) && !possessEquipment($item[Li\'l Ninja Costume]))
+			{
+				if(have_familiar($familiar[Pair of Stomping Boots]))
+				{
+					buffMaintain($effect[Empathy], 15, 1, 1);
+					buffMaintain($effect[Leash of Linguini], 12, 1, 1);
+					int runs = (familiar_weight($familiar[Pair of Stomping Boots]) + weight_adjustment()) / 5;
+					runs = runs - get_property("_banderRunaways").to_int();
+					while(runs > 0)
+					{
+						handleFamiliar($familiar[Pair of Stomping Boots]);
+						backupSetting("choiceAdventure297", "3");
+						ccAdv(1, $location[The Haiku Dungeon], "cs_combatNormal");
+						restoreSetting("choiceAdventure297");
+						if($monsters[Ancient Insane Monk, Ferocious Bugbear, Gelatinous Cube, Knob Goblin Poseur] contains last_monster())
+						{
+							set_property("_banderRunaways", get_property("_banderRunaways").to_int() + 1);
+						}
+						if(possessEquipment($item[Li\'l Ninja Costume]))
+						{
+							break;
+						}
+					}
+				}
+				else if(have_skill($skill[Meteor Lore]) && (get_property("_macrometeoriteUses").to_int() < 10))
+				{
+					backupSetting("choiceAdventure297", "3");
+					boolean result = ccAdv(1, $location[The Haiku Dungeon], "cs_combatNormal");
+					restoreSetting("choiceAdventure297");
+					return result;
+				}
+			}
+
+			cs_eat_stuff(curQuest);
 
 			while((my_mp() < 154) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
@@ -2243,6 +2261,10 @@ boolean LA_cs_communityService()
 				chew(1, $item[Abstraction: Certainty]);
 			}
 
+			if(!get_property("_incredibleSelfEsteemCast").to_boolean() && (my_mp() > mp_cost($skill[Incredible Self-Esteem])) && have_skill($skill[Incredible Self-Esteem]))
+			{
+				use_skill(1, $skill[Incredible Self-Esteem]);
+			}
 
 			if(do_cs_quest(9))
 			{
@@ -2704,6 +2726,8 @@ boolean do_chateauGoat()
 			buffMaintain(eff, mp_cost(to_skill(eff)), 1, 1);
 		}
 
+		cc_sourceTerminalEducate($skill[Compress], $skill[Turbo]);
+
 		if(canYellowRay())
 		{
 			if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
@@ -2725,6 +2749,7 @@ boolean do_chateauGoat()
 			}
 			cli_execute("make milk of magnesium");
 		}
+		cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
 		return true;
 	}
 	return false;
@@ -3372,7 +3397,11 @@ string cs_combatYR(int round, string opp, string text)
 				return "skill " + $skill[Macrometeorite];
 			}
 		}
-		
+	}
+
+	if(have_skill($skill[Turbo]) && have_skill($skill[Disintegrate]) && (my_mp() < 150) && (my_mp() > mp_cost($skill[Turbo])))
+	{
+		return "skill " + $skill[Turbo];
 	}
 
 	boolean [monster] lookFor = $monsters[Dairy Goat, Factory Overseer (female), Factory Overseer (male), Factory Worker (female), Factory Worker (male), Mine Overseer (male), Mine Overseer (female), Mine Worker (male), Mine Worker (female), sk8 Gnome];
