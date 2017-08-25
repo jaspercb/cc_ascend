@@ -61,36 +61,36 @@ generic_t zone_needItem(location loc)
 	switch(loc)
 	{
 	case $location[The Oasis]:
-		value = 10000.0/30.0;
+		value = 30.0;
 		break;
 	case $location[The Middle Chamber]:
-		value = 10000.0/20.0;
+		value = 20.0;
 		break;
 	case $location[The Deep Machine Tunnels]:
-		value = 10000.0/30.0;			#Just a guess.
+		value = 30.0;			#Just a guess.
 		break;
 	case $location[The Haunted Laundry Room]:
 	case $location[The Haunted Wine Cellar]:
-		value = 10000.0/5.0;
+		value = 5.0;
 		break;
 	case $location[The Hidden Park]:
 	case $location[The Hidden Apartment Building]:
 	case $location[The Hidden Office Building]:
 		if((get_property("hiddenTavernUnlock").to_int() < my_ascensions()) && !contains_text(get_property("banishedMonsters"), $monster[Pygmy Janitor]))
 		{
-			value = 10000.0/20.0;
+			value = 20.0;
 		}
 		break;
 	case $location[The Hidden Bowling Alley]:
 		// Should actually check if we have used 4/5 already.
 		if(item_amount($item[Bowling Ball]) == 0)
 		{
-			value = 10000.0/40.0;
+			value = 40.0;
 		}
 		//Once we have completed the Bowling Alley, we do not care about this anymore.
 		if((get_property("hiddenTavernUnlock").to_int() < my_ascensions()) && !contains_text(get_property("banishedMonsters"), $monster[Pygmy Janitor]))
 		{
-			value = 10000.0/20.0;
+			value = 20.0;
 		}
 		break;
 	case $location[The Hidden Temple]:
@@ -98,7 +98,7 @@ generic_t zone_needItem(location loc)
 		//Or via the semi-rare!		(100/50/20 for SR, 25 Sheep)
 		break;
 	case $location[8-Bit Realm]:
-		value = 10000.0/60.0;
+		value = 60.0;
 		break;
 	case $location[The Black Forest]:
 		//Is it possible we want blackberries?
@@ -106,46 +106,46 @@ generic_t zone_needItem(location loc)
 	case $location[The Beanbat Chamber]:
 		if(item_amount($item[Enchanted Bean]) == 0)
 		{
-			value = 10000.0/50.0;
+			value = 50.0;
 		}
 		if(internalQuestStatus("questL04Bat") < 3)
 		{
-			value = 10000.0/10.0;
+			value = 10.0;
 		}
 		break;
 	case $location[The Batrat And Ratbat Burrow]:
 		if(internalQuestStatus("questL04Bat") < 3)
 		{
-			value = 10000.0/15.0;
+			value = 15.0;
 		}
 		break;
 	case $location[The Bat Hole Entrance]:
 	case $location[Guano Junction]:
 		if(internalQuestStatus("questL04Bat") < 3)
 		{
-			value = 10000.0/10.0;
+			value = 10.0;
 		}
 		break;
 	case $location[Inside the Palindome]:
 		if((item_amount($item[Stunt Nuts]) == 0) && (item_amount($item[Wet Stew]) == 0))
 		{
-			value = 10000.0/32.0;
+			value = 32.0;
 		}
 		break;
 	case $location[Whitey\'s Grove]:
 		if(((item_amount($item[Lion Oil]) == 0) || (item_amount($item[Bird Rib]) == 0)) && (item_amount($item[Wet Stew]) == 0) && (item_amount($item[Wet Stunt Nut Stew]) == 0) && (internalQuestStatus("questL11Palindome") < 5))
 		{
-			value = 10000.0/25.0;
+			value = 25.0;
 		}
 		break;
 	case $location[Cobb\'s Knob Harem]:
 		if(item_amount($item[Knob Goblin Perfume]) == 0)
 		{
-			value = 10000.0/25.0;
+			value = 25.0;
 		}
 		if(!have_outfit("Knob Goblin Harem Girl Disguise"))
 		{
-			value = 10000.0/20.0;
+			value = 20.0;
 		}
 		break;
 	case $location[The Dark Neck of the Woods]:
@@ -153,37 +153,37 @@ generic_t zone_needItem(location loc)
 	case $location[The Dark Elbow of the Woods]:
 		if(item_amount($item[Hot Wing]) < 3)
 		{
-			value = 10000.0/30.0;
+			value = 30.0;
 		}
 		break;
 	case $location[The Defiled Nook]:
 		// Handle for a gravy boat?
 		if(get_property("cyrptNookEvilness").to_int() > 26)
 		{
-			value = 10000.0/20.0;
+			value = 20.0;
 		}
 		break;
 	case $location[Barrrney\'s Barrr]:
 		if(item_amount($item[Cocktail Napkin]) == 0)
 		{
-			value = 10000.0/10.0;
+			value = 10.0;
 		}
 		break;
 	case $location[The F\'c\'le]:
 		if((item_amount($item[Ball Polish]) == 0) || (item_amount($item[Mizzenmast Mop]) == 0) ||(item_amount($item[Rigging Shampoo]) == 0))
 		{
-			value = 10000.0/30.0;
+			value = 30.0;
 		}
 		break;
 	case $location[The Hatching Chamber]:
 	case $location[The Feeding Chamber]:
 	case $location[The Royal Guard Chamber]:
-		value = 10000.0/10.0;
+		value = 10.0;
 		break;
 	case $location[The Smut Orc Logging Camp]:
 		if(item_amount($item[Ten-Leaf Clover]) == 0)
 		{
-			value = 10000.0/10.0;
+			value = 10.0;
 		}
 		break;
 	case $location[A-Boo Peak]:
@@ -196,12 +196,12 @@ generic_t zone_needItem(location loc)
 			}
 			if(progress > 4)
 			{
-				value = 10000.0/15.0;
+				value = 15.0;
 			}
 		}
 		break;
 	case $location[Twin Peak]:
-		value = 10000.0/15.0;
+		value = 15.0;
 		break;
 	case $location[Oil Peak]:
 		// Should probably also check for Twin Peak completion here.
@@ -209,38 +209,38 @@ generic_t zone_needItem(location loc)
 		{
 			if(monster_level_adjustment() > 100)
 			{
-				value = 10000.0/10.0;
+				value = 10.0;
 			}
 			else if(monster_level_adjustment() > 50)
 			{
-				value = 10000.0/30.0;
+				value = 30.0;
 			}
 		}
 		break;
 	case $location[Itznotyerzitz Mine]:
 		if(item_amount($item[Ten-Leaf Clover]) == 0)
 		{
-			value = 10000.0/10.0;
+			value = 10.0;
 		}
 		break;
 	case $location[The Goatlet]:
-		value = 10000.0/40.0;
+		value = 40.0;
 		break;
 
 	case $location[The Extreme Slope]:
 		if(!have_outfit("extreme cold-weather gear"))
 		{
-			value = 10000.0/10.0;
+			value = 10.0;
 		}
 
 	case $location[The Penultimate Fantasy Airship]:
 		if(!possessEquipment($item[Amulet Of Extreme Plot Significance]) && !possessEquipment($item[Titanium Assault Umbrella]))
 		{
-			value = 10000.0/10.0;
+			value = 10.0;
 		}
 		if(!possessEquipment($item[Mohawk Wig]))
 		{
-			value = 10000.0/10.0;
+			value = 10.0;
 		}
 		break;
 	case $location[The Castle in the Clouds in the Sky (Basement)]:
@@ -252,11 +252,11 @@ generic_t zone_needItem(location loc)
 	case $location[The Hole in the Sky]:
 		if((item_amount($item[Star]) < 8) || (item_amount($item[Line]) < 7))
 		{
-			value = 10000.0/30.0;
+			value = 30.0;
 		}
 		break;
 	case $location[Barf Mountain]:
-		retval._float = 10000.0/15.0;
+		retval._float = 15.0;
 		break;
 	default:
 		retval._error = true;
@@ -266,7 +266,12 @@ generic_t zone_needItem(location loc)
 	if(value != 0.0)
 	{
 		retval._boolean = true;
-		retval._float = value;
+		retval._float = 10000.0/value;
+
+		if(cc_my_path() == "Live. Ascend. Repeat.")
+		{
+			retval._float = 5000.0/value;
+		}
 	}
 	return retval;
 }

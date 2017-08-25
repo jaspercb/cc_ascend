@@ -987,7 +987,8 @@ boolean getHorse(string type)
 	{
 		return false;
 	}
-	visit_url("choice.php?pwd=&whichchoice=1266&option=" + choice);
+	string temp = visit_url("place.php?whichplace=town_right&action=town_horsery");
+	temp = visit_url("choice.php?pwd=&whichchoice=1266&option=" + choice);
 	if(choice <= 4)
 	{
 		set_property("_horseryRented", get_property("_horseryRented").to_int() + 1);

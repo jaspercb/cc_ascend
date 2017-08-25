@@ -1405,6 +1405,11 @@ boolean LA_cs_communityService()
 				chew(1, $item[Abstraction: Action]);
 			}
 
+			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0))
+			{
+				cli_execute("spacegate vaccine 2");
+			}
+
 			if(do_cs_quest(2))
 			{
 				cli_execute("refresh inv");
@@ -1472,6 +1477,11 @@ boolean LA_cs_communityService()
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
 				cli_execute("drink 1 bee's knees");
+			}
+
+			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0))
+			{
+				cli_execute("spacegate vaccine 2");
 			}
 
 			if(do_cs_quest(3))
@@ -1548,6 +1558,12 @@ boolean LA_cs_communityService()
 			{
 				chew(1, $item[Abstraction: Sensation]);
 			}
+
+#			At this point, we are probably only saving 1.75 turns or so, do not bother.
+#			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0))
+#			{
+#				cli_execute("spacegate vaccine 2");
+#			}
 
 			if(do_cs_quest(4))
 			{
