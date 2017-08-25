@@ -7024,6 +7024,14 @@ boolean L12_filthworms()
 		equip($slot[hat], $item[Training Helmet]);
 	}
 
+	if(cc_my_path() == "Live. Ascend. Repeat.")
+	{
+		if(item_drop_modifier() < 400.0)
+		{
+			abort("Can not handle item drop amount for the Filthworms, deja vu!! Either get us to +400% and rerun or do it yourself.");
+		}
+	}
+
 	if(have_effect($effect[Filthworm Drone Stench]) > 0)
 	{
 		if(canYellowRay())
@@ -8334,6 +8342,15 @@ boolean L7_crypt()
 	if((get_property("romanticTarget") != $monster[modern zmobie]) && (get_property("cc_waitingArrowAlcove").to_int() < 50))
 	{
 		set_property("cc_waitingArrowAlcove", 50);
+	}
+
+	if(cc_my_path() == "Live. Ascend. Repeat.")
+	{
+		string repeats = get_property("lastEncounter");
+		if((repeats == "Skull, Skull, Skull") || (repeats == "Urning Your Keep") || (repeats == "Turn Your Head and Coffin"))
+		{
+			abort("You have a non-combat in the crypt and we are going to infintely loop on it like a groundhog. Maybe you should spend this adventure somewhere to ease the pain for all of us.");
+		}
 	}
 
 	if((get_property("cyrptAlcoveEvilness").to_int() > 0) && ((get_property("cyrptAlcoveEvilness").to_int() <= get_property("cc_waitingArrowAlcove").to_int()) || (get_property("cyrptAlcoveEvilness").to_int() <= 25)) && edAlcove)
