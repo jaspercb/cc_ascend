@@ -30,7 +30,6 @@ import <cc_ascend/cc_mr2016.ash>
 import <cc_ascend/cc_mr2017.ash>
 
 import <cc_ascend/cc_boris.ash>
-import <cc_ascend/cc_bondmember.ash>
 import <cc_ascend/cc_jellonewbie.ash>
 import <cc_ascend/cc_fallout.ash>
 import <cc_ascend/cc_community_service.ash>
@@ -41,6 +40,8 @@ import <cc_ascend/cc_standard.ash>
 import <cc_ascend/cc_edTheUndying.ash>
 import <cc_ascend/cc_summerfun.ash>
 import <cc_ascend/cc_awol.ash>
+import <cc_ascend/cc_bondmember.ash>
+import <cc_ascend/cc_groundhog.ash>
 import <cc_ascend/cc_monsterparts.ash>
 import <cc_ascend/cc_theSource.ash>
 import <cc_ascend/cc_optionals.ash>
@@ -260,6 +261,7 @@ void initializeSettings()
 	bond_initializeSettings();
 	fallout_initializeSettings();
 	pete_initializeSettings();
+	groundhog_initializeSettings();
 }
 
 boolean handleFamiliar(string type)
@@ -1853,7 +1855,7 @@ void initializeDay(int day)
 
 			hr_initializeDay(day);
 
-			if((item_amount($item[Antique Accordion]) == 0) && isGeneralStoreAvailable() && !($classes[Accordion Thief, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()) && (my_meat() > npc_price($item[Toy Accordion])))
+			if((item_amount($item[Antique Accordion]) == 0) && (item_amount($item[Aerogel Accordion]) == 0) && isGeneralStoreAvailable() && !($classes[Accordion Thief, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()) && (my_meat() > npc_price($item[Toy Accordion])))
 			{
 				buyUpTo(1, $item[Toy Accordion]);
 			}
@@ -1917,7 +1919,7 @@ void initializeDay(int day)
 				pulverizeThing($item[vicar\'s tutu]);
 			}
 			while(acquireHermitItem($item[Ten-Leaf Clover]));
-			if((item_amount($item[Antique Accordion]) == 0) && isUnclePAvailable() && !($classes[Accordion Thief, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()))
+			if((item_amount($item[Antique Accordion]) == 0) && (item_amount($item[Aerogel Accordion]) == 0) && isUnclePAvailable() && !($classes[Accordion Thief, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()))
 			{
 				buyUpTo(1, $item[Antique Accordion]);
 			}
@@ -8344,15 +8346,6 @@ boolean L7_crypt()
 		set_property("cc_waitingArrowAlcove", 50);
 	}
 
-	if(cc_my_path() == "Live. Ascend. Repeat.")
-	{
-		string repeats = get_property("lastEncounter");
-		if((repeats == "Skull, Skull, Skull") || (repeats == "Urning Your Keep") || (repeats == "Turn Your Head and Coffin"))
-		{
-			abort("You have a non-combat in the crypt and we are going to infintely loop on it like a groundhog. Maybe you should spend this adventure somewhere to ease the pain for all of us.");
-		}
-	}
-
 	if((get_property("cyrptAlcoveEvilness").to_int() > 0) && ((get_property("cyrptAlcoveEvilness").to_int() <= get_property("cc_waitingArrowAlcove").to_int()) || (get_property("cyrptAlcoveEvilness").to_int() <= 25)) && edAlcove)
 	{
 		handleFamiliar("init");
@@ -9430,7 +9423,7 @@ boolean LX_craftAcquireItems()
 	}
 
 	#Can we have some other way to check that we have AT skills?
-	if((item_amount($item[Antique Accordion]) == 0) && isUnclePAvailable() && (my_meat() > 12500) && (have_skill($skill[The Ode to Booze])) && (my_class() != $class[Accordion Thief]))
+	if((item_amount($item[Antique Accordion]) == 0) && (item_amount($item[Aerogel Accordion]) == 0) && isUnclePAvailable() && (my_meat() > 12500) && (have_skill($skill[The Ode to Booze])) && (my_class() != $class[Accordion Thief]))
 	{
 		buyUpTo(1, $item[Antique Accordion]);
 	}
@@ -12987,6 +12980,8 @@ boolean doTasks()
 
 	ocrs_postCombatResolve();
 	beatenUpResolution();
+	groundhogSafeguard();
+
 
 	//Early adventure options that we probably want
 	if(dna_startAcquire())				return true;
