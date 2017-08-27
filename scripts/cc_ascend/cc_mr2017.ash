@@ -872,18 +872,24 @@ boolean asdonAutoFeed(int goal)
 	{
 		int want = ((goal + 5) - get_fuel()) / 6;
 		want = min(3 + ((my_meat() - 12000) / 1000), want);
-		cli_execute("make " + want + " " + $item[Loaf of Soda Bread]);
-		asdonFeed($item[Loaf of Soda Bread], want);
-		didOnce = true;
+		if(want > 0)
+		{
+			cli_execute("make " + want + " " + $item[Loaf of Soda Bread]);
+			asdonFeed($item[Loaf of Soda Bread], want);
+			didOnce = true;
+		}
 	}
 
-	goal = 40;
+	goal = 37;
 	if((get_fuel() < goal) && (my_meat() > 3500) && knoll_available() && isGeneralStoreAvailable())
 	{
 		int want = ((goal + 5) - get_fuel()) / 6;
-		cli_execute("make " + want + " " + $item[Loaf of Soda Bread]);
-		asdonFeed($item[Loaf of Soda Bread], want);
-		didOnce = true;
+		if(want > 0)
+		{
+			cli_execute("make " + want + " " + $item[Loaf of Soda Bread]);
+			asdonFeed($item[Loaf of Soda Bread], want);
+			didOnce = true;
+		}
 	}
 
 	if(didOnce)

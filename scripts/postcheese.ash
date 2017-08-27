@@ -83,7 +83,7 @@ void handlePostAdventure()
 	}
 
 
-	if((my_location() == $location[The Lower Chambers]) && (item_amount($item[2334]) == 0))
+	if((my_location() == $location[The Lower Chambers]) && (item_amount($item[[2334]Holy MacGuffin]) == 0))
 	{
 		print("Postadventure skipped by Ed the Undying!", "green");
 		return;
@@ -233,82 +233,19 @@ void handlePostAdventure()
 			buffMaintain($effect[Blessing of Serqet], 15, 1, 1);
 		}
 
-		#+NC Maintenance
-		if($locations[The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Defiled Alcove, The Defiled Cranny, The Haunted Ballroom, The Haunted Bathroom, The Haunted Billiards Room, The Haunted Gallery, The Hidden Hospital, Inside the Palindome, The Obligatory Pirate\'s Cove, The Penultimate Fantasy Airship, The Poop Deck, The Spooky Forest, Twin Peak, Wartime Hippy Camp] contains my_location())
-		{
-			if((have_effect($effect[Shelter of Shed]) == 0) && (my_mp() < 15))
-			{
-				print("We are having an MP problem damn it.... I wish I knew what data to output here to help with it.", "red");
-				print("You probably want to abort and use some MP restorer. Sorry dude... otherwise, you can suck up the delays :)", "red");
-				wait(10);
-				if(item_amount($item[Magical Mystery Juice]) > 0)
-				{
-					use(1, $item[Magical Mystery Juice]);
-				}
-				else if(item_amount($item[Phonics Down]) > 0)
-				{
-					use(1, $item[Phonics Down]);
-				}
-				else if(item_amount($item[Tiny House]) > 0)
-				{
-					use(1, $item[Tiny House]);
-				}
-				else if(item_amount($item[Grogpagne]) > 0)
-				{
-					use(1, $item[Grogpagne]);
-				}
-				else if(item_amount($item[Holy Spring Water]) > 0)
-				{
-					use(1, $item[Holy Spring Water]);
-				}
-				else if(item_amount($item[Spirit Beer]) > 0)
-				{
-					use(1, $item[Spirit Beer]);
-				}
-				else if(item_amount($item[Sacramental Wine]) > 0)
-				{
-					use(1, $item[Sacramental Wine]);
-				}
-			}
-			buffMaintain($effect[Shelter of Shed], 15, 1, 1);
-		}
 		if((my_mp() + 100) < my_maxmp())
 		{
-			if(item_amount($item[Magical Mystery Juice]) > 0)
-			{
-				use(1, $item[Magical Mystery Juice]);
-			}
-			else if(item_amount($item[Grogpagne]) > 0)
-			{
-				use(1, $item[Grogpagne]);
-			}
-			else if(item_amount($item[Phonics Down]) > 0)
-			{
-				use(1, $item[Phonics Down]);
-			}
-			else if(item_amount($item[Tiny House]) > 0)
-			{
-				use(1, $item[Tiny House]);
-			}
-			else if(item_amount($item[Holy Spring Water]) > 0)
-			{
-				use(1, $item[Holy Spring Water]);
-			}
-			else if(item_amount($item[Spirit Beer]) > 0)
-			{
-				use(1, $item[Spirit Beer]);
-			}
-			else if(item_amount($item[Sacramental Wine]) > 0)
-			{
-				use(1, $item[Sacramental Wine]);
-			}
+			acquireMP(100, false);
 		}
 		return;
 	}
 
 	skill libram = preferredLibram();
 
-	buffMaintain($effect[Merry Smithsness], 0, 1, 10);
+	if(my_adventures() > 20)
+	{
+		buffMaintain($effect[Merry Smithsness], 0, 1, 10);
+	}
 
 	#Deal with Poison, (should do all of them actually)
 	if((have_effect($effect[Really Quite Poisoned]) > 0) || (have_effect($effect[A Little Bit Poisoned]) > 0) || (have_effect($effect[Majorly Poisoned]) > 0))
@@ -441,72 +378,12 @@ void handlePostAdventure()
 		useCocoon();
 	}
 
-	#+C Maintenance
-	if($locations[The Black Forest, The F\'c\'le, Sonofa Beach] contains my_location())
-	{
-		uneffect($effect[The Sonata of Sneakiness]);
-		buffMaintain($effect[Hippy Stench], 0, 1, 10);
-		buffMaintain($effect[Musk of the Moose], 15, 1, 2);
-		buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 25, 1, 2);
-	}
-	#+C Maintenance
-	if(my_location() == $location[Barrrney\'s Barrr])
-	{
-		if(numPirateInsults() < 7)
-		{
-			uneffect($effect[The Sonata Of Sneakiness]);
-			buffMaintain($effect[Musk of the Moose], 15, 1, 2);
-			buffMaintain($effect[Carlweather\'s Cantata of Confrontation], 25, 1, 2);
-		}
-		else
-		{
-			uneffect($effect[Carlweather\'s Cantata Of Confrontation]);
-			buffMaintain($effect[Smooth Movements], 15, 1, 2);
-			buffMaintain($effect[The Sonata of Sneakiness], 25, 1, 2);
-			buffMaintain($effect[Muffled], 15, 1, 1);
-			buffMaintain($effect[Brooding], 25, 1, 1);
-		}
-	}
 
 	if(have_skill($skill[Thunderheart]) && (my_thunder() >= 90) && ((my_turncount() - get_property("cc_lastthunderturn").to_int()) >= 9))
 	{
 		use_skill(1, $skill[Thunderheart]);
 	}
 
-
-	#+NC Maintenance
-	if((my_location() == $location[The Penultimate Fantasy Airship]) ||
-		(my_location() == $location[Twin Peak]) ||
-		(my_location() == $location[A Maze of Sewer Tunnels]) ||
-		(my_location() == $location[The Poop Deck]) ||
-		(my_location() == $location[The Haunted Ballroom]) ||
-		(my_location() == $location[The Haunted Billiards Room]) ||
-		(my_location() == $location[The Haunted Gallery]) ||
-		(my_location() == $location[The Haunted Bathroom]) ||
-		(my_location() == $location[The Hidden Hospital]) ||
-		(my_location() == $location[Inside the Palindome]) ||
-		(my_location() == $location[The Dark Neck of the Woods]) ||
-		(my_location() == $location[The Dark Heart of the Woods]) ||
-		(my_location() == $location[The Dark Elbow of the Woods]) ||
-		(my_location() == $location[The Defiled Cranny]) ||
-		(my_location() == $location[The Defiled Alcove]) ||
-		(my_location() == $location[The Upper Chamber]) ||
-		(my_location() == $location[The Spooky Forest]) ||
-		(my_location() == $location[The Middle Chamber]) ||
-		(my_location() == $location[Inside the Palindome]) ||
-		(my_location() == $location[The Hidden Hospital]) ||
-		(my_location() == $location[The Obligatory Pirate\'s Cove]) ||
-		(my_location() == $location[Wartime Hippy Camp]) ||
-		(my_location() == $location[The Castle in the Clouds in the Sky (Basement)]) ||
-		(my_location() == $location[The Castle in the Clouds in the Sky (Top Floor)]) ||
-		(my_location() == $location[The Castle in the Clouds in the Sky (Ground Floor)])
-	)
-	{
-		buffMaintain($effect[Smooth Movements], 15, 1, 2);
-		buffMaintain($effect[The Sonata of Sneakiness], 25, 1, 2);
-		buffMaintain($effect[Muffled], 15, 1, 1);
-		buffMaintain($effect[Brooding], 25, 1, 1);
-	}
 
 	effect awolDesired = awol_walkBuff();
 	if(awolDesired != $effect[none])
@@ -543,7 +420,6 @@ void handlePostAdventure()
 	{
 		buffMaintain($effect[Power Ballad of the Arrowsmith], 7, 1, 5);
 		buffMaintain(whatStatSmile(), 15, 1, 10);
-#		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 20, 1, 10);
 		buffMaintain($effect[Leash of Linguini], 20, 1, 10);
 		if(regen > 10.0)
 		{
@@ -564,7 +440,6 @@ void handlePostAdventure()
 
 		if(regen > 10.0)
 		{
-#			buffMaintain($effect[Singer\'s Faithful Ocelot], 35, 1, 10);
 			buffMaintain($effect[Rage of the Reindeer], 30, 1, 10);
 		}
 		buffMaintain($effect[Astral Shell], 35, 1, 10);
@@ -600,7 +475,6 @@ void handlePostAdventure()
 	{
 		buffMaintain($effect[Power Ballad of the Arrowsmith], 7, 1, 5);
 		buffMaintain(whatStatSmile(), 20, 1, 10);
-#		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 30, 1, 10);
 		buffMaintain($effect[Leash of Linguini], 30, 1, 10);
 		if(regen > 10.0)
 		{
@@ -621,7 +495,6 @@ void handlePostAdventure()
 		}
 #		buffMaintain($effect[Prayer of Seshat], 5, 1, 10);
 
-#		buffMaintain($effect[Singer\'s Faithful Ocelot], 40, 1, 10);
 		if(regen > 10.0)
 		{
 			buffMaintain($effect[Rage of the Reindeer], 40, 1, 10);
@@ -661,7 +534,6 @@ void handlePostAdventure()
 	}
 	else if(my_maxmp() < 170)
 	{
-#		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 50, 1, 10);
 		if(my_level() < 13)
 		{
 			buffMaintain(whatStatSmile(), 40, 1, 10);
@@ -688,7 +560,6 @@ void handlePostAdventure()
 
 #		buffMaintain($effect[Prayer of Seshat], 5, 1, 10);
 
-#		buffMaintain($effect[Singer\'s Faithful Ocelot], 80, 1, 10);
 		buffMaintain($effect[Rage of the Reindeer], 80, 1, 10);
 		buffMaintain($effect[Astral Shell], 80, 1, 10);
 		buffMaintain($effect[Elemental Saucesphere], 120, 1, 10);
@@ -990,33 +861,9 @@ void handlePostAdventure()
 		}
 	}
 
-	if(get_property("cc_cubeItems").to_boolean() && (item_amount($item[ring of detect boring doors]) == 1) && (item_amount($item[eleven-foot pole]) == 1) && (item_amount($item[pick-o-matic lockpicks]) == 1))
+	if(get_property("cc_cubeItems").to_boolean() && (item_amount($item[Ring Of Detect Boring Doors]) == 1) && (item_amount($item[Eleven-Foot Pole]) == 1) && (item_amount($item[Pick-O-Matic Lockpicks]) == 1))
 	{
 		set_property("cc_cubeItems", false);
-	}
-
-	if(!get_property("cc_cubeItems").to_boolean() && (my_familiar() == $familiar[Gelatinous cubeling]) && !is100FamiliarRun())
-	{
-		if(have_familiar($familiar[Fist Turkey]))
-		{
-			use_familiar($familiar[Fist Turkey]);
-		}
-		else if(have_familiar($familiar[Piano Cat]))
-		{
-			use_familiar($familiar[Piano Cat]);
-		}
-	}
-
-	if((my_daycount() == 1) && (my_familiar() == $familiar[Fist Turkey]) && (get_property("_turkeyBooze").to_int() >= 5)  && !is100FamiliarRun())
-	{
-		if(have_familiar($familiar[Angry Jung Man]))
-		{
-			use_familiar($familiar[Angry Jung Man]);
-		}
-		else if(have_familiar($familiar[Piano Cat]))
-		{
-			use_familiar($familiar[Piano Cat]);
-		}
 	}
 
 	if(!get_property("kingLiberated").to_boolean())
@@ -1060,7 +907,7 @@ void handlePostAdventure()
 		}
 	}
 
-	if((my_level() < 13) && !get_property("kingLiberated").to_boolean() && (my_meat() > 1000))
+	if((my_level() < 13) && !get_property("kingLiberated").to_boolean() && (my_meat() > 7500))
 	{
 		if(item_amount($item[pulled red taffy]) >= 6)
 		{

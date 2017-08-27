@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18188;
+since r18197;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -6745,41 +6745,6 @@ boolean L12_sonofaBeach()
 	{
 		return false;
 	}
-	if(!providePlusCombat(25))
-	{
-		print("Failure in +Combat acquisition or -Combat shrugging (lobsterfrogman), delaying", "red");
-		return false;
-	}
-
-	if(equipped_item($slot[acc1]) == $item[over-the-shoulder folder holder])
-	{
-		if((item_amount($item[Ass-Stompers of Violence]) > 0) && (equipped_item($slot[acc1]) != $item[Ass-Stompers of Violence]) && can_equip($item[Ass-Stompers of Violence]))
-		{
-			equip($slot[acc1], $item[Ass-Stompers of Violence]);
-		}
-		else
-		{
-			equip($slot[acc1], $item[bejeweled pledge pin]);
-		}
-	}
-	if(item_amount($item[portable cassette player]) > 0)
-	{
-		equip($slot[acc2], $item[portable cassette player]);
-	}
-
-	if(item_amount($item[barrel of gunpowder]) < 4)
-	{
-		set_property("cc_doCombatCopy", "yes");
-	}
-
-	if(numeric_modifier("Combat Rate") <= 9.0)
-	{
-		if(possessEquipment($item[Carpe]))
-		{
-			equip($slot[Back], $item[Carpe]);
-		}
-	}
-
 
 	//Seriously? http://alliancefromhell.com/viewtopic.php?t=1338
 	if(item_amount($item[Wool Hat]) == 1)
@@ -6791,13 +6756,48 @@ boolean L12_sonofaBeach()
 		pulverizeThing($item[Goatskin Umbrella]);
 	}
 
-	asdonBuff($effect[Driving Obnoxiously]);
-
-	if(numeric_modifier("Combat Rate") < 0.0)
+	if(cc_my_path() != "Live. Ascend. Repeat.")
 	{
-		print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Lobsterfrogmen.", "red");
-		equipBaseline();
-		return false;
+		if(!providePlusCombat(25))
+		{
+			print("Failure in +Combat acquisition or -Combat shrugging (lobsterfrogman), delaying", "red");
+			return false;
+		}
+
+		if(equipped_item($slot[acc1]) == $item[over-the-shoulder folder holder])
+		{
+			if((item_amount($item[Ass-Stompers of Violence]) > 0) && (equipped_item($slot[acc1]) != $item[Ass-Stompers of Violence]) && can_equip($item[Ass-Stompers of Violence]))
+			{
+				equip($slot[acc1], $item[Ass-Stompers of Violence]);
+			}
+			else
+			{
+				equip($slot[acc1], $item[bejeweled pledge pin]);
+			}
+		}
+		if(item_amount($item[portable cassette player]) > 0)
+		{
+			equip($slot[acc2], $item[portable cassette player]);
+		}
+		if(numeric_modifier("Combat Rate") <= 9.0)
+		{
+			if(possessEquipment($item[Carpe]))
+			{
+				equip($slot[Back], $item[Carpe]);
+			}
+		}
+		asdonBuff($effect[Driving Obnoxiously]);
+		if(numeric_modifier("Combat Rate") < 0.0)
+		{
+			print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Lobsterfrogmen.", "red");
+			equipBaseline();
+			return false;
+		}
+	}
+
+	if(item_amount($item[barrel of gunpowder]) < 4)
+	{
+		set_property("cc_doCombatCopy", "yes");
 	}
 
 	ccAdv(1, $location[Sonofa Beach]);
@@ -6872,41 +6872,6 @@ boolean L12_sonofaPrefix()
 	{
 		return false;
 	}
-	if(!providePlusCombat(25))
-	{
-		print("Failure in +Combat acquisition or -Combat shrugging (lobsterfrogman), delaying", "red");
-		return false;
-	}
-
-	if(equipped_item($slot[acc1]) == $item[over-the-shoulder folder holder])
-	{
-		if((item_amount($item[Ass-Stompers of Violence]) > 0) && (equipped_item($slot[acc1]) != $item[Ass-Stompers of Violence]) && can_equip($item[Ass-Stompers of Violence]))
-		{
-			equip($slot[acc1], $item[Ass-Stompers of Violence]);
-		}
-		else
-		{
-			equip($slot[acc1], $item[bejeweled pledge pin]);
-		}
-	}
-	if(item_amount($item[portable cassette player]) > 0)
-	{
-		equip($slot[acc2], $item[portable cassette player]);
-	}
-
-	if(item_amount($item[barrel of gunpowder]) < 4)
-	{
-		set_property("cc_doCombatCopy", "yes");
-	}
-
-	if(numeric_modifier("Combat Rate") <= 9.0)
-	{
-		if(possessEquipment($item[Carpe]))
-		{
-			equip($slot[Back], $item[Carpe]);
-		}
-	}
-
 
 	//Seriously? http://alliancefromhell.com/viewtopic.php?t=1338
 	if(item_amount($item[Wool Hat]) == 1)
@@ -6918,17 +6883,55 @@ boolean L12_sonofaPrefix()
 		pulverizeThing($item[Goatskin Umbrella]);
 	}
 
-	if(numeric_modifier("Combat Rate") < 0.0)
+	if(cc_my_path() != "Live. Ascend. Repeat.")
 	{
-		print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Lobsterfrogmen.", "red");
+		if(!providePlusCombat(25))
+		{
+			print("Failure in +Combat acquisition or -Combat shrugging (lobsterfrogman), delaying", "red");
+			return false;
+		}
+
+		if(equipped_item($slot[acc1]) == $item[over-the-shoulder folder holder])
+		{
+			if((item_amount($item[Ass-Stompers of Violence]) > 0) && (equipped_item($slot[acc1]) != $item[Ass-Stompers of Violence]) && can_equip($item[Ass-Stompers of Violence]))
+			{
+				equip($slot[acc1], $item[Ass-Stompers of Violence]);
+			}
+			else
+			{
+				equip($slot[acc1], $item[bejeweled pledge pin]);
+			}
+		}
+		if(item_amount($item[portable cassette player]) > 0)
+		{
+			equip($slot[acc2], $item[portable cassette player]);
+		}
+		if(numeric_modifier("Combat Rate") <= 9.0)
+		{
+			if(possessEquipment($item[Carpe]))
+			{
+				equip($slot[Back], $item[Carpe]);
+			}
+		}
+		if(numeric_modifier("Combat Rate") < 0.0)
+		{
+			print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and Lobsterfrogmen.", "red");
+			equipBaseline();
+			return false;
+		}
+	}
+
+	if(item_amount($item[barrel of gunpowder]) < 4)
+	{
+		set_property("cc_doCombatCopy", "yes");
+	}
+
+	if((my_mp() < mp_cost($skill[Digitize])) && (cc_get_campground() contains $item[Source Terminal]) && is_unrestricted($item[Source Terminal]) && (get_property("_sourceTerminalDigitizeMonster") != $monster[Lobsterfrogman]) && (get_property("_sourceTerminalDigitizeUses").to_int() < 3))
+	{
 		equipBaseline();
 		return false;
 	}
-	if(my_mp() < mp_cost($skill[Digitize]))
-	{
-		equipBaseline();
-		return false;
-	}
+
 	cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
 	ccAdv(1, $location[Sonofa Beach]);
 	set_property("cc_doCombatCopy", "no");
@@ -11649,7 +11652,10 @@ boolean L11_blackMarket()
 		}
 	}
 
-	providePlusCombat(5);
+	if(cc_my_path() != "Live. Ascend. Repeat.")
+	{
+		providePlusCombat(5);
+	}
 
 	if((item_amount($item[Blackberry Galoshes]) > 0) && !have_equipped($item[Blackberry Galoshes]) && can_equip($item[Blackberry Galoshes]))
 	{
@@ -11671,7 +11677,10 @@ boolean L11_blackMarket()
 		set_property("choiceAdventure928", "4");
 	}
 
-	handleFamiliar($familiar[Reassembled Blackbird]);
+	if((my_ascensions() == 0) || (item_amount($item[Reassembled Blackbird]) == 0))
+	{
+		handleFamiliar($familiar[Reassembled Blackbird]);
+	}
 
 	//If we want the Beehive, and don\'t have enough adventures, this is dangerous.
 	ccAdv(1, $location[The Black Forest]);
@@ -11884,27 +11893,33 @@ boolean LX_fcle()
 	outfit("swashbuckling getup");
 
 	handleFamiliar("item");
-	if(!providePlusCombat(10))
+	if(cc_my_path() != "Live. Ascend. Repeat.")
 	{
-		print("Could not uneffect for F'C'le, delaying", "red");
-		return false;
+		if(!providePlusCombat(10))
+		{
+			print("Could not uneffect for F'C'le, delaying", "red");
+			return false;
+		}
 	}
 	if(!outfit("swashbuckling getup"))
 	{
 		abort("Could not put on Swashbuckling Getup, aborting");
 	}
 
-	if(numeric_modifier("Combat Rate") <= 9.0)
+	if(cc_my_path() != "Live. Ascend. Repeat.")
 	{
-		if(possessEquipment($item[Carpe]))
+		if(numeric_modifier("Combat Rate") <= 9.0)
 		{
-			equip($slot[Back], $item[Carpe]);
+			if(possessEquipment($item[Carpe]))
+			{
+				equip($slot[Back], $item[Carpe]);
+			}
 		}
-	}
 
-	if(numeric_modifier("Combat Rate") < 0.0)
-	{
-		print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and F'c'le, continuning but not happy about it..", "red");
+		if(numeric_modifier("Combat Rate") < 0.0)
+		{
+			print("Something is keeping us from getting a suitable combat rate, we have: " + numeric_modifier("Combat Rate") + " and F'c'le, continuning but not happy about it..", "red");
+		}
 	}
 	ccAdv(1, $location[The F\'c\'le]);
 	handleFamiliar("item");

@@ -1764,7 +1764,7 @@ boolean acquireMP(int goal, boolean buyIt)
 		return false;
 	}
 
-	item[int] recovers = List($items[Carbonated Soy Milk, Natural Fennel Soda, Bottle Of Monsieur Bubble, Tiny House, Marquis De Poivre Soda, Cloaca-Cola, Phonics Down, Psychokinetic Energy Blob]);
+	item[int] recovers = List($items[Holy Spring Water, Spirit Beer, Sacramental Wine, Magical Mystery Juice, Black Cherry Soda, Doc Galaktik\'s Invigorating Tonic, Carbonated Soy Milk, Natural Fennel Soda, Grogpagne, Bottle Of Monsieur Bubble, Tiny House, Marquis De Poivre Soda, Cloaca-Cola, Phonics Down, Psychokinetic Energy Blob]);
 	int at = 0;
 	while((at < count(recovers)) && (my_mp() < goal))
 	{
@@ -1790,19 +1790,24 @@ boolean acquireMP(int goal, boolean buyIt)
 
 	while(buyIt && (my_mp() < goal))
 	{
-		if((get_property("questM24Doc") == "finished") && isGeneralStoreAvailable() && (my_meat() > npc_price($item[Doc Galaktik\'s Invigorating Tonic])))
+		if(($classes[Pastamancer, Sauceror] contains my_class()) && guild_store_available() && (my_level() >= 5))
 		{
-			buy(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+			buyUpTo(1, $item[Magical Mystery Juice], 100);
+			use(1, $item[Magical Mystery Juice]);
+		}
+		else if((get_property("questM24Doc") == "finished") && isGeneralStoreAvailable() && (my_meat() > npc_price($item[Doc Galaktik\'s Invigorating Tonic])))
+		{
+			buyUpTo(1, $item[Doc Galaktik\'s Invigorating Tonic], 100);
 			use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
 		}
 		else if(black_market_available() && (my_meat() > npc_price($item[Black Cherry Soda])))
 		{
-			buy(1, $item[Black Cherry Soda]);
+			buyUpTo(1, $item[Black Cherry Soda], 100);
 			use(1, $item[Black Cherry Soda]);
 		}
 		else if(isGeneralStoreAvailable() && (my_meat() > npc_price($item[Doc Galaktik\'s Invigorating Tonic])))
 		{
-			buy(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+			buyUpTo(1, $item[Doc Galaktik\'s Invigorating Tonic], 100);
 			use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
 		}
 		else
@@ -2216,6 +2221,26 @@ int maxSealSummons()
 	return 5;
 }
 
+
+boolean acquireCombatMods(int amt)
+{
+	return acquireCombatMods(amt, true);
+}
+
+boolean acquireCombatMods(int amt, boolean doEquips)
+{
+	if(amt < 0)
+	{
+		return providePlusNonCombat(min(25, -1 * amt), doEquips);
+	}
+	else if(amt > 0)
+	{
+		return providePlusCombat(min(25, amt), doEquips);
+	}
+	return true;
+}
+
+
 boolean providePlusCombat(int amt)
 {
 	return providePlusCombat(amt, true);
@@ -2227,6 +2252,10 @@ boolean providePlusNonCombat(int amt)
 
 boolean providePlusCombat(int amt, boolean doEquips)
 {
+	if(amt == 0)
+	{
+		return true;
+	}
 	if(have_effect($effect[Become Superficially Interested]) > 0)
 	{
 		string temp = visit_url("charsheet.php?pwd=&action=newyouinterest");
@@ -2289,6 +2318,10 @@ boolean providePlusCombat(int amt, boolean doEquips)
 }
 boolean providePlusNonCombat(int amt, boolean doEquips)
 {
+	if(amt == 0)
+	{
+		return true;
+	}
 	amt = -1 * amt;
 
 	if(have_effect($effect[Become Intensely Interested]) > 0)
@@ -2319,7 +2352,8 @@ boolean providePlusNonCombat(int amt, boolean doEquips)
 	}
 
 	shrugAT($effect[The Sonata of Sneakiness]);
-	foreach eff in $effects[Smooth Movements, The Sonata of Sneakiness, Song of Solitude, Inked Well, Bent Knees, Extended Toes, Ink Cloud]
+	//Assumes that Rev Engine was taken with Extra-Quite Muffler.
+	foreach eff in $effects[Shelter Of Shed, Brooding, Muffled, Smooth Movements, The Sonata of Sneakiness, Song of Solitude, Inked Well, Bent Knees, Extended Toes, Ink Cloud, Patent Invisibility]
 	{
 		buffMaintain(eff, 0, 1, 1);
 		if(numeric_modifier("Combat Rate").to_int() <= amt)
@@ -2559,7 +2593,7 @@ int towerKeyCount()
 		return 3;
 	}
 
-	int tokens = item_amount($item[fat loot token]);
+	int tokens = item_amount($item[Fat Loot Token]);
 	if((item_amount($item[Boris\'s Key]) > 0) || contains_text(get_property("nsTowerDoorKeysUsed"), $item[Boris\'s Key]))
 	{
 		tokens = tokens + 1;
@@ -2569,6 +2603,10 @@ int towerKeyCount()
 		tokens = tokens + 1;
 	}
 	if((item_amount($item[Sneaky Pete\'s Key]) > 0) || contains_text(get_property("nsTowerDoorKeysUsed"), $item[Sneaky Pete\'s Key]))
+	{
+		tokens = tokens + 1;
+	}
+	if((item_amount($item[Daily Dungeon Malware]) > 0) && !get_property("_dailyDungeonMalwareUsed").to_boolean() && !get_property("dailyDungeonDone").to_boolean() && (get_property("_lastDailyDungeonRoom").to_int() < 14))
 	{
 		tokens = tokens + 1;
 	}

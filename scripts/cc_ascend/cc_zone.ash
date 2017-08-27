@@ -258,10 +258,40 @@ generic_t zone_needItem(location loc)
 	case $location[Barf Mountain]:
 		retval._float = 15.0;
 		break;
+	case $location[The Velvet / Gold Mine]:
+		if(!canYellowRay())
+		{	//Just a guess
+			retval._float = 10.0;
+		}
+		break;
+	case $location[The Haunted Pantry]:
+		if((cc_my_path() == "Community Service") && (item_amount($item[Tomato]) < 2) && have_skill($skill[Advanced Saucecrafting]))
+		{
+			retval._float = 59.4;
+		}
+		break;
+	case $location[The Skeleton Store]:
+		if((cc_my_path() == "Community Service") && have_skill($skill[Advanced Saucecrafting]) && ((item_amount($item[Cherry]) < 1) || (item_amount($item[Grapefruit]) < 1) || (item_amount($item[Lemon]) < 1)))
+		{	//No idea, should spade this for great justice.
+			retval._float = 33.0;
+		}
+		break;
+	case $location[The Secret Government Laboratory]:
+		if((cc_my_path() == "Community Service") && (item_amount($item[Experimental Serum G-9]) < 2))
+		{	//No idea, assume it is low.
+			retval._float = 10.0;
+		}
+		break;
 	default:
 		retval._error = true;
 		break;
 	}
+
+	if(expectGhostReport() && (loc == get_property("ghostLocation").to_location()) && (get_property("questPAGhost") == "started"))
+	{
+		value = 0.0;
+	}
+
 
 	if(value != 0.0)
 	{
@@ -322,7 +352,14 @@ generic_t zone_combatMod(location loc)
 		}
 		break;
 	case $location[The Black Forest]:
-		value = 5;
+		if(internalQuestStatus("questL13Final") < 5)
+		{
+			value = 5;
+		}
+		else if(internalQuestStatus("questL13Final") == 5)
+		{
+			value = -95;
+		}
 		break;
 	case $location[Inside the Palindome]:
 		if((item_amount($item[Photograph Of A Red Nugget]) == 0) || (item_amount($item[Photograph Of An Ostrich Egg]) == 0) || (item_amount($item[Photograph Of God]) == 0))
@@ -381,17 +418,51 @@ generic_t zone_combatMod(location loc)
 	case $location[Twin Peak]:
 		value = -80;
 		break;
+	case $location[A Maze of Sewer Tunnels]:
+		// I guess there is not a preference for this?
+		value = -95;
+		break;
+	case $location[The Ice Hotel]:
+		value = -85;
+		break;
+	case $location[The Obligatory Pirate\'s Cove]:
+		if(internalQuestStatus("questM12Pirate") < 2)
+		{
+			value = -60;
+		}
+		else if(numPirateInsults() < 6)
+		{
+			value = 40;
+		}
+		else if(numPirateInsults() <= 7)
+		{
+			value = -10;
+		}
+		else
+		{
+			value = -60;
+		}
+
+		break;
 	case $location[The Penultimate Fantasy Airship]:
 		if(delay._int == 0)
 		{
 			value = -80;
+		}
+		else
+		{
+			//Let us not worry about throttling the Airship
+			#value = 20;
 		}
 		break;
 	case $location[The Castle in the Clouds in the Sky (Basement)]:
 		value = -95;
 		break;
 	case $location[The Castle in the Clouds in the Sky (Ground Floor)]:
-		value = -95;
+		if(internalQuestStatus("questL13Final") == 8)
+		{
+			value = -95;
+		}
 		break;
 	case $location[The Castle in the Clouds in the Sky (Top Floor)]:
 		value = -95;
@@ -400,6 +471,17 @@ generic_t zone_combatMod(location loc)
 		retval._error = true;
 		break;
 	}
+
+	if(cc_my_path() == "Live. Ascend. Repeat.")
+	{
+		value = 0;
+	}
+
+	if(expectGhostReport() && (loc == get_property("ghostLocation").to_location()) && (get_property("questPAGhost") == "started"))
+	{
+		value = 0;
+	}
+
 
 	if(value != 0)
 	{
@@ -967,7 +1049,7 @@ generic_t zone_available(location loc)
 }
 location[int] zone_list()
 {
-	return List($locations[8-Bit Realm, A-Boo Peak, The Arid\, Extra-Dry Desert, Barf Mountain, Barrrney\'s Barrr, The Bat Hole Entrance, The Batrat And Ratbat Burrow, The Battlefield (Frat Uniform), The Beanbat Chamber, Belowdecks, The Black Forest, The Boss Bat\'s Lair, The Bubblin\' Caldera, The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), Cobb\'s Knob Harem, Cobb\'s Knob Treasury, Coldest Adventurer Contest, The Daily Dungeon, The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Deep Machine Tunnels, The Defiled Alcove, The Defiled Cranny, The Defiled Niche, The Defiled Nook, The Extreme Slope, The F\'c\'le, Fastest Adventurer Contest, The Feeding Chamber, The Filthworm Queen\'s Chamber, Gingerbread Upscale Retail District, The Goatlet, Guano Junction, The Haiku Dungeon, The Hatching Chamber, The Haunted Ballroom, The Haunted Bathroom, The Haunted Bedroom, The Haunted Billiards Room, The Haunted Boiler Room, The Haunted Conservatory, The Haunted Gallery, The Haunted Kitchen, The Haunted Laundry Room, The Haunted Library, The Haunted Pantry, The Haunted Wine Cellar, The Hidden Apartment Building, The Hidden Bowling Alley, The Hidden Hospital, The Hidden Office Building, The Hidden Park, The Hidden Temple, The Hole in the Sky, Hottest Adventurer Contest, The Icy Peak, Inside the Palindome, Itznotyerzitz Mine, Lair of the Ninja Snowmen, The Lower Chambers, Madness Bakery, A Massive Ziggurat, The Middle Chamber, Mist-Shrouded Peak, Near an Abandoned Refrigerator, Next to that Barrel with Something Burning in it, Noob Cave, The Oasis, Oil Peak, Out by that Rusted-Out Car, The Outskirts of Cobb\'s Knob, Over Where the Old Tires Are, An Overgrown Shrine (Northeast), An Overgrown Shrine (Northwest), An Overgrown Shrine (Southeast), An Overgrown Shrine (Southwest), The Penultimate Fantasy Airship, The Poop Deck, The Royal Guard Chamber, The Shore\, Inc. Travel Agency, The Skeleton Store, Sleaziest Adventurer Contest, The Sleazy Back Alley, Smartest Adventurer Contest, Smoothest Adventurer Contest, Spookiest Adventurer Contest, Stinkiest Adventurer Contest, Strongest Adventurer Contest, The Smut Orc Logging Camp, Sonofa Beach, The Spooky Forest, Summoning Chamber, Super Villain\'s Lair, The Themthar Hills, Throne Room, Through the Spacegate, Twin Peak, The Typical Tavern Cellar, The Upper Chamber, The VERY Unquiet Garves, The X-32-F Combat Training Snowman, Wartime Hippy Camp (Frat Disguise), Whitey\'s Grove]);
+	return List($locations[8-Bit Realm, A-Boo Peak, The Arid\, Extra-Dry Desert, Barf Mountain, Barrrney\'s Barrr, The Bat Hole Entrance, The Batrat And Ratbat Burrow, The Battlefield (Frat Uniform), The Beanbat Chamber, Belowdecks, The Black Forest, The Boss Bat\'s Lair, The Bubblin\' Caldera, The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), Cobb\'s Knob Harem, Cobb\'s Knob Treasury, Coldest Adventurer Contest, The Daily Dungeon, The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Deep Machine Tunnels, The Defiled Alcove, The Defiled Cranny, The Defiled Niche, The Defiled Nook, The Extreme Slope, The F\'c\'le, Fastest Adventurer Contest, The Feeding Chamber, The Filthworm Queen\'s Chamber, Gingerbread Upscale Retail District, The Goatlet, Guano Junction, The Haiku Dungeon, The Hatching Chamber, The Haunted Ballroom, The Haunted Bathroom, The Haunted Bedroom, The Haunted Billiards Room, The Haunted Boiler Room, The Haunted Conservatory, The Haunted Gallery, The Haunted Kitchen, The Haunted Laundry Room, The Haunted Library, The Haunted Pantry, The Haunted Wine Cellar, The Hidden Apartment Building, The Hidden Bowling Alley, The Hidden Hospital, The Hidden Office Building, The Hidden Park, The Hidden Temple, The Hole in the Sky, Hottest Adventurer Contest, The Ice Hotel, The Icy Peak, Inside the Palindome, Itznotyerzitz Mine, Lair of the Ninja Snowmen, The Limerick Dungeon, The Lower Chambers, Madness Bakery, A Massive Ziggurat, A Maze Of Sewer Tunnels, The Middle Chamber, Mist-Shrouded Peak, Near an Abandoned Refrigerator, Next to that Barrel with Something Burning in it, Noob Cave, The Oasis, The Obligatory Pirate\'s Cove, Oil Peak, Out by that Rusted-Out Car, The Outskirts of Cobb\'s Knob, Over Where the Old Tires Are, An Overgrown Shrine (Northeast), An Overgrown Shrine (Northwest), An Overgrown Shrine (Southeast), An Overgrown Shrine (Southwest), The Penultimate Fantasy Airship, The Poop Deck, The Royal Guard Chamber, The Secret Government Laboratory, The Shore\, Inc. Travel Agency, The Skeleton Store, Sleaziest Adventurer Contest, The Sleazy Back Alley, The Skeleton Store, Smartest Adventurer Contest, Smoothest Adventurer Contest, Spookiest Adventurer Contest, Stinkiest Adventurer Contest, Strongest Adventurer Contest, The Smut Orc Logging Camp, Sonofa Beach, The Spooky Forest, Summoning Chamber, Super Villain\'s Lair, The Themthar Hills, Throne Room, Through the Spacegate, Twin Peak, The Typical Tavern Cellar, The Upper Chamber, The Velvet / Gold Mine, The VERY Unquiet Garves, The X-32-F Combat Training Snowman, Wartime Hippy Camp (Frat Disguise), Whitey\'s Grove]);
 }
 
 location[int] zones_available()
@@ -1077,8 +1159,15 @@ location[int] zones_available()
 	case $location[The Bubblin\' Caldera]:
 	case $location[The X-32-F Combat Training Snowman]:
 	case $location[Through the Spacegate]:
-
+	case $location[A Maze of Sewer Tunnels]:
+	case $location[The Ice Hotel]:
+	case $location[Whitey\'s Grove]:
 	case $location[Gingerbread Upscale Retail District]:
+	case $location[The Haiku Dungeon]:
+	case $location[The Limerick Dungeon]:
+	case $location[The Skeleton Store]:
+	case $location[The Secret Government Laboratory]:
+	case $location[The Velvet / Gold Mine]:
 	default:
 
 

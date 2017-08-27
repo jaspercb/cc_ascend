@@ -638,6 +638,8 @@ boolean providePlusCombat(int amt);							//Defined in cc_ascend/cc_util.ash
 boolean providePlusCombat(int amt, boolean doEquips);		//Defined in cc_ascend/cc_util.ash
 boolean providePlusNonCombat(int amt);						//Defined in cc_ascend/cc_util.ash
 boolean providePlusNonCombat(int amt, boolean doEquips);	//Defined in cc_ascend/cc_util.ash
+boolean acquireCombatMods(int amt);							//Defined in cc_ascend/cc_util.ash
+boolean acquireCombatMods(int amt, boolean doEquips);		//Defined in cc_ascend/cc_util.ash
 void pullAll(item it);										//Defined in cc_ascend/cc_util.ash
 void pullAndUse(item it, int uses);							//Defined in cc_ascend/cc_util.ash
 boolean pullXWhenHaveY(item it, int howMany, int whenHave);	//Defined in cc_ascend/cc_util.ash
