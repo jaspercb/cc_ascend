@@ -13322,7 +13322,7 @@ void cc_begin()
 {
 	if(svn_info("mafiarecovery").last_changed_rev > 0)
 	{
-		abort("Universal Recovery does not play nicely with this script. It will waste all your meat and then you will complain to me as if it is my fault. So, no, I will not run, jerk.");
+		abort("Universal Recovery does not play nicely with this script. It will waste all your meat and then you will complain to me as if it is my fault. So, no, I will not run, jerk. You can achieve this in mafia with the command 'svn delete mafiarecovery'");
 	}
 
 	//This also should set our path too.
