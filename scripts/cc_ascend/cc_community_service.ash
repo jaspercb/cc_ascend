@@ -2276,7 +2276,14 @@ boolean LA_cs_communityService()
 
 			if(get_cs_questCost(curQuest) > 7)
 			{
-				makeGenieWish($effect[Frosty]);
+				if(have_effect($effect[Synthesis: Collection]) == 0)
+				{
+					makeGenieWish($effect[Synthesis: Collection]);
+				}
+				else
+				{
+					makeGenieWish($effect[Frosty]);
+				}
 			}
 
 			if(do_cs_quest(9))
