@@ -2091,6 +2091,14 @@ boolean LA_cs_communityService()
 			}
 			asdonBuff($effect[Driving Stealthily]);
 
+			foreach eff in $effects[Chocolatesphere, Disquiet Riot, Patent Invisibility]
+			{
+				if(have_effect(eff) == 0)
+				{
+					makeGenieWish(eff);
+				}
+			}
+
 			int questCost = get_cs_questCost(curQuest);
 			if(my_adventures() < questCost)
 			{
@@ -2264,6 +2272,11 @@ boolean LA_cs_communityService()
 			if(!get_property("_incredibleSelfEsteemCast").to_boolean() && (my_mp() > mp_cost($skill[Incredible Self-Esteem])) && have_skill($skill[Incredible Self-Esteem]))
 			{
 				use_skill(1, $skill[Incredible Self-Esteem]);
+			}
+
+			if(get_cs_questCost(curQuest) > 7)
+			{
+				makeGenieWish($effect[Frosty]);
 			}
 
 			if(do_cs_quest(9))

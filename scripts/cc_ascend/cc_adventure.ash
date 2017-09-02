@@ -133,6 +133,7 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 	}
 	if(contains_text(page, "Combat"))
 	{
+		print("ccAdvBypass has encountered a combat! (param: '" + option + "')", "green");
 		if(option != "null") // && (option != ""))
 		{
 			if(get_auto_attack() == 0)

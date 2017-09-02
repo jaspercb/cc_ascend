@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18197;
+since r18201;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -12002,7 +12002,7 @@ boolean LX_nastyBooty()
 	{
 		adjustEdHat("weasel");
 	}
-
+	print("Nasty Booty time!", "red");
 	return ccAdvBypass("inv_use.php?pwd=&which=3&whichitem=2950", $location[Noob Cave]);
 }
 
@@ -13324,6 +13324,12 @@ void cc_begin()
 	{
 		abort("Universal Recovery does not play nicely with this script. It will waste all your meat and then you will complain to me as if it is my fault. So, no, I will not run, jerk. You can achieve this in mafia with the command 'svn delete mafiarecovery'");
 	}
+	if(get_auto_attack() != 0)
+	{
+		print("You have an auto attack enabled. This may cause issues. We will try anyway.", "blue");
+		wait(10);
+	}
+
 
 	//This also should set our path too.
 	string page = visit_url("main.php");

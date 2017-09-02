@@ -1087,6 +1087,11 @@ boolean cc_cheesePostCS(int leave)
 			cc_sourceTerminalEnhance("meat");
 		}
 
+		if((item_amount($item[License To Chill]) > 0) && !get_property("_licenseToChillUsed").to_boolean())
+		{
+			use(1, $item[License To Chill]);
+		}
+
 		if(get_property("cc_interrupt").to_boolean())
 		{
 			set_property("cc_interrupt", false);

@@ -6,12 +6,9 @@ script "cc_mr2017.ash"
 boolean getSpaceJelly();
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem);
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem, string option);
-boolean solveKGBMastermind();
-boolean kgbDial(int dial, int curVal, int target);
-boolean kgbSetup();
 
-int horseCost();
-boolean getHorse(string type);
+
+
 
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem)
 {
@@ -1000,4 +997,53 @@ boolean getHorse(string type)
 		set_property("_horseryRented", get_property("_horseryRented").to_int() + 1);
 	}
 	return true;
+}
+
+boolean makeGenieWish(effect eff)
+{
+	if(item_amount($item[Genie Bottle]) == 0)
+	{
+		return false;
+	}
+	if(get_property("_genieWishes").to_int() >= 3)
+	{
+		return false;
+	}
+	if(have_effect(eff) > 0)
+	{
+		return false;
+	}
+
+	string wish = "to be " + eff;
+	string page = visit_url("inv_use.php?pwd=&which=3&whichitem=9529", false);
+	page = visit_url("choice.php?pwd=&whichchoice=1267&option=1&wish=" + wish);
+	set_property("_genieWishes", get_property("_genieWishes").to_int() + 1);
+	return true;
+}
+
+boolean makeGenieCombat(monster mon, string option)
+{
+	if(item_amount($item[Genie Bottle]) == 0)
+	{
+		return false;
+	}
+	if(get_property("_genieWishes").to_int() >= 3)
+	{
+		return false;
+	}
+
+	string wish = "to fight " + mon;
+	string[int] pages;
+	pages[0] = "inv_use.php?pwd=&which=3&whichitem=9529";		//false
+	pages[1] = "choice.php?pwd=&whichchoice=1267&option=1&wish=" + wish;
+
+	ccAdvBypass(1, pages, $location[Noob Cave], option);
+
+	set_property("_genieWishes", get_property("_genieWishes").to_int() + 1);	
+	return true;
+}
+
+boolean makeGenieCombat(monster mon)
+{
+	return makeGenieCombat(mon, "");
 }
