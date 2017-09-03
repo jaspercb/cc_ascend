@@ -856,7 +856,13 @@ boolean asdonAutoFeed(int goal)
 	{
 		if(item_amount(it) > 0)
 		{
-			asdonFeed(it, min(10,item_amount(it)));
+			int toFeed = min(10, item_amount(it));
+			if(get_property("cc_ashtonLimit") != "")
+			{
+				int limit = get_property("cc_ashtonLimit").to_int();
+				toFeed = max(0, toFeed - limit);
+			}
+			asdonFeed(it, toFeed);
 			didOnce = true;
 		}
 		if(get_fuel() > goal)

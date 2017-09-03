@@ -1609,8 +1609,21 @@ boolean L1_ed_islandFallback()
 	}
 	if(elementalPlanes_access($element[cold]))
 	{
-		//This might not be the correct choice... going to have to check it at some point.
-		set_property("choiceAdventure1115", 9);
+		if(get_property("_VYKEALoungeRaided").to_boolean())
+		{
+			if(get_property("_VYKEACafeteriaRaided").to_boolean())
+			{
+				set_property("choiceAdventure1115", 11);
+			}
+			else
+			{
+				set_property("choiceAdventure1115", 1);
+			}
+		}
+		else
+		{
+			set_property("choiceAdventure1115", 9);
+		}
 		ccAdv(1, $location[VYKEA]);
 		return true;
 	}

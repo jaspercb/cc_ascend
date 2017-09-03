@@ -1120,6 +1120,16 @@ string cc_combatHandler(int round, string opp, string text)
 				return "skill " + $skill[shattering punch];
 			}
 		}
+		if(!contains_text(combatState, "gingerbread mob hit") && have_skill($skill[Gingerbread Mob Hit]) && ((my_mp() / 2) > mp_cost($skill[Gingerbread Mob Hit])) && !get_property("_gingerbreadMobHitUsed").to_boolean())
+		{
+			if((my_adventures() < 20) || get_property("kingLiberated").to_boolean() || (my_daycount() >= 3))
+			{
+				set_property("cc_combatHandler", combatState + "(gingerbread mob hit)");
+				handleTracker(enemy, $skill[Gingerbread Mob Hit], "cc_instakill");
+				return "skill " + $skill[Gingerbread Mob Hit];
+			}
+		}
+
 
 //		Can not use _usedReplicaBatoomerang if we have more than 1 because of the double item use issue...
 //		Sure, we can try to use a second item (if we have it or are forced to buy it... ugh).
