@@ -3430,6 +3430,12 @@ string cs_combatYR(int round, string opp, string text)
 	{
 		if(!contains_text(combatState, "yellowray"))
 		{
+			if(have_skill($skill[Disintegrate]) && (my_mp() > mp_cost($skill[Disintegrate])) && (have_effect($effect[Everything Looks Yellow]) == 0))
+			{
+				set_property("cc_combatHandler", combatState + "(yellowray)");
+				handleTracker(enemy, $skill[Disintegrate], "cc_yellowRays");
+				return "skill " + $skill[Disintegrate];
+			}
 			string combatAction = yellowRayCombatString();
 			if(combatAction != "")
 			{
