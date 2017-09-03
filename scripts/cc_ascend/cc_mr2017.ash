@@ -1021,9 +1021,13 @@ boolean makeGenieWish(effect eff)
 	}
 
 	string wish = "to be " + eff;
-	string page = visit_url("main.php");
-	page = visit_url("inv_use.php?pwd=&which=3&whichitem=9529", false);
+	string page = visit_url("inv_use.php?pwd=" + my_hash() + "&which=3&whichitem=9529", false);
 	page = visit_url("choice.php?pwd=&whichchoice=1267&option=1&wish=" + wish);
+	if(have_effect(eff) == 0)
+	{
+		print("Wish: '" + wish + "' failed", "red");
+		return false;
+	}
 	set_property("_genieWishes", get_property("_genieWishes").to_int() + 1);
 	return true;
 }
@@ -1041,7 +1045,7 @@ boolean makeGenieCombat(monster mon, string option)
 
 	string wish = "to fight " + mon;
 	string[int] pages;
-	pages[0] = "inv_use.php?pwd=&which=3&whichitem=9529";		//false
+	pages[0] = "inv_use.php?pwd=" + my_hash() + "&which=3&whichitem=9529";		//false
 	pages[1] = "choice.php?pwd=&whichchoice=1267&option=1&wish=" + wish;
 
 	ccAdvBypass(1, pages, $location[Noob Cave], option);
