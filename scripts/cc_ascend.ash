@@ -4342,11 +4342,11 @@ boolean L13_towerNSTower()
 				handleFamiliar("item");
 			}
 		}
-		else if(item_amount($item[electric boning knife]) > 0)
+		else if(item_amount($item[Electric Boning Knife]) > 0)
 		{
 			return ccAdvBypass("place.php?whichplace=nstower&action=ns_07_monster3", $location[Noob Cave]);
 		}
-		else
+		else if(canGroundhog($location[The Castle in the Clouds in the Sky (Ground Floor)]))
 		{
 			print("Backfarming an Electric Boning Knife", "green");
 			set_property("choiceAdventure1026", "2");
@@ -5876,6 +5876,10 @@ boolean L11_mauriceSpookyraven()
 	if(get_property("cc_ballroomflat") == "")
 	{
 		print("Searching for the basement of Spookyraven", "blue");
+		if(!cangroundHog($location[The Haunted Ballroom]))
+		{
+			return false;
+		}
 		set_property("choiceAdventure90", "3");
 
 		if((my_mp() > 60) || considerGrimstoneGolem(true))
@@ -7645,7 +7649,10 @@ boolean L10_ground()
 	{
 		return false;
 	}
-
+	if(!canGroundhog($location[The Castle in the Clouds in the Sky (Ground Floor)]))
+	{
+		return false;
+	}
 
 	print("Castle Ground Floor, boring!", "blue");
 	set_property("choiceAdventure672", 3);
@@ -8349,7 +8356,7 @@ boolean L7_crypt()
 		set_property("cc_waitingArrowAlcove", 50);
 	}
 
-	if((get_property("cyrptAlcoveEvilness").to_int() > 0) && ((get_property("cyrptAlcoveEvilness").to_int() <= get_property("cc_waitingArrowAlcove").to_int()) || (get_property("cyrptAlcoveEvilness").to_int() <= 25)) && edAlcove)
+	if((get_property("cyrptAlcoveEvilness").to_int() > 0) && ((get_property("cyrptAlcoveEvilness").to_int() <= get_property("cc_waitingArrowAlcove").to_int()) || (get_property("cyrptAlcoveEvilness").to_int() <= 25)) && edAlcove && canGroundhog($location[The Defiled Alcove]))
 	{
 		handleFamiliar("init");
 
@@ -8397,7 +8404,7 @@ boolean L7_crypt()
 		return true;
 	}
 
-	if(get_property("cyrptNookEvilness").to_int() > 0)
+	if((get_property("cyrptNookEvilness").to_int() > 0) && canGroundhog($location[The Defiled Nook]))
 	{
 		print("The Nook!", "blue");
 		buffMaintain($effect[Joyful Resolve], 0, 1, 1);
@@ -8415,7 +8422,7 @@ boolean L7_crypt()
 		return true;
 	}
 
-	if(get_property("cyrptNicheEvilness").to_int() > 0)
+	if((get_property("cyrptNicheEvilness").to_int() > 0) && canGroundhog($location[The Defiled Niche]))
 	{
 		if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]) && have_familiar($familiar[Artistic Goth Kid]))
 		{
@@ -12819,6 +12826,10 @@ boolean LX_setBallroomSong()
 		return false;
 	}
 	if(my_class() == $class[Ed])
+	{
+		return false;
+	}
+	if(!cangroundHog($location[The Haunted Ballroom]))
 	{
 		return false;
 	}
