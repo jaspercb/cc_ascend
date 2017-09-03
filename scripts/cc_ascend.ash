@@ -7509,7 +7509,7 @@ boolean L10_holeInTheSkyUnlock()
 	{
 		return false;
 	}
-	if(get_property("cc_castlebasement") != "finished")
+	if(get_property("cc_castleground") != "finished")
 	{
 		return false;
 	}
@@ -11697,6 +11697,10 @@ boolean L11_blackMarket()
 
 boolean L10_holeInTheSky()
 {
+	if(get_property("cc_castleground") != "finished")
+	{
+		return false;
+	}
 	if(my_level() < 10)
 	{
 		return false;

@@ -11,6 +11,9 @@ void groundhog_initializeSettings()
 		set_property("cc_holeinthesky", true);
 		set_property("cc_useCubeling", true);
 		set_property("cc_wandOfNagamar", true);
+
+		//Not best way but just do it...
+		set_property("_sourceTerminalDigitizeMonster", 3);
 	}
 }
 
