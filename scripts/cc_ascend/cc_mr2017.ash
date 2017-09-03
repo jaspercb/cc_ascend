@@ -1021,7 +1021,8 @@ boolean makeGenieWish(effect eff)
 	}
 
 	string wish = "to be " + eff;
-	string page = visit_url("inv_use.php?pwd=&which=3&whichitem=9529", false);
+	string page = visit_url("main.php");
+	page = visit_url("inv_use.php?pwd=&which=3&whichitem=9529", false);
 	page = visit_url("choice.php?pwd=&whichchoice=1267&option=1&wish=" + wish);
 	set_property("_genieWishes", get_property("_genieWishes").to_int() + 1);
 	return true;
