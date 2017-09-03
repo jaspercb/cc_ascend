@@ -57,3 +57,27 @@ boolean canGroundhog(location loc)
 	}
 	return true;
 }
+
+
+
+boolean groundhogAbort(location loc)
+{
+	if(cc_my_path() == "Live. Ascend. Repeat.")
+	{
+		generic_t itemNeed = zone_needItem(loc);
+		if(!itemNeed._boolean)
+		{
+			return true;
+		}
+
+		//These should be places that we would not consider overriding with a YR.
+		foreach place in $locations[The F\'C\'Le, The Hole In The Sky]
+		{
+			if((place == loc) && (item_drop_modifier() < itemNeed._float))
+			{
+				abort("Not enough +item drop (" + (itemNeed._float - 100.0) + ") for " + loc + " only have: " + item_drop_modifier());
+			}
+		}
+	}
+	return true;
+}

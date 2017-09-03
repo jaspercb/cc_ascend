@@ -302,6 +302,7 @@ generic_t zone_needItem(location loc)
 		{
 			retval._float = 5000.0/value;
 		}
+		retval._float -= 100.0;
 	}
 	return retval;
 }
