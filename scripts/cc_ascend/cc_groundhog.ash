@@ -11,9 +11,6 @@ void groundhog_initializeSettings()
 		set_property("cc_holeinthesky", true);
 		set_property("cc_useCubeling", true);
 		set_property("cc_wandOfNagamar", true);
-
-		//Not best way but just do it...
-		set_property("_sourceTerminalDigitizeMonster", 3);
 	}
 }
 
@@ -80,4 +77,18 @@ boolean groundhogAbort(location loc)
 		}
 	}
 	return true;
+}
+
+
+boolean LM_groundhog()
+{
+	//Not best way but just do it...
+	if(cc_my_path() == "Live. Ascend. Repeat.")
+	{
+		if(get_property("_sourceTerminalDigitizeUses").to_int() < 3)
+		{
+			set_property("_sourceTerminalDigitizeUses", 3);
+		}
+	}
+	return false;
 }

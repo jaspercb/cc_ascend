@@ -3291,6 +3291,13 @@ string cs_combatNormal(int round, string opp, string text)
 		return "skill " + $skill[shattering punch];
 	}
 
+	if(!contains_text(combatState, "gingerbread mob hit") && have_skill($skill[Gingerbread Mob Hit]) && ((my_mp() / 2) > mp_cost($skill[Gingerbread Mob Hit])) && !isFreeMonster(enemy) && !enemy.boss && !get_property("_gingerbreadMobHitUsed").to_boolean())
+	{
+		set_property("cc_combatHandler", combatState + "(gingerbread mob hit)");
+		handleTracker(enemy, $skill[Gingerbread Mob Hit], "cc_instakill");
+		return "skill " + $skill[Gingerbread Mob Hit];
+	}
+
 	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 32))
 	{
 		set_property("cc_combatHandler", combatState + "(weaksauce)");

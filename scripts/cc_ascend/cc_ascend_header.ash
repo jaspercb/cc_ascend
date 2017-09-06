@@ -787,6 +787,7 @@ boolean groundhogSafeguard();								//Defined in cc_ascend/cc_groundhog.ash
 void groundhog_initializeSettings();						//Defined in cc_ascend/cc_groundhog.ash
 boolean canGroundhog(location loc);							//Defined in cc_ascend/cc_groundhog.ash
 boolean groundhogAbort(location loc);						//Defined in cc_ascend/cc_groundhog.ash
+boolean LM_groundhog();										//Defined in cc_ascend/cc_groundhog.ash
 
 //Record from cc_ascend/cc_zone.ash
 record generic_t

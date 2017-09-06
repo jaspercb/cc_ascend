@@ -2156,6 +2156,11 @@ boolean doBedtime()
 		abort("Our last encounter was UNDYING and we ended up trying to bedtime and failed.");
 	}
 
+	if((item_amount($item[License To Chill]) > 0) && !get_property("_licenseToChillUsed").to_boolean())
+	{
+		use(1, $item[License To Chill]);
+	}
+
 	cc_process_kmail("cc_deleteMail");
 
 	if(my_adventures() > 4)
@@ -12960,6 +12965,7 @@ boolean doTasks()
 {
 	if(get_property("_casualAscension").to_int() >= my_ascensions())
 	{
+		print("I think I'm in a casual ascension and should not run. To override: set _casualAscension = -1", "red");
 		return false;
 	}
 
@@ -13019,6 +13025,7 @@ boolean doTasks()
 	if(LM_pete())						return true;
 	if(LM_jello())						return true;
 	if(LM_fallout())					return true;
+	if(LM_groundhog())					return true;
 	if(doHRSkills())					return true;
 
 	switch(my_daycount())
