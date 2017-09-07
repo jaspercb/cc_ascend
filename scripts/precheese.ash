@@ -51,11 +51,6 @@ void handlePreAdventure(location place)
 		}
 	}
 
-	if((place == $location[The Deep Machine Tunnels]) && !is100FamiliarRun($familiar[Machine Elf]))
-	{
-		abort("In a 100% run but not with the Machine Elf and something wants us to adventure in the DMT (something did not validate Machine Elf viability).");
-	}
-
 	if((place == $location[The Deep Machine Tunnels]) && (my_familiar() != $familiar[Machine Elf]))
 	{
 		if(!have_familiar($familiar[Machine Elf]))
