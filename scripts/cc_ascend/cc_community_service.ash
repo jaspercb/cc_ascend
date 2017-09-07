@@ -1939,7 +1939,7 @@ boolean LA_cs_communityService()
 				ccAdv(1, $location[The X-32-F Combat Training Snowman]);
 				return true;
 			}
-			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 2))
+			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 2) && !is100FamiliarRun($familiar[Machine Elf]))
 			{
 				backupSetting("choiceAdventure1119", 1);
 				handleFamiliar($familiar[Machine Elf]);
