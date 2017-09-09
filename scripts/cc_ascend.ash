@@ -8470,7 +8470,7 @@ boolean L7_crypt()
 			equip($item[Gravy Boat]);
 		}
 
-		if(get_property("spacegateVaccine3").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Emotional Vaccine]) == 0))
+		if(get_property("spacegateVaccine3").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Emotional Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 		{
 			cli_execute("spacegate vaccine 3");
 		}

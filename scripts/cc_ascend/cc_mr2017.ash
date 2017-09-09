@@ -1059,6 +1059,11 @@ boolean makeGenieCombat(monster mon, string option)
 
 	ccAdvBypass(5, pages, $location[Noob Cave], option);
 
+	if(get_property("lastEncounter") != mon)
+	{
+		print("Wish: '" + wish + "' failed", "red");
+		return false;
+	}
 	set_property("_genieWishes", get_property("_genieWishes").to_int() + 1);	
 	return true;
 }

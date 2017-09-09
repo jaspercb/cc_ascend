@@ -1058,7 +1058,7 @@ boolean LA_cs_communityService()
 				cli_execute("hatter 11");
 			}
 
-			if(get_property("spacegateVaccine1").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0))
+			if(get_property("spacegateVaccine1").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 			{
 				cli_execute("spacegate vaccine 2");
 			}
@@ -1249,7 +1249,7 @@ boolean LA_cs_communityService()
 				cli_execute("crossstreams");
 			}
 
-			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0))
+			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 			{
 				cli_execute("spacegate vaccine 2");
 			}
@@ -1405,7 +1405,7 @@ boolean LA_cs_communityService()
 				chew(1, $item[Abstraction: Action]);
 			}
 
-			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0))
+			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 			{
 				cli_execute("spacegate vaccine 2");
 			}
@@ -1479,7 +1479,7 @@ boolean LA_cs_communityService()
 				cli_execute("drink 1 bee's knees");
 			}
 
-			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0))
+			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 			{
 				cli_execute("spacegate vaccine 2");
 			}
@@ -1560,7 +1560,7 @@ boolean LA_cs_communityService()
 			}
 
 #			At this point, we are probably only saving 1.75 turns or so, do not bother.
-#			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0))
+#			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 #			{
 #				cli_execute("spacegate vaccine 2");
 #			}
@@ -2416,7 +2416,7 @@ boolean LA_cs_communityService()
 
 			cs_eat_stuff(curQuest);
 
-			if(get_property("spacegateVaccine1").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Rainbow Vaccine]) == 0))
+			if(get_property("spacegateVaccine1").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Rainbow Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 			{
 				cli_execute("spacegate vaccine 1");
 			}
