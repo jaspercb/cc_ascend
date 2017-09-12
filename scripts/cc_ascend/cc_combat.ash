@@ -2305,12 +2305,10 @@ string cc_edCombatHandler(int round, string opp, string text)
 	phylum type = monster_phylum(enemy);
 	string combatState = get_property("cc_combatHandler");
 	string edCombatState = get_property("cc_edCombatHandler");
-
 	if($monsters[LOV Enforcer, LOV Engineer, LOV Equivocator] contains enemy)
 	{
 		set_property("cc_edStatus", "dying");
 	}
-
 
 	#Handle different path is monster_level_adjustment() > 150 (immune to staggers?)
 	int mcd = monster_level_adjustment();

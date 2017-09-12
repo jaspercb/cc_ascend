@@ -37,7 +37,10 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 	{
 		loveEffect = 3;
 	}
-
+	if((cc_my_path() == "Actually Ed the Undying") && ((my_mp() < 20) || (my_turncount() < 10)))
+	{
+		return false;
+	}
 //	set_property("_cc_loveTunnelDone", true);
 
 	string temp = visit_url("place.php?whichplace=town_wrong");
