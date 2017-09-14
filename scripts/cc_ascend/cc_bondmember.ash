@@ -80,7 +80,7 @@ void bond_initializeSettings()
 	}
 }
 
-void bond_initializeDay(int day)
+boolean bond_initializeDay(int day)
 {
 	if(my_path() != "License to Adventure")
 	{
@@ -202,6 +202,7 @@ void bond_initializeDay(int day)
 
 		}
 	}
+	return false;
 }
 
 boolean bond_buySkills()
