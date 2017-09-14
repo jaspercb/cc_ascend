@@ -82,6 +82,10 @@ void bond_initializeSettings()
 
 void bond_initializeDay(int day)
 {
+	if(my_path() != "License to Adventure")
+	{
+		return false;
+	}
 	if(day == 2)
 	{
 		if(get_property("cc_dickstab").to_boolean())
