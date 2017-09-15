@@ -228,7 +228,7 @@ void handlePostAdventure()
 			buffMaintain($effect[Bounty of Renenutet], 20, 1, maxBuff);
 		}
 
-		if((my_level() < 13) && (my_level() > 3) && !get_property("cc_needLegs").to_boolean())
+		if((my_level() < 13) && (my_level() > 3) && !get_property("cc_needLegs").to_boolean() && (get_property("edPoints").to_int() > 15))
 		{
 			buffMaintain($effect[Blessing of Serqet], 15, 1, 1);
 		}
