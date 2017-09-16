@@ -2300,6 +2300,14 @@ boolean doBedtime()
 
 	loveTunnelAcquire(true, $stat[none], true, 3, true, 1);
 
+	if(item_amount($item[Genie Bottle]) > 0)
+	{
+		for(int i=get_property("_genieWishes").to_int(); i<3; i++)
+		{
+			makeGeniePocket();
+		}
+	}
+
 	if((friars_available()) && (!get_property("friarsBlessingReceived").to_boolean()))
 	{
 		cli_execute("friars familiar");

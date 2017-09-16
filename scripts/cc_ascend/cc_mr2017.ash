@@ -1075,3 +1075,36 @@ boolean makeGenieCombat(monster mon)
 {
 	return makeGenieCombat(mon, "");
 }
+
+
+boolean makeGeniePocket()
+{
+	if(item_amount($item[Genie Bottle]) == 0)
+	{
+		return false;
+	}
+	if(get_property("_genieWishes").to_int() >= 3)
+	{
+		return false;
+	}
+
+	if(my_adventures() == 0)
+	{
+		return false;
+	}
+
+	int count = item_amount($item[Pocket Wish]);
+
+	string wish = "for more wishes";
+	string page = visit_url("inv_use.php?pwd=" + my_hash() + "&which=3&whichitem=9529", false);
+	page = visit_url("choice.php?pwd=&whichchoice=1267&option=1&wish=" + wish);
+
+	if(count == item_amount($item[Pocket Wish]))
+	{
+		return false;
+	}
+
+	set_property("_genieWishes", get_property("_genieWishes").to_int() + 1);
+	return true;
+}
+

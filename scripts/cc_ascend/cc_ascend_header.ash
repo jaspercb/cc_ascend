@@ -526,6 +526,7 @@ boolean asdonAutoFeed(int goal);							//Defined in cc_ascend/cc_mr2017.ash
 boolean makeGenieWish(effect eff);							//Defined in cc_ascend/cc_mr2017.ash
 boolean makeGenieCombat(monster mon, string option);		//Defined in cc_ascend/cc_mr2017.ash
 boolean makeGenieCombat(monster mon);						//Defined in cc_ascend/cc_mr2017.ash
+boolean makeGeniePocket();									//Defined in cc_ascend/cc_mr2017.ash
 int get_cs_questCost(int quest);							//Defined in cc_ascend/cc_community_service.ash
 int get_cs_questCost(string input);							//Defined in cc_ascend/cc_community_service.ash
 int get_cs_questNum(string input);							//Defined in cc_ascend/cc_community_service.ash
