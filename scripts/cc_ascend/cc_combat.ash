@@ -3054,6 +3054,10 @@ string cc_edCombatHandler(int round, string opp, string text)
 	{
 		return "skill Storm of the Scarab";
 	}
+	if((my_mp() >= mp_cost($skill[Fist Of The Mummy])) && (my_location() == $location[Hippy Camp]) && have_skill($skill[Fist Of The Mummy]))
+	{
+		return "skill " + $skill[Fist Of The Mummy];
+	}
 
 
 #	if((!contains_text(combatState, "love stinkbug")) && have_skill($skill[Summon Love Stinkbug]) && (mcd <= 50))
