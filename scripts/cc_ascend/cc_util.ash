@@ -2479,6 +2479,7 @@ boolean evokeEldritchHorror()
 
 boolean fightScienceTentacle(string option)
 {
+	return false;
 	if(get_property("_eldritchTentacleFought").to_boolean())
 	{
 		return false;
