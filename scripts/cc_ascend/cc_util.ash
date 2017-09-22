@@ -2479,26 +2479,37 @@ boolean evokeEldritchHorror()
 
 boolean fightScienceTentacle(string option)
 {
-	return false;
 	if(get_property("_eldritchTentacleFought").to_boolean())
 	{
 		return false;
 	}
 
 	string temp = visit_url("place.php?whichplace=forestvillage&action=fv_scientist");
-	if(!(contains_text(temp,"Can I fight that tentacle")))
+
+	string[int] choices = available_choice_options();
+	int abortChoice = 0;
+	foreach idx, text in choices
 	{
-		if(contains_text(temp, "publish a great paper"))
+		if(text == "Great!")
 		{
-			temp = visit_url("choice.php?whichchoice=1201&pwd=&option=1");
+			abortChoice = idx;
+			break;
 		}
+	}
+
+	if((choices[1] != "Can I fight that tentacle you saved for science?") || (abortChoice == 0))
+	{
+		set_property("_eldritchTentacleFought", true);
+		temp = visit_url("choice.php?whichchoice=1201&pwd=&option=" + abortChoice);
 		return false;
 	}
-	temp = visit_url("choice.php?whichchoice=1201&pwd=&option=2");
+
+	temp = visit_url("choice.php?whichchoice=1201&pwd=&option=" + abortChoice);
 	string[int] pages;
 	pages[0] = "place.php?whichplace=forestvillage&action=fv_scientist";
 	pages[1] = "choice.php?whichchoice=1201&pwd=&option=1";
 	return ccAdvBypass(0, pages, $location[Noob Cave], option);
+
 }
 
 boolean fightScienceTentacle()
