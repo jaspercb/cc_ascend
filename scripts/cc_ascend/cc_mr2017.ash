@@ -1014,7 +1014,7 @@ boolean makeGenieWish(effect eff)
 	{
 		return false;
 	}
-	if(get_property("_genieWishes").to_int() >= 3)
+	if(get_property("_genieWishesUsed").to_int() >= 3)
 	{
 		return false;
 	}
@@ -1035,7 +1035,6 @@ boolean makeGenieWish(effect eff)
 		print("Wish: '" + wish + "' failed", "red");
 		return false;
 	}
-	set_property("_genieWishes", get_property("_genieWishes").to_int() + 1);
 	return true;
 }
 
@@ -1045,7 +1044,7 @@ boolean makeGenieCombat(monster mon, string option)
 	{
 		return false;
 	}
-	if(get_property("_genieWishes").to_int() >= 3)
+	if(get_property("_genieWishesUsed").to_int() >= 3)
 	{
 		return false;
 	}
@@ -1067,7 +1066,6 @@ boolean makeGenieCombat(monster mon, string option)
 		print("Wish: '" + wish + "' failed", "red");
 		return false;
 	}
-	set_property("_genieWishes", get_property("_genieWishes").to_int() + 1);	
 	return true;
 }
 
@@ -1083,7 +1081,7 @@ boolean makeGeniePocket()
 	{
 		return false;
 	}
-	if(get_property("_genieWishes").to_int() >= 3)
+	if(get_property("_genieWishesUsed").to_int() >= 3)
 	{
 		return false;
 	}
@@ -1103,8 +1101,6 @@ boolean makeGeniePocket()
 	{
 		return false;
 	}
-
-	set_property("_genieWishes", get_property("_genieWishes").to_int() + 1);
 	return true;
 }
 

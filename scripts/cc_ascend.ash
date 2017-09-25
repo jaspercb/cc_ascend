@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18215;
+since r18220;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -9634,6 +9634,18 @@ boolean beatenUpResolution()
 			doHottub();
 		}
 	}
+	if((have_effect($effect[Beaten Up]) > 0) && (last_monster() == $monster[Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl]))
+	{
+		if((my_mp() > 40) && have_skill($skill[Tongue of the Walrus]) && have_skill($skill[Cannelloni Cocoon]))
+		{
+			use_skill($skill[Tongue of the Walrus]);
+			useCocoon();
+		}
+		else
+		{
+			doHottub();
+		}
+	}
 
 	if(have_effect($effect[Beaten Up]) > 0)
 	{
@@ -13096,20 +13108,23 @@ boolean doTasks()
 		useCocoon();
 	}
 
-	if(my_daycount() == 1)
+	if(my_ascensions() > 100)
 	{
-		if((my_adventures() < 10) && (my_level() >= 7))
+		if(my_daycount() == 1)
 		{
-			fightScienceTentacle();
-			if(my_mp() > (2 * mp_cost($skill[Evoke Eldritch Horror])))
+			if((my_adventures() < 10) && (my_level() >= 7))
 			{
-				evokeEldritchHorror();
+				fightScienceTentacle();
+				if(my_mp() > (2 * mp_cost($skill[Evoke Eldritch Horror])))
+				{
+					evokeEldritchHorror();
+				}
 			}
 		}
-	}
-	else if(my_level() >= 9)
-	{
-		fightScienceTentacle();
+		else if(my_level() >= 9)
+		{
+			fightScienceTentacle();
+		}
 	}
 
 	if(LX_chateauPainting())			return true;
