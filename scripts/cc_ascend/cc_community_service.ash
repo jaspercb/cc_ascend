@@ -2111,14 +2111,6 @@ boolean LA_cs_communityService()
 			}
 			asdonBuff($effect[Driving Stealthily]);
 
-			foreach eff in $effects[Chocolatesphere, Disquiet Riot, Patent Invisibility]
-			{
-				if(have_effect(eff) == 0)
-				{
-					makeGenieWish(eff);
-				}
-			}
-
 			int questCost = get_cs_questCost(curQuest);
 			if(my_adventures() < questCost)
 			{
@@ -2147,6 +2139,17 @@ boolean LA_cs_communityService()
 				pulverizeThing($item[A Light That Never Goes Out]);
 				pulverizeThing($item[Vicar\'s Tutu]);
 				chew(item_amount($item[Handful of Smithereens]), $item[Handful of Smithereens]);
+			}
+
+			if((my_adventures() < questCost) || (mall_price($item[Pocket Wish]) < 35000))
+			{
+				foreach eff in $effects[Chocolatesphere, Disquiet Riot, Patent Invisibility]
+				{
+					if(have_effect(eff) == 0)
+					{
+						makeGenieWish(eff);
+					}
+				}
 			}
 
 			if(do_cs_quest(8))
