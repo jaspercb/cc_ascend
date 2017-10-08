@@ -252,6 +252,13 @@ boolean ccDrink(int howMany, item toDrink)
 
 	int expectedInebriety = toDrink.inebriety * howMany;
 
+	item it = equipped_item($slot[Acc3]);
+	if((it != $item[Mafia Pinky Ring]) && (item_amount($item[Mafia Pinky Ring]) > 0) && ($items[Sacramento Wine] contains toDrink))
+	{
+		equip($slot[Acc3], $item[Mafia Pinky Ring]);
+	}
+
+
 	if(possessEquipment($item[Wrist-Boy]) && (my_meat() > 6500))
 	{
 		if((have_effect($effect[Drunk and Avuncular]) < expectedInebriety) && (item_amount($item[Drunk Uncles Holo-Record]) == 0))
@@ -271,11 +278,13 @@ boolean ccDrink(int howMany, item toDrink)
 		}
 		howMany = howMany - 1;
 	}
+
+	if(equipped_item($slot[Acc3]) != it)
+	{
+		equip($slot[Acc3], it);
+	}
+
 	return retval;
-
-
-
-	return drink(howMany, toDrink);
 }
 
 boolean ccOverdrink(int howMany, item toOverdrink)

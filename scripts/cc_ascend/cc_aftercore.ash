@@ -955,8 +955,17 @@ boolean cc_cheesePostCS(int leave)
 	}
 	while((inebriety_left() >= 1) && (item_amount($item[Sacramento Wine]) > 0))
 	{
+		item it = equipped_item($slot[Acc3]);
+		if((it != $item[Mafia Pinky Ring]) && (item_amount($item[Mafia Pinky Ring]) > 0))
+		{
+			equip($slot[Acc3], $item[Mafia Pinky Ring]);
+		}
 		buffMaintain($effect[Ode to Booze], 50, 1, 1);
 		drink(1, $item[Sacramento Wine]);
+		if(equipped_item($slot[Acc3]) != it)
+		{
+			equip($slot[Acc3], it);
+		}
 	}
 
 	while((spleen_left() >= 4) && (item_amount($item[Agua de Vida]) > 0))

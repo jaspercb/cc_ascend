@@ -3598,6 +3598,10 @@ boolean buffMaintain(item source, effect buff, int uses, int turns)
 	{
 		return false;
 	}
+	if(!is_unrestricted(source))
+	{
+		return false;
+	}
 	if((item_amount(source) < uses) && (my_path() != "Way of the Surprising Fist"))
 	{
 		if(historical_price(source) < 2000)

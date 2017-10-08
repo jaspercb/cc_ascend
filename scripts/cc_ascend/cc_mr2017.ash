@@ -1086,10 +1086,10 @@ boolean makeGeniePocket()
 		return false;
 	}
 
-	if(my_adventures() == 0)
-	{
-		return false;
-	}
+#	if(my_adventures() == 0)
+#	{
+#		return false;
+#	}
 
 	int count = item_amount($item[Pocket Wish]);
 

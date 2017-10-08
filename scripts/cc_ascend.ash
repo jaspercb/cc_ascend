@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18220;
+since r18233;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -2302,7 +2302,7 @@ boolean doBedtime()
 
 	if(item_amount($item[Genie Bottle]) > 0)
 	{
-		for(int i=get_property("_genieWishes").to_int(); i<3; i++)
+		for(int i=get_property("_genieWishesUsed").to_int(); i<3; i++)
 		{
 			makeGeniePocket();
 		}
