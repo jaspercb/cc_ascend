@@ -59,6 +59,8 @@ void initializeSettings()
 	cli_execute("refresh all");
 	set_property("cc_doneInitialize", my_ascensions());
 
+	set_property("cc_useCubeling", true);
+	set_property("cc_100familiar", $familiar[none]);
 	if(my_familiar() != $familiar[none])
 	{
 		boolean userAnswer = user_confirm("Familiar already set, is this a 100% familiar run? Will default to 'No' in 15 seconds.", 15000, false);
@@ -66,19 +68,10 @@ void initializeSettings()
 		{
 			set_property("cc_100familiar", my_familiar());
 		}
-		else
-		{
-			set_property("cc_100familiar", $familiar[none]);
-		}
 		if(is100FamiliarRun())
 		{
 			set_property("cc_useCubeling", false);
 		}
-	}
-	else
-	{
-		set_property("cc_useCubeling", true);
-		set_property("cc_100familiar", $familiar[none]);
 	}
 
 	if(!is100FamiliarRun() && have_familiar($familiar[Crimbo Shrub]))
