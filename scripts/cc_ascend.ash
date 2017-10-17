@@ -259,6 +259,8 @@ void initializeSettings()
 
 boolean handleFamiliar(string type)
 {
+	//Can this take zoneInfo into account?
+
 	//	Put all familiars in reverse priority order here.
 	int[familiar] blacklist;
 
@@ -276,6 +278,17 @@ boolean handleFamiliar(string type)
 			blacklist[to_familiar(trim(fam))] = 1;
 		}
 	}
+
+/*
+	if((type == "item") && (get_property("cc_beatenUpCount").to_int() > 5))
+	{
+		generic_t itemNeed = zone_needItem(place);
+		if(itemNeed._boolean && (item_drop_modifier() > itemNeed._float))
+		{
+			type = "regen";
+		}
+	}
+*/
 
 	if(type == "meat")
 	{
@@ -298,7 +311,7 @@ boolean handleFamiliar(string type)
 	}
 	else if(type == "item")
 	{
-		familiar[int] fams = List($familiars[Rockin\' Robin, Grimstone Golem, Angry Jung Man, Intergnat, Bloovian Groose, Fist Turkey, Slimeling, Jumpsuited Hound Dog, Adventurous Spelunker, Gelatinous Cubeling, Baby Gravy Fairy, Obtuse Angel, Pair of Stomping Boots, Jack-in-the-Box, Syncopated Turtle]);
+		familiar[int] fams = List($familiars[Rockin\' Robin, Grimstone Golem, Angry Jung Man, Intergnat, XO Skeleton, Bloovian Groose, Fist Turkey, Slimeling, Jumpsuited Hound Dog, Adventurous Spelunker, Gelatinous Cubeling, Baby Gravy Fairy, Obtuse Angel, Pair of Stomping Boots, Jack-in-the-Box, Syncopated Turtle]);
 		if((my_daycount() == 1) && ($familiar[Angry Jung Man].drops_today == 0) && (get_property("cc_crackpotjar") == ""))
 		{
 			fams = ListRemove(fams, $familiar[Angry Jung Man]);
@@ -320,7 +333,7 @@ boolean handleFamiliar(string type)
 			fams = ListRemove(fams, $familiar[Angry Jung Man]);
 			fams = ListInsertAt(fams, $familiar[Angry Jung Man], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
-		if(item_amount($item[BACON]) > 1000)
+		if(item_amount($item[BACON]) > 250)
 		{
 			fams = ListRemove(fams, $familiar[Intergnat]);
 			fams = ListInsertAt(fams, $familiar[Intergnat], fams.ListFind($familiar[Gelatinous Cubeling]));
@@ -382,8 +395,14 @@ boolean handleFamiliar(string type)
 	}
 	else if(type == "regen")
 	{
-		foreach fam in $familiars[Galloping Grill, Mini-Hipster, Ms. Puck Man, Puck Man, Rogue Program, Stocking Mimic, Twitching Space Critter, Lil\' Barrel Mimic, Helix Fossil, Adorable Space Buddy, Cuddlefish, Personal Raincloud, Cocoabo, Midget Clownfish, Choctopus, Wild Hare, Snow Angel, Ghuol Whelp, Star Starfish]
+		familiar[int] fams = List($familiars[Galloping Grill, XO Skeleton, Mini-Hipster, Ms. Puck Man, Puck Man, Rogue Program, Stocking Mimic, Twitching Space Critter, Lil\' Barrel Mimic, Helix Fossil, Adorable Space Buddy, Cuddlefish, Personal Raincloud, Cocoabo, Midget Clownfish, Choctopus, Wild Hare, Snow Angel, Ghuol Whelp, Star Starfish]);
+		foreach idx, fam in fams
 		{
+			if($familiar[Galloping Grill].drops_today >= $familiar[Galloping Grill].drops_limit)
+			{
+				fams = ListRemove(fams, $familiar[Galloping Grill]);
+				fams = ListInsertAt(fams, $familiar[Galloping Grill], fams.ListFind($familiar[Rogue Program]));
+			}
 			if(have_familiar(fam) && !(blacklist contains fam))
 			{
 				return handleFamiliar(fam);
