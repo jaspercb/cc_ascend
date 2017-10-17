@@ -1051,9 +1051,9 @@ boolean LA_cs_communityService()
 			}
 			if(!get_property("_madTeaParty").to_boolean())
 			{
-				if(!possessEquipment($item[Mariachi Hat]))
+				if(!possessEquipment($item[Ravioli Hat]))
 				{
-					acquireGumItem($item[Mariachi Hat]);
+					acquireGumItem($item[Ravioli Hat]);
 				}
 				cli_execute("hatter 11");
 			}
@@ -1285,7 +1285,10 @@ boolean LA_cs_communityService()
 				{
 					cli_execute("clan_viplounge.php?action=lookingglass");
 				}
-
+				if(!possessEquipment($item[Mariachi Hat]))
+				{
+					acquireGumItem($item[Mariachi Hat]);
+				}
 				cli_execute("hatter 12");
 			}
 
