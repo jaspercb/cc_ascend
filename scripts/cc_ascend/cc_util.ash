@@ -3013,6 +3013,16 @@ void pullAndUse(item it, int uses)
 	}
 }
 
+int cc_mall_price(item it)
+{
+	int retval = mall_price(it);
+	if(retval == -1)
+	{
+		abort("Failed getting mall price, aborting to prevent problems");
+	}
+	return retval;
+}
+
 boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 {
 	if(in_hardcore())
@@ -3037,7 +3047,7 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 		while(storage_amount(it) < howMany)
 		{
 			int oldPrice = historical_price(it) * 1.2;
-			int curPrice = mall_price(it);
+			int curPrice = cc_mall_price(it);
 			if((curPrice <= oldPrice) && (curPrice < 30000) && (my_storage_meat() >= curPrice))
 			{
 				buy_using_storage(howMany - storage_amount(it), it, curPrice);
@@ -3135,9 +3145,9 @@ boolean buy_item(item it, int quantity, int maxprice)
 	{
 		take_storage(storage_amount(it), it);
 	}
-	while((item_amount(it) < quantity) && (mall_price(it) < maxprice))
+	while((item_amount(it) < quantity) && (cc_mall_price(it) < maxprice))
 	{
-		if(mall_price(it) > my_meat())
+		if(cc_mall_price(it) > my_meat())
 		{
 			abort("Don't have enough meat to restock, big sad");
 		}
@@ -3149,7 +3159,7 @@ boolean buy_item(item it, int quantity, int maxprice)
 	}
 	if(item_amount(it) < quantity)
 	{
-		if(mall_price(it) >= maxprice)
+		if(cc_mall_price(it) >= maxprice)
 		{
 			print("Price of " + it + " exceeded expected mall price of " + maxprice + ".", "blue");
 		}

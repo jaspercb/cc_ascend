@@ -1323,7 +1323,7 @@ boolean rethinkingCandy(effect acquire, boolean simulate)
 	item[int] complexList;
 	foreach it in $items[]
 	{
-		if(it.candy && (item_amount(it) > 0) && (mall_price(it) <= 2500) && it.tradeable)
+		if(it.candy && (item_amount(it) > 0) && (cc_mall_price(it) <= 2500) && it.tradeable)
 		{
 			if(it.candy_type == "simple")
 			{
@@ -1336,19 +1336,19 @@ boolean rethinkingCandy(effect acquire, boolean simulate)
 		}
 	}
 
-	sort simpleList by mall_price(value);
-	sort complexList by mall_price(value);
+	sort simpleList by cc_mall_price(value);
+	sort complexList by cc_mall_price(value);
 	item[int] simple = List(simpleList);
 	item[int] complex = List(complexList);
 
 #	foreach idx, it in simple
 #	{
-#		print(it + ": " + item_amount(it) + " (" + to_int(it) + "): " + it.candy_type + " Cost: " + mall_price(it), "blue");
+#		print(it + ": " + item_amount(it) + " (" + to_int(it) + "): " + it.candy_type + " Cost: " + cc_mall_price(it), "blue");
 #	}
 #
 #	foreach idx, it in complex
 #	{
-#		print(it + ": " + item_amount(it) + " (" + to_int(it) + "): " + it.candy_type + " Cost: " + mall_price(it), "blue");
+#		print(it + ": " + item_amount(it) + " (" + to_int(it) + "): " + it.candy_type + " Cost: " + cc_mall_price(it), "blue");
 #	}
 
 	int bestCost = 5000;
@@ -1374,9 +1374,9 @@ boolean rethinkingCandy(effect acquire, boolean simulate)
 					{
 						print("Possible: " + simple[i] + ", " + simple[j], "blue");
 					}
-					if((mall_price(simple[i]) + mall_price(simple[j])) < bestCost)
+					if((cc_mall_price(simple[i]) + cc_mall_price(simple[j])) < bestCost)
 					{
-						bestCost = mall_price(simple[i]) + mall_price(simple[j]);
+						bestCost = cc_mall_price(simple[i]) + cc_mall_price(simple[j]);
 						bestFirst = simple[i];
 						bestSecond = simple[j];
 					}
@@ -1399,9 +1399,9 @@ boolean rethinkingCandy(effect acquire, boolean simulate)
 					{
 						print("Possible: " + simple[i] + ", " + complex[j], "blue");
 					}
-					if((mall_price(simple[i]) + mall_price(complex[j])) < bestCost)
+					if((cc_mall_price(simple[i]) + cc_mall_price(complex[j])) < bestCost)
 					{
-						bestCost = mall_price(simple[i]) + mall_price(complex[j]);
+						bestCost = cc_mall_price(simple[i]) + cc_mall_price(complex[j]);
 						bestFirst = simple[i];
 						bestSecond = complex[j];
 					}
@@ -1429,9 +1429,9 @@ boolean rethinkingCandy(effect acquire, boolean simulate)
 					{
 						print("Possible: " + complex[i] + ", " + complex[j], "blue");
 					}
-					if((mall_price(complex[i]) + mall_price(complex[j])) < bestCost)
+					if((cc_mall_price(complex[i]) + cc_mall_price(complex[j])) < bestCost)
 					{
-						bestCost = mall_price(complex[i]) + mall_price(complex[j]);
+						bestCost = cc_mall_price(complex[i]) + cc_mall_price(complex[j]);
 						bestFirst = complex[i];
 						bestSecond = complex[j];
 					}

@@ -595,6 +595,7 @@ boolean isOverdueDigitize();								//Defined in cc_ascend/cc_util.ash
 boolean isProtonGhost(monster mon);							//Defined in cc_ascend/cc_util.ash
 boolean isUnclePAvailable();								//Defined in cc_ascend/cc_util.ash
 boolean is_avatar_potion(item it);							//Defined in cc_ascend/cc_util.ash
+int cc_mall_price(item it);									//Defined in cc_ascend/cc_util.ash
 item[int] itemList();										//Defined in cc_ascend/cc_list.ash
 int jello_absorbsLeft();									//Defined in cc_ascend/cc_jellonewbie.ash
 boolean jello_buySkills();									//Defined in cc_ascend/cc_jellonewbie.ash

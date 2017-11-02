@@ -317,7 +317,7 @@ boolean volcano_bunkerJob()
 		string temp = visit_url("place.php?whichplace=airport_hot&action=airport4_questhub");
 	}
 
-	int ticketValue = mall_price($item[One-Day Ticket To That 70s Volcano]) / 3;
+	int ticketValue = cc_mall_price($item[One-Day Ticket To That 70s Volcano]) / 3;
 	int option = 0;
 	int optionCost = 999999999;
 
@@ -328,15 +328,15 @@ boolean volcano_bunkerJob()
 		int currentCost = 999999999;
 		if($items[Gooey Lava Globs, New Age Healing Crystal, SMOOCH Bottlecap, Superduperheated Metal] contains it)
 		{
-			currentCost = mall_price(it) * get_property("_volcanoItemCount" + index).to_int();
+			currentCost = cc_mall_price(it) * get_property("_volcanoItemCount" + index).to_int();
 		}
 		else if(it == $item[Smooth Velvet Bra])
 		{
-			currentCost = 3 * mall_price($item[Unsmoothed Velvet]) * get_property("_volcanoItemCount" + index).to_int();
+			currentCost = 3 * cc_mall_price($item[Unsmoothed Velvet]) * get_property("_volcanoItemCount" + index).to_int();
 		}
 		else if(it == $item[SMOOCH Bracers])
 		{
-			currentCost = 5 * mall_price($item[Superheated Metal]) * get_property("_volcanoItemCount" + index).to_int();
+			currentCost = 5 * cc_mall_price($item[Superheated Metal]) * get_property("_volcanoItemCount" + index).to_int();
 		}
 
 		if(currentCost < optionCost)
@@ -352,16 +352,16 @@ boolean volcano_bunkerJob()
 		item it = to_item(get_property("_volcanoItem" + option).to_int());
 		if($items[Gooey Lava Globs, New Age Healing Crystal, SMOOCH Bottlecap, Superduperheated Metal] contains it)
 		{
-			buy(get_property("_volcanoItemCount" + option).to_int(), it, mall_price(it)*2);
+			buy(get_property("_volcanoItemCount" + option).to_int(), it, cc_mall_price(it)*2);
 		}
 		else if(it == $item[Smooth Velvet Bra])
 		{
-			buy(get_property("_volcanoItemCount" + option).to_int() * 3, $item[Unsmoothed Velvet], mall_price($item[Unsmoothed Velvet])*2);
+			buy(get_property("_volcanoItemCount" + option).to_int() * 3, $item[Unsmoothed Velvet], cc_mall_price($item[Unsmoothed Velvet])*2);
 			cli_execute("make 3 " + it);
 		}
 		else if(it == $item[SMOOCH Bracers])
 		{
-			buy(get_property("_volcanoItemCount" + option).to_int() * 5, $item[Superheated Metal], mall_price($item[Superheated Metal])*2);
+			buy(get_property("_volcanoItemCount" + option).to_int() * 5, $item[Superheated Metal], cc_mall_price($item[Superheated Metal])*2);
 			cli_execute("make 3 " + it);
 		}
 

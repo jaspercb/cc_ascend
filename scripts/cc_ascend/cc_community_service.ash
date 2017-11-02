@@ -2124,11 +2124,11 @@ boolean LA_cs_communityService()
 			{
 				buffMaintain($effect[Throwing Some Shade], 0, 1, 1);
 			}
-			if(mall_price($item[Shady Shades]) < 12000)
+			if(cc_mall_price($item[Shady Shades]) < 12000)
 			{
 				buffMaintain($effect[Throwing Some Shade], 0, 1, 1);
 			}
-			if(mall_price($item[Squeaky Toy Rose]) < 12000)
+			if(cc_mall_price($item[Squeaky Toy Rose]) < 12000)
 			{
 				buffMaintain($effect[A Rose by Any Other Material], 0, 1, 1);
 			}
@@ -2144,7 +2144,7 @@ boolean LA_cs_communityService()
 				chew(item_amount($item[Handful of Smithereens]), $item[Handful of Smithereens]);
 			}
 
-			if((my_adventures() < questCost) || (mall_price($item[Pocket Wish]) < 35000))
+			if((my_adventures() < questCost) || (cc_mall_price($item[Pocket Wish]) < 35000))
 			{
 				foreach eff in $effects[Chocolatesphere, Disquiet Riot, Patent Invisibility]
 				{

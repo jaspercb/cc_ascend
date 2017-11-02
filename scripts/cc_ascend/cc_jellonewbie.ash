@@ -99,12 +99,12 @@ boolean jello_buySkills()
 					continue;
 				}
 
-				sort possible by mall_price(value);
+				sort possible by cc_mall_price(value);
 
 				print("Trying to acquire skill " + sk + " and considering: " , "green");
 				for(int i=0; i<bound; i++)
 				{
-					print(possible[i] + ": " + mall_price(possible[i]), "blue");
+					print(possible[i] + ": " + cc_mall_price(possible[i]), "blue");
 				}
 
 				for(int i=0; (i<bound) && !have_skill(sk); i++)
