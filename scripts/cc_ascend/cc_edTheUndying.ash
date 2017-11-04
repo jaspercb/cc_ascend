@@ -1613,7 +1613,7 @@ boolean L1_ed_islandFallback()
 		{
 			if(get_property("_VYKEACafeteriaRaided").to_boolean())
 			{
-				set_property("choiceAdventure1115", 11);
+				set_property("choiceAdventure1115", 6);
 			}
 			else
 			{
