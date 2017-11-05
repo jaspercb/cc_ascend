@@ -340,6 +340,17 @@ item handleSolveThing(item[int] poss)
 
 item handleSolveThing(item[int] poss, slot loc)
 {
+	string override = get_property("cc_equipment_override_" + loc);
+	if(override != "")
+	{
+		string[int] overrides = split_string(override, ";");
+		poss = itemList();
+		foreach index, iName in overrides
+		{
+			poss = poss.ListInsert(to_item(iName));
+		}
+	}
+
 	item toEquip = $item[none];
 	set_property("cc_ignoreCombat", to_lower_case(get_property("cc_ignoreCombat")));
 	int idx = 0;

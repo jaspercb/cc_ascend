@@ -1,13 +1,142 @@
 script "cc_mr2017.ash"
 
-#   This is meant for items that have a date of 2017.
-#   Handling: Space Jellyfish, heart-shaped crate
+#	This is meant for items that have a date of 2017.
 
-boolean getSpaceJelly();
-boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem);
-boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem, string option);
+boolean pantogramPants()
+{
+	return pantogramPants(my_primestat(), $element[cold], 1, 2, 1);
+}
+boolean pantogramPants(stat st, element el, int hpmp, int meatItemStats, int misc)
+{
+	if(possessEquipment($item[Pantogram Pants]))
+	{
+		return false;
+	}
+
+	int m = 0;
+	switch(st)
+	{
+	case $stat[Muscle]:				m=1;		break;
+	case $stat[Mysticality]:		m=2;		break;
+	case $stat[Moxie]:				m=3;		break;
+	}
+
+	int e = 0;
+	switch(el)
+	{
+	case $element[hot]:				e=1;		break;
+	case $element[cold]:			e=2;		break;
+	case $element[spooky]:			e=3;		break;
+	case $element[sleaze]:			e=4;		break;
+	case $element[stench]:			e=5;		break;
+	}
+
+	if((hpmp < 1) || (hpmp > 9))
+	{
+		print("Invalid BottomLeft specifier for pANts. Failing pANts.", "red");
+		return false;
+	}
+	if((meatItemStats < 1) || (meatItemStats > 12))
+	{
+		print("Invalid BottomRight specifier for pANts. Failing pANts.", "red");
+		return false;
+	}
+	if((misc < 1) || (misc > 11))
+	{
+		print("Invalid BottomMiddle specifier for pANts. Failing pANts.", "red");
+		return false;
+	}
+
+	int itemId;
+	int itemQty;
+	switch(hpmp)
+	{
+	case 1:		itemId = -1;	itemQty = 0;	break;
+	case 2:		itemId = -2;	itemQty = 0;	break;
+	case 3:		itemId = 464;	itemQty = 1;	break;
+	case 4:		itemId = 830;	itemQty = 1;	break;
+	case 5:		itemId = 2438;	itemQty = 1;	break;
+	case 6:		itemId = 1658;	itemQty = 1;	break;
+	case 7:		itemId = 5789;	itemQty = 1;	break;
+	case 8:		itemId = 8455;	itemQty = 1;	break;
+	case 9:		itemId = 705;	itemQty = 1;	break;
+	}
+
+	if(item_amount(to_item(itemId)) < itemQty)
+	{
+		print("Do not have enough: " + to_item(itemId) + " for pANts.", "red");
+		return false;
+	}
+	string s1 = itemId + "," + itemQty;
 
 
+	switch(meatItemStats)
+	{
+	case 1:		itemId = -1;	itemQty = 0;	break;
+	case 2:		itemId = -2;	itemQty = 0;	break;
+	case 3:		itemId = 173;	itemQty = 1;	break;
+	case 4:		itemId = 706;	itemQty = 1;	break;
+	case 5:		itemId = 80;	itemQty = 1;	break;
+	case 6:		itemId = 7338;	itemQty = 1;	break;
+	case 7:		itemId = 747;	itemQty = 3;	break;
+	case 8:		itemId = 559;	itemQty = 3;	break;
+	case 9:		itemId = 27;	itemQty = 3;	break;
+	case 10:	itemId = 7327;	itemQty = 5;	break;
+	case 11:	itemId = 7324;	itemQty = 5;	break;
+	case 12:	itemId = 7330;	itemQty = 5;	break;
+	}
+
+	if(item_amount(to_item(itemId)) < itemQty)
+	{
+		print("Do not have enough: " + to_item(itemId) + " for pANts.", "red");
+		return false;
+	}
+	string s2 = itemId + "," + itemQty;
+
+
+
+	switch(misc)
+	{
+	case 1:		itemId = -1;	itemQty = 0;	break;
+	case 2:		itemId = -2;	itemQty = 0;	break;
+	case 3:		itemId = 70;	itemQty = 1;	break;
+	case 4:		itemId = 704;	itemQty = 1;	break;
+	case 5:		itemId = 865;	itemQty = 11;	break;
+	case 6:		itemId = 6851;	itemQty = 1;	break;
+	case 7:		itemId = 3495;	itemQty = 11;	break;
+	case 8:		itemId = 9008;	itemQty = 1;	break;
+	case 9:		itemId = 1907;	itemQty = 15;	break;
+	case 10:	itemId = 14;	itemQty = 99;	break;
+	case 11:	itemId = 24;	itemQty = 1;	break;
+	}
+
+	if(item_amount(to_item(itemId)) < itemQty)
+	{
+		print("Do not have enough: " + to_item(itemId) + " for pANts.", "red");
+		return false;
+	}
+	string s3 = itemId + "," + itemQty;
+
+
+	if((m < 1) || (m > 3))
+	{
+		print("Invalid stat specifier for pANts. Failing pANts.", "red");
+		return false;
+	}
+	if((e < 1) || (e > 5))
+	{
+		print("Invalid elemental specifier for pANts. Failing pANts.", "red");
+		return false;
+	}
+
+	string page = visit_url("inv_use.php?pwd=" + my_hash() + "&which=3&whichitem=" + to_int($item[Portable Pantogram]));
+
+#<tr><td style="color: white;" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><span class='guts'>Something went awry.</span></td></tr>
+
+	page = visit_url("choice.php?pwd=&whichchoice=1270&option=1&m=" + m + "&e=" + e + "&s1=" + s1 + "&s2=" + s2 + "&s3=" + s3);
+	return true;
+
+}
 
 
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem)

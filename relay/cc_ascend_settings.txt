@@ -33,3 +33,13 @@
 33	cc_blacklistFamiliar	string	ANY	A semi-colon separate string of familiar names that we do not want to use. They still may get used but this will minimize their usage.
 34	cc_doArtistQuest	boolean	ANY	If set, we will try to do the artist quest. If the artist is not-accessible, the setting will silently disable.
 35	cc_ashtonLimit	integer	ANY	If set, makes sure you save X of an item before feeding it to the Ashton Kutcher (ignores Soda Bread).
+36	cc_equipment_override_hat	string	ANY	A semicolon separated list of overrides for the hat slot.
+37	cc_equipment_override_back	string	ANY	A semicolon separated list of overrides for the back slot.
+38	cc_equipment_override_shirt	string	ANY	A semicolon separated list of overrides for the shirt slot.
+39	cc_equipment_override_weapon	string	ANY	A semicolon separated list of overrides for the weapon slot.
+40	cc_equipment_override_off-hand	string	ANY	A semicolon separated list of overrides for the off-hand slot.
+41	cc_equipment_override_off-hand	string	ANY	A semicolon separated list of overrides for the pants slot.
+42	cc_equipment_override_acc1	string	ANY	A semicolon separated list of overrides for the acc1 slot.
+43	cc_equipment_override_acc2	string	ANY	A semicolon separated list of overrides for the acc2 slot.
+44	cc_equipment_override_acc3	string	ANY	A semicolon separated list of overrides for the acc3 slot.
+

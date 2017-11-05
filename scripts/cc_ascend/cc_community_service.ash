@@ -59,6 +59,20 @@ boolean LA_cs_communityService()
 	cs_make_stuff();
 	cc_mayoItems();
 
+	if(item_amount($item[Portable Pantogram]) > 0)
+	{
+		switch(my_daycount())
+		{
+		case 1:
+			pantogramPants(my_primestat(), $element[cold], 1, 1, 1);
+			break;
+		case 2:
+		case 3:
+			pantogramPants($stat[Muscle], $element[hot], 1, 2, 1);
+			break;
+		}
+	}
+
 	if(isOverdueDigitize())
 	{
 		print("A Digitize event is expected now.", "blue");

@@ -610,6 +610,8 @@ boolean loopHandlerDelay(string counterSetting);			//Defined in cc_ascend/cc_uti
 boolean loopHandlerDelay(string counterSetting, int threshold);//Defined in cc_ascend/cc_util.ash
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem);//Defined in cc_ascend/cc_mr2017.ash
 boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int loveEffect, boolean equivocator, int giftItem, string option);//Defined in cc_ascend/cc_mr2017.ash
+boolean pantogramPants();									//Defined in cc_ascend/cc_mr2017.ash
+boolean pantogramPants(stat st, element el, int hpmp, int meatItemStats, int misc);//Defined in cc_ascend/cc_mr2017.ash
 int lumberCount();											//Defined in cc_ascend/cc_util.ash
 boolean makePerfectBooze();									//Defined in cc_ascend/cc_cooking.ash
 void makeStartingSmiths();									//Defined in cc_ascend/cc_equipment.ash
