@@ -11,6 +11,9 @@ location[int] zone_list();
 int[location] zone_delayable();
 boolean zone_isAvailable(location loc);
 location[int] zones_available();
+monster[int] mobs_available();
+item[int] drops_available();
+item[int] hugpocket_available();
 
 boolean zone_isAvailable(location loc)
 {
@@ -597,6 +600,7 @@ generic_t zone_available(location loc)
 			retval._boolean = true;
 		}
 		break;
+	case $location[South of The Border]:
 	case $location[The Shore\, Inc. Travel Agency]:
 		if(get_property("lastDesertUnlock").to_int() == my_ascensions())
 		{
@@ -629,6 +633,12 @@ generic_t zone_available(location loc)
 		break;
 	case $location[The Daily Dungeon]:
 		retval._boolean = !get_property("dailyDungeonDone").to_boolean();
+		break;
+	case $location[The Overgrown Lot]:
+		if(internalQuestStatus("questM24Doc") >= 0)
+		{
+			retval._boolean = true;
+		}
 		break;
 	case $location[The Skeleton Store]:
 		if(internalQuestStatus("questM23Meatsmith") >= 0)
@@ -1007,6 +1017,19 @@ generic_t zone_available(location loc)
 			retval._boolean = true;
 		}
 		break;
+	case $location[The Enormous Greater-Than Sign]:
+		if(get_property("lastPlusSignUnlock").to_int() < my_ascensions())
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Dungeons of Doom]:
+		if(get_property("lastPlusSignUnlock").to_int() == my_ascensions())
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Limerick Dungeon]:
 	case $location[The Sleazy Back Alley]:
 	case $location[The Haiku Dungeon]:
 		retval._boolean = true;
@@ -1030,8 +1053,29 @@ generic_t zone_available(location loc)
 		}
 		break;
 	case $location[Barf Mountain]:
+	case $location[Pirates of the Garbage Barges]:
+	case $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]:
+	case $location[The Toxic Teacups]:
 		retval._boolean = get_property("stenchAirportAlways").to_boolean() || get_property("_stenchAirportToday").to_boolean();
 		break;
+	case $location[The Fun-Guy Mansion]:
+	case $location[The Sunken Party Yacht]:
+	case $location[Sloppy Seconds Diner]:
+		retval._boolean = get_property("sleazeAirportAlways").to_boolean() || get_property("_sleazeAirportToday").to_boolean();
+		break;
+	case $location[The Secret Government Laboratory]:
+	case $location[The Deep Dark Jungle]:
+	case $location[The Mansion of Dr. Weirdeaux]:
+		retval._boolean = get_property("spookyAirportAlways").to_boolean() || get_property("_spookyAirportToday").to_boolean();
+		break;
+	case $location[The Ice Hotel]:
+	case $location[VYKEA]:
+	case $location[The Ice Hole]:
+		retval._boolean = get_property("coldAirportAlways").to_boolean() || get_property("_coldAirportToday").to_boolean();
+		break;
+	case $location[The SMOOCH Army HQ]:
+	case $location[LavaCo&trade; Lamp Factory]:
+	case $location[The Velvet / Gold Mine]:
 	case $location[The Bubblin\' Caldera]:
 		retval._boolean = get_property("hotAirportAlways").to_boolean() || get_property("_hotAirportToday").to_boolean();
 		break;
@@ -1041,16 +1085,72 @@ generic_t zone_available(location loc)
 	case $location[Through the Spacegate]:
 		retval._boolean = get_property("spacegateAlways").to_boolean() || get_property("_spacegateToday").to_boolean();
 		break;
+
+	case $location[The Old Landfill]:
+		if(internalQuestStatus("questM19Hippy") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+
+	case $location[The Red Queen\'s Garden]:
+		if(have_effect($effect[Down the Rabbit Hole]) > 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+
+	case $location[The Bugbear Pen]:
+		if(internalQuestStatus("questM03Bugbear") >= 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[The Spooky Gravy Burrow]:
+		//May need to be corrected
+		if(internalQuestStatus("questM03Bugbear") >= 99)
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Investigating A Plaintive Telegram]:
+		if((item_amount($item[Plaintive Telegram]) > 0) && (internalQuestStatus("questLTTQuestByWire") >= 0))
+		{
+			retval._boolean = true;
+		}
+		break;
+	case $location[Drunken Stupor]:
+		if(inebriety_left() < 0)
+		{
+			retval._boolean = true;
+		}
+		break;
+
 	case $location[Gingerbread Upscale Retail District]:
+		if(get_property("gingerRetailUnlocked").to_boolean())
+		{
+			retval._boolean = get_property("gingerbreadCityAvailable").to_boolean() || get_property("_gingerbreadCityToday").to_boolean();
+		}
+		break;
+	case $location[Gingerbread Sewers]:
+		if(get_property("gingerSewersUnlocked").to_boolean())
+		{
+			retval._boolean = get_property("gingerbreadCityAvailable").to_boolean() || get_property("_gingerbreadCityToday").to_boolean();
+		}
+		break;
+	case $location[Gingerbread Civic Center]:
+	case $location[Gingerbread Industrial Zone]:
+	case $location[Gingerbread Train Station]:
 		retval._boolean = get_property("gingerbreadCityAvailable").to_boolean() || get_property("_gingerbreadCityToday").to_boolean();
 		break;
 	}
 
 	return retval;
 }
+
 location[int] zone_list()
 {
-	return List($locations[8-Bit Realm, A-Boo Peak, The Arid\, Extra-Dry Desert, Barf Mountain, Barrrney\'s Barrr, The Bat Hole Entrance, The Batrat And Ratbat Burrow, The Battlefield (Frat Uniform), The Beanbat Chamber, Belowdecks, The Black Forest, The Boss Bat\'s Lair, The Bubblin\' Caldera, The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), Cobb\'s Knob Harem, Cobb\'s Knob Treasury, Coldest Adventurer Contest, The Daily Dungeon, The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Deep Machine Tunnels, The Defiled Alcove, The Defiled Cranny, The Defiled Niche, The Defiled Nook, The Extreme Slope, The F\'c\'le, Fastest Adventurer Contest, The Feeding Chamber, The Filthworm Queen\'s Chamber, Gingerbread Upscale Retail District, The Goatlet, Guano Junction, The Haiku Dungeon, The Hatching Chamber, The Haunted Ballroom, The Haunted Bathroom, The Haunted Bedroom, The Haunted Billiards Room, The Haunted Boiler Room, The Haunted Conservatory, The Haunted Gallery, The Haunted Kitchen, The Haunted Laundry Room, The Haunted Library, The Haunted Pantry, The Haunted Wine Cellar, The Hidden Apartment Building, The Hidden Bowling Alley, The Hidden Hospital, The Hidden Office Building, The Hidden Park, The Hidden Temple, The Hole in the Sky, Hottest Adventurer Contest, The Ice Hotel, The Icy Peak, Inside the Palindome, Itznotyerzitz Mine, Lair of the Ninja Snowmen, The Limerick Dungeon, The Lower Chambers, Madness Bakery, A Massive Ziggurat, A Maze Of Sewer Tunnels, The Middle Chamber, Mist-Shrouded Peak, Near an Abandoned Refrigerator, Next to that Barrel with Something Burning in it, Noob Cave, The Oasis, The Obligatory Pirate\'s Cove, Oil Peak, Out by that Rusted-Out Car, The Outskirts of Cobb\'s Knob, Over Where the Old Tires Are, An Overgrown Shrine (Northeast), An Overgrown Shrine (Northwest), An Overgrown Shrine (Southeast), An Overgrown Shrine (Southwest), The Penultimate Fantasy Airship, The Poop Deck, The Royal Guard Chamber, The Secret Government Laboratory, The Shore\, Inc. Travel Agency, The Skeleton Store, Sleaziest Adventurer Contest, The Sleazy Back Alley, The Skeleton Store, Smartest Adventurer Contest, Smoothest Adventurer Contest, Spookiest Adventurer Contest, Stinkiest Adventurer Contest, Strongest Adventurer Contest, The Smut Orc Logging Camp, Sonofa Beach, The Spooky Forest, Summoning Chamber, Super Villain\'s Lair, The Themthar Hills, Throne Room, Through the Spacegate, Twin Peak, The Typical Tavern Cellar, The Upper Chamber, The Velvet / Gold Mine, The VERY Unquiet Garves, The X-32-F Combat Training Snowman, Wartime Hippy Camp (Frat Disguise), Whitey\'s Grove]);
+	return List($locations[8-Bit Realm, A-Boo Peak, The Arid\, Extra-Dry Desert, Barf Mountain, Barrrney\'s Barrr, The Bat Hole Entrance, The Batrat And Ratbat Burrow, The Battlefield (Frat Uniform), The Beanbat Chamber, Belowdecks, The Black Forest, The Boss Bat\'s Lair, The Bubblin\' Caldera, The Bugbear Pen, The Castle in the Clouds in the Sky (Basement), The Castle in the Clouds in the Sky (Ground Floor), The Castle in the Clouds in the Sky (Top Floor), Cobb\'s Knob Harem, Cobb\'s Knob Treasury, Coldest Adventurer Contest, The Daily Dungeon, The Dark Elbow of the Woods, The Dark Heart of the Woods, The Dark Neck of the Woods, The Deep Dark Jungle, The Deep Machine Tunnels, The Defiled Alcove, The Defiled Cranny, The Defiled Niche, The Defiled Nook, Drunken Stupor, The Dungeons of Doom, The Enormous Greater-Than Sign, The Extreme Slope, The F\'c\'le, Fastest Adventurer Contest, The Feeding Chamber, The Filthworm Queen\'s Chamber, The Fun-Guy Mansion, Gingerbread Civic Center, Gingerbread Industrial Zone, Gingerbread Sewers, Gingerbread Train Station, Gingerbread Upscale Retail District, The Goatlet, Guano Junction, The Haiku Dungeon, The Hatching Chamber, The Haunted Ballroom, The Haunted Bathroom, The Haunted Bedroom, The Haunted Billiards Room, The Haunted Boiler Room, The Haunted Conservatory, The Haunted Gallery, The Haunted Kitchen, The Haunted Laundry Room, The Haunted Library, The Haunted Pantry, The Haunted Wine Cellar, The Hidden Apartment Building, The Hidden Bowling Alley, The Hidden Hospital, The Hidden Office Building, The Hidden Park, The Hidden Temple, The Hole in the Sky, Hottest Adventurer Contest, The Ice Hole, The Ice Hotel, The Icy Peak, Inside the Palindome, Investigating A Plaintive Telegram, Itznotyerzitz Mine, Lair of the Ninja Snowmen, LavaCo&trade; Lamp Factory, The Limerick Dungeon, The Lower Chambers, Madness Bakery, The Mansion of Dr. Weirdeaux, A Massive Ziggurat, A Maze Of Sewer Tunnels, The Middle Chamber, Mist-Shrouded Peak, Near an Abandoned Refrigerator, Next to that Barrel with Something Burning in it, Noob Cave, The Oasis, The Obligatory Pirate\'s Cove, Oil Peak, The Old Landfill, Out by that Rusted-Out Car, The Outskirts of Cobb\'s Knob, Over Where the Old Tires Are, The Overgrown Lot, An Overgrown Shrine (Northeast), An Overgrown Shrine (Northwest), An Overgrown Shrine (Southeast), An Overgrown Shrine (Southwest), The Penultimate Fantasy Airship, Pirates of the Garbage Barges, The Poop Deck, The Red Queen\'s Garden, The Royal Guard Chamber, The Secret Government Laboratory, The Shore\, Inc. Travel Agency, The Skeleton Store, Sleaziest Adventurer Contest, The Sleazy Back Alley, Sloppy Seconds Diner, The Skeleton Store, Smartest Adventurer Contest, The SMOOCH Army HQ, Smoothest Adventurer Contest, South of the Border, Spookiest Adventurer Contest, The Spooky Gravy Burrow, Stinkiest Adventurer Contest, Strongest Adventurer Contest, The Smut Orc Logging Camp, Sonofa Beach, The Spooky Forest, Summoning Chamber, The Sunken Party Yacht, Super Villain\'s Lair, The Themthar Hills, Throne Room, Through the Spacegate, The Toxic Teacups, Twin Peak, The Typical Tavern Cellar, Uncle Gator\'s Country Fun-Time Liquid Waste Sluice, The Upper Chamber, The Velvet / Gold Mine, The VERY Unquiet Garves, VYKEA, The X-32-F Combat Training Snowman, Wartime Hippy Camp (Frat Disguise), Whitey\'s Grove]);
 }
 
 location[int] zones_available()
@@ -1065,6 +1165,69 @@ location[int] zones_available()
 	}
 	return retval;
 }
+
+monster[int] mobs_available()
+{
+	boolean[monster] list;
+	monster[int] retval;
+	foreach idx, loc in zones_available()
+	{
+		foreach idx, mob in get_monsters(loc)
+		{
+			list[mob] = true;
+		}
+	}
+	foreach mob in list
+	{
+		retval[count(retval)] = mob;
+	}
+	return retval;
+}
+
+item[int] drops_available()
+{
+	boolean[item] list;
+	item[int] retval;
+	foreach idx, mob in mobs_available()
+	{
+		foreach it in item_drops(mob)
+		{
+			list[it] = true;
+		}
+	}
+	foreach it in list
+	{
+		retval[count(retval)] = it;
+	}
+	return retval;
+}
+
+
+item[int] hugpocket_available()
+{
+	boolean[item] list;
+	item[int] retval;
+	foreach idx, mob in mobs_available()
+	{
+		foreach idx, drop in item_drops_array(mob)
+		{
+			if(drop.type == "0")
+			{
+				list[drop.drop] = true;
+			}
+			else if((drop.rate > 0) && (drop.type != "n") && (drop.type != "c") && (drop.type != "b"))
+			{
+				list[drop.drop] = true;
+			}
+		}
+	}
+	foreach it in list
+	{
+		retval[count(retval)] = it;
+	}
+	return retval;
+}
+
 
 /*
 	case $location[The Oasis]:
@@ -1167,6 +1330,7 @@ location[int] zones_available()
 	case $location[The Haiku Dungeon]:
 	case $location[The Limerick Dungeon]:
 	case $location[The Skeleton Store]:
+	case $location[The Overgrown Lot]:
 	case $location[The Secret Government Laboratory]:
 	case $location[The Velvet / Gold Mine]:
 	default:

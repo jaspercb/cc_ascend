@@ -821,4 +821,6 @@ location[int] zone_list();									//Defined in cc_ascend/cc_zone.ash
 int[location] zone_delayable();								//Defined in cc_ascend/cc_zone.ash
 boolean zone_isAvailable(location loc);						//Defined in cc_ascend/cc_zone.ash
 location[int] zones_available();							//Defined in cc_ascend/cc_zone.ash
-
+monster[int] mobs_available();								//Defined in cc_ascend/cc_zone.ash
+item[int] drops_available();								//Defined in cc_ascend/cc_zone.ash
+item[int] hugpocket_available();							//Defined in cc_ascend/cc_zone.ash
