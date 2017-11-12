@@ -4874,18 +4874,7 @@ boolean L12_lastDitchFlyer()
 	}
 
 	print("Not enough flyer ML but we are ready for the war... uh oh", "blue");
-	boolean doHoleInTheSky = false;
-	if(item_amount($item[Richard\'s Star Key]) == 0)
-	{
-		if((item_amount($item[Star Chart]) == 0) || (item_amount($item[Star]) < 8) || (item_amount($item[Line]) < 7))
-		{
-			doHoleInTheSky = true;
-		}
-	}
-	if(contains_text(get_property("nsTowerDoorKeysUsed"),"star key"))
-	{
-		doHoleInTheSky = false;
-	}
+	boolean doHoleInTheSky = needStarKey();
 
 	if(doHoleInTheSky)
 	{
@@ -7548,17 +7537,7 @@ boolean L10_holeInTheSkyUnlock()
 		set_property("cc_holeinthesky", false);
 		return false;
 	}
-	if(item_amount($item[Richard\'s Star Key]) > 0)
-	{
-		set_property("cc_holeinthesky", false);
-		return false;
-	}
-	if((item_amount($item[Star Chart]) > 0) && (item_amount($item[Star]) >= 8) && (item_amount($item[Line]) >= 7))
-	{
-		set_property("cc_holeinthesky", false);
-		return false;
-	}
-	if(contains_text(get_property("nsTowerDoorKeysUsed"),"star key"))
+	if(!needStarKey())
 	{
 		set_property("cc_holeinthesky", false);
 		return false;
@@ -11750,24 +11729,15 @@ boolean L10_holeInTheSky()
 	{
 		return false;
 	}
-	if(contains_text(get_property("nsTowerDoorKeysUsed"),"star key"))
+	if(!needStarKey())
 	{
 		set_property("cc_getStarKey", false);
 		return false;
 	}
-	if(item_amount($item[Richard\'s Star Key]) > 0)
-	{
-		set_property("cc_getStarKey", false);
-		return false;
-	}
+
 	if((item_amount($item[star]) >= 8) && (item_amount($item[line]) >= 7))
 	{
 		if(!in_hardcore())
-		{
-			set_property("cc_getStarKey", false);
-			return false;
-		}
-		else if(item_amount($item[Star Chart]) > 0)
 		{
 			set_property("cc_getStarKey", false);
 			return false;

@@ -3298,6 +3298,135 @@ boolean hasShieldEquipped()
 	return item_type(equipped_item($slot[off-hand])) == "shield";
 }
 
+boolean needStarKey()
+{
+	if(contains_text(get_property("nsTowerDoorKeysUsed"),"star key"))
+	{
+		return false;
+	}
+	if(item_amount($item[Richard\'s Star Key]) > 0)
+	{
+		return false;
+	}
+	if((item_amount($item[Star Chart]) > 0) && (item_amount($item[Star]) >= 8) && (item_amount($item[Line]) >= 7))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+boolean needDigitalKey()
+{
+	if(contains_text(get_property("nsTowerDoorKeysUsed"),"digital key"))
+	{
+		return false;
+	}
+	if(item_amount($item[Digital Key]) > 0)
+	{
+		return false;
+	}
+	int count = item_amount($item[White Pixel]);
+
+	int extra = min(item_amount($item[Red Pixel]), item_amount($item[Blue Pixel]));
+	extra = min(extra, item_amount($item[Green Pixel]));
+	if((count + extra) >= 30)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+boolean careAboutDrops(monster mon)
+{
+	if($monsters[Astronomer, Axe Wound, Beaver, Box, Burrowing Bishop, Bush, Camel\'s Toe, Family Jewels, Flange, Honey Pot, Hooded Warrior, Junk, Little Man in the Canoe, Muff, One-Eyed Willie, Pork Sword, Skinflute, Trouser Snake, Twig and Berries] contains mon)
+	{
+		if(!needStarKey())
+		{
+			return false;
+		}
+		if(($monster[Astronomer] == mon) && (item_amount($item[Star Chart]) > 0))
+		{
+			return false;
+		}
+		//We could refine this to get rid of all the all stars / lines mobs but meh.
+		if(($monster[Astronomer] != mon) && ((item_amount($item[Star]) < 8) || (item_amount($item[Line]) < 7)))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	if($monsters[Blooper, Ghost] contains mon)
+	{
+		if(!needDigitalKey())
+		{
+			return false;
+		}
+		return true;
+	}
+
+/*
+pygmy bowler
+pygmy witch accountant 
+white lion
+white snake
+
+
+baseball bat
+briefcase bat
+doughbat
+perpendicular bat
+skullbat
+vampire bat
+batrat
+ratbat
+beanbat
+banshee librarian
+knob Goblin Harem Girl
+spiny skelelton
+toothy sklelton
+sassy pirate
+smarmy pirate
+swarthy pirate
+tetchy pirate
+toothy pirate 
+tipsy pirate
+chatty pirate
+cleanly pirate
+clingy pirate
+creamy pirate
+crusty pirate
+curmudgeonly pirate
+dairy goat
+gaudy pirate 
+ninja snowman assassin
+smut orc jacker
+smut orc nailer
+smut orc pervert
+smut orc pipelayer
+smut orc screwer 
+Whatsian Commando Ghost
+Space Tourist Explorer Ghost 
+Dusken Raider Ghost 
+Claybender Sorcerer Ghost 
+Battlie Knight Ghost 
+bearpig topiary animal
+elephant (meatcar?) topiary animal 
+spider (duck?) topiary animal 
+oil cartel
+oil baron 
+oil tycoon
+Burly Sidekick 
+Quiet Healer
+lobsterfrogman
+possessed wine rack
+cabinet of Dr. Limpieza
+*/
+	return false;
+}
+
 boolean beehiveConsider()
 {
 	if(in_hardcore())

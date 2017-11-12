@@ -48,6 +48,11 @@ boolean LA_cs_communityService()
 		print("In 100% familiar mode with a Puck Person... well, good luck!", "red");
 	}
 
+	if(get_property("nsTowerDoorKeysUsed") == "")
+	{
+		set_property("nsTowerDoorKeysUsed", "Boris's key,Jarlsberg's key,Sneaky Pete's key,Richard's star key,skeleton key,digital key");
+	}
+
 	static int curQuest = 0;
 	if(curQuest == 0)
 	{
@@ -486,6 +491,7 @@ boolean LA_cs_communityService()
 
 			if(item_amount($item[Exorcised sandwich]) > 0)
 			{
+				while(LX_bitchinMeatcar());
 				visit_url("guild.php?place=challenge");
 				visit_url("guild.php?place=paco");
 				visit_url("guild.php?place=paco");

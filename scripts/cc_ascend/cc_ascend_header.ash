@@ -706,6 +706,9 @@ int turkeyBooze();											//Defined in cc_ascend/cc_util.ash
 boolean uneffect(effect toRemove);							//Defined in cc_ascend/cc_util.ash
 boolean useCocoon();										//Defined in cc_ascend/cc_util.ash
 boolean use_barrels();										//Defined in cc_ascend/cc_util.ash
+boolean needStarKey();										//Defined in cc_ascend/cc_util.ash
+boolean needDigitalKey();									//Defined in cc_ascend/cc_util.ash
+boolean careAboutDrops(monster mon);						//Defined in cc_ascend/cc_util.ash
 boolean volcano_bunkerJob();								//Defined in cc_ascend/cc_elementalPlanes.ash
 boolean volcano_lavaDogs();									//Defined in cc_ascend/cc_elementalPlanes.ash
 boolean warAdventure();										//Defined in cc_ascend.ash
