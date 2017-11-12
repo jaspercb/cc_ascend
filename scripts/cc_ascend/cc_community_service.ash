@@ -2892,9 +2892,12 @@ void cs_make_stuff()
 			}
 			cli_execute("make Saucepanic");
 		}
-		if(!possessEquipment($item[Vicar\'s Tutu]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+		if(knoll_available() || possessEquipment($item[Frilly Skirt]))
 		{
-			cli_execute("make Vicar's Tutu");
+			if(!possessEquipment($item[Vicar\'s Tutu]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+			{
+				cli_execute("make Vicar's Tutu");
+			}
 		}
 
 		if(!possessEquipment($item[Staff of the Headmaster\'s Victuals]) && (item_amount($item[Lump of Brituminous Coal]) > 0))

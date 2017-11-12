@@ -411,7 +411,7 @@ boolean handleFamiliar(string type)
 	}
 	else if(type == "init")
 	{
-		foreach fam in $familiars[Happy Medium, Xiblaxian Holo-Companion, Oily Woim]
+		foreach fam in $familiars[Happy Medium, Xiblaxian Holo-Companion, Oily Woim, Cute Meteor]
 		{
 			if(have_familiar(fam) && !(blacklist contains fam))
 			{
