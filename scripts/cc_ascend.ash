@@ -12210,6 +12210,7 @@ boolean LX_pirateOutfit()
 		return false;
 	}
 
+
 	if(have_outfit("Swashbuckling Getup"))
 	{
 		if(item_amount($item[the big book of pirate insults]) == 1)
@@ -12226,6 +12227,11 @@ boolean LX_pirateOutfit()
 	}
 	else
 	{
+		if(possessEquipment($item[Stuffed Shoulder Parrot]) && possessEquipment($item[Swashbuckling Pants]) && possessEquipment($item[Eyepatch]))
+		{
+			return false;
+		}
+
 		if((my_class() == $class[Ed]) && !possessEquipment($item[stuffed shoulder parrot]))
 		{
 			if(my_hp() <= 3)

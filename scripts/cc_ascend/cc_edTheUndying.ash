@@ -1360,6 +1360,7 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 		{
 			print("This fight and " + num + " more left.", "blue");
 		}
+		cli_execute("precheese");
 		set_property("cc_disableAdventureHandling", true);
 		set_property("cc_edCombatHandler", "");
 

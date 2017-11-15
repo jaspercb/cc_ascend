@@ -138,7 +138,7 @@ void oldPeoplePlantStuff()
 		cli_execute("florist plant rabid dogwood");
 		cli_execute("florist plant artichoker");
 	}
-	else if((my_location() == $location[Barrrney\'s Barrr]))
+	else if((my_location() == $location[Barrrney\'s Barrr]) && (my_class() != $class[Ed]))
 	{
 		cli_execute("florist plant spider plant");
 		cli_execute("florist plant red fern");
