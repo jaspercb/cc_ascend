@@ -4355,6 +4355,12 @@ boolean L13_towerNSTower()
 			}
 
 			useCocoon();
+			boolean[item] famDamage = $items[Tiny Bowler, Ant Hoe, Ant Pick, Ant Rake, Ant Pitchfork, Ant Sickle, Kill Screen, Little Box of Fireworks, Filthy Child Leash, Plastic Pumpkin Bucket, Moveable Feast, Ittah Bittah Hookah];
+			if(famDamage contains equipped_item($slot[Familiar]))
+			{
+				equip($slot[Familiar], $item[none]);
+			}
+
 			ccAdvBypass("place.php?whichplace=nstower&action=ns_07_monster3", $location[Noob Cave]);
 			if(internalQuestStatus("questL13Final") < 9)
 			{
