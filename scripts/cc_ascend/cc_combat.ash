@@ -2463,6 +2463,15 @@ string cc_edCombatHandler(int round, string opp, string text)
 			set_property("cc_combatHandler", combatState + "(love gnats)");
 			return "skill summon love gnats";
 		}
+
+		if((item_amount($item[Ka Coin]) > 200) && have_skill($skill[Curse of Fortune]))
+		{
+			if(!contains_text(combatState, "curse of fortune"))
+			{
+				set_property("cc_combatHandler", combatState + "(curse of fortune)");
+				return "skill " + $skill[Curse of Fortune];
+			}
+		}
 	}
 	else if(get_property("cc_edStatus") == "dying")
 	{
@@ -2803,23 +2812,11 @@ string cc_edCombatHandler(int round, string opp, string text)
 		{
 			doLash = true;
 		}
-		if(enemy == $monster[Bearpig Topiary Animal])
+		if($monsters[Bearpig Topiary Animal, Elephant (Meatcar?) Topiary Animal, Spider (Duck?) Topiary Animal] contains enemy)
 		{
 			doLash = true;
 		}
-		if(enemy == $monster[Elephant (Meatcar?) Topiary Animal])
-		{
-			doLash = true;
-		}
-		if(enemy == $monster[Spider (Duck?) Topiary Animal])
-		{
-			doLash = true;
-		}
-		if(enemy == $monster[Beanbat])
-		{
-			doLash = true;
-		}
-		if(enemy == $monster[Bookbat])
+		if($monsters[Beanbat, Bookbat] contains enemy)
 		{
 			doLash = true;
 		}
@@ -2840,15 +2837,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		{
 			doLash = true;
 		}
-		if(enemy == $monster[Larval Filthworm])
-		{
-			doLash = true;
-		}
-		if(enemy == $monster[Filthworm Drone])
-		{
-			doLash = true;
-		}
-		if(enemy == $monster[Filthworm Royal Guard])
+		if($monsters[Filthworm Drone, Filthworm Royal Guard, Larval Filthworm] contains enemy)
 		{
 			doLash = true;
 		}
@@ -3032,10 +3021,19 @@ string cc_edCombatHandler(int round, string opp, string text)
 			}
 		}
 
+		if((item_amount($item[Ka Coin]) > 200) && have_skill($skill[Curse of Fortune]))
+		{
+			if(!contains_text(combatState, "curse of fortune"))
+			{
+				set_property("cc_combatHandler", combatState + "(curse of fortune)");
+				return "skill " + $skill[Curse of Fortune];
+			}
+		}
+
 		if(item_amount($item[Dictionary]) > 0)
 		{
-#		    string macro = "item dictionary; repeat";
-#		    visit_url("fight.php?action=macro&macrotext=" + url_encode(macro), true, true);
+#			string macro = "item dictionary; repeat";
+#			visit_url("fight.php?action=macro&macrotext=" + url_encode(macro), true, true);
 			return "item dictionary";
 		}
 		if(item_amount($item[Seal Tooth]) > 0)

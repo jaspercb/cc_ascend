@@ -5186,7 +5186,7 @@ boolean L11_hiddenCity()
 					}
 					while(have_effect($effect[Thrice-Cursed]) == 0)
 					{
-						if((inebriety_left() > 0) && canDrink($item[Cursed Punch]))
+						if((inebriety_left() > 0) && canDrink($item[Cursed Punch]) && (my_ascensions() == get_property("hiddenTavernUnlock").to_int()))
 						{
 							buyUpTo(1, $item[Cursed Punch]);
 							if(item_amount($item[Cursed Punch]) == 0)
@@ -5258,12 +5258,15 @@ boolean L11_hiddenCity()
 			{
 				use(1, $item[Book of Matches]);
 			}
-			if(item_amount($item[Bowl Of Scorpions]) == 0)
+			if(my_ascensions() == get_property("hiddenTavernUnlock").to_int())
 			{
-				buyUpTo(1, $item[Bowl Of Scorpions]);
-				if(cc_my_path() == "One Crazy Random Summer")
+				if(item_amount($item[Bowl Of Scorpions]) == 0)
 				{
-					buyUpTo(3, $item[Bowl Of Scorpions]);
+					buyUpTo(1, $item[Bowl Of Scorpions]);
+					if(cc_my_path() == "One Crazy Random Summer")
+					{
+						buyUpTo(3, $item[Bowl Of Scorpions]);
+					}
 				}
 			}
 			set_property("choiceAdventure788", "1");
