@@ -77,6 +77,37 @@ boolean LA_cs_communityService()
 			break;
 		}
 	}
+	if(item_amount($item[Mumming Trunk]) > 0)
+	{
+		static boolean used = false;
+		if(!used)
+		{
+			switch(my_daycount())
+			{
+			case 1:
+				mummifyFamiliar($familiar[Ms. Puck Man], "myst");
+				mummifyFamiliar($familiar[Puck Man], "myst");
+				mummifyFamiliar($familiar[Rockin\' Robin], "mpregen");
+				mummifyFamiliar($familiar[Machine Elf], "item");
+				mummifyFamiliar($familiar[Galloping Grill], "muscle");
+				mummifyFamiliar($familiar[Reanimated Reanimator], "hpregen");
+				mummifyFamiliar($familiar[Intergnat], "moxie");
+				mummifyFamiliar($familiar[Golden Monkey], "meat");
+				break;
+			case 2:
+				mummifyFamiliar($familiar[Ms. Puck Man], "myst");
+				mummifyFamiliar($familiar[Puck Man], "myst");
+				mummifyFamiliar($familiar[Rockin\' Robin], "mpregen");
+				mummifyFamiliar($familiar[Machine Elf], "item");
+				mummifyFamiliar($familiar[Galloping Grill], "muscle");
+				mummifyFamiliar($familiar[Reanimated Reanimator], "hpregen");
+				mummifyFamiliar($familiar[Intergnat], "moxie");
+				mummifyFamiliar($familiar[Golden Monkey], "meat");
+				break;
+			}
+			used = true;
+		}
+	}
 
 	if(isOverdueDigitize())
 	{

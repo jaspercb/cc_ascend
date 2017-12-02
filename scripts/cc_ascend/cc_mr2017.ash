@@ -2,6 +2,85 @@ script "cc_mr2017.ash"
 
 #	This is meant for items that have a date of 2017.
 
+boolean mummifyFamiliar(familiar fam, string bonus)
+{
+	if(item_amount($item[Mumming Trunk]) == 0)
+	{
+		return false;
+	}
+	if(!is_unrestricted($item[Mumming Trunk]))
+	{
+		return false;
+	}
+	if(!have_familiar(fam))
+	{
+		return false;
+	}
+	familiar last = my_familiar();
+
+	int goal = 0;
+	if(bonus == "meat")
+	{
+		goal = 1;
+	}
+	else if((bonus == "mp") || (bonus == "mp regen") || (bonus == "mpregen"))
+	{
+		goal = 2;
+	}
+	else if(bonus == "muscle")
+	{
+		goal = 3;
+	}
+	else if(bonus == "item")
+	{
+		goal = 4;
+	}
+	else if((bonus == "mystalicality") || (bonus == "myst"))
+	{
+		goal = 5;
+	}
+	else if((bonus == "hp") || (bonus == "hp regen") || (bonus == "hpregen"))
+	{
+		goal = 6;
+	}
+	else if(bonus == "moxie")
+	{
+		goal = 7;
+	}
+
+
+	if((goal < 1) || (goal >= 8))
+	{
+		return false;
+	}
+	use_familiar(fam);
+	string page = visit_url("inv_use.php?pwd=" + my_hash() + "&which=3&whichitem=" + to_int($item[Mumming Trunk]), false);
+	boolean available = false;
+
+	foreach idx in available_choice_options()
+	{
+		if(goal == idx)
+		{
+			available = true;
+		}
+	}
+	if(!available)
+	{
+		goal = 8;
+	}
+	page = visit_url("choice.php?pwd=&whichchoice=1271&option=" + goal);
+
+	if(my_familiar() != last)
+	{
+		use_familiar(last);
+	}
+	if(goal == 8)
+	{
+		return false;
+	}
+	return true;
+}
+
 boolean pantogramPants()
 {
 	return pantogramPants(my_primestat(), $element[cold], 1, 2, 1);

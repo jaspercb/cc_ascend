@@ -505,6 +505,7 @@ item getAvailablePerfectBooze();							//Defined in cc_ascend/cc_cooking.ash
 item[element] getCharterIndexable();						//Defined in cc_ascend/cc_elementalPlanes.ash
 boolean getDiscoStyle();									//Defined in cc_ascend/cc_elementalPlanes.ash
 boolean getDiscoStyle(int choice);							//Defined in cc_ascend/cc_elementalPlanes.ash
+boolean mummifyFamiliar(familiar fam, string bonus);		//Defined in cc_ascend/cc_mr2017.ash
 boolean getSpaceJelly();									//Defined in cc_ascend/cc_mr2017.ash
 int horseCost();											//Defined in cc_ascend/cc_mr2017.ash
 boolean getHorse(string type);								//Defined in cc_ascend/cc_mr2017.ash
