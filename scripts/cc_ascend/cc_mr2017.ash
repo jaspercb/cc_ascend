@@ -4,6 +4,10 @@ script "cc_mr2017.ash"
 
 boolean mummifyFamiliar(familiar fam, string bonus)
 {
+	if(!get_property("_mummifyDone").to_boolean())
+	{
+		return false;
+	}
 	if(item_amount($item[Mumming Trunk]) == 0)
 	{
 		return false;
@@ -57,16 +61,26 @@ boolean mummifyFamiliar(familiar fam, string bonus)
 	string page = visit_url("inv_use.php?pwd=" + my_hash() + "&which=3&whichitem=" + to_int($item[Mumming Trunk]), false);
 	boolean available = false;
 
+	int options = 0;
 	foreach idx in available_choice_options()
 	{
 		if(goal == idx)
 		{
 			available = true;
 		}
+		options += 1;
 	}
 	if(!available)
 	{
 		goal = 8;
+		if(options == 1)
+		{
+			set_property("_mummifyDone", true);
+		}
+	}
+	else if(options == 2)
+	{
+		set_property("_mummifyDone", true);
 	}
 	page = visit_url("choice.php?pwd=&whichchoice=1271&option=" + goal);
 
