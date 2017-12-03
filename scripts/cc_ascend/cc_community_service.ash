@@ -91,6 +91,7 @@ boolean LA_cs_communityService()
 				mummifyFamiliar($familiar[Machine Elf], "item");
 				mummifyFamiliar($familiar[Galloping Grill], "muscle");
 				mummifyFamiliar($familiar[Reanimated Reanimator], "hpregen");
+				mummifyFamiliar($familiar[Bloovian Groose], "moxie");
 				mummifyFamiliar($familiar[Intergnat], "moxie");
 				mummifyFamiliar($familiar[Golden Monkey], "meat");
 				break;
@@ -101,6 +102,7 @@ boolean LA_cs_communityService()
 				mummifyFamiliar($familiar[Machine Elf], "item");
 				mummifyFamiliar($familiar[Galloping Grill], "muscle");
 				mummifyFamiliar($familiar[Reanimated Reanimator], "hpregen");
+				mummifyFamiliar($familiar[Bloovian Groose], "moxie");
 				mummifyFamiliar($familiar[Intergnat], "moxie");
 				mummifyFamiliar($familiar[Golden Monkey], "meat");
 				break;

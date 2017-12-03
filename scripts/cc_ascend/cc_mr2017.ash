@@ -4,7 +4,11 @@ script "cc_mr2017.ash"
 
 boolean mummifyFamiliar(familiar fam, string bonus)
 {
-	if(!get_property("_mummifyDone").to_boolean())
+	if(get_property("_mummifyDone").to_boolean())
+	{
+		return false;
+	}
+	if(!have_familiar($familiar[Mosquito]))
 	{
 		return false;
 	}
