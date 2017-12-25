@@ -253,11 +253,10 @@ boolean ccDrink(int howMany, item toDrink)
 	int expectedInebriety = toDrink.inebriety * howMany;
 
 	item it = equipped_item($slot[Acc3]);
-	if((it != $item[Mafia Pinky Ring]) && (item_amount($item[Mafia Pinky Ring]) > 0) && ($items[Bucket of Wine, Sacramento Wine] contains toDrink))
+	if((it != $item[Mafia Pinky Ring]) && (item_amount($item[Mafia Pinky Ring]) > 0) && ($items[Bucket of Wine, Sacramento Wine] contains toDrink) && can_equip($item[Mafia Pinky Ring]))
 	{
 		equip($slot[Acc3], $item[Mafia Pinky Ring]);
 	}
-
 
 	if(possessEquipment($item[Wrist-Boy]) && (my_meat() > 6500))
 	{

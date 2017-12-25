@@ -227,7 +227,6 @@ string cc_combatHandler(int round, string opp, string text)
 		return "runaway";
 	}
 
-//	if(enemy == $monster[Your Shadow])
 	if((enemy == $monster[Your Shadow]) || (opp == "shadow cow puncher") || (opp == "shadow snake oiler") || (opp == "shadow beanslinger") || (opp == "shadow gelatinous noob"))
 	{
 		if(have_skill($skill[Ambidextrous Funkslinging]))

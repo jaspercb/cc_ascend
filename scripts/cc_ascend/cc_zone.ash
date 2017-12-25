@@ -349,6 +349,15 @@ generic_t zone_combatMod(location loc)
 		//And marginally if we know the 3rd/6th square are forced events.
 		value = -75;
 		break;
+	case $location[The Cheerless Spire (Level 5)]:
+		value = 5;
+		break;
+	case $location[The Cheerless Spire (Level 4)]:
+	case $location[The Cheerless Spire (Level 3)]:
+	case $location[The Cheerless Spire (Level 2)]:
+	case $location[The Cheerless Spire (Level 1)]:
+		value = -85;
+		break;
 	case $location[The Spooky Forest]:
 		if(delay._int == 0)
 		{
