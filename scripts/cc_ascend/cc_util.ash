@@ -4000,6 +4000,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Mysteriously Handsome]:		useItem = $item[Handsomeness Potion];			break;
 	case $effect[Mystically Oiled]:				useItem = $item[Ointment of the Occult];		break;
 	case $effect[Nearly All-Natural]:			useItem = $item[bag of grain];					break;
+	case $effect[Nearly Silent Hunting]:		useSkill = $skill[Silent Hunter];				break;
 	case $effect[Neuroplastici Tea]:			useItem = $item[cuppa Neuroplastici tea];		break;
 	case $effect[Neutered Nostrils]:			useItem = $item[Polysniff Perfume];				break;
 	case $effect[Newt Gets In Your Eyes]:		useItem = $item[eyedrops of newt];				break;
@@ -4060,6 +4061,9 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Purple Reign]:					useItem = $item[Pulled Violet Taffy];			break;
 	case $effect[Puzzle Fury]:					useItem = $item[37x37x37 puzzle cube];			break;
 	case $effect[Pyromania]:					useSkill = $skill[Pyromania];					break;
+	case $effect[Quiet Desperation]:			useSkill = $skill[Quiet Desperation];			break;
+	case $effect[Quiet Determination]:			useSkill = $skill[Quiet Determination];			break;
+	case $effect[Quiet Judgement]:				useSkill = $skill[Quiet Judgement];				break;
 	case $effect[\'Roids of the Rhinoceros]:	useItem = $item[Bottle of Rhinoceros Hormones];	break;
 	case $effect[Rad-Pro Tected]:				useItem = $item[Rad-Pro (1 oz.)];				break;
 	case $effect[Radiating Black Body&trade;]:	useItem = $item[Black Body&trade; Spray];		break;

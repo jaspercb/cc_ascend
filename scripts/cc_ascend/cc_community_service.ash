@@ -1263,6 +1263,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Reptilian Fortitude], 10, 1, 1);
 			buffMaintain($effect[Rage of the Reindeer], 10, 1, 1);
 			buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
+			buffMaintain($effect[Quiet Determination], 10, 1, 1);
 			buffMaintain($effect[Seal Clubbing Frenzy], 1, 1, 1);
 			buffMaintain($effect[Patience of the Tortoise], 1, 1, 1);
 			buffMaintain($effect[Mariachi Mood], 1, 1, 1);
@@ -1442,6 +1443,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Song of Bravado], 100, 1, 1);
 			buffMaintain($effect[Rage of the Reindeer], 10, 1, 1);
 			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
+			buffMaintain($effect[Quiet Determination], 10, 1, 1);
 			buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
 			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
 
@@ -1507,6 +1509,7 @@ boolean LA_cs_communityService()
 			}
 			buffMaintain($effect[Song of Bravado], 100, 1, 1);
 			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
+			buffMaintain($effect[Quiet Judgement], 10, 1, 1);
 			buffMaintain($effect[The Magical Mojomuscular Melody], 3, 1, 1);
 			buffMaintain($effect[Disdain of She-Who-Was], 15, 1, 1);
 
@@ -1590,7 +1593,14 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Song of Bravado], 100, 1, 1);
 			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
 			buffMaintain($effect[The Moxious Madrigal], 2, 1, 1);
-			buffMaintain($effect[Disco Smirk], 10, 1, 1);
+			if(have_skill($skill[Quiet Desperation]))
+			{
+				buffMaintain($effect[Quiet Desperation], 10, 1, 1);
+			}
+			else
+			{
+				buffMaintain($effect[Disco Smirk], 10, 1, 1);
+			}
 			buffMaintain($effect[Disco Fever], 10, 1, 1);
 			buffMaintain($effect[Blubbered Up], 10, 1, 1);
 
