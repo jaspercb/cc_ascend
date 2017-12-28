@@ -649,9 +649,9 @@ void consumeStuff()
 
 		//	Try to drink more on day 1 please!
 
-		if((my_meat() > 400) && (item_amount($item[handful of smithereens]) == 3) && (get_property("cc_mosquito") == "finished") && canDrink($item[Paint A Vulgar Pitcher]))
+		if((my_meat() > 400) && (item_amount($item[Handful of Smithereens]) == 3) && (get_property("cc_mosquito") == "finished") && (internalQuestStatus("questL03Rat") >= 0) && canDrink($item[Paint A Vulgar Pitcher]))
 		{
-			cli_execute("make 3 paint a vulgar pitcher");
+			cli_execute("make 3 " + $item[Paint A Vulgar Pitcher]);
 		}
 
 		if((inebriety_left() >= 2) && (my_mp() >= mpForOde) && (item_amount($item[Agitated Turkey]) >= 2) && is_unrestricted($item[Fist Turkey Outline]) && canDrink($item[Agitated Turkey]))
@@ -677,10 +677,10 @@ void consumeStuff()
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
-			drink(1, $item[paint a vulgar pitcher]);
-			if(item_amount($item[paint a vulgar pitcher]) > 0)
+			drink(1, $item[Paint A Vulgar Pitcher]);
+			if(item_amount($item[Paint A Vulgar Pitcher]) > 0)
 			{
-				drink(1, $item[paint a vulgar pitcher]);
+				drink(1, $item[Paint A Vulgar Pitcher]);
 			}
 		}
 
@@ -1169,31 +1169,31 @@ void consumeStuff()
 			}
 		}
 
-		if((my_inebriety() == 0) && (my_mp() >= mpForOde) && (my_meat() > 300) && (item_amount($item[handful of smithereens]) >= 2) && canDrink($item[Paint A Vulgar Pitcher]))
+		if((my_inebriety() == 0) && (my_mp() >= mpForOde) && (my_meat() > 300) && (item_amount($item[Handful of Smithereens]) >= 2) && (internalQuestStatus("questL03Rat") >= 0) && canDrink($item[Paint A Vulgar Pitcher]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 4);
-			cli_execute("make 2 paint a vulgar pitcher");
+			cli_execute("make 2 " + $item[Paint A Vulgar Pitcher]);
 			drink(2, $item[Paint A Vulgar Pitcher]);
 		}
 
-		if((my_inebriety() == 4) && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[handful of smithereens]) >= 1) && canDrink($item[Paint A Vulgar Pitcher]))
+		if((my_inebriety() == 4) && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[Handful of Smithereens]) >= 1) && (internalQuestStatus("questL03Rat") >= 0) && canDrink($item[Paint A Vulgar Pitcher]))
 		{
 			shrugAT($effect[Ode to Booze]);
-			cli_execute("make 1 paint a vulgar pitcher");
+			cli_execute("make 1 " + $item[Paint A Vulgar Pitcher]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[Paint A Vulgar Pitcher]);
 		}
 
 		if((inebriety_left() >= 5) && (my_adventures() < 10) && (my_meat() > 150) && (my_mp() >= mpForOde) && (cc_my_path() != "KOLHS") && (cc_my_path() != "Nuclear Autumn"))
 		{
-			if((item_amount($item[handful of smithereens]) > 0) || ((get_property("_speakeasyDrinksDrunk").to_int() < 3) && is_unrestricted($item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0)))
+			if(((item_amount($item[Handful Of Smithereens]) > 0) && (internalQuestStatus("questL03Rat") >= 0)) || ((get_property("_speakeasyDrinksDrunk").to_int() < 3) && is_unrestricted($item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0)))
 			{
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 4);
-				if((item_amount($item[handful of smithereens]) > 0) && canDrink($item[Paint A Vulgar Pitcher]))
+				if((item_amount($item[Handful Of Smithereens]) > 0) && canDrink($item[Paint A Vulgar Pitcher]))
 				{
-					cli_execute("make 1 paint a vulgar pitcher");
+					cli_execute("make 1 " + $item[Paint A Vulgar Pitcher]);
 					drink(1, $item[Paint A Vulgar Pitcher]);
 				}
 				else if((my_meat() > 35000) && is_unrestricted($item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0))
@@ -1253,11 +1253,11 @@ void consumeStuff()
 			}
 		}
 
-		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()) && canDrink($item[Paint A Vulgar Pitcher]))
+		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (my_meat() > 150) && (item_amount($item[Paint A Vulgar Pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()) && canDrink($item[Paint A Vulgar Pitcher]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
-			drink(1, $item[paint a vulgar pitcher]);
+			drink(1, $item[Paint A Vulgar Pitcher]);
 		}
 
 
@@ -1293,11 +1293,11 @@ void consumeStuff()
 		}
 
 /*****	This section needs to merge into a "Standard equivalent"		*****/
-		if((cc_my_path() == "Standard") && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()) && is_unrestricted($item[The Smith\'s Tome]) && canDrink($item[Paint A Vulgar Pitcher]))
+		if((cc_my_path() == "Standard") && (my_mp() >= mpForOde) && (my_meat() > 150) && (item_amount($item[Paint A Vulgar Pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()) && is_unrestricted($item[The Smith\'s Tome]) && canDrink($item[Paint A Vulgar Pitcher]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
-			drink(1, $item[paint a vulgar pitcher]);
+			drink(1, $item[Paint A Vulgar Pitcher]);
 		}
 
 
@@ -1381,16 +1381,16 @@ void consumeStuff()
 			}
 		}
 
-		if((item_amount($item[handful of smithereens]) > 0) && (my_meat() > 300) && canDrink($item[Paint A Vulgar Pitcher]))
+		if((item_amount($item[Handful Of Smithereens]) > 0) && (my_meat() > 300) && canDrink($item[Paint A Vulgar Pitcher]) && (internalQuestStatus("questL03Rat") >= 0))
 		{
-			cli_execute("make paint a vulgar pitcher");
+			cli_execute("make " + $item[Paint A Vulgar Pitcher]);
 		}
 
-		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[paint a vulgar pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()) && canDrink($item[Paint A Vulgar Pitcher]))
+		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[Paint A Vulgar Pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()) && canDrink($item[Paint A Vulgar Pitcher]))
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
-			drink(1, $item[paint a vulgar pitcher]);
+			drink(1, $item[Paint A Vulgar Pitcher]);
 		}
 
 		if((cc_my_path() == "Picky") && (my_mp() > mpForOde) && (item_amount($item[Ambitious Turkey]) > 0) && ((my_inebriety() + 1) <= inebriety_limit()) && canDrink($item[Ambitious Turkey]))

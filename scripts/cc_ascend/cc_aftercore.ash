@@ -1123,7 +1123,21 @@ boolean cc_cheesePostCS(int leave)
 		{
 			if(have_familiar($familiar[Hobo Monkey]))
 			{
-				handleFamiliar($familiar[Hobo Monkey]);
+				if(have_familiar($familiar[Robortender]))
+				{
+					if(contains_text(get_property("_roboDrinks"), "drive-by shooting"))
+					{
+						handleFamiliar($familiar[Robortender]);
+					}
+					else
+					{
+						handleFamiliar($familiar[Hobo Monkey]);
+					}
+				}
+				else
+				{
+					handleFamiliar($familiar[Hobo Monkey]);
+				}
 			}
 			else
 			{
