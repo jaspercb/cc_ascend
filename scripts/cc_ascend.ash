@@ -1925,10 +1925,10 @@ void initializeDay(int day)
 
 			hr_initializeDay(day);
 
-			if(!in_hardcore())
+			if(!in_hardcore() && (item_amount($item[Handful of Smithereens]) <= 5))
 			{
-				pulverizeThing($item[hairpiece on fire]);
-				pulverizeThing($item[vicar\'s tutu]);
+				pulverizeThing($item[Hairpiece On Fire]);
+				pulverizeThing($item[Vicar\'s Tutu]);
 			}
 			while(acquireHermitItem($item[Ten-Leaf Clover]));
 			if((item_amount($item[Antique Accordion]) == 0) && (item_amount($item[Aerogel Accordion]) == 0) && isUnclePAvailable() && !($classes[Accordion Thief, Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()))
@@ -7494,7 +7494,7 @@ boolean L12_orchardFinalize()
 		return false;
 	}
 	set_property("cc_orchard", "finished");
-	if(item_amount($item[A Light that Never Goes Out]) > 0)
+	if(item_amount($item[A Light that Never Goes Out]) == 1)
 	{
 		pulverizeThing($item[A Light that Never Goes Out]);
 	}
@@ -7889,6 +7889,7 @@ boolean L10_airship()
 	{
 		handleBjornify($familiar[Grimstone Golem]);
 	}
+	set_property("choiceAdventure178", "2");
 
 	if(item_amount($item[Model Airship]) == 0)
 	{
@@ -13260,12 +13261,12 @@ boolean doTasks()
 		set_property("cc_nunsTrickActive", "no");
 	}
 
-	if((get_property("cc_nuns") == "done") && (item_amount($item[half a purse]) > 0))
+	if((get_property("cc_nuns") == "done") && (item_amount($item[Half A Purse]) == 1))
 	{
 		pulverizeThing($item[Half A Purse]);
 		if(item_amount($item[Handful of Smithereens]) > 0)
 		{
-			cli_execute("make louder than bomb");
+			cli_execute("make " + $item[Louder Than Bomb]);
 		}
 	}
 
