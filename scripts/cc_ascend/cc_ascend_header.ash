@@ -440,6 +440,7 @@ int doNumberology(string goal, boolean doIt, string option);//Defined in cc_asce
 int doNumberology(string goal, string option);				//Defined in cc_ascend/cc_util.ash
 int doRest();												//Defined in cc_ascend/cc_util.ash
 boolean doTasks();											//Defined in cc_ascend.ash
+boolean keepOnTruckin();									//Defined in cc_ascend/cc_cooking.ash
 boolean doThemtharHills(boolean trickMode);					//Defined in cc_ascend.ash
 boolean do_chateauGoat();									//Defined in cc_ascend/cc_community_service.ash
 boolean do_cs_quest(int quest);								//Defined in cc_ascend/cc_community_service.ash
@@ -506,6 +507,8 @@ item[element] getCharterIndexable();						//Defined in cc_ascend/cc_elementalPla
 boolean getDiscoStyle();									//Defined in cc_ascend/cc_elementalPlanes.ash
 boolean getDiscoStyle(int choice);							//Defined in cc_ascend/cc_elementalPlanes.ash
 boolean mummifyFamiliar(familiar fam, string bonus);		//Defined in cc_ascend/cc_mr2017.ash
+int januaryToteTurnsLeft(item it);							//Defined in cc_ascend/cc_mr2018.ash
+boolean januaryToteAcquire(item it);						//Defined in cc_ascend/cc_mr2018.ash
 boolean getSpaceJelly();									//Defined in cc_ascend/cc_mr2017.ash
 int horseCost();											//Defined in cc_ascend/cc_mr2017.ash
 boolean getHorse(string type);								//Defined in cc_ascend/cc_mr2017.ash

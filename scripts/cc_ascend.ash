@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18346;
+since r18358;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -28,6 +28,7 @@ import <cc_ascend/cc_mr2014.ash>
 import <cc_ascend/cc_mr2015.ash>
 import <cc_ascend/cc_mr2016.ash>
 import <cc_ascend/cc_mr2017.ash>
+import <cc_ascend/cc_mr2018.ash>
 
 import <cc_ascend/cc_boris.ash>
 import <cc_ascend/cc_jellonewbie.ash>
@@ -5061,6 +5062,11 @@ boolean LX_attemptPowerLevel()
 		if((my_level() >= 9) && ((get_property("cc_highlandlord") == "start") || (get_property("cc_highlandlord") == "finished")))
 		{
 			ccAdv($location[Oil Peak]);
+			return true;
+		}
+		if((my_level() >= 8) && (get_property("cc_trapper") == "finished"))
+		{
+			ccAdv($location[The Icy Peak]);
 			return true;
 		}
 		return false;
@@ -13057,7 +13063,7 @@ boolean doTasks()
 	if(theSource_oracle())				return true;
 	if(LX_theSource())					return true;
 	if(LX_ghostBusting())				return true;
-	
+
 
 	if(L1_HRstart())					return true;
 	if(LX_witchess())					return true;
@@ -13459,6 +13465,10 @@ void cc_begin()
 			abort("Manually handle, because we have fortune cookie and rain man colliding at the end of our day and we don't know quite what to do here");
 		}
 		#We save the last adventure for a rain man, damn it.
+		if((my_adventures() == 1) && !get_property("cc_limitConsume").to_boolean())
+		{
+			keepOnTruckin();
+		}
 	}
 
 	if(get_property("kingLiberated").to_boolean())

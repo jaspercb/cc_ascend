@@ -105,6 +105,14 @@ boolean pantogramPants()
 }
 boolean pantogramPants(stat st, element el, int hpmp, int meatItemStats, int misc)
 {
+	if(!is_unrestricted($item[Portable Pantogram]))
+	{
+		return false;
+	}
+	if(item_amount($item[Portable Pantogram]) == 0)
+	{
+		return false;
+	}
 	if(possessEquipment($item[Pantogram Pants]))
 	{
 		return false;

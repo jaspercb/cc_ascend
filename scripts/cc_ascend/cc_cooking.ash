@@ -17,6 +17,60 @@ boolean tryCookies();
 boolean canDrink(item toDrink);
 boolean canEat(item toEat);
 
+boolean keepOnTruckin()
+{
+	if(get_property("cc_limitConsume").to_boolean())
+	{
+		return false;
+	}
+
+	if(in_hardcore())
+	{
+		return false;
+	}
+
+	if(pulls_remaining() == 0)
+	{
+		return false;
+	}
+
+	foreach it in $items[Hacked Gibson, Browser Cookie, Popular Tart, Spaghetti With Skullheads, Crudles, Corpsedriver, Corpsetini, Corpse Island Iced Tea, Corpse On The Beach, Bungle In The Jungle, Mon Tiki, Yellow Brick Road, Divine, Gimlet, Neuromancer, Prussian Cathouse, Ye Olde Meade]
+	{
+		if(!is_unrestricted(it))
+		{
+			continue;
+		}
+		if(fullness_left() < it.fullness)
+		{
+			continue;
+		}
+		if((it.fullness > 0) && !canEat(it))
+		{
+			continue;
+		}
+		if((it.inebriety > 0) && !canDrink(it))
+		{
+			continue;
+		}
+		if(inebriety_left() < it.inebriety)
+		{
+			continue;
+		}
+		int filling = it.fullness + it.inebriety;
+		if(mall_price(it) > (1250 * filling))
+		{
+			continue;
+		}
+		if(pullXWhenHaveY(it, 1, 0))
+		{
+			break;
+		}
+	}
+
+	consumeStuff();
+	return true;
+}
+
 item getAvailablePerfectBooze()
 {
 	if(!is_unrestricted($item[Perfect Old-Fashioned]))

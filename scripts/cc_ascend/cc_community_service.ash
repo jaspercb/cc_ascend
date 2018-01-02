@@ -91,6 +91,7 @@ boolean LA_cs_communityService()
 			mummifyFamiliar($familiar[Bloovian Groose], "moxie");
 			mummifyFamiliar($familiar[Intergnat], "moxie");
 			mummifyFamiliar($familiar[Golden Monkey], "meat");
+			januaryToteAcquire($item[Wad Of Used Tape]);
 			set_property("_mummifyDone", true);
 			break;
 		case 2:
@@ -103,6 +104,7 @@ boolean LA_cs_communityService()
 			mummifyFamiliar($familiar[Bloovian Groose], "moxie");
 			mummifyFamiliar($familiar[Intergnat], "moxie");
 			mummifyFamiliar($familiar[Hobo Monkey], "meat");
+			januaryToteAcquire($item[Wad Of Used Tape]);
 			set_property("_mummifyDone", true);
 			break;
 		}
@@ -1867,7 +1869,7 @@ boolean LA_cs_communityService()
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
 				cli_execute("drink sockdollager");
 			}
-
+			januaryToteAcquire($item[Broken Champagne Bottle]);
 
 			while((my_mp() < 207) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
@@ -1963,7 +1965,7 @@ boolean LA_cs_communityService()
 				curQuest = 0;
 				abort("Could not handle our quest and can not recover");
 			}
-
+			januaryToteAcquire($item[Wad Of Used Tape]);
 			if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
 			{
 				string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
@@ -2226,6 +2228,7 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
+			januaryToteAcquire($item[Wad Of Used Tape]);
 			if(have_familiar($familiar[Trick-or-Treating Tot]) && !possessEquipment($item[Li\'l Ninja Costume]))
 			{
 				if(have_familiar($familiar[Pair of Stomping Boots]))

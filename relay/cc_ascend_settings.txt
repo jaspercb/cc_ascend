@@ -42,4 +42,4 @@
 42	cc_equipment_override_acc1	string	ANY	A semicolon separated list of overrides for the acc1 slot.
 43	cc_equipment_override_acc2	string	ANY	A semicolon separated list of overrides for the acc2 slot.
 44	cc_equipment_override_acc3	string	ANY	A semicolon separated list of overrides for the acc3 slot.
-
+45	cc_limitConsume	boolean	ANY	When false, pull cheapish food/booze when we run low so we can continue.
