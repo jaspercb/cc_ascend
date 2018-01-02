@@ -349,6 +349,7 @@ generic_t zone_combatMod(location loc)
 		//And marginally if we know the 3rd/6th square are forced events.
 		value = -75;
 		break;
+	case $location[Through the Spacegate]:
 	case $location[The Cheerless Spire (Level 5)]:
 		value = 5;
 		break;

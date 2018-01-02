@@ -1418,14 +1418,6 @@ boolean LA_cs_communityService()
 
 			buyUpTo(1, $item[Ben-Gal&trade; Balm]);
 
-			if(!get_property("cc_tryPowerLevel").to_boolean() && !get_property("cc_saveMargarita").to_boolean())
-			{
-				if(item_amount($item[Blood-drive sticker]) > 0)
-				{
-					chew(1, $item[Blood-drive sticker]);
-				}
-			}
-
 			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
 				doRest();
@@ -1762,11 +1754,6 @@ boolean LA_cs_communityService()
 					{
 						extraAdv = extraAdv + 5;
 						drunkLeft -= 1;
-					}
-
-					if(item_amount($item[Blood-Drive Sticker]) > 0)
-					{
-						needCost = needCost + 5;
 					}
 
 					if((my_adventures() + extraAdv) > needCost)
@@ -2195,8 +2182,7 @@ boolean LA_cs_communityService()
 			}
 			getHorse("non-combat");
 
-
-			if((my_adventures() < questCost) && (item_amount($item[Blood-Drive Sticker]) > 0))
+			if(my_adventures() < questCost)
 			{
 				equip($slot[pants], $item[none]);
 				equip($slot[off-hand], $item[none]);
