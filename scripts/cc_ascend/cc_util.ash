@@ -1208,9 +1208,16 @@ string banisherCombatString(monster enemy, location loc)
 		Louder Than Bomb: item, no turn limit
 		Beancannon: item, no turn limit, no limit
 		Tennis Ball: item, no turn limit
+
+		Breathe Out: per hot jelly usage
 	*/
 
 	//Peel out with Extra-Smelly Muffler, note 10 limit, increased to 30 with Racing Slicks
+
+	if(have_skill($skill[Breathe Out]) && (my_mp() >= mp_cost($skill[Breathe Out])) && (!(used contains "breathe out")))
+	{
+		return "skill " + $skill[Breathe Out];
+	}
 
 	if(have_skill($skill[Thunder Clap]) && (my_thunder() >= thunder_cost($skill[Thunder Clap])) && (!(used contains "thunder clap")))
 	{

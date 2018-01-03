@@ -498,7 +498,7 @@ void equipBaselineHat()
 {
 	item toEquip = $item[none];
 
-	item[int] poss = List($items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Oversized Skullcap, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, one-gallon hat, two-gallon hat, three-gallon hat, four-gallon hat, five-gallon hat, six-gallon hat, seven-gallon hat, Wad Of Used Tape, Astral Chapeau, Van der Graaf helmet, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Mark II Steam-Hat, eight-gallon hat, nine-gallon hat, ten-gallon hat, eleven-gallon hat, Cold Water Bottle, Beer Helmet, Mark III Steam-Hat, Mark IV Steam-Hat, Nurse\'s Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, Xiblaxian Stealth Cowl, Very Pointy Crown, Boris\'s Helm, Boris\'s Helm (askew), The Crown of Ed the Undying]);
+	item[int] poss = List($items[Ravioli Hat, Hollandaise Helmet, Viking Helmet, Eyepatch, Oversized Skullcap, Dolphin King\'s Crown, Chef\'s Hat, Bellhop\'s Hat, Crown of the Goblin King, one-gallon hat, two-gallon hat, three-gallon hat, four-gallon hat, five-gallon hat, six-gallon hat, seven-gallon hat, Wad Of Used Tape, Astral Chapeau, Van der Graaf helmet, Safarrri Hat, Mohawk Wig, Brown Felt Tophat, Mark I Steam-Hat, Burning Paper Hat, Mark II Steam-Hat, eight-gallon hat, nine-gallon hat, ten-gallon hat, eleven-gallon hat, Cold Water Bottle, Beer Helmet, Mark III Steam-Hat, Mark IV Steam-Hat, Nurse\'s Hat, Training Helmet, Fuzzy Earmuffs, Mark V Steam-Hat, Hairpiece On Fire, Reinforced Beaded Headband, Giant Yellow Hat, Xiblaxian Stealth Cowl, Very Pointy Crown, Boris\'s Helm, Boris\'s Helm (askew), The Crown of Ed the Undying]);
 
 	if(my_class() == $class[Turtle Tamer])
 	{
@@ -899,7 +899,7 @@ void equipRollover()
 
 
 	toEquip = $item[none];
-	poss = List($items[Time Bandit Time Towel, Auxiliary Backbone, First Post Shirt - Cir Senam, Octolus-Skin Cloak]);
+	poss = List($items[Time Bandit Time Towel, Auxiliary Backbone, Burning Cape, First Post Shirt - Cir Senam, Octolus-Skin Cloak]);
 
 	toEquip = handleSolveThing(poss, $slot[back]);
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[back])))

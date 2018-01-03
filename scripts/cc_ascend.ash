@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18358;
+since r18361;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -2231,6 +2231,7 @@ boolean doBedtime()
 			{
 				buyUpTo(1, $item[figurine of an armored seal]);
 				buyUpTo(10, $item[seal-blubber candle]);
+				ensureSealClubs();
 				handleSealNormal($item[Figurine of an Armored Seal]);
 				summoned = true;
 			}
@@ -2238,6 +2239,7 @@ boolean doBedtime()
 			{
 				buyUpTo(1, $item[figurine of a Cute Baby Seal]);
 				buyUpTo(5, $item[seal-blubber candle]);
+				ensureSealClubs();
 				handleSealNormal($item[Figurine of a Cute Baby Seal]);
 				summoned = true;
 			}
@@ -2245,6 +2247,7 @@ boolean doBedtime()
 			{
 				buyUpTo(1, $item[figurine of a Wretched-Looking Seal]);
 				buyUpTo(1, $item[seal-blubber candle]);
+				ensureSealClubs();
 				handleSealNormal($item[Figurine of a Wretched-Looking Seal]);
 				summoned = true;
 			}
