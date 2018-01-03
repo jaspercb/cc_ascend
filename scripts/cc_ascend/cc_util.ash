@@ -2635,6 +2635,10 @@ boolean handleBarrelFullOfBarrels(boolean daily)
 	{
 		return false;
 	}
+	if(!is_unrestricted($item[Shrine to the Barrel God]))
+	{
+		return false;
+	}
 
 	string page = visit_url("barrel.php");
 

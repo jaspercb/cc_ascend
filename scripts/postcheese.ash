@@ -312,7 +312,7 @@ void handlePostAdventure()
 
 		foreach sk in toCast
 		{
-			if(have_skill(sk) && (my_mp() >= mp_cost(sk)))
+			if(is_unrestricted(sk) && have_skill(sk) && (my_mp() >= mp_cost(sk)))
 			{
 				use_skill(1, sk);
 			}
@@ -432,7 +432,7 @@ void handlePostAdventure()
 
 		foreach sk in toCast
 		{
-			if(have_skill(sk) && ((my_mp() - 40) >= mp_cost(sk)))
+			if(is_unrestricted(sk) && have_skill(sk) && ((my_mp() - 40) >= mp_cost(sk)))
 			{
 				use_skill(1, sk);
 			}
@@ -488,7 +488,7 @@ void handlePostAdventure()
 
 		foreach sk in toCast
 		{
-			if(have_skill(sk) && ((my_mp() - 50) >= mp_cost(sk)))
+			if(is_unrestricted(sk) && have_skill(sk) && ((my_mp() - 50) >= mp_cost(sk)))
 			{
 				use_skill(1, sk);
 			}
@@ -547,7 +547,7 @@ void handlePostAdventure()
 
 		foreach sk in toCast
 		{
-			if(have_skill(sk) && ((my_mp() - 90) >= mp_cost(sk)))
+			if(is_unrestricted(sk) && have_skill(sk) && ((my_mp() - 90) >= mp_cost(sk)))
 			{
 				use_skill(1, sk);
 			}
@@ -667,7 +667,7 @@ void handlePostAdventure()
 
 		foreach sk in toCast
 		{
-			if(have_skill(sk) && ((my_mp() - 85) >= mp_cost(sk)))
+			if(is_unrestricted(sk) && have_skill(sk) && ((my_mp() - 85) >= mp_cost(sk)))
 			{
 				use_skill(1, sk);
 			}
