@@ -927,7 +927,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = List($items[Ancient Calendar, Mer-kin stopwatch, Astral Statuette, Silver Cow Creamer, Royal Scepter]);
+	poss = List($items[Ancient Calendar, Novelty Monorail Ticket, Mer-kin stopwatch, Astral Statuette, Silver Cow Creamer, Royal Scepter]);
 	switch(my_primestat())
 	{
 	case $stat[Muscle]:
