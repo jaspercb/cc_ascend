@@ -2406,7 +2406,7 @@ boolean basicAdjustML()
 		{
 			cc_change_mcd(0);
 		}
-		else if(((monster_level_adjustment() + (10 - current_mcd())) <= 150) && (current_mcd() != 10))
+		else if((monster_level_adjustment() + (10 - current_mcd())) <= 150)
 		{
 			cc_change_mcd(10);
 		}

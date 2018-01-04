@@ -4836,8 +4836,11 @@ boolean L13_towerNSEntrance()
 
 			if(!LX_attemptPowerLevel())
 			{
-				print("The following error message is probably wrong, you just need to powerlevel to 13 most likely.", "red");
-				abort("Need more flyer ML but don't know where to go :(");
+				if(get_property("cc_powerLevelAdvCount").to_int() >= 10)
+				{
+					print("The following error message is probably wrong, you just need to powerlevel to 13 most likely.", "red");
+					abort("Need more flyer ML but don't know where to go :(");
+				}
 			}
 			return true;
 		}
@@ -4953,14 +4956,19 @@ boolean LX_attemptFlyering()
 	return true;
 }
 
-boolean LX_attemptPowerLevel()
+boolean powerLevelAdjustment()
 {
 	if(get_property("cc_powerLevelLastLevel").to_int() != my_level())
 	{
-		print("I might have to powerlevel... let's consider the possibilities...", "red");
 		set_property("cc_powerLevelLastLevel", my_level());
+		set_property("cc_powerLevelAdvCount", my_level());
 		return true;
 	}
+	return false;
+}
+
+boolean LX_attemptPowerLevel()
+{
 	set_property("cc_powerLevelAdvCount", get_property("cc_powerLevelAdvCount").to_int() + 1);
 	set_property("cc_powerLevelLastAttempted", my_turncount());
 
@@ -5756,6 +5764,14 @@ boolean LX_spookyravenSecond()
 		return false;
 	}
 
+	if(my_level() >= 7)
+	{
+		if((get_property("cc_beatenUpCount").to_int() > 7) && (get_property("cc_crypt") != "finished"))
+		{
+			return false;
+		}
+	}
+
 	if(internalQuestStatus("questM21Dance") < 1)
 	{
 		print("Invalid questM21Dance detected. Trying to override", "red");
@@ -5843,7 +5859,7 @@ boolean LX_spookyravenSecond()
 	{
 		if((item_amount($item[Lady Spookyraven\'s Finest Gown]) == 0) && !contains_text(get_counters("Fortune Cookie", 0, 10), "Fortune Cookie"))
 		{
-			print("Spookyraven: Bedroom", "blue");
+			print("Spookyraven: Bedroom, rummaging through nightstands looking for naughty meatbag trinkets.", "blue");
 			LX_spookyBedroomCombat();
 			print("Finished 1 Spookyraven Bedroom Sequence", "blue");
 			return true;
@@ -9342,8 +9358,18 @@ boolean L4_batCave()
 		{
 			equip($item[Knob Goblin Harem Veil]);
 		}
+		else if(item_amount($item[Pine-Fresh Air Freshener]) > 0)
+		{
+			equip($slot[Acc3], $item[Pine-Fresh Air Freshener]);
+		}
 		else
 		{
+			if(get_property("cc_powerLevelAdvCount").to_int() >= 5)
+			{
+				ccAdv(1, $location[The Bat Hole Entrance]);
+				return true;
+			}
+			print("I can nae handle the stench of the Guano Junction!", "green");
 			return false;
 		}
 	}
@@ -9366,6 +9392,10 @@ boolean L4_batCave()
 	{
 		ccAdv(1, $location[Guano Junction]);
 		return true;
+	}
+	else
+	{
+		print("I can nae handle the stench of the Guano Junction!", "green");
 	}
 	return false;
 }
@@ -9528,6 +9558,25 @@ boolean LX_craftAcquireItems()
 	LX_dolphinKingMap();
 	cc_mayoItems();
 
+	if((cc_my_path() != "Community Service") && !get_property("_dailyCreates").to_boolean())
+	{
+		getHorse("noncombat");
+		if(item_amount($item[Portable Pantogram]) > 0)
+		{
+			switch(my_daycount())
+			{
+			case 1:
+				pantogramPants(my_primestat(), $element[hot], 1, 1, 1);
+				break;
+			default:
+				pantogramPants($stat[Muscle], $element[cold], 1, 2, 1);
+				break;
+			}
+		}
+		januaryToteAcquire($item[Makeshift Garbage Shirt]);
+		set_property("_dailyCreates", true);
+	}
+
 	return false;
 }
 
@@ -9669,7 +9718,6 @@ boolean beatenUpResolution()
 			{
 				abort("We are getting beaten up too much, this is not good. Aborting.");
 			}
-			set_property("cc_beatenUpCount", get_property("cc_beatenUpCount").to_int() + 1);
 			use_skill(1, $skill[Tongue of the Walrus]);
 		}
 		if(have_effect($effect[Beaten Up]) > 0)
@@ -10098,7 +10146,7 @@ boolean L2_spookySapling()
 		}
 		else
 		{
-			abort("Supposedly bought a spooky sapling, but failed :(");
+			abort("Supposedly bought a spooky sapling, but failed :( (Did the semi-rare window just expire, just run me again, sorry)");
 		}
 	}
 	return true;
@@ -10274,10 +10322,11 @@ boolean LX_handleSpookyravenFirstFloor()
 				expectPool += 3;
 			}
 
-
 			if(!possessEquipment($item[Pool Cue]))
 			{
-				expectPool = 30;
+				print("Well, I need a pool cueball...", "blue");
+				ccAdv(1, $location[The Haunted Billiards Room]);
+				return true;
 			}
 
 			print("Looking at the billiards room: 14 <= " + expectPool + " <= 18", "green");
@@ -10307,7 +10356,10 @@ boolean LX_handleSpookyravenFirstFloor()
 			{
 				set_property("choiceAdventure875", "2");
 			}
-			buffMaintain($effect[Chalky Hand], 0, 1, 1);
+			if(possessEquipment($item[Pool Cue]))
+			{
+				buffMaintain($effect[Chalky Hand], 0, 1, 1);
+			}
 
 			# Staff of Fats
 			if(item_amount($item[7964]) > 0)
@@ -10326,7 +10378,6 @@ boolean LX_handleSpookyravenFirstFloor()
 
 			print("It's billiards time!", "blue");
 			ccAdv(1, $location[The Haunted Billiards Room]);
-
 		}
 		else
 		{
@@ -13019,6 +13070,7 @@ boolean doTasks()
 	}
 
 	basicAdjustML();
+	powerLevelAdjustment();
 	handleFamiliar("item");
 	basicFamiliarOverrides();
 

@@ -86,6 +86,10 @@ boolean picky_buyskills()
 		{
 			visit_url("guild.php?action=buyskill&skillid=4", true);
 		}
+		if((my_level() >= 1) && (my_meat() >= 1500) && (!have_skill($skill[Fortitude Of The Muskox])))
+		{
+			visit_url("guild.php?action=buyskill&skillid=8", true);
+		}
 		if((my_level() >= 3) && (my_meat() >= 2500) && (!have_skill($skill[Cold Shoulder])))
 		{
 			visit_url("guild.php?action=buyskill&skillid=28", true);

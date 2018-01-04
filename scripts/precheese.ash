@@ -193,6 +193,10 @@ void handlePreAdventure(location place)
 		buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 20, 1, 10);
 		buffMaintain($effect[Singer\'s Faithful Ocelot], 35, 1, 10);
 	}
+	if(itemNeed._boolean && (item_drop_modifier() < itemNeed._float))
+	{
+		print("We can't cap this drop bear!", "purple");
+	}
 
 	if(in_hardcore() && (my_class() == $class[Sauceror]) && (my_mp() < 32))
 	{

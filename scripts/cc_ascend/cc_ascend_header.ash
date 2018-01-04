@@ -538,6 +538,7 @@ boolean handleBarrelFullOfBarrels(boolean daily);			//Defined in cc_ascend/cc_ut
 boolean handleCopiedMonster(item itm);						//Defined in cc_ascend/cc_util.ash
 boolean handleCopiedMonster(item itm, string option);		//Defined in cc_ascend/cc_util.ash
 boolean handleFamiliar(string type);						//Defined in cc_ascend.ash
+boolean powerLevelAdjustment();								//Defined in cc_ascend.ash
 boolean handleFaxMonster(monster enemy);					//Defined in cc_ascend/cc_clan.ash
 boolean handleFaxMonster(monster enemy, boolean fightIt);	//Defined in cc_ascend/cc_clan.ash
 boolean handleFaxMonster(monster enemy, boolean fightIt, string option);//Defined in cc_ascend/cc_clan.ash

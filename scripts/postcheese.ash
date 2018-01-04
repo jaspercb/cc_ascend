@@ -992,6 +992,11 @@ void handlePostAdventure()
 	set_property("cc_combatDirective", "");
 	set_property("cc_digitizeDirective", "");
 
+	if(have_effect($effect[Beaten Up]) > 0)
+	{
+		set_property("cc_beatenUpCount", get_property("cc_beatenUpCount").to_int() + 1);
+	}
+
 	print("Post Adventure done, beep.", "purple");
 }
 
