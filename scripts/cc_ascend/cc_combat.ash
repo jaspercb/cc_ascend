@@ -873,6 +873,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+
 	if(!contains_text(combatState, "yellowray"))
 	{
 		boolean doYellow = false;
@@ -930,6 +931,15 @@ string cc_combatHandler(int round, string opp, string text)
 			{
 				print("Wanted a yellow ray but we can not find one.", "red");
 			}
+		}
+	}
+
+	if(!contains_text(combatState, "hugpocket") && (my_familiar() == $familiar[XO Skeleton]) && (get_property("_xoHugsUsed").to_int() <= 10))
+	{
+		if($monsters[Filthworm Drone, Filthworm Royal Guard, Larval Filthworm] contains enemy)
+		{
+			set_property("cc_combatHandler", combatState + "(hugpocket)");
+			return "skill " + $skill[Hugs and Kisses!];
 		}
 	}
 

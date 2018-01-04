@@ -7098,14 +7098,26 @@ boolean L12_filthworms()
 				handleFamiliar("yellow ray");
 			}
 		}
+		if(have_familiar($familiar[XO Skeleton]) && (get_property("_xoHugsUsed").to_int() <= 10) && !is100FamiliarRun($familiar[XO Skeleton]))
+		{
+			handleFamiliar($familiar[XO Skeleton]);
+		}
 		ccAdv(1, $location[The Royal Guard Chamber]);
 	}
 	else if(have_effect($effect[Filthworm Larva Stench]) > 0)
 	{
+		if(have_familiar($familiar[XO Skeleton]) && (get_property("_xoHugsUsed").to_int() <= 10) && !is100FamiliarRun($familiar[XO Skeleton]))
+		{
+			handleFamiliar($familiar[XO Skeleton]);
+		}
 		ccAdv(1, $location[The Feeding Chamber]);
 	}
 	else
 	{
+		if(have_familiar($familiar[XO Skeleton]) && (get_property("_xoHugsUsed").to_int() <= 10) && !is100FamiliarRun($familiar[XO Skeleton]))
+		{
+			handleFamiliar($familiar[XO Skeleton]);
+		}
 		ccAdv(1, $location[The Hatching Chamber]);
 	}
 	handleFamiliar("item");
