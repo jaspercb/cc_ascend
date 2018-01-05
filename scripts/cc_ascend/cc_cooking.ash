@@ -56,6 +56,10 @@ boolean keepOnTruckin()
 		{
 			continue;
 		}
+		if(my_level() < it.levelreq)
+		{
+			continue;
+		}
 		int filling = it.fullness + it.inebriety;
 		if(mall_price(it) > (1250 * filling))
 		{

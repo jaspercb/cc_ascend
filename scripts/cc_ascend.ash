@@ -9638,9 +9638,9 @@ boolean adventureFailureHandler()
 		}
 
 		int plCount = get_property("cc_powerLevelAdvCount").to_int();
-		if((plCount > 40) && (my_level() < 11))
+		if((plCount > 20) && (my_level() < 13))
 		{
-			if($locations[Oil Peak] contains my_location())
+			if($locations[The Hidden Hospital, Oil Peak] contains my_location())
 			{
 				tooManyAdventures = false;
 			}
@@ -10348,7 +10348,11 @@ boolean LX_handleSpookyravenFirstFloor()
 				{
 					print("Not quite boozed up for the billiards room... we'll be back.", "green");
 				}
-				return false;
+				if(get_property("cc_powerLevelAdvCount").to_int() < 5)
+				{
+					return false;
+				}
+				print("Well, maybe I'll just deal with not being drunk enough, punk", "blue");
 			}
 			if((my_inebriety() > 12) && (expectPool < 16))
 			{

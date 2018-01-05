@@ -72,7 +72,7 @@ boolean groundhogAbort(location loc)
 		{
 			if((place == loc) && (item_drop_modifier() < itemNeed._float))
 			{
-				abort("Not enough +item drop (" + (itemNeed._float - 100.0) + ") for " + loc + " only have: " + item_drop_modifier());
+				abort("Not enough +item drop (" + itemNeed._float + ") for " + loc + " only have: " + item_drop_modifier());
 			}
 		}
 	}

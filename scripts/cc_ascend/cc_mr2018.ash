@@ -12,38 +12,15 @@ int januaryToteTurnsLeft(item it)
 	{
 		return 0;
 	}
-	//Should we do a possessEquipment check?
-	//This will probably all be superceded by a mafia preference.
 
-	int choice = 0;
+	int score = 0;
 	switch(it)
 	{
-	case $item[Deceased Crimbo Tree]:			choice = 1;		break;
-	case $item[Broken Champagne Bottle]:		choice = 2;		break;
-	case $item[Makeshift Garbage Shirt]:		choice = 5;		break;
+	case $item[Deceased Crimbo Tree]:		score = get_property("_garbageTreeCharge").to_int();		break;
+	case $item[Broken Champagne Bottle]:	score = get_property("_garbageChampagneCharge").to_int();	break;
+	case $item[Makeshift Garbage Shirt]:	score = get_property("_garbageShirtCharge").to_int();		break;
 	}
-
-	if(choice == 0)
-	{
-		return 0;
-	}
-
-	int usesLeft = 0;
-
-	string temp = visit_url("inv_use.php?pwd=" + my_hash() + "&which=3&whichitem=9690", false);
-	temp = visit_url("choice.php?pwd=&whichchoice=1275&option=" + choice);
-
-	matcher my_uses = create_matcher("Looks like (it has|you can read roughly) ([0-9,]+) ",temp);
-	if(my_uses.find())
-	{
-		usesLeft = to_int(my_uses.group(2));
-	}
-
-	//Does this unequip ourself? And if so, are we going to put it back on?
-	//Looks like it has 1,000 needles remaining.
-	//Looks like it has 11 ounces of champagne remaining.
-	//Looks like you can read roughly 37 scraps on your shirt.
-	return usesLeft;
+	return score;
 }
 
 boolean januaryToteAcquire(item it)
