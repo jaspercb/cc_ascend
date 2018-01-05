@@ -9570,6 +9570,33 @@ boolean LX_craftAcquireItems()
 	LX_dolphinKingMap();
 	cc_mayoItems();
 
+	if(item_amount($item[Metal Meteoroid]) > 0)
+	{
+		item it = $item[Meteorthopedic Shoes];
+		if(!possessEquipment(it))
+		{
+			int choice = 1 + to_int(it) - to_int($item[Meteortarboard]);
+			string temp = visit_url("inv_use.php?pwd=&which=3&whichitem=9516");
+			temp = visit_url("choice.php?pwd=&whichchoice=1264&option=" + choice);
+		}
+
+		it = $item[Meteortarboard];
+		if(!possessEquipment(it) && (get_power(equipped_item($slot[Hat])) < 140) && (get_property("cc_beatenUpCount").to_int() >= 5))
+		{
+			int choice = 1 + to_int(it) - to_int($item[Meteortarboard]);
+			string temp = visit_url("inv_use.php?pwd=&which=3&whichitem=9516");
+			temp = visit_url("choice.php?pwd=&whichchoice=1264&option=" + choice);
+		}
+
+		it = $item[Meteorite Guard];
+		if(!possessEquipment(it) && !possessEquipment($item[Kol Con 13 Snowglobe]) && (get_property("cc_beatenUpCount").to_int() >= 5))
+		{
+			int choice = 1 + to_int(it) - to_int($item[Meteortarboard]);
+			string temp = visit_url("inv_use.php?pwd=&which=3&whichitem=9516");
+			temp = visit_url("choice.php?pwd=&whichchoice=1264&option=" + choice);
+		}
+	}
+
 	if((cc_my_path() != "Community Service") && !get_property("_dailyCreates").to_boolean())
 	{
 		getHorse("noncombat");
