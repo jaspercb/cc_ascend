@@ -440,7 +440,7 @@ boolean ed_doResting()
 	if(my_class() == $class[Ed])
 	{
 		int maxBuff = 675 - my_turncount();
-		while(get_property("timesRested").to_int() < total_free_rests())
+		while((get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 		{
 			doRest();
 			buffMaintain($effect[Purr of the Feline], 30, 3, maxBuff);
@@ -781,7 +781,7 @@ boolean ed_eatStuff()
 		eatFancyDog("video games hot dog");
 	}
 
-	if(get_property("cc_dickstab").to_boolean() && !get_property("_fancyHotDogEaten").to_boolean() && (my_daycount() == 1) && ((my_fullness() + 2) <= fullness_limit()) && (item_amount($item[Astral Hot Dog]) == 0) && (item_amount($item[Clan VIP Lounge Key]) > 0))
+	if(get_property("cc_dickstab").to_boolean() && !get_property("_fancyHotDogEaten").to_boolean() && (my_daycount() == 1) && ((my_fullness() + 2) <= fullness_limit()) && (item_amount($item[Astral Hot Dog]) == 0) && (item_amount($item[Clan VIP Lounge Key]) > 0) && chateaumantegna_available())
 	{
 		eatFancyDog("sleeping dog");
 	}

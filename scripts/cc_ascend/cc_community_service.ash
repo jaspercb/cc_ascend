@@ -1926,7 +1926,7 @@ boolean LA_cs_communityService()
 				{
 					eatFancyDog("savage macho dog");
 				}
-				else
+				else if(chateaumantegna_available())
 				{
 					eatFancyDog("sleeping dog");
 				}
