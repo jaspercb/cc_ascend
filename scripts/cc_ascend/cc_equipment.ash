@@ -403,6 +403,10 @@ item handleSolveThing(item[int] poss, slot loc)
 		{
 			toEquip = thing;
 		}
+		if(ignore && (equipped_item(loc) == thing))
+		{
+			equip(loc, $item[none]);
+		}
 		idx += 1;
 	}
 	return toEquip;
@@ -538,7 +542,7 @@ void equipBaselineWeapon()
 		poss = $items[Seal-Clubbing Club, Gnollish Flyswatter, Club of Corruption, Remaindered Axe, Skeleton Bone, Corrupt Club of Corruption, Flaming Crutch, Homoerotic Frat-Paddle, Kneecapping Stick, Corrupt Club of Corrupt Corruption, Spiked Femur, Severed Flipper, Gnawed-Up Dog Bone, Mannequin Leg, Infernal Toilet Brush, Hilarious Comedy Prop, Giant Foam Finger, Red Hot Poker, Maxwell\'s Silver Hammer, Elegant Nightstick, Oversized Pipe, Ghast Iron Cleaver, Frozen Seal Spine, Stainless Steel Shillelagh, Porcelain Police Baton, Bass Clarinet, Fish Hatchet, Lead Pipe, Meat Tenderizer Is Murder, Dented Scepter];
 		break;
 	case $class[Turtle Tamer]:
-		poss = $items[Turtle Totem, Knob Goblin Tongs, Knob Goblin Scimitar, Law-Abiding Citizen Cane, Mace of the Tortoise, Witty Rapier, Antique Machete, Short-Handled Mop, Thor\'s Pliers, Rope, Lead Pipe, Work Is A Four Letter Sword, Bass Clarinet, Fish Hatchet, Garbage Sticker, Dented Scepter];
+		poss = $items[Turtle Totem, Knob Goblin Tongs, Knob Goblin Scimitar, Law-Abiding Citizen Cane, Mace of the Tortoise, Witty Rapier, Antique Machete, Spectral Axe, Short-Handled Mop, Thor\'s Pliers, Rope, Lead Pipe, Work Is A Four Letter Sword, Bass Clarinet, Fish Hatchet, Garbage Sticker, Dented Scepter];
 		break;
 	case $class[Sauceror]:
 		poss = $items[Saucepan, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Oversized Pizza Cutter, Titanium Assault Umbrella, Thor\'s Pliers, Candlestick, Fish Hatchet, Bass Clarinet, Saucepanic];
