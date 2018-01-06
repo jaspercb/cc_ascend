@@ -6810,9 +6810,10 @@ boolean L12_sonofaBeach()
 
 	if(cc_my_path() != "Live. Ascend. Repeat.")
 	{
-		if(!providePlusCombat(25))
+		if(!providePlusCombat(25, true))
 		{
 			print("Failure in +Combat acquisition or -Combat shrugging (lobsterfrogman), delaying", "red");
+			equipBaseline();
 			return false;
 		}
 

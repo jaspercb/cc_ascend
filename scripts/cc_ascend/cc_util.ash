@@ -1688,6 +1688,7 @@ item whatHiMein()
 	{
 		return $item[Fettucini Inconnu];
 	}
+/*
 	if(!in_hardcore() && (my_level() >= 13) && (pulls_remaining() > 0))
 	{
 		switch(my_class())
@@ -1704,6 +1705,7 @@ item whatHiMein()
 			return $item[Sleazy Hi Mein];
 		}
 	}
+*/
 	return $item[crudles];
 }
 
