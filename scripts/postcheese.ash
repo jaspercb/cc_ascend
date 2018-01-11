@@ -957,7 +957,7 @@ void handlePostAdventure()
 	}
 
 	#Should we create a separate function to track these? How many are we going to track?
-	if((last_monster() == $monster[writing desk]) && (get_property("lastEncounter") == $monster[Writing Desk]) && (have_effect($effect[Beaten Up]) == 0))
+	if((last_monster() == $monster[Writing Desk]) && (get_property("lastEncounter") == $monster[Writing Desk]) && (have_effect($effect[Beaten Up]) == 0))
 	{
 		print("Fought " + get_property("writingDesksDefeated") + " writing desks.", "blue");
 	}

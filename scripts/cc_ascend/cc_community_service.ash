@@ -741,8 +741,11 @@ boolean LA_cs_communityService()
 				{
 					handleFamiliar("yellow ray");
 				}
-				ccAdv(1, $location[LavaCo&trade; Lamp Factory], "cs_combatYR");
-				return true;
+				if(!possessEquipment($item[Heat-Resistant Necktie]) || !possessEquipment($item[Heat-Resistant Gloves]) || !possessEquipment($item[Lava-Proof Pants]))
+				{
+					ccAdv(1, $location[LavaCo&trade; Lamp Factory], "cs_combatYR");
+					return true;
+				}
 			}
 
 			if(inebriety_left() >= 1)
@@ -916,10 +919,10 @@ boolean LA_cs_communityService()
 					}
 				}
 
-//				if((elementalPlanes_access($element[hot])) && (item_amount($item[New Age Healing Crystal]) < 2))
-//				{
-//					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
-//				}
+#				if((elementalPlanes_access($element[hot])) && (item_amount($item[New Age Healing Crystal]) < 2))
+#				{
+#					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
+#				}
 				if(get_property("controlPanel9").to_boolean())
 				{
 					if(item_amount($item[Personal Ventilation Unit]) > 0)
@@ -2392,8 +2395,11 @@ boolean LA_cs_communityService()
 				}
 				if(elementalPlanes_access($element[hot]))
 				{
-					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatYR");
-					return true;
+					if(!possessEquipment($item[Fireproof Megaphone]) || !possessEquipment($item[High-Temperature Mining Mask]))
+					{
+						ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatYR");
+						return true;
+					}
 				}
 			}
 
@@ -3476,7 +3482,7 @@ string cs_combatYR(int round, string opp, string text)
 		}
 	}
 
-	if((my_location() == $location[LavaCo&trade; Lamp Factory]) && have_skill($skill[Meteor Lore]) &&(get_property("_macrometeoriteUses").to_int() < 10))
+	if((my_location() == $location[LavaCo&trade; Lamp Factory]) && have_skill($skill[Meteor Lore]) && (get_property("_macrometeoriteUses").to_int() < 10))
 	{
 		if($monsters[Lava Golem] contains enemy)
 		{
@@ -3484,7 +3490,7 @@ string cs_combatYR(int round, string opp, string text)
 		}		
 	}
 
-	if((my_location() == $location[The Velvet / Gold Mine]) && have_skill($skill[Meteor Lore]) &&(get_property("_macrometeoriteUses").to_int() < 10))
+	if((my_location() == $location[The Velvet / Gold Mine]) && have_skill($skill[Meteor Lore]) && (get_property("_macrometeoriteUses").to_int() < 10))
 	{
 		if($monsters[Healing Crystal Golem] contains enemy)
 		{

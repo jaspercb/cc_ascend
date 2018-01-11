@@ -4039,7 +4039,7 @@ boolean L13_towerNSFinal()
 			ccAdv(1, $location[Noob Cave]);
 			if(have_effect($effect[Beaten Up]) > 0)
 			{
-				print("Blobbers Sorceress beat us up. Wahhh.", "red");
+				print("Blobbage Sorceress beat us up. Wahhh.", "red");
 				set_property("cc_disableAdventureHandling", true);
 				return true;
 			}
@@ -5070,6 +5070,11 @@ boolean LX_attemptPowerLevel()
 			ccAdv($location[The Hidden Hospital]);
 			return true;
 		}
+		if((my_level() >= 10) && zone_isAvailable($location[The Hole In The Sky]))
+		{
+			ccAdv($location[The Hole In The Sky]);
+			return true;
+		}
 		if((my_level() >= 9) && ((get_property("cc_highlandlord") == "start") || (get_property("cc_highlandlord") == "finished")))
 		{
 			ccAdv($location[Oil Peak]);
@@ -5077,7 +5082,18 @@ boolean LX_attemptPowerLevel()
 		}
 		if((my_level() >= 8) && (get_property("cc_trapper") == "finished"))
 		{
-			ccAdv($location[The Icy Peak]);
+			float elemDamage = numeric_modifier("Hot Damage");
+			elemDamage += numeric_modifier("Sleaze Damage");
+			elemDamage += numeric_modifier("Spooky Damage");
+			elemDamage += numeric_modifier("Stench Damage");
+			if(elemDamage > 20)
+			{
+				ccAdv($location[The Icy Peak]);
+			}
+			else
+			{
+				ccAdv($location[The Extreme Slope]);
+			}
 			return true;
 		}
 		return false;
@@ -8309,6 +8325,11 @@ boolean LX_ornateDowsingRod()
 	{
 		return false;
 	}
+	if(!is_unrestricted($item[Grimstone Mask]))
+	{
+		set_property("cc_grimstoneOrnateDowsingRod", false);
+		return false;
+	}
 	if(possessEquipment($item[UV-resistant compass]))
 	{
 		print("You have a UV-resistant compass for some raisin, I assume you don't want an Ornate Dowsing Rod.", "red");
@@ -9668,7 +9689,7 @@ boolean adventureFailureHandler()
 		int plCount = get_property("cc_powerLevelAdvCount").to_int();
 		if((plCount > 20) && (my_level() < 13))
 		{
-			if($locations[The Hidden Hospital, Oil Peak] contains my_location())
+			if($locations[The Hidden Hospital, The Hole In The Sky, Oil Peak] contains my_location())
 			{
 				tooManyAdventures = false;
 			}
@@ -9762,6 +9783,10 @@ boolean beatenUpResolution()
 		}
 		if(have_effect($effect[Beaten Up]) > 0)
 		{
+			if(get_property("cc_beatenUpCount").to_int() < 10)
+			{
+				doRest();
+			}
 			abort("Got beaten up, please fix me");
 		}
 	}
@@ -11879,12 +11904,8 @@ boolean L5_haremOutfit()
 	{
 		return false;
 	}
-	if(!canYellowRay())
-	{
-		return false;
-	}
 
-	if(!in_hardcore() && !canYellowRay())
+	if(!canYellowRay())
 	{
 		if(my_level() != get_property("cc_powerLevelLastLevel").to_int())
 		{
@@ -13461,6 +13482,13 @@ boolean doTasks()
 	if(L13_towerNSTransition())			return true;
 	if(L13_towerNSFinal())				return true;
 	if(L13_ed_councilWarehouse())		return true;
+
+
+	if(my_level() != get_property("cc_powerLevelLastLevel").to_int())
+	{
+		set_property("cc_powerLevelLastLevel", my_level());
+		return true;
+	}
 
 	print("I should not get here more than once because I pretty much just finished all my in-run stuff. Beep", "blue");
 	return false;
