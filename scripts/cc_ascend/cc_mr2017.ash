@@ -4,6 +4,7 @@ script "cc_mr2017.ash"
 
 boolean mummifyFamiliar(familiar fam, string bonus)
 {
+	bonus = to_lower_case(bonus);
 	if(get_property("_mummifyDone").to_boolean())
 	{
 		return false;
@@ -27,35 +28,39 @@ boolean mummifyFamiliar(familiar fam, string bonus)
 	familiar last = my_familiar();
 
 	int goal = 0;
-	if(bonus == "meat")
+	if((bonus == "meat") || (bonus == "1"))
 	{
 		goal = 1;
 	}
-	else if((bonus == "mp") || (bonus == "mp regen") || (bonus == "mpregen"))
+	else if((bonus == "mp") || (bonus == "mp regen") || (bonus == "mpregen") || (bonus == "2"))
 	{
 		goal = 2;
 	}
-	else if(bonus == "muscle")
+	else if((bonus == "muscle") || (bonus == "3"))
 	{
 		goal = 3;
 	}
-	else if(bonus == "item")
+	else if((bonus == "item") || (bonus == "4"))
 	{
 		goal = 4;
 	}
-	else if((bonus == "mystalicality") || (bonus == "myst"))
+	else if((bonus == "mysticality") || (bonus == "myst") || (bonus == "5"))
 	{
 		goal = 5;
 	}
-	else if((bonus == "hp") || (bonus == "hp regen") || (bonus == "hpregen"))
+	else if((bonus == "hp") || (bonus == "hp regen") || (bonus == "hpregen") || (bonus == "6"))
 	{
 		goal = 6;
 	}
-	else if(bonus == "moxie")
+	else if((bonus == "moxie") || (bonus == "7"))
 	{
 		goal = 7;
 	}
 
+	if(contains_text(get_property("_mummeryUses"), goal))
+	{
+		return false;
+	}
 
 	if((goal < 1) || (goal >= 8))
 	{

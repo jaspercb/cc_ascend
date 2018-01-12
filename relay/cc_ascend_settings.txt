@@ -30,16 +30,17 @@
 30	cc_floundryChoice	string	ANY	Force floundry usage. Must use the item name (Use ; to separate by daycount, leave blank to skip a day).
 31	cc_xiblaxianChoice	string	ANY	When using Xiblaxian Stuff, do we make a Xiblaxian Ultraburrito or Xiblaxian Space-Whiskey
 32	cc_extrudeChoice	string	ANY	: separated by day, ; separated by order. Use food, booze. Defaults to booze for any empty fields.
-33	cc_blacklistFamiliar	string	ANY	A semi-colon separate string of familiar names that we do not want to use. They still may get used but this will minimize their usage.
-34	cc_doArtistQuest	boolean	ANY	If set, we will try to do the artist quest. If the artist is not-accessible, the setting will silently disable.
-35	cc_ashtonLimit	integer	ANY	If set, makes sure you save X of an item before feeding it to the Ashton Kutcher (ignores Soda Bread).
-36	cc_equipment_override_hat	string	ANY	A semicolon separated list of overrides for the hat slot.
-37	cc_equipment_override_back	string	ANY	A semicolon separated list of overrides for the back slot.
-38	cc_equipment_override_shirt	string	ANY	A semicolon separated list of overrides for the shirt slot.
-39	cc_equipment_override_weapon	string	ANY	A semicolon separated list of overrides for the weapon slot.
-40	cc_equipment_override_off-hand	string	ANY	A semicolon separated list of overrides for the off-hand slot.
-41	cc_equipment_override_pants	string	ANY	A semicolon separated list of overrides for the pants slot.
-42	cc_equipment_override_acc1	string	ANY	A semicolon separated list of overrides for the acc1 slot.
-43	cc_equipment_override_acc2	string	ANY	A semicolon separated list of overrides for the acc2 slot.
-44	cc_equipment_override_acc3	string	ANY	A semicolon separated list of overrides for the acc3 slot.
-45	cc_limitConsume	boolean	ANY	When false, pull cheapish food/booze when we run low so we can continue.
+33	cc_mummeryChoice	string	ANY	Force mummery usage. Use familiar name and goals are in order (1..7) (Use ; to separate, leave blank to skip a goal).
+34	cc_blacklistFamiliar	string	ANY	A semi-colon separate string of familiar names that we do not want to use. They still may get used but this will minimize their usage.
+35	cc_doArtistQuest	boolean	ANY	If set, we will try to do the artist quest. If the artist is not-accessible, the setting will silently disable.
+36	cc_ashtonLimit	integer	ANY	If set, makes sure you save X of an item before feeding it to the Ashton Kutcher (ignores Soda Bread).
+37	cc_limitConsume	boolean	ANY	When false, pull cheapish food/booze when we run low so we can continue.
+38	cc_equipment_override_hat	string	ANY	A semicolon separated list of overrides for the hat slot.
+39	cc_equipment_override_back	string	ANY	A semicolon separated list of overrides for the back slot.
+40	cc_equipment_override_shirt	string	ANY	A semicolon separated list of overrides for the shirt slot.
+41	cc_equipment_override_weapon	string	ANY	A semicolon separated list of overrides for the weapon slot.
+42	cc_equipment_override_off-hand	string	ANY	A semicolon separated list of overrides for the off-hand slot.
+43	cc_equipment_override_pants	string	ANY	A semicolon separated list of overrides for the pants slot.
+44	cc_equipment_override_acc1	string	ANY	A semicolon separated list of overrides for the acc1 slot.
+45	cc_equipment_override_acc2	string	ANY	A semicolon separated list of overrides for the acc2 slot.
+46	cc_equipment_override_acc3	string	ANY	A semicolon separated list of overrides for the acc3 slot.

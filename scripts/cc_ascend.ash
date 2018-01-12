@@ -1743,6 +1743,20 @@ void initializeDay(int day)
 
 	cc_barrelPrayers();
 
+	if(get_property("cc_mummeryChoice") != "")
+	{
+		string[int] mummeryChoice = split_string(get_property("cc_mummeryChoice"), ";");
+		foreach idx, opt in mummeryChoice
+		{
+			int goal = idx + 1;
+			if((opt == "") || (goal > 7))
+			{
+				continue;
+			}
+			mummifyFamiliar(to_familiar(opt), goal);
+		}
+	}
+
 	if(!get_property("_pottedTeaTreeUsed").to_boolean() && (cc_get_campground() contains $item[Potted Tea Tree]) && !get_property("kingLiberated").to_boolean())
 	{
 		if(get_property("cc_teaChoice") != "")
