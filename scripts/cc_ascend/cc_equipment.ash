@@ -129,6 +129,18 @@ boolean possessEquipment(item equipment)
 			return true;
 		}
 	}
+
+	if(item_type(equipment) == "familiar equipment")
+	{
+		foreach fam in $familiars[]
+		{
+			if(familiar_equipped_equipment(fam) == equipment)
+			{
+				return true;
+			}
+		}
+	}
+
 	return false;
 }
 

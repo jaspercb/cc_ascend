@@ -65,6 +65,11 @@ boolean keepOnTruckin()
 		{
 			continue;
 		}
+		if(item_amount(it) > 0)
+		{
+			//We already have it and should probably eat it or something.
+			break;
+		}
 		if(pullXWhenHaveY(it, 1, 0))
 		{
 			break;

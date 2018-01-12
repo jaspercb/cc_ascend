@@ -1042,6 +1042,21 @@ boolean LA_cs_communityService()
 				cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
 			}
 
+			if(elementalPlanes_access($element[hot]) && have_skill($skill[Meteor Lore]) && have_skill($skill[Snokebomb]) && (my_mp() > mp_cost($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && (get_property("_macrometeoriteUses").to_int() < 10) && (get_property("_xoHugsUsed").to_int() < 11) && !is100FamiliarRun($familiar[XO Skeleton]))
+			{
+				if(!possessEquipment($item[Fireproof Megaphone]) || !possessEquipment($item[High-Temperature Mining Mask]))
+				{
+					handleFamiliar($familiar[XO Skeleton]);
+					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatXO");
+					return true;
+				}
+				if(!possessEquipment($item[Heat-Resistant Necktie]) || !possessEquipment($item[Heat-Resistant Gloves]) || !possessEquipment($item[Lava-Proof Pants]))
+				{
+					handleFamiliar($familiar[XO Skeleton]);
+					ccAdv(1, $location[LavaCo&trade; Lamp Factory], "cs_combatXO");
+					return true;
+				}
+			}
 
 			if(have_skill($skill[Advanced Saucecrafting]))
 			{
@@ -2254,6 +2269,7 @@ boolean LA_cs_communityService()
 						{
 							break;
 						}
+						runs = runs - get_property("_banderRunaways").to_int();
 					}
 				}
 				else if(have_skill($skill[Meteor Lore]) && (get_property("_macrometeoriteUses").to_int() < 10))
@@ -2355,14 +2371,7 @@ boolean LA_cs_communityService()
 
 			if(get_cs_questCost(curQuest) > 7)
 			{
-				if(have_effect($effect[Synthesis: Collection]) == 0)
-				{
-					makeGenieWish($effect[Synthesis: Collection]);
-				}
-				else
-				{
-					makeGenieWish($effect[Frosty]);
-				}
+				makeGenieWish($effect[Frosty]);
 			}
 
 			if(do_cs_quest(9))
@@ -2408,6 +2417,7 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
+			# We want to leave some meat for Day 2
 			if(have_familiar($familiar[Trick-or-Treating Tot]) && ((my_meat() > 2500) || possessEquipment($item[Li\'l Candy Corn Costume])))
 			{
 				use_familiar($familiar[Trick-or-Treating Tot]);
@@ -3436,6 +3446,75 @@ string cs_combatNormal(int round, string opp, string text)
 	return "attack with weapon";
 }
 
+
+string cs_combatXO(int round, string opp, string text)
+{
+	# This assumes we have Volcano Charter, Meteor Love [sic], Snokebomb, XO Skeleton (not blocked by 100% run), and 50 MP, anything else and it probably fails
+	if(round == 0)
+	{
+		print("cc_combatHandler: " + round, "brown");
+		set_property("cc_combatHandler", "");
+	}
+
+	set_property("cc_diag_round", round);
+	if(get_property("cc_diag_round").to_int() > 60)
+	{
+		abort("Somehow got to 60 rounds.... aborting");
+	}
+
+	if(my_familiar() != $familiar[XO Skeleton])
+	{
+		abort("In cs_combatXO without an XO to XOXO with");
+	}
+
+	monster enemy = to_monster(opp);
+	string combatState = get_property("cc_combatHandler");
+
+
+	if(my_location() == $location[LavaCo&trade; Lamp Factory])
+	{
+		if(!possessEquipment($item[Heat-Resistant Necktie]) || !possessEquipment($item[Heat-Resistant Gloves]) || !possessEquipment($item[Lava-Proof Pants]))
+		{
+			if(!contains_text(combatState, "hugpocket") && (get_property("_xoHugsUsed").to_int() < 11))
+			{
+				set_property("cc_combatHandler", combatState + "(hugpocket)");
+				return "skill " + $skill[Hugs And Kisses!];
+			}
+			if(contains_text(combatState, "hugpocket") && (get_property("_macrometeoriteUses").to_int() < 10))
+			{
+				set_property("cc_combatHandler", "");
+				return "skill " + $skill[Macrometeorite];
+			}
+		}
+	}
+
+	if(my_location() == $location[The Velvet / Gold Mine])
+	{
+		if(!possessEquipment($item[Fireproof Megaphone]) || !possessEquipment($item[High-Temperature Mining Mask]))
+		{
+			if(!contains_text(combatState, "hugpocket") && (get_property("_xoHugsUsed").to_int() < 11))
+			{
+				set_property("cc_combatHandler", combatState + "(hugpocket)");
+				return "skill " + $skill[Hugs And Kisses!];
+			}
+			if(contains_text(combatState, "hugpocket") && (get_property("_macrometeoriteUses").to_int() < 10))
+			{
+				set_property("cc_combatHandler", "");
+				return "skill " + $skill[Macrometeorite];
+			}
+		}
+	}
+
+	if(!have_skill($skill[Snokebomb]) || (my_mp() < mp_cost($skill[Snokebomb])) || (get_property("_snokebombUsed").to_int() >= 3))
+	{
+		abort("Can not snoke that fire thing. We should probably smoke it instead.");
+	}
+
+	return "skill " + $skill[Snokebomb];
+}
+
+
+
 string cs_combatYR(int round, string opp, string text)
 {
 	if(round == 0)
@@ -3487,7 +3566,7 @@ string cs_combatYR(int round, string opp, string text)
 		if($monsters[Lava Golem] contains enemy)
 		{
 			return "skill " + $skill[Macrometeorite];
-		}		
+		}
 	}
 
 	if((my_location() == $location[The Velvet / Gold Mine]) && have_skill($skill[Meteor Lore]) && (get_property("_macrometeoriteUses").to_int() < 10))

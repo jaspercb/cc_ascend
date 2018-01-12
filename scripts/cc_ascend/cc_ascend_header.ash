@@ -822,6 +822,7 @@ record generic_t
 	phylum _phylum;
 };
 generic_t zone_needItem(location loc);						//Defined in cc_ascend/cc_zone.ash
+generic_t zone_difficulty(location loc);					//Defined in cc_ascend/cc_zone.ash
 generic_t zone_combatMod(location loc);						//Defined in cc_ascend/cc_zone.ash
 generic_t zone_delay(location loc);							//Defined in cc_ascend/cc_zone.ash
 generic_t zone_available(location loc);						//Defined in cc_ascend/cc_zone.ash

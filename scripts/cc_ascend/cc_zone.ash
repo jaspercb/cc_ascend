@@ -4,6 +4,7 @@ script "cc_zone.ash"
 //Zone functions come here.
 
 generic_t zone_needItem(location loc);
+generic_t zone_difficulty(location loc);
 generic_t zone_combatMod(location loc);
 generic_t zone_delay(location loc);
 generic_t zone_available(location loc);
@@ -1182,7 +1183,7 @@ generic_t zone_available(location loc)
 		{
 			retval._boolean = gnomads_available();
 		}
-
+		break;
 	case $location[The Thinknerd Warehouse]:
 		if(internalQuestStatus("questM22Shirt") >= 0)
 		{
@@ -1219,6 +1220,293 @@ generic_t zone_available(location loc)
 		{
 			retval._boolean = true;
 		}
+		break;
+
+#	This is just to do a mass test.
+#	default:
+#		abort("Can't find " + loc);
+#		break;
+	}
+
+	return retval;
+}
+
+generic_t zone_difficulty(location loc)
+{
+	generic_t retval;
+
+	//Should we handle when we are expecting a wanderer?
+
+	retval._int = 0;
+	retval._monster = $monster[none];
+
+	boolean[monster] mobs = get_location_monsters(loc);
+	if(count(mobs) > 0)
+	{
+		foreach mon in mobs
+		{
+			retval._int = mon.base_defense;
+			retval._monster = mon;
+			break;
+		}
+	}
+
+	switch(loc)
+	{
+	case $location[The Shore\, Inc. Travel Agency]:
+		retval._int = 0;
+		break;
+	case $location[Super Villain\'s Lair]:
+		break;
+	case $location[South of The Border]:
+		break;
+	case $location[The Arid\, Extra-Dry Desert]:
+		break;
+	case $location[The Oasis]:
+		if(have_effect($effect[Ultrahydrated]) == 0)
+		{
+			retval._int = 0;
+		}
+		break;
+	case $location[The Upper Chamber]:
+		break;
+	case $location[The Middle Chamber]:
+		break;
+	case $location[The Lower Chambers]:
+		break;
+	case $location[The Daily Dungeon]:
+		break;
+	case $location[The Overgrown Lot]:
+		break;
+	case $location[The Skeleton Store]:
+		break;
+	case $location[Madness Bakery]:
+		break;
+	case $location[The Deep Machine Tunnels]:
+		break;
+	case $location[The Haunted Pantry]:
+		break;
+	case $location[The Haunted Kitchen]:
+		break;
+	case $location[The Haunted Conservatory]:
+		break;
+	case $location[The Haunted Gallery]:
+	case $location[The Haunted Bathroom]:
+	case $location[The Haunted Bedroom]:
+		break;
+	case $location[The Haunted Billiards Room]:
+		break;
+	case $location[The Haunted Library]:
+		break;
+	case $location[The Haunted Ballroom]:
+		break;
+	case $location[The Haunted Boiler Room]:
+	case $location[The Haunted Laundry Room]:
+	case $location[The Haunted Wine Cellar]:
+		break;
+	case $location[Summoning Chamber]:
+		break;
+	case $location[The Hidden Park]:
+		break;
+	case $location[An Overgrown Shrine (Northwest)]:
+	case $location[An Overgrown Shrine (Southwest)]:
+	case $location[An Overgrown Shrine (Northeast)]:
+	case $location[An Overgrown Shrine (Southeast)]:
+		if($items[Antique Machete, Muculent Machete] contains equipped_item($slot[Weapon]))
+		{
+			retval._int = 0;
+		}
+		break;
+	case $location[A Massive Ziggurat]:
+		break;
+	case $location[The Hidden Apartment Building]:
+		break;
+	case $location[The Hidden Hospital]:
+		break;
+	case $location[The Hidden Office Building]:
+		break;
+	case $location[The Hidden Bowling Alley]:
+		break;
+	case $location[The Typical Tavern Cellar]:
+		break;
+	case $location[The Spooky Forest]:
+		break;
+	case $location[The Hidden Temple]:
+		break;
+	case $location[8-Bit Realm]:
+		break;
+	case $location[The Black Forest]:
+		break;
+	case $location[The Bat Hole Entrance]:
+		break;
+	case $location[Guano Junction]:
+		break;
+	case $location[The Batrat And Ratbat Burrow]:
+		break;
+	case $location[The Beanbat Chamber]:
+		break;
+	case $location[The Boss Bat\'s Lair]:
+		break;
+	case $location[The VERY Unquiet Garves]:
+		break;
+	case $location[Whitey\'s Grove]:
+		break;
+	case $location[Inside the Palindome]:
+		break;
+	case $location[Noob Cave]:
+	case $location[The Outskirts of Cobb\'s Knob]:
+		retval._boolean = true;
+		break;
+	case $location[Cobb\'s Knob Barracks]:
+	case $location[Cobb\'s Knob Kitchens]:
+	case $location[Cobb\'s Knob Harem]:
+	case $location[Cobb\'s Knob Treasury]:
+	case $location[Throne Room]:
+		break;
+	case $location[The Dark Neck of the Woods]:
+	case $location[The Dark Heart of the Woods]:
+	case $location[The Dark Elbow of the Woods]:
+		break;
+	case $location[The Defiled Nook]:
+	case $location[The Defiled Cranny]:
+	case $location[The Defiled Alcove]:
+	case $location[The Defiled Niche]:
+		break;
+	case $location[Pandamonium Slums]:
+	case $location[The Laugh Floor]:
+	case $location[Infernal Rackets Backstage]:
+		break;
+	case $location[The Obligatory Pirate\'s Cove]:
+		break;
+	case $location[Barrrney\'s Barrr]:
+		break;
+	case $location[The F\'c\'le]:
+		break;
+	case $location[The Poop Deck]:
+		break;
+	case $location[Belowdecks]:
+		break;
+	case $location[The Smut Orc Logging Camp]:
+		break;
+	case $location[A-Boo Peak]:
+	case $location[Twin Peak]:
+	case $location[Oil Peak]:
+		break;
+	case $location[Wartime Hippy Camp (Frat Disguise)]:
+		break;
+	case $location[The Battlefield (Frat Uniform)]:
+		break;
+	case $location[Next to that Barrel with Something Burning in it]:
+	case $location[Near an Abandoned Refrigerator]:
+	case $location[Over Where the Old Tires Are]:
+	case $location[Out by that Rusted-Out Car]:
+		break;
+	case $location[Sonofa Beach]:
+		break;
+	case $location[The Themthar Hills]:
+		break;
+	case $location[The Hatching Chamber]:
+		break;
+	case $location[The Feeding Chamber]:
+		break;
+	case $location[The Royal Guard Chamber]:
+		break;
+	case $location[The Filthworm Queen\'s Chamber]:
+		break;
+	case $location[Itznotyerzitz Mine]:
+	case $location[The Goatlet]:
+		break;
+	case $location[The Extreme Slope]:
+	case $location[Lair of the Ninja Snowmen]:
+		break;
+	case $location[Mist-Shrouded Peak]:
+		break;
+	case $location[The Icy Peak]:
+		break;
+	case $location[The Penultimate Fantasy Airship]:
+		break;
+	case $location[The Castle in the Clouds in the Sky (Basement)]:
+		break;
+	case $location[The Castle in the Clouds in the Sky (Ground Floor)]:
+		break;
+	case $location[The Castle in the Clouds in the Sky (Top Floor)]:
+		break;
+	case $location[The Hole in the Sky]:
+		break;
+	case $location[Fastest Adventurer Contest]:
+		break;
+	case $location[The Enormous Greater-Than Sign]:
+		break;
+	case $location[The Dungeons of Doom]:
+		break;
+	case $location[The Limerick Dungeon]:
+	case $location[The Sleazy Back Alley]:
+	case $location[The Haiku Dungeon]:
+		break;
+	case $location[Smartest Adventurer Contest]:
+	case $location[Strongest Adventurer Contest]:
+	case $location[Smoothest Adventurer Contest]:
+		break;
+	case $location[Coldest Adventurer Contest]:
+	case $location[Hottest Adventurer Contest]:
+	case $location[Sleaziest Adventurer Contest]:
+	case $location[Spookiest Adventurer Contest]:
+	case $location[Stinkiest Adventurer Contest]:
+		break;
+	case $location[Barf Mountain]:
+	case $location[Pirates of the Garbage Barges]:
+	case $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice]:
+	case $location[The Toxic Teacups]:
+		break;
+	case $location[The Fun-Guy Mansion]:
+	case $location[The Sunken Party Yacht]:
+	case $location[Sloppy Seconds Diner]:
+		break;
+	case $location[The Secret Government Laboratory]:
+	case $location[The Deep Dark Jungle]:
+	case $location[The Mansion of Dr. Weirdeaux]:
+		break;
+	case $location[The Ice Hotel]:
+	case $location[VYKEA]:
+	case $location[The Ice Hole]:
+		break;
+	case $location[The SMOOCH Army HQ]:
+	case $location[LavaCo&trade; Lamp Factory]:
+	case $location[The Velvet / Gold Mine]:
+	case $location[The Bubblin\' Caldera]:
+		break;
+	case $location[The X-32-F Combat Training Snowman]:
+		break;
+	case $location[Through the Spacegate]:
+		break;
+	case $location[The Old Landfill]:
+		break;
+	case $location[The Red Queen\'s Garden]:
+		break;
+	case $location[The Bugbear Pen]:
+		break;
+	case $location[The Spooky Gravy Burrow]:
+		break;
+	case $location[Investigating A Plaintive Telegram]:
+		break;
+	case $location[Drunken Stupor]:
+		retval._int = 0;
+		break;
+	case $location[Thugnderdome]:
+		break;
+	case $location[The Thinknerd Warehouse]:
+		break;
+	case $location[Gingerbread Upscale Retail District]:
+		break;
+	case $location[Gingerbread Sewers]:
+		break;
+	case $location[Gingerbread Civic Center]:
+	case $location[Gingerbread Industrial Zone]:
+	case $location[Gingerbread Train Station]:
+		break;
+	case $location[Monorail Work Site]:
+		break;
+	case $location[A Maze of Sewer Tunnels]:
 		break;
 
 #	This is just to do a mass test.

@@ -9630,11 +9630,21 @@ boolean LX_craftAcquireItems()
 				pantogramPants(my_primestat(), $element[hot], 1, 1, 1);
 				break;
 			default:
-				pantogramPants($stat[Muscle], $element[cold], 1, 2, 1);
+				pantogramPants(my_primestat(), $element[cold], 1, 2, 1);
 				break;
 			}
 		}
-		januaryToteAcquire($item[Makeshift Garbage Shirt]);
+		mummifyFamiliar($familiar[Intergnat], my_primestat());
+		mummifyFamiliar($familiar[Hobo Monkey], "meat");
+		mummifyFamiliar($familiar[XO Skeleton], "mpregen");
+		if((my_primestat() == $stat[Muscle]) && get_property("loveTunnelAvailable").to_boolean() && is_unrestricted($item[Heart-Shaped Crate]))
+		{
+			januaryToteAcquire($item[Wad Of Used Tape]);
+		}
+		else
+		{
+			januaryToteAcquire($item[Makeshift Garbage Shirt]);
+		}
 		set_property("_dailyCreates", true);
 	}
 
