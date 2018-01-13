@@ -1042,7 +1042,7 @@ boolean LA_cs_communityService()
 				cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
 			}
 
-			if(elementalPlanes_access($element[hot]) && have_skill($skill[Meteor Lore]) && have_skill($skill[Snokebomb]) && (my_mp() > mp_cost($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && (get_property("_macrometeoriteUses").to_int() < 10) && (get_property("_xoHugsUsed").to_int() < 11) && !is100FamiliarRun($familiar[XO Skeleton]))
+			if(elementalPlanes_access($element[hot]) && have_skill($skill[Meteor Lore]) && have_skill($skill[Snokebomb]) && have_familiar($familiar[XO Skeleton]) && (my_mp() > mp_cost($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && (get_property("_macrometeoriteUses").to_int() < 10) && (get_property("_xoHugsUsed").to_int() < 11) && !is100FamiliarRun($familiar[XO Skeleton]))
 			{
 				if(!possessEquipment($item[Fireproof Megaphone]) || !possessEquipment($item[High-Temperature Mining Mask]))
 				{
@@ -1128,7 +1128,7 @@ boolean LA_cs_communityService()
 				cli_execute("hatter 11");
 			}
 
-			if(get_property("spacegateVaccine1").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
+			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 			{
 				cli_execute("spacegate vaccine 2");
 			}
