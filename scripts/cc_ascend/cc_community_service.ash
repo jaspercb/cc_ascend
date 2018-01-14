@@ -2269,7 +2269,7 @@ boolean LA_cs_communityService()
 						{
 							break;
 						}
-						runs = runs - get_property("_banderRunaways").to_int();
+						runs = runs - 1;
 					}
 				}
 				else if(have_skill($skill[Meteor Lore]) && (get_property("_macrometeoriteUses").to_int() < 10))
@@ -3299,7 +3299,7 @@ string cs_combatNormal(int round, string opp, string text)
 	}
 
 
-	if((!contains_text(combatState, "cleesh")) && (my_mp() > mp_cost($skill[Cleesh])) && ((enemy == $monster[creepy little girl]) || (enemy == $monster[lab monkey]) || (enemy == $monster[super-sized cola wars soldier])) && (item_amount($item[Experimental Serum G-9]) < 2))
+	if(!contains_text(combatState, "cleesh") && have_skill($skill[Cleesh]) && (my_mp() > mp_cost($skill[Cleesh])) && ((enemy == $monster[creepy little girl]) || (enemy == $monster[lab monkey]) || (enemy == $monster[super-sized cola wars soldier])) && (item_amount($item[Experimental Serum G-9]) < 2))
 	{
 		set_property("cc_combatHandler", combatState + "(cleesh)");
 		return "skill cleesh";
