@@ -91,7 +91,7 @@ boolean LA_cs_communityService()
 			mummifyFamiliar($familiar[Bloovian Groose], "moxie");
 			mummifyFamiliar($familiar[Intergnat], "moxie");
 			mummifyFamiliar($familiar[Golden Monkey], "meat");
-			januaryToteAcquire($item[Wad Of Used Tape]);
+			januaryToteAcquire($item[Makeshift Garbage Shirt]);
 			set_property("_mummifyDone", true);
 			break;
 		case 2:
@@ -104,7 +104,7 @@ boolean LA_cs_communityService()
 			mummifyFamiliar($familiar[Bloovian Groose], "moxie");
 			mummifyFamiliar($familiar[Intergnat], "moxie");
 			mummifyFamiliar($familiar[Hobo Monkey], "meat");
-			januaryToteAcquire($item[Wad Of Used Tape]);
+			januaryToteAcquire($item[Makeshift Garbage Shirt]);
 			set_property("_mummifyDone", true);
 			break;
 		}

@@ -1156,11 +1156,16 @@ boolean cc_cheesePostCS(int leave)
 				cli_execute("snowsuit nose");
 			}
 		}
-		foreach fam in $familiars[Unconscious Collective, Li\'l Xenomorph, Bloovian Groose, Golden Monkey, Rogue Program, Space Jellyfish, Grim Brother, Fist Turkey, Rockin\' Robin, Optimistic Candle, Intergnat]
+		foreach fam in $familiars[Garbage Fire, Unconscious Collective, Li\'l Xenomorph, Bloovian Groose, Golden Monkey, Rogue Program, Space Jellyfish, Grim Brother, Fist Turkey, Rockin\' Robin, Optimistic Candle, Intergnat]
 		{
 			if(!have_familiar(fam))
 			{
 				continue;
+			}
+			if(($familiars[Garbage Fire] contains fam) && (get_property("garbageFireProgress").to_int() >= 25))
+			{
+				handleFamiliar(fam);
+				break;
 			}
 			if(($familiars[Rockin\' Robin] contains fam) && (get_property("rockinRobinProgress").to_int() >= 25))
 			{

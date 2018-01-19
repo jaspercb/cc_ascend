@@ -25,6 +25,10 @@ int januaryToteTurnsLeft(item it)
 
 boolean januaryToteAcquire(item it)
 {
+	if(possessEquipment(it))
+	{
+		return false;
+	}
 	if(item_amount($item[January\'s Garbage Tote]) == 0)
 	{
 		return false;

@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18364;
+since r18422;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -9633,7 +9633,7 @@ boolean LX_craftAcquireItems()
 		}
 	}
 
-	if((cc_my_path() != "Community Service") && !get_property("_dailyCreates").to_boolean())
+	if(cc_my_path() != "Community Service")
 	{
 		getHorse("noncombat");
 		if(item_amount($item[Portable Pantogram]) > 0)
@@ -9659,7 +9659,7 @@ boolean LX_craftAcquireItems()
 		{
 			januaryToteAcquire($item[Makeshift Garbage Shirt]);
 		}
-		set_property("_dailyCreates", true);
+		#set_property("_dailyCreates", true);
 	}
 
 	return false;

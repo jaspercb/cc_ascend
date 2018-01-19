@@ -1200,7 +1200,7 @@ boolean getHorse(string type)
 	if((type == "regen") || (type == "init"))
 	{
 		choice = 1;
-		if(get_property("_horsery") == "Initiative: +10")
+		if(get_property("_horsery") == "normal horse")
 		{
 			return false;
 		}
@@ -1208,7 +1208,7 @@ boolean getHorse(string type)
 	}
 	else if((type == "-combat") || (type == "noncombat") || (type == "non-combat") || (type == "meat"))
 	{
-		if(get_property("_horsery") == "Combat Rate: -5")
+		if(get_property("_horsery") == "dark horse")
 		{
 			return false;
 		}
@@ -1216,7 +1216,7 @@ boolean getHorse(string type)
 	}
 	else if((type == "random") || (type == "hookah"))
 	{
-		if(contains_text(get_property("_horsery"), "Muscle Percent"))
+		if(contains_text(get_property("_horsery"), "crazy horse"))
 		{
 			return false;
 		}
@@ -1224,7 +1224,7 @@ boolean getHorse(string type)
 	}
 	else if((type == "res") || (type == "resistance") || (type == "spooky") || (type == "damage"))
 	{
-		if(contains_text(get_property("_horsery"), "Cold Resistance"))
+		if(contains_text(get_property("_horsery"), "pale horse"))
 		{
 			return false;
 		}
