@@ -458,71 +458,75 @@ boolean kgbSetup()
 	{
 		return false;
 	}
-	kgbDial(1, -1, 6);
-	kgbDial(2, -1, 6);
-	kgbDial(3, -1, 6);
-	kgbDial(4, -1, 6);
-	kgbDial(5, -1, 6);
-	kgbDial(6, -1, 6);
-	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
-	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 2, false);
-	page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
-	page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
-	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 2, false);
-	//Crank extruded.
-	if(!contains_text(page, "kgb_crank"))
-	{
-		abort("Failed to unlock kgb_crank");
-	}
-	page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
-	for(int i=0; i<11; i++)
-	{
-		page = visit_url("place.php?whichplace=kgb&action=kgb_crank", false);
-	}
-	if(!contains_text(page, "..........."))
-	{
-		abort("11 cranks failed");
-	}
-	page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
 
-	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
-	page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
-	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
-	if(!contains_text(page, "kgb_dispenser"))
+	if(!contains_text(page, "kgb_button"))
 	{
-		abort("Failed to unlock kgb_dispenser");
+		kgbDial(1, -1, 6);
+		kgbDial(2, -1, 6);
+		kgbDial(3, -1, 6);
+		kgbDial(4, -1, 6);
+		kgbDial(5, -1, 6);
+		kgbDial(6, -1, 6);
+		page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
+		page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 2, false);
+		page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+		page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+		page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 2, false);
+		//Crank extruded.
+		if(!contains_text(page, "kgb_crank"))
+		{
+			abort("Failed to unlock kgb_crank");
+		}
+		page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+		for(int i=0; i<11; i++)
+		{
+			page = visit_url("place.php?whichplace=kgb&action=kgb_crank", false);
+		}
+		if(!contains_text(page, "..........."))
+		{
+			abort("11 cranks failed");
+		}
+		page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+
+		page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
+		page = visit_url("place.php?whichplace=kgb&action=kgb_handledown", false);
+		page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
+		if(!contains_text(page, "kgb_dispenser"))
+		{
+			abort("Failed to unlock kgb_dispenser");
+		}
+		//Martini Hose extruded.
+
+		page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
+		kgbDial(1, -1, 3);
+		kgbDial(2, -1, 3);
+		kgbDial(3, -1, 3);
+		page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
+		if(!contains_text(page, "kgb_drawer2"))
+		{
+			abort("Failed to unlock kgb_drawer2");
+		}
+		page = visit_url("place.php?whichplace=kgb&action=kgb_drawer2", false);
+
+		kgbDial(4, -1, 2);
+		kgbDial(5, -1, 2);
+		kgbDial(6, -1, 2);
+		page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 2, false);
+		if(!contains_text(page, "kgb_drawer1"))
+		{
+			abort("Failed to unlock kgb_drawer1");
+		}
+		page = visit_url("place.php?whichplace=kgb&action=kgb_drawer1", false);
+
+
+		kgbDial(1, -1, 7);
+		kgbDial(2, -1, 9);
+		kgbDial(3, -1, 8);
+		kgbDial(4, -1, 8);
+		kgbDial(5, -1, 9);
+		kgbDial(6, -1, 7);
+		page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
 	}
-	//Martini Hose extruded.
-
-	page = visit_url("place.php?whichplace=kgb&action=kgb_handleup", false);
-	kgbDial(1, -1, 3);
-	kgbDial(2, -1, 3);
-	kgbDial(3, -1, 3);
-	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
-	if(!contains_text(page, "kgb_drawer2"))
-	{
-		abort("Failed to unlock kgb_drawer2");
-	}
-	page = visit_url("place.php?whichplace=kgb&action=kgb_drawer2", false);
-
-	kgbDial(4, -1, 2);
-	kgbDial(5, -1, 2);
-	kgbDial(6, -1, 2);
-	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 2, false);
-	if(!contains_text(page, "kgb_drawer1"))
-	{
-		abort("Failed to unlock kgb_drawer1");
-	}
-	page = visit_url("place.php?whichplace=kgb&action=kgb_drawer1", false);
-
-
-	kgbDial(1, -1, 7);
-	kgbDial(2, -1, 9);
-	kgbDial(3, -1, 8);
-	kgbDial(4, -1, 8);
-	kgbDial(5, -1, 9);
-	kgbDial(6, -1, 7);
-	page = visit_url("place.php?whichplace=kgb&action=kgb_actuator" + 1, false);
 	if(!contains_text(page, "kgb_button"))
 	{
 		abort("Failed to unlock kgb_button");

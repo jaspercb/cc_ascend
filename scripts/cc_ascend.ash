@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18422;
+since r18424;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -3447,7 +3447,7 @@ boolean L11_aridDesert()
 		}
 
 #		if(in_hardcore() && isGuildClass() && (item_amount($item[Worm-Riding Hooks]) > 0) && (get_property("desertExploration").to_int() <= (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 16) != 16))
-		if((in_hardcore() || (pulls_remaining() == 0))&& (item_amount($item[Worm-Riding Hooks]) > 0) && (get_property("desertExploration").to_int() <= (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 16) != 16))
+		if((in_hardcore() || (pulls_remaining() == 0)) && (item_amount($item[Worm-Riding Hooks]) > 0) && (get_property("desertExploration").to_int() <= (100 - (5 * progress))) && ((get_property("gnasirProgress").to_int() & 16) != 16) && (item_amount($item[Stone Rose]) == 0))
 		{
 			if(item_amount($item[Drum Machine]) > 0)
 			{
@@ -3486,7 +3486,7 @@ boolean L11_aridDesert()
 		set_property("choiceAdventure805", 1);
 		int need = 100 - get_property("desertExploration").to_int();
 		print("Need for desert: " + need, "blue");
-		print("Worm riding: " + item_amount($item[worm-riding manual page]), "blue");
+		print("Worm riding: " + item_amount($item[Worm-Riding Manual Page]), "blue");
 
 		if(!get_property("cc_gnasirUnlocked").to_boolean() && ($location[The Arid\, Extra-Dry Desert].turns_spent > 10))
 		{
@@ -7357,6 +7357,11 @@ boolean LX_malware()
 		return false;
 	}
 
+	if(get_property("_dailyDungeonMalwareUsed").to_boolean())
+	{
+		return false;
+	}
+
 	if(get_property("dailyDungeonDone").to_boolean())
 	{
 		return false;
@@ -9885,10 +9890,28 @@ boolean LX_bitchinMeatcar()
 		return false;
 	}
 
+	int meatRequired = 100;
+	if(item_amount($item[Meat Stack]) > 0)
+	{
+		meatRequired = 0;
+	}
+	foreach it in $items[Spring, Sprocket, Cog, Empty Meat Tank, Tires, Sweet Rims]
+	{
+		if(item_amount(it) == 0)
+		{
+			meatRequired += npc_price(it);
+		}
+	}
+
 	if(knoll_available())
 	{
-		cli_execute("make bitch");
-		cli_execute("place.php?whichplace=desertbeach&action=db_nukehouse");
+		if(my_meat() >= meatRequired)
+		{
+			cli_execute("make bitch");
+			cli_execute("place.php?whichplace=desertbeach&action=db_nukehouse");
+			return true;
+		}
+		return false;
 	}
 	else
 	{
@@ -9917,8 +9940,13 @@ boolean LX_bitchinMeatcar()
 		}
 		else
 		{
-			cli_execute("make bitch");
-			cli_execute("place.php?whichplace=desertbeach&action=db_nukehouse");
+			if(my_meat() >= meatRequired)
+			{
+				cli_execute("make bitch");
+				cli_execute("place.php?whichplace=desertbeach&action=db_nukehouse");
+				return true;
+			}
+			return false;
 		}
 	}
 	return true;
@@ -10350,7 +10378,7 @@ boolean LX_handleSpookyravenFirstFloor()
 		{
 			print("Have a digitized Writing Desk, let's not bother with the Spooky First Floor", "blue");
 		}
-		if(get_property("cc_war") != "finished")
+		if((get_property("cc_war") != "finished") && (get_property("cc_powerLevelAdvCount").to_int() < 5) && (get_property("_cc_digitizeDeskCounter").to_int() < 5))
 		{
 			return false;
 		}
@@ -11310,6 +11338,7 @@ boolean L9_twinPeak()
 		}
 	}
 
+	int lastTwin = get_property("twinPeakProgress").to_int();
 	if(ccAdvBypass(297, $location[Twin Peak]))
 	{
 		if(lastAdventureSpecialNC())
@@ -11317,6 +11346,10 @@ boolean L9_twinPeak()
 			ccAdv(1, $location[Twin Peak]);
 			#abort("May be stuck in an interrupting Non-Combat adventure, finish current adventure and resume.");
 		}
+		return true;
+	}
+	if(lastTwin != get_property("twinPeakProgress").to_int())
+	{
 		return true;
 	}
 

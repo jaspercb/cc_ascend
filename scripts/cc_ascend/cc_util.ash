@@ -1214,6 +1214,22 @@ string banisherCombatString(monster enemy, location loc)
 
 	//Peel out with Extra-Smelly Muffler, note 10 limit, increased to 30 with Racing Slicks
 
+	if(have_skill($skill[Give Your Opponent The Stinkeye]) && !get_property("_stinkyCheeseBanisherUsed").to_boolean() && (my_mp() >= mp_cost($skill[Give Your Opponent The Stinkeye])))
+	{
+		return "skill " + $skill[Give Your Opponent The Stinkeye];
+	}
+
+#	What is the preference for this?
+#	if(have_skill($skill[Creepy Grin]) && !get_property("_creepyGrinUsed").to_boolean() && (my_mp() >= mp_cost($skill[Creepy Grin])))
+#	{
+#		return "skill " + $skill[Creepy Grin];
+#	}
+
+	if(have_skill($skill[Show Them Your Ring]) && !get_property("_mafiaMiddleFingerRingUsed").to_boolean() && (my_mp() >= mp_cost($skill[Show Them Your Ring])))
+	{
+		return "skill " + $skill[Show Them Your Ring];
+	}
+
 	if(have_skill($skill[Breathe Out]) && (my_mp() >= mp_cost($skill[Breathe Out])) && (!(used contains "breathe out")))
 	{
 		return "skill " + $skill[Breathe Out];
@@ -1688,8 +1704,8 @@ item whatHiMein()
 	{
 		return $item[Fettucini Inconnu];
 	}
-/*
-	if(!in_hardcore() && (my_level() >= 13) && (pulls_remaining() > 0))
+
+	if(!in_hardcore() && (my_level() >= 12) && (pulls_remaining() > 0))
 	{
 		switch(my_class())
 		{
@@ -1705,7 +1721,7 @@ item whatHiMein()
 			return $item[Sleazy Hi Mein];
 		}
 	}
-*/
+
 	return $item[crudles];
 }
 

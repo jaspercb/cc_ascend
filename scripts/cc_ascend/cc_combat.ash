@@ -346,13 +346,25 @@ string cc_combatHandler(int round, string opp, string text)
 		set_property("cc_doCombatCopy", "yes");
 	}
 
-	if(have_effect($effect[temporary amnesia]) > 0)
+	if(have_effect($effect[Temporary Amnesia]) > 0)
 	{
 		return "attack with weapon";
 	}
 	if(have_equipped($item[Drunkula\'s Wineglass]))
 	{
 		return "attack with weapon";
+	}
+
+	if(my_location() == $location[The Daily Dungeon])
+	{
+		# If we are in The Daily Dungeon, assume we get 1 token, so only if we need more than 1.
+		if((towerKeyCount() < 2) && !get_property("_dailyDungeonMalwareUsed").to_boolean() && (item_amount($item[Daily Dungeon Malware]) > 0))
+		{
+			if($monsters[Apathetic Lizardman, Dairy Ooze, Dodecapede, Giant Giant Moth, Mayonnaise Wasp, Pencil Golem, Sabre-Toothed Lime, Tonic Water Elemental, Vampire Clam] contains enemy)
+			{
+				return "item " + $item[Daily Dungeon Malware];
+			}
+		}
 	}
 
 	if(!contains_text(combatState, "abstraction") && in_ronin())
