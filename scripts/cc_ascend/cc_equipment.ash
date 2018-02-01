@@ -465,6 +465,15 @@ void equipBaselineShirt()
 
 	toEquip = handleSolveThing(poss, $slot[shirt]);
 
+	if(januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0)
+	{
+		poss = ListInsertAt(poss, $item[Makeshift Garbage Shirt], poss.ListFind($item[Sneaky Pete\'s Leather Jacket (Collar Popped)]));
+	}
+	else
+	{
+		poss = ListInsertAt(poss, $item[Makeshift Garbage Shirt], poss.ListFind($item[Glass Casserole Dish]));
+	}
+
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[shirt])))
 	{
 		equip($slot[shirt],toEquip);
@@ -563,10 +572,10 @@ void equipBaselineWeapon()
 		poss = $items[Pasta Spoon, Knob Goblin Tongs, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Thor\'s Pliers, Wrench, Fish Hatchet, Bass Clarinet, Hand That Rocks The Ladle];
 		break;
 	case $class[Disco Bandit]:
-		poss = $items[Dented Harmonica, Frigid Derringer, Fish Hatchet, Knife, Bass Clarinet, Frankly Mr. Shank];
+		poss = $items[Dented Harmonica, Frigid Derringer, The Jokester\'s Gun, Fish Hatchet, Knife, Bass Clarinet, Frankly Mr. Shank];
 		break;
 	case $class[Accordion Thief]:
-		poss = $items[Dented Harmonica, Frigid Derringer, Fish Hatchet, Revolver, accord ion, Bass Clarinet, Shakespeare\'s Sister\'s Accordion];
+		poss = $items[Dented Harmonica, Frigid Derringer, The Jokester\'s Gun, Fish Hatchet, Revolver, accord ion, Bass Clarinet, Shakespeare\'s Sister\'s Accordion];
 		break;
 	case $class[Avatar of Boris]:
 		poss = $items[Trusty];

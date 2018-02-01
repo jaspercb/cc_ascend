@@ -1197,11 +1197,12 @@ boolean cc_cheesePostCS(int leave)
 			}
 		}
 
-		boolean restoreEquip = false;
+#		boolean restoreEquip = false;
 		item acc1 = equipped_item($slot[acc1]);
 		item acc2 = equipped_item($slot[acc2]);
 		item acc3 = equipped_item($slot[acc3]);
 		item back = equipped_item($slot[back]);
+		/*
 		if(get_property("dinseyRollercoasterNext").to_boolean())
 		{
 			restoreEquip = true;
@@ -1218,6 +1219,8 @@ boolean cc_cheesePostCS(int leave)
 				equip($slot[acc3], $item[Lucky Crimbo Tiki Necklace]);
 			}
 		}
+		*/
+		
 
 		if(expectGhostReport())
 		{
@@ -1248,6 +1251,7 @@ boolean cc_cheesePostCS(int leave)
 			equip($slot[back], back);
 		}
 
+		/*
 		if(restoreEquip)
 		{
 			if(equipped_item($slot[acc1]) == $item[Lucky Crimbo Tiki Necklace])
@@ -1263,7 +1267,7 @@ boolean cc_cheesePostCS(int leave)
 				equip($slot[acc3], acc3);
 			}
 		}
-
+		*/
 		doNumberology("fites3");
 
 		if(have_effect($effect[How to Scam Tourists]) == 2)

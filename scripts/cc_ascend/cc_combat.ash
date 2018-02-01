@@ -852,12 +852,22 @@ string cc_combatHandler(int round, string opp, string text)
 		if((item_amount($item[rock band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
 		{
 			set_property("cc_combatHandler", combatState + "(flyers)");
-			return "item rock band flyers";
+			if((item_amount($item[Time-Spinner]) > 0) && have_skill($skill[Ambidextrous Funkslinging]))
+			{
+				set_property("cc_combatHandler", combatState + "(time-spinner)");
+				return "item " + $item[Rock Band Flyers] + ", " + $item[Time-Spinner];
+			}
+			return "item " + $item[Rock Band Flyers];
 		}
 		if((item_amount($item[jam band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
 		{
 			set_property("cc_combatHandler", combatState + "(flyers)");
-			return "item jam band flyers";
+			if((item_amount($item[Time-Spinner]) > 0) && have_skill($skill[Ambidextrous Funkslinging]))
+			{
+				set_property("cc_combatHandler", combatState + "(time-spinner)");
+				return "item " + $item[Jam Band Flyers] + ", " + $item[Time-Spinner];
+			}
+			return "item " + $item[Jam Band Flyers];
 		}
 	}
 
@@ -1953,18 +1963,24 @@ string cc_combatHandler(int round, string opp, string text)
 			return attackMajor;
 		}
 
-		if((monster_level_adjustment() > 150) && (my_mp() >= costMajor))
+		if((monster_level_adjustment() > 150) && (my_mp() >= costMajor) && (attackMajor != "attack with weapon"))
 		{
 			return attackMajor;
 		}
-		if((have_skill($skill[lunge smack])) && (my_mp() >= mp_cost($skill[Lunge Smack])))
+		if((have_skill($skill[Lunge Smack])) && (my_mp() >= mp_cost($skill[Lunge Smack])) && (attackMinor != "attack with weapon"))
 		{
 			return attackMinor;
 		}
-		if(my_mp() >= costMinor)
+		if((my_mp() >= costMinor) && (attackMinor != "attack with weapon"))
 		{
 			return attackMinor;
 		}
+
+		if((round > 20) && (my_mp() >= mp_cost($skill[Saucestorm])) && (have_skill($skill[Saucestorm])))
+		{
+			return "skill " + $skill[Saucestorm];
+		}
+
 		return "attack with weapon";
 	}
 	else

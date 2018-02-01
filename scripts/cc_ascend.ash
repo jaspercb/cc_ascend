@@ -312,7 +312,7 @@ boolean handleFamiliar(string type)
 	}
 	else if(type == "item")
 	{
-		familiar[int] fams = List($familiars[Rockin\' Robin, Grimstone Golem, Angry Jung Man, Intergnat, XO Skeleton, Bloovian Groose, Fist Turkey, Slimeling, Jumpsuited Hound Dog, Adventurous Spelunker, Gelatinous Cubeling, Baby Gravy Fairy, Obtuse Angel, Pair of Stomping Boots, Jack-in-the-Box, Syncopated Turtle]);
+		familiar[int] fams = List($familiars[Rockin\' Robin, Garbage Fire, Optimistic Candle, Grimstone Golem, Angry Jung Man, Intergnat, XO Skeleton, Bloovian Groose, Fist Turkey, Slimeling, Jumpsuited Hound Dog, Adventurous Spelunker, Gelatinous Cubeling, Baby Gravy Fairy, Obtuse Angel, Pair of Stomping Boots, Jack-in-the-Box, Peppermint Rhino, Syncopated Turtle]);
 		if((my_daycount() == 1) && ($familiar[Angry Jung Man].drops_today == 0) && (get_property("cc_crackpotjar") == ""))
 		{
 			fams = ListRemove(fams, $familiar[Angry Jung Man]);
@@ -323,6 +323,16 @@ boolean handleFamiliar(string type)
 		{
 			fams = ListRemove(fams, $familiar[Rockin\' Robin]);
 			fams = ListInsertAt(fams, $familiar[Rockin\' Robin], fams.ListFind($familiar[Gelatinous Cubeling]));
+		}
+		if((my_ascensions() > ascensionThreshold) && (get_property("garbageFireProgress").to_int() < 20))
+		{
+			fams = ListRemove(fams, $familiar[Garbage Fire]);
+			fams = ListInsertAt(fams, $familiar[Garbage Fire], fams.ListFind($familiar[Gelatinous Cubeling]));
+		}
+		if((my_ascensions() > ascensionThreshold) && (get_property("optimisticCandleProgress").to_int() < 20))
+		{
+			fams = ListRemove(fams, $familiar[Optimistic Candle]);
+			fams = ListInsertAt(fams, $familiar[Optimistic Candle], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
 		if((my_ascensions() > ascensionThreshold) && ((!get_property("cc_grimstoneFancyOilPainting").to_boolean() && !get_property("cc_grimstoneOrnateDowsingRod").to_boolean()) || possessEquipment($item[Buddy Bjorn]) || ($familiar[Grimstone Golem].drops_today == 1)))
 		{
@@ -10122,7 +10132,10 @@ boolean LX_phatLootToken()
 {
 	if((!possessEquipment($item[Ring of Detect Boring Doors]) || (item_amount($item[Eleven-Foot Pole]) == 0) || (item_amount($item[Pick-O-Matic Lockpicks]) == 0)) && have_familiar($familiar[Gelatinous Cubeling]))
 	{
-		return false;
+		if(!is100FamiliarRun($familiar[Gelatinous Cubeling]))
+		{
+			return false;
+		}
 	}
 	if(get_property("cc_phatloot").to_int() >= my_daycount())
 	{

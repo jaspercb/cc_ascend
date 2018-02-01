@@ -91,7 +91,6 @@ boolean LA_cs_communityService()
 			mummifyFamiliar($familiar[Bloovian Groose], "moxie");
 			mummifyFamiliar($familiar[Intergnat], "moxie");
 			mummifyFamiliar($familiar[Golden Monkey], "meat");
-			januaryToteAcquire($item[Makeshift Garbage Shirt]);
 			set_property("_mummifyDone", true);
 			break;
 		case 2:
@@ -104,12 +103,19 @@ boolean LA_cs_communityService()
 			mummifyFamiliar($familiar[Bloovian Groose], "moxie");
 			mummifyFamiliar($familiar[Intergnat], "moxie");
 			mummifyFamiliar($familiar[Hobo Monkey], "meat");
-			januaryToteAcquire($item[Makeshift Garbage Shirt]);
 			set_property("_mummifyDone", true);
 			break;
 		}
 	}
 
+	if(januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0)
+	{
+		januaryToteAcquire($item[Makeshift Garbage Shirt]);
+	}
+	else
+	{
+		januaryToteAcquire($item[Wad Of Used Tape]);
+	}
 	if(isOverdueDigitize())
 	{
 		print("A Digitize event is expected now.", "blue");
@@ -1983,7 +1989,7 @@ boolean LA_cs_communityService()
 				curQuest = 0;
 				abort("Could not handle our quest and can not recover");
 			}
-			januaryToteAcquire($item[Wad Of Used Tape]);
+			januaryToteAcquire($item[Makeshift Garbage Shirt]);
 			if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
 			{
 				string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
@@ -2385,9 +2391,9 @@ boolean LA_cs_communityService()
 				use_familiar(prior);
 				abort("Could not handle our quest and can not recover");
 			}
+			januaryToteAcquire($item[Makeshift Garbage Shirt]);
+
 		break;
-
-
 	case 10:	#Hot Resistance
 			if(canYellowRay())
 			{
