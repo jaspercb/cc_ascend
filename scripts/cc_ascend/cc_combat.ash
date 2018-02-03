@@ -854,7 +854,7 @@ string cc_combatHandler(int round, string opp, string text)
 			set_property("cc_combatHandler", combatState + "(flyers)");
 			if((item_amount($item[Time-Spinner]) > 0) && have_skill($skill[Ambidextrous Funkslinging]))
 			{
-				set_property("cc_combatHandler", combatState + "(time-spinner)");
+				set_property("cc_combatHandler", combatState + "(flyers)(time-spinner)");
 				return "item " + $item[Rock Band Flyers] + ", " + $item[Time-Spinner];
 			}
 			return "item " + $item[Rock Band Flyers];
@@ -864,7 +864,7 @@ string cc_combatHandler(int round, string opp, string text)
 			set_property("cc_combatHandler", combatState + "(flyers)");
 			if((item_amount($item[Time-Spinner]) > 0) && have_skill($skill[Ambidextrous Funkslinging]))
 			{
-				set_property("cc_combatHandler", combatState + "(time-spinner)");
+				set_property("cc_combatHandler", combatState + "(flyers)(time-spinner)");
 				return "item " + $item[Jam Band Flyers] + ", " + $item[Time-Spinner];
 			}
 			return "item " + $item[Jam Band Flyers];

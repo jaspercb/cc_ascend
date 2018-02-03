@@ -2617,7 +2617,12 @@ boolean cs_witchess()
 	}
 	else
 	{
-		result = cc_advWitchess("booze", "cs_combatNormal");
+		string goal = "booze";
+		if(item_amount($item[Sacramento Wine]) >= 5)
+		{
+			goal = "food";
+		}
+		result = cc_advWitchess(goal, "cs_combatNormal");
 	}
 	cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
 	return result;
