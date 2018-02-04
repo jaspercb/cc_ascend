@@ -4169,6 +4169,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Spiritually Awake]:			useItem = $item[Holy Spring Water];				break;
 	case $effect[Spiritually Aware]:			useItem = $item[Spirit Beer];					break;
 	case $effect[Spiritually Awash]:			useItem = $item[Sacramental Wine];				break;
+	case $effect[Spiro Gyro]:					useItem = $item[Programmable Turtle];			break;
 	case $effect[Spooky Hands]:					useItem = $item[Lotion of Spookiness];			break;
 	case $effect[Spooky Weapon]:				useItem = $item[Spooky Nuggets];				break;
 	case $effect[Spookypants]:					useItem = $item[Spooky Powder];					break;

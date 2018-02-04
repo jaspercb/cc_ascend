@@ -30,6 +30,7 @@ boolean cc_cheeseAftercore(int leave);
 boolean cc_aftercore();
 boolean cc_aftercore(int leave);
 boolean cc_ascendIntoCS();
+boolean cc_ascendIntoCS(class cl);
 boolean cc_ascendIntoBond();
 boolean cc_doCS();
 boolean cc_customMafiaAddress();
@@ -806,8 +807,12 @@ boolean cc_ascendIntoBond()
 }
 
 
-
 boolean cc_ascendIntoCS()
+{
+	return cc_ascendIntoCS($class[Sauceror]);
+}
+
+boolean cc_ascendIntoCS(class cl)
 {
 	if(my_inebriety() <= inebriety_limit())
 	{
@@ -848,7 +853,22 @@ boolean cc_ascendIntoCS()
 		gender = 2;
 	}
 	temp = visit_url("afterlife.php?action=ascend&asctype=3&whichclass=4&gender=" + gender + "&whichpath=25&whichsign=2", true);
-	temp = visit_url("afterlife.php?action=ascend&confirmascend=1&asctype=3&whichclass=4&gender=" + gender + "&whichpath=25&whichsign=2&noskillsok=1", true);
+
+	int classID = 4;
+	int sign = 2;
+	switch(cl)
+	{
+	case $class[Seal Clubber]:		classID = 1;		sign = 1;		break;
+	case $class[Turtle Tamer]:		classID = 2;		sign = 1;		break;
+	case $class[Pastamancer]:		classID = 3;		sign = 2;		break;
+	case $class[Sauceror]:			classID = 4;		sign = 2;		break;
+	case $class[Disco Bandit]:		classID = 5;		sign = 3;		break;
+	case $class[Accordion Thief]:	classID = 6;		sign = 3;		break;
+	default:
+		abort("Invalid class");
+	}
+
+	temp = visit_url("afterlife.php?action=ascend&confirmascend=1&asctype=3&whichclass=" + classID + "&gender=" + gender + "&whichpath=25&whichsign=" + sign + "&noskillsok=1", true);
 
 	return true;
 }
@@ -947,6 +967,23 @@ boolean cc_cheesePostCS(int leave)
 		drink(1, $item[Astral Pilsner]);
 	}
 
+	if(!get_property("_mimeArmyShotglassUsed").to_boolean() && (item_amount($item[Mime Army Shotglass]) > 0))
+	{
+		if(item_amount($item[Sacramento Wine]) > 0)
+		{
+			item it = equipped_item($slot[Acc3]);
+			if((it != $item[Mafia Pinky Ring]) && (item_amount($item[Mafia Pinky Ring]) > 0))
+			{
+				equip($slot[Acc3], $item[Mafia Pinky Ring]);
+			}
+			buffMaintain($effect[Ode to Booze], 50, 1, 1);
+			drink(1, $item[Sacramento Wine]);
+			if(equipped_item($slot[Acc3]) != it)
+			{
+				equip($slot[Acc3], it);
+			}
+		}
+	}
 
 	while((inebriety_left() >= 4) && (item_amount($item[Hacked Gibson]) > 0))
 	{

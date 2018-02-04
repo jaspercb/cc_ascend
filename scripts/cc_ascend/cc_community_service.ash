@@ -527,7 +527,7 @@ boolean LA_cs_communityService()
 				doRest();
 			}
 
-			if(item_amount($item[Exorcised sandwich]) > 0)
+			if((internalQuestStatus("questG07Myst") == 1) || (internalQuestStatus("questG08Moxie") == 1) || (internalQuestStatus("questG09Muscle") == 1))
 			{
 				while(LX_bitchinMeatcar());
 				visit_url("guild.php?place=challenge");
@@ -548,21 +548,30 @@ boolean LA_cs_communityService()
 
 			if(my_ascensions() > get_property("lastGuildStoreOpen").to_int())
 			{
-				if($location[The Haunted Pantry].turns_spent > 8)
+				location loc = $location[none];
+				switch(my_class())
 				{
-					abort("Could not find the Sandwich. Could not sudo it. Find it and re-run.");
+				case $class[Pastamancer]:
+				case $class[Sauceror]:
+					loc = $location[The Haunted Pantry];
+					break;
+				case $class[Seal Clubber]:
+				case $class[Turtle Tamer]:
+					loc = $location[The Outskirts of Cobb\'s Knob];
+					break;
+				case $class[Accordion Thief]:
+				case $class[Disco Bandit]:
+					loc = $location[The Sleazy Back Alley];
+					break;
+				}
+				if(loc.turns_spent > 8)
+				{
+					abort("Could not find the <guild quest goal>. Could not sudo it. Find it and re-run.");
 				}
 
-				if($classes[Pastamancer, Sauceror] contains my_class())
-				{
-					buffMaintain($effect[Musk of the Moose], 10, 1, 1);
-					ccAdv(1, $location[The Haunted Pantry], "cs_combatNormal");
-					return true;
-				}
-				else
-				{
-					abort("Wrong class selected. Can not rectify...");
-				}
+				buffMaintain($effect[Musk of the Moose], 10, 1, 1);
+				ccAdv(1, loc, "cs_combatNormal");
+				return true;
 			}
 
 			if((item_amount($item[Tomato]) < 2) && have_skill($skill[Advanced Saucecrafting]))
@@ -801,7 +810,14 @@ boolean LA_cs_communityService()
 
 			if(have_skill($skill[Advanced Saucecrafting]))
 			{
-				if((item_amount($item[Tomato Juice of Powerful Power]) < 4) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) >= 2) && have_skill($skill[Advanced Saucecrafting]))
+				int tomatoCheck = 4;
+				int tomatoMake = 6;
+				if(my_class() != $class[Sauceror])
+				{
+					tomatoCheck = 2;
+					tomatoMake = 2;
+				}
+				if((item_amount($item[Tomato Juice of Powerful Power]) < tomatoCheck) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) >= 2) && have_skill($skill[Advanced Saucecrafting]))
 				{
 					if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 					{
@@ -809,7 +825,7 @@ boolean LA_cs_communityService()
 						buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 10);
 					}
 
-					cli_execute("make 6 tomato juice of powerful power");
+					cli_execute("make " + tomatoMake + " " + $item[Tomato Juice Of Powerful Power]);
 				}
 			}
 
@@ -988,6 +1004,10 @@ boolean LA_cs_communityService()
 				{
 					handleFamiliar($familiar[Rockin\' Robin]);
 				}
+				else if(have_familiar($familiar[Garbage Fire]) && (item_amount($item[Burning Newspaper]) == 0))
+				{
+					handleFamiliar($familiar[Garbage Fire]);
+				}
 				ccAdv(1, $location[The X-32-F Combat Training Snowman]);
 				handleFamiliar(oldFam);
 				return true;
@@ -1027,7 +1047,7 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if((canYellowRay() || (numeric_modifier("item drop") >= 150.0)) && !get_property("_photocopyUsed").to_boolean())
+			if((canYellowRay() || (numeric_modifier("item drop") >= 150.0)) && !get_property("_photocopyUsed").to_boolean() && ($classes[Pastamancer, Sauceror] contains my_class()))
 			{
 				if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
 				{
@@ -1066,36 +1086,45 @@ boolean LA_cs_communityService()
 
 			if(have_skill($skill[Advanced Saucecrafting]))
 			{
+				int tomatoMake = 6;
+				int tomatoCheck = 4;
+				int expertiseCheck = 2;
+				if(my_class() != $class[Sauceror])
+				{
+					tomatoMake = 2;
+					tomatoCheck = 2;
+					expertiseCheck = 1;
+				}
 				if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 				{
 					shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 					buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 3, 25);
 				}
 
-				if((item_amount($item[Oil of Expertise]) < 2) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
+				if((item_amount($item[Oil of Expertise]) < expertiseCheck) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
 				{
-					cli_execute("make 3 oil of expertise");
+					cli_execute("make " + $item[Oil Of Expertise]);
 				}
-				if((item_amount($item[Tomato Juice of Powerful Power]) < 4) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 1))
+				if((item_amount($item[Tomato Juice of Powerful Power]) < tomatoCheck) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 1))
 				{
-					cli_execute("make 6 tomato juice of powerful power");
+					cli_execute("make " + tomatoMake + " " + $item[Tomato Juice Of Powerful Power]);
 				}
 
 				if((item_amount($item[grapefruit]) > 0) && (item_amount($item[Ointment of the Occult]) == 0) && (item_amount($item[Scrumptious Reagent]) > 0))
 				{
-					cli_execute("make ointment of the occult");
+					cli_execute("make " + $item[Ointment Of The Occult]);
 				}
 				else if((item_amount($item[squashed frog]) > 0) && (item_amount($item[Frogade]) == 0) && (item_amount($item[Scrumptious Reagent]) > 0))
 				{
-					cli_execute("make frogade");
+					cli_execute("make " + $item[Frogade]);
 				}
 				else if((item_amount($item[eye of newt]) > 0) && (item_amount($item[Eyedrops of Newt]) == 0) && (item_amount($item[Scrumptious Reagent]) > 0))
 				{
-					cli_execute("make eyedrops of newt");
+					cli_execute("make " + $item[Eyedrops Of Newt]);
 				}
 				else if((item_amount($item[salamander spleen]) > 0) && (item_amount($item[Salamander Slurry]) == 0) && (item_amount($item[Scrumptious Reagent]) > 0))
 				{
-					cli_execute("make salamander slurry");
+					cli_execute("make " + $item[Salamander Slurry]);
 				}
 			}
 
@@ -1228,7 +1257,7 @@ boolean LA_cs_communityService()
 		}
 		break;
 	case 1:		#HP Quest
-			if(canYellowRay() && !get_property("_photocopyUsed").to_boolean())
+			if(canYellowRay() && !get_property("_photocopyUsed").to_boolean() && ($classes[Pastamancer, Sauceror] contains my_class()))
 			{
 				if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
 				{
@@ -1240,7 +1269,7 @@ boolean LA_cs_communityService()
 					return true;
 				}
 			}
-			if((item_amount($item[Gr8ps]) > 0) && (item_amount($item[Potion of Temporary Gr8tness]) == 0) && (have_effect($effect[Gr8tness]) == 0) && (npc_price($item[Delectable Catalyst]) < my_meat()) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0) && have_skill($skill[Advanced Saucecrafting]) && have_skill($skill[The Way of Sauce]))
+			if((item_amount($item[Gr8ps]) > 0) && (item_amount($item[Potion of Temporary Gr8tness]) == 0) && (have_effect($effect[Gr8tness]) == 0) && (npc_price($item[Delectable Catalyst]) < my_meat()) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0) && have_skill($skill[Advanced Saucecrafting]) && ($classes[Pastamancer, Sauceror] contains my_class()) && have_skill($skill[The Way of Sauce]))
 			{
 				if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 				{
@@ -1280,12 +1309,17 @@ boolean LA_cs_communityService()
 					buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
 				}
 
-				cli_execute("make philter of phorce");
+				cli_execute("make " + $item[Philter Of Phorce]);
 			}
 
 			while((my_mp() < 125) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
 				doRest();
+			}
+
+			if((get_property("_g9Effect").to_int() == 0) && (item_amount($item[Experimental Serum G-9]) > 0))
+			{
+				string temp = visit_url("desc_effect.php?whicheffect=af64d06351a3097af52def8ec6a83d9b", false);
 			}
 			buffMaintain($effect[Quiet Determination], 10, 1, 1);
 			buffMaintain($effect[Song of Starch], 100, 1, 1);
@@ -1554,6 +1588,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
 			buffMaintain($effect[Wit Tea], 0, 1, 1);
 			buffMaintain($effect[Sweet\, Nuts], 0, 1 , 1);
+			buffMaintain($effect[Baconstoned], 0, 1 , 1);
 
 
 			buffMaintain($effect[Nearly All-Natural], 0, 1, 1);
@@ -2149,12 +2184,12 @@ boolean LA_cs_communityService()
 
 			if((item_amount($item[Snow Berries]) > 0) && (have_effect($effect[Snow Shoes]) == 0) && (item_amount($item[Snow Cleats]) == 0))
 			{
-				cli_execute("make 1 snow cleats");
+				cli_execute("make " + $item[Snow Cleats]);
 			}
 
 			if((item_amount($item[Cop Dollar]) >= 10) && (have_effect($effect[Gummed Shoes]) == 0) && (item_amount($item[shoe gum]) == 0))
 			{
-				cli_execute("make 1 shoe gum");
+				cli_execute("make " + $item[shoe gum]);
 			}
 
 			if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
@@ -2401,7 +2436,7 @@ boolean LA_cs_communityService()
 				{
 					handleFamiliar("yellow ray");
 				}
-				if(is_unrestricted($item[Deluxe Fax Machine]) && (item_amount($item[Potion of Temporary Gr8tness]) == 0))
+				if(is_unrestricted($item[Deluxe Fax Machine]) && (item_amount($item[Potion of Temporary Gr8tness]) == 0) && ($classes[Pastamancer, Sauceror] contains my_class()))
 				{
 					if(handleFaxMonster($monster[Sk8 gnome], "cs_combatYR"))
 					{
@@ -2482,7 +2517,7 @@ boolean LA_cs_communityService()
 					buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
 				}
 
-				cli_execute("make lotion of sleaziness");
+				cli_execute("make " + $item[Lotion Of Sleaziness]);
 			}
 			if((item_amount($item[Stench Powder]) > 0) && (item_amount($item[Lotion of Stench]) == 0) && (have_effect($effect[Stinky Hands]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0) && have_skill($skill[Advanced Saucecrafting]))
 			{
@@ -2491,7 +2526,7 @@ boolean LA_cs_communityService()
 					shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 					buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
 				}
-				cli_execute("make lotion of stench");
+				cli_execute("make " + $item[Lotion Of Stench]);
 			}
 
 			if(!get_property("_mayoTankSoaked").to_boolean() && (cc_get_campground() contains $item[Portable Mayo Clinic]) && is_unrestricted($item[Portable Mayo Clinic]))
@@ -2519,9 +2554,17 @@ boolean LA_cs_communityService()
 				cli_execute("spacegate vaccine 1");
 			}
 
-			if(have_effect($effect[Synthesis: Hot]) == 0)
+			int curCost = get_cs_questCost(curQuest);
+
+			if((have_effect($effect[Synthesis: Hot]) == 0) && (curCost >= 6))
 			{
 				rethinkingCandy($effect[Synthesis: Hot]);
+				curCost -= 9;
+			}
+
+			if(curCost >= 3)
+			{
+				buffMaintain($effect[Spiro Gyro], 0, 1, 1);
 			}
 
 			if(do_cs_quest(10))
@@ -2742,7 +2785,7 @@ void cs_initializeDay(int day)
 			{
 				if((item_amount($item[Ice Harvest]) >= 3) && (item_amount($item[Snow Berries]) >= 1))
 				{
-					cli_execute("make ice island long tea");
+					cli_execute("make " + $item[Ice Island Long Tea]);
 				}
 			}
 
@@ -2801,7 +2844,7 @@ void cs_initializeDay(int day)
 
 				if(have_skill($skill[Summon Clip Art]) && (my_mp() >= mp_cost($skill[Summon Clip Art])) && (get_property("tomeSummons").to_int() < 3))
 				{
-					cli_execute("make cold-filtered water");
+					cli_execute("make " + $item[Cold-Filtered Water]);
 				}
 				else if((my_mp() >= mp_cost($skill[Summon Smithsness])) && (get_property("tomeSummons").to_int() < 3))
 				{
@@ -2870,7 +2913,7 @@ boolean do_chateauGoat()
 				shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 				buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
 			}
-			cli_execute("make milk of magnesium");
+			cli_execute("make " + $item[Milk Of Magnesium]);
 		}
 		cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
 		return true;
@@ -2903,7 +2946,7 @@ void cs_make_stuff()
 	{
 		if((item_amount($item[skeleton bone]) > 0) && (item_amount($item[loose teeth]) > 0))
 		{
-			cli_execute("make skeleton key");
+			cli_execute("make " + $item[Skeleton Key]);
 		}
 	}
 	if((item_amount($item[Milk of Magnesium]) == 0) && (item_amount($item[Glass of Goat\'s Milk]) > 0) && have_skill($skill[Advanced Saucecrafting]) && (get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious Reagent]) > 0))
@@ -2913,7 +2956,7 @@ void cs_make_stuff()
 			shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 			buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
 		}
-		cli_execute("make milk of magnesium");
+		cli_execute("make " + $item[Milk Of Magnesium]);
 	}
 
 
@@ -2923,20 +2966,75 @@ void cs_make_stuff()
 		{
 			if(knoll_available() || (item_amount($item[Maiden Wig]) > 0))
 			{
-				cli_execute("make Hairpiece on Fire");
+				cli_execute("make " + $item[Hairpiece On Fire]);
 			}
 		}
-		if(!possessEquipment($item[Saucepanic]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+		switch(my_class())
 		{
-			if(!possessEquipment($item[Saucepan]))
+		case $class[Seal Clubber]:
+			if(!possessEquipment($item[Meat Tenderizer Is Murder]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
 			{
-				acquireGumItem($item[Saucepan]);
+				if(!possessEquipment($item[Seal-Clubbing Club]))
+				{
+					acquireGumItem($item[Seal-Clubbing Club]);
+				}
+				cli_execute("make " + $item[Meat Tenderizer Is Murder]);
 			}
-			cli_execute("make Saucepanic");
+			break;
+		case $class[Turtle Tamer]:
+			if(!possessEquipment($item[Work Is A Four Letter Sword]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+			{
+				if(item_amount($item[Sword Hilt]) == 0)
+				{
+					cli_execute("buy 1 " + $item[Sword Hilt]);
+				}
+				cli_execute("make " + $item[Work Is A Four Letter Sword]);
+			}
+			break;
+		case $class[Pastamancer]:
+			if(!possessEquipment($item[Hand That Rocks The Ladle]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+			{
+				if(!possessEquipment($item[Pasta Spoon]))
+				{
+					acquireGumItem($item[Pasta Spoon]);
+				}
+				cli_execute("make " + $item[Hand That Rocks The Ladle]);
+			}
+			break;
+		case $class[Sauceror]:
+			if(!possessEquipment($item[Saucepanic]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+			{
+				if(!possessEquipment($item[Saucepan]))
+				{
+					acquireGumItem($item[Saucepan]);
+				}
+				cli_execute("make " + $item[Saucepanic]);
+			}
+			break;
+		case $class[Disco Bandit]:
+			if(!possessEquipment($item[Frankly Mr. Shank]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+			{
+				if(!possessEquipment($item[Disco Ball]))
+				{
+					acquireGumItem($item[Disco Ball]);
+				}
+				cli_execute("make " + $item[Frankly Mr. Shank]);
+			}
+			break;
+		case $class[Accordion Thief]:
+			if(!possessEquipment($item[Shakespeare\'s Sister\'s Accordion]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+			{
+				if(!possessEquipment($item[Stolen Accordion]))
+				{
+					acquireGumItem($item[Stolen Accordion]);
+				}
+				cli_execute("make " + $item[Shakespeare\'s Sister\'s Accordion]);
+			}
+			break;
 		}
 		if(!possessEquipment($item[A Light that Never Goes Out]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
 		{
-			cli_execute("make A Light that Never Goes Out");
+			cli_execute("make " + $item[A Light that Never Goes Out]);
 		}
 	}
 	if(my_daycount() == 2)
@@ -2947,26 +3045,26 @@ void cs_make_stuff()
 			{
 				acquireGumItem($item[Saucepan]);
 			}
-			cli_execute("make Saucepanic");
+			cli_execute("make " + $item[Saucepanic]);
 		}
 		if(knoll_available() || possessEquipment($item[Frilly Skirt]))
 		{
 			if(!possessEquipment($item[Vicar\'s Tutu]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
 			{
-				cli_execute("make Vicar's Tutu");
+				cli_execute("make " + $item[Vicar\'s Tutu]);
 			}
 		}
 
 		if(!possessEquipment($item[Staff of the Headmaster\'s Victuals]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
 		{
-			cli_execute("make Staff of the Headmaster\'s Victuals");
+			cli_execute("make " + $item[Staff of the Headmaster\'s Victuals]);
 		}
 
 		if(!have_familiar($familiar[Machine Elf]) && !is100FamiliarRun())
 		{
 			if(item_amount($item[Handful of Smithereens]) >= 3)
 			{
-				cli_execute("make 3 louder than bomb");
+				cli_execute("make 3 " + $item[Louder Than Bomb]);
 			}
 		}
 
@@ -2978,13 +3076,13 @@ void cs_make_stuff()
 				buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 3, 25);
 			}
 
-			if((item_amount($item[gr8ps]) > 0) && (item_amount($item[Potion of Temporary Gr8tness]) == 0) && (npc_price($item[Delectable Catalyst]) < my_meat()) && (get_property("_rapidPrototypingUsed").to_int() < 5) && have_skill($skill[The Way of Sauce]))
+			if((item_amount($item[gr8ps]) > 0) && (item_amount($item[Potion of Temporary Gr8tness]) == 0) && (npc_price($item[Delectable Catalyst]) < my_meat()) && ($classes[Sauceror, Pastamancer] contains my_class()) && (get_property("_rapidPrototypingUsed").to_int() < 5) && have_skill($skill[The Way of Sauce]))
 			{
 				cli_execute("make " + $item[Potion of Temporary Gr8tness]);
 			}
 			if((item_amount($item[grapefruit]) > 0) && (item_amount($item[Ointment of the Occult]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5))
 			{
-				cli_execute("make ointment of the occult");
+				cli_execute("make " + $item[Ointment Of The Occult]);
 			}
 			if((item_amount($item[lemon]) > 0) && (item_amount($item[philter of phorce]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5))
 			{
@@ -2992,25 +3090,25 @@ void cs_make_stuff()
 			}
 			if((item_amount($item[squashed frog]) > 0) && (item_amount($item[Frogade]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5))
 			{
-				cli_execute("make frogade");
+				cli_execute("make " + $item[Frogade]);
 			}
 			if((item_amount($item[eye of newt]) > 0) && (item_amount($item[Eyedrops of Newt]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5))
 			{
-				cli_execute("make eyedrops of newt");
+				cli_execute("make " + $item[Eyedrops Of Newt]);
 			}
 			else if((item_amount($item[salamander spleen]) > 0) && (item_amount($item[Salamander Slurry]) == 0) && (get_property("_rapidPrototypingUsed").to_int() < 5))
 			{
-				cli_execute("make salamander slurry");
+				cli_execute("make " + $item[Salamander Slurry]);
 			}
 		}
 
 		if((item_amount($item[Yellow Pixel]) >= 15) && (item_amount($item[Black Pixel]) >= 2) && (item_amount($item[Pixel Star]) == 0))
 		{
-			cli_execute("make pixel star");
+			cli_execute("make " + $item[Pixel Star]);
 		}
 		if(item_amount($item[Yellow Pixel]) >= 15)
 		{
-			cli_execute("make miniature power pill");
+			cli_execute("make " + $item[Miniature Power Pill]);
 		}
 
 	}
@@ -3096,7 +3194,7 @@ boolean cs_eat_stuff(int quest)
 
 		if((item_amount($item[Handful of Smithereens]) > 0) && (my_fullness() <= 3))
 		{
-			cli_execute("make 1 this charming flan");
+			cli_execute("make " + $item[This Charming Flan]);
 			eat(1, $item[This Charming Flan]);
 		}
 		if((item_amount($item[Meteoreo]) > 0) && (my_fullness() <= 4))
@@ -3105,7 +3203,7 @@ boolean cs_eat_stuff(int quest)
 		}
 		if((item_amount($item[Snow Berries]) > 1) && (my_fullness() <= 4))
 		{
-			cli_execute("make 1 snow crab");
+			cli_execute("make " + $item[Snow Crab]);
 			eat(1, $item[Snow Crab]);
 		}
 	}
@@ -3145,7 +3243,7 @@ boolean cs_eat_stuff(int quest)
 			}
 			if((item_amount($item[Handful of Smithereens]) > 0) && (fullness_left() >= 2))
 			{
-				cli_execute("make 1 this charming flan");
+				cli_execute("make " + $item[This Charming Flan]);
 				eat(1, $item[This Charming Flan]);
 			}
 			if((item_amount($item[Meteoreo]) > 0) && (fullness_left() >= 1))
@@ -3154,7 +3252,7 @@ boolean cs_eat_stuff(int quest)
 			}
 			if((item_amount($item[Snow Berries]) > 1) && (fullness_left() >= 1))
 			{
-				cli_execute("make 1 snow crab");
+				cli_execute("make " + $item[Snow Crab]);
 				eat(1, $item[Snow Crab]);
 			}
 
@@ -3175,7 +3273,7 @@ boolean cs_eat_stuff(int quest)
 			}
 			if(item_amount($item[Snow Berries]) > 1)
 			{
-				cli_execute("make 1 snow crab");
+				cli_execute("make " + $item[Snow Crab]);
 				eat(1, $item[Snow Crab]);
 			}
 			eatFancyDog("junkyard dog");
@@ -3410,7 +3508,7 @@ string cs_combatNormal(int round, string opp, string text)
 		return "skill curse of weaksauce";
 	}
 
-	if((!contains_text(combatState, "(candyblast)")) && have_skill($skill[Candyblast]) && (my_mp() > (mp_cost($skill[Candyblast]) * 3)) && !danger)
+	if((!contains_text(combatState, "(candyblast)")) && have_skill($skill[Candyblast]) && (my_mp() > (mp_cost($skill[Candyblast]) * 3)) && !danger && (my_class() != $class[Sauceror]))
 	{
 		set_property("cc_combatHandler", combatState + "(candyblast)");
 		return "skill " + $skill[Candyblast];
@@ -3434,7 +3532,7 @@ string cs_combatNormal(int round, string opp, string text)
 		return "item " + $item[Time-Spinner];
 	}
 
-	if(have_skill($skill[Saucegeyser]) && (my_mp() >= mp_cost($skill[Saucegeyser])))
+	if(have_skill($skill[Saucegeyser]) && (my_mp() >= mp_cost($skill[Saucegeyser])) && (my_class() == $class[Sauceror]))
 	{
 		return "skill " + $skill[Saucegeyser];
 	}
@@ -3521,6 +3619,7 @@ string cs_combatXO(int round, string opp, string text)
 		abort("Can not snoke that fire thing. We should probably smoke it instead.");
 	}
 
+	handleTracker(enemy, $skill[Snokebomb], "cc_banishes");
 	return "skill " + $skill[Snokebomb];
 }
 
