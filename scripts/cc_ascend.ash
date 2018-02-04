@@ -10785,10 +10785,6 @@ boolean L12_preOutfit()
 		set_property("cc_prehippy", "firstOutfit");
 		return true;
 	}
-	if(cc_my_path() == "Heavy Rains")
-	{
-		abort("We shouldn't be going down this path in HR");
-	}
 
 	if(my_class() == $class[Ed])
 	{
