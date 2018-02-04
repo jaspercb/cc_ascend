@@ -4053,6 +4053,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Patent Sallowness]:			useItem = $item[Patent Sallowness Tonic];		break;
 	case $effect[Patience of the Tortoise]:		useSkill = $skill[Patience of the Tortoise];	break;
 	case $effect[Patient Smile]:				useSkill = $skill[Patient Smile];				break;
+	case $effect[Peeled Eyeballs]:				useItem = $item[Knob Goblin Eyedrops];			break;
 	case $effect[Penne Fedora]:					useSkill = $skill[none];						break;
 	case $effect[Peppermint Bite]:				useItem = $item[Crimbo Peppermint Bark];		break;
 	case $effect[Peppermint Twisted]:			useItem = $item[Peppermint Twist];				break;

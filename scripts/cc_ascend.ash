@@ -4985,7 +4985,7 @@ boolean powerLevelAdjustment()
 	if(get_property("cc_powerLevelLastLevel").to_int() != my_level())
 	{
 		set_property("cc_powerLevelLastLevel", my_level());
-		set_property("cc_powerLevelAdvCount", my_level());
+		set_property("cc_powerLevelAdvCount", 0);
 		return true;
 	}
 	return false;
@@ -9672,7 +9672,14 @@ boolean LX_craftAcquireItems()
 		}
 		else
 		{
-			januaryToteAcquire($item[Makeshift Garbage Shirt]);
+			if(januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0)
+			{
+				januaryToteAcquire($item[Makeshift Garbage Shirt]);
+			}
+			else
+			{
+				januaryToteAcquire($item[Wad Of Used Tape]);
+			}
 		}
 		#set_property("_dailyCreates", true);
 	}
@@ -10385,7 +10392,7 @@ boolean LX_handleSpookyravenFirstFloor()
 		abort("Have Lady Spookyraven's Necklace but did not give it to her....");
 	}
 
-	if(get_property("_sourceTerminalDigitizeMonster") == $monster[Writing Desk])
+	if((get_property("_sourceTerminalDigitizeMonster") == $monster[Writing Desk]) && (get_property("writingDesksDefeated").to_int() < 5))
 	{
 		if(loopHandler("_cc_digitizeDeskTurn", "_cc_digitizeDeskCounter", "Potentially unable to do anything while waiting on digitized writing desks.", 10))
 		{
@@ -10409,7 +10416,7 @@ boolean LX_handleSpookyravenFirstFloor()
 			set_property("choiceAdventure163", "4");
 			ccAdv(1, $location[The Haunted Library]);
 		}
-		else if(item_amount($item[Spookyraven Billiards room key]) == 1)
+		else if(item_amount($item[Spookyraven Billiards Room Key]) == 1)
 		{
 			int expectPool = get_property("poolSkill").to_int();
 			expectPool += min(10,to_int(2 * square_root(get_property("poolSharkCount").to_int())));
@@ -10589,11 +10596,11 @@ boolean LX_handleSpookyravenNecklace()
 		return false;
 	}
 
-	if(possessEquipment($item[Ghost Of A Necklace]))
-	{
-		set_property("cc_spookyravennecklace", "done");
-		return false;
-	}
+#	if(possessEquipment($item[Ghost Of A Necklace]))
+#	{
+#		set_property("cc_spookyravennecklace", "done");
+#		return false;
+#	}
 
 	print("Starting Spookyraven Second Floor.", "blue");
 	visit_url("place.php?whichplace=manor1&action=manor1_ladys");
@@ -10611,11 +10618,12 @@ boolean LX_handleSpookyravenNecklace()
 	set_property("choiceAdventure896", "1");
 	set_property("choiceAdventure892", "2");
 
-	if(item_amount($item[ghost of a necklace]) > 0)
-	{
-		set_property("cc_spookyravennecklace", "done");
-	}
-	else if((item_amount($item[ghost of a necklace]) == 0) || (item_amount($item[Lady Spookyraven\'s Necklace]) == 1))
+#	if(item_amount($item[ghost of a necklace]) > 0)
+#	{
+#		set_property("cc_spookyravennecklace", "done");
+#	}
+#	else if((item_amount($item[ghost of a necklace]) == 0) || (item_amount($item[Lady Spookyraven\'s Necklace]) == 1))
+	if(item_amount($item[Lady Spookyraven\'s Necklace]) > 0)
 	{
 		cli_execute("refresh inv");
 		set_property("cc_spookyravennecklace", "done");

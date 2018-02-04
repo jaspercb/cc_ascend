@@ -1587,8 +1587,8 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Salamander In Your Stomach], 0, 1, 1);
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
 			buffMaintain($effect[Wit Tea], 0, 1, 1);
-			buffMaintain($effect[Sweet\, Nuts], 0, 1 , 1);
-			buffMaintain($effect[Baconstoned], 0, 1 , 1);
+			buffMaintain($effect[Sweet\, Nuts], 0, 1, 1);
+			buffMaintain($effect[Baconstoned], 0, 1, 1);
 
 
 			buffMaintain($effect[Nearly All-Natural], 0, 1, 1);
@@ -1611,6 +1611,11 @@ boolean LA_cs_communityService()
 			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 			{
 				cli_execute("spacegate vaccine 2");
+			}
+
+			if(get_cs_questCost(curQuest) > 10)
+			{
+				buffMaintain($effect[Seriously Mutated], 0, 1, 1);
 			}
 
 			if(do_cs_quest(3))
@@ -1700,6 +1705,11 @@ boolean LA_cs_communityService()
 #			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 #			{
 #				cli_execute("spacegate vaccine 2");
+
+			if(get_cs_questCost(curQuest) > 10)
+			{
+				buffMaintain($effect[Seriously Mutated], 0, 1, 1);
+			}
 #			}
 
 			if(do_cs_quest(4))
@@ -2340,6 +2350,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 11, 1, 1);
 			buffMaintain($effect[Steely-Eyed Squint], 101, 1, 1);
 			buffMaintain($effect[Heightened Senses], 0, 1, 1);
+			buffMaintain($effect[Peeled Eyeballs], 0, 1, 1);
 			asdonBuff($effect[Driving Observantly]);
 
 			if(get_property("cc_csDoWheel").to_boolean())
@@ -2547,8 +2558,6 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Human-Machine Hybrid], 0, 1, 1);
 			buffMaintain($effect[Frost Tea], 0, 1, 1);
 
-			cs_eat_stuff(curQuest);
-
 			if(get_property("spacegateVaccine1").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Rainbow Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 			{
 				cli_execute("spacegate vaccine 1");
@@ -2566,6 +2575,8 @@ boolean LA_cs_communityService()
 			{
 				buffMaintain($effect[Spiro Gyro], 0, 1, 1);
 			}
+
+			cs_eat_stuff(curQuest);
 
 			if(do_cs_quest(10))
 			{
@@ -3276,7 +3287,13 @@ boolean cs_eat_stuff(int quest)
 				cli_execute("make " + $item[Snow Crab]);
 				eat(1, $item[Snow Crab]);
 			}
-			eatFancyDog("junkyard dog");
+
+			int questCost = get_cs_questCost(quest);
+			
+			if((fullness_left() >= 2) && (questCost > 20))
+			{
+				eatFancyDog("junkyard dog");
+			}
 		}
 	}
 	return true;
