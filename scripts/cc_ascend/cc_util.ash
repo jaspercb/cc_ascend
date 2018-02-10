@@ -2625,6 +2625,11 @@ boolean handleSealElement(element flavor, string option)
 
 int towerKeyCount()
 {
+	return towerKeyCount(true);
+}
+
+int towerKeyCount(boolean effective)
+{
 	if(my_class() == $class[Ed])
 	{
 		return 3;
@@ -2643,7 +2648,7 @@ int towerKeyCount()
 	{
 		tokens = tokens + 1;
 	}
-	if((item_amount($item[Daily Dungeon Malware]) > 0) && !get_property("_dailyDungeonMalwareUsed").to_boolean() && !get_property("dailyDungeonDone").to_boolean() && (get_property("_lastDailyDungeonRoom").to_int() < 14))
+	if(effective && (item_amount($item[Daily Dungeon Malware]) > 0) && !get_property("_dailyDungeonMalwareUsed").to_boolean() && !get_property("dailyDungeonDone").to_boolean() && (get_property("_lastDailyDungeonRoom").to_int() < 14))
 	{
 		tokens = tokens + 1;
 	}

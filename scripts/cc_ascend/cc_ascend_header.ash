@@ -217,7 +217,10 @@ int[item] cc_get_campground();					//Defined in cc_ascend/cc_util.ash
 
 
 //Returns how many Hero Keys and Phat Loot tokens we have.
+//effective count (with malware) vs true count.
+int towerKeyCount(boolean effective);			//Defined in cc_ascend/cc_util.ash
 int towerKeyCount();							//Defined in cc_ascend/cc_util.ash
+
 
 //Uses Daily Dungeon Malware to get Phat Loot.
 boolean LX_malware();							//Defined in cc_ascend.ash
@@ -449,6 +452,8 @@ boolean drinkSpeakeasyDrink(item drink);					//Defined in cc_ascend/cc_clan.ash
 boolean drinkSpeakeasyDrink(string drink);					//Defined in cc_ascend/cc_clan.ash
 int drunk_left();											//Defined in cc_ascend/cc_util.ash
 boolean eatFancyDog(string dog);							//Defined in cc_ascend/cc_clan.ash
+boolean zataraClanmate(string who);							//Defined in cc_ascend/cc_clan.ash
+boolean zataraSeaside(string who);							//Defined in cc_ascend/cc_clan.ash
 float edMeatBonus();										//Defined in cc_ascend/cc_edTheUndying.ash
 boolean ed_buySkills();										//Defined in cc_ascend/cc_edTheUndying.ash
 boolean ed_ccAdv(int num, location loc, string option);		//Defined in cc_ascend/cc_edTheUndying.ash

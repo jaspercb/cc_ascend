@@ -31,6 +31,12 @@ string cc_combatHandler(int round, string opp, string text)
 	if(round == 0)
 	{
 		print("cc_combatHandler: " + round, "brown");
+
+		if(enemy == $monster[Government Agent])
+		{
+			set_property("_portscanPending", false);
+		}
+
 		set_property("cc_combatHandler", "");
 		set_property("cc_funCombatHandler", "");
 		set_property("cc_funPrefix", "");
@@ -358,7 +364,7 @@ string cc_combatHandler(int round, string opp, string text)
 	if(my_location() == $location[The Daily Dungeon])
 	{
 		# If we are in The Daily Dungeon, assume we get 1 token, so only if we need more than 1.
-		if((towerKeyCount() < 2) && !get_property("_dailyDungeonMalwareUsed").to_boolean() && (item_amount($item[Daily Dungeon Malware]) > 0))
+		if((towerKeyCount(false) < 2) && !get_property("_dailyDungeonMalwareUsed").to_boolean() && (item_amount($item[Daily Dungeon Malware]) > 0))
 		{
 			if($monsters[Apathetic Lizardman, Dairy Ooze, Dodecapede, Giant Giant Moth, Mayonnaise Wasp, Pencil Golem, Sabre-Toothed Lime, Tonic Water Elemental, Vampire Clam] contains enemy)
 			{
@@ -1020,9 +1026,55 @@ string cc_combatHandler(int round, string opp, string text)
 		combatState += "(banishercheck)";
 	}
 
-	if(item_amount($item[disposable instant camera]) > 0)
+	if(have_skill($skill[Meteor Lore]) && (get_property("_macrometeoriteUses").to_int() < 10) && (my_mp() > mp_cost($skill[Macrometeorite])))
 	{
-		if((enemy == $monster[bob racecar]) || (enemy == $monster[racecar bob]))
+		if((enemy == $monster[Banshee Librarian]) && (item_amount($item[Killing Jar]) == 0))
+		{
+			return "skill " + $skill[Macrometeorite];
+		}
+		if((enemy == $monster[Government Agent]) && (my_location() == $location[Sonofa Beach]))
+		{
+			return "skill " + $skill[Macrometeorite];
+		}
+		if((enemy == $monster[Knob Goblin Madam]) && (item_amount($item[Knob Goblin Perfume]) == 0))
+		{
+			return "skill " + $skill[Macrometeorite];
+		}
+		if($monsters[Bookbat, Craven Carven Raven, Drunk Goat, Knight In White Satin, Knob Goblin Harem Guard, Mad Wino, Plaid Ghost, Possessed Laundry Press, Sabre-Toothed Goat, Senile Lihc, Skeletal Sommelier, Slick Lihc, White Chocolate Golem] contains enemy)
+		{
+			return "skill " + $skill[Macrometeorite];
+		}
+		if((enemy == $monster[Stone Temple Pirate]) && possessEquipment($item[Eyepatch]))
+		{
+			return "skill " + $skill[Macrometeorite];
+		}
+		if(my_location() == $location[The Obligatory Pirate\'s Cove])
+		{
+			if($monsters[Shady Pirate, Shifty Pirate] contains enemy)
+			{
+				return "skill " + $skill[Macrometeorite];
+			}
+			if((enemy == $monster[Sassy Pirate]) && possessEquipment($item[Swashbuckling Pants]))
+			{
+				return "skill " + $skill[Macrometeorite];
+			}
+			if((enemy == $monster[Smarmy Pirate]) && possessEquipment($item[Eyepatch]))
+			{
+				return "skill " + $skill[Macrometeorite];
+			}
+			if((enemy == $monster[Swarthy Pirate]) && possessEquipment($item[Stuffed Shoulder Parrot]))
+			{
+				return "skill " + $skill[Macrometeorite];
+			}
+
+		}
+		# Beefy Bodyguard Bat with delay burnt.
+	}
+
+
+	if(item_amount($item[Disposable Instant Camera]) > 0)
+	{
+		if((enemy == $monster[Bob Racecar]) || (enemy == $monster[Racecar Bob]))
 		{
 			set_property("cc_combatHandler", combatState + "(disposable instant camera)");
 			return "item disposable instant camera";
@@ -1402,11 +1454,12 @@ string cc_combatHandler(int round, string opp, string text)
 
 
 
-	if(!contains_text(combatState, "portscan") && have_skill($skill[Portscan]) && (my_location().turns_spent < 8) && (get_property("_sourceTerminalPortscanUses").to_int() < 3) && (my_mp() > mp_cost($skill[Portscan])))
+	if(!contains_text(combatState, "portscan") && have_skill($skill[Portscan]) && (my_location().turns_spent < 8) && (get_property("_sourceTerminalPortscanUses").to_int() < 3) && (my_mp() > mp_cost($skill[Portscan])) && !get_property("_portscanPending").to_boolean())
 	{
 		if($locations[The Castle in the Clouds in the Sky (Ground Floor), The Haunted Bathroom, The Haunted Gallery] contains my_location())
 		{
 			set_property("cc_combatHandler", combatState + "(portscan)");
+			set_property("_portscanPending", true);
 			return "skill " + $skill[Portscan];
 		}
 	}

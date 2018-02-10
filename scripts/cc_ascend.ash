@@ -1569,7 +1569,6 @@ int handlePulls(int day)
 		#pullXWhenHaveY($item[the big book of pirate insults], 1, 0);
 #		pullXWhenHaveY($item[mojo filter], 1, 0);
 		#pullXWhenHaveY($item[camp scout backpack], 1, 0);
-		#pullXWhenHaveY($item[caveman dan\'s favorite rock], 1, 0);
 
 		if((my_class() == $class[Sauceror]) || (my_class() == $class[Pastamancer]))
 		{
@@ -2181,6 +2180,8 @@ boolean dailyEvents()
 		}
 	}
 
+	while(zataraClanmate(""));
+
 	return true;
 }
 
@@ -2423,17 +2424,17 @@ boolean doBedtime()
 		}
 	}
 
-	if((my_daycount() == 1) && ((item_amount($item[thor\'s pliers]) == 1) || (equipped_item($slot[weapon]) == $item[Thor\'s Pliers]) || (equipped_item($slot[off-hand]) == $item[Thor\'s Pliers]) || (get_property("_rapidPrototypingUsed").to_int() < 5)) && have_skill($skill[Rapid Prototyping]) && is_unrestricted($item[Crimbot ROM: Rapid Prototyping]) && !possessEquipment($item[Chrome Sword]) && !get_property("kingLiberated").to_boolean())
+	if((my_daycount() == 1) && ((item_amount($item[Thor\'s Pliers]) == 1) || (equipped_item($slot[weapon]) == $item[Thor\'s Pliers]) || (equipped_item($slot[off-hand]) == $item[Thor\'s Pliers]) || (get_property("_rapidPrototypingUsed").to_int() < 5)) && have_skill($skill[Rapid Prototyping]) && is_unrestricted($item[Crimbot ROM: Rapid Prototyping]) && !possessEquipment($item[Chrome Sword]) && !get_property("kingLiberated").to_boolean())
 	{
 		item oreGoal = to_item(get_property("trapperOre"));
 		int need = 1;
-		if(oreGoal == $item[chrome ore])
+		if(oreGoal == $item[Chrome Ore])
 		{
 			need = 4;
 		}
-		if((item_amount($item[chrome ore]) >= need) && !possessEquipment($item[chrome sword]))
+		if((item_amount($item[Chrome Ore]) >= need) && !possessEquipment($item[Chrome Sword]))
 		{
-			cli_execute("make chrome sword");
+			cli_execute("make " + $item[Chrome Sword]);
 		}
 	}
 
@@ -3955,8 +3956,8 @@ boolean L13_towerNSNagamar()
 	}
 	else
 	{
-		pullXWhenHaveY($item[disassembled clover], 1, 0);
-		use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+		pullXWhenHaveY($item[Disassembled Clover], 1, 0);
+		use(item_amount($item[Ten-leaf Clover]), $item[Ten-leaf Clover]);
 		if(item_amount($item[Disassembled Clover]) > 0)
 		{
 			use(1, $item[Disassembled Clover]);
@@ -3968,13 +3969,23 @@ boolean L13_towerNSNagamar()
 				restoreSetting("cloverProtectActive");
 				return true;
 			}
-			use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+			use(item_amount($item[Ten-Leaf clover]), $item[Ten-leaf Clover]);
 			restoreSetting("cloverProtectActive");
 			cli_execute("make wand of nagamar");
 			return true;
 		}
+
+		if(last_choice() == 1016)
+		{
+			set_property("nagamarQuest", my_ascensions());
+		}
+		if(get_property("nagamarQuest").to_int() == my_ascensions())
+		{
+			return ccAdv($location[The VERY Unquiet Garves]);
+		}
+
 		abort("Could not make Wand of Nagamar for some raisin. Make it manually please and thank you.");
-		return true;
+		return false;
 	}
 }
 
@@ -6770,7 +6781,7 @@ boolean L12_gremlins()
 		return true;
 	}
 
-	if(item_amount($item[molybdenum pliers]) == 0)
+	if(item_amount($item[Molybdenum Pliers]) == 0)
 	{
 		ccAdv(1, $location[near an abandoned refrigerator], "ccsJunkyard");
 		return true;
@@ -9081,7 +9092,7 @@ boolean L8_trapperGround()
 	#print("Starting Trapper Collection", "blue");
 	item oreGoal = to_item(get_property("trapperOre"));
 
-	if((item_amount(oreGoal) >= 3) && (item_amount($item[goat cheese]) >= 3))
+	if((item_amount(oreGoal) >= 3) && (item_amount($item[Goat Cheese]) >= 3))
 	{
 		print("Giving Trapper goat cheese and " + oreGoal, "blue");
 		set_property("cc_trapper", "yeti");
@@ -9089,7 +9100,7 @@ boolean L8_trapperGround()
 		return true;
 	}
 
-	if(item_amount($item[goat cheese]) < 3)
+	if(item_amount($item[Goat Cheese]) < 3)
 	{
 		print("Yay for goat cheese!", "blue");
 		handleFamiliar("item");
@@ -9104,7 +9115,7 @@ boolean L8_trapperGround()
 
 	if(item_amount(oreGoal) >= 3)
 	{
-		if(item_amount($item[goat cheese]) >= 3)
+		if(item_amount($item[Goat Cheese]) >= 3)
 		{
 			print("Giving Trapper goat cheese and " + oreGoal, "blue");
 			set_property("cc_trapper", "yeti");
@@ -9146,8 +9157,12 @@ boolean L8_trapperGround()
 		if(get_property("cc_wandOfNagamar").to_boolean())
 		{
 			numCloversKeep = 1;
+			if(get_property("cc_powerLevelLastLevel").to_int() == my_level())
+			{
+				numCloversKeep = 0;
+			}
 		}
-		use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+		use(item_amount($item[Ten-leaf Clover]), $item[Ten-leaf Clover]);
 		if(cc_my_path() == "Nuclear Autumn")
 		{
 			if(item_amount($item[Disassembled Clover]) <= numCloversKeep)
@@ -9169,7 +9184,7 @@ boolean L8_trapperGround()
 				restoreSetting("cloverProtectActive");
 				return true;
 			}
-			use(item_amount($item[ten-leaf clover]), $item[ten-leaf clover]);
+			use(item_amount($item[Ten-leaf Clover]), $item[Ten-leaf Clover]);
 			restoreSetting("cloverProtectActive");
 			return true;
 		}
@@ -10148,7 +10163,7 @@ boolean LX_phatLootToken()
 	{
 		return false;
 	}
-	if(towerKeyCount() >= 3)
+	if(towerKeyCount(false) >= 3)
 	{
 		return false;
 	}

@@ -2,6 +2,8 @@ script "cc_clan.ash"
 
 
 //boolean eatFancyDog(item dog);
+boolean zataraClanmate(string who);
+boolean zataraSeaside(string who);
 boolean eatFancyDog(string dog);
 boolean drinkSpeakeasyDrink(item drink);
 boolean drinkSpeakeasyDrink(string drink);
@@ -262,6 +264,140 @@ boolean drinkSpeakeasyDrink(item drink)
 
 	cli_execute("drink 1 " + drink);
 
+	return true;
+}
+
+
+boolean zataraSeaside(string who)
+{
+	if(item_amount($item[Clan VIP Lounge Key]) == 0)
+	{
+		return false;
+	}
+	if(get_property("_ZATARAPREF").to_boolean())
+	{
+		return false;
+	}
+
+#	if(!(get_clan_lounge() contains $item[Clan Carnival Game]))
+#	{
+#		return false;
+#	}
+
+	who = to_lower_case(who);
+
+	int id = 0;
+	if((who == "susie") || (who == "familiar") || (who == "-1"))
+	{
+		id = -1;
+	}
+	else if((who == "hagnk") || (who == "food") || (who == "booze") || (who == "item") || (who == "-2"))
+	{
+		id = -2;
+	}
+	else if((who == "meatsmith") || (who == "gear") || (who == "meat") || (who == "-3"))
+	{
+		id = -3;
+	}
+	else if((who == "gunther") || (who == "muscle") || (who == "hp") || (who == "-4"))
+	{
+		id = -4;
+	}
+	else if((who == "gorgonzola") || (who == "myst") || (who == "mysticality") || (who == "mp") || (who == "-5"))
+	{
+		id = -5;
+	}
+	else if((who == "shifty") || (who == "moxie") || (who == "init") || (who == "-6"))
+	{
+		id = -6;
+	}
+/*
+	if((who == "susie") || (who == "familiar") || (who == "-1") || (who ≈ $effect[A Girl Named Sue]))
+	{
+		id = -1;
+	}
+	else if((who == "hagnk") || (who == "food") || (who == "booze") || (who == "item") || (who == "-2") || (who ≈ $effect[There\'s No N In Love]))
+	{
+		id = -2;
+	}
+	else if((who == "meatsmith") || (who == "gear") || (who == "meat") || (who == "-3") || (who ≈ $effect[Meet The Meat]))
+	{
+		id = -3;
+	}
+	else if((who == "gunther") || (who == "muscle") || (who == "hp") || (who == "-4") || (who ≈ $effect[Gunther Than Thou]))
+	{
+		id = -4;
+	}
+	else if((who == "gorgonzola") || (who == "myst") || (who == "mysticality") || (who == "mp") || (who == "-5") || (who ≈ $effect[Everybody Calls Him Gorgon]))
+	{
+		id = -5;
+	}
+	else if((who == "shifty") || (who == "moxie") || (who == "init") || (who == "-6") || (who ≈ $effect[They Call Me Shifty]))
+	{
+		id = -6;
+	}
+*/
+
+
+	if(id == 0)
+	{
+		return false;
+	}
+
+	string page = visit_url("clan_viplounge.php");
+	if(!contains_text(page, "lovetester"))
+	{
+		set_property("_ZATARAPREF", true);
+		return false;
+	}
+
+	string temp = visit_url("clan_viplounge.php?preaction=lovetester", false);
+	temp = visit_url("choice.php?pwd=&whichchoice=1278&option=1&which=" + id);
+	set_property("_ZATARAPREF", true);
+	return true;
+}
+
+boolean zataraClanmate(string who)
+{
+	# who is ignored.
+	if(item_amount($item[Clan VIP Lounge Key]) == 0)
+	{
+		return false;
+	}
+
+#	if(!(get_clan_lounge() contains $item[Clan Carnival Game]))
+#	{
+#		return false;
+#	}
+
+
+	if(get_property("_ZATARACLANMATE").to_int() >= 3)
+	{
+		return false;
+	}
+
+	string page = visit_url("clan_viplounge.php");
+	if(!contains_text(page, "lovetester"))
+	{
+		set_property("_ZATARACLANMATE", 3);
+		return false;
+	}
+
+	set_property("_ZATARACLANMATE", get_property("_ZATARACLANMATE").to_int() + 1);
+
+	int oldClan = get_clan_id();
+	changeClan();
+	if(oldClan == get_clan_id())
+	{
+		set_property("_ZATARACLANMATE", 3);
+		return false;
+	}
+
+	string temp = visit_url("clan_viplounge.php?preaction=lovetester", false);
+	temp = visit_url("choice.php?pwd=&whichchoice=1278&option=1&which=1&whichid=3038166&q1=turtle&q2=turtle&q3=turtle");
+
+
+	changeClan(oldClan);
 	return true;
 }
 

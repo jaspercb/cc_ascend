@@ -212,7 +212,7 @@ void handleOffHand()
 	item toEquip = $item[none];
 	boolean[item] poss;
 
-	if((my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) == 1))
+	if((my_path() == "Heavy Rains") && (item_amount($item[Thor\'s Pliers]) > 0) && have_skill($skill[Double-Fisted Skull Smashing]))
 	{
 		equip($slot[off-hand], $item[Thor\'s Pliers]);
 		return;
@@ -241,7 +241,7 @@ void handleOffHand()
 	#if weapon_type(equipped_item($slot[weapon]) == $stat[Moxie]) we can dual-wield other ranged weapons.
 	if(my_class() != $class[Turtle Tamer])
 	{
-		if((have_skill($skill[Double-Fisted Skull Smashing])) && (weapon_type(equipped_item($slot[weapon])) != $stat[Moxie]))
+		if(have_skill($skill[Double-Fisted Skull Smashing]) && (weapon_type(equipped_item($slot[weapon])) != $stat[Moxie]))
 		{
 			poss = $items[Turtle Totem, Knob Goblin Scimitar, Mace of the Tortoise, Sabre Teeth, Pitchfork, Cardboard Wakizashi, Oversized Pizza Cutter, Hot Plate, Spiked Femur, Yorick, Sawblade Shield, Wicker Shield, Keg Shield, KoL Con 13 Snowglobe, Operation Patriot Shield, Ox-head Shield, Fake Washboard, Barrel Lid];
 		}
