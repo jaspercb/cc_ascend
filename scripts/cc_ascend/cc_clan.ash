@@ -200,6 +200,19 @@ int changeClan(int toClan)
 		print("Already in this clan, no need to try to change (" + toClan + ")", "red");
 		return oldClan;
 	}
+
+	string temp = visit_url("clan_signup.php");
+	if(!contains_text(temp, "option value=" + oldClan + ">"))
+	{
+		print("Do not have a whitelist to our own clan, can not change clans.");
+		return 0;
+	}
+	if(!contains_text(temp, "option value=" + toClan + ">"))
+	{
+		print("Do not have a whitelist to destination clan, can not change clans.");
+		return 0;
+	}
+
 	visit_url("showclan.php?pwd=&recruiter=1&action=joinclan&apply=Apply+to+this+Clan&confirm=on&whichclan=" + toClan, true);
 
 	if(get_clan_id() == oldClan)
@@ -398,6 +411,7 @@ boolean zataraClanmate(string who)
 
 
 	changeClan(oldClan);
+	wait(5);
 	return true;
 }
 

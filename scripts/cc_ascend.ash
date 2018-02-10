@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18424;
+since r18452;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -2170,7 +2170,6 @@ boolean dailyEvents()
 
 	if(have_skill($skill[That\'s Not a Knife]) && !get_property("_discoKnife").to_boolean())
 	{
-		use_skill(1, $skill[That\'s Not a Knife]);
 		foreach it in $items[Boot Knife, Broken Beer Bottle, Candy Knife, Sharpened Spoon, Soap Knife]
 		{
 			if(item_amount(it) == 1)
@@ -2178,6 +2177,7 @@ boolean dailyEvents()
 				put_closet(1, it);
 			}
 		}
+		use_skill(1, $skill[That\'s Not a Knife]);
 	}
 
 	while(zataraClanmate(""));
@@ -2593,6 +2593,8 @@ boolean doBedtime()
 			enhances -= 2;
 		}
 	}
+
+	zataraSeaside("item");
 
 	if(is_unrestricted($item[Source Terminal]) && (get_campground() contains $item[Source Terminal]))
 	{

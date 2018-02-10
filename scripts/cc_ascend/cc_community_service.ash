@@ -452,7 +452,6 @@ boolean LA_cs_communityService()
 			if(item_amount($item[A Ten-Percent Bonus]) > 0)
 			{
 				use(1, $item[A Ten-Percent Bonus]);
-				zataraSeaside("myst");
 			}
 
 			if((curQuest == 11) && ((my_turncount() + 60) < get_property("cc_cookie").to_int()) && (my_adventures() > 65))
@@ -462,7 +461,6 @@ boolean LA_cs_communityService()
 					use(1, $item[A Ten-Percent Bonus]);
 					curQuest = 0;
 					cli_execute("postcheese");
-					zataraSeaside("myst");
 					return true;
 				}
 				else
@@ -1187,6 +1185,8 @@ boolean LA_cs_communityService()
 //				evokeEldritchHorror();
 //			}
 
+			zataraSeaside("muscle");
+
 			if(!get_property("cc_saveMargarita").to_boolean() && (inebriety_left() == 0))
 			{
 				buffMaintain($effect[Simmering], 0, 1, 1);
@@ -1359,6 +1359,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
 			buffMaintain($effect[Phorcefullness], 0, 1, 1);
 			buffMaintain($effect[Barbecue Saucy], 0, 1, 1);
+//			buffMaintain($effect[Graham Crackling], 0, 1, 1);
 
 			if(!get_property("_grimBuff").to_boolean())
 			{
@@ -1691,7 +1692,8 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Newt Gets In Your Eyes], 0, 1, 1);
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
 			buffMaintain($effect[Dexteri Tea], 0, 1, 1);
-			buffMaintain($effect[Busy Bein\' Delicious], 0, 1 , 1);
+			buffMaintain($effect[Busy Bein\' Delicious], 0, 1, 1);
+			buffMaintain($effect[Bandersnatched], 0, 1, 1);
 
 			buffMaintain($effect[Amazing], 0, 1, 1);
 
@@ -1774,6 +1776,8 @@ boolean LA_cs_communityService()
 			{
 				user_confirm("Get the Witchess Familiar Buff and then click this away. Beep boop.");
 			}
+
+			zataraSeaside("familiar");
 
 			int currentCost = get_cs_questCost(curQuest);
 			if(have_skill($skill[Empathy of the Newt]))
@@ -2144,6 +2148,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Jackasses\' Symphony of Destruction], 8, 1, 1);
 			buffMaintain($effect[Puzzle Fury], 0, 1, 1);
 			buffMaintain($effect[Be A Mind Master], 0, 1, 1);
+			buffMaintain($effect[Paging Betty], 0, 1, 1);
 			if(is_unrestricted($item[Clan Pool Table]) && (have_effect($effect[Mental A-cue-ity]) == 0))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=2");
@@ -2426,6 +2431,11 @@ boolean LA_cs_communityService()
 			if(get_cs_questCost(curQuest) > 7)
 			{
 				makeGenieWish($effect[Frosty]);
+			}
+
+			if(get_cs_questCost(curQuest) > 7)
+			{
+				zataraSeaside("item");
 			}
 
 			if(do_cs_quest(9))

@@ -3832,8 +3832,9 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 		{
 			useItem = $item[Jug of Baconstone Juice];
 		}																						break;
-	case $effect[Balls of Ectoplasm]:			useItem = $item[Ectoplasmic Orbs];				break;
 	case $effect[Baited Hook]:					useItem = $item[Wriggling Worm];				break;
+	case $effect[Balls of Ectoplasm]:			useItem = $item[Ectoplasmic Orbs];				break;
+	case $effect[Bandersnatched]:				useItem = $item[Tonic O\' Banderas];			break;
 	case $effect[Barbecue Saucy]:				useItem = $item[Dollop of Barbecue Sauce];		break;
 	case $effect[Be A Mind Master]:				useItem = $item[Daily Affirmation: Be A Mind Master];	break;
 	case $effect[Become Superficially Interested]:	useItem = $item[Daily Affirmation: Be Superficially Interested];	break;
@@ -3906,7 +3907,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Erudite]:						useItem = $item[Black Sheepskin Diploma];		break;
 	case $effect[Expert Oiliness]:				useItem = $item[Oil of Expertise];				break;
 	case $effect[Experimental Effect G-9]:		useItem = $item[Experimental Serum G-9];		break;
-	case $effect[Extended Toes]:				useSkill = $skill[Retractable Toes];					break;
+	case $effect[Extended Toes]:				useSkill = $skill[Retractable Toes];			break;
 	case $effect[Extra Backbone]:				useItem = $item[Really Thick Spine];			break;
 	case $effect[Extreme Muscle Relaxation]:	useItem = $item[Mick\'s IcyVapoHotness Rub];	break;
 	case $effect[Everything Must Go!]:			useItem = $item[Violent Pastilles];				break;
@@ -3950,6 +3951,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Got Milk]:						useItem = $item[Milk of Magnesium];				break;
 	case $effect[Gothy]:						useItem = $item[Spooky Eyeliner];				break;
 	case $effect[Gr8tness]:						useItem = $item[Potion of Temporary Gr8tness];	break;
+//	case $effect[Graham Crackling]:				useItem = $item[Heather Graham Cracker];		break;
 	case $effect[Greedy Resolve]:				useItem = $item[Resolution: Be Wealthier];		break;
 	case $effect[Gummed Shoes]:					useItem = $item[Shoe Gum];						break;
 	case $effect[Gummi-Grin]:					useItem = $item[Gummi Turtle];					break;
@@ -4048,6 +4050,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[OMG WTF]:						useItem = $item[Confiscated Cell Phone];		break;
 	case $effect[One Very Clear Eye]:			useItem = $item[Cyclops Eyedrops];				break;
 	case $effect[Orange Crusher]:				useItem = $item[Pulled Orange Taffy];			break;
+	case $effect[Paging Betty]:					useItem = $item[Bettie Page];					break;
 	case $effect[Pasta Eyeball]:				useSkill = $skill[none];						break;
 	case $effect[Pasta Oneness]:				useSkill = $skill[Manicotti Meditation];		break;
 	case $effect[Patent Aggression]:			useItem = $item[Patent Aggression Tonic];		break;
