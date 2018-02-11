@@ -48,6 +48,11 @@ boolean januaryToteAcquire(item it)
 	case $item[Makeshift Garbage Shirt]:		choice = 5;		break;
 	}
 
+	if((choice == 5) && !hasTorso())
+	{
+		return false;
+	}
+
 	if(choice == 0)
 	{
 		return false;

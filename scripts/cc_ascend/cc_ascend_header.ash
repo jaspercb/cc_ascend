@@ -599,6 +599,7 @@ boolean isGalaktikAvailable();								//Defined in cc_ascend/cc_util.ash
 boolean isGeneralStoreAvailable();							//Defined in cc_ascend/cc_util.ash
 boolean isGhost(monster mon);								//Defined in cc_ascend/cc_util.ash
 boolean isGuildClass();										//Defined in cc_ascend/cc_util.ash
+boolean hasTorso();											//Defined in cc_ascend/cc_util.ash
 boolean isHermitAvailable();								//Defined in cc_ascend/cc_util.ash
 boolean isOverdueArrow();									//Defined in cc_ascend/cc_util.ash
 boolean isOverdueDigitize();								//Defined in cc_ascend/cc_util.ash

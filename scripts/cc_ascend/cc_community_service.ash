@@ -1359,7 +1359,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
 			buffMaintain($effect[Phorcefullness], 0, 1, 1);
 			buffMaintain($effect[Barbecue Saucy], 0, 1, 1);
-//			buffMaintain($effect[Graham Crackling], 0, 1, 1);
+#			buffMaintain($effect[Graham Crackling], 0, 1, 1);
 
 			if(!get_property("_grimBuff").to_boolean())
 			{
