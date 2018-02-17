@@ -9670,6 +9670,17 @@ boolean LX_craftAcquireItems()
 		}
 	}
 
+	if(item_amount($item[Letter For Melvign The Gnome]) > 0)
+	{
+		use(1, $item[Letter For Melvign The Gnome]);
+		if(get_property("questM22Shirt") == "unstarted")
+		{
+			print("Mafia did not register using the Melvign letter...", "red");
+			cli_execute("refresh inv");
+			set_property("questM22Shirt", "started");
+		}
+	}
+
 	if(cc_my_path() != "Community Service")
 	{
 		getHorse("noncombat");

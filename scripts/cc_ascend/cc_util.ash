@@ -3163,6 +3163,13 @@ boolean pulverizeThing(item it)
 	{
 		return false;
 	}
+	if(item_amount($item[Tenderizing Hammer]) == 0)
+	{
+		if(my_meat() < npc_price($item[Tenderizing Hammer]))
+		{
+			return false;
+		}
+	}
 
 	if(item_amount(it) == 0)
 	{
@@ -3959,7 +3966,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Got Milk]:						useItem = $item[Milk of Magnesium];				break;
 	case $effect[Gothy]:						useItem = $item[Spooky Eyeliner];				break;
 	case $effect[Gr8tness]:						useItem = $item[Potion of Temporary Gr8tness];	break;
-#	case $effect[Graham Crackling]:				useItem = $item[Heather Graham Cracker];		break;
+	case $effect[Graham Crackling]:				useItem = $item[Heather Graham Cracker];		break;
 	case $effect[Greedy Resolve]:				useItem = $item[Resolution: Be Wealthier];		break;
 	case $effect[Gummed Shoes]:					useItem = $item[Shoe Gum];						break;
 	case $effect[Gummi-Grin]:					useItem = $item[Gummi Turtle];					break;

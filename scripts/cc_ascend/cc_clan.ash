@@ -407,7 +407,7 @@ boolean zataraClanmate(string who)
 	}
 
 	string temp = visit_url("clan_viplounge.php?preaction=lovetester", false);
-	temp = visit_url("choice.php?pwd=&whichchoice=1278&option=1&which=1&whichid=3038166&q1=turtle&q2=turtle&q3=turtle");
+	temp = visit_url("choice.php?pwd=&whichchoice=1278&option=1&which=1&whichid=3038166&q1=pizza&q2=batman&q3=thick");
 
 
 	changeClan(oldClan);

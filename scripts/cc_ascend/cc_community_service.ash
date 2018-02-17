@@ -1359,7 +1359,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
 			buffMaintain($effect[Phorcefullness], 0, 1, 1);
 			buffMaintain($effect[Barbecue Saucy], 0, 1, 1);
-#			buffMaintain($effect[Graham Crackling], 0, 1, 1);
+			buffMaintain($effect[Graham Crackling], 0, 1, 1);
 
 			if(!get_property("_grimBuff").to_boolean())
 			{
@@ -2529,6 +2529,10 @@ boolean LA_cs_communityService()
 			boolean [item] toSmash = $items[asparagus knife, dirty hobo gloves, dirty rigging rope, heavy-duty clipboard, Microplushie: Sororitrate, plastic nunchaku, sewage-clogged pistol, Spookyraven Signet, Staff of the Headmaster\'s Victuals];
 			foreach it in toSmash
 			{
+				if((item_amount($item[Sleaze Powder]) > 0) && (item_amount($item[Stench Powder]) > 0))
+				{
+					break;
+				}
 				pulverizeThing(it);
 			}
 
@@ -2560,8 +2564,11 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Protection from Bad Stuff], 0, 1, 1);
 			buffMaintain($effect[Human-Elemental Hybrid], 0, 1, 1);
 			buffMaintain($effect[Elemental Saucesphere], 10, 1, 1);
-			buffMaintain($effect[Leash of Linguini], 12, 1, 1);
-			buffMaintain($effect[Empathy], 15, 1, 1);
+			if(my_familiar() == $familiar[Exotic Parrot])
+			{
+				buffMaintain($effect[Leash of Linguini], 12, 1, 1);
+				buffMaintain($effect[Empathy], 15, 1, 1);
+			}
 			buffMaintain($effect[Astral Shell], 10, 1, 1);
 			buffMaintain($effect[Sleazy Hands], 0, 1, 1);
 			buffMaintain($effect[Egged On], 0, 1, 1);
@@ -2767,13 +2774,13 @@ void cs_initializeDay(int day)
 
 			if(!get_property("cc_csDoWheel").to_boolean())
 			{
-				deck_cheat("myst stat");
+				deck_cheat(my_primestat() + " stat");
 			}
 			deck_cheat("meat");
 			deck_cheat("green mana");
 			autosell(item_amount($item[1952 Mickey Mantle Card]), $item[1952 Mickey Mantle Card]);
 
-			if(item_amount($item[Turtle Totem]) == 0)
+			if(!possessEquipment($item[Turtle Totem]))
 			{
 				acquireGumItem($item[Turtle Totem]);
 			}
@@ -3792,7 +3799,11 @@ string cs_combatYR(int round, string opp, string text)
 		set_property("cc_combatHandler", combatState + "(summon love mosquito)");
 		return "skill summon love mosquito";
 	}
-	return "skill salsaball";
+	if(have_skill($skill[Salsaball]) && (my_mp() >= mp_cost($skill[Salsaball])))
+	{
+		return "skill " + $skill[Salsaball];
+	}
+	return "attack with weapon";
 }
 
 string cs_combatKing(int round, string opp, string text)
