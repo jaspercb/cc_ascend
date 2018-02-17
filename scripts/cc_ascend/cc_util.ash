@@ -2155,6 +2155,10 @@ boolean cc_deleteMail(kmailObject msg)
 	{
 		return true;
 	}
+	if((msg.fromid == 3038166) && (contains_text(msg.message, "CheeseFax completed your relationship fortune test")))
+	{
+		return true;
+	}
 	if(msg.fromname == "Lady Spookyraven\\'s Ghost")
 	{
 		return true;

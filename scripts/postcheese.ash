@@ -167,6 +167,10 @@ void handlePostAdventure()
 	if(my_path() == "Actually Ed the Undying")
 	{
 		int maxBuff = max(5, 660 - my_turncount());
+		if(spleen_limit() < 35)
+		{
+			maxBuff = min(maxBuff, spleen_limit());
+		}
 		if(my_mp() < 40)
 		{
 			maxBuff = 5;

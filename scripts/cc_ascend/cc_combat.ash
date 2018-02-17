@@ -2383,6 +2383,11 @@ string cc_edCombatHandler(int round, string opp, string text)
 	set_property("cc_edCombatRoundCount", 1 + get_property("cc_edCombatRoundCount").to_int());
 
 
+	if(my_location() == $location[Hippy Camp])
+	{
+		set_property("cc_edStatus", "dying");
+	}
+
 	if(get_property("cc_edCombatStage").to_int() == 3)
 	{
 		set_property("cc_edStatus", "dying");

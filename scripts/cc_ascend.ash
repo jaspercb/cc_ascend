@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18456;
+since r18460;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1046,6 +1046,11 @@ boolean warOutfit()
 
 boolean warAdventure()
 {
+	if(have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3))
+	{
+		handleFamiliar($familiar[Space Jellyfish]);
+	}
+
 	if(!get_property("cc_hippyInstead").to_boolean())
 	{
 		if(!ccAdv(1, $location[The Battlefield (Frat Uniform)]))
@@ -10489,11 +10494,12 @@ boolean LX_handleSpookyravenFirstFloor()
 				if(expectPool < 18)
 				{
 					print("Not quite boozed up for the billiards room... we'll be back.", "green");
+					if(get_property("cc_powerLevelAdvCount").to_int() < 5)
+					{
+						return false;
+					}
 				}
-				if(get_property("cc_powerLevelAdvCount").to_int() < 5)
-				{
-					return false;
-				}
+
 				print("Well, maybe I'll just deal with not being drunk enough, punk", "blue");
 			}
 			if((my_inebriety() > 12) && (expectPool < 16))
