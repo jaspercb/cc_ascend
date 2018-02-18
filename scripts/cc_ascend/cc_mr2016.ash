@@ -400,6 +400,10 @@ boolean cc_sourceTerminalEducate(skill first, skill second)
 	{
 		return false;
 	}
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		return false;
+	}
 	if(first == $skill[none])
 	{
 		first = second;

@@ -40,8 +40,12 @@ void handlePreAdventure(location place)
 		return;
 	}
 
-
 	familiar famChoice = to_familiar(get_property("cc_familiarChoice"));
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		famChoice = $familiar[none];
+	}
+
 	if((famChoice != $familiar[none]) && !is100FamiliarRun() && (internalQuestStatus("questL13Final") < 13))
 	{
 		if((famChoice != my_familiar()) && !get_property("kingLiberated").to_boolean())

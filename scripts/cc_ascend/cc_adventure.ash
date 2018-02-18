@@ -19,6 +19,11 @@ boolean ccAdv(int num, location loc, string option)
 	{
 		return ed_ccAdv(num, loc, option);
 	}
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		return digimon_ccAdv(num, loc, option);
+	}
+
 
 	boolean retval = false;
 	if(my_adventures() == 0)
@@ -131,9 +136,16 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 		#Can we just return true here?
 		abort("ccAdvBypass override abort");
 	}
-	if(contains_text(page, "Combat"))
+
+	string combatPage = "Combat";
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		combatPage = "Fight!";
+	}
+	if(contains_text(page, combatPage))
 	{
 		print("ccAdvBypass has encountered a combat! (param: '" + option + "')", "green");
+
 		if(option != "null") // && (option != ""))
 		{
 			if(get_auto_attack() == 0)

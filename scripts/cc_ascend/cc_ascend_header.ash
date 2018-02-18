@@ -801,6 +801,11 @@ item[int] bondDrinks();										//Defined in cc_ascend/cc_bondmember.ash
 void bond_initializeDay(int day);							//Defined in cc_ascend/cc_bondmember.ash
 
 
+void digimon_initializeSettings();							//Defined in cc_ascend/cc_digimon.ash
+boolean digimon_makeTeam();									//Defined in cc_ascend/cc_digimon.ash
+boolean LM_digimon();										//Defined in cc_ascend/cc_digimon.ash
+boolean digimon_ccAdv(int num, location loc, string option);//Defined in cc_ascend/cc_digimon.ash
+
 boolean groundhogSafeguard();								//Defined in cc_ascend/cc_groundhog.ash
 void groundhog_initializeSettings();						//Defined in cc_ascend/cc_groundhog.ash
 boolean canGroundhog(location loc);							//Defined in cc_ascend/cc_groundhog.ash

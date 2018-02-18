@@ -2656,7 +2656,7 @@ int towerKeyCount(boolean effective)
 	{
 		tokens = tokens + 1;
 	}
-	if(effective && (item_amount($item[Daily Dungeon Malware]) > 0) && !get_property("_dailyDungeonMalwareUsed").to_boolean() && !get_property("dailyDungeonDone").to_boolean() && (get_property("_lastDailyDungeonRoom").to_int() < 14))
+	if(effective && (item_amount($item[Daily Dungeon Malware]) > 0) && !get_property("_dailyDungeonMalwareUsed").to_boolean() && !get_property("dailyDungeonDone").to_boolean() && (get_property("_lastDailyDungeonRoom").to_int() < 14) && (cc_my_path() != "Pocket Familiars"))
 	{
 		tokens = tokens + 1;
 	}

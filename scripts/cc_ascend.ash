@@ -43,6 +43,7 @@ import <cc_ascend/cc_summerfun.ash>
 import <cc_ascend/cc_awol.ash>
 import <cc_ascend/cc_bondmember.ash>
 import <cc_ascend/cc_groundhog.ash>
+import <cc_ascend/cc_digimon.ash>
 import <cc_ascend/cc_monsterparts.ash>
 import <cc_ascend/cc_theSource.ash>
 import <cc_ascend/cc_optionals.ash>
@@ -256,6 +257,7 @@ void initializeSettings()
 	fallout_initializeSettings();
 	pete_initializeSettings();
 	groundhog_initializeSettings();
+	digimon_initializeSettings();
 }
 
 boolean handleFamiliar(string type)
@@ -1567,9 +1569,12 @@ int handlePulls(int day)
 			pullXWhenHaveY($item[numberwang], 1, 0);
 		}
 #		pullXWhenHaveY($item[milk of magnesium], 1, 0);
-		pullXWhenHaveY($item[stuffed shoulder parrot], 1, 0);
-		pullXWhenHaveY($item[eyepatch], 1, 0);
-		pullXWhenHaveY($item[swashbuckling pants], 1, 0);
+		if(cc_my_path() != "Pocket Familiars")
+		{
+			pullXWhenHaveY($item[stuffed shoulder parrot], 1, 0);
+			pullXWhenHaveY($item[eyepatch], 1, 0);
+			pullXWhenHaveY($item[swashbuckling pants], 1, 0);
+		}
 #		pullXWhenHaveY($item[thor\'s pliers], 1, 0);
 		#pullXWhenHaveY($item[the big book of pirate insults], 1, 0);
 #		pullXWhenHaveY($item[mojo filter], 1, 0);
@@ -2631,7 +2636,7 @@ boolean doBedtime()
 			}
 		}
 		int extrudeLeft = 3 - get_property("_sourceTerminalExtrudes").to_int();
-		if(extrudeLeft > 0)
+		if((extrudeLeft > 0) && (cc_my_path() != "Pocket Familiars"))
 		{
 			print("You still have " + extrudeLeft + " Source Extrusions left", "blue");
 		}
@@ -9415,7 +9420,13 @@ boolean L4_batCave()
 	if(batStatus >= 3)
 	{
 		buffMaintain($effect[Polka of Plenty], 15, 1, 1);
+		int batskinBelt = item_amount($item[Batskin Belt]);
 		ccAdv(1, $location[The Boss Bat\'s Lair]);
+		# DIGIMON remove once mafia tracks this
+		if(item_amount($item[Batskin Belt]) != batskinBelt)
+		{
+			set_property("cc_bat", "finished");
+		}
 		return true;
 	}
 	if(batStatus >= 2)
@@ -10172,7 +10183,7 @@ boolean LX_phatLootToken()
 {
 	if((!possessEquipment($item[Ring of Detect Boring Doors]) || (item_amount($item[Eleven-Foot Pole]) == 0) || (item_amount($item[Pick-O-Matic Lockpicks]) == 0)) && have_familiar($familiar[Gelatinous Cubeling]))
 	{
-		if(!is100FamiliarRun($familiar[Gelatinous Cubeling]))
+		if(!is100FamiliarRun($familiar[Gelatinous Cubeling]) && (cc_my_path() != "Pocket Familiars"))
 		{
 			return false;
 		}
@@ -12361,6 +12372,10 @@ boolean LX_pirateBlueprint()
 
 boolean LX_pirateInsults()
 {
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		return false;
+	}
 	if(get_property("cc_pirateoutfit") != "insults")
 	{
 		return false;
@@ -12438,6 +12453,10 @@ boolean LX_pirateInsults()
 
 boolean LX_pirateOutfit()
 {
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		return false;
+	}
 	if(get_property("cc_pirateoutfit") != "")
 	{
 		return false;
@@ -13278,6 +13297,7 @@ boolean doTasks()
 	if(LM_jello())						return true;
 	if(LM_fallout())					return true;
 	if(LM_groundhog())					return true;
+	if(LM_digimon())					return true;
 	if(doHRSkills())					return true;
 
 	switch(my_daycount())
