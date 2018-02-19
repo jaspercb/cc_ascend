@@ -1569,12 +1569,17 @@ int handlePulls(int day)
 			pullXWhenHaveY($item[numberwang], 1, 0);
 		}
 #		pullXWhenHaveY($item[milk of magnesium], 1, 0);
-		if(cc_my_path() != "Pocket Familiars")
+		if(cc_my_path() == "Pocket Familiars")
 		{
-			pullXWhenHaveY($item[stuffed shoulder parrot], 1, 0);
-			pullXWhenHaveY($item[eyepatch], 1, 0);
-			pullXWhenHaveY($item[swashbuckling pants], 1, 0);
+			pullXWhenHaveY($item[Ring Of Detect Boring Doors], 1, 0);
+			pullXWhenHaveY($item[Pick-O-Matic Lockpicks], 1, 0);
+			pullXWhenHaveY($item[Eleven-Foot Pole], 1, 0);
 		}
+
+		pullXWhenHaveY($item[Stuffed Shoulder Parrot], 1, 0);
+		pullXWhenHaveY($item[Eyepatch], 1, 0);
+		pullXWhenHaveY($item[Swashbuckling Pants], 1, 0);
+
 #		pullXWhenHaveY($item[thor\'s pliers], 1, 0);
 		#pullXWhenHaveY($item[the big book of pirate insults], 1, 0);
 #		pullXWhenHaveY($item[mojo filter], 1, 0);
@@ -1620,7 +1625,11 @@ int handlePulls(int day)
 			pullXWhenHaveY($item[Shore Inc. Ship Trip Scrip], 3, 0);
 		}
 		pullXWhenHaveY($item[Infinite BACON Machine], 1, 0);
-		pullXWhenHaveY($item[Replica Bat-oomerang], 1, 0);
+
+		if(cc_my_path() != "Pocket Familiars")
+		{
+			pullXWhenHaveY($item[Replica Bat-oomerang], 1, 0);
+		}
 
 		if((!have_familiar($familiar[Grim Brother])) && (my_class() != $class[Ed]))
 		{
@@ -9710,7 +9719,7 @@ boolean LX_craftAcquireItems()
 		mummifyFamiliar($familiar[Intergnat], my_primestat());
 		mummifyFamiliar($familiar[Hobo Monkey], "meat");
 		mummifyFamiliar($familiar[XO Skeleton], "mpregen");
-		if((my_primestat() == $stat[Muscle]) && get_property("loveTunnelAvailable").to_boolean() && is_unrestricted($item[Heart-Shaped Crate]))
+		if((my_primestat() == $stat[Muscle]) && get_property("loveTunnelAvailable").to_boolean() && is_unrestricted($item[Heart-Shaped Crate]) && possessEquipment($item[LOV Eardigan]))
 		{
 			januaryToteAcquire($item[Wad Of Used Tape]);
 		}
@@ -10968,6 +10977,15 @@ boolean L9_aBooPeak()
 		print("A-Boo Peak: " + get_property("booPeakProgress"), "blue");
 		set_property("cc_aboocount", get_property("cc_aboocount").to_int() + 1);
 		ccAdv(1, $location[A-Boo Peak]);
+		if(cc_my_path() == "Pocket Familiars")
+		{
+			string temp = visit_url("questlog.php?which=7");
+			matcher booMatcher = create_matcher("currently (\\d+)% haunted", temp);
+			if(booMatcher.find())
+			{
+				set_property("booPeakProgress", booMatcher.group(1));
+			}
+		}
 		return true;
 	}
 
@@ -11521,6 +11539,10 @@ boolean L9_oilPeak()
 		equip($slot[Pants], $item[Oil Slacks]);
 	}
 	ccAdv(1, $location[Oil Peak]);
+	if(get_property("lastAdventure") == "Unimpressed with Pressure")
+	{
+		set_property("oilPeakProgress", 0.0);
+	}
 	handleFamiliar("item");
 	return true;
 }
@@ -12453,10 +12475,6 @@ boolean LX_pirateInsults()
 
 boolean LX_pirateOutfit()
 {
-	if(cc_my_path() == "Pocket Familiars")
-	{
-		return false;
-	}
 	if(get_property("cc_pirateoutfit") != "")
 	{
 		return false;

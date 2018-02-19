@@ -55,6 +55,10 @@ boolean snojoFightAvailable()
 	{
 		return false;
 	}
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		return false;
+	}
 
 	if(!get_property("kingLiberated").to_boolean())
 	{
@@ -115,31 +119,8 @@ boolean snojoFightAvailable()
 			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
 			temp = run_choice(controls[standard[3]]);
 		}
-
-
-/*
-		if((get_property("snojoMoxieWins").to_int() < 14) && (get_property("snojoSetting") != "MOXIE"))
-		{
-			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
-			temp = run_choice(3);
-		}
-		if((get_property("snojoSetting") == "MOXIE") && (get_property("snojoMoxieWins").to_int() >= 14) && (get_property("snojoSetting") != "MYSTICALITY") && (get_property("snojoMysticalityWins").to_int() < 14))
-		{
-			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
-			temp = run_choice(2);
-		}
-		if((get_property("snojoSetting") == "MYSTICALITY") && (get_property("snojoMysticalityWins").to_int() >= 14) && (get_property("snojoSetting") != "MUSCLE") && (get_property("snojoMuscleWins").to_int() < 14))
-		{
-			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
-			temp = run_choice(1);
-		}
-		if((get_property("snojoSetting") == "MUSCLE") && (get_property("snojoMuscleWins").to_int() >= 11) && (get_property("snojoSetting") != "MOXIE"))
-		{
-			string temp = visit_url("place.php?whichplace=snojo&action=snojo_controller");
-			temp = run_choice(3);
-		}
-*/
 	}
+
 	if(get_property("snojoSetting") == "NONE")
 	{
 		print("Snojo not set, attempting to set to " + my_primestat(), "blue");

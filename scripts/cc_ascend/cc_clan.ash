@@ -411,7 +411,7 @@ boolean zataraClanmate(string who)
 
 
 	changeClan(oldClan);
-	wait(5);
+	wait(10);
 	return true;
 }
 
