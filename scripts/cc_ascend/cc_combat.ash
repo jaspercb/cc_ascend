@@ -2385,7 +2385,10 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 	if(my_location() == $location[Hippy Camp])
 	{
-		set_property("cc_edStatus", "dying");
+		if(!ed_needShop())
+		{
+			set_property("cc_edStatus", "dying");
+		}
 	}
 
 	if(get_property("cc_edCombatStage").to_int() == 3)

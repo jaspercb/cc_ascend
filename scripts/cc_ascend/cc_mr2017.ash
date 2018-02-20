@@ -5,6 +5,10 @@ script "cc_mr2017.ash"
 boolean mummifyFamiliar(familiar fam, string bonus)
 {
 	bonus = to_lower_case(bonus);
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		return false;
+	}
 	if(get_property("_mummifyDone").to_boolean())
 	{
 		return false;

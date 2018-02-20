@@ -10,8 +10,10 @@ void digimon_initializeSettings()
 		set_property("cc_getStarKey", true);
 		set_property("cc_grimstoneOrnateDowsingRod", false);
 		set_property("cc_holeinthesky", true);
+		set_property("cc_ignoreFlyer", true);
+		set_property("cc_swordfish", "finished");
 		set_property("cc_useCubeling", false);
-		set_property("cc_wandOfNagamar", true);
+		set_property("cc_wandOfNagamar", false);
 		set_property("_mummifyDone", true);
 		digimon_makeTeam();
 	}
@@ -23,68 +25,7 @@ boolean digimon_makeTeam()
 	if(cc_my_path() == "Pocket Familiars")
 	{
 		string temp = visit_url("famteam.php", false);
-		familiar newFam = $familiar[El Vibrato Megadrone];
-		foreach fam in $familiars[]
-		{
-			if($familiars[Scary Death Orb, Space Jellyfish] contains fam)
-			{
-				continue;
-			}
-			if(contains_text(temp, "Lv. 5 " + fam))
-			{
-				continue;
-			}
-			if(fam.poke_level == 5)
-			{
-				continue;
-			}
-			newFam = fam;
-			break;
-		}
 
-		foreach fam in $familiars[Clockwork Grapefruit, Mini-Crimbot, MagiMechTEch MicroMechaMech, Autonomous Disco Ball, Software Bug, Robortender, Putty Buddy]
-		{
-			if(contains_text(temp, "Lv. 5 " + fam))
-			{
-				continue;
-			}
-			if(fam.poke_level == 5)
-			{
-				continue;
-			}
-			newFam = fam;
-			break;
-		}
-
-		print("I choose you! " + newFam.name + " the " + newFam + "!!!!", "green");
-#		temp = visit_url("famteam.php?slot=1&fam=" + to_int($familiar[El Vibrato Megadrone]) + "&pwd&action=slot");
-		temp = visit_url("famteam.php?slot=1&fam=" + to_int(newFam) + "&pwd&action=slot");
-		if(get_property("_digimonFront") != newFam)
-		{
-			set_property("_digimonFront", newFam);
-		}
-
-
-		familiar midFam = $familiar[Scary Death Orb];
-		foreach fam in $familiars[Bad Vibe, Restless Cow Skull, Mariachi Chihuahua]
-		{
-			if(contains_text(temp, "Lv. 5 " + fam))
-			{
-				continue;
-			}
-			if(fam.poke_level == 5)
-			{
-				continue;
-			}
-			midFam = fam;
-			break;
-		}
-
-		temp = visit_url("famteam.php?slot=2&fam=" + to_int(midFam) + "&pwd&action=slot");
-		if(get_property("_digimonMiddle") != midFam)
-		{
-			set_property("_digimonMiddle", midFam);
-		}
 		if(have_familiar($familiar[Space Jellyfish]))
 		{
 			temp = visit_url("famteam.php?slot=3&fam=" + to_int($familiar[Space Jellyfish]) + "&pwd&action=slot");
@@ -101,6 +42,95 @@ boolean digimon_makeTeam()
 				set_property("_digimonBack", $familiar[Killer Bee]);
 			}
 		}
+
+
+
+		familiar midFam = $familiar[Scary Death Orb];
+		foreach fam in $familiars[Bad Vibe, Restless Cow Skull, Mariachi Chihuahua]
+		{
+			if(contains_text(temp, "Lv. 5 " + fam))
+			{
+				continue;
+			}
+			if(fam.poke_level == 5)
+			{
+				continue;
+			}
+			if(my_poke_fam(2) == fam)
+			{
+				continue;
+			}
+			midFam = fam;
+			break;
+		}
+
+		temp = visit_url("famteam.php?slot=2&fam=" + to_int(midFam) + "&pwd&action=slot");
+		if(get_property("_digimonMiddle") != midFam)
+		{
+			set_property("_digimonMiddle", midFam);
+		}
+
+
+		familiar newFam = $familiar[El Vibrato Megadrone];
+		foreach fam in $familiars[]
+		{
+			if($familiars[Scary Death Orb, Space Jellyfish] contains fam)
+			{
+				continue;
+			}
+			if(contains_text(temp, "Lv. 5 " + fam))
+			{
+				continue;
+			}
+
+			if(my_poke_fam(2) == fam)
+			{
+				continue;
+			}
+			if(my_poke_fam(1) == fam)
+			{
+				continue;
+			}
+			if(fam.poke_level == 5)
+			{
+				continue;
+			}
+			newFam = fam;
+			break;
+		}
+
+		foreach fam in $familiars[Clockwork Grapefruit, Mini-Crimbot, MagiMechTech MicroMechaMech, Autonomous Disco Ball, Software Bug, Robortender, Putty Buddy]
+		{
+			if(contains_text(temp, "Lv. 5 " + fam))
+			{
+				continue;
+			}
+			if(fam.poke_level == 5)
+			{
+				continue;
+			}
+			if(my_poke_fam(2) == fam)
+			{
+				continue;
+			}
+			if(my_poke_fam(1) == fam)
+			{
+				continue;
+			}
+			newFam = fam;
+			break;
+		}
+
+		print("I choose you! " + newFam.name + " the " + newFam + "!!!!", "green");
+#		temp = visit_url("famteam.php?slot=1&fam=" + to_int($familiar[El Vibrato Megadrone]) + "&pwd&action=slot");
+		temp = visit_url("famteam.php?slot=1&fam=" + to_int(newFam) + "&pwd&action=slot");
+		if(get_property("_digimonFront") != newFam)
+		{
+			set_property("_digimonFront", newFam);
+		}
+
+
+
 	}
 	return true;
 }
@@ -166,6 +196,10 @@ boolean digimon_ccAdv(int num, location loc, string option)
 			if(contains_text(temp, "dejected and defeated"))
 			{
 				break;
+			}
+			if(action > 20)
+			{
+				abort("Can not win this Digimon Battle!");
 			}
 		}
 

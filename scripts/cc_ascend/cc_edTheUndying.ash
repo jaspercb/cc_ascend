@@ -1648,6 +1648,7 @@ boolean L1_ed_islandFallback()
 	boolean haveLegs = have_skill($skill[Upgraded Legs]);
 	#Consider trying to get Upgraded legs first
 
+	change_mcd(max(2, my_level()-1));
 	if(haveLegs)
 	{
 		return ccAdv(1, $location[Hippy Camp]);

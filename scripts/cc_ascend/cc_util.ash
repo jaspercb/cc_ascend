@@ -3956,7 +3956,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Frost Tea]:					useItem = $item[cuppa Frost tea];				break;
 	case $effect[Frostbeard]:					useSkill = $skill[Beardfreeze];					break;
 	case $effect[Frosty]:						useItem = $item[Frost Flower];					break;
-	case $effect[Frown]:						useSkill = $skill[Frown Muscles];					break;
+	case $effect[Frown]:						useSkill = $skill[Frown Muscles];				break;
 	case $effect[Funky Coal Patina]:			useItem = $item[Coal Dust];						break;
 	case $effect[Gelded]:						useItem = $item[Chocolate Filthy Lucre];		break;
 	case $effect[Ghostly Shell]:				useSkill = $skill[Ghostly Shell];				break;
@@ -3967,6 +3967,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Gothy]:						useItem = $item[Spooky Eyeliner];				break;
 	case $effect[Gr8tness]:						useItem = $item[Potion of Temporary Gr8tness];	break;
 	case $effect[Graham Crackling]:				useItem = $item[Heather Graham Cracker];		break;
+	case $effect[Greasy Peasy]:					useItem = $item[Robot Grease];					break;
 	case $effect[Greedy Resolve]:				useItem = $item[Resolution: Be Wealthier];		break;
 	case $effect[Gummed Shoes]:					useItem = $item[Shoe Gum];						break;
 	case $effect[Gummi-Grin]:					useItem = $item[Gummi Turtle];					break;

@@ -122,6 +122,7 @@ void initializeSettings()
 	set_property("cc_combatHandler", "");
 	set_property("cc_consumption", "");
 	set_property("cc_cookie", -1);
+	set_property("cc_copperhead", 0);
 	set_property("cc_crackpotjar", "");
 	set_property("cc_crypt", "");
 	set_property("cc_cubeItems", true);
@@ -228,7 +229,11 @@ void initializeSettings()
 	beehiveConsider();
 
 	cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
-	if(contains_text(get_property("sourceTerminalEnquiryKnown"), "familiar.enq") && have_familiar($familiar[Mosquito]))
+	if(contains_text(get_property("sourceTerminalEnquiryKnown"), "monster.enq") && (cc_my_path() == "Pocket Familiars"))
+	{
+		cc_sourceTerminalRequest("enquiry monster.enq");
+	}
+	else if(contains_text(get_property("sourceTerminalEnquiryKnown"), "familiar.enq") && have_familiar($familiar[Mosquito]))
 	{
 		cc_sourceTerminalRequest("enquiry familiar.enq");
 	}
@@ -2370,7 +2375,14 @@ boolean doBedtime()
 
 	if((friars_available()) && (!get_property("friarsBlessingReceived").to_boolean()))
 	{
-		cli_execute("friars familiar");
+		if(cc_my_path() == "Pocket Familiars")
+		{
+			cli_execute("friars food");
+		}
+		else
+		{
+			cli_execute("friars familiar");
+		}
 	}
 	if((my_hp() < (0.9 * my_maxhp())) && (get_property("_hotTubSoaks").to_int() < 5))
 	{
@@ -3335,6 +3347,11 @@ boolean L11_aridDesert()
 			return false;
 		}
 	}
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		string temp = visit_url("place.php?whichplace=desertbeach", false);
+	}
+
 	if(get_property("desertExploration").to_int() >= 100)
 	{
 		return false;
@@ -3426,7 +3443,6 @@ boolean L11_aridDesert()
 		}
 		return false;
 	}
-
 
 	if((have_effect($effect[Ultrahydrated]) > 0) || (get_property("desertExploration").to_int() == 0))
 	{
@@ -5023,12 +5039,39 @@ boolean powerLevelAdjustment()
 	return false;
 }
 
+boolean LX_melvignShirt()
+{
+	if(internalQuestStatus("questM22Shirt") < 0)
+	{
+		return false;
+	}
+	if(get_property("questM22Shirt") == "finished")
+	{
+		return false;
+	}
+	if(item_amount($item[Professor What Garment]) == 0)
+	{
+		return ccAdv($location[The Thinknerd Warehouse]);
+	}
+	string temp = visit_url("place.php?whichplace=mountains&action=mts_melvin", false);
+	return true;
+}
+
 boolean LX_attemptPowerLevel()
 {
 	set_property("cc_powerLevelAdvCount", get_property("cc_powerLevelAdvCount").to_int() + 1);
 	set_property("cc_powerLevelLastAttempted", my_turncount());
 
 	handleFamiliar("stat");
+
+	if(!hasTorso())
+	{
+		if(LX_melvignShirt())
+		{
+			return true;
+		}
+	}
+
 	if(cc_my_path() == "The Source")
 	{
 		if(get_property("cc_spookyravensecond") != "")
@@ -7476,7 +7519,7 @@ boolean LX_getDigitalKey()
 	{
 		return false;
 	}
-	if((get_property("cc_war") != "finished") && (item_amount($item[rock band flyers]) == 0) && (item_amount($item[jam band flyers]) == 0))
+	if((get_property("cc_war") != "finished") && (item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[Jam Band Flyers]) == 0))
 	{
 		return false;
 	}
@@ -9721,7 +9764,14 @@ boolean LX_craftAcquireItems()
 		mummifyFamiliar($familiar[XO Skeleton], "mpregen");
 		if((my_primestat() == $stat[Muscle]) && get_property("loveTunnelAvailable").to_boolean() && is_unrestricted($item[Heart-Shaped Crate]) && possessEquipment($item[LOV Eardigan]))
 		{
-			januaryToteAcquire($item[Wad Of Used Tape]);
+			if(januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0)
+			{
+				januaryToteAcquire($item[Makeshift Garbage Shirt]);
+			}
+			else
+			{
+				januaryToteAcquire($item[Wad Of Used Tape]);
+			}
 		}
 		else
 		{
@@ -10879,7 +10929,7 @@ boolean L12_flyerFinish()
 	{
 		return false;
 	}
-	if((item_amount($item[rock band flyers]) == 0) && (item_amount($item[jam band flyers]) == 0))
+	if((item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[Jam Band Flyers]) == 0))
 	{
 		return false;
 	}
@@ -11697,6 +11747,128 @@ boolean L9_chasmStart()
 	return false;
 }
 
+boolean L11_shenCopperhead()
+{
+	if(my_level() < 11)
+	{
+		return false;
+	}
+	if(internalQuestStatus("questL11Shen") < 0)
+	{
+		return false;
+	}
+
+
+
+	if((internalQuestStatus("questL11Shen") == 0) || (internalQuestStatus("questL11Shen") == 2) || (internalQuestStatus("questL11Shen") == 4) || (internalQuestStatus("questL11Shen") == 6))
+	{
+		if((item_amount($item[Crappy Waiter Disguise]) > 0) && (have_effect($effect[Crappily Disguised as a Waiter]) == 0))
+		{
+			use(1, $item[Crappy Waiter Disguise]);
+			switch(get_property("cc_copperhead").to_int())
+			{
+			case 0:		set_property("choiceAdventure855", 2);		break;
+			case 1:		set_property("choiceAdventure855", 2);		break;
+			case 2:		set_property("choiceAdventure855", 3);		break;
+			case 3:		set_property("choiceAdventure855", 2);		break;
+			case 4:		set_property("choiceAdventure855", 2);		break;
+			case 5:		set_property("choiceAdventure855", 2);		break;
+			case 6:		set_property("choiceAdventure855", 1);		break;
+			case 7:		set_property("choiceAdventure855", 4);		break;
+			}
+		}
+
+		boolean retval = ccAdv($location[The Copperhead Club]);
+		if(get_property("lastEncounter") == "Behind the 'Stache")
+		{
+			switch(get_property("choiceAdventure855").to_int())
+			{
+			case 1:
+				set_property("cc_copperhead", get_property("cc_copperhead").to_int() | 1);
+				break;
+			case 2:
+				set_property("cc_copperhead", get_property("cc_copperhead").to_int() | 2);
+				break;
+			case 3:
+				set_property("cc_copperhead", get_property("cc_copperhead").to_int() | 4);
+				break;
+			}
+		}
+		return retval;
+	}
+
+	if((internalQuestStatus("questL11Shen") == 1) || (internalQuestStatus("questL11Shen") == 3) || (internalQuestStatus("questL11Shen") == 5))
+	{
+		string page = visit_url("charpane.php");
+		matcher myShen = create_matcher("<tr rel=\"copperhead\">(?:.*?)<b>(.*?)</b>", page);
+		if(myShen.find())
+		{
+			string locStr = myShen.group(1);
+			location goal = to_location(locStr);
+			if(goal == $location[none])
+			{
+				if(locStr == "The Lair of the Ninja Snowmen")
+				{
+					goal = $location[Lair of the Ninja Snowmen];
+				}
+				else if(locStr == "The Ratbat and Batrat Burrow")
+				{
+					goal = $location[The Batrat and Ratbat Burrow];
+				}
+			}
+			if(goal == $location[none])
+			{
+				abort("Could not parse Shen event");
+			}
+			return ccAdv(goal);
+		}
+	}
+
+	if(get_property("questL11Shen") != "finished")
+	{
+		abort("Shen should be done with but tracking is not complete!");
+	}
+
+	//Now have a Copperhead Charm
+
+	if(internalQuestStatus("questL11Ron") == 0)
+	{
+		return ccAdv($location[A Mob Of Zeppelin Protesters]);
+	}
+
+	if(internalQuestStatus("questL11Ron") == 1)
+	{
+		int lastProtest = get_property("zeppelinProtestors").to_int();
+		set_property("choiceAdventure856", 1);
+		set_property("choiceAdventure857", 1);
+		set_property("choiceAdventure858", 1);
+
+		buffMaintain($effect[Greasy Peasy], 0, 1, 1);
+		buffMaintain($effect[Musky], 0, 1, 1);
+
+		boolean retval = ccAdv($location[A Mob Of Zeppelin Protesters]);
+		if(!lastAdventureSpecialNC())
+		{
+			if(lastProtest == get_property("zeppelinProtestors").to_int())
+			{
+				set_property("zeppelinProtestors", get_property("zeppelinProtestors").to_int() + 1);
+			}
+		}
+		else
+		{
+			set_property("lastEncounter", "Clear Special NC");
+		}
+		set_property("choiceAdventure856", 2);
+		set_property("choiceAdventure857", 2);
+		set_property("choiceAdventure858", 2);
+		return retval;
+	}
+
+
+
+	return false;
+}
+
 boolean L11_talismanOfNam()
 {
 	if(my_level() < 11)
@@ -11708,6 +11880,17 @@ boolean L11_talismanOfNam()
 		set_property("cc_swordfish", "finished");
 		set_property("cc_gaudy", "finished");
 	}
+
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		if(L11_shenCopperhead())
+		{
+			return true;
+		}
+		//Add Copperhead here.
+		return false;
+	}
+
 	if(get_property("cc_swordfish") == "finished")
 	{
 		if(!possessEquipment($item[Talisman O\' Namsilat]))
@@ -11890,6 +12073,10 @@ boolean L11_blackMarket()
 	if(get_property("cc_blackmap") != "")
 	{
 		return false;
+	}
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		string temp = visit_url("woods.php", false);
 	}
 	if(black_market_available())
 	{
