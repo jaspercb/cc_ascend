@@ -2586,11 +2586,11 @@ boolean doBedtime()
 
 	if(my_daycount() == 1)
 	{
-		if((pulls_remaining() > 1) && !possessEquipment($item[antique machete]) && (my_class() != $class[Avatar of Boris]) && (cc_my_path() != "Way of the Surprising Fist"))
+		if((pulls_remaining() > 1) && !possessEquipment($item[antique machete]) && (my_class() != $class[Avatar of Boris]) && (cc_my_path() != "Way of the Surprising Fist") && (cc_my_path() != "Pocket Familiars"))
 		{
-			if(item_amount($item[antique machete]) == 0)
+			if(item_amount($item[Antique Machete]) == 0)
 			{
-				pullXWhenHaveY($item[antique machete], 1, 0);
+				pullXWhenHaveY($item[Antique Machete], 1, 0);
 			}
 		}
 		if((pulls_remaining() > 1) && (get_property("cc_palindome") != "finished") )
@@ -2814,7 +2814,7 @@ boolean doBedtime()
 			print(get_property("cc_banishes_day" + my_daycount()));
 			print(get_property("cc_yellowRay_day" + my_daycount()));
 			pullsNeeded("evaluate");
-			if((get_property("_photocopyUsed") == "false") && (is_unrestricted($item[Deluxe Fax Machine])) && (my_adventures() > 0) && !($classes[Avatar of Boris, Avatar of Sneaky Pete] contains my_class()))
+			if((get_property("_photocopyUsed") == "false") && (is_unrestricted($item[Deluxe Fax Machine])) && (my_adventures() > 0) && !($classes[Avatar of Boris, Avatar of Sneaky Pete] contains my_class()) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 			{
 				print("You may have a fax that you can use. Check it out!", "blue");
 			}
@@ -2822,7 +2822,7 @@ boolean doBedtime()
 			{
 				string consider = "";
 				boolean[item] cList;
-				cList = $items[antique machete, wet stew, blackberry galoshes, drum machine, killing jar];
+				cList = $items[Antique Machete, wet stew, blackberry galoshes, drum machine, killing jar];
 				if(my_class() == $class[Avatar of Boris])
 				{
 					cList = $items[wet stew, blackberry galoshes, drum machine, killing jar];
@@ -3793,7 +3793,7 @@ boolean L11_palindome()
 		lovemeDone = lovemeDone || contains_text(palindomeCheck, "pal_drlabel");
 	}
 
-	print("In the palindome", "blue");
+	print("In the palindome : emodnilap eht nI", "blue");
 	#
 	#	In hardcore, guild-class, the right side of the or doesn't happen properly due us farming the
 	#	Mega Gem within the if, with pulls, it works fine. Need to fix this. This is bad.
@@ -5547,7 +5547,7 @@ boolean L11_hiddenCityZones()
 
 	if(get_property("cc_hiddenzones") == "0")
 	{
-		if((possessEquipment($item[antique machete])) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist"))
+		if((possessEquipment($item[antique machete])) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist") || (cc_my_path() == "Pocket Familiars"))
 		{
 			set_property("cc_hiddenzones", "1");
 		}
@@ -5573,9 +5573,9 @@ boolean L11_hiddenCityZones()
 			set_property("cc_hiddenzones", "2");
 			return true;
 		}
-		if(can_equip($item[Antique Machete]))
+		if(can_equip($item[Antique Machete]) && (item_amount($item[Antique Machete]) > 0))
 		{
-			equip($item[antique machete]);
+			equip($item[Antique Machete]);
 		}
 		# Add provision for Golden Monkey, or even more so, "Do we need spleen item"
 		if(($familiar[Unconscious Collective].drops_today < 1) && have_familiar($familiar[Unconscious Collective]))
@@ -5608,9 +5608,9 @@ boolean L11_hiddenCityZones()
 			set_property("cc_hiddenzones", "3");
 			return true;
 		}
-		if(can_equip($item[Antique Machete]))
+		if(can_equip($item[Antique Machete]) && (item_amount($item[Antique Machete]) > 0))
 		{
-			equip($item[antique machete]);
+			equip($item[Antique Machete]);
 		}
 		if(($familiar[Unconscious Collective].drops_today < 1) && have_familiar($familiar[Unconscious Collective]))
 		{
@@ -5641,9 +5641,9 @@ boolean L11_hiddenCityZones()
 			set_property("cc_hiddenzones", "4");
 			return true;
 		}
-		if(can_equip($item[Antique Machete]))
+		if(can_equip($item[Antique Machete]) && (item_amount($item[Antique Machete]) > 0))
 		{
-			equip($item[antique machete]);
+			equip($item[Antique Machete]);
 		}
 
 		if(($familiar[Unconscious Collective].drops_today < 1) && have_familiar($familiar[Unconscious Collective]))
@@ -5675,9 +5675,9 @@ boolean L11_hiddenCityZones()
 			set_property("cc_hiddenzones", "5");
 			return true;
 		}
-		if(can_equip($item[Antique Machete]))
+		if(can_equip($item[Antique Machete]) && (item_amount($item[Antique Machete]) > 0))
 		{
-			equip($item[antique machete]);
+			equip($item[Antique Machete]);
 		}
 
 		if(($familiar[Unconscious Collective].drops_today < 1) && have_familiar($familiar[Unconscious Collective]))
@@ -5704,9 +5704,9 @@ boolean L11_hiddenCityZones()
 
 	if(get_property("cc_hiddenzones") == "5")
 	{
-		if(can_equip($item[Antique Machete]))
+		if(can_equip($item[Antique Machete]) && (item_amount($item[Antique Machete]) > 0))
 		{
-			equip($item[antique machete]);
+			equip($item[Antique Machete]);
 		}
 
 		handleFamiliar($familiar[Fist Turkey]);
@@ -11757,7 +11757,10 @@ boolean L11_shenCopperhead()
 	{
 		return false;
 	}
-
+	if(get_property("questL11Ron") == "finished")
+	{
+		return false;
+	}
 
 
 	if((internalQuestStatus("questL11Shen") == 0) || (internalQuestStatus("questL11Shen") == 2) || (internalQuestStatus("questL11Shen") == 4) || (internalQuestStatus("questL11Shen") == 6))
@@ -11864,7 +11867,16 @@ boolean L11_shenCopperhead()
 		return retval;
 	}
 
+	if((internalQuestStatus("questL11Ron") == 2) || (internalQuestStatus("questL11Ron") == 3))
+	{
+		if((item_amount($item[Red Zeppelin Ticket]) == 0) && (my_meat() > npc_price($item[Red Zeppelin Ticket])))
+		{
+			buy(1, $item[Red Zeppelin Ticket]);
+		}
+		return ccAdv($location[The Red Zeppelin]);
+	}
 
+	// Copperhead Charm (rampant) autocreated successfully
 
 	return false;
 }

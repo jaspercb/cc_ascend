@@ -685,7 +685,7 @@ string cc_combatHandler(int round, string opp, string text)
 			((enemy == $monster[Gaudy Pirate]) && (my_location() != $location[Belowdecks])))
 		{
 			set_property("cc_combatHandler", combatState + "(insults)");
-			return "item the big book of pirate insults";
+			return "item " + $item[The Big Book Of Pirate Insults];
 		}
 	}
 
@@ -2260,7 +2260,7 @@ string ccsJunkyard(int round, string opp, string text)
 
 	if(!get_property("cc_gremlinMoly").to_boolean() && (my_class() == $class[Ed]))
 	{
-		if(get_property("cc_edCombatStage").to_int() >= 2)
+		if((get_property("cc_edCombatStage").to_int() >= 2) || (get_property("cc_edStatus") == "dying"))
 		{
 			string banisher = findBanisher(round, opp, text);
 			if(banisher != "attack with weapon")
@@ -2295,7 +2295,7 @@ string ccsJunkyard(int round, string opp, string text)
 	{
 		if(my_class() == $class[Ed])
 		{
-			if(get_property("cc_edCombatStage").to_int() >= 2)
+			if((get_property("cc_edCombatStage").to_int() >= 2) || (get_property("cc_edStatus") == "dying"))
 			{
 				return findBanisher(round, opp, text);
 			}
@@ -2640,7 +2640,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((item_amount($item[The Big Book of Pirate Insults]) > 0) && (!contains_text(combatState, "insults")) && (numPirateInsults() < 8) && (get_property("cc_edCombatStage").to_int() < 3))
+	if((item_amount($item[The Big Book of Pirate Insults]) > 0) && (!contains_text(combatState, "insults")) && (numPirateInsults() < 8) && (get_property("cc_edCombatStage").to_int() < 3) && (get_property("cc_edStatus") != "dying"))
 	{
 		if(!contains_text(combatState, "beanscreen") && have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
 		{
@@ -2657,7 +2657,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		if((my_location() == $location[The Obligatory Pirate\'s Cove]) || (my_location() == $location[barrrney\'s barrr]) || (enemy == $monster[gaudy pirate]))
 		{
 			set_property("cc_combatHandler", combatState + "(insults)");
-			return "item the big book of pirate insults";
+			return "item " + $item[The Big Book Of Pirate Insults];
 		}
 	}
 

@@ -14,7 +14,6 @@ void digimon_initializeSettings()
 		set_property("cc_swordfish", "finished");
 		set_property("cc_useCubeling", false);
 		set_property("cc_wandOfNagamar", false);
-		set_property("_mummifyDone", true);
 		digimon_makeTeam();
 	}
 }
@@ -161,6 +160,19 @@ boolean digimon_ccAdv(int num, location loc, string option)
 	print("[Insert Punch Out music here]", "green");
 	string temp = visit_url("fambattle.php");
 
+	if(get_property("_digimonFront") == "")
+	{
+		set_property("_digimonFront", my_poke_fam(0));
+	}
+	if(get_property("_digimonMiddle") == "")
+	{
+		set_property("_digimonMiddle", my_poke_fam(1));
+	}
+	if(get_property("_digimonBack") == "")
+	{
+		set_property("_digimonBack", my_poke_fam(2));
+	}
+
 	if(contains_text(temp, "Fight!"))
 	{
 		familiar blastFam = to_familiar(get_property("_digimonBack"));
@@ -197,7 +209,7 @@ boolean digimon_ccAdv(int num, location loc, string option)
 			{
 				break;
 			}
-			if(action > 20)
+			if(action > 40)
 			{
 				abort("Can not win this Digimon Battle!");
 			}
