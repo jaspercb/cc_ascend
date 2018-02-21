@@ -1393,7 +1393,11 @@ boolean doThemtharHills(boolean trickMode)
 		int lastMeat = get_property("currentNunneryMeat").to_int();
 		int myLastMeat = my_meat();
 		print("Meat drop to start: " + meat_drop_modifier(), "blue");
-		ccAdv(1, $location[The Themthar Hills]);
+		if(!ccAdv(1, $location[The Themthar Hills]))
+		{
+			//Maybe we passed it!
+			string temp = visit_url("bigisland.php?place=nunnery");
+		}
 		if(last_monster() != $monster[dirty thieving brigand])
 		{
 			return true;
@@ -2814,7 +2818,7 @@ boolean doBedtime()
 			print(get_property("cc_banishes_day" + my_daycount()));
 			print(get_property("cc_yellowRay_day" + my_daycount()));
 			pullsNeeded("evaluate");
-			if((get_property("_photocopyUsed") == "false") && (is_unrestricted($item[Deluxe Fax Machine])) && (my_adventures() > 0) && !($classes[Avatar of Boris, Avatar of Sneaky Pete] contains my_class()) && (item_amount($item[Clan VIP Lounge Key]) > 0))
+			if(!get_property("_photocopyUsed").to_boolean() && (is_unrestricted($item[Deluxe Fax Machine])) && (my_adventures() > 0) && !($classes[Avatar of Boris, Avatar of Sneaky Pete] contains my_class()) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 			{
 				print("You may have a fax that you can use. Check it out!", "blue");
 			}
@@ -4234,7 +4238,7 @@ boolean L13_towerNSTower()
 			equip($slot[acc1], $item[hippy protest button]);
 			sources = sources + 1;
 		}
-		else if(!have_equipped($item[Pirate Fledges]))
+		else if(!have_equipped($item[Pirate Fledges]) && (item_amount($item[Pirate Fledges]) > 0))
 		{
 			equip($slot[acc1], $item[Pirate Fledges]);
 		}
@@ -4861,6 +4865,18 @@ boolean L13_towerNSContests()
 			abort("nsChallenge1 is invalid. This is a severe error.");
 		}
 		ccAdv(1, toCompete);
+		return true;
+	}
+	print("No challenges left!", "green");
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		if(get_property("nsContestants1").to_int() == 0)
+		{
+			return false;
+		}
+		set_property("nsContestants1", 0);
+		set_property("nsContestants2", 0);
+		set_property("nsContestants3", 0);
 		return true;
 	}
 	return false;
@@ -6808,6 +6824,10 @@ boolean L12_gremlins()
 	{
 		return false;
 	}
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		return false;
+	}
 
 	if(item_amount($item[molybdenum magnet]) == 0)
 	{
@@ -7195,6 +7215,12 @@ boolean L12_filthworms()
 	if(item_amount($item[Training Helmet]) > 0)
 	{
 		equip($slot[hat], $item[Training Helmet]);
+	}
+
+	januaryToteAcquire($item[Broken Champagne Bottle]);
+	if(item_amount($item[Broken Champagne Bottle]) > 0)
+	{
+		equip($item[Broken Champagne Bottle]);
 	}
 
 	if(cc_my_path() == "Live. Ascend. Repeat.")
@@ -11026,6 +11052,17 @@ boolean L9_aBooPeak()
 	{
 		print("A-Boo Peak: " + get_property("booPeakProgress"), "blue");
 		set_property("cc_aboocount", get_property("cc_aboocount").to_int() + 1);
+
+
+		if(item_amount($item[A-Boo Clue]) < 3)
+		{
+			januaryToteAcquire($item[Broken Champagne Bottle]);
+			if(item_amount($item[Broken Champagne Bottle]) > 0)
+			{
+				equip($item[Broken Champagne Bottle]);
+			}
+		}
+
 		ccAdv(1, $location[A-Boo Peak]);
 		if(cc_my_path() == "Pocket Familiars")
 		{
@@ -11935,7 +11972,7 @@ boolean L11_talismanOfNam()
 	}
 	if((get_property("cc_war") == "finished") || (get_property("cc_prewar") == ""))
 	{
-		if(!have_equipped($item[Pirate Fledges]))
+		if(!have_equipped($item[Pirate Fledges]) && (item_amount($item[Pirate Fledges]) > 0))
 		{
 			equip($slot[acc3], $item[Pirate Fledges]);
 		}

@@ -6,9 +6,12 @@ void digimon_initializeSettings()
 	if(cc_my_path() == "Pocket Familiars")
 	{
 		set_property("cc_ballroomsong", "finished");
+		set_property("cc_getBeehive", false);
+		set_property("cc_getBoningKnife", false);
 		set_property("cc_cubeItems", false);
 		set_property("cc_getStarKey", true);
 		set_property("cc_grimstoneOrnateDowsingRod", false);
+		set_property("cc_hippyInstead", true);
 		set_property("cc_holeinthesky", true);
 		set_property("cc_ignoreFlyer", true);
 		set_property("cc_swordfish", "finished");
