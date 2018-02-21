@@ -1,6 +1,11 @@
 script "cc_digimon.ash"
 
 
+void digimon_initializeDay(int day)
+{
+	digimon_makeTeam();
+}
+
 void digimon_initializeSettings()
 {
 	if(cc_my_path() == "Pocket Familiars")

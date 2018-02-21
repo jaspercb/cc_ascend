@@ -804,6 +804,7 @@ void bond_initializeDay(int day);							//Defined in cc_ascend/cc_bondmember.ash
 
 
 void digimon_initializeSettings();							//Defined in cc_ascend/cc_digimon.ash
+void digimon_initializeDay(int day);						//Defined in cc_ascend/cc_digimon.ash
 boolean digimon_makeTeam();									//Defined in cc_ascend/cc_digimon.ash
 boolean LM_digimon();										//Defined in cc_ascend/cc_digimon.ash
 boolean digimon_ccAdv(int num, location loc, string option);//Defined in cc_ascend/cc_digimon.ash
@@ -846,3 +847,4 @@ location[int] zones_available();							//Defined in cc_ascend/cc_zone.ash
 monster[int] mobs_available();								//Defined in cc_ascend/cc_zone.ash
 item[int] drops_available();								//Defined in cc_ascend/cc_zone.ash
 item[int] hugpocket_available();							//Defined in cc_ascend/cc_zone.ash
+

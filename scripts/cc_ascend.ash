@@ -1882,6 +1882,7 @@ void initializeDay(int day)
 	pete_initializeDay(day);
 	cs_initializeDay(day);
 	bond_initializeDay(day);
+	digimon_initializeDay(day);
 
 	if(day == 1)
 	{
