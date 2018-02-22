@@ -1811,7 +1811,13 @@ boolean acquireMP(int goal, boolean buyIt)
 		}
 		if(item_amount(it) > 0)
 		{
+			int count = item_amount(it);
 			use(1, it);
+			if(count == item_amount(it))
+			{
+				print("Failed using item " + it + "!", "red");
+				return false;
+			}
 			continue;
 		}
 		at++;
@@ -3862,6 +3868,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Blackberry Politeness]:		useItem = $item[Blackberry Polite];				break;
 	case $effect[Blessing of Serqet]:			useSkill = $skill[Blessing of Serqet];			break;
 	case $effect[Blinking Belly]:				useSkill = $skill[Firefly Abdomen];				break;
+	case $effect[Blood-Gorged]:					useItem = $item[Vial Of Blood Simple Syrup];	break;
 	case $effect[Bloody Potato Bits]:			useSkill = $skill[none];						break;
 	case $effect[Bloodstain-Resistant]:			useItem = $item[Bloodstain Stick];				break;
 	case $effect[Blubbered Up]:					useSkill = $skill[Blubber Up];					break;

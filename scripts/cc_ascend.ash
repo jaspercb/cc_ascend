@@ -4397,7 +4397,7 @@ boolean L13_towerNSTower()
 
 	if(contains_text(visit_url("place.php?whichplace=nstower"), "ns_07_monster3"))
 	{
-		if(item_amount($item[electric boning knife]) > 0)
+		if((item_amount($item[Electric Boning Knife]) > 0) || (cc_my_path() == "Pocket Familiars"))
 		{
 			set_property("cc_getBoningKnife", false);
 		}
@@ -4764,6 +4764,8 @@ boolean L13_towerNSContests()
 				break;
 			case $element[sleaze]:
 				buffMaintain($effect[Takin\' It Greasy], 15, 1, 1);
+				buffMaintain($effect[Blood-Gorged], 0, 1, 1);
+				buffMaintain($effect[Greasy Peasy], 0, 1, 1);
 				break;
 			case $element[stench]:
 				buffMaintain($effect[Drenched With Filth], 0, 1, 1);
@@ -7862,7 +7864,7 @@ boolean L10_ground()
 	}
 	else
 	{
-		if(item_amount($item[electric boning knife]) > 0)
+		if((item_amount($item[Electric Boning Knife]) > 0) || (cc_my_path() == "Pocket Familiars"))
 		{
 			set_property("choiceAdventure1026", 3);
 		}
@@ -11295,6 +11297,12 @@ boolean L9_aBooPeak()
 	}
 	else
 	{
+		januaryToteAcquire($item[Broken Champagne Bottle]);
+		if(item_amount($item[Broken Champagne Bottle]) > 0)
+		{
+			equip($item[Broken Champagne Bottle]);
+		}
+
 		ccAdv(1, $location[A-Boo Peak]);
 		set_property("cc_aboopending", 0);
 
@@ -11787,6 +11795,11 @@ boolean L9_chasmStart()
 
 boolean L11_shenCopperhead()
 {
+	if(cc_my_path() != "Pocket Familiars")
+	{
+		return false;
+	}
+
 	if(my_level() < 11)
 	{
 		return false;
@@ -11800,6 +11813,7 @@ boolean L11_shenCopperhead()
 		return false;
 	}
 
+	set_property("choiceAdventure1074", 1);
 
 	if((internalQuestStatus("questL11Shen") == 0) || (internalQuestStatus("questL11Shen") == 2) || (internalQuestStatus("questL11Shen") == 4) || (internalQuestStatus("questL11Shen") == 6))
 	{
@@ -11884,8 +11898,23 @@ boolean L11_shenCopperhead()
 		set_property("choiceAdventure857", 1);
 		set_property("choiceAdventure858", 1);
 
+		if(item_amount($item[Flamin\' Whatshisname]) > 0)
+		{
+			backupSetting("choiceAdventure866", 3);
+		}
+		else
+		{
+			backupSetting("choiceAdventure866", 2);
+		}
+
 		buffMaintain($effect[Greasy Peasy], 0, 1, 1);
 		buffMaintain($effect[Musky], 0, 1, 1);
+		buffMaintain($effect[Blood-Gorged], 0, 1, 1);
+
+		if((item_amount($item[Halibut]) > 0) && can_equip($item[Halibut]))
+		{
+			equip($slot[weapon], $item[Halibut]);
+		}
 
 		boolean retval = ccAdv($location[A Mob Of Zeppelin Protesters]);
 		if(!lastAdventureSpecialNC())
@@ -11899,6 +11928,7 @@ boolean L11_shenCopperhead()
 		{
 			set_property("lastEncounter", "Clear Special NC");
 		}
+		restoreSetting("choiceAdventure866");
 		set_property("choiceAdventure856", 2);
 		set_property("choiceAdventure857", 2);
 		set_property("choiceAdventure858", 2);
@@ -11937,7 +11967,6 @@ boolean L11_talismanOfNam()
 		{
 			return true;
 		}
-		//Add Copperhead here.
 		return false;
 	}
 
@@ -13733,6 +13762,16 @@ boolean doTasks()
 	if(L10_airship())					return true;
 	if(L10_basement())					return true;
 	if(L10_ground())					return true;
+
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		if(L11_blackMarket())				return true;
+		if(L11_forgedDocuments())			return true;
+		if(L11_mcmuffinDiary())				return true;
+		if(L11_shenCopperhead())			return true;
+		//move Ron portion to later
+	}
+
 	if(L10_topFloor())					return true;
 	if(L10_holeInTheSkyUnlock())		return true;
 	if(L10_holeInTheSky())				return true;
