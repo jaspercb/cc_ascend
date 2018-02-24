@@ -114,6 +114,8 @@ boolean L11_unlockHiddenCity();
 boolean L11_hiddenCityZones();
 boolean L11_talismanOfNam();
 boolean L11_shenCopperhead();
+boolean L11_ronCopperhead();
+boolean L11_redZeppelin();
 boolean L11_mauriceSpookyraven();
 boolean L11_nostrilOfTheSerpent();
 boolean L11_unlockPyramid();

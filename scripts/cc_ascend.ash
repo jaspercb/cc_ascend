@@ -4318,6 +4318,10 @@ boolean L13_towerNSTower()
 			sourceNeed -= 2;
 		}
 		print("I think I have " + sources + " sources of damage, let's do this!", "blue");
+		if(cc_my_path() == "Pocket Familiars")
+		{
+			sources = 9999;
+		}
 		if((item_amount($item[beehive]) > 0) || (sources > sourceNeed))
 		{
 			if(item_amount($item[beehive]) == 0)
@@ -11793,6 +11797,116 @@ boolean L9_chasmStart()
 	return false;
 }
 
+boolean L11_redZeppelin()
+{
+	if(cc_my_path() != "Pocket Familiars")
+	{
+		return false;
+	}
+
+	if(my_level() < 11)
+	{
+		return false;
+	}
+	if(get_property("questL11Shen") != "finished")
+	{
+		return false;
+	}
+	if(internalQuestStatus("questL11Ron") >= 2)
+	{
+		return false;
+	}
+
+	if(internalQuestStatus("questL11Ron") == 0)
+	{
+		return ccAdv($location[A Mob Of Zeppelin Protesters]);
+	}
+
+	int lastProtest = get_property("zeppelinProtestors").to_int();
+	set_property("choiceAdventure856", 1);
+	set_property("choiceAdventure857", 1);
+	set_property("choiceAdventure858", 1);
+
+	if(item_amount($item[Flamin\' Whatshisname]) > 0)
+	{
+		backupSetting("choiceAdventure866", 3);
+	}
+	else
+	{
+		backupSetting("choiceAdventure866", 2);
+	}
+
+	buffMaintain($effect[Greasy Peasy], 0, 1, 1);
+	buffMaintain($effect[Musky], 0, 1, 1);
+	buffMaintain($effect[Blood-Gorged], 0, 1, 1);
+
+	if((item_amount($item[Halibut]) > 0) && can_equip($item[Halibut]))
+	{
+		equip($slot[weapon], $item[Halibut]);
+	}
+
+	boolean retval = ccAdv($location[A Mob Of Zeppelin Protesters]);
+	if(!lastAdventureSpecialNC())
+	{
+		if(lastProtest == get_property("zeppelinProtestors").to_int())
+		{
+			set_property("zeppelinProtestors", get_property("zeppelinProtestors").to_int() + 1);
+		}
+	}
+	else
+	{
+		set_property("lastEncounter", "Clear Special NC");
+	}
+	restoreSetting("choiceAdventure866");
+	set_property("choiceAdventure856", 2);
+	set_property("choiceAdventure857", 2);
+	set_property("choiceAdventure858", 2);
+	return retval;
+}
+
+
+boolean L11_ronCopperhead()
+{
+	if(cc_my_path() != "Pocket Familiars")
+	{
+		return false;
+	}
+
+	if(my_level() < 11)
+	{
+		return false;
+	}
+	if(internalQuestStatus("questL11Shen") < 0)
+	{
+		return false;
+	}
+	if(internalQuestStatus("questL11Ron") < 2)
+	{
+		return false;
+	}
+	if(get_property("questL11Ron") == "finished")
+	{
+		return false;
+	}
+
+	if((internalQuestStatus("questL11Ron") == 2) || (internalQuestStatus("questL11Ron") == 3))
+	{
+		if((item_amount($item[Red Zeppelin Ticket]) == 0) && (my_meat() > npc_price($item[Red Zeppelin Ticket])))
+		{
+			buy(1, $item[Red Zeppelin Ticket]);
+		}
+		return ccAdv($location[The Red Zeppelin]);
+	}
+
+	if(get_property("questL11Ron") != "finished")
+	{
+		abort("Ron should be done with but tracking is not complete!");
+	}
+
+	// Copperhead Charm (rampant) autocreated successfully
+	return false;
+}
+
 boolean L11_shenCopperhead()
 {
 	if(cc_my_path() != "Pocket Familiars")
@@ -11808,7 +11922,7 @@ boolean L11_shenCopperhead()
 	{
 		return false;
 	}
-	if(get_property("questL11Ron") == "finished")
+	if(get_property("questL11Shen") == "finished")
 	{
 		return false;
 	}
@@ -11885,67 +11999,6 @@ boolean L11_shenCopperhead()
 	}
 
 	//Now have a Copperhead Charm
-
-	if(internalQuestStatus("questL11Ron") == 0)
-	{
-		return ccAdv($location[A Mob Of Zeppelin Protesters]);
-	}
-
-	if(internalQuestStatus("questL11Ron") == 1)
-	{
-		int lastProtest = get_property("zeppelinProtestors").to_int();
-		set_property("choiceAdventure856", 1);
-		set_property("choiceAdventure857", 1);
-		set_property("choiceAdventure858", 1);
-
-		if(item_amount($item[Flamin\' Whatshisname]) > 0)
-		{
-			backupSetting("choiceAdventure866", 3);
-		}
-		else
-		{
-			backupSetting("choiceAdventure866", 2);
-		}
-
-		buffMaintain($effect[Greasy Peasy], 0, 1, 1);
-		buffMaintain($effect[Musky], 0, 1, 1);
-		buffMaintain($effect[Blood-Gorged], 0, 1, 1);
-
-		if((item_amount($item[Halibut]) > 0) && can_equip($item[Halibut]))
-		{
-			equip($slot[weapon], $item[Halibut]);
-		}
-
-		boolean retval = ccAdv($location[A Mob Of Zeppelin Protesters]);
-		if(!lastAdventureSpecialNC())
-		{
-			if(lastProtest == get_property("zeppelinProtestors").to_int())
-			{
-				set_property("zeppelinProtestors", get_property("zeppelinProtestors").to_int() + 1);
-			}
-		}
-		else
-		{
-			set_property("lastEncounter", "Clear Special NC");
-		}
-		restoreSetting("choiceAdventure866");
-		set_property("choiceAdventure856", 2);
-		set_property("choiceAdventure857", 2);
-		set_property("choiceAdventure858", 2);
-		return retval;
-	}
-
-	if((internalQuestStatus("questL11Ron") == 2) || (internalQuestStatus("questL11Ron") == 3))
-	{
-		if((item_amount($item[Red Zeppelin Ticket]) == 0) && (my_meat() > npc_price($item[Red Zeppelin Ticket])))
-		{
-			buy(1, $item[Red Zeppelin Ticket]);
-		}
-		return ccAdv($location[The Red Zeppelin]);
-	}
-
-	// Copperhead Charm (rampant) autocreated successfully
-
 	return false;
 }
 
@@ -11963,7 +12016,7 @@ boolean L11_talismanOfNam()
 
 	if(cc_my_path() == "Pocket Familiars")
 	{
-		if(L11_shenCopperhead())
+		if(L11_shenCopperhead() || L11_redZeppelin() || L11_ronCopperhead())
 		{
 			return true;
 		}
@@ -13769,7 +13822,8 @@ boolean doTasks()
 		if(L11_forgedDocuments())			return true;
 		if(L11_mcmuffinDiary())				return true;
 		if(L11_shenCopperhead())			return true;
-		//move Ron portion to later
+		if(L11_redZeppelin())				return true;
+		if(L11_ronCopperhead())				return true;
 	}
 
 	if(L10_topFloor())					return true;
