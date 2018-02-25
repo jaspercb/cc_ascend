@@ -2161,7 +2161,7 @@ boolean cc_deleteMail(kmailObject msg)
 	{
 		return true;
 	}
-	if((msg.fromid == 3038166) && (contains_text(msg.message, "CheeseFax completed your relationship fortune test")))
+	if((msg.fromid == 3038166) && (contains_text(msg.message, "CheeseFax completed your relationship fortune test")) && get_property("cc_hideAdultery").to_boolean())
 	{
 		return true;
 	}

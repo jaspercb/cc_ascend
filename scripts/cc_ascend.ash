@@ -3033,6 +3033,12 @@ boolean questOverride()
 		set_property("cc_bean", true);
 	}
 
+	if((get_property("lastSecondFloorUnlock").to_int() >= my_ascensions()) && (get_property("cc_spookyravennecklace") != "done"))
+	{
+		print("Found completed Spookyraven Necklace Sequence (M20)");
+		set_property("cc_spookyravennecklace", "done");
+	}
+
 	if((internalQuestStatus("questL11Manor") >= 11) && (get_property("cc_ballroom") != "finished"))
 	{
 		print("Found completed Spookyraven Manor (11)");
