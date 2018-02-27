@@ -418,7 +418,8 @@ boolean zataraClanmate(string who)
 
 	int attempts = 0;
 	int player = 3038166;
-	string name = get_player_name(player);
+	#string name = get_player_name(player);
+	string name = "CheeseFax";
 	boolean needWait = true;
 
 	while(attempts < 5)
