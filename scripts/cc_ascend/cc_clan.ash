@@ -292,14 +292,20 @@ boolean zataraSeaside(string who)
 		return false;
 	}
 
-#	if(!(get_clan_lounge() contains $item[Clan Carnival Game]))
-#	{
-#		return false;
-#	}
+	if(!is_unrestricted($item[Clan Carnival Game]))
+	{
+		return false;
+	}
+
+	if(!(get_clan_lounge() contains $item[Clan Carnival Game]))
+	{
+		return false;
+	}
 
 	who = to_lower_case(who);
 
 	int id = 0;
+
 	if((who == "susie") || (who == "familiar") || (who == "-1"))
 	{
 		id = -1;
@@ -378,11 +384,15 @@ boolean zataraClanmate(string who)
 		return false;
 	}
 
-#	if(!(get_clan_lounge() contains $item[Clan Carnival Game]))
-#	{
-#		return false;
-#	}
+	if(!is_unrestricted($item[Clan Carnival Game]))
+	{
+		return false;
+	}
 
+	if(!(get_clan_lounge() contains $item[Clan Carnival Game]))
+	{
+		return false;
+	}
 
 	if(get_property("_ZATARACLANMATE").to_int() >= 3)
 	{
@@ -406,12 +416,47 @@ boolean zataraClanmate(string who)
 		return false;
 	}
 
-	string temp = visit_url("clan_viplounge.php?preaction=lovetester", false);
-	temp = visit_url("choice.php?pwd=&whichchoice=1278&option=1&which=1&whichid=3038166&q1=pizza&q2=batman&q3=thick");
+	int attempts = 0;
+	int player = 3038166;
+	string name = get_player_name(player);
+	boolean needWait = true;
+
+	while(attempts < 5)
+	{
+		string temp = visit_url("clan_viplounge.php?preaction=lovetester", false);
+		temp = visit_url("choice.php?pwd=&whichchoice=1278&option=1&which=1&whichid=3038166&q1=pizza&q2=batman&q3=thick");
+
+		if(contains_text(temp, "You can't consult Madame Zatara about your relationship with anyone else today."))
+		{
+			print("No consults left today. Uh oh", "red");
+			set_property("_ZATARACLANMATE", 3);
+			needWait = false;
+			break;
+		}
+		if(contains_text(temp, "You enter your answers and wait for " + name + " to answer, so you can get your results!"))
+		{
+			print("And now we play the waiting game...", "green");
+			break;
+		}
+		if(contains_text(temp, "You're already waiting on your results with " + name + "."))
+		{
+			print("Results pending from prior request...", "blue");
+		}
+		else if(contains_text(temp, "You can only consult Madame Zatara about someone in your clan."))
+		{
+			print(name + " is not in the clan... waiting...", "blue");
+		}
+
+		attempts++;
+		wait(5);
+	}
 
 
 	changeClan(oldClan);
-	wait(10);
+	if(needWait)
+	{
+		wait(10);
+	}
 	return true;
 }
 

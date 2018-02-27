@@ -26,7 +26,7 @@ boolean ccAdv(int num, location loc, string option)
 
 
 	boolean retval = false;
-	if(my_adventures() == 0)
+	if((my_adventures() == 0) || (inebriety_left() < 0))
 	{
 		string page = visit_url("fight.php");
 		if(contains_text(page, "Combat"))
@@ -150,7 +150,16 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 		{
 			if(get_auto_attack() == 0)
 			{
-				return ccAdv(1, loc, option);
+				if(inebriety_left() >= 0)
+				{
+					return ccAdv(1, loc, option);
+				}
+				else
+				{
+					string temp = run_combat(option);
+					cli_execute("postcheese");
+					return true;
+				}
 			}
 			else
 			{
@@ -205,7 +214,15 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 		else
 		{
 			set_property("cc_disableAdventureHandling", true);
-			boolean retval = ccAdv(1, loc, option);
+			boolean retval = true;
+			if(inebriety_left() >= 0)
+			{
+				retval = ccAdv(1, loc, option);
+			}
+			else
+			{
+				run_combat(option);
+			}
 			set_property("cc_disableAdventureHandling", false);
 			cli_execute("postcheese");
 		}
