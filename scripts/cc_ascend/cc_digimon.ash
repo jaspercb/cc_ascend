@@ -164,9 +164,34 @@ boolean digimon_ccAdv(int num, location loc, string option)
 		#Yeah, this is not a thing right now.
 	}
 
-	boolean retval = adv1(loc, 0, option);
+#	boolean retval = adv1(loc, 0, option);
+	visit_url(to_url(loc), false);
 	print("[Insert Punch Out music here]", "green");
 	string temp = visit_url("fambattle.php");
+	if(contains_text(temp, "whichchoice value=") || contains_text(temp, "whichchoice="))
+	{
+		print("Digimon hit a choice adventure (" + loc + "), trying....", "red");
+		boolean retval = adv1(loc, 0, option);
+	}
+	temp = visit_url("fambattle.php");
+
+	if(svn_info("Ezandora-Helix-Fossil-branches-Release").revision > 0)
+	{
+		if(contains_text(temp, "Fight!"))
+		{
+			print("Consulting the Helix Fossil....", "green");
+			cli_execute("ash import 'Pocket Familiars'; PocketFamiliarsFight();");
+			if($locations[The Defiled Alcove, The Defiled Cranny, The Defiled Niche, The Defiled Nook] contains my_location())
+			{
+				if(item_amount($item[Evilometer]) > 0)
+				{
+					use(1, $item[Evilometer]);
+				}
+			}
+			cli_execute("postcheese");
+			return true;
+		}
+	}
 
 	if(get_property("_digimonFront") == "")
 	{
@@ -230,8 +255,12 @@ boolean digimon_ccAdv(int num, location loc, string option)
 				use(1, $item[Evilometer]);
 			}
 		}
+		cli_execute("postcheese");
 	}
-	cli_execute("postcheese");
+#	else
+#	{
+#		return ccAdvBypass(to_url(loc), loc);
+#	}
 
 	return true;
 }

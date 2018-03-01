@@ -1022,6 +1022,25 @@ boolean cc_cheesePostCS(int leave)
 		chew(1, $item[Twinkly Wad]);
 	}
 
+	if(!get_property("_didMining").to_boolean() && (my_daycount() == 2) && have_skill($skill[Unaccompanied Miner]))
+	{
+		if(item_amount($item[High-Temperature Mining Drill]) > 0)
+		{
+			ccMaximize("hot res, equip high-temperature mining drill", 0, 0, false);
+			#equip($item[High-Temperature Mining Drill]);
+			if(elemental_resist($element[hot]) >= 15)
+			{
+				string temp = visit_url("mining.php?mine=6", false);
+				temp = visit_url("mining.php?mine=6&which=51&pwd=", false);
+				temp = visit_url("mining.php?mine=6&which=43&pwd=", false);
+				temp = visit_url("mining.php?mine=6&which=35&pwd=", false);
+				temp = visit_url("mining.php?mine=6&which=27&pwd=", false);
+				temp = visit_url("mining.php?mine=6&which=19&pwd=", false);
+			}
+		}
+		set_property("_didMining", true);
+	}
+
 	cc_sourceTerminalEducate($skill[Extract], $skill[Turbo]);
 	cc_sourceTerminalEnhance("meat");
 	cc_sourceTerminalEnhance("meat");
