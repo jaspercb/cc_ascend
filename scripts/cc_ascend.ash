@@ -4926,6 +4926,21 @@ boolean L13_towerNSEntrance()
 					return true;
 				}
 			}
+			if(!hasTorso())
+			{
+				if(LX_melvignShirt())
+				{
+					return true;
+				}
+			}
+			if(needStarKey())
+			{
+				# Zone availability check?
+				#if(LX_getDigitalKey())
+				#{
+				#	return true;
+				#}
+			}
 
 			int delay = get_property("cc_powerLevelTimer").to_int();
 			if(delay == 0)
@@ -9886,7 +9901,7 @@ boolean adventureFailureHandler()
 		int plCount = get_property("cc_powerLevelAdvCount").to_int();
 		if((plCount > 20) && (my_level() < 13))
 		{
-			if($locations[The Hidden Hospital, The Hole In The Sky, Oil Peak] contains my_location())
+			if($locations[The EXtreme Slope, The Hidden Hospital, The Hole In The Sky, Oil Peak] contains my_location())
 			{
 				tooManyAdventures = false;
 			}

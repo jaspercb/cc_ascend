@@ -192,7 +192,7 @@ boolean digimon_ccAdv(int num, location loc, string option)
 	if(svn_info("Ezandora-Helix-Fossil-branches-Release").revision > 0)
 	{
 		print("Consulting the Helix Fossil....", "green");
-		cli_execute("ash import 'Pocket Familiars'; PocketFamiliarsFight();");
+		boolean ignore = cli_execute("ashq import 'Pocket Familiars'; buffer temp = PocketFamiliarsFight();");
 		if($locations[The Defiled Alcove, The Defiled Cranny, The Defiled Niche, The Defiled Nook] contains my_location())
 		{
 			if(item_amount($item[Evilometer]) > 0)

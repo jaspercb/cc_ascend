@@ -965,7 +965,8 @@ boolean cc_cheesePostCS(int leave)
 			set_property("cc_combatDirective", "start;skill curse of weaksauce;skill digitize;item rain-doh black box, spooky putty sheet;skill stuffed mortar shell;item rain-doh indigo cup, rain-doh blue balls");
 			chateaumantegna_usePainting("");
 
-			if(!didWePlantHere($location[Barf Mountain]) && florist_available() && (my_adventures() > 0) && (inebriety_left() >= 0))
+			setAdvPHPFlag();
+			if(!didWePlantHere($location[Barf Mountain]) && florist_available() && (my_adventures() > 0) && (inebriety_left() >= 0) && ($location[Barf Mountain].turns_spent == 0))
 			{
 				ccAdv(1, $location[Barf Mountain]);
 				cli_execute("florist plant stealing magnolia");
@@ -1208,7 +1209,7 @@ boolean cc_cheesePostCS(int leave)
 	{
 		if(item_amount($item[High-Temperature Mining Drill]) > 0)
 		{
-			ccMaximize("hot res, equip high-temperature mining drill", 0, 0, false);
+			ccMaximize("hot res, equip high-temperature mining drill, -equip snow suit", 0, 0, false);
 			#equip($item[High-Temperature Mining Drill]);
 			if(elemental_resist($element[hot]) >= 15)
 			{
@@ -1329,6 +1330,15 @@ boolean cc_cheesePostCS(int leave)
 		{
 			cc_sourceTerminalEnhance("meat");
 		}
+		if((my_mp() > 100) && have_skill($skill[Incredible Self-Esteem]) && !get_property("_incredibleSelfEsteemCast").to_boolean())
+		{
+			use_skill(1, $skill[Incredible Self-Esteem]);
+		}
+		if((my_mp() > 100) && have_skill($skill[Pirate Bellow]) && !get_property("_pirateBellowUsed").to_boolean())
+		{
+			use_skill(1, $skill[Pirate Bellow]);
+		}
+
 
 		if((item_amount($item[License To Chill]) > 0) && !get_property("_licenseToChillUsed").to_boolean())
 		{

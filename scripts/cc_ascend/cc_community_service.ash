@@ -498,7 +498,9 @@ boolean LA_cs_communityService()
 				{
 					handleFamiliar($familiar[Galloping Grill]);
 					cc_sourceTerminalEducate($skill[Turbo], $skill[Compress]);
-					return cc_advWitchess("king", "cs_combatKing");
+					boolean retval = cc_advWitchess("king", "cs_combatKing");
+					cc_sourceTerminalEducate($skill[Compress], $skill[Extract]);
+					return retval;
 				}
 			}
 
