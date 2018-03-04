@@ -408,6 +408,7 @@ boolean chateaumantegna_usePainting();						//Defined in cc_ascend/cc_mr2015.ash
 boolean chateaumantegna_usePainting(string option);			//Defined in cc_ascend/cc_mr2015.ash
 boolean clear_property_if(string setting, string cond);		//Defined in cc_ascend/cc_util.ash
 boolean considerGrimstoneGolem(boolean bjornCrown);			//Defined in cc_ascend/cc_util.ash
+boolean acquireTransfunctioner();							//Defined in cc_ascend/cc_util.ash
 void consumeStuff();										//Defined in cc_ascend/cc_cooking.ash
 boolean containsCombat(item it);							//Defined in cc_ascend/cc_combat.ash
 boolean containsCombat(skill sk);							//Defined in cc_ascend/cc_combat.ash

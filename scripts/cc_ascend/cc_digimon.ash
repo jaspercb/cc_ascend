@@ -165,32 +165,43 @@ boolean digimon_ccAdv(int num, location loc, string option)
 	}
 
 #	boolean retval = adv1(loc, 0, option);
-	visit_url(to_url(loc), false);
+	string temp = visit_url(to_url(loc), false);
 	print("[Insert Punch Out music here]", "green");
-	string temp = visit_url("fambattle.php");
+	temp = visit_url("fambattle.php");
 	if(contains_text(temp, "whichchoice value=") || contains_text(temp, "whichchoice="))
 	{
 		print("Digimon hit a choice adventure (" + loc + "), trying....", "red");
-		boolean retval = adv1(loc, 0, option);
+		matcher choice_matcher = create_matcher("(?:whichchoice value=(\\d+))|(?:whichchoice=(\\d+))", temp);
+		if(choice_matcher.find())
+		{
+			int choice = choice_matcher.group(1).to_int();
+			if(choice == 0)
+			{
+				choice = choice_matcher.group(2).to_int();
+			}
+			temp = visit_url("choice.php?pwd=" + my_hash() + "&whichchoice=" + choice + "&option=" + get_property("choiceAdventure" + choice).to_int());
+		}
 	}
 	temp = visit_url("fambattle.php");
 
+	if(!contains_text(temp, "Fight!"))
+	{
+		return false;
+	}
+
 	if(svn_info("Ezandora-Helix-Fossil-branches-Release").revision > 0)
 	{
-		if(contains_text(temp, "Fight!"))
+		print("Consulting the Helix Fossil....", "green");
+		cli_execute("ash import 'Pocket Familiars'; PocketFamiliarsFight();");
+		if($locations[The Defiled Alcove, The Defiled Cranny, The Defiled Niche, The Defiled Nook] contains my_location())
 		{
-			print("Consulting the Helix Fossil....", "green");
-			cli_execute("ash import 'Pocket Familiars'; PocketFamiliarsFight();");
-			if($locations[The Defiled Alcove, The Defiled Cranny, The Defiled Niche, The Defiled Nook] contains my_location())
+			if(item_amount($item[Evilometer]) > 0)
 			{
-				if(item_amount($item[Evilometer]) > 0)
-				{
-					use(1, $item[Evilometer]);
-				}
+				use(1, $item[Evilometer]);
 			}
-			cli_execute("postcheese");
-			return true;
 		}
+		cli_execute("postcheese");
+		return true;
 	}
 
 	if(get_property("_digimonFront") == "")
@@ -206,61 +217,54 @@ boolean digimon_ccAdv(int num, location loc, string option)
 		set_property("_digimonBack", my_poke_fam(2));
 	}
 
-	if(contains_text(temp, "Fight!"))
-	{
-		familiar blastFam = to_familiar(get_property("_digimonBack"));
-		familiar midFam = to_familiar(get_property("_digimonMiddle"));
-#		familiar blastFam = $familiar[Space Jellyfish];
-#		if(!have_familiar($familiar[Space Jellyfish]))
-#		{
-#			blastFam = $familiar[Killer Bee];
-#		}
 
-		if(contains_text(temp, "famaction[ult_crazyblast-" + to_int(blastFam) + "]"))
+	familiar blastFam = to_familiar(get_property("_digimonBack"));
+	familiar midFam = to_familiar(get_property("_digimonMiddle"));
+#	familiar blastFam = $familiar[Space Jellyfish];
+#	if(!have_familiar($familiar[Space Jellyfish]))
+#	{
+#		blastFam = $familiar[Killer Bee];
+#	}
+
+	if(contains_text(temp, "famaction[ult_crazyblast-" + to_int(blastFam) + "]"))
+	{
+		temp = visit_url("fambattle.php?pwd&famaction[ult_crazyblast-" + to_int(blastFam) + "]=ULTIMATE%3A+Spiky+Burst");
+	}
+	else
+	{
+		temp = visit_url("fambattle.php?pwd&famaction[backstab-" + to_int(blastFam) + "]=Backstab");
+	}
+	int action = 1;
+	
+
+	while(!contains_text(temp, "<!--WINWINWIN-->"))
+	{
+		if((action & 1) == 1)
 		{
-			temp = visit_url("fambattle.php?pwd&famaction[ult_crazyblast-" + to_int(blastFam) + "]=ULTIMATE%3A+Spiky+Burst");
+			temp = visit_url("fambattle.php?pwd&famaction[backstab-" + to_int(midFam) + "]=Backstab");
 		}
 		else
 		{
 			temp = visit_url("fambattle.php?pwd&famaction[backstab-" + to_int(blastFam) + "]=Backstab");
 		}
-		int action = 1;
-		
-
-		while(!contains_text(temp, "<!--WINWINWIN-->"))
+		action++;
+		if(contains_text(temp, "dejected and defeated"))
 		{
-			if((action & 1) == 1)
-			{
-				temp = visit_url("fambattle.php?pwd&famaction[backstab-" + to_int(midFam) + "]=Backstab");
-			}
-			else
-			{
-				temp = visit_url("fambattle.php?pwd&famaction[backstab-" + to_int(blastFam) + "]=Backstab");
-			}
-			action++;
-			if(contains_text(temp, "dejected and defeated"))
-			{
-				break;
-			}
-			if(action > 40)
-			{
-				abort("Can not win this Digimon Battle!");
-			}
+			break;
 		}
-
-		if($locations[The Defiled Alcove, The Defiled Cranny, The Defiled Niche, The Defiled Nook] contains my_location())
+		if(action > 40)
 		{
-			if(item_amount($item[Evilometer]) > 0)
-			{
-				use(1, $item[Evilometer]);
-			}
+			abort("Can not win this Digimon Battle!");
 		}
-		cli_execute("postcheese");
 	}
-#	else
-#	{
-#		return ccAdvBypass(to_url(loc), loc);
-#	}
 
+	if($locations[The Defiled Alcove, The Defiled Cranny, The Defiled Niche, The Defiled Nook] contains my_location())
+	{
+		if(item_amount($item[Evilometer]) > 0)
+		{
+			use(1, $item[Evilometer]);
+		}
+	}
+	cli_execute("postcheese");
 	return true;
 }

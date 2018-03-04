@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18484;
+since r18485;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -2181,7 +2181,7 @@ boolean dailyEvents()
 		}
 	}
 
-	if(get_property("_klawSummons").to_int() == 0)
+	if((get_property("_klawSummons").to_int() == 0) && (get_clan_id() != -1))
 	{
 		cli_execute("clan_rumpus.php?action=click&spot=3&furni=3");
 		cli_execute("clan_rumpus.php?action=click&spot=3&furni=3");
@@ -4918,6 +4918,15 @@ boolean L13_towerNSEntrance()
 		{
 			print("I seem to need to power level, or something... waaaa.", "red");
 
+			if(needDigitalKey())
+			{
+				woods_questStart();
+				if(LX_getDigitalKey())
+				{
+					return true;
+				}
+			}
+
 			int delay = get_property("cc_powerLevelTimer").to_int();
 			if(delay == 0)
 			{
@@ -7558,7 +7567,7 @@ boolean LX_getDigitalKey()
 	{
 		return false;
 	}
-	if((get_property("cc_war") != "finished") && (item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[Jam Band Flyers]) == 0))
+	if((get_property("cc_war") != "finished") && (item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[Jam Band Flyers]) == 0) && (get_property("cc_powerLevelAdvCount").to_int() < 9))
 	{
 		return false;
 	}
@@ -7568,7 +7577,7 @@ boolean LX_getDigitalKey()
 	}
 	if((item_amount($item[white pixel]) >= 30) || (item_amount($item[Digital Key]) > 0))
 	{
-		if(have_effect($effect[consumed by fear]) > 0)
+		if(have_effect($effect[Consumed By Fear]) > 0)
 		{
 			uneffect($effect[Consumed By Fear]);
 			council();
@@ -7579,18 +7588,18 @@ boolean LX_getDigitalKey()
 
 	if(get_property("cc_crackpotjar") == "")
 	{
-		if(item_amount($item[jar of psychoses (The crackpot mystic)]) == 0)
+		if(item_amount($item[Jar Of Psychoses (The Crackpot Mystic)]) == 0)
 		{
-			pullXWhenHaveY($item[jar of psychoses (the Crackpot Mystic)], 1, 0);
+			pullXWhenHaveY($item[Jar Of Psychoses (The Crackpot Mystic)], 1, 0);
 		}
-		if(item_amount($item[jar of psychoses (The crackpot mystic)]) == 0)
+		if(item_amount($item[Jar Of Psychoses (The Crackpot Mystic)]) == 0)
 		{
 			set_property("cc_crackpotjar", "fail");
 		}
 		else
 		{
 			woods_questStart();
-			use(1, $item[jar of psychoses (The crackpot mystic)]);
+			use(1, $item[Jar Of Psychoses (The Crackpot Mystic)]);
 			set_property("cc_crackpotjar", "done");
 		}
 	}
@@ -7603,7 +7612,7 @@ boolean LX_getDigitalKey()
 	{
 		set_property("choiceAdventure644", 3);
 		ccAdv(1, $location[Fear Man\'s Level]);
-		if(have_effect($effect[consumed by fear]) == 0)
+		if(have_effect($effect[Consumed By Fear]) == 0)
 		{
 			print("Well, we don't seem to have further access to the Fear Man area so... abort that plan", "red");
 			set_property("cc_crackpotjar", "fail");
@@ -9308,7 +9317,7 @@ boolean LX_guildUnlock()
 	{
 		return false;
 	}
-	if(cc_my_path() == "Nuclear Autumn")
+	if((cc_my_path() == "Nuclear Autumn") || (cc_my_path() == "Pocket Familiars"))
 	{
 		return false;
 	}
@@ -9410,7 +9419,7 @@ boolean L5_goblinKing()
 	{
 		return false;
 	}
-	if(my_level() < 8)
+	if((my_level() < 8) && (get_property("cc_powerLevelAdvCount").to_int() < 9))
 	{
 		return false;
 	}
@@ -10604,7 +10613,9 @@ boolean LX_handleSpookyravenFirstFloor()
 			if(!possessEquipment($item[Pool Cue]))
 			{
 				print("Well, I need a pool cueball...", "blue");
+				backupSetting("choiceAdventure330", 1);
 				ccAdv(1, $location[The Haunted Billiards Room]);
+				restoreSetting("choiceAdventure330");
 				return true;
 			}
 
@@ -10661,7 +10672,9 @@ boolean LX_handleSpookyravenFirstFloor()
 			}
 
 			print("It's billiards time!", "blue");
+			backupSetting("choiceAdventure330", 1);
 			ccAdv(1, $location[The Haunted Billiards Room]);
+			restoreSetting("choiceAdventure330");
 		}
 		else
 		{
@@ -12676,15 +12689,7 @@ boolean LX_pirateBlueprint()
 		}
 		else if(!possessEquipment($item[Frilly Skirt]))
 		{
-			if(available_amount($item[continuum transfunctioner]) == 0)
-			{
-				//From Bale\'s Woods.ash
-				visit_url("place.php?whichplace=forestvillage&action=fv_mystic");
-				visit_url("choice.php?pwd="+my_hash()+"&whichchoice=664&option=1&choiceform1=Sure%2C+old+man.++Tell+me+all+about+it.");
-				visit_url("choice.php?pwd="+my_hash()+"&whichchoice=664&option=1&choiceform1=Against+my+better+judgment%2C+yes.");
-				visit_url("choice.php?pwd="+my_hash()+"&whichchoice=664&option=1&choiceform1=Er,+sure,+I+guess+so...");
-				visit_url("place.php?whichplace=forestvillage&preaction=screwquest&action=fv_untinker_quest");
-			}
+			acquireTransfunctioner();
 			if(!ccAdv(1, $location[The Degrassi Knoll Gym]))
 			{
 				visit_url("place.php?whichplace=forestvillage&preaction=screwquest&action=fv_untinker_quest");
@@ -12918,6 +12923,7 @@ boolean L8_trapperGroar()
 	if((item_amount($item[Ninja Rope]) >= 1) && (item_amount($item[Ninja Carabiner]) >= 1) && (item_amount($item[Ninja Crampons]) >= 1))
 	{
 		canGroar = true;
+		//If we can not get enough cold resistance, maybe we need to do extreme path.
 	}
 	if((internalQuestStatus("questL08Trapper") == 2) && (get_property("currentExtremity").to_int() == 3))
 	{
@@ -12936,6 +12942,13 @@ boolean L8_trapperGroar()
 	//Use that instead of the Avatar/Hound Dog checks.
 
 	if(!canGroar && in_hardcore() && ((cc_my_path() == "Avatar of Sneaky Pete") || !have_familiar($familiar[Jumpsuited Hound Dog])))
+	{
+		if(L8_trapperExtreme())
+		{
+			return true;
+		}
+	}
+	if(get_property("cc_powerLevelAdvCount").to_int() > 8)
 	{
 		if(L8_trapperExtreme())
 		{

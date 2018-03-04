@@ -43,9 +43,18 @@ boolean LA_cs_communityService()
 	{
 		if((my_familiar() != $familiar[Puck Man]) && (my_familiar() != $familiar[Ms. Puck Man]))
 		{
-			abort("100% familiar is not compatible, to disable: set cc_100familiar=none");
+			print("100% familiar is dangerous, to disable: set cc_100familiar=none", "red");
+			string thing = "meatbag";
+			if(my_name() == "Cheesecookie")
+			{
+				thing = "my robotic overlord";
+			}
+			print("I'm going to keep going anyway because, whatevs, your problem " + thing + ".", "red");
 		}
-		print("In 100% familiar mode with a Puck Person... well, good luck!", "red");
+		else
+		{
+			print("In 100% familiar mode with a Puck Person... well, good luck!", "red");
+		}
 	}
 
 	if(get_property("nsTowerDoorKeysUsed") == "")
@@ -475,7 +484,25 @@ boolean LA_cs_communityService()
 				cc_sourceTerminalEnhance("substats");
 			}
 
-			if(cs_witchess())
+			if(get_property("_cc_witchessBattles").to_int() <= 3)
+			{
+				if(cs_witchess())
+				{
+					return true;
+				}
+			}
+
+			if(get_property("_cc_witchessBattles").to_int() == 4)
+			{
+				if((my_mp() >= 120) && cc_haveWitchess() && have_skill($skill[Curse of Weaksauce]) && (have_skill($skill[Tattle]) || have_skill($skill[Meteor Lore])) && have_skill($skill[Conspiratorial Whispers]) && have_skill($skill[Sauceshell]) && have_skill($skill[Shell Up]) && have_skill($skill[Silent Slam]) && !possessEquipment($item[Dented Scepter]) && have_familiar($familiar[Galloping Grill]) && (my_ascensions() >= 100))
+				{
+					handleFamiliar($familiar[Galloping Grill]);
+					cc_sourceTerminalEducate($skill[Turbo], $skill[Compress]);
+					return cc_advWitchess("king", "cs_combatKing");
+				}
+			}
+
+			if((my_turncount() >= 60) && cs_witchess())
 			{
 				return true;
 			}
@@ -860,7 +887,12 @@ boolean LA_cs_communityService()
 			}
 			if(((item_amount($item[Power Pill]) < 2) || (item_amount($item[Yellow Pixel]) < pixelsNeed)) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
-				doFarm = true;
+				if(is100familiarRun() && is100familiarRun($familiar[Puck Man]) && is100familiarRun($familiar[Ms. Puck Man]))
+				{}
+				else
+				{
+					doFarm = true;
+				}
 			}
 
 			if(possessEquipment($item[KoL Con 13 Snowglobe]) && (equipped_item($slot[Off-Hand]) == $item[A Light That Never Goes Out]))
@@ -3389,6 +3421,7 @@ string cs_combatNormal(int round, string opp, string text)
 	{
 		if($monsters[Ancient Insane Monk, Ferocious Bugbear, Gelatinous Cube, Knob Goblin Poseur] contains enemy)
 		{
+			print("Macrometeoring: " + enemy, "green");
 			set_property("_macrometeoriteUses", 1 + get_property("_macrometeoriteUses").to_int());
 			return "skill " + $skill[Macrometeorite];
 		}		
@@ -3407,7 +3440,7 @@ string cs_combatNormal(int round, string opp, string text)
 		return "skill summon love gnats";
 	}
 
-	if((have_effect($effect[On The Trail]) == 0) && (have_skill($skill[Transcendent Olfaction])) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
+	if((have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
 	{
 		boolean doOlfaction = false;
 		if((item_amount($item[Time-Spinner]) == 0) || (get_property("_timeSpinnerMinutesUsed").to_int() >= 8))
@@ -3425,7 +3458,7 @@ string cs_combatNormal(int round, string opp, string text)
 
 		if(doOlfaction)
 		{
-			if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 72))
+			if((!contains_text(combatState, "weaksauce")) && have_skill($skill[curse of weaksauce]) && (my_mp() >= 72))
 			{
 				set_property("cc_combatHandler", combatState + "(weaksauce)");
 				return "skill curse of weaksauce";
@@ -3438,9 +3471,30 @@ string cs_combatNormal(int round, string opp, string text)
 
 			set_property("cc_combatHandler", combatState + "(olfaction)");
 			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
-			return "skill transcendent olfaction";
+			return "skill " + $skill[Transcendent Olfaction];
 		}
+	}
 
+	if((have_effect($effect[On The Trail]) < 40) && have_skill($skill[Gallapagosian Mating Call]) && (my_mp() >= mp_cost($skill[Gallapagosian Mating Call])) && !contains_text(combatState, "matingcall"))
+	{
+		if(($monster[Government Scientist] == enemy) && (get_property("_matingCall") != enemy))
+		{
+			if((!contains_text(combatState, "weaksauce")) && have_skill($skill[Curse Of Weaksauce]) && (my_mp() >= 72))
+			{
+				set_property("cc_combatHandler", combatState + "(weaksauce)");
+				return "skill " + $skill[Curse Of Weaksauce];
+			}
+			if(!contains_text(combatState, "soulbubble") && have_skill($skill[Soul Saucery]) && (my_soulsauce() >= soulsauce_cost($skill[Soul Bubble])))
+			{
+				set_property("cc_combatHandler", combatState + "(soulbubble)");
+				return "skill " + $skill[Soul Bubble];
+			}
+
+			set_property("cc_combatHandler", combatState + "(matingcall)");
+			handleTracker(enemy, $skill[Gallapagosian Mating Call], "cc_sniffs");
+			set_property("_matingCall", enemy);
+			return "skill " + $skill[Gallapagosian Mating Call];
+		}
 	}
 
 

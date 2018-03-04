@@ -894,7 +894,184 @@ boolean cc_cheesePostCS()
 
 boolean cc_cheesePostCS(int leave)
 {
-	int startMeat = my_meat();
+	int startMeat = get_property("_todayMeat").to_int();
+	if(startMeat == 0)
+	{
+		startMeat = my_meat();
+		set_property("_todayMeat", my_meat());
+	}
+
+	cc_sourceTerminalEnhance("meat");
+	cc_sourceTerminalEnhance("meat");
+	cc_sourceTerminalEnhance("items");
+	zataraSeaside("meatsmith");
+
+	if((my_daycount() == 2) && isOverdueDigitize())
+	{
+		if(my_fullness() == 10)
+		{
+			use(1, $item[Milk Of Magnesium]);
+			eat(1, $item[Browser Cookie]);
+			eat(1, $item[Jumping Horseradish]);
+		}
+
+		cc_sourceTerminalEducate($skill[Digitize], $skill[Turbo]);
+		if(have_familiar($familiar[Garbage Fire]))
+		{
+			enthrone_familiar($familiar[Garbage Fire]);
+		}
+		if(have_familiar($familiar[Hobo Monkey]))
+		{
+			use_familiar($familiar[Hobo Monkey]);
+		}
+		if(item_amount($item[Pantsgiving]) > 0)
+		{
+			equip($slot[pants], $item[Pantsgiving]);
+		}
+		if(item_amount($item[Kol Con 13 Snowglobe]) > 0)
+		{
+			equip($slot[off-hand], $item[Kol Con 13 Snowglobe]);
+		}
+
+		if(isOverdueDigitize())
+		{
+			ccAdv($location[The Ice Hotel]);
+			if(get_property("_sourceTerminalDigitizeMonsterCount").to_int() != 2)
+			{
+				print("Did digitize tracking get mixed up?", "red");
+			}
+		}
+		if(isOverdueArrow())
+		{
+			ccAdv($location[The Ice Hotel]);
+			if(get_property("_romanticFightsLeft").to_int() == 2)
+			{
+				print("Probably got confused about an arrow fight, adjusting", "red");
+				set_property("_romanticFightsLeft", 1);
+			}
+		}
+
+		if(item_amount($item[Cheer Extractor]) > 0)
+		{
+			equip($slot[weapon], $item[Cheer Extractor]);
+		}
+		if(item_amount($item[Mime Pocket Probe]) > 0)
+		{
+			equip($slot[off-hand], $item[Mime Pocket Probe]);
+		}
+
+		if((get_property("chateauMonster") == $monster[Cheerless Mime Executive]) && !get_property("_chateauMonsterFought").to_boolean() && chateaumantegna_available())
+		{
+			set_property("cc_combatDirective", "start;skill curse of weaksauce;skill digitize;item rain-doh black box, spooky putty sheet;skill stuffed mortar shell;item rain-doh indigo cup, rain-doh blue balls");
+			chateaumantegna_usePainting("");
+
+			if(!didWePlantHere($location[Barf Mountain]) && florist_available() && (my_adventures() > 0) && (inebriety_left() >= 0))
+			{
+				ccAdv(1, $location[Barf Mountain]);
+				cli_execute("florist plant stealing magnolia");
+				cli_execute("florist plant pitcher plant");
+				cli_execute("florist plant aloe guv'nor");
+			}
+			else
+			{
+				ccAdv($location[The Ice Hotel]);
+			}
+		}
+		while(item_amount($item[Rain-Doh Box Full Of Monster]) > 0)
+		{
+			set_property("cc_combatDirective", "start;skill curse of weaksauce;item rain-doh black box, time-spinner;skill stuffed mortar shell;item rain-doh indigo cup, rain-doh blue balls");
+			handleCopiedMonster($item[Rain-Doh Box Full Of Monster]);
+		}
+		while(item_amount($item[Spooky Putty Monster]) > 0)
+		{
+			set_property("cc_combatDirective", "start;skill curse of weaksauce;item rain-doh black box, time-spinner;skill stuffed mortar shell;item rain-doh indigo cup, rain-doh blue balls");
+			handleCopiedMonster($item[Spooky Putty Monster]);
+		}
+
+		if((get_property("cc_digitizePlanet") != "") && (get_property("_spacegateCoordinates") == ""))
+		{
+			string temp = visit_url("place.php?whichplace=spacegate&action=sg_Terminal");
+			temp = visit_url("choice.php?pwd=&whichchoice=1235&option=2&word=" + get_property("cc_digitizePlanet"));
+			ccAdv($location[Through The Spacegate]);
+		}
+
+		# I suppose hazards tells us what we need to equip?
+		while(get_property("_spacegateTurnsLeft").to_int() > 0)
+		{
+			if(item_amount($item[Rad Cloak]) > 0)
+			{
+				equip($slot[back], $item[Rad Cloak]);
+			}
+
+			if(isOverdueDigitize())
+			{
+				set_property("cc_combatDirective", "start;skill curse of weaksauce;item rain-doh black box, time-spinner;skill stuffed mortar shell;item rain-doh indigo cup, rain-doh blue balls");
+				ccAdv($location[The Ice Hotel]);
+			}
+
+			if(get_property("_sourceTerminalDigitizeMonsterCount").to_int() > 0)
+			{
+				if(item_amount($item[Thor\'s Pliers]) > 0)
+				{
+					equip($slot[weapon], $item[Thor\'s Pliers]);
+				}
+				if(item_amount($item[Kol Con 13 Snowglobe]) > 0)
+				{
+					equip($slot[off-hand], $item[Kol Con 13 Snowglobe]);
+				}
+			}
+
+			if(!ccAdv($location[Through The Spacegate]))
+			{
+				string temp = visit_url("place.php?whichplace=spacegate&action=sg_Terminal");
+				break;
+			}
+			
+		}
+
+
+		if(available_amount($item[Kremlin\'s Greatest Briefcase]) > 0)
+		{
+			if(item_amount($item[Kremlin\'s Greatest Briefcase]) > 0)
+			{
+				equip($slot[acc1], $item[Kremlin\'s Greatest Briefcase]);
+			}
+
+			if(get_property("gingerbreadCityAvailable").to_boolean() && (get_property("_gingerbreadCityTurns").to_int() < 5))
+			{
+				if(!get_property("_gingerbreadClockAdvanced").to_boolean())
+				{
+					string old = get_property("choiceAdventure1215");
+					set_property("choiceAdventure1215", 1);
+					ccAdv($location[Gingerbread Civic Center]);
+					set_property("choiceAdventure1215", old);
+				}
+				while(get_property("_gingerbreadCityTurns").to_int() < 4)
+				{
+					set_property("cc_combatDirective", "start;skill KGB tranquilizer dart");
+					ccAdV($location[Gingerbread Upscale Retail District]);
+				}
+				if(get_property("_gingerbreadCityTurns").to_int() == 4)
+				{
+					string old = get_property("choiceAdventure1204");
+					set_property("choiceAdventure1204", 1);
+					ccAdv($location[Gingerbread Train Station]);
+					set_property("choiceAdventure1204", old);
+				}
+			}
+		}
+		if(fullness_left() > 0)
+		{
+			eat(1, $item[Jumping Horseradish]);
+		}
+
+		foreach it in $items[Defective Game Grid Token, Glenn\'s Golden Dice, The Legendary Beat]
+		{
+			use(1, it);
+		}
+	}
+
+
 	if(!didWePlantHere($location[Barf Mountain]) && florist_available() && (my_adventures() > 0) && (inebriety_left() >= 0))
 	{
 		ccAdv(1, $location[Barf Mountain]);
@@ -944,7 +1121,6 @@ boolean cc_cheesePostCS(int leave)
 		put_closet(item_amount($item[Cuppa Royal Tea]), $item[Cuppa Royal Tea]);
 	}
 
-
 	while((get_property("_sourceTerminalExtrudes").to_int() < 3) && contains_text(get_property("sourceTerminalExtrudeKnown"),"booze.ext") && (item_amount($item[Source Essence]) >= 10))
 	{
 		cc_sourceTerminalExtrude($item[Hacked Gibson]);
@@ -983,6 +1159,12 @@ boolean cc_cheesePostCS(int leave)
 				equip($slot[Acc3], it);
 			}
 		}
+	}
+
+	while((inebriety_left() >= 8) && (item_amount($item[Sacramento Wine]) > 4))
+	{
+		buffMaintain($effect[Ode to Booze], 50, 1, 4);
+		drink(4, $item[Sacramento Wine]);
 	}
 
 	while((inebriety_left() >= 4) && (item_amount($item[Hacked Gibson]) > 0))
@@ -1031,20 +1213,18 @@ boolean cc_cheesePostCS(int leave)
 			if(elemental_resist($element[hot]) >= 15)
 			{
 				string temp = visit_url("mining.php?mine=6", false);
-				temp = visit_url("mining.php?mine=6&which=51&pwd=", false);
-				temp = visit_url("mining.php?mine=6&which=43&pwd=", false);
-				temp = visit_url("mining.php?mine=6&which=35&pwd=", false);
-				temp = visit_url("mining.php?mine=6&which=27&pwd=", false);
-				temp = visit_url("mining.php?mine=6&which=19&pwd=", false);
+				temp = visit_url("mining.php?mine=6&which=51&pwd=");
+				temp = visit_url("mining.php?mine=6&which=43&pwd=");
+				temp = visit_url("mining.php?mine=6&which=35&pwd=");
+				temp = visit_url("mining.php?mine=6&which=27&pwd=");
+				temp = visit_url("mining.php?mine=6&which=19&pwd=");
 			}
 		}
 		set_property("_didMining", true);
 	}
 
-	cc_sourceTerminalEducate($skill[Extract], $skill[Turbo]);
-	cc_sourceTerminalEnhance("meat");
-	cc_sourceTerminalEnhance("meat");
-	cc_sourceTerminalEnhance("items");
+
+
 
 
 	boolean oldGarbage = get_property("cc_getDinseyGarbageMoney").to_boolean();
@@ -1056,10 +1236,8 @@ boolean cc_cheesePostCS(int leave)
 	volcano_bunkerJob();
 	change_mcd(0);
 
-	if(my_daycount() == 2)
-	{
+	cc_sourceTerminalEducate($skill[Extract], $skill[Turbo]);
 
-	}
 
 	if((item_amount($item[Confusing LED Clock]) > 0) && hippy_stone_broken() && (my_adventures() >= 6) && !get_property("_confusingLEDClockUsed").to_boolean())
 	{
@@ -1299,7 +1477,14 @@ boolean cc_cheesePostCS(int leave)
 			#buffMaintain($effect[Eldritch Alignment], 0, 1, 1);
 		}
 
-		ccAdv(1, loc);
+		if((loc == $location[Barf Mountain]) && ((get_property("sourceTerminalEducate1") == "extract.edu") || (get_property("sourceTerminalEducate2")  == "extract.edu")) && have_skill($skill[Curse Of Weaksauce]) && have_skill($skill[Meteor Lore]) && have_equipped($item[Pantsgiving]) && (item_amount($item[Rain-Doh Indigo Cup]) > 0) && get_property("lovebugsUnlocked").to_boolean() && (item_amount($item[Time-Spinner]) > 0) && have_skill($skill[Candyblast]) && have_skill($skill[Stuffed Mortar Shell]))
+		{
+			ccAdv(1, loc, "skill extract; skill weaksauce; if hasskill extract jelly; skill extract jelly; endif; skill pocket crumbs; skill micrometeorite; skill air dirty laundry; use rain-doh indigo cup, rain-doh blue balls; skill summon love mosquito; use time-spinner; skill candyblast; skill stuffed mortar shell; skill summon love stinkbug");
+		}
+		else
+		{
+			ccAdv(1, loc);
+		}
 		LX_ghostBusting();
 
 		if((back != $item[Protonic Accelerator Pack]) && (equipped_item($slot[back]) == $item[Protonic Accelerator Pack]))
@@ -1404,7 +1589,14 @@ boolean cc_cheesePostCS(int leave)
 	if(fullness_left() > 0)
 	{
 		put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
-		tryPantsEat();
+		if(item_amount($item[Jumping Horseradish]) > 0)
+		{
+			eatsilent(1, $item[Jumping Horseradish]);
+		}
+		else
+		{
+			tryPantsEat();
+		}
 		cli_execute("refresh all");
 	}
 
@@ -1422,7 +1614,14 @@ boolean cc_cheesePostCS(int leave)
 	if(fullness_left() > 0)
 	{
 		put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
-		tryPantsEat();
+		if(item_amount($item[Jumping Horseradish]) > 0)
+		{
+			eatsilent(1, $item[Jumping Horseradish]);
+		}
+		else
+		{
+			tryPantsEat();
+		}
 		cli_execute("refresh all");
 	}
 
@@ -1445,7 +1644,14 @@ boolean cc_cheesePostCS(int leave)
 	if(fullness_left() > 0)
 	{
 		put_closet(item_amount($item[Deviled Egg]), $item[Deviled Egg]);
-		tryPantsEat();
+		if(item_amount($item[Jumping Horseradish]) > 0)
+		{
+			eatsilent(1, $item[Jumping Horseradish]);
+		}
+		else
+		{
+			tryPantsEat();
+		}
 		cli_execute("refresh all");
 	}
 

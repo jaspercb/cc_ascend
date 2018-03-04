@@ -2204,7 +2204,7 @@ boolean handleCopiedMonster(item itm, string option)
 		id = to_int(itm);
 		break;
 	case $item[Spooky Putty Monster]:
-		if(get_property("spoookyPuttyMonster") == "")
+		if(get_property("spookyPuttyMonster") == "")
 		{
 			abort(itm + " has no monster so we can't use it");
 		}
@@ -3142,7 +3142,7 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 //From Bale\'s woods.ash relay script.
 void woods_questStart()
 {
-	if((item_amount($item[continuum transfunctioner]) > 0) || (equipped_amount($item[Continuum Transfunctioner]) > 0))
+	if(available_amount($item[Continuum Transfunctioner]) > 0)
 	{
 		return;
 	}
@@ -3153,12 +3153,12 @@ void woods_questStart()
 	visit_url("choice.php?pwd=&whichchoice=664&option=1&choiceform1=Er,+sure,+I+guess+so...");
 	if(knoll_available())
 	{
-		visit_url("place.php?whichplace=forestvillage&preaction=screwquest&action=fv_untinker_quest");
-	}
-	if(knoll_available())
-	{
 		visit_url("place.php?whichplace=knoll_friendly&action=dk_innabox");
 		visit_url("place.php?whichplace=forestvillage&action=fv_untinker");
+	}
+	else
+	{
+		visit_url("place.php?whichplace=forestvillage&preaction=screwquest&action=fv_untinker_quest");
 	}
 }
 
@@ -3628,6 +3628,26 @@ boolean haveSpleenFamiliar()
 		}
 	}
 	return false;
+}
+
+boolean acquireTransfunctioner()
+{
+	if(available_amount($item[Continuum Transfunctioner]) > 0)
+	{
+		return false;
+	}
+	if(!zone_isAvailable($location[The Spooky Forest]))
+	{
+		return false;
+	}
+	//From Bale\'s Woods.ash
+	visit_url("place.php?whichplace=forestvillage&action=fv_mystic");
+	visit_url("choice.php?pwd="+my_hash()+"&whichchoice=664&option=1&choiceform1=Sure%2C+old+man.++Tell+me+all+about+it.");
+	visit_url("choice.php?pwd="+my_hash()+"&whichchoice=664&option=1&choiceform1=Against+my+better+judgment%2C+yes.");
+	visit_url("choice.php?pwd="+my_hash()+"&whichchoice=664&option=1&choiceform1=Er,+sure,+I+guess+so...");
+	visit_url("place.php?whichplace=forestvillage&preaction=screwquest&action=fv_untinker_quest");
+
+	return true;
 }
 
 int [item] cc_get_campground()
