@@ -55,6 +55,10 @@ boolean digimon_makeTeam()
 		familiar midFam = $familiar[Scary Death Orb];
 		foreach fam in $familiars[Bad Vibe, Restless Cow Skull, Mariachi Chihuahua]
 		{
+			if(!have_familiar(fam))
+			{
+				continue;
+			}
 			if(contains_text(temp, "Lv. 5 " + fam))
 			{
 				continue;
@@ -81,7 +85,7 @@ boolean digimon_makeTeam()
 		familiar newFam = $familiar[El Vibrato Megadrone];
 		foreach fam in $familiars[]
 		{
-			if($familiars[Scary Death Orb, Space Jellyfish] contains fam)
+			if(!have_familiar(fam))
 			{
 				continue;
 			}
@@ -108,6 +112,10 @@ boolean digimon_makeTeam()
 
 		foreach fam in $familiars[Clockwork Grapefruit, Mini-Crimbot, MagiMechTech MicroMechaMech, Autonomous Disco Ball, Software Bug, Robortender, Putty Buddy]
 		{
+			if(!have_familiar(fam))
+			{
+				continue;
+			}
 			if(contains_text(temp, "Lv. 5 " + fam))
 			{
 				continue;

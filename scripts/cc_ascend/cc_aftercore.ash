@@ -1068,7 +1068,10 @@ boolean cc_cheesePostCS(int leave)
 
 		foreach it in $items[Defective Game Grid Token, Glenn\'s Golden Dice, The Legendary Beat]
 		{
-			use(1, it);
+			if(item_amount(it) > 0)
+			{
+				use(1, it);
+			}
 		}
 	}
 
