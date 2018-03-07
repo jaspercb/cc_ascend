@@ -11927,7 +11927,7 @@ boolean L11_ronCopperhead()
 		return false;
 	}
 
-	if((internalQuestStatus("questL11Ron") == 2) || (internalQuestStatus("questL11Ron") == 3))
+	if((internalQuestStatus("questL11Ron") == 2) || (internalQuestStatus("questL11Ron") == 3) || (internalQuestStatus("questL11Ron") == 4))
 	{
 		if((item_amount($item[Red Zeppelin Ticket]) == 0) && (my_meat() > npc_price($item[Red Zeppelin Ticket])))
 		{
