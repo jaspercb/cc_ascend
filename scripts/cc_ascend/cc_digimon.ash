@@ -176,7 +176,8 @@ boolean digimon_ccAdv(int num, location loc, string option)
 	string temp = visit_url(to_url(loc), false);
 	print("[Insert Punch Out music here]", "green");
 	temp = visit_url("fambattle.php");
-	if(contains_text(temp, "whichchoice value=") || contains_text(temp, "whichchoice="))
+	int choiceLimiter = 0;
+	while(contains_text(temp, "whichchoice value=") || contains_text(temp, "whichchoice="))
 	{
 		print("Digimon hit a choice adventure (" + loc + "), trying....", "red");
 		matcher choice_matcher = create_matcher("(?:whichchoice value=(\\d+))|(?:whichchoice=(\\d+))", temp);
@@ -188,6 +189,11 @@ boolean digimon_ccAdv(int num, location loc, string option)
 				choice = choice_matcher.group(2).to_int();
 			}
 			temp = visit_url("choice.php?pwd=" + my_hash() + "&whichchoice=" + choice + "&option=" + get_property("choiceAdventure" + choice).to_int());
+		}
+		choiceLimiter += 1;
+		if(choiceLimiter > 5)
+		{
+			abort("Choice chain too long or I'm stuck!");
 		}
 	}
 	temp = visit_url("fambattle.php");

@@ -8076,6 +8076,10 @@ boolean L10_basement()
 		}
 		equip($slot[acc3], $item[Amulet Of Extreme Plot Significance]);
 		set_property("choiceAdventure670", "4");
+		if(!have_equipped($item[Amulet Of Extreme Plot Significance]))
+		{
+			abort("Unable to equip the Amulet when we wanted to...");
+		}
 		ccAdv(1, $location[The Castle in the Clouds in the Sky (Basement)]);
 		if(contains_text(get_property("lastEncounter"), "You Don\'t Mess Around with Gym"))
 		{
