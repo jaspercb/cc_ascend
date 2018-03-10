@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18485;
+since r18502;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -4969,7 +4969,14 @@ boolean L13_towerNSEntrance()
 				if(get_property("cc_powerLevelAdvCount").to_int() >= 10)
 				{
 					print("The following error message is probably wrong, you just need to powerlevel to 13 most likely.", "red");
-					abort("Need more flyer ML but don't know where to go :(");
+					if((item_amount($item[Rock Band Flyers]) > 0) || (item_amount($item[Jam Band Flyers]) > 0))
+					{
+						abort("Need more flyer ML but don't know where to go :(");
+					}
+					else
+					{
+						abort("I am lost, please forgive me. I feel underleveled.");
+					}
 				}
 			}
 			return true;
@@ -5358,6 +5365,10 @@ boolean L11_hiddenCity()
 			print("The idden [sic] apartment!", "blue");
 			int current = get_property("cc_hiddenapartment").to_int() + 1;
 			set_property("cc_hiddenapartment", current);
+			if(!get_property("_claraBellUsed").to_boolean() && (item_amount($item[Clara\'s Bell]) > 0))
+			{
+				use(1, $item[Clara\'s Bell]);
+			}
 			if(current <= 8)
 			{
 				print("Hidden Apartment Progress: " + get_property("hiddenApartmentProgress"), "blue");
@@ -10018,8 +10029,20 @@ boolean beatenUpResolution()
 			if(get_property("cc_beatenUpCount").to_int() < 10)
 			{
 				doRest();
+				if(have_effect($effect[Beaten Up]) > 0)
+				{
+					print("Resting did not remove Beaten Up!", "red");
+					cli_execute("refresh all");
+					if(have_effect($effect[Beaten Up]) > 0)
+					{
+						abort("Still beaten up... the sadness.");
+					}
+				}
 			}
-			abort("Got beaten up, please fix me");
+			else
+			{
+				abort("Got beaten up, please fix me");
+			}
 		}
 	}
 	return false;
@@ -12131,6 +12154,10 @@ boolean L11_talismanOfNam()
 		if(get_property("cc_gaudy") == "")
 		{
 			print("It always be swordfish.", "blue");
+			if((spleen_left() > 0) && (item_amount($item[Stench Jelly]) > 0))
+			{
+				chew(1, $item[Stench Jelly]);
+			}
 			ccAdv(1, $location[The Poop Deck]);
 			if(contains_text(get_property("lastEncounter"), "It\'s Always Swordfish"))
 			{

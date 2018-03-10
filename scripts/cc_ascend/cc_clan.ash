@@ -287,7 +287,7 @@ boolean zataraSeaside(string who)
 	{
 		return false;
 	}
-	if(get_property("_ZATARAPREF").to_boolean())
+	if(get_property("_clanFortuneBuffUsed").to_boolean())
 	{
 		return false;
 	}
@@ -306,31 +306,6 @@ boolean zataraSeaside(string who)
 
 	int id = 0;
 
-	if((who == "susie") || (who == "familiar") || (who == "-1"))
-	{
-		id = -1;
-	}
-	else if((who == "hagnk") || (who == "food") || (who == "booze") || (who == "item") || (who == "-2"))
-	{
-		id = -2;
-	}
-	else if((who == "meatsmith") || (who == "gear") || (who == "meat") || (who == "-3"))
-	{
-		id = -3;
-	}
-	else if((who == "gunther") || (who == "muscle") || (who == "hp") || (who == "-4"))
-	{
-		id = -4;
-	}
-	else if((who == "gorgonzola") || (who == "myst") || (who == "mysticality") || (who == "mp") || (who == "-5"))
-	{
-		id = -5;
-	}
-	else if((who == "shifty") || (who == "moxie") || (who == "init") || (who == "-6"))
-	{
-		id = -6;
-	}
-/*
 	if((who == "susie") || (who == "familiar") || (who == "-1") || (who ≈ $effect[A Girl Named Sue]))
 	{
 		id = -1;
@@ -351,11 +326,10 @@ boolean zataraSeaside(string who)
 	{
 		id = -5;
 	}
-	else if((who == "shifty") || (who == "moxie") || (who == "init") || (who == "-6") || (who ≈ $effect[They Call Me Shifty]))
+	else if((who == "shifty") || (who == "moxie") || (who == "init") || (who == "-6") || (who ≈ $effect[They Call Him Shifty Because...]))
 	{
 		id = -6;
 	}
-*/
 
 
 	if(id == 0)
@@ -363,16 +337,9 @@ boolean zataraSeaside(string who)
 		return false;
 	}
 
-	string page = visit_url("clan_viplounge.php");
-	if(!contains_text(page, "lovetester"))
-	{
-		set_property("_ZATARAPREF", true);
-		return false;
-	}
-
 	string temp = visit_url("clan_viplounge.php?preaction=lovetester", false);
 	temp = visit_url("choice.php?pwd=&whichchoice=1278&option=1&which=" + id);
-	set_property("_ZATARAPREF", true);
+	set_property("_clanFortuneBuffUsed", true);
 	return true;
 }
 
@@ -394,25 +361,24 @@ boolean zataraClanmate(string who)
 		return false;
 	}
 
-	if(get_property("_ZATARACLANMATE").to_int() >= 3)
+	if(get_property("_clanFortuneConsultUses").to_int() >= 3)
 	{
 		return false;
 	}
 
-	string page = visit_url("clan_viplounge.php");
-	if(!contains_text(page, "lovetester"))
-	{
-		set_property("_ZATARACLANMATE", 3);
-		return false;
-	}
-
-	set_property("_ZATARACLANMATE", get_property("_ZATARACLANMATE").to_int() + 1);
+#	string page = visit_url("clan_viplounge.php");
+#	if(!contains_text(page, "lovetester"))
+#	{
+#		set_property("_clanFortuneConsultUses", 3);
+#		return false;
+#	}
+#	set_property("_clanFortuneConsultUses", get_property("_clanFortuneConsultUses").to_int() + 1);
 
 	int oldClan = get_clan_id();
 	changeClan();
 	if(oldClan == get_clan_id())
 	{
-		set_property("_ZATARACLANMATE", 3);
+		set_property("_clanFortuneConsultUses", 42069);
 		return false;
 	}
 
@@ -429,7 +395,7 @@ boolean zataraClanmate(string who)
 		if(contains_text(temp, "You can't consult Madame Zatara about your relationship with anyone else today."))
 		{
 			print("No consults left today. Uh oh", "red");
-			set_property("_ZATARACLANMATE", 3);
+			set_property("_clanFortuneConsultUses", 3);
 			needWait = false;
 			break;
 		}

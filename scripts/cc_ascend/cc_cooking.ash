@@ -316,7 +316,7 @@ boolean ccDrink(int howMany, item toDrink)
 	int expectedInebriety = toDrink.inebriety * howMany;
 
 	item it = equipped_item($slot[Acc3]);
-	if((it != $item[Mafia Pinky Ring]) && (item_amount($item[Mafia Pinky Ring]) > 0) && ($items[Bucket of Wine, Cheer Wine, Psychotic Train Wine, Sacramento Wine] contains toDrink) && can_equip($item[Mafia Pinky Ring]))
+	if((it != $item[Mafia Pinky Ring]) && (item_amount($item[Mafia Pinky Ring]) > 0) && ($items[Bucket of Wine, Psychotic Train Wine, Sacramento Wine, Stale Cheer Wine] contains toDrink) && can_equip($item[Mafia Pinky Ring]))
 	{
 		equip($slot[Acc3], $item[Mafia Pinky Ring]);
 	}
@@ -710,6 +710,12 @@ void consumeStuff()
 			chew(1, $item[grim fairy tale]);
 		}
 
+		if(!contains_text(get_counters("Fortune Cookie", 0, 200), "Fortune Cookie") && (my_turncount() < 70) && (fullness_left() > 0) && (my_meat() >= npc_price($item[Fortune Cookie])) && (item_amount($item[Deck of Every Card]) == 0) && (item_amount($item[Stone Wool]) < 2) && !(get_clan_lounge() contains $item[Clan Speakeasy]))
+		{
+			buyUpTo(1, $item[Fortune Cookie], npc_price($item[Fortune Cookie]));
+			eat(1, $item[Fortune Cookie]);
+		}
+
 		//	Try to drink more on day 1 please!
 
 		if((my_meat() > 400) && (item_amount($item[Handful of Smithereens]) == 3) && (get_property("cc_mosquito") == "finished") && (internalQuestStatus("questL03Rat") >= 0) && canDrink($item[Paint A Vulgar Pitcher]))
@@ -754,7 +760,8 @@ void consumeStuff()
 			if(inebriety_left() >= 1)
 			{
 				buffMaintain($effect[Ode to Booze], 50, 1, 1);
-				cli_execute("drink 1 lucky lindy");
+				#cli_execute("drink 1 lucky lindy");
+				drinkSpeakeasyDrink($item[Lucky Lindy]);
 			}
 
 			if((inebriety_left() >= 4) && canDrink($item[Ice Island Long Tea]))
@@ -778,7 +785,8 @@ void consumeStuff()
 		{
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 3);
-			cli_execute("drink 1 lucky lindy");
+			drinkSpeakeasyDrink($item[Lucky Lindy]);
+#			cli_execute("drink 1 lucky lindy");
 			while((amountTurkeyBooze() > 0) && (my_inebriety() < 3) && (inebriety_left() > 0))
 			{
 				if((item_amount($item[Friendly Turkey]) > 0) && (inebriety_left() >= 1))

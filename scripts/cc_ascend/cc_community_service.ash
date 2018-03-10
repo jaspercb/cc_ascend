@@ -355,7 +355,8 @@ boolean LA_cs_communityService()
 				}
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 1);
-				cli_execute("drink lucky lindy");
+				#cli_execute("drink lucky lindy");
+				drinkSpeakeasyDrink($item[Lucky Lindy]);
 				if(my_inebriety() != 1)
 				{
 					if(get_clan_lounge() contains $item[Lucky Lindy])

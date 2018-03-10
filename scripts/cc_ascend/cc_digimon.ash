@@ -156,6 +156,10 @@ boolean LM_digimon()
 	if(cc_my_path() == "Pocket Familiars")
 	{
 		digimon_makeTeam();
+		if((my_primestat() == $stat[Muscle]) && !possessEquipment($item[Dented Scepter]) && (my_level() < 13))
+		{
+			cc_advWitchess("king");
+		}
 	}
 	return false;
 }
