@@ -174,6 +174,12 @@ boolean digimon_ccAdv(int num, location loc, string option)
 
 #	boolean retval = adv1(loc, 0, option);
 	string temp = visit_url(to_url(loc), false);
+
+	if((get_property("cc_mcmuffin") == "ed") && (cc_my_path() == "Pocket Familiars") && (loc == $location[The Lower Chambers]))
+	{
+		temp = visit_url(to_url(loc) + "a", false);
+	}
+
 	print("[Insert Punch Out music here]", "green");
 	temp = visit_url("fambattle.php");
 	int choiceLimiter = 0;
@@ -188,6 +194,12 @@ boolean digimon_ccAdv(int num, location loc, string option)
 			{
 				choice = choice_matcher.group(2).to_int();
 			}
+
+			if($ints[89, 890, 891, 892, 893, 894, 895, 896, 897, 898, 899, 900, 901, 902, 903, 914] contains choice)
+			{
+				return adv1(loc, 0, option);
+			}
+
 			temp = visit_url("choice.php?pwd=" + my_hash() + "&whichchoice=" + choice + "&option=" + get_property("choiceAdventure" + choice).to_int());
 		}
 		choiceLimiter += 1;

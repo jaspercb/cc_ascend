@@ -528,6 +528,11 @@ int cc_advWitchessTargets(string target)
 		return 1938;
 	}
 
+	if((target == 1942) && (cc_my_path() == "Teetotaler"))
+	{
+		return 1936;
+	}
+
 	if((target == "ox") || (target == "ox-head shield") || (target == "shield") || (target == "pvp") || (target == "hp") || (target == "resist") || (target == "resistance"))
 	{
 		return 1937;

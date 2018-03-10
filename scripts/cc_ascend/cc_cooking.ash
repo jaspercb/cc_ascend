@@ -741,7 +741,7 @@ void consumeStuff()
 			shrugAT($effect[Ode to Booze]);
 			buffMaintain($effect[Ode to Booze], 50, 1, 2);
 			drink(1, $item[Paint A Vulgar Pitcher]);
-			if(item_amount($item[Paint A Vulgar Pitcher]) > 0)
+			if((item_amount($item[Paint A Vulgar Pitcher]) > 0) && ((my_inebriety() + 2) <= inebriety_limit()))
 			{
 				drink(1, $item[Paint A Vulgar Pitcher]);
 			}

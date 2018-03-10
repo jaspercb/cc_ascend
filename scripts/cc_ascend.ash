@@ -361,7 +361,7 @@ boolean handleFamiliar(string type)
 			fams = ListRemove(fams, $familiar[Bloovian Groose]);
 			fams = ListInsertAt(fams, $familiar[Bloovian Groose], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
-		if($familiar[Fist Turkey].drops_today >= $familiar[Fist Turkey].drops_limit)
+		if(($familiar[Fist Turkey].drops_today >= $familiar[Fist Turkey].drops_limit) && (cc_my_path() != "Teetotaler"))
 		{
 			fams = ListRemove(fams, $familiar[Fist Turkey]);
 			fams = ListInsertAt(fams, $familiar[Fist Turkey], fams.ListFind($familiar[Gelatinous Cubeling]));
@@ -2649,9 +2649,14 @@ boolean doBedtime()
 				}
 			}
 			int amt = count(extrudeChoice);
+			string acquire = "booze";
+			if(cc_my_path() == "Teetotaler")
+			{
+				acquire = "food";
+			}
 			while(amt < 3)
 			{
-				extrudeChoice[count(extrudeChoice)] = "booze";
+				extrudeChoice[count(extrudeChoice)] = acquire;
 				amt++;
 			}
 
@@ -2764,7 +2769,7 @@ boolean doBedtime()
 	}
 
 	boolean done = (my_inebriety() > inebriety_limit());
-	if(my_class() == $class[Gelatinous Noob])
+	if((my_class() == $class[Gelatinous Noob]) || (cc_my_path() == "Teetotaler"))
 	{
 		if((my_adventures() <= 1) || (internalQuestStatus("questL13Final") >= 13))
 		{
@@ -3971,7 +3976,7 @@ boolean L11_palindome()
 		}
 
 		ccAdv(1, $location[Inside the Palindome]);
-		if($location[Inside the Palindome].turns_spent > 30)
+		if(($location[Inside the Palindome].turns_spent > 30) && (cc_my_path() != "Pocket Familiars"))
 		{
 			abort("It appears that we've spent too many turns in the Palindome. If you run me again, I'll try one more time but many I failed finishing the Palindome");
 		}
@@ -5119,6 +5124,7 @@ boolean LX_attemptPowerLevel()
 
 	if(!hasTorso())
 	{
+		// We need to acquire a letter from Melvign...
 		if(LX_melvignShirt())
 		{
 			return true;
@@ -6734,7 +6740,7 @@ boolean L11_defeatEd()
 
 	int x = 0;
 	set_property("cc_disableAdventureHandling", true);
-	while(item_amount($item[2334]) == 0)
+	while(item_amount($item[[2334]Holy MacGuffin]) == 0)
 	{
 		x = x + 1;
 		print("Hello Ed #" + x + " give me McMuffin please.", "blue");
@@ -6747,6 +6753,10 @@ boolean L11_defeatEd()
 		if(x > 10)
 		{
 			abort("Trying to fight too many Eds, leave the poor dude alone!");
+		}
+		if(cc_my_path() == "Pocket Familiars")
+		{
+			cli_execute("refresh inv");
 		}
 	}
 	set_property("cc_disableAdventureHandling", false);
