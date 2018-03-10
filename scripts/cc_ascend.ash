@@ -7494,6 +7494,12 @@ boolean L12_finalizeWar()
 		print("Boss already defeated, ignoring", "red");
 	}
 
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		string temp = visit_url("island.php");
+		council();
+	}
+
 	if(get_property("questL12War") != "finished")
 	{
 		abort("Failing to complete the war.");
@@ -11442,7 +11448,7 @@ boolean L9_twinPeak()
 
 		if((food_drop < 50) && (food_drop >= 20))
 		{
-			if((friars_available()) && (!get_property("friarsBlessingReceived").to_boolean()))
+			if(friars_available() && (!get_property("friarsBlessingReceived").to_boolean()))
 			{
 				cli_execute("friars food");
 			}
@@ -11450,6 +11456,11 @@ boolean L9_twinPeak()
 		if(have_effect($effect[Brother Flying Burrito\'s Blessing]) > 0)
 		{
 			food_drop = food_drop + 30;
+		}
+		if((food_drop < 50.0) && (item_amount($item[Eagle Feather]) > 0) && (have_effect($effect[Eagle Eyes]) == 0))
+		{
+			use(1, $item[Eagle Feather]);
+			food_drop = food_drop + 20;
 		}
 		if(food_drop >= 50.0)
 		{
