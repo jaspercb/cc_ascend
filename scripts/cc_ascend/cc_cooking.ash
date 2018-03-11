@@ -710,7 +710,7 @@ void consumeStuff()
 			chew(1, $item[grim fairy tale]);
 		}
 
-		if(!contains_text(get_counters("Fortune Cookie", 0, 200), "Fortune Cookie") && (my_turncount() < 70) && (fullness_left() > 0) && (my_meat() >= npc_price($item[Fortune Cookie])) && (item_amount($item[Deck of Every Card]) == 0) && (item_amount($item[Stone Wool]) < 2) && !(get_clan_lounge() contains $item[Clan Speakeasy]))
+		if(!contains_text(get_counters("Fortune Cookie", 0, 200), "Fortune Cookie") && (my_turncount() < 70) && (fullness_left() > 0) && (my_meat() >= npc_price($item[Fortune Cookie])) && (item_amount($item[Deck of Every Card]) == 0) && (item_amount($item[Stone Wool]) < 2) && !(cc_get_clan_lounge() contains $item[Clan Speakeasy]))
 		{
 			buyUpTo(1, $item[Fortune Cookie], npc_price($item[Fortune Cookie]));
 			eat(1, $item[Fortune Cookie]);

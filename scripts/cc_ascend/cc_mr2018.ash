@@ -46,6 +46,7 @@ boolean januaryToteAcquire(item it)
 	case $item[Tinsel Tights]:					choice = 3;		break;
 	case $item[Wad Of Used Tape]:				choice = 4;		break;
 	case $item[Makeshift Garbage Shirt]:		choice = 5;		break;
+	case $item[Letter For Melvign The Gnome]:	choice = 7;		break;
 	}
 
 	if((choice == 5) && !hasTorso())
@@ -56,6 +57,23 @@ boolean januaryToteAcquire(item it)
 	if(choice == 0)
 	{
 		return false;
+	}
+
+	if(choice == 7)
+	{
+		if(get_property("questM22Shirt") != "unstarted")
+		{
+			return false;
+		}
+		if(hasTorso())
+		{
+			return false;
+		}
+		if(item_amount($item[Letter For Melvign The Gnome]) > 0)
+		{
+			return false;
+		}
+		choice = 5;
 	}
 
 	string temp = visit_url("inv_use.php?pwd=" + my_hash() + "&which=3&whichitem=9690", false);

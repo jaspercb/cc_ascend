@@ -347,7 +347,7 @@ boolean LA_cs_communityService()
 		print("Beginning early quest actions (" + curQuest + ")", "green");
 		if(curQuest != 7)
 		{
-			if((my_inebriety() == 0) && (get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (my_meat() >= 500))
+			if((my_inebriety() == 0) && (cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (my_meat() >= 500))
 			{
 				if((my_mp() < mp_cost($skill[The Ode to Booze])) && (have_effect($effect[Ode to Booze]) == 0))
 				{
@@ -359,13 +359,13 @@ boolean LA_cs_communityService()
 				drinkSpeakeasyDrink($item[Lucky Lindy]);
 				if(my_inebriety() != 1)
 				{
-					if(get_clan_lounge() contains $item[Lucky Lindy])
+					if(cc_get_clan_lounge() contains $item[Lucky Lindy])
 					{
 						print("Confused!! Mafia reports Lucky Lindy but we couldn't drink it?", "red");
 					}
 					print("Mafia knows we have a speakeasy but could not drink a Lucky Lindy", "red");
 					string temp = visit_url("clan_viplounge.php?whichfloor=2&action=speakeasy");
-					if(get_clan_lounge() contains $item[Lucky Lindy])
+					if(cc_get_clan_lounge() contains $item[Lucky Lindy])
 					{
 						print("Mafia now knows we have a Lucky Lindy", "green");
 						return true;
@@ -378,7 +378,7 @@ boolean LA_cs_communityService()
 				solveCookie();
 			}
 
-			if((my_inebriety() == 0) && !(get_clan_lounge() contains $item[Clan Speakeasy]))
+			if((my_inebriety() == 0) && !(cc_get_clan_lounge() contains $item[Clan Speakeasy]))
 			{
 				abort("Your clan does not have a Clan Speakeasy or mafia doesn't understand that you do. Change clans and try again");
 			}
@@ -815,7 +815,7 @@ boolean LA_cs_communityService()
 					buffMaintain($effect[Ode to Booze], 50, 1, 1);
 					drink(1, $item[Meadeorite]);
 				}
-				else if((get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0))
+				else if((cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 				{
 					buffMaintain($effect[Ode to Booze], 50, 1, 1);
 					cli_execute("drink cup of tea");
@@ -1459,7 +1459,7 @@ boolean LA_cs_communityService()
 				chew(1, $item[Abstraction: Action]);
 			}
 
-			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0) && (get_cs_questCost(curQuest) < 20))
+			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0) && (get_cs_questCost(curQuest) < 20))
 			{
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -1520,7 +1520,7 @@ boolean LA_cs_communityService()
 			{
 				doRest();
 			}
-			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0))
+			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0))
 			{
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -1639,7 +1639,7 @@ boolean LA_cs_communityService()
 				chew(1, $item[Abstraction: Thought]);
 			}
 
-			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0) && (get_cs_questCost(curQuest) < 20))
+			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0) && (get_cs_questCost(curQuest) < 20))
 			{
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -1677,7 +1677,7 @@ boolean LA_cs_communityService()
 			{
 				doRest();
 			}
-			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0))
+			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0))
 			{
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
@@ -1887,7 +1887,7 @@ boolean LA_cs_communityService()
 							drink(1, $item[Iced Plum Wine]);
 						}
 
-						if((my_meat() > 5000) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (inebriety_left() >= 3) && (get_clan_lounge() contains $item[Clan Speakeasy]))
+						if((my_meat() > 5000) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (inebriety_left() >= 3) && (cc_get_clan_lounge() contains $item[Clan Speakeasy]))
 						{
 							buffMaintain($effect[Ode to Booze], 50, 1, 3);
 							cli_execute("drink 1 hot socks");
@@ -2059,7 +2059,7 @@ boolean LA_cs_communityService()
 					buffMaintain($effect[Ode to Booze], 50, 1, 1);
 					drink(1, $item[Sacramento Wine]);
 				}
-				else if((get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0))
+				else if((cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 				{
 					buffMaintain($effect[Ode to Booze], 50, 1, 1);
 					cli_execute("drink cup of tea");
@@ -2414,7 +2414,7 @@ boolean LA_cs_communityService()
 					buffMaintain($effect[Ode to Booze], 50, 1, 1);
 					drink(1, $item[Iced Plum Wine]);
 				}
-				else if((get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0))
+				else if((cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 				{
 					buffMaintain($effect[Ode to Booze], 50, 1, 1);
 					cli_execute("drink cup of tea");

@@ -328,6 +328,7 @@ boolean beatenUpResolution();								//Defined in cc_ascend.ash
 boolean adventureFailureHandler();							//Defined in cc_ascend.ash
 boolean councilMaintenance();								//Defined in cc_ascend.ash
 boolean [location] get_floundry_locations();				//Defined in cc_ascend/cc_clan.ash
+int[item] cc_get_clan_lounge();								//Defined in cc_ascend/cc_clan.ash
 boolean acquireMP(int goal);								//Defined in cc_ascend/cc_util.ash
 boolean acquireMP(int goal, boolean buyIt);					//Defined in cc_ascend/cc_util.ash
 boolean acquireGumItem(item it);							//Defined in cc_ascend/cc_util.ash

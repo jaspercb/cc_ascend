@@ -811,7 +811,7 @@ boolean ed_eatStuff()
 
 	if((!contains_text(get_counters("Fortune Cookie", 0, 200), "Fortune Cookie")) && (get_property("semirareLocation") != $location[The Castle in the Clouds in the Sky (Top Floor)]))
 	{
-		if((item_amount($item[Clan VIP Lounge Key]) > 0) && (my_meat() >= 500) && (inebriety_limit() == 4) && ((my_inebriety() == 0) || (my_inebriety() == 3)) && (get_clan_lounge() contains $item[Clan Speakeasy]))
+		if((item_amount($item[Clan VIP Lounge Key]) > 0) && (my_meat() >= 500) && (inebriety_limit() == 4) && ((my_inebriety() == 0) || (my_inebriety() == 3)) && (cc_get_clan_lounge() contains $item[Clan Speakeasy]))
 		{
 			drinkSpeakeasyDrink($item[Lucky Lindy]);
 			#cli_execute("drink 1 lucky lindy");

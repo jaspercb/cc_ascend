@@ -18,6 +18,18 @@ boolean handleFaxMonster(monster enemy, string option);
 boolean handleFaxMonster(monster enemy, boolean fightIt);
 boolean handleFaxMonster(monster enemy, boolean fightIt, string option);
 
+int[item] cc_get_clan_lounge()
+{
+	int[item] retval;
+	foreach it, val in get_clan_lounge()
+	{
+		if(is_unrestricted(it))
+		{
+			retval[it] = val;
+		}
+	}
+	return retval;
+}
 
 boolean handleFaxMonster(monster enemy)
 {
@@ -48,7 +60,7 @@ boolean handleFaxMonster(monster enemy, boolean fightIt, string option)
 	{
 		return false;
 	}
-	if(!(get_clan_lounge() contains $item[Deluxe Fax Machine]))
+	if(!(cc_get_clan_lounge() contains $item[Deluxe Fax Machine]))
 	{
 		return false;
 	}
@@ -172,7 +184,7 @@ boolean [location] get_floundry_locations()
 		return floundryLocations;
 	}
 
-	if(!(get_clan_lounge() contains $item[Clan Floundry]))
+	if(!(cc_get_clan_lounge() contains $item[Clan Floundry]))
 	{
 		return floundryLocations;
 	}
@@ -255,12 +267,12 @@ boolean drinkSpeakeasyDrink(item drink)
 		return false;
 	}
 
-	if(!(get_clan_lounge() contains $item[Clan Speakeasy]))
+	if(!(cc_get_clan_lounge() contains $item[Clan Speakeasy]))
 	{
 		return false;
 	}
 
-	if(!(get_clan_lounge() contains drink))
+	if(!(cc_get_clan_lounge() contains drink))
 	{
 		return false;
 	}
@@ -297,7 +309,7 @@ boolean zataraSeaside(string who)
 		return false;
 	}
 
-	if(!(get_clan_lounge() contains $item[Clan Carnival Game]))
+	if(!(cc_get_clan_lounge() contains $item[Clan Carnival Game]))
 	{
 		return false;
 	}
@@ -356,7 +368,7 @@ boolean zataraClanmate(string who)
 		return false;
 	}
 
-	if(!(get_clan_lounge() contains $item[Clan Carnival Game]))
+	if(!(cc_get_clan_lounge() contains $item[Clan Carnival Game]))
 	{
 		return false;
 	}
@@ -437,7 +449,7 @@ boolean eatFancyDog(string dog)
 		return false;
 	}
 
-	if(!(get_clan_lounge() contains $item[Clan Hot Dog Stand]))
+	if(!(cc_get_clan_lounge() contains $item[Clan Hot Dog Stand]))
 	{
 		return false;
 	}
@@ -548,7 +560,7 @@ boolean eatFancyDog(string dog)
 
 boolean drinkSpeakeasyDrink(string drink)
 {
-	if(!(get_clan_lounge() contains $item[Clan Speakeasy]))
+	if(!(cc_get_clan_lounge() contains $item[Clan Speakeasy]))
 	{
 		return false;
 	}
@@ -583,7 +595,7 @@ boolean cc_floundryAction()
 	{
 		return false;
 	}
-	if(!get_property("_floundryItemGot").to_boolean() && (get_clan_lounge() contains $item[Clan Floundry]) && !get_property("kingLiberated").to_boolean())
+	if(!get_property("_floundryItemGot").to_boolean() && (cc_get_clan_lounge() contains $item[Clan Floundry]) && !get_property("kingLiberated").to_boolean())
 	{
 		if(get_property("cc_floundryChoice") != "")
 		{
@@ -615,7 +627,7 @@ boolean cc_floundryAction(item it)
 	{
 		return false;
 	}
-	int[item] fish = get_clan_lounge();
+	int[item] fish = cc_get_clan_lounge();
 	if(fish[it] > 0)
 	{
 		string temp = visit_url("clan_viplounge.php?preaction=buyfloundryitem&whichitem=" + it.to_int());
