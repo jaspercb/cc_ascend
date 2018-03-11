@@ -906,8 +906,9 @@ boolean cc_cheesePostCS(int leave)
 	cc_sourceTerminalEnhance("items");
 	zataraSeaside("meatsmith");
 
-	if((my_daycount() == 2) && isOverdueDigitize())
+	if(((my_daycount() == 2) && isOverdueDigitize()) || get_property("_cc_specialAftercore").to_boolean())
 	{
+		set_property("_cc_specialAftercore", false);
 		if(my_fullness() == 10)
 		{
 			use(1, $item[Milk Of Magnesium]);
@@ -962,10 +963,10 @@ boolean cc_cheesePostCS(int leave)
 
 		if((get_property("chateauMonster") == $monster[Cheerless Mime Executive]) && !get_property("_chateauMonsterFought").to_boolean() && chateaumantegna_available())
 		{
-			if((get_property("_shatteringPunchUsed").to_int() >= 3) && get_property("_gingerbreadMobHitUsed").to_boolean() && (get_property("_usedReplicaBatoomerang").to_int() >= 3))
-			{
+#			if((get_property("_shatteringPunchUsed").to_int() >= 3) && get_property("_gingerbreadMobHitUsed").to_boolean() && (get_property("_usedReplicaBatoomerang").to_int() >= 3))
+#			{
 				set_property("cc_combatDirective", "start;skill curse of weaksauce;skill digitize;item rain-doh black box, spooky putty sheet;skill stuffed mortar shell;item rain-doh indigo cup, rain-doh blue balls");
-			}
+#			}
 			chateaumantegna_usePainting("");
 
 			setAdvPHPFlag();
@@ -1030,7 +1031,6 @@ boolean cc_cheesePostCS(int leave)
 				string temp = visit_url("place.php?whichplace=spacegate&action=sg_Terminal");
 				break;
 			}
-			
 		}
 
 
@@ -1470,7 +1470,6 @@ boolean cc_cheesePostCS(int leave)
 			}
 		}
 		*/
-		
 
 		if(expectGhostReport())
 		{
@@ -1493,9 +1492,10 @@ boolean cc_cheesePostCS(int leave)
 			#buffMaintain($effect[Eldritch Alignment], 0, 1, 1);
 		}
 
-		if((loc == $location[Barf Mountain]) && ((get_property("sourceTerminalEducate1") == "extract.edu") || (get_property("sourceTerminalEducate2")  == "extract.edu")) && have_skill($skill[Curse Of Weaksauce]) && have_skill($skill[Meteor Lore]) && have_equipped($item[Pantsgiving]) && (item_amount($item[Rain-Doh Indigo Cup]) > 0) && get_property("lovebugsUnlocked").to_boolean() && (item_amount($item[Time-Spinner]) > 0) && have_skill($skill[Candyblast]) && have_skill($skill[Stuffed Mortar Shell]))
+
+		if((loc == $location[Barf Mountain]) && ((get_property("sourceTerminalEducate1") == "extract.edu") || (get_property("sourceTerminalEducate2")  == "extract.edu")) && have_skill($skill[Curse Of Weaksauce]) && have_skill($skill[Meteor Lore]) && have_equipped($item[Pantsgiving]) && (item_amount($item[Rain-Doh Indigo Cup]) > 0) && get_property("lovebugsUnlocked").to_boolean() && (item_amount($item[Time-Spinner]) > 0) && have_skill($skill[Candyblast]) && have_skill($skill[Stuffed Mortar Shell]) && (get_property("_shatteringPunchUsed").to_int() >= 3) && get_property("_gingerbreadMobHitUsed").to_boolean() && (get_property("_usedReplicaBatoomerang").to_int() >= 3) && (my_mp() >= 40))
 		{
-			ccAdv(1, loc, "skill extract; skill weaksauce; if hasskill extract jelly; skill extract jelly; endif; skill pocket crumbs; skill micrometeorite; skill air dirty laundry; use rain-doh indigo cup, rain-doh blue balls; skill summon love mosquito; use time-spinner; skill candyblast; skill stuffed mortar shell; skill summon love stinkbug");
+			ccAdv(1, loc, "if hasskill extract; skill extract; endif; skill weaksauce; if hasskill extract jelly; skill extract jelly; endif; skill pocket crumbs; skill micrometeorite; skill air dirty laundry; use rain-doh indigo cup, rain-doh blue balls; skill summon love mosquito; use time-spinner; skill candyblast; skill stuffed mortar shell; skill summon love stinkbug; skill saucestorm; skill saucestorm; skill saucestorm; skill saucestorm");
 		}
 		else
 		{

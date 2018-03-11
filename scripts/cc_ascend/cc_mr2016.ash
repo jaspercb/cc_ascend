@@ -55,10 +55,6 @@ boolean snojoFightAvailable()
 	{
 		return false;
 	}
-	if(cc_my_path() == "Pocket Familiars")
-	{
-		return false;
-	}
 
 	if(!get_property("kingLiberated").to_boolean())
 	{

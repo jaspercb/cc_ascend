@@ -1063,6 +1063,7 @@ boolean warAdventure()
 		if(!ccAdv(1, $location[The Battlefield (Frat Uniform)]))
 		{
 			set_property("hippiesDefeated", get_property("hippiesDefeated").to_int() + 1);
+			string temp = visit_url("island.php");
 		}
 	}
 	else
@@ -1070,6 +1071,7 @@ boolean warAdventure()
 		if(!ccAdv(1, $location[The Battlefield (Hippy Uniform)]))
 		{
 			set_property("fratboysDefeated", get_property("fratboysDefeated").to_int() + 1);
+			string temp = visit_url("island.php");
 		}
 	}
 	return true;
@@ -4469,7 +4471,7 @@ boolean L13_towerNSTower()
 				handleFamiliar("item");
 			}
 		}
-		else if(item_amount($item[Electric Boning Knife]) > 0)
+		else if((item_amount($item[Electric Boning Knife]) > 0) || (cc_my_path() == "Pocket Familiars"))
 		{
 			return ccAdvBypass("place.php?whichplace=nstower&action=ns_07_monster3", $location[Noob Cave]);
 		}
