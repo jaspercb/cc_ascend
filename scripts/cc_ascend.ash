@@ -1051,6 +1051,31 @@ boolean warOutfit()
 	}
 }
 
+boolean haveWarOutfit()
+{
+	if(!get_property("cc_hippyInstead").to_boolean())
+	{
+		foreach it in $items[Beer Helmet, Distressed Denim Pants, Bejeweled Pledge Pin]
+		{
+			if(available_amount(it) == 0)
+			{
+				return false;
+			}
+		}
+	}
+	else
+	{
+		foreach it in $items[Reinforced Beaded Headband, Bullet-proof Corduroys, Round Purple Sunglasses]
+		{
+			if(available_amount(it) == 0)
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 boolean warAdventure()
 {
 	if(have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3))
@@ -6800,6 +6825,10 @@ boolean L12_sonofaFinish()
 #	{
 #		return false;
 #	}
+	if(!haveWarOutfit())
+	{
+		return false;
+	}
 
 	warOutfit();
 	visit_url("bigisland.php?place=lighthouse&action=pyro&pwd");

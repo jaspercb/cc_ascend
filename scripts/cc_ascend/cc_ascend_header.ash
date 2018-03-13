@@ -729,6 +729,7 @@ boolean careAboutDrops(monster mon);						//Defined in cc_ascend/cc_util.ash
 boolean volcano_bunkerJob();								//Defined in cc_ascend/cc_elementalPlanes.ash
 boolean volcano_lavaDogs();									//Defined in cc_ascend/cc_elementalPlanes.ash
 boolean warAdventure();										//Defined in cc_ascend.ash
+boolean haveWarOutfit();									//Defined in cc_ascend.ash
 boolean warOutfit();										//Defined in cc_ascend.ash
 item whatHiMein();											//Defined in cc_ascend/cc_util.ash
 effect whatStatSmile();										//Defined in cc_ascend/cc_util.ash
