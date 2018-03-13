@@ -229,9 +229,9 @@ void initializeSettings()
 	beehiveConsider();
 
 	cc_sourceTerminalEducate($skill[Extract], $skill[Digitize]);
-	if(contains_text(get_property("sourceTerminalEnquiryKnown"), "monster.enq") && (cc_my_path() == "Pocket Familiars"))
+	if(contains_text(get_property("sourceTerminalEnquiryKnown"), "monsters.enq") && (cc_my_path() == "Pocket Familiars"))
 	{
-		cc_sourceTerminalRequest("enquiry monster.enq");
+		cc_sourceTerminalRequest("enquiry monsters.enq");
 	}
 	else if(contains_text(get_property("sourceTerminalEnquiryKnown"), "familiar.enq") && have_familiar($familiar[Mosquito]))
 	{
