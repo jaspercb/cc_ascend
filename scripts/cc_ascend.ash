@@ -159,7 +159,7 @@ void initializeSettings()
 	set_property("cc_hiddenbowling", "");
 	set_property("cc_hiddencity", "");
 	set_property("cc_hiddenhospital", "");
-	set_property("cc_hiddenoffice", "0");
+	set_property("cc_hiddenoffice", "");
 	set_property("cc_hiddenunlock", "");
 	set_property("cc_hiddenzones", "");
 	set_property("cc_highlandlord", "");
@@ -168,7 +168,6 @@ void initializeSettings()
 	set_property("cc_ignoreCombat", "");
 	set_property("cc_ignoreFlyer", false);
 	set_property("cc_instakill", "");
-	set_property("cc_landfillAvailable", false);
 	set_property("cc_masonryWall", false);
 	set_property("cc_mcmuffin", "");
 	set_property("cc_mistypeak", "");
@@ -2463,7 +2462,7 @@ boolean doBedtime()
 		visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 		visit_url("clan_viplounge.php?preaction=poolgame&stance=3");
 	}
-	if(is_unrestricted($item[Colorful Plastic Ball]) && !get_property("_ballpit").to_boolean())
+	if(is_unrestricted($item[Colorful Plastic Ball]) && !get_property("_ballpit").to_boolean() && (get_clan_id() != -1))
 	{
 		cli_execute("ballpit");
 	}
@@ -5317,7 +5316,6 @@ boolean L11_hiddenCity()
 		return true;
 	}
 
-
 	if((item_amount($item[Moss-Covered Stone Sphere]) == 0) && (get_property("cc_hiddenapartment") != "finished"))
 	{
 		if(get_counters("Fortune Cookie", 0, 9) == "Fortune Cookie")
@@ -5452,16 +5450,25 @@ boolean L11_hiddenCity()
 		if((get_property("cc_hiddenoffice") != "finished") && (my_adventures() >= 11))
 		{
 			print("The idden [sic] office!", "blue");
-			int current = get_property("cc_hiddenoffice").to_int();
-			current = current + 1;
-			set_property("cc_hiddenoffice", ""+current);
-			if(current <= 6)
+
+			if((item_amount($item[Boring Binder Clip]) == 1) && (item_amount($item[McClusky File (Page 5)]) == 1))
+			{
+				#cli_execute("make mcclusky file (complete)");
+				visit_url("inv_use.php?pwd=&which=3&whichitem=6694");
+				cli_execute("refresh inv");
+			}
+
+			if(item_amount($item[McClusky File (Complete)]) > 0)
+			{
+				set_property("choiceAdventure786", "1");
+			}
+			else if(item_amount($item[Boring Binder Clip]) == 0)
 			{
 				set_property("choiceAdventure786", "2");
 			}
 			else
 			{
-				set_property("choiceAdventure786", "1");
+				set_property("choiceAdventure786", "3");
 			}
 
 			print("Hidden Office Progress: " + get_property("hiddenOfficeProgress"), "blue");
@@ -5472,13 +5479,6 @@ boolean L11_hiddenCity()
 
 			backupSetting("autoCraft", false);
 			ccAdv(1, $location[The Hidden Office Building]);
-
-			if((item_amount($item[Boring Binder Clip]) == 1) && (item_amount($item[McClusky File (Page 5)]) == 1))
-			{
-				#cli_execute("make mcclusky file (complete)");
-				visit_url("inv_use.php?pwd=&which=3&whichitem=6694");
-				cli_execute("refresh inv");
-			}
 			restoreSetting("autoCraft");
 			return true;
 		}
@@ -10229,17 +10229,14 @@ boolean LX_desertAlternate()
 		{
 			return false;
 		}
-		if(!get_property("cc_landfillAvailable").to_boolean())
+		if(get_property("questM19Hippy") == "unstarted")
 		{
 			string temp = visit_url("place.php?whichplace=woods&action=woods_smokesignals");
 			temp = visit_url("choice.php?pwd=&whichchoice=798&option=1");
 			temp = visit_url("choice.php?pwd=&whichchoice=798&option=2");
 			temp = visit_url("woods.php");
-			if(contains_text(temp, "The Old Landfill"))
-			{
-				set_property("cc_landfillAvailable", true);
-			}
-			else
+
+			if(get_property("questM19Hippy") == "unstarted")
 			{
 				abort("Failed to unlock The Old Landfill. Not sure what to do now...");
 			}
@@ -12814,6 +12811,7 @@ boolean LX_pirateBlueprint()
 
 		if(item_amount($item[Hot Wing]) < 3)
 		{
+			print("Hot Wings now, meatbag!!", "blue");
 			#abort("You somehow got here without 3 hot wings, did you eat them or something? That makes me sad.");
 			if(L6_friarsGetParts() || L6_friarsHotWing())
 			{
@@ -13889,6 +13887,13 @@ boolean doTasks()
 	if(L0_handleRainDoh())				return true;
 	if(routineRainManHandler())			return true;
 	if(LX_handleSpookyravenFirstFloor())return true;
+
+	if(!get_property("cc_slowSteelOrgan").to_boolean() && get_property("cc_getSteelOrgan").to_boolean())
+	{
+		if(L6_friarsGetParts())				return true;
+		if(LX_steelOrgan())					return true;
+	}
+
 	if(L2_mosquito())					return true;
 	if(L2_treeCoin())					return true;
 	if(L2_spookyMap())					return true;

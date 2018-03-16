@@ -45,3 +45,4 @@
 45	cc_equipment_override_acc2	string	ANY	A semicolon separated list of overrides for the acc2 slot.
 46	cc_equipment_override_acc3	string	ANY	A semicolon separated list of overrides for the acc3 slot.
 47	cc_hideAdultery	boolean	ANY	When true, automatically deletes Zatara Consults from Kmails during end of day cleanup.
+48	cc_slowSteelOrgan	boolean	ANY	When true, don't immediately go for the Steel Organ (assuming we want a steel organ).

@@ -1404,10 +1404,14 @@ boolean ed_ccAdv(int num, location loc, string option, boolean skipFirstLife)
 				return true;
 			}
 
-			status = adv1(loc, 0, option);
-			if(last_monster() == $monster[Crate])
+			#Catch if we lose the jump after first revival.
+			if(get_property("_edDefeats").to_int() != 2)
 			{
-				abort("We went to the Noob Cave for reals... uh oh");
+				status = adv1(loc, 0, option);
+				if(last_monster() == $monster[Crate])
+				{
+					abort("We went to the Noob Cave for reals... uh oh");
+				}
 			}
 
 			page = visit_url("main.php");

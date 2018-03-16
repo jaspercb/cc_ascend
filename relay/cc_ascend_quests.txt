@@ -84,7 +84,7 @@
 84	cc_war	string	ANY	'finished' is the war is done. 'done' if the battleground is empty but we still need to turn in items and fight the boss.
 85	cc_winebomb	string	ANY	'partial' if we have a fulminate, 'finished' if we've made it into a wine bomb
 86	cc_100familiar	boolean	PRE	If true, do not allow familiar switching (for 100% runs).
-87	cc_autoCraft	string	PRE	Handler for the Boring Binder Clip AutoCraft bug.
+87	cc_borisSkills	integer	ANY	?? Number of Boris skills?
 88	cc_awolLastSkill	integer	PRE	Last level we handled AWOL skills
 89	cc_beatenUpCount	integer	PRE	?? Something to do with ML disabling?
 90	cc_bedroomHandler1	string	PRE	Part of Multi-adventure Bedroom handling
@@ -102,3 +102,10 @@
 101	cc_saveMargarita	boolean	PRE	Save Emergency Margarita in HCCS run.
 102	cc_masonryWall	boolean	ANY	If true, we've destroyed the Masonry Wall in Spookyraven Manor
 103	cc_csDoWheel	boolean	PRE	In HCCS: Use Wheel of Fortune instead of Myst Stats Deck Cheat
+104	_cc_lastABooConsider	integer	POST	Last turn that we considered doing A-Boo Peak
+105	_cc_lastABooCycleFix	integer	POST	Tracker to prevent us infinitely looping on A-Boo Peak
+106	_cc_witchessBattles	integer	POST	Tracker for Witchess Combats (yes, this is actually needed).
+107	cc_combatDirective	string	ANY	State of overloading of combat behaviors.
+108	cc_copperhead	integer	ANY	Tracks the first 3 choice options when being a waiter at Copperhead (1|2|4)
+109	cc_needLegs	boolean	PRE	In Ed, do we require getting legs before trying to Ka farm?
+110	cc_getSteelOrgan	boolean	ANY	Are we trying to get a Steel Organ this ascension?

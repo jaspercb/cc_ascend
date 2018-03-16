@@ -154,6 +154,13 @@ void handlePreAdventure(location place)
 			acquireCombatMods(zone_combatMod(place)._int, false);
 		}
 	}
+	else
+	{
+		if((get_property("questL11Spare") == "finished") && (place == $location[The Hidden Bowling Alley]) && (item_amount($item[Bowling Ball]) > 0))
+		{
+			put_closet(item_amount($item[Bowling Ball]), $item[Bowling Ball]);
+		}
+	}
 
 	if((monster_level_adjustment() > 120) && ((my_hp() * 10) < (my_maxhp() * 8)) && (my_mp() >= 20))
 	{
