@@ -60,6 +60,7 @@ void initializeSettings()
 	}
 	cli_execute("refresh all");
 	set_property("cc_doneInitialize", my_ascensions());
+	set_location($location[none]);
 
 	set_property("cc_useCubeling", true);
 	set_property("cc_100familiar", $familiar[none]);
