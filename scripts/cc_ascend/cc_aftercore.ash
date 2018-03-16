@@ -963,11 +963,25 @@ boolean cc_cheesePostCS(int leave)
 
 		if((get_property("chateauMonster") == $monster[Cheerless Mime Executive]) && !get_property("_chateauMonsterFought").to_boolean() && chateaumantegna_available())
 		{
+			if(get_property("_badlyRomanticArrows").to_int() == 0)
+			{
+				use_familiar($familiar[Reanimated Reanimator]);
+				set_property("cc_combatDirective", "start;skill curse of weaksauce;skill digitize; skill wink at; item rain-doh black box, spooky putty sheet;skill stuffed mortar shell;item rain-doh indigo cup, rain-doh blue balls; skill saucestorm; skill saucestorm; skill saucestorm; skill saucestorm; skill saucestorm");
+			}
+			else
+			{
+				set_property("cc_combatDirective", "start;skill curse of weaksauce;skill digitize; item rain-doh black box, spooky putty sheet;skill stuffed mortar shell;item rain-doh indigo cup, rain-doh blue balls; skill saucestorm; skill saucestorm; skill saucestorm; skill saucestorm; skill saucestorm; skill saucestorm");
+			}
 #			if((get_property("_shatteringPunchUsed").to_int() >= 3) && get_property("_gingerbreadMobHitUsed").to_boolean() && (get_property("_usedReplicaBatoomerang").to_int() >= 3))
 #			{
-				set_property("cc_combatDirective", "start;skill curse of weaksauce;skill digitize;item rain-doh black box, spooky putty sheet;skill stuffed mortar shell;item rain-doh indigo cup, rain-doh blue balls");
+
 #			}
 			chateaumantegna_usePainting("");
+
+			if(have_familiar($familiar[Hobo Monkey]))
+			{
+				use_familiar($familiar[Hobo Monkey]);
+			}
 
 			setAdvPHPFlag();
 			if(!didWePlantHere($location[Barf Mountain]) && florist_available() && (my_adventures() > 0) && (inebriety_left() >= 0) && ($location[Barf Mountain].turns_spent == 0))

@@ -926,26 +926,26 @@ void equipRollover()
 		equip($slot[hat], toEquip);
 	}
 
+	toEquip = $item[none];
+	poss = List($items[Time Bandit Time Towel, Auxiliary Backbone, Gabardine Gunnysack, Burning Cape, First Post Shirt - Cir Senam, Octolus-Skin Cloak]);
+
+	toEquip = handleSolveThing(poss, $slot[back]);
+	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[back])))
+	{
+		equip($slot[back], toEquip);
+	}
+
 
 	if(hasTorso())
 	{
 		toEquip = $item[none];
-		poss = List($items[Time Bandit Time Towel, Auxiliary Backbone, Gabardine Gunnysack, Burning Cape, First Post Shirt - Cir Senam, Octolus-Skin Cloak]);
+		poss = List($items[General Sage\'s Lonely Diamonds Club Jacket, Makeshift Garbage Shirt, Glass Casserole Dish, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)]);
 
-		toEquip = handleSolveThing(poss, $slot[back]);
-		if((toEquip != $item[none]) && (toEquip != equipped_item($slot[back])))
+		toEquip = handleSolveThing(poss, $slot[shirt]);
+		if((toEquip != $item[none]) && (toEquip != equipped_item($slot[shirt])))
 		{
-			equip($slot[back], toEquip);
+			equip($slot[shirt], toEquip);
 		}
-	}
-
-	toEquip = $item[none];
-	poss = List($items[General Sage\'s Lonely Diamonds Club Jacket, Makeshift Garbage Shirt, Glass Casserole Dish, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)]);
-
-	toEquip = handleSolveThing(poss, $slot[shirt]);
-	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[shirt])))
-	{
-		equip($slot[shirt], toEquip);
 	}
 
 	toEquip = $item[none];

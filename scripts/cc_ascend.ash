@@ -5143,7 +5143,8 @@ boolean LX_melvignShirt()
 	}
 	if(item_amount($item[Professor What Garment]) == 0)
 	{
-		return ccAdv($location[The Thinknerd Warehouse]);
+		ccAdv($location[The Thinknerd Warehouse]);
+		return true;
 	}
 	string temp = visit_url("place.php?whichplace=mountains&action=mts_melvin", false);
 	return true;
@@ -7800,9 +7801,20 @@ boolean L10_plantThatBean()
 		visit_url("place.php?whichplace=beanstalk");
 		return true;
 	}
-	use(1, $item[enchanted bean]);
-	set_property("cc_bean", true);
-	return true;
+	if(item_amount($item[Enchanted Bean]) > 0)
+	{
+		use(1, $item[Enchanted Bean]);
+		set_property("cc_bean", true);
+		return true;
+	}
+
+	if(internalQuestStatus("questL04Bat") >= 0)
+	{
+		print("I don't have a magic bean! Travesty!!", "blue");
+		return ccAdv($location[The Beanbat Chamber]);
+	}
+	return false;
+
 }
 
 boolean L10_holeInTheSkyUnlock()
@@ -9176,7 +9188,7 @@ boolean L6_friarsHotWing()
 		return false;
 	}
 
-	if(item_amount($item[hot wing]) >= 3)
+	if((item_amount($item[Hot Wing]) >= 3) || (cc_my_path() == "Pocket Familiars"))
 	{
 		set_property("cc_friars", "finished");
 		return true;
@@ -9577,7 +9589,7 @@ boolean L4_batCave()
 	buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
 
 	int batStatus = internalQuestStatus("questL04Bat");
-	if((item_amount($item[sonar-in-a-biscuit]) > 0) && (batStatus < 3))
+	if((item_amount($item[Sonar-In-A-Biscuit]) > 0) && (batStatus < 3))
 	{
 		use(1, $item[sonar-in-a-biscuit]);
 		return true;
@@ -9585,7 +9597,7 @@ boolean L4_batCave()
 
 	if(batStatus >= 4)
 	{
-		if((item_amount($item[enchanted bean]) == 0) && !get_property("cc_bean").to_boolean())
+		if((item_amount($item[Enchanted Bean]) == 0) && !get_property("cc_bean").to_boolean())
 		{
 			ccAdv(1, $location[The Beanbat Chamber]);
 			return true;
