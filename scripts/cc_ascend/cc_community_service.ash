@@ -1222,8 +1222,20 @@ boolean LA_cs_communityService()
 
 			zataraSeaside("muscle");
 
+			if((get_property("_kgbClicksUsed").to_int() <= 24) && possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+			{
+				string temp = visit_url("place.php?whichplace=kgb&action=kgb_tab1", false);
+				temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2", false);
+				temp = visit_url("place.php?whichplace=kgb&action=kgb_tab3", false);
+				temp = visit_url("place.php?whichplace=kgb&action=kgb_tab4", false);
+			}
+
 			if(!get_property("cc_saveMargarita").to_boolean() && (inebriety_left() == 0))
 			{
+				if((my_adventures() > 160) || (my_daycount() > 1))
+				{
+					abort("We have an emergency margarita but it seems really dumb to drink it right now...");
+				}
 				buffMaintain($effect[Simmering], 0, 1, 1);
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 10);
@@ -1238,15 +1250,6 @@ boolean LA_cs_communityService()
 				{
 					cc_sourceTerminalExtrude($item[Hacked Gibson]);
 				}
-
-				if((get_property("_kgbClicksUsed").to_int() <= 24) && possessEquipment($item[Kremlin\'s Greatest Briefcase]))
-				{
-					string temp = visit_url("place.php?whichplace=kgb&action=kgb_tab1", false);
-					temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2", false);
-					temp = visit_url("place.php?whichplace=kgb&action=kgb_tab3", false);
-					temp = visit_url("place.php?whichplace=kgb&action=kgb_tab4", false);
-				}
-
 				abort("Saving Emergency Margarita, forcing abort, done with day. Overdrink, cast simmer,  and run again.");
 			}
 			return true;

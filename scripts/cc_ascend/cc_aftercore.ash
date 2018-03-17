@@ -1080,7 +1080,7 @@ boolean cc_cheesePostCS(int leave)
 		}
 		if(fullness_left() > 0)
 		{
-			eat(1, $item[Jumping Horseradish]);
+			eatsilent(1, $item[Jumping Horseradish]);
 		}
 
 		foreach it in $items[Defective Game Grid Token, Glenn\'s Golden Dice, The Legendary Beat]
