@@ -1263,7 +1263,21 @@ boolean timeSpinnerCombat(monster goal, string option)
 			pages[0] = "inv_use.php?pwd=&which=3&whichitem=9104";
 			pages[1] = "choice.php?pwd=&whichchoice=1195&option=1";
 			pages[2] = "choice.php?pwd=&whichchoice=1196&option=1&monid=" + goal.id;
-			if(ccAdvBypass(0, pages, $location[Noob Cave], option)) {}
+			if(ccAdvBypass(0, pages, $location[Noob Cave], option))
+			{}
+			else
+			{
+				if(get_property("lastEncounter") == "Travel to a Recent Fight")
+				{
+					string temp = visit_url("choice.php?pwd&whichchoice=1196&option=2");
+				}
+				else
+				{
+					abort("Time-Spinner combat failed and we were unable to leave the Time-Spinner");
+				}
+				return false;
+			}
+			
 			return true;
 		}
 	}

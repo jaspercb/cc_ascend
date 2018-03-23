@@ -2531,7 +2531,7 @@ boolean doBedtime()
 	}
 
 	dailyEvents();
-	if(get_property("cc_clanstuff").to_int() < my_daycount())
+	if((get_property("cc_clanstuff").to_int() < my_daycount()) && (get_clan_id() != -1))
 	{
 		if(is_unrestricted($item[Olympic-sized Clan Crate]) && !get_property("_olympicSwimmingPool").to_boolean())
 		{
@@ -5112,7 +5112,13 @@ boolean LX_attemptFlyering()
 	{
 		if((my_level() >= 11) && (get_property("cc_hiddenzones") == "finished"))
 		{
+			int flyer = get_property("flyeredML").to_int();
 			ccAdv($location[The Hidden Hospital]);
+			if(flyer == get_property("flyeredML").to_int())
+			{
+				abort("Trying to flyer but failed to flyer");
+			}
+			set_property("cc_newbieOverride", true);
 			return true;
 		}
 		return false;
@@ -5390,12 +5396,16 @@ boolean L11_hiddenCity()
 		if((get_property("cc_hiddenapartment") != "finished"))
 		{
 			print("The idden [sic] apartment!", "blue");
-			int current = get_property("cc_hiddenapartment").to_int() + 1;
-			set_property("cc_hiddenapartment", current);
+
 			if(!get_property("_claraBellUsed").to_boolean() && (item_amount($item[Clara\'s Bell]) > 0))
 			{
 				use(1, $item[Clara\'s Bell]);
+				set_property("cc_hiddenapartment", 8);
 			}
+
+			int current = get_property("cc_hiddenapartment").to_int() + 1;
+			set_property("cc_hiddenapartment", current);
+
 			if(current <= 8)
 			{
 				print("Hidden Apartment Progress: " + get_property("hiddenApartmentProgress"), "blue");
@@ -6225,6 +6235,13 @@ boolean L11_mauriceSpookyraven()
 		ovenHandle();
 	}
 
+	if(item_amount($item[wine bomb]) == 1)
+	{
+		set_property("cc_winebomb", "finished");
+		visit_url("place.php?whichplace=manor4&action=manor4_chamberwall");
+		return true;
+	}
+
 	if(!possessEquipment($item[Lord Spookyraven\'s Spectacles]) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist") || ((cc_my_path() == "Nuclear Autumn") && !get_property("cc_haveoven").to_boolean()))
 	{
 		print("Alternate fulminate pathway... how sad :(", "red");
@@ -6352,13 +6369,6 @@ boolean L11_mauriceSpookyraven()
 		{
 			cc_change_mcd(0);
 			equip($slot[acc2], $item[gumshoes]);
-		}
-
-		if(item_amount($item[wine bomb]) == 1)
-		{
-			set_property("cc_winebomb", "finished");
-			visit_url("place.php?whichplace=manor4&action=manor4_chamberwall");
-			return true;
 		}
 
 		if(equipped_item($slot[Off-hand]) != $item[Unstable Fulminate])
@@ -7007,6 +7017,17 @@ boolean L12_sonofaBeach()
 	{
 		set_property("cc_sonofa", "finished");
 		return true;
+	}
+
+	if(cc_my_path() == "Pocket Familiars")
+	{
+		if(contains_text($location[Sonofa Beach].combat_queue, to_string($monster[Lobsterfrogman])))
+		{
+			if(timeSpinnerCombat($monster[Lobsterfrogman], ""))
+			{
+				return true;
+			}
+		}
 	}
 
 	if(chateaumantegna_havePainting() && !get_property("chateauMonsterFought").to_boolean() && (get_property("chateauMonster") == $monster[Lobsterfrogman]))
@@ -8713,6 +8734,11 @@ boolean L7_crypt()
 			equip($item[Gravy Boat]);
 		}
 
+		if((item_amount($item[The Nuge\'s Favorite Crossbow]) > 0) && can_equip($item[The Nuge\'s Favorite Crossbow]))
+		{
+			equip($item[The Nuge\'s Favorite Crossbow]);
+		}
+
 		print("The Alcove! (" + initiative_modifier() + ")", "blue");
 		ccAdv(1, $location[The Defiled Alcove]);
 		handleFamiliar("item");
@@ -8727,6 +8753,12 @@ boolean L7_crypt()
 		if((item_amount($item[Gravy Boat]) > 0) && can_equip($item[Gravy Boat]))
 		{
 			equip($item[Gravy Boat]);
+		}
+
+		januaryToteAcquire($item[Broken Champagne Bottle]);
+		if(item_amount($item[Broken Champagne Bottle]) > 0)
+		{
+			equip($item[Broken Champagne Bottle]);
 		}
 
 		ccAdv(1, $location[The Defiled Nook]);
@@ -12867,11 +12899,11 @@ boolean LX_pirateInsults()
 	}
 	LX_getDictionary();
 
-	if((item_amount($item[the big book of pirate insults]) == 0) && (my_meat() > 500))
+	if((item_amount($item[The Big Book Of Pirate Insults]) == 0) && (my_meat() > 500))
 	{
-		buyUpTo(1, $item[the big book of pirate insults]);
+		buyUpTo(1, $item[The Big Book Of Pirate Insults]);
 	}
-	if(item_amount($item[the big book of pirate insults]) == 0)
+	if(item_amount($item[The Big Book Of Pirate Insults]) == 0)
 	{
 		return false;
 	}
@@ -12932,15 +12964,15 @@ boolean LX_pirateOutfit()
 
 	if(have_outfit("Swashbuckling Getup"))
 	{
-		if(item_amount($item[the big book of pirate insults]) == 1)
+		if(item_amount($item[The Big Book Of Pirate Insults]) == 1)
 		{
 			set_property("cc_pirateoutfit", "insults");
 			return true;
 		}
-		if((item_amount($item[the big book of pirate insults]) == 0) && (my_meat() > 500))
+		if((item_amount($item[The Big Book Of Pirate Insults]) == 0) && (my_meat() > 500) && (cc_my_path() != "Pocket Familiars"))
 		{
 			set_property("cc_pirateoutfit", "insults");
-			buyUpTo(1, $item[the big book of pirate insults]);
+			buyUpTo(1, $item[The Big Book Of Pirate Insults]);
 			return true;
 		}
 	}
@@ -12999,12 +13031,12 @@ boolean LX_pirateOutfit()
 			set_property("choiceAdventure24", "1");
 		}
 
-		if(item_amount($item[the big book of pirate insults]) == 0)
+		if(item_amount($item[The Big Book Of Pirate Insults]) == 0)
 		{
-			if(!in_hardcore() || (pulls_remaining() > 0))
+			if((!in_hardcore() || (pulls_remaining() > 0)) && (cc_my_path() != "Pocket Familiars"))
 			{
 				pullXWhenHaveY($item[The Big Book of Pirate Insults], 1, 0);
-				if(item_amount($item[the big book of pirate insults]) == 0)
+				if(item_amount($item[The Big Book Of Pirate Insults]) == 0)
 				{
 					abort("Do not have a pirate insult book, fix that and run again");
 				}

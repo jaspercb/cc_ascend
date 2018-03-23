@@ -809,6 +809,10 @@ boolean is100FamiliarRun()
 	{
 		return false;
 	}
+	if(get_property("cc_100familiar") == "")
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -2434,7 +2438,7 @@ boolean basicAdjustML()
 	}
 	else
 	{
-		if((get_property("flyeredML").to_int() >= 10000) && (my_level() >= 13))
+		if(((get_property("flyeredML").to_int() >= 10000) || get_property("cc_ignoreFlyer").to_boolean()) && (my_level() >= 13))
 		{
 			cc_change_mcd(0);
 		}
@@ -2477,7 +2481,7 @@ boolean cc_change_mcd(int mcd)
 	int handicap = 10 - get_property("cc_beatenUpCount").to_int();
 	if(my_level() >= 13)
 	{
-		if((get_property("questL12War") == "finished") || (get_property("sidequestArenaCompleted") != "none") || (get_property("flyeredML").to_int() >= 10000))
+		if((get_property("questL12War") == "finished") || (get_property("sidequestArenaCompleted") != "none") || (get_property("flyeredML").to_int() >= 10000) || get_property("cc_ignoreFlyer").to_boolean())
 		{
 			mcd = 0;
 		}

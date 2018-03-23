@@ -137,10 +137,10 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 		abort("ccAdvBypass override abort");
 	}
 
-	string combatPage = "Combat";
+	string combatPage = "<b>Combat";
 	if(cc_my_path() == "Pocket Familiars")
 	{
-		combatPage = "Fight!";
+		combatPage = "<b>Fight!";
 	}
 	if(contains_text(page, combatPage))
 	{
@@ -185,6 +185,11 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 	{
 		return false;
 	}
+	if(get_property("lastEncounter") == "Travel to a Recent Fight")
+	{
+		return false;
+	}
+
 
 
 	boolean inChoice = false;

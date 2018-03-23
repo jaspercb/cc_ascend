@@ -1053,7 +1053,7 @@ boolean LA_cs_communityService()
 				doHottub();
 			}
 
-			if((missing > (item_amount($item[Miniature Power Pill]) + item_amount($item[Power Pill]))) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
+			if((missing > (item_amount($item[Miniature Power Pill]) + item_amount($item[Power Pill]))) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])) && (!is100familiarRun() || !is100familiarRun($familiar[Puck Man]) || !is100familiarRun($familiar[Ms. Puck Man])))
 			{
 				if(elementalPlanes_access($element[hot]))
 				{
