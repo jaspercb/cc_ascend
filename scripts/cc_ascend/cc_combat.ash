@@ -2452,7 +2452,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 	if(((get_property("edPoints").to_int() <= 4) && (my_daycount() == 1)) || !get_property("lovebugsUnlocked").to_boolean())
 	{
-		if(!ed_needShop() || (get_property("cc_edCombatStage").to_int() > 1))
+		if((!ed_needShop() || (get_property("cc_edCombatStage").to_int() > 1)) && (my_location() != $location[Barrrney\'s Barrr]))
 		{
 			set_property("cc_edStatus", "dying");
 		}
