@@ -220,16 +220,12 @@ void handlePostAdventure()
 			buffMaintain($effect[Purr of the Feline], 10, 1, maxBuff);
 		}
 
-
-		if(my_mp() > 100)
+		foreach ef in $effects[Prayer Of Seshat, Wisdom Of Thoth, Hide Of Sobek, Bounty Of Renenutet]
 		{
-			int maxBuff = max(5, 750 - my_turncount());
-			buffMaintain($effect[Prayer of Seshat], 5, 1, maxBuff);
-			buffMaintain($effect[Wisdom of Thoth], 5, 1, maxBuff);
-			#buffMaintain($effect[Power of Heka], 10, 1, maxBuff);
-			#buffMaintain($effect[Purr of the Feline], 10, 1, maxBuff);
-			buffMaintain($effect[Hide of Sobek], 10, 1, maxBuff);
-			buffMaintain($effect[Bounty of Renenutet], 20, 1, maxBuff);
+			if(my_mp() > 100)
+			{
+				buffMaintain(ef, 20, 1, maxBuff);
+			}
 		}
 
 		if((my_level() < 13) && (my_level() > 3) && !get_property("cc_needLegs").to_boolean() && (get_property("edPoints").to_int() > 15))
