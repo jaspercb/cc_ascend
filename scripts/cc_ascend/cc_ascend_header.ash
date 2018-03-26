@@ -523,6 +523,9 @@ boolean januaryToteAcquire(item it);						//Defined in cc_ascend/cc_mr2018.ash
 boolean getSpaceJelly();									//Defined in cc_ascend/cc_mr2017.ash
 int horseCost();											//Defined in cc_ascend/cc_mr2017.ash
 boolean getHorse(string type);								//Defined in cc_ascend/cc_mr2017.ash
+boolean kgbDiscovery();										//Defined in cc_ascend/cc_mr2017.ash
+boolean kgbWasteClicks();									//Defined in cc_ascend/cc_mr2017.ash
+boolean kgbTryEffect(effect ef);							//Defined in cc_ascend/cc_mr2017.ash
 boolean solveKGBMastermind();								//Defined in cc_ascend/cc_mr2017.ash
 boolean kgbDial(int dial, int curVal, int target);			//Defined in cc_ascend/cc_mr2017.ash
 boolean kgbSetup();											//Defined in cc_ascend/cc_mr2017.ash

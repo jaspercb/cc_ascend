@@ -15,6 +15,7 @@ void digimon_initializeSettings()
 		set_property("cc_getBoningKnife", false);
 		set_property("cc_cubeItems", false);
 		set_property("cc_getStarKey", true);
+		set_property("cc_gremlins", "finished");
 		set_property("cc_grimstoneOrnateDowsingRod", false);
 		set_property("cc_hippyInstead", true);
 		set_property("cc_holeinthesky", true);

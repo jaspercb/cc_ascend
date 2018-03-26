@@ -511,6 +511,12 @@ generic_t zone_combatMod(location loc)
 	case $location[The Castle in the Clouds in the Sky (Top Floor)]:
 		value = -95;
 		break;
+	case $location[The Hidden Park]:
+		if(item_amount($item[Bowling Ball]) < 3)
+		{
+			value = -85;
+		}
+		break;
 	default:
 		retval._error = true;
 		break;

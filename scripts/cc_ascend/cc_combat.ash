@@ -585,7 +585,7 @@ string cc_combatHandler(int round, string opp, string text)
 	if((!contains_text(combatState, "nanotoss")) && (have_effect($effect[Nanobrawny]) >= 40))
 	{
 		#if appropriate enemy, then banish
-		if(enemy == $monster[pygmy janitor])
+		if(enemy == $monster[Pygmy Janitor])
 		{
 			set_property("cc_combatHandler", combatState + "(nanotoss)");
 			return "skill unleash nanites";
@@ -3067,7 +3067,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		{
 			doRenenutet = true;
 		}
-		if((enemy == $monster[Pygmy Janitor]) && (item_amount($item[Book of Matches]) == 0))
+		if((enemy == $monster[Pygmy Janitor]) && (item_amount($item[Book of Matches]) == 0) && (get_property("relocatePygmyJanitor").to_int() != my_ascensions()))
 		{
 			doRenenutet = true;
 		}

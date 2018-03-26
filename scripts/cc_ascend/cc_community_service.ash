@@ -1239,6 +1239,7 @@ boolean LA_cs_communityService()
 				buffMaintain($effect[Simmering], 0, 1, 1);
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 10);
+				//Stooper into 1-booze
 				overdrink(1, $item[Emergency Margarita]);
 			}
 			else
@@ -1250,6 +1251,7 @@ boolean LA_cs_communityService()
 				{
 					cc_sourceTerminalExtrude($item[Hacked Gibson]);
 				}
+				//Stooper into 1-booze
 				abort("Saving Emergency Margarita, forcing abort, done with day. Overdrink, cast simmer,  and run again.");
 			}
 			return true;
@@ -2278,6 +2280,11 @@ boolean LA_cs_communityService()
 			}
 			asdonBuff($effect[Driving Stealthily]);
 
+			if(have_familiar($familiar[Disgeist]))
+			{
+				use_familiar($familiar[Disgeist]);
+			}
+
 			int questCost = get_cs_questCost(curQuest);
 			if(my_adventures() < questCost)
 			{
@@ -2848,7 +2855,10 @@ void cs_initializeDay(int day)
 				}
 			}
 
-			cli_execute("garden pick");
+			if(!(cc_get_campground() contains $item[Packet Of Tall Grass Seeds]))
+			{
+				cli_execute("garden pick");
+			}
 			if(!cc_haveWitchess())
 			{
 				if((item_amount($item[Ice Harvest]) >= 3) && (item_amount($item[Snow Berries]) >= 1))
@@ -2925,8 +2935,10 @@ void cs_initializeDay(int day)
 				acquireHermitItem($item[Seal Tooth]);
 			}
 
-			cli_execute("garden pick");
-
+			if(!(cc_get_campground() contains $item[Packet Of Tall Grass Seeds]))
+			{
+				cli_execute("garden pick");
+			}
 			if(item_amount($item[Saucepan]) == 0)
 			{
 				acquireGumItem($item[Saucepan]);
@@ -4104,6 +4116,27 @@ int [int] get_cs_questList()
 		int found = to_int(quest_matcher.group(1));
 		int adv = to_int(quest_matcher.group(2));
 		questList[found] = adv;
+
+		switch(found)
+		{
+#		case 1:		HP: (buffed hp - (buffed muscle + 3))/30
+#		case 2:		Muscle: (buffed - base)/30
+#		case 3:		Myst
+#		case 4:		Moxie
+#		case 5:		Fam Weight: 5 pounds per turn
+#		case 6:		Melee Damage: 50% or +50 per turn
+#		case 7:		Spell Damage
+#		case 8:		Non-Combat: every 5% per 3 turns
+#		case 9:		Item/Booze drops: 30% item or 15% booze drop
+#		case 10:	Hot Resist: 1 per hot res
+		case 11:
+			if(adv != 60)
+			{
+				print("Incorrectly predicted quest 11 as 60 adventures.", "red");
+			}
+			break;
+		}
+
 	}
 
 	return questList;

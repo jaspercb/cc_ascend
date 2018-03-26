@@ -393,6 +393,166 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 	return true;
 }
 
+boolean kgbWasteClicks()
+{
+	if(!possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+	if(!is_unrestricted($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+	if(get_property("_kgbClicksUsed").to_int() >= 22)
+	{
+		return false;
+	}
+
+	int clicked = 0;
+	while(kgbDiscovery())
+	{
+		clicked++;
+	}
+
+	# Yes, this will not be pleasant if we matched our number and each page click changes the buttons.
+	while((get_property("_kgbClicksUsed").to_int() < 22) && (clicked < 9))
+	{
+		foreach ef in $effects[Items Are Forever, A View To Some Meat, Light!, The Spy Who Loved XP, Initiative And Let Die, The Living Hitpoints, License To Punch, Goldentongue, Thunderspell]
+		{
+			if(contains_text(get_property("cc_kgbTracker"), ":" + to_int(ef)))
+			{
+				kgbTryEffect(ef);
+				clicked++;
+				if($effects[Items Are Forever, A View To Some Meat] contains ef)
+				{
+					if(have_effect(ef) < 100)
+					{
+						break;
+					}
+				}
+				if(ef == $effect[Light!])
+				{
+					break;
+				}
+			}
+		}
+	}
+
+	return (clicked > 0);
+}
+
+
+boolean kgbTryEffect(effect ef)
+{
+	if(!possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+	if(!is_unrestricted($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+	if(get_property("_kgbClicksUsed").to_int() >= 22)
+	{
+		return false;
+	}
+
+	if(get_property("cc_kgbTracker") == "")
+	{
+		set_property("cc_kgbTracker", my_ascensions() + ":0:0:0:0:0:0:0:0:0:0:0:0");
+	}
+	string[int] tracker = split_string(get_property("cc_kgbTracker"), ":");
+	if((count(tracker) < 13) || (tracker[0] != my_ascensions()))
+	{
+		set_property("cc_kgbTracker", my_ascensions() + ":0:0:0:0:0:0:0:0:0:0:0:0");
+	}
+	tracker = split_string(get_property("cc_kgbTracker"), ":");
+
+	for(int i=1; i<13; i++)
+	{
+		if(to_effect(tracker[i]) == ef)
+		{
+			int button = (i+1) / 2;
+			string page = visit_url("place.php?whichplace=kgb&action=kgb_tab" + button,  false);
+			return true;
+		}
+	}
+
+
+
+	return true;
+}
+
+boolean kgbDiscovery()
+{
+	if(!possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+	if(!is_unrestricted($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return false;
+	}
+	if(get_property("_kgbClicksUsed").to_int() >= 22)
+	{
+		return false;
+	}
+
+	if(get_property("cc_kgbTracker") == "")
+	{
+		set_property("cc_kgbTracker", my_ascensions() + ":0:0:0:0:0:0:0:0:0:0:0:0");
+	}
+	string[int] tracker = split_string(get_property("cc_kgbTracker"), ":");
+	if((count(tracker) < 13) || (tracker[0] != my_ascensions()))
+	{
+		set_property("cc_kgbTracker", my_ascensions() + ":0:0:0:0:0:0:0:0:0:0:0:0");
+	}
+	tracker = split_string(get_property("cc_kgbTracker"), ":");
+
+	string page = visit_url("place.php?whichplace=kgb", false);
+	matcher tabCount = create_matcher("kgb_tab(\\d)(?:.*?)otherimages/kgb/tab(\\d+).gif", page);
+	while(tabCount.find())
+	{
+		int id = to_int(tabCount.group(1));
+		int height = to_int(tabCount.group(2));
+		int index = ((id - 1) * 2) + height;
+		if(tracker[index].to_int() == 0)
+		{
+			print("We do not know " + id + " of height: " + height, "green");
+			int[12] curEff;
+			for(int i=2296; i<=2306; i++)
+			{
+				curEff[i-2296] = have_effect(to_effect(i));
+			}
+			string page = visit_url("place.php?whichplace=kgb&action=kgb_tab" + id,  false);
+			for(int i=2296; i<=2306; i++)
+			{
+				if(have_effect(to_effect(i)) != curEff[i-2296])
+				{
+					if(have_effect(to_effect(i)) == (curEff[i-2296] + 100))
+					{
+						print("It contains random!", "green");
+						tracker[index] = 1;
+					}
+					else
+					{
+						print("It contains " + to_effect(i) + "!", "green");
+						tracker[index] = i;
+					}
+				}
+			}
+			string newTracker = my_ascensions();
+			for(int i=1; i<13; i++)
+			{
+				newTracker += ":" + tracker[i];
+			}
+			set_property("cc_kgbTracker", newTracker);
+			return true;
+		}
+	}
+	return false;
+}
+
 int kgb_tabCount(string page)
 {
 	int count = 0;
@@ -417,7 +577,6 @@ int kgb_tabHeight(string page)
 		printTabs = true;
 	}
 
-
 	matcher tabCount = create_matcher("kgb_tab(\\d)(?:.*?)otherimages/kgb/tab(\\d+).gif", page);
 	while(tabCount.find())
 	{
@@ -429,7 +588,6 @@ int kgb_tabHeight(string page)
 			print("Tab " + id + " with height of " + height, "green");
 		}
 	}
-
 
 	return height;
 }

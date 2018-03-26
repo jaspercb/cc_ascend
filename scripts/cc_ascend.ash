@@ -2416,6 +2416,8 @@ boolean doBedtime()
 			cli_execute("friars familiar");
 		}
 	}
+
+	# This does not check if we still want these buffs
 	if((my_hp() < (0.9 * my_maxhp())) && (get_property("_hotTubSoaks").to_int() < 5))
 	{
 		boolean doTub = true;
@@ -2736,8 +2738,12 @@ boolean doBedtime()
 	}
 	if(possessEquipment($item[Kremlin\'s Greatest Briefcase]) && (get_property("_kgbClicksUsed").to_int() < 22))
 	{
+		kgbWasteClicks();
 		int clicks = 22 - get_property("_kgbClicksUsed").to_int();
-		print("You have some KGB clicks (" + clicks + ") left!", "green");
+		if(clicks > 0)
+		{
+			print("You have some KGB clicks (" + clicks + ") left!", "green");
+		}
 	}
 	if((get_property("sidequestNunsCompleted") == "fratboy") && (get_property("nunsVisits").to_int() < 3))
 	{
@@ -2808,6 +2814,10 @@ boolean doBedtime()
 	if(!done)
 	{
 		print("Goodnight done, please make sure to handle your overdrinking, then you can run me again.", "blue");
+		if(have_familiar($familiar[Stooper]) && (inebriety_left() == 0) && (my_familiar() != $familiar[Stooper]) && (cc_my_path() != "Pocket Familiars"))
+		{
+			print("You have a Stooper, you can increase liver by 1!", "blue");
+		}
 		if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5))
 		{
 			print("You have " + (5 - get_property("_machineTunnelsAdv").to_int()) + " fights in The Deep Machine Tunnels that you should use!", "blue");
@@ -2846,7 +2856,7 @@ boolean doBedtime()
 	}
 	else
 	{
-		if(get_property("kingLiberated") == "false")
+		if(!get_property("kingLiberated").to_boolean())
 		{
 			print(get_property("cc_banishes_day" + my_daycount()));
 			print(get_property("cc_yellowRay_day" + my_daycount()));
@@ -5163,6 +5173,13 @@ boolean LX_attemptPowerLevel()
 
 	handleFamiliar("stat");
 
+	if(snojoFightAvailable() && (cc_my_path() == "Pocket Familiars"))
+	{
+		ccAdv(1, $location[The X-32-F Combat Training Snowman]);
+		return true;
+	}
+
+
 	if(!hasTorso())
 	{
 		// We need to acquire a letter from Melvign...
@@ -5397,14 +5414,25 @@ boolean L11_hiddenCity()
 		{
 			print("The idden [sic] apartment!", "blue");
 
+			int current = get_property("cc_hiddenapartment").to_int() + 1;
+			set_property("cc_hiddenapartment", current);
+
 			if(!get_property("_claraBellUsed").to_boolean() && (item_amount($item[Clara\'s Bell]) > 0))
 			{
 				use(1, $item[Clara\'s Bell]);
-				set_property("cc_hiddenapartment", 8);
-			}
 
-			int current = get_property("cc_hiddenapartment").to_int() + 1;
-			set_property("cc_hiddenapartment", current);
+				if(cc_my_path() == "Pocket Familiars")
+				{
+					if(get_property("relocatePygmyLawyer").to_int() != my_ascensions())
+					{
+						set_property("choiceAdventure780", "3");
+						ccAdv(1, $location[The Hidden Apartment Building]);
+						return true;
+					}
+				}
+				
+				current = 9;
+			}
 
 			if(current <= 8)
 			{
@@ -5621,6 +5649,11 @@ boolean L11_hiddenCity()
 
 boolean L11_hiddenCityZones()
 {
+	if((item_amount($item[Book of Matches]) > 0) && (my_ascensions() > get_property("hiddenTavernUnlock").to_int()))
+	{
+		use(1, $item[Book of Matches]);
+	}
+
 	if(my_level() < 11)
 	{
 		return false;
@@ -5641,38 +5674,43 @@ boolean L11_hiddenCityZones()
 	if(get_property("cc_hiddenzones") == "")
 	{
 		print("Machete the hidden zones!", "blue");
-		set_property("choiceAdventure781", "1");
-		set_property("choiceAdventure785", "1");
-		set_property("choiceAdventure783", "1");
-		set_property("choiceAdventure787", "1");
-		set_property("choiceAdventure789", "2");
 		set_property("choiceAdventure791", "6");
 		set_property("cc_hiddenzones", "0");
-		if(possessEquipment($item[Antique Machete]) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist"))
-		{
-			set_property("cc_hiddenzones", "1");
-		}
 	}
 
 	if(get_property("cc_hiddenzones") == "0")
 	{
-		if((possessEquipment($item[antique machete])) || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist") || (cc_my_path() == "Pocket Familiars"))
+		if(possessEquipment($item[Antique Machete]))
 		{
-			set_property("cc_hiddenzones", "1");
+			if(!in_hardcore() || (get_property("hiddenTavernUnlock").to_int() == my_ascensions()))
+			{
+				set_property("cc_hiddenzones", "1");
+				return true;
+			}
+		}
+
+		if(((my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist") || (cc_my_path() == "Pocket Familiars")) && (get_property("relocatePygmyJanitor").to_int() == my_ascensions()))
+		{
+			if(!in_hardcore() || (get_property("hiddenTavernUnlock").to_int() == my_ascensions()))
+			{
+				set_property("cc_hiddenzones", "1");
+				return true;
+			}
+		}
+		if((my_mp() > 60) || considerGrimstoneGolem(true))
+		{
+			handleBjornify($familiar[Grimstone Golem]);
+		}
+		if(get_property("relocatePygmyJanitor").to_int() != my_ascensions())
+		{
+			set_property("choiceAdventure789", "1");
 		}
 		else
 		{
-			if((my_mp() > 60) || considerGrimstoneGolem(true))
-			{
-				handleBjornify($familiar[Grimstone Golem]);
-			}
-			if(contains_text(get_property("lastEncounter"), "Where Does The Lone Ranger Take His Garbagester"))
-			{
-				set_property("choiceAdventure789", "6");
-			}
-			ccAdv(1, $location[The Hidden Park]);
-			return true;
+			set_property("choiceAdventure789", "2");
 		}
+		ccAdv(1, $location[The Hidden Park]);
+		return true;
 	}
 
 	if(get_property("cc_hiddenzones") == "1")
@@ -5701,6 +5739,7 @@ boolean L11_hiddenCityZones()
 			handleBjornify($familiar[Grimstone Golem]);
 		}
 
+		set_property("choiceAdventure781", "1");
 		ccAdv(1, $location[An Overgrown Shrine (Northwest)]);
 		if(contains_text(get_property("lastEncounter"), "Earthbound and Down"))
 		{
@@ -5734,6 +5773,8 @@ boolean L11_hiddenCityZones()
 		{
 			handleBjornify($familiar[Grimstone Golem]);
 		}
+
+		set_property("choiceAdventure785", "1");
 		ccAdv(1, $location[An Overgrown Shrine (Northeast)]);
 		if(contains_text(get_property("lastEncounter"), "Air Apparent"))
 		{
@@ -5768,6 +5809,8 @@ boolean L11_hiddenCityZones()
 		{
 			handleBjornify($familiar[Grimstone Golem]);
 		}
+
+		set_property("choiceAdventure783", "1");
 		ccAdv(1, $location[An Overgrown Shrine (Southwest)]);
 		if(contains_text(get_property("lastEncounter"), "Water You Dune"))
 		{
@@ -5802,6 +5845,8 @@ boolean L11_hiddenCityZones()
 		{
 			handleBjornify($familiar[Grimstone Golem]);
 		}
+
+		set_property("choiceAdventure787", "1");
 		ccAdv(1, $location[An Overgrown Shrine (Southeast)]);
 		if(contains_text(get_property("lastEncounter"), "Fire When Ready"))
 		{
@@ -13905,7 +13950,7 @@ boolean doTasks()
 	if(LX_dinseylandfillFunbucks())		return true;
 	if(L12_flyerFinish())				return true;
 
-	if((my_level() >= 12) && (item_amount($item[rock band flyers]) == 0) && (item_amount($item[jam band flyers]) == 0) && (get_property("flyeredML").to_int() < 10000) && ((get_property("cc_hiddenapartment") == "0") || (get_property("cc_hiddenapartment") == "finished")) && ((have_effect($effect[Ultrahydrated]) == 0) || (get_property("desertExploration").to_int() >= 100)))
+	if((my_level() >= 12) && (item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[Jam Band Flyers]) == 0) && (get_property("flyeredML").to_int() < 10000) && ((get_property("cc_hiddenapartment") == "0") || (get_property("cc_hiddenapartment") == "finished")) && ((have_effect($effect[Ultrahydrated]) == 0) || (get_property("desertExploration").to_int() >= 100)))
 	{
 		if(L12_getOutfit() || L12_startWar())
 		{
