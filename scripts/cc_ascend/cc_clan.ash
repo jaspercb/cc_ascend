@@ -204,6 +204,52 @@ boolean [location] get_floundry_locations()
 	return floundryLocations;
 }
 
+int changeClan(string clanName)
+{
+	int toClan = 0;
+	boolean canReturn = false;
+	string page = visit_url("clan_signup.php");
+	matcher clan_matcher = create_matcher("<option value=(\\d\\d\\d+)>(.*?)</option>", page);
+	while(clan_matcher.find())
+	{
+		if(clan_matcher.group(1) == get_clan_id())
+		{
+			canReturn = true;
+		}
+		if(clan_matcher.group(2) ≈ clanName)
+		{
+			toClan = to_int(clan_matcher.group(1));
+		}
+		print("Found clan " + clan_matcher.group(1) + " and name: " + clan_matcher.group(2));
+	}
+
+	if(toClan == 0)
+	{
+		print("Do not have a whitelist to destination clan, can not change clans.");
+		return 0;
+	}
+	if(!canReturn)
+	{
+		print("Do not have a whitelist to our own clan, can not change clans.");
+		return 0;
+	}
+
+	int oldClan = get_clan_id();
+	if(toClan == oldClan)
+	{
+		print("Already in this clan, no need to try to change (" + toClan + ")", "red");
+		return oldClan;
+	}
+
+	visit_url("showclan.php?pwd=&recruiter=1&action=joinclan&apply=Apply+to+this+Clan&confirm=on&whichclan=" + toClan, true);
+
+	if(get_clan_id() == oldClan)
+	{
+		print("Clan change failed", "red");
+	}
+	return get_clan_id();
+}
+
 int changeClan(int toClan)
 {
 	int oldClan = get_clan_id();
@@ -213,19 +259,19 @@ int changeClan(int toClan)
 		return oldClan;
 	}
 
-	string temp = visit_url("clan_signup.php");
-	if(!contains_text(temp, "option value=" + oldClan + ">"))
+	string page = visit_url("clan_signup.php");
+	if(!contains_text(page, "option value=" + oldClan + ">"))
 	{
 		print("Do not have a whitelist to our own clan, can not change clans.");
 		return 0;
 	}
-	if(!contains_text(temp, "option value=" + toClan + ">"))
+	if(!contains_text(page, "option value=" + toClan + ">"))
 	{
 		print("Do not have a whitelist to destination clan, can not change clans.");
 		return 0;
 	}
 
-	visit_url("showclan.php?pwd=&recruiter=1&action=joinclan&apply=Apply+to+this+Clan&confirm=on&whichclan=" + toClan, true);
+	page = visit_url("showclan.php?pwd=&recruiter=1&action=joinclan&apply=Apply+to+this+Clan&confirm=on&whichclan=" + toClan, true);
 
 	if(get_clan_id() == oldClan)
 	{

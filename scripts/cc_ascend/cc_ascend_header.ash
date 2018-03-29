@@ -399,6 +399,7 @@ boolean cc_tavern();										//Defined in cc_ascend.ash
 string ccsJunkyard(int round, string opp, string text);		//Defined in cc_ascend/cc_combat.ash
 int changeClan();											//Defined in cc_ascend/cc_clan.ash
 int changeClan(int toClan);									//Defined in cc_ascend/cc_clan.ash
+int changeClan(string clanName);							//Defined in cc_ascend/cc_clan.ash
 boolean chateaumantegna_available();						//Defined in cc_ascend/cc_mr2015.ash
 void chateaumantegna_buyStuff(item toBuy);					//Defined in cc_ascend/cc_mr2015.ash
 boolean[item] chateaumantegna_decorations();				//Defined in cc_ascend/cc_mr2015.ash
