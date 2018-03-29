@@ -1224,10 +1224,7 @@ boolean LA_cs_communityService()
 
 			if((get_property("_kgbClicksUsed").to_int() <= 24) && possessEquipment($item[Kremlin\'s Greatest Briefcase]))
 			{
-				string temp = visit_url("place.php?whichplace=kgb&action=kgb_tab1", false);
-				temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2", false);
-				temp = visit_url("place.php?whichplace=kgb&action=kgb_tab3", false);
-				temp = visit_url("place.php?whichplace=kgb&action=kgb_tab4", false);
+				kgbWasteClicks();
 			}
 
 			if(!get_property("cc_saveMargarita").to_boolean() && (inebriety_left() == 0))

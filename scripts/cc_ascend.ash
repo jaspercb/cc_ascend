@@ -5649,9 +5649,9 @@ boolean L11_hiddenCity()
 
 boolean L11_hiddenCityZones()
 {
-	if((item_amount($item[Book of Matches]) > 0) && (my_ascensions() > get_property("hiddenTavernUnlock").to_int()))
+	if((item_amount($item[Book Of Matches]) > 0) && (my_ascensions() != get_property("hiddenTavernUnlock").to_int()))
 	{
-		use(1, $item[Book of Matches]);
+		use(1, $item[Book Of Matches]);
 	}
 
 	if(my_level() < 11)
@@ -5680,6 +5680,45 @@ boolean L11_hiddenCityZones()
 
 	if(get_property("cc_hiddenzones") == "0")
 	{
+		boolean needMachete = !possessEquipment($item[Antique Machete]);
+		boolean needRelocate = (get_property("relocatePygmyJanitor").to_int() != my_ascensions());
+		boolean needMatches = (get_property("hiddenTavernUnlock").to_int() != my_ascensions());
+
+		if(!in_hardcore() || (my_class() == $class[Avatar of Boris]) || (cc_my_path() == "Way of the Surprising Fist") || (cc_my_path() == "Pocket Familiars"))
+		{
+			needMachete = false;
+		}
+
+		if(!needMatches)
+		{
+			needRelocate = false;
+		}
+
+		if(!in_hardcore())
+		{
+			needMatches = false;
+		}
+
+		int banishers = 0;
+		foreach sk in $skills[Batter Up!, Snokebomb]
+		{
+			if(have_skill(sk))
+			{
+				banishers++;
+			}
+		}
+
+		if(banishers >= 1)
+		{
+			needRelocate = false;
+		}
+
+		if(!needRelocate)
+		{
+			needMatches = false;
+		}
+
+/*
 		if(possessEquipment($item[Antique Machete]))
 		{
 			if(!in_hardcore() || (get_property("hiddenTavernUnlock").to_int() == my_ascensions()))
@@ -5697,11 +5736,19 @@ boolean L11_hiddenCityZones()
 				return true;
 			}
 		}
+*/
+
+		if(!needMachete && !needRelocate && !needMatches)
+		{
+			set_property("cc_hiddenzones", "1");
+			return true;
+		}
+
 		if((my_mp() > 60) || considerGrimstoneGolem(true))
 		{
 			handleBjornify($familiar[Grimstone Golem]);
 		}
-		if(get_property("relocatePygmyJanitor").to_int() != my_ascensions())
+		if(get_property("relocatePygmyJanitor").to_int() == my_ascensions())
 		{
 			set_property("choiceAdventure789", "1");
 		}
