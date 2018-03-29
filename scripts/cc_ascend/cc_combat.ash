@@ -3087,10 +3087,15 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 		if(doRenenutet)
 		{
+			if(!contains_text(edCombatState, "curseofindecision") && have_skill($skill[Curse Of Indecision]) && (my_mp() > mp_cost($skill[Curse Of Indecision])))
+			{
+				set_property("cc_edCombatHandler", edCombatState + "(curseofindecision)");
+				return "skill " + $skill[Curse Of Indecision];
+			}
 			set_property("cc_edCombatHandler", edCombatState + "(talismanofrenenutet)");
 			handleTracker(enemy, "cc_renenutet");
 			set_property("cc_edStatus", "dying");
-			return "item Talisman of Renenutet";
+			return "item " + $item[Talisman Of Renenutet];
 		}
 	}
 
