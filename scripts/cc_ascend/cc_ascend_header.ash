@@ -321,6 +321,7 @@ location[int] ListInsertInorder(location[int] list, location what);//Defined in 
 int ListFind(location[int] list, location what);			//Defined in cc_ascend/cc_list.ash
 int ListFind(location[int] list, location what, int idx);	//Defined in cc_ascend/cc_list.ash
 location ListOutput(location[int] list);					//Defined in cc_ascend/cc_list.ash
+int estimate_cs_questCost(int quest);						//Defined in cc_ascend/cc_community_service.ash
 int [int] get_cs_questList();								//Defined in cc_ascend/cc_community_service.ash
 int [item] cc_get_campground();								//Defined in cc_ascend/cc_util.ash
 boolean basicAdjustML();									//Defined in cc_ascend/cc_util.ash

@@ -4059,6 +4059,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Knob Goblin Perfume]:			useItem = $item[Knob Goblin Perfume];			break;
 	case $effect[Knowing Smile]:				useSkill = $skill[Knowing Smile];				break;
 	case $effect[Macaroni Coating]:				useSkill = $skill[none];						break;
+	case $effect[The Magic Of LOV]:				useItem = $item[LOV Elixir #6];					break;
 	case $effect[The Magical Mojomuscular Melody]:useSkill = $skill[The Magical Mojomuscular Melody];break;
 	case $effect[Magnetized Ears]:				useSkill = $skill[Magnetic Ears];				break;
 	case $effect[Majorly Poisoned]:				useSkill = $skill[Disco Nap];					break;
@@ -4075,6 +4076,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Merry Smithsness]:				useItem = $item[Flaskfull of Hollow];			break;
 	case $effect[Mind Vision]:					useSkill = $skill[Intracranial Eye];			break;
 	case $effect[Ministrations in the Dark]:	useItem = $item[EMD Holo-Record];				break;
+	case $effect[The Moxie Of LOV]:				useItem = $item[LOV Elixir #9];					break;
 	case $effect[The Moxious Madrigal]:			useSkill = $skill[The Moxious Madrigal];		break;
 	case $effect[Muffled]:						useSkill = $skill[Rev Engine];					break;
 	case $effect[Musk of the Moose]:			useSkill = $skill[Musk of the Moose];			break;
@@ -4135,6 +4137,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Power\, Man]:					useItem = $item[Power-Guy 2000 Holo-Record];	break;
 	case $effect[Power Ballad of the Arrowsmith]:useSkill = $skill[The Power Ballad of the Arrowsmith];break;
 	case $effect[Power of Heka]:				useSkill = $skill[Power of Heka];				break;
+	case $effect[The Power Of LOV]:				useItem = $item[LOV Elixir #3];					break;
 	case $effect[Prideful Strut]:				useSkill = $skill[Walk: Prideful Strut];		break;
 	case $effect[Protection from Bad Stuff]:	useItem = $item[scroll of Protection from Bad Stuff];break;
 	case $effect[Provocative Perkiness]:		useItem = $item[Libation of Liveliness];		break;

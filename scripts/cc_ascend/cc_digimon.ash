@@ -39,119 +39,67 @@ boolean digimon_makeTeam()
 	{
 		string temp = visit_url("famteam.php", false);
 
-		if(have_familiar($familiar[Space Jellyfish]))
+		familiar back = $familiar[Killer Bee];
+		foreach fam in $familiars[Killer Bee, Space Jellyfish, Slotter]
 		{
-			temp = visit_url("famteam.php?slot=3&fam=" + to_int($familiar[Space Jellyfish]) + "&pwd&action=slot");
-			if(get_property("_digimonBack") != $familiar[Space Jellyfish])
+			if(have_familiar(fam))
 			{
-				set_property("_digimonBack", $familiar[Space Jellyfish]);
-			}
-		}
-		else
-		{
-			temp = visit_url("famteam.php?slot=3&fam=" + to_int($familiar[Killer Bee]) + "&pwd&action=slot");
-			if(get_property("_digimonBack") != $familiar[Killer Bee])
-			{
-				set_property("_digimonBack", $familiar[Killer Bee]);
+				back = fam;
 			}
 		}
 
-
-
-		familiar midFam = $familiar[Scary Death Orb];
-		foreach fam in $familiars[Bad Vibe, Restless Cow Skull, Mariachi Chihuahua]
+		temp = visit_url("famteam.php?slot=3&fam=" + to_int(back) + "&pwd&action=slot");
+		if(get_property("_digimonBack").to_familiar() != back)
 		{
-			if(!have_familiar(fam))
-			{
-				continue;
-			}
-			if(contains_text(temp, "Lv. 5 " + fam))
-			{
-				continue;
-			}
-			if(fam.poke_level == 5)
-			{
-				continue;
-			}
-			if(my_poke_fam(2) == fam)
-			{
-				continue;
-			}
-			midFam = fam;
-			break;
+			set_property("_digimonBack", back);
 		}
 
-		temp = visit_url("famteam.php?slot=2&fam=" + to_int(midFam) + "&pwd&action=slot");
-		if(get_property("_digimonMiddle") != midFam)
-		{
-			set_property("_digimonMiddle", midFam);
-		}
-
-
-		familiar newFam = $familiar[El Vibrato Megadrone];
+		familiar middle = $familiar[Scary Death Orb];
 		foreach fam in $familiars[]
 		{
-			if(!have_familiar(fam))
+			if((fam.poke_move_2 == "Backstab") && have_familiar(fam) && (back != fam) && (fam.poke_level != 5))
 			{
-				continue;
+				middle = fam;
 			}
-			if(contains_text(temp, "Lv. 5 " + fam))
-			{
-				continue;
-			}
-
-			if(my_poke_fam(2) == fam)
-			{
-				continue;
-			}
-			if(my_poke_fam(1) == fam)
-			{
-				continue;
-			}
-			if(fam.poke_level == 5)
-			{
-				continue;
-			}
-			newFam = fam;
-			break;
 		}
 
-		foreach fam in $familiars[Clockwork Grapefruit, Mini-Crimbot, MagiMechTech MicroMechaMech, Autonomous Disco Ball, Software Bug, Robortender, Putty Buddy]
+		temp = visit_url("famteam.php?slot=2&fam=" + to_int(middle) + "&pwd&action=slot");
+		if(get_property("_digimonMiddle").to_familiar() != middle)
 		{
-			if(!have_familiar(fam))
-			{
-				continue;
-			}
-			if(contains_text(temp, "Lv. 5 " + fam))
-			{
-				continue;
-			}
-			if(fam.poke_level == 5)
-			{
-				continue;
-			}
-			if(my_poke_fam(2) == fam)
-			{
-				continue;
-			}
-			if(my_poke_fam(1) == fam)
-			{
-				continue;
-			}
-			newFam = fam;
-			break;
+			set_property("_digimonMiddle", middle);
 		}
 
-		print("I choose you! " + newFam.name + " the " + newFam + "!!!!", "green");
+		familiar front = $familiar[none];
+		foreach fam in $familiars[]
+		{
+			if((fam.poke_attribute == "Smart") && have_familiar(fam) && (back != fam) && (middle != fam) && (fam.poke_level != 5))
+			{
+				front = fam;
+			}
+		}
+		if(front == $familiar[none])
+		{
+			foreach fam in $familiars[]
+			{
+				if(have_familiar(fam) && (back != fam) && (middle != fam) && (fam.poke_level != 5))
+				{
+					front = fam;
+				}
+			}
+		}
+
+		if(front == $familiar[none])
+		{
+			front = $familiar[Levitating Potato];
+		}
+
+		print("I choose you! " + front.name + " the " + front + "!!!!", "green");
 #		temp = visit_url("famteam.php?slot=1&fam=" + to_int($familiar[El Vibrato Megadrone]) + "&pwd&action=slot");
-		temp = visit_url("famteam.php?slot=1&fam=" + to_int(newFam) + "&pwd&action=slot");
-		if(get_property("_digimonFront") != newFam)
+		temp = visit_url("famteam.php?slot=1&fam=" + to_int(front) + "&pwd&action=slot");
+		if(get_property("_digimonFront").to_familiar() != front)
 		{
-			set_property("_digimonFront", newFam);
+			set_property("_digimonFront", front);
 		}
-
-
-
 	}
 	return true;
 }

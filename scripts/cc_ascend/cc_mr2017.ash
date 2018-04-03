@@ -425,7 +425,7 @@ boolean kgbWasteClicks()
 				clicked++;
 				if($effects[Items Are Forever, A View To Some Meat] contains ef)
 				{
-					if(have_effect(ef) < 100)
+					if(have_effect(ef) < 150)
 					{
 						break;
 					}

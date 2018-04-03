@@ -3643,7 +3643,16 @@ boolean L11_aridDesert()
 					cli_execute("refresh inv");
 					if(item_amount($item[Desert Sightseeing Pamphlet]) == 0)
 					{
-						abort("Returned can of black paint but did not return can of black paint.");
+						if(item_amount($item[Can Of Black Paint]) == 0)
+						{
+							print("Mafia did not track gnasir Can of Black Paint (0x2). Fixing.", "red");
+							set_property("gnasirProgress", get_property("gnasirProgress").to_int() | 2);
+							return true;
+						}
+						else
+						{
+							abort("Returned can of black paint but did not return can of black paint.");
+						}
 					}
 					else
 					{
@@ -4959,6 +4968,15 @@ boolean L13_towerNSEntrance()
 		if(my_level() < 13)
 		{
 			print("I seem to need to power level, or something... waaaa.", "red");
+			# lx_attemptPowerLevel is before. We need to merge all of this into that....
+
+
+			if(snojoFightAvailable() && (cc_my_path() == "Pocket Familiars"))
+			{
+				ccAdv(1, $location[The X-32-F Combat Training Snowman]);
+				return true;
+			}
+
 
 			if(needDigitalKey())
 			{
@@ -4977,11 +4995,13 @@ boolean L13_towerNSEntrance()
 			}
 			if(needStarKey())
 			{
-				# Zone availability check?
-				#if(LX_getDigitalKey())
-				#{
-				#	return true;
-				#}
+				if(zone_isAvailable($location[The Hole In The Sky]))
+				{
+					if(L10_holeInTheSky())
+					{
+						return true;
+					}
+				}
 			}
 
 			int delay = get_property("cc_powerLevelTimer").to_int();
@@ -5080,7 +5100,10 @@ boolean L12_lastDitchFlyer()
 			{
 				handleFamiliar("item");
 			}
-			ccAdv(1, $location[The Hole in the Sky]);
+			if(L10_holeInTheSky())
+			{
+				return true;
+			}
 		}
 		return true;
 	}
@@ -7755,7 +7778,7 @@ boolean LX_getDigitalKey()
 	{
 		return false;
 	}
-	if((get_property("cc_war") != "finished") && (item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[Jam Band Flyers]) == 0) && (get_property("cc_powerLevelAdvCount").to_int() < 9))
+	if(((get_property("cc_war") != "finished") && (get_property("cc_war") != "")) && (item_amount($item[Rock Band Flyers]) == 0) && (item_amount($item[Jam Band Flyers]) == 0) && (get_property("cc_powerLevelAdvCount").to_int() < 9))
 	{
 		return false;
 	}
@@ -7772,7 +7795,6 @@ boolean LX_getDigitalKey()
 		}
 		return false;
 	}
-
 
 	if(get_property("cc_crackpotjar") == "")
 	{
@@ -12575,7 +12597,7 @@ boolean L10_holeInTheSky()
 	{
 		return false;
 	}
-	if(item_amount($item[steam-powered model rocketship]) == 0)
+	if(item_amount($item[Steam-Powered Model Rocketship]) == 0)
 	{
 		return false;
 	}
@@ -12596,6 +12618,18 @@ boolean L10_holeInTheSky()
 	else
 	{
 		handleFamiliar("item");
+	}
+	if(have_familiar($familiar[Space Jellyfish]))
+	{
+		handleFamiliar($familiar[Space Jellyfish]);
+		if(item_amount($item[Star Chart]) == 0)
+		{
+			set_property("choiceAdventure1221", 1);
+		}
+		else
+		{
+			set_property("choiceAdventure1221", 2 + (my_ascensions() % 2));
+		}
 	}
 	ccAdv(1, $location[The Hole In The Sky]);
 	return true;
@@ -13798,7 +13832,7 @@ void print_header()
 	{
 		print("Soulsauce: " + my_soulsauce(), "blue");
 	}
-	if(have_effect($effect[Ultrahydrated]) > 0)
+	if((have_effect($effect[Ultrahydrated]) > 0) && (get_property("desertExploration").to_int() < 100))
 	{
 		print("Ultrahydrated: " + have_effect($effect[Ultrahydrated]), "violet");
 	}

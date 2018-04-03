@@ -4097,6 +4097,25 @@ boolean cs_giant_growth()
 }
 
 
+int estimate_cs_questCost(int quest)
+{
+	switch(quest)
+	{
+	case 1:		return 60 - ((my_maxhp() - (my_buffedstat($stat[Muscle]) + 3)) / 30);
+	case 2:		return 60 - ((my_buffedstat($stat[Muscle]) - my_basestat($stat[Muscle])) / 30);
+	case 3:		return 60 - ((my_buffedstat($stat[Mysticality]) - my_basestat($stat[Mysticality])) / 30);
+	case 4:		return 60 - ((my_buffedstat($stat[Moxie]) - my_basestat($stat[Moxie])) / 30);
+	case 5:		return 60 - ((weight_adjustment() + familiar_weight(my_familiar())) / 5);
+	case 6:		return 60 - (floor(numeric_modifier("weapon damage") / 50) + floor(numeric_modifier("weapon damage percent") / 50));
+	case 7:		return 60 - (floor(numeric_modifier("spell damage") / 50) + floor(numeric_modifier("spell damage percent") / 50));
+	case 8:		return 60 - (3 * min(5,floor((-1.0 * combat_rate_modifier()) / 5))) - (3 * max(0,floor((-1.0 * combat_rate_modifier()) - 25)));
+	case 9:		return 60 - (floor(numeric_modifier("item drop") / 30) + floor(numeric_modifier("booze drop") / 15));
+	case 10:	return 60 - elemental_resist($element[hot]);
+	case 11:	return 60;
+	}
+	return 0;
+}
+
 int [int] get_cs_questList()
 {
 	int [int] questList;
@@ -4114,26 +4133,10 @@ int [int] get_cs_questList()
 		int adv = to_int(quest_matcher.group(2));
 		questList[found] = adv;
 
-		switch(found)
+		if(adv != estimate_cs_questCost(found))
 		{
-#		case 1:		HP: (buffed hp - (buffed muscle + 3))/30
-#		case 2:		Muscle: (buffed - base)/30
-#		case 3:		Myst
-#		case 4:		Moxie
-#		case 5:		Fam Weight: 5 pounds per turn
-#		case 6:		Melee Damage: 50% or +50 per turn
-#		case 7:		Spell Damage
-#		case 8:		Non-Combat: every 5% per 3 turns
-#		case 9:		Item/Booze drops: 30% item or 15% booze drop
-#		case 10:	Hot Resist: 1 per hot res
-		case 11:
-			if(adv != 60)
-			{
-				print("Incorrectly predicted quest 11 as 60 adventures.", "red");
-			}
-			break;
+			print("Incorrectly predicted quest " + found + " as " + estimate_cs_questCost(found) + ". Was: " + adv, "red");
 		}
-
 	}
 
 	return questList;
