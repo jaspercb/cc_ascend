@@ -1656,6 +1656,12 @@ boolean L1_ed_islandFallback()
 	change_mcd(max(2, my_level()-1));
 	if(haveLegs)
 	{
+		if(have_outfit("Filthy Hippy Disguise") && is_wearing_outfit("Filthy Hippy Disguise"))
+		{
+			equip($slot[Pants], $item[None]);
+			put_closet(item_amount($item[Filthy Corduroys]), $item[Filthy Corduroys]);
+			equipBaseline();
+		}
 		return ccAdv(1, $location[Hippy Camp]);
 	}
 	set_property("cc_needLegs", true);

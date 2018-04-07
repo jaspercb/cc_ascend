@@ -39,6 +39,60 @@ boolean LA_cs_communityService()
 		abort("Too drunk, not sure if not aborting is safe yet");
 	}
 
+	if((item_amount($item[Mumming Trunk]) > 0) && !get_property("_mummifyDone").to_boolean())
+	{
+		switch(my_daycount())
+		{
+		case 1:
+			mummifyFamiliar($familiar[Ms. Puck Man], "myst");
+			mummifyFamiliar($familiar[Puck Man], "myst");
+			mummifyFamiliar($familiar[Rockin\' Robin], "mpregen");
+			mummifyFamiliar($familiar[Machine Elf], "item");
+			mummifyFamiliar($familiar[Galloping Grill], "muscle");
+			mummifyFamiliar($familiar[Reanimated Reanimator], "hpregen");
+			mummifyFamiliar($familiar[Bloovian Groose], "moxie");
+			mummifyFamiliar($familiar[Intergnat], "moxie");
+			mummifyFamiliar($familiar[Golden Monkey], "meat");
+			set_property("_mummifyDone", true);
+			break;
+		case 2:
+			mummifyFamiliar($familiar[Ms. Puck Man], "myst");
+			mummifyFamiliar($familiar[Puck Man], "myst");
+			mummifyFamiliar($familiar[Rockin\' Robin], "mpregen");
+			mummifyFamiliar($familiar[Machine Elf], "item");
+			mummifyFamiliar($familiar[Galloping Grill], "muscle");
+			mummifyFamiliar($familiar[Reanimated Reanimator], "hpregen");
+			mummifyFamiliar($familiar[Bloovian Groose], "moxie");
+			mummifyFamiliar($familiar[Intergnat], "moxie");
+			mummifyFamiliar($familiar[Hobo Monkey], "meat");
+			set_property("_mummifyDone", true);
+			break;
+		}
+	}
+
+	if(item_amount($item[Portable Pantogram]) > 0)
+	{
+		switch(my_daycount())
+		{
+		case 1:
+			pantogramPants(my_primestat(), $element[cold], 1, 1, 1);
+			break;
+		case 2:
+		case 3:
+			pantogramPants($stat[Muscle], $element[hot], 1, 2, 1);
+			break;
+		}
+	}
+
+	if(januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0)
+	{
+		januaryToteAcquire($item[Makeshift Garbage Shirt]);
+	}
+	else
+	{
+		januaryToteAcquire($item[Wad Of Used Tape]);
+	}
+
 	if(is100FamiliarRun())
 	{
 		if((my_familiar() != $familiar[Puck Man]) && (my_familiar() != $familiar[Ms. Puck Man]))
@@ -73,58 +127,6 @@ boolean LA_cs_communityService()
 	cs_make_stuff();
 	cc_mayoItems();
 
-	if(item_amount($item[Portable Pantogram]) > 0)
-	{
-		switch(my_daycount())
-		{
-		case 1:
-			pantogramPants(my_primestat(), $element[cold], 1, 1, 1);
-			break;
-		case 2:
-		case 3:
-			pantogramPants($stat[Muscle], $element[hot], 1, 2, 1);
-			break;
-		}
-	}
-	if((item_amount($item[Mumming Trunk]) > 0) && !get_property("_mummifyDone").to_boolean())
-	{
-		switch(my_daycount())
-		{
-		case 1:
-			mummifyFamiliar($familiar[Ms. Puck Man], "myst");
-			mummifyFamiliar($familiar[Puck Man], "myst");
-			mummifyFamiliar($familiar[Rockin\' Robin], "mpregen");
-			mummifyFamiliar($familiar[Machine Elf], "item");
-			mummifyFamiliar($familiar[Galloping Grill], "muscle");
-			mummifyFamiliar($familiar[Reanimated Reanimator], "hpregen");
-			mummifyFamiliar($familiar[Bloovian Groose], "moxie");
-			mummifyFamiliar($familiar[Intergnat], "moxie");
-			mummifyFamiliar($familiar[Golden Monkey], "meat");
-			set_property("_mummifyDone", true);
-			break;
-		case 2:
-			mummifyFamiliar($familiar[Ms. Puck Man], "myst");
-			mummifyFamiliar($familiar[Puck Man], "myst");
-			mummifyFamiliar($familiar[Rockin\' Robin], "mpregen");
-			mummifyFamiliar($familiar[Machine Elf], "item");
-			mummifyFamiliar($familiar[Galloping Grill], "muscle");
-			mummifyFamiliar($familiar[Reanimated Reanimator], "hpregen");
-			mummifyFamiliar($familiar[Bloovian Groose], "moxie");
-			mummifyFamiliar($familiar[Intergnat], "moxie");
-			mummifyFamiliar($familiar[Hobo Monkey], "meat");
-			set_property("_mummifyDone", true);
-			break;
-		}
-	}
-
-	if(januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0)
-	{
-		januaryToteAcquire($item[Makeshift Garbage Shirt]);
-	}
-	else
-	{
-		januaryToteAcquire($item[Wad Of Used Tape]);
-	}
 	if(isOverdueDigitize())
 	{
 		print("A Digitize event is expected now.", "blue");
@@ -202,11 +204,15 @@ boolean LA_cs_communityService()
 	switch(my_daycount())
 	{
 	case 1:
+		if(get_property("_horseryRented").to_int() == 0)
+		{
+			getHorse("regen");
+		}
 		if(curQuest == 9)
 		{
-			loveTunnelAcquire(true, $stat[none], true, 3, true, 3);
+			handleFamiliar($familiar[Nosy Nose]);
+			loveTunnelAcquire(true, $stat[none], true, 3, true, 3, "cs_combatNormal");
 		}
-		getHorse("regen");
 		if(item_amount($item[Cornucopia]) == 1)
 		{
 			use(1, $item[Cornucopia]);
@@ -221,9 +227,14 @@ boolean LA_cs_communityService()
 		}
 		break;
 	case 2:
+		if(get_property("_horseryRented").to_int() == 0)
+		{
+			getHorse("non-combat");
+		}
 		if(curQuest == 5)
 		{
-			loveTunnelAcquire(true, $stat[Moxie], true, 2, true, 3);
+			handleFamiliar($familiar[Nosy Nose]);
+			loveTunnelAcquire(true, $stat[Moxie], true, 2, true, 3, "cs_combatNormal");
 		}
 		if(item_amount($item[Cornucopia]) == 1)
 		{
@@ -239,7 +250,8 @@ boolean LA_cs_communityService()
 		}
 		break;
 	default:
-		loveTunnelAcquire(true, $stat[none], true, 3, true, 1);
+		handleFamiliar($familiar[Nosy Nose]);
+		loveTunnelAcquire(true, $stat[none], true, 3, true, 1, "cs_combatNormal");
 		break;
 	}
 
@@ -1397,6 +1409,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Phorcefullness], 0, 1, 1);
 			buffMaintain($effect[Barbecue Saucy], 0, 1, 1);
 			buffMaintain($effect[Graham Crackling], 0, 1, 1);
+			buffMaintain($effect[The Power Of LOV], 0, 1, 1);
 
 			if(!get_property("_grimBuff").to_boolean())
 			{
@@ -1629,7 +1642,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Wit Tea], 0, 1, 1);
 			buffMaintain($effect[Sweet\, Nuts], 0, 1, 1);
 			buffMaintain($effect[Baconstoned], 0, 1, 1);
-
+			buffMaintain($effect[The Magic Of LOV], 0, 1, 1);
 
 			buffMaintain($effect[Nearly All-Natural], 0, 1, 1);
 
@@ -1731,6 +1744,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Dexteri Tea], 0, 1, 1);
 			buffMaintain($effect[Busy Bein\' Delicious], 0, 1, 1);
 			buffMaintain($effect[Bandersnatched], 0, 1, 1);
+			buffMaintain($effect[The Moxie Of LOV], 0, 1, 1);
 
 			buffMaintain($effect[Amazing], 0, 1, 1);
 
@@ -1995,6 +2009,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Scowl of the Auk], 10, 1, 1);
 			buffMaintain($effect[Tenacity of the Snapper], 8, 1, 1);
 			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
+			buffMaintain($effect[The Power Of LOV], 0, 1, 1);
 
 			if((item_amount($item[Wasabi Marble Soda]) == 0) && (have_effect($effect[Wasabi With You]) == 0) && (item_amount($item[Ye Wizard\'s Shack snack voucher]) > 0))
 			{
@@ -2186,6 +2201,8 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Puzzle Fury], 0, 1, 1);
 			buffMaintain($effect[Be A Mind Master], 0, 1, 1);
 			buffMaintain($effect[Paging Betty], 0, 1, 1);
+			buffMaintain($effect[The Magic Of LOV], 0, 1, 1);
+
 			if(is_unrestricted($item[Clan Pool Table]) && (have_effect($effect[Mental A-cue-ity]) == 0))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=2");
@@ -2279,7 +2296,18 @@ boolean LA_cs_communityService()
 
 			if(have_familiar($familiar[Disgeist]))
 			{
+				# Need 37-41 pounds to save 3 turns. (probably 40)
+				buffMaintain($effect[Empathy], 15, 1, 1);
+				buffMaintain($effect[Leash of Linguini], 12, 1, 1);
 				use_familiar($familiar[Disgeist]);
+				if((equipped_item($slot[familiar]) != $item[Astral Pet Sweater]) && (available_amount($item[Astral Pet Sweater]) > 0))
+				{
+					equip($slot[familiar], $item[Astral Pet Sweater]);
+				}
+				if(item_amount($item[Ghostly Reins]) > 0)
+				{
+					equip($slot[off-hand], $item[Ghostly Reins]);
+				}
 			}
 
 			int questCost = get_cs_questCost(curQuest);
@@ -3399,7 +3427,7 @@ string cs_combatNormal(int round, string opp, string text)
 	phylum current = to_phylum(get_property("dnaSyringe"));
 	phylum type = monster_phylum(enemy);
 
-	if((!contains_text(combatState, "snokebomb")) && have_skill($skill[Snokebomb]) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
+	if(!contains_text(combatState, "snokebomb") && have_skill($skill[Snokebomb]) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])))
 	{
 		if($monsters[Flame-Broiled Meat Blob, Overdone Flame-Broiled Meat Blob, Swarm of Skulls] contains enemy)
 		{
@@ -3409,7 +3437,7 @@ string cs_combatNormal(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, $skill[KGB Tranquilizer Dart])) && have_skill($skill[KGB Tranquilizer Dart]) && (get_property("_kgbTranquilizerDartUses").to_int() < 3))
+	if(!contains_text(combatState, $skill[KGB Tranquilizer Dart]) && have_skill($skill[KGB Tranquilizer Dart]) && (get_property("_kgbTranquilizerDartUses").to_int() < 3))
 	{
 		if($monsters[Flame-Broiled Meat Blob, Keese, Overdone Flame-Broiled Meat Blob, Remaindered Skeleton] contains enemy)
 		{
@@ -3424,7 +3452,7 @@ string cs_combatNormal(int round, string opp, string text)
 		if($monsters[Factory-Irregular Skeleton, Remaindered Skeleton, Swarm of Skulls] contains enemy)
 		{
 			return "skill " + $skill[Macrometeorite];
-		}		
+		}
 	}
 
 	if((my_familiar() == $familiar[Pair of Stomping Boots]) && ($monsters[Ancient Insane Monk, Ferocious Bugbear, Gelatinous Cube, Knob Goblin Poseur] contains enemy))
@@ -3439,7 +3467,7 @@ string cs_combatNormal(int round, string opp, string text)
 			print("Macrometeoring: " + enemy, "green");
 			set_property("_macrometeoriteUses", 1 + get_property("_macrometeoriteUses").to_int());
 			return "skill " + $skill[Macrometeorite];
-		}		
+		}
 	}
 
 
@@ -3449,10 +3477,37 @@ string cs_combatNormal(int round, string opp, string text)
 		set_property("cc_combatHandler", combatState);
 	}
 
-	if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
+	if(!contains_text(combatState, "love gnats") && have_skill($skill[Summon Love Gnats]))
 	{
 		set_property("cc_combatHandler", combatState + "(love gnats)");
-		return "skill summon love gnats";
+		return "skill " + $skill[Summon Love Gnats];
+	}
+
+	if((enemy == $monster[LOV Enforcer]) && (my_familiar() == $familiar[Nosy Nose]))
+	{
+		if(my_hp() > (2*expected_damage()))
+		{
+			return "attack with weapon";
+		}
+	}
+	if(enemy == $monster[LOV Engineer])
+	{
+		if(!contains_text(combatState, "weaksauce") && (have_skill($skill[Curse Of Weaksauce])) && (my_mp() >= 32))
+		{
+			set_property("cc_combatHandler", combatState + "(weaksauce)");
+			return "skill " + $skill[Curse Of Weaksauce];
+		}
+
+		if(!contains_text(combatState, "(candyblast)") && have_skill($skill[Candyblast]) && (my_mp() > (mp_cost($skill[Candyblast]) * 3)) && (my_class() != $class[Sauceror]))
+		{
+			set_property("cc_combatHandler", combatState + "(candyblast)");
+			return "skill " + $skill[Candyblast];
+		}
+
+		if(have_skill($skill[Saucestorm]) && (my_mp() >= mp_cost($skill[Saucestorm])))
+		{
+			return "skill " + $skill[Saucestorm];
+		}
 	}
 
 	if((have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
@@ -3473,10 +3528,10 @@ string cs_combatNormal(int round, string opp, string text)
 
 		if(doOlfaction)
 		{
-			if((!contains_text(combatState, "weaksauce")) && have_skill($skill[curse of weaksauce]) && (my_mp() >= 72))
+			if(!contains_text(combatState, "weaksauce") && have_skill($skill[Curse Of Weaksauce]) && (my_mp() >= 72))
 			{
 				set_property("cc_combatHandler", combatState + "(weaksauce)");
-				return "skill curse of weaksauce";
+				return "skill " + $skill[Curse Of Weaksauce];
 			}
 			if(!contains_text(combatState, "soulbubble") && have_skill($skill[Soul Saucery]) && (my_soulsauce() >= soulsauce_cost($skill[Soul Bubble])))
 			{
@@ -3516,19 +3571,19 @@ string cs_combatNormal(int round, string opp, string text)
 	if(!contains_text(combatState, "cleesh") && have_skill($skill[Cleesh]) && (my_mp() > mp_cost($skill[Cleesh])) && ((enemy == $monster[creepy little girl]) || (enemy == $monster[lab monkey]) || (enemy == $monster[super-sized cola wars soldier])) && (item_amount($item[Experimental Serum G-9]) < 2))
 	{
 		set_property("cc_combatHandler", combatState + "(cleesh)");
-		return "skill cleesh";
+		return "skill " + $skill[CLEESH];
 	}
 
-	if((!contains_text(combatState, "DNA")) && (item_amount($item[DNA Extraction Syringe]) > 0))
+	if(!contains_text(combatState, "DNA") && (item_amount($item[DNA Extraction Syringe]) > 0))
 	{
 		if(type != current)
 		{
 			set_property("cc_combatHandler", combatState + "(DNA)");
-			return "item DNA extraction syringe";
+			return "item " + $item[DNA Extraction Syringe];
 		}
 	}
 
-	if((!contains_text(combatState, "winkat")) && (my_familiar() == $familiar[Reanimated Reanimator]))
+	if(!contains_text(combatState, "winkat") && (my_familiar() == $familiar[Reanimated Reanimator]))
 	{
 		if($monsters[Witchess Bishop, Witchess Knight] contains enemy)
 		{
@@ -3541,7 +3596,7 @@ string cs_combatNormal(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "badlyromanticarrow")) && (my_familiar() == $familiar[Obtuse Angel]))
+	if(!contains_text(combatState, "badlyromanticarrow") && (my_familiar() == $familiar[Obtuse Angel]))
 	{
 		if($monsters[Witchess Bishop, Witchess Knight] contains enemy)
 		{
@@ -3561,10 +3616,10 @@ string cs_combatNormal(int round, string opp, string text)
 	}
 	if((my_location() == $location[The Secret Government Laboratory]) && get_property("controlPanel9").to_boolean())
 	{
-		if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 32))
+		if(!contains_text(combatState, "weaksauce") && have_skill($skill[Curse Of Weaksauce]) && (my_mp() >= 32))
 		{
 			set_property("cc_combatHandler", combatState + "(weaksauce)");
-			return "skill curse of weaksauce";
+			return "skill " + $skill[Curse Of Weaksauce];
 		}
 
 		if((!contains_text(combatState, "conspiratorialwhispers")) && (have_skill($skill[Conspiratorial Whispers])) && (my_mp() >= 49))
@@ -3575,19 +3630,19 @@ string cs_combatNormal(int round, string opp, string text)
 		danger = true;
 	}
 
-	if((!contains_text(combatState, "love stinkbug")) && get_property("lovebugsUnlocked").to_boolean() && !danger)
+	if(!contains_text(combatState, "love stinkbug") && get_property("lovebugsUnlocked").to_boolean() && !danger)
 	{
 		set_property("cc_combatHandler", combatState + "(love stinkbug)");
-		return "skill summon love stinkbug";
+		return "skill " + $skill[Summon Love Stinkbug];
 	}
 
-	if((!contains_text(combatState, "(digitize)")) && have_skill($skill[Digitize]) && (my_mp() > (mp_cost($skill[Digitize]) * 2)) && ($monsters[Witchess Bishop, Witchess Knight] contains enemy))
+	if(!contains_text(combatState, "(digitize)") && have_skill($skill[Digitize]) && (my_mp() > (mp_cost($skill[Digitize]) * 2)) && ($monsters[Witchess Bishop, Witchess Knight] contains enemy))
 	{
 		set_property("cc_combatHandler", combatState + "(digitize)");
 		return "skill " + $skill[Digitize];
 	}
 
-	if((!contains_text(combatState, "(extract)")) && have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 3)) && !danger)
+	if(!contains_text(combatState, "(extract)") && have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 3)) && !danger)
 	{
 		set_property("cc_combatHandler", combatState + "(extract)");
 		return "skill " + $skill[Extract];
@@ -3607,31 +3662,31 @@ string cs_combatNormal(int round, string opp, string text)
 		return "skill " + $skill[Gingerbread Mob Hit];
 	}
 
-	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 32))
+	if(!contains_text(combatState, "weaksauce") && have_skill($skill[Curse Of Weaksauce]) && (my_mp() >= 32))
 	{
 		set_property("cc_combatHandler", combatState + "(weaksauce)");
-		return "skill curse of weaksauce";
+		return "skill " + $skill[Curse Of Weaksauce];
 	}
 
-	if((!contains_text(combatState, "(candyblast)")) && have_skill($skill[Candyblast]) && (my_mp() > (mp_cost($skill[Candyblast]) * 3)) && !danger && (my_class() != $class[Sauceror]))
+	if(!contains_text(combatState, "(candyblast)") && have_skill($skill[Candyblast]) && (my_mp() > (mp_cost($skill[Candyblast]) * 3)) && !danger && (my_class() != $class[Sauceror]))
 	{
 		set_property("cc_combatHandler", combatState + "(candyblast)");
 		return "skill " + $skill[Candyblast];
 	}
 
-	if((!contains_text(combatState, "love mosquito")) && get_property("lovebugsUnlocked").to_boolean())
+	if(!contains_text(combatState, "love mosquito") && get_property("lovebugsUnlocked").to_boolean())
 	{
 		set_property("cc_combatHandler", combatState + "(love mosquito)");
-		return "skill summon love mosquito";
+		return "skill " + $skill[Summon Love Mosquito];
 	}
 
-	if((!contains_text(combatState, "cowboy kick")) && (have_skill($skill[Cowboy Kick])) && (monster_level_adjustment() <= 150))
+	if(!contains_text(combatState, "cowboy kick") && have_skill($skill[Cowboy Kick]) && (monster_level_adjustment() <= 150))
 	{
 		set_property("cc_combatHandler", combatState + "(cowboy kick)");
 		return "skill " + $skill[Cowboy Kick];
 	}
 
-	if((!contains_text(combatState, "(time-spinner)")) && (item_amount($item[Time-Spinner]) > 0))
+	if(!contains_text(combatState, "(time-spinner)") && (item_amount($item[Time-Spinner]) > 0))
 	{
 		set_property("cc_combatHandler", combatState + "(time-spinner)");
 		return "item " + $item[Time-Spinner];
@@ -3642,7 +3697,7 @@ string cs_combatNormal(int round, string opp, string text)
 		return "skill " + $skill[Saucegeyser];
 	}
 
-	if((!contains_text(combatState, "entangling noodles")) && have_skill($skill[Entangling Noodles]) && (my_mp() >= (mp_cost($skill[Entangling Noodles]) + (2 * mp_cost($skill[Saucestorm])))) && (monster_level_adjustment() <= 150))
+	if(!contains_text(combatState, "entangling noodles") && have_skill($skill[Entangling Noodles]) && (my_mp() >= (mp_cost($skill[Entangling Noodles]) + (2 * mp_cost($skill[Saucestorm])))) && (monster_level_adjustment() <= 150))
 	{
 		set_property("cc_combatHandler", combatState + "(entangling noodles)");
 		return "skill " + $skill[Entangling Noodles];
@@ -4096,24 +4151,24 @@ boolean cs_giant_growth()
 	return cs_giant_growth();
 }
 
-
 int estimate_cs_questCost(int quest)
 {
+	int retval = 60;
 	switch(quest)
 	{
-	case 1:		return 60 - ((my_maxhp() - (my_buffedstat($stat[Muscle]) + 3)) / 30);
-	case 2:		return 60 - ((my_buffedstat($stat[Muscle]) - my_basestat($stat[Muscle])) / 30);
-	case 3:		return 60 - ((my_buffedstat($stat[Mysticality]) - my_basestat($stat[Mysticality])) / 30);
-	case 4:		return 60 - ((my_buffedstat($stat[Moxie]) - my_basestat($stat[Moxie])) / 30);
-	case 5:		return 60 - ((weight_adjustment() + familiar_weight(my_familiar())) / 5);
-	case 6:		return 60 - (floor(numeric_modifier("weapon damage") / 50) + floor(numeric_modifier("weapon damage percent") / 50));
-	case 7:		return 60 - (floor(numeric_modifier("spell damage") / 50) + floor(numeric_modifier("spell damage percent") / 50));
-	case 8:		return 60 - (3 * min(5,floor((-1.0 * combat_rate_modifier()) / 5))) - (3 * max(0,floor((-1.0 * combat_rate_modifier()) - 25)));
-	case 9:		return 60 - (floor(numeric_modifier("item drop") / 30) + floor(numeric_modifier("booze drop") / 15));
-	case 10:	return 60 - elemental_resist($element[hot]);
-	case 11:	return 60;
+	case 1:		retval = 60 - ((my_maxhp() - (my_buffedstat($stat[Muscle]) + 3)) / 30);	break;
+	case 2:		retval = 60 - ((my_buffedstat($stat[Muscle]) - my_basestat($stat[Muscle])) / 30);	break;
+	case 3:		retval = 60 - ((my_buffedstat($stat[Mysticality]) - my_basestat($stat[Mysticality])) / 30);	break;
+	case 4:		retval = 60 - ((my_buffedstat($stat[Moxie]) - my_basestat($stat[Moxie])) / 30);	break;
+	case 5:		retval = 60 - ((weight_adjustment() + familiar_weight(my_familiar())) / 5);	break;
+	case 6:		retval = 60 - (floor(numeric_modifier("weapon damage") / 50) + floor(numeric_modifier("weapon damage percent") / 50));	break;
+	case 7:		retval = 60 - (floor(numeric_modifier("spell damage") / 50) + floor(numeric_modifier("spell damage percent") / 50));	break;
+	case 8:		retval = 60 - (3 * min(5,floor((-1.0 * combat_rate_modifier()) / 5))) - (3 * max(0,floor((-1.0 * combat_rate_modifier()) - 25)));	break;
+	case 9:		retval = 60 - (floor(numeric_modifier("item drop") / 30) + floor(numeric_modifier("booze drop") / 15));	break;
+	case 10:	retval = 60 - elemental_resist($element[hot]);	break;
+	case 11:	retval = 60;	break;
 	}
-	return 0;
+	return max(retval, 1);
 }
 
 int [int] get_cs_questList()

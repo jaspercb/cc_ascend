@@ -2459,8 +2459,6 @@ string cc_edCombatHandler(int round, string opp, string text)
 	}
 
 
-
-
 	if(have_equipped($item[Protonic Accelerator Pack]) && isGhost(enemy))
 	{
 		if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
@@ -2559,7 +2557,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
 		{
 			set_property("cc_combatHandler", combatState + "(love gnats)");
-			return "skill summon love gnats";
+			return "skill " + $skill[Summon Love Gnats];
 		}
 
 		if((item_amount($item[Ka Coin]) > 200) && have_skill($skill[Curse of Fortune]))
@@ -2661,19 +2659,19 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!contains_text(edCombatState, "curseofstench") && (have_skill($skill[Curse of Stench])) && (my_mp() >= 35) && (get_property("stenchCursedMonster") != opp) && (get_property("cc_edStatus") == "UNDYING!"))
+	if(!contains_text(edCombatState, "curseofstench") && (have_skill($skill[Curse Of Stench])) && (my_mp() >= 35) && (get_property("stenchCursedMonster") != opp) && (get_property("cc_edCombatStage").to_int() < 3))
 	{
 		if($monsters[Bob Racecar, Cabinet of Dr. Limpieza, Dairy Goat, Dirty Old Lihc, Government Scientist,  Green Ops Soldier, Possessed Wine Rack, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Writing Desk] contains enemy)
 		{
 			set_property("cc_edCombatHandler", combatState + "(curseofstench)");
 			handleTracker(enemy, $skill[Curse of Stench], "cc_sniffs");
-			return "skill Curse of Stench";
+			return "skill " + $skill[Curse Of Stench];
 		}
 	}
 
 	if(my_location() == $location[The Secret Council Warehouse])
 	{
-		if(!contains_text(edCombatState, "curseofstench") && (have_skill($skill[Curse of Stench])) && (my_mp() >= 35) && (get_property("stenchCursedMonster") != opp) && (get_property("cc_edStatus") == "UNDYING!"))
+		if(!contains_text(edCombatState, "curseofstench") && (have_skill($skill[Curse Of Stench])) && (my_mp() >= 35) && (get_property("stenchCursedMonster") != opp) && (get_property("cc_edCombatStage").to_int() < 3))
 		{
 			boolean doStench = false;
 			#	Rememeber, we are looking to see if we have enough of the opposite item here.
@@ -2700,7 +2698,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 			{
 				set_property("cc_edCombatHandler", combatState + "(curseofstench)");
 				handleTracker(enemy, $skill[Curse of Stench], "cc_sniffs");
-				return "skill Curse of Stench";
+				return "skill " + $skill[Curse Of Stench];
 			}
 		}
 	}
@@ -2708,7 +2706,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 	if(my_location() == $location[The Smut Orc Logging Camp])
 	{
-		if(!contains_text(edCombatState, "curseofstench") && (have_skill($skill[Curse of Stench])) && (my_mp() >= 35) && (get_property("stenchCursedMonster") != opp) && (get_property("cc_edStatus") == "UNDYING!"))
+		if(!contains_text(edCombatState, "curseofstench") && (have_skill($skill[Curse Of Stench])) && (my_mp() >= 35) && (get_property("stenchCursedMonster") != opp) && (get_property("cc_edCombatStage").to_int() < 3))
 		{
 			boolean doStench = false;
 			string stenched = to_lower_case(get_property("stenchCursedMonster"));
@@ -2734,7 +2732,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 			{
 				set_property("cc_edCombatHandler", combatState + "(curseofstench)");
 				handleTracker(enemy, $skill[Curse of Stench], "cc_sniffs");
-				return "skill Curse of Stench";
+				return "skill " + $skill[Curse Of Stench];
 			}
 		}
 	}
