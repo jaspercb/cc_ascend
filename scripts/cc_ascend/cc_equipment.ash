@@ -949,7 +949,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = List($items[Meatspout Staff, Chrome Staff, Chrome Sword, Sword Behind Inappropriate Prepositions, Time Sword, The Nuge\'s Favorite Crossbow]);
+	poss = List($items[Deadfall Branch, Meatspout Staff, Chrome Staff, Chrome Sword, Sword Behind Inappropriate Prepositions, Time Sword, The Nuge\'s Favorite Crossbow]);
 
 	toEquip = handleSolveThing(poss, $slot[weapon]);
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[weapon])))
@@ -958,7 +958,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = List($items[Ancient Calendar, Novelty Monorail Ticket, Mer-kin stopwatch, Astral Statuette, Silver Cow Creamer, Royal Scepter]);
+	poss = List($items[Deadfall Branch, Ancient Calendar, Novelty Monorail Ticket, Mer-kin stopwatch, Astral Statuette, Silver Cow Creamer, Royal Scepter]);
 	switch(my_primestat())
 	{
 	case $stat[Muscle]:

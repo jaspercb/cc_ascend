@@ -208,10 +208,11 @@ boolean LA_cs_communityService()
 		{
 			getHorse("regen");
 		}
-		if(curQuest == 9)
+		if(!get_property("_loveTunnelUsed").to_boolean() && get_property("loveTunnelAvailable").to_boolean())
 		{
 			handleFamiliar($familiar[Nosy Nose]);
 			loveTunnelAcquire(true, $stat[none], true, 3, true, 3, "cs_combatNormal");
+			return true;
 		}
 		if(item_amount($item[Cornucopia]) == 1)
 		{
@@ -231,10 +232,11 @@ boolean LA_cs_communityService()
 		{
 			getHorse("non-combat");
 		}
-		if(curQuest == 5)
+		if(!get_property("_loveTunnelUsed").to_boolean() && get_property("loveTunnelAvailable").to_boolean())
 		{
 			handleFamiliar($familiar[Nosy Nose]);
 			loveTunnelAcquire(true, $stat[Moxie], true, 2, true, 3, "cs_combatNormal");
+			return true;
 		}
 		if(item_amount($item[Cornucopia]) == 1)
 		{
@@ -250,8 +252,12 @@ boolean LA_cs_communityService()
 		}
 		break;
 	default:
-		handleFamiliar($familiar[Nosy Nose]);
-		loveTunnelAcquire(true, $stat[none], true, 3, true, 1, "cs_combatNormal");
+		if(!get_property("_loveTunnelUsed").to_boolean() && get_property("loveTunnelAvailable").to_boolean())
+		{
+			handleFamiliar($familiar[Nosy Nose]);
+			loveTunnelAcquire(true, $stat[none], true, 3, true, 1, "cs_combatNormal");
+			return true;
+		}
 		break;
 	}
 
@@ -1368,6 +1374,8 @@ boolean LA_cs_communityService()
 				doRest();
 			}
 
+			string temp = visit_url("place.php?whichplace=monorail&action=monorail_lyle");
+
 			if((get_property("_g9Effect").to_int() == 0) && (item_amount($item[Experimental Serum G-9]) > 0))
 			{
 				string temp = visit_url("desc_effect.php?whicheffect=af64d06351a3097af52def8ec6a83d9b", false);
@@ -1387,7 +1395,6 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[A Few Extra Pounds], 10, 1, 1);
 
 			buffMaintain($effect[Lycanthropy\, Eh?], 0, 1, 1);
-			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
 			buffMaintain($effect[Phorcefullness], 0, 1, 1);
 			buffMaintain($effect[Tomato Power], 0, 1, 1);
@@ -1396,20 +1403,22 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Extra Backbone], 0, 1, 1);
 			buffMaintain($effect[Pill Power], 0, 1, 1);
 			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
-			buffMaintain($effect[Nigh-Invincible], 0, 1, 1);
-			buffMaintain($effect[Pill Power], 0, 1, 1);
+
 			buffMaintain($effect[Frog in Your Throat], 0, 1, 1);
 			buffMaintain($effect[Feroci Tea], 0, 1, 1);
-			buffMaintain($effect[Gr8tness], 0, 1, 1);
 			buffMaintain($effect[Vitali Tea], 0, 1, 1);
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
-			buffMaintain($effect[Purity of Spirit], 0, 1, 1);
 			buffMaintain($effect[Peppermint Bite], 0, 1 , 1);
-			buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
-			buffMaintain($effect[Phorcefullness], 0, 1, 1);
 			buffMaintain($effect[Barbecue Saucy], 0, 1, 1);
 			buffMaintain($effect[Graham Crackling], 0, 1, 1);
-			buffMaintain($effect[The Power Of LOV], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Purity of Spirit], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Gr8tness], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Nigh-Invincible], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Pill Power], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Phorcefullness], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[The Power Of LOV], 0, 1, 1);
 
 			if(!get_property("_grimBuff").to_boolean())
 			{
@@ -1554,7 +1563,6 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Power Ballad of the Arrowsmith], 10, 1, 1);
 			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
 
-			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
 			buffMaintain($effect[Orange Crusher], 0, 1, 50);
 			buffMaintain($effect[Orange Crusher], 0, 1, 50);
@@ -1565,8 +1573,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Tomato Power], 0, 1, 1);
 			buffMaintain($effect[Savage Beast Inside], 0, 1, 1);
 			buffMaintain($effect[Extra Backbone], 0, 1, 1);
-			buffMaintain($effect[Gr8tness], 0, 1, 1);
-			buffMaintain($effect[Pill Power], 0, 1, 1);
+
 			buffMaintain($effect[Go Get \'Em\, Tiger!], 0, 1, 1);
 			buffMaintain($effect[Seal Clubbing Frenzy], 1, 1, 1);
 			buffMaintain($effect[Patience of the Tortoise], 1, 1, 1);
@@ -1576,6 +1583,10 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
 			buffMaintain($effect[Feroci Tea], 0, 1, 1);
 			buffMaintain($effect[Peppermint Bite], 0, 1 , 1);
+
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Gr8tness], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Pill Power], 0, 1, 1);
 
 			handleFamiliar($familiar[Machine Elf]);
 			cs_giant_growth();
@@ -1620,7 +1631,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[The Magical Mojomuscular Melody], 3, 1, 1);
 			buffMaintain($effect[Disdain of She-Who-Was], 15, 1, 1);
 
-			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
+
 			buffMaintain($effect[Mystically Oiled], 0, 1, 1);
 			buffMaintain($effect[Tomato Power], 0, 1, 1);
 			buffMaintain($effect[Pill Power], 0, 1, 1);
@@ -1642,7 +1653,8 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Wit Tea], 0, 1, 1);
 			buffMaintain($effect[Sweet\, Nuts], 0, 1, 1);
 			buffMaintain($effect[Baconstoned], 0, 1, 1);
-			buffMaintain($effect[The Magic Of LOV], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[The Magic Of LOV], 0, 1, 1);
 
 			buffMaintain($effect[Nearly All-Natural], 0, 1, 1);
 
@@ -1719,7 +1731,6 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Blubbered Up], 10, 1, 1);
 
 			buffMaintain($effect[Expert Oiliness], 0, 1, 1);
-			buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			buffMaintain($effect[Tomato Power], 0, 1, 1);
 			buffMaintain($effect[Pulchritudinous Pressure], 0, 1, 1);
 			buffMaintain($effect[Lycanthropy\, Eh?], 0, 1, 1);
@@ -1744,7 +1755,9 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Dexteri Tea], 0, 1, 1);
 			buffMaintain($effect[Busy Bein\' Delicious], 0, 1, 1);
 			buffMaintain($effect[Bandersnatched], 0, 1, 1);
-			buffMaintain($effect[The Moxie Of LOV], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[The Moxie Of LOV], 0, 1, 1);
+
 
 			buffMaintain($effect[Amazing], 0, 1, 1);
 
@@ -2009,8 +2022,27 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Scowl of the Auk], 10, 1, 1);
 			buffMaintain($effect[Tenacity of the Snapper], 8, 1, 1);
 			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
+/*
+			if(item_amount($item[LOV Elixir #3]) == 0)
+			{
+				cli_execute("refresh inv");
+				if(item_amount($item[LOV Elixir #3]) != 0)
+				{
+					abort("Damn it mafia for not seeing my elixir!!");
+				}
+			}
+*/
 			buffMaintain($effect[The Power Of LOV], 0, 1, 1);
-
+/*
+			if(have_effect($effect[The Power Of LOV]) == 0)
+			{
+				if(item_amount($item[LOV Elixir #3]) != 0)
+				{
+					abort("Damn it mafia for not using my elixir!!");
+				}
+				abort("Fuckin hell mafia!!!");
+			}
+*/
 			if((item_amount($item[Wasabi Marble Soda]) == 0) && (have_effect($effect[Wasabi With You]) == 0) && (item_amount($item[Ye Wizard\'s Shack snack voucher]) > 0))
 			{
 				cli_execute("make " + $item[Wasabi Marble Soda]);
@@ -2299,6 +2331,17 @@ boolean LA_cs_communityService()
 				# Need 37-41 pounds to save 3 turns. (probably 40)
 				buffMaintain($effect[Empathy], 15, 1, 1);
 				buffMaintain($effect[Leash of Linguini], 12, 1, 1);
+
+				if(!is_familiar_equipment_locked())
+				{
+					lock_familiar_equipment(true);
+				}
+
+				if(equipped_item($slot[familiar]) == $item[Astral Pet Sweater])
+				{
+					equip($slot[familiar], $item[none]);
+				}
+
 				use_familiar($familiar[Disgeist]);
 				if((equipped_item($slot[familiar]) != $item[Astral Pet Sweater]) && (available_amount($item[Astral Pet Sweater]) > 0))
 				{
@@ -3477,12 +3520,6 @@ string cs_combatNormal(int round, string opp, string text)
 		set_property("cc_combatHandler", combatState);
 	}
 
-	if(!contains_text(combatState, "love gnats") && have_skill($skill[Summon Love Gnats]))
-	{
-		set_property("cc_combatHandler", combatState + "(love gnats)");
-		return "skill " + $skill[Summon Love Gnats];
-	}
-
 	if((enemy == $monster[LOV Enforcer]) && (my_familiar() == $familiar[Nosy Nose]))
 	{
 		if(my_hp() > (2*expected_damage()))
@@ -3492,11 +3529,11 @@ string cs_combatNormal(int round, string opp, string text)
 	}
 	if(enemy == $monster[LOV Engineer])
 	{
-		if(!contains_text(combatState, "weaksauce") && (have_skill($skill[Curse Of Weaksauce])) && (my_mp() >= 32))
-		{
-			set_property("cc_combatHandler", combatState + "(weaksauce)");
-			return "skill " + $skill[Curse Of Weaksauce];
-		}
+#		if(!contains_text(combatState, "weaksauce") && (have_skill($skill[Curse Of Weaksauce])) && (my_mp() >= 32))
+#		{
+#			set_property("cc_combatHandler", combatState + "(weaksauce)");
+#			return "skill " + $skill[Curse Of Weaksauce];
+#		}
 
 		if(!contains_text(combatState, "(candyblast)") && have_skill($skill[Candyblast]) && (my_mp() > (mp_cost($skill[Candyblast]) * 3)) && (my_class() != $class[Sauceror]))
 		{
@@ -3508,6 +3545,12 @@ string cs_combatNormal(int round, string opp, string text)
 		{
 			return "skill " + $skill[Saucestorm];
 		}
+	}
+
+	if(!contains_text(combatState, "love gnats") && have_skill($skill[Summon Love Gnats]))
+	{
+		set_property("cc_combatHandler", combatState + "(love gnats)");
+		return "skill " + $skill[Summon Love Gnats];
 	}
 
 	if((have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))

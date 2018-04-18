@@ -1993,10 +1993,10 @@ void initializeDay(int day)
 
 		if(get_property("cc_day2_init") == "")
 		{
-			if(item_amount($item[tonic djinn]) > 0)
+			if((item_amount($item[Tonic Djinn]) > 0) && !get_property("_tonicDjinn").to_boolean())
 			{
 				set_property("choiceAdventure778", "2");
-				use(1, $item[tonic djinn]);
+				use(1, $item[Tonic Djinn]);
 			}
 			if(item_amount($item[gym membership card]) > 0)
 			{

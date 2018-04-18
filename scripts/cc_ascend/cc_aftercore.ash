@@ -1021,7 +1021,10 @@ boolean cc_cheesePostCS(int leave)
 			{
 				equip($slot[back], $item[Rad Cloak]);
 			}
-
+			if(item_amount($item[Gate Transceiver]) > 0)
+			{
+				equip($slot[back], $item[Gate Transceiver]);
+			}
 			if(isOverdueDigitize())
 			{
 				set_property("cc_combatDirective", "start;skill curse of weaksauce;item rain-doh black box, time-spinner;skill stuffed mortar shell;item rain-doh indigo cup, rain-doh blue balls");

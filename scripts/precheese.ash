@@ -13,14 +13,15 @@ void handlePreAdventure(location place)
 		abort("Familiar has no equipment, WTF");
 	}
 
-	if((place == $location[The Deep Machine Tunnels]) && (my_familiar() != $familiar[Machine Elf]))
-	{
-		if(!have_familiar($familiar[Machine Elf]))
-		{
-			abort("Massive failure, we don't use snowglobes.");
-		}
-		print("Somehow we are considering the DMT without a Machine Elf...", "red");
-	}
+#	set_location doesn't help us to resolve this, just let it infinite and fail in that exotic case that was propbably due to a bad user.
+#	if((place == $location[The Deep Machine Tunnels]) && (my_familiar() != $familiar[Machine Elf]))
+#	{
+#		if(!have_familiar($familiar[Machine Elf]))
+#		{
+#			abort("Massive failure, we don't use snowglobes.");
+#		}
+#		print("Somehow we are considering the DMT without a Machine Elf...", "red");
+#	}
 
 	if(get_property("cc_disableAdventureHandling").to_boolean())
 	{

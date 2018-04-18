@@ -303,6 +303,8 @@ boolean loveTunnelAcquire(boolean enforcer, stat statItem, boolean engineer, int
 		return false;
 	}
 
+	set_location($location[The Tunnel of L.O.V.E.]);
+
 	temp = visit_url("choice.php?pwd=&whichchoice=1222&option=1");
 
 	if(enforcer || engineer || equivocator)
@@ -409,7 +411,7 @@ boolean kgbWasteClicks()
 	}
 
 	int clicked = 0;
-	while(kgbDiscovery())
+	while(kgbDiscovery() && (clicked < 10))
 	{
 		clicked++;
 	}
