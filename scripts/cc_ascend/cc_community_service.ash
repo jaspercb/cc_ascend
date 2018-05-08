@@ -840,7 +840,7 @@ boolean LA_cs_communityService()
 				}
 			}
 
-			if((item_amount($item[Black Pixel]) < 2) && (item_amount($item[Pixel Star]) == 0) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
+			if(!get_property("cc_hccsTurnSave").to_boolean() && (item_amount($item[Black Pixel]) < 2) && (item_amount($item[Pixel Star]) == 0) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
 				equip($slot[acc1], $item[Continuum Transfunctioner]);
 
@@ -920,6 +920,10 @@ boolean LA_cs_communityService()
 			{
 				equip($slot[Off-hand], $item[KoL Con 13 Snowglobe]);
 				pulverizeThing($item[A Light That Never Goes Out]);
+			}
+			if(get_property("cc_hccsTurnSave").to_boolean())
+			{
+				doFarm = false;
 			}
 
 			if(doFarm)
@@ -1071,6 +1075,10 @@ boolean LA_cs_communityService()
 				doHottub();
 			}
 
+			if(get_property("cc_hccsTurnSave").to_boolean())
+			{
+				missing = 0;
+			}
 			if((missing > (item_amount($item[Miniature Power Pill]) + item_amount($item[Power Pill]))) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])) && (!is100familiarRun() || !is100familiarRun($familiar[Puck Man]) || !is100familiarRun($familiar[Ms. Puck Man])))
 			{
 				if(elementalPlanes_access($element[hot]))
@@ -1198,6 +1206,13 @@ boolean LA_cs_communityService()
 				chew(1, $item[Nasty Snuff]);
 			}
 
+//			if(my_ascensions() > 200)
+//			{
+//				fightScienceTentacle();
+//				evokeEldritchHorror();
+//			}
+
+
 			if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean() && (get_property("choiceAdventure595").to_int() == 1))
 			{
 				use(1, $item[CSA Fire-Starting Kit]);
@@ -1221,10 +1236,6 @@ boolean LA_cs_communityService()
 				cli_execute("spacegate vaccine 2");
 			}
 
-			if(item_amount($item[Experimental Serum G-9]) > 2)
-			{
-				buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
-			}
 			if((get_property("puzzleChampBonus").to_int() == 20) && !get_property("_witchessBuff").to_boolean())
 			{
 				visit_url("campground.php?action=witchess");
@@ -1232,17 +1243,12 @@ boolean LA_cs_communityService()
 				visit_url("choice.php?whichchoice=1183&pwd=&option=2");
 			}
 
-//			if(my_ascensions() > 200)
-//			{
-//				fightScienceTentacle();
-//				evokeEldritchHorror();
-//			}
-
 			zataraSeaside("muscle");
 
-			if((get_property("_kgbClicksUsed").to_int() <= 24) && possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+			if((get_property("frAlways").to_boolean() || get_property("_frToday").to_boolean()) && !possessEquipment($item[FantasyRealm G. E. M.]))
 			{
-				kgbWasteClicks();
+				visit_url("place.php?whichplace=realm_fantasy&action=fr_initcenter", false);
+				visit_url("choice.php?whichchoice=1280&pwd=&option=3");
 			}
 
 			if(!get_property("cc_saveMargarita").to_boolean() && (inebriety_left() == 0))
@@ -1269,6 +1275,9 @@ boolean LA_cs_communityService()
 				//Stooper into 1-booze
 				abort("Saving Emergency Margarita, forcing abort, done with day. Overdrink, cast simmer,  and run again.");
 			}
+
+
+
 			return true;
 		}
 	}
@@ -1527,7 +1536,13 @@ boolean LA_cs_communityService()
 		break;
 
 	case 2:		#Muscle Quest
-			if(!possessEquipment($item[Barrel Lid]))
+			if((get_property("frAlways").to_boolean() || get_property("_frToday").to_boolean()) && !possessEquipment($item[FantasyRealm G. E. M.]))
+			{
+				visit_url("place.php?whichplace=realm_fantasy&action=fr_initcenter", false);
+				visit_url("choice.php?whichchoice=1280&pwd=&option=" + (random(2)+1));
+			}
+
+			if(!possessEquipment($item[Barrel Lid]) && get_property("barrelShrineUnlocked").to_boolean())
 			{
 				visit_url("da.php?barrelshrine=1");
 				visit_url("choice.php?whichchoice=1100&pwd&option=1", true);

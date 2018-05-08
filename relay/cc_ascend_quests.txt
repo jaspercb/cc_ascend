@@ -83,7 +83,7 @@
 83	cc_waitingArrowAlcove	integer	ANY	If we arrowed a modern zmobie, this tells us when to return to the Alcove (cyrptAlcoveEvilness value).
 84	cc_war	string	ANY	'finished' is the war is done. 'done' if the battleground is empty but we still need to turn in items and fight the boss.
 85	cc_winebomb	string	ANY	'partial' if we have a fulminate, 'finished' if we've made it into a wine bomb
-86	cc_100familiar	boolean	PRE	If true, do not allow familiar switching (for 100% runs).
+86	cc_100familiar	string	PRE	If a familiar type, do not allow familiar switching (for 100% runs). Otherwise, can be none or blank.
 87	cc_borisSkills	integer	ANY	?? Number of Boris skills?
 88	cc_awolLastSkill	integer	PRE	Last level we handled AWOL skills
 89	cc_beatenUpCount	integer	PRE	?? Something to do with ML disabling?
@@ -109,3 +109,4 @@
 108	cc_copperhead	integer	ANY	Tracks the first 3 choice options when being a waiter at Copperhead (1|2|4)
 109	cc_needLegs	boolean	PRE	In Ed, do we require getting legs before trying to Ka farm?
 110	cc_getSteelOrgan	boolean	ANY	Are we trying to get a Steel Organ this ascension?
+111	cc_hccsTurnSave	boolean	ANY	In HCCS: Should we ignore pixel farming?

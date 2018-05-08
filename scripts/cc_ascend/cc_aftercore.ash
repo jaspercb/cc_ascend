@@ -908,6 +908,7 @@ boolean cc_cheesePostCS(int leave)
 
 	if(((my_daycount() == 2) && isOverdueDigitize()) || get_property("_cc_specialAftercore").to_boolean())
 	{
+		cli_execute("/aa none");
 		set_property("_cc_specialAftercore", false);
 		if(my_fullness() == 10)
 		{
@@ -1012,6 +1013,7 @@ boolean cc_cheesePostCS(int leave)
 			string temp = visit_url("place.php?whichplace=spacegate&action=sg_Terminal");
 			temp = visit_url("choice.php?pwd=&whichchoice=1235&option=2&word=" + get_property("cc_digitizePlanet"));
 			ccAdv($location[Through The Spacegate]);
+			set_property("_spacegateTurnsLeft", 20);
 		}
 
 		# I suppose hazards tells us what we need to equip?
@@ -1023,7 +1025,7 @@ boolean cc_cheesePostCS(int leave)
 			}
 			if(item_amount($item[Gate Transceiver]) > 0)
 			{
-				equip($slot[back], $item[Gate Transceiver]);
+				equip($slot[acc3], $item[Gate Transceiver]);
 			}
 			if(isOverdueDigitize())
 			{
@@ -1171,30 +1173,21 @@ boolean cc_cheesePostCS(int leave)
 	{
 		if(item_amount($item[Sacramento Wine]) > 0)
 		{
-			item it = equipped_item($slot[Acc3]);
-			if((it != $item[Mafia Pinky Ring]) && (item_amount($item[Mafia Pinky Ring]) > 0))
-			{
-				equip($slot[Acc3], $item[Mafia Pinky Ring]);
-			}
 			buffMaintain($effect[Ode to Booze], 50, 1, 1);
-			drink(1, $item[Sacramento Wine]);
-			if(equipped_item($slot[Acc3]) != it)
-			{
-				equip($slot[Acc3], it);
-			}
+			ccDrink(1, $item[Sacramento Wine]);
 		}
 	}
 
 	while((inebriety_left() >= 8) && (item_amount($item[Sacramento Wine]) > 4))
 	{
 		buffMaintain($effect[Ode to Booze], 50, 1, 4);
-		drink(4, $item[Sacramento Wine]);
+		ccDrink(4, $item[Sacramento Wine]);
 	}
 
 	while((inebriety_left() >= 4) && (item_amount($item[Hacked Gibson]) > 0))
 	{
 		buffMaintain($effect[Ode to Booze], 50, 1, 4);
-		drink(1, $item[Hacked Gibson]);
+		ccDrink(1, $item[Hacked Gibson]);
 	}
 	while((inebriety_left() >= 1) && (item_amount($item[Sacramento Wine]) > 0))
 	{
