@@ -164,7 +164,7 @@ boolean godLobsterCombat(item it, int goal, string option)
 		int choice = 0;
 		foreach idx, str in available_choice_options()
 		{
-			if(str == search)
+			if(contains_text(str,search))
 			{
 				choice = idx;
 			}
@@ -173,7 +173,6 @@ boolean godLobsterCombat(item it, int goal, string option)
 		temp = visit_url("choice.php?pwd=&whichchoice=1310&option=" + choice, true);
 		restoreSetting("choiceAdventure1310");
 	}
-
 
 	set_property("cc_disableAdventureHandling", false);
 	if(equipped_item($slot[familiar]) != lastGear)
