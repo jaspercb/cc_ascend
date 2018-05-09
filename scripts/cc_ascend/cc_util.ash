@@ -2053,7 +2053,7 @@ boolean isFreeMonster(monster mon)
 
 	boolean[monster] lovecrate = $monsters[LOV Enforcer, LOV Engineer, LOV Equivocator];
 
-	boolean[monster] other = $monsters[giant rubber spider, lynyrd, time-spinner prank, Travoltron];
+	boolean[monster] other = $monsters[giant rubber spider, God Lobster, lynyrd, time-spinner prank, Travoltron];
 
 	//boolean[monster] protonGhosts: See isProtonGhost, we want to detect these separately as well so we\'ll functionalize it here.
 

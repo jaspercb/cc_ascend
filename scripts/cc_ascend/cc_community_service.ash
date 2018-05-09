@@ -1070,6 +1070,8 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
+			while(godLobsterCombat());
+
 			if((have_effect($effect[Half-Blooded]) > 0) || (have_effect($effect[Half-Drained]) > 0) || (have_effect($effect[Bruised]) > 0) || (have_effect($effect[Relaxed Muscles]) > 0) || (have_effect($effect[Hypnotized]) > 0) || (have_effect($effect[Bad Haircut]) > 0))
 			{
 				doHottub();
@@ -4085,12 +4087,12 @@ string cs_combatLTB(int round, string opp, string text)
 	if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
 	{
 		set_property("cc_combatHandler", combatState + "(love gnats)");
-		return "skill summon love gnats";
+		return "skill " + $skill[Summon Love Gnats];
 	}
 	if((!contains_text(combatState, "giant growth")) && have_skill($skill[Giant Growth]))
 	{
 		set_property("cc_combatHandler", combatState + "(giant growth)");
-		return "skill giant growth";
+		return "skill " + $skill[Giant Growth];
 	}
 
 	if(!contains_text(combatState, "giant growth"))
@@ -4119,7 +4121,7 @@ string cs_combatLTB(int round, string opp, string text)
 		{
 			return "item louder than bomb, seal tooth";
 		}
-		return "item louder than bomb";
+		return "item " + $item[Louder Than Bomb];
 	}
 	if((!contains_text(combatState, "tennis ball")) && (item_amount($item[Tennis Ball]) > 0))
 	{
@@ -4129,7 +4131,7 @@ string cs_combatLTB(int round, string opp, string text)
 		{
 			return "item tennis ball, seal tooth";
 		}
-		return "item tennis ball";
+		return "item " + $item[Tennis Ball];
 	}
 
 
@@ -4141,7 +4143,7 @@ string cs_combatLTB(int round, string opp, string text)
 		{
 			return "item power pill, seal tooth";
 		}
-		return "item power pill";
+		return "item " + $item[Power Pill];
 	}
 
 	abort("Could not free kill our Giant Growth, uh oh.");
@@ -4193,7 +4195,7 @@ boolean cs_giant_growth()
 		restoreSetting("choiceAdventure1119");
 		set_property("choiceAdventure1119", "");
 	}
-	else
+	else if(!godLobsterCombat($item[none], 3, "cs_combatLTB"))
 	{
 		ccAdv(1, $location[8-bit Realm], "cs_combatLTB");
 	}

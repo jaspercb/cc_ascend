@@ -81,3 +81,110 @@ boolean januaryToteAcquire(item it)
 
 	return true;
 }
+
+boolean godLobsterCombat()
+{
+	return godLobsterCombat($item[none]);
+}
+
+boolean godLobsterCombat(item it)
+{
+	return godLobsterCombat(it, 3);
+}
+
+boolean godLobsterCombat(item it, int goal)
+{
+	return godLobsterCombat(it, goal, "");
+}
+
+boolean godLobsterCombat(item it, int goal, string option)
+{
+	if(!have_familiar($familiar[God Lobster]))
+	{
+		return false;
+	}
+	if(!is_unrestricted($familiar[God Lobster]))
+	{
+		return false;
+	}
+	if(is100FamiliarRun($familiar[God Lobster]))
+	{
+		return false;
+	}
+	if((goal < 1) || (goal > 3))
+	{
+		return false;
+	}
+	if(get_property("_lobsterFights").to_int() >= 3)
+	{
+		return false;
+	}
+	if((it != $item[none]) && (available_amount(it) == 0))
+	{
+		return false;
+	}
+	if((goal == 1) && (it == $item[God Lobster\'s Crown]))
+	{
+		return false;
+	}
+
+	familiar last = my_familiar();
+	handleFamiliar($familiar[God Lobster]);
+	use_familiar($familiar[God Lobster]);
+
+	item lastGear = equipped_item($slot[familiar]);
+
+	if(lastGear != it)
+	{
+		equip($slot[familiar], it);
+	}
+
+	set_property("cc_disableAdventureHandling", true);
+
+	string temp = visit_url("main.php?fightgodlobster=1");
+	if(contains_text(temp, "You can't challenge your God Lobster anymore"))
+	{
+		set_property("_lobsterFights", 3);
+	}
+	else
+	{
+		ccAdv(1, $location[Noob Cave], option);
+		temp = visit_url("main.php");
+
+		string search = "I'd like part of your regalia.";
+		if(goal == 2)
+		{
+			search = "I'd like a blessing.";
+		}
+		else if(goal == 3)
+		{
+			search = "I'd like some experience.";
+		}
+
+		int choice = 0;
+		foreach idx, str in available_choice_options()
+		{
+			if(str == search)
+			{
+				choice = idx;
+			}
+		}
+		backupSetting("choiceAdventure1310", choice);
+		temp = visit_url("choice.php?pwd=&whichchoice=1310&option=" + choice, true);
+		restoreSetting("choiceAdventure1310");
+	}
+
+
+	set_property("cc_disableAdventureHandling", false);
+	if(equipped_item($slot[familiar]) != lastGear)
+	{
+		equip($slot[familiar], lastGear);
+	}
+	if(my_familiar() != last)
+	{
+		use_familiar(last);
+	}
+	set_property("_lobsterFights", get_property("_lobsterFights").to_int() + 1);
+	cli_execute("postcheese");
+	return true;
+}

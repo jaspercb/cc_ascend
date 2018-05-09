@@ -522,6 +522,10 @@ boolean getDiscoStyle(int choice);							//Defined in cc_ascend/cc_elementalPlan
 boolean mummifyFamiliar(familiar fam, string bonus);		//Defined in cc_ascend/cc_mr2017.ash
 int januaryToteTurnsLeft(item it);							//Defined in cc_ascend/cc_mr2018.ash
 boolean januaryToteAcquire(item it);						//Defined in cc_ascend/cc_mr2018.ash
+boolean godLobsterCombat();									//Defined in cc_ascend/cc_mr2018.ash
+boolean godLobsterCombat(item it);							//Defined in cc_ascend/cc_mr2018.ash
+boolean godLobsterCombat(item it, int goal);				//Defined in cc_ascend/cc_mr2018.ash
+boolean godLobsterCombat(item it, int goal, string option);	//Defined in cc_ascend/cc_mr2018.ash
 boolean getSpaceJelly();									//Defined in cc_ascend/cc_mr2017.ash
 int horseCost();											//Defined in cc_ascend/cc_mr2017.ash
 boolean getHorse(string type);								//Defined in cc_ascend/cc_mr2017.ash
