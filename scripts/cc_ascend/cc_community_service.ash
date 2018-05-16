@@ -3608,9 +3608,9 @@ string cs_combatNormal(int round, string opp, string text)
 		}
 	}
 
-	if((have_effect($effect[On The Trail]) < 40) && have_skill($skill[Gallapagosian Mating Call]) && (my_mp() >= mp_cost($skill[Gallapagosian Mating Call])) && !contains_text(combatState, "matingcall"))
+	if((have_effect($effect[On The Trail]) < 40) && have_skill($skill[Gallapagosian Mating Call]) && (my_mp() >= mp_cost($skill[Gallapagosian Mating Call])) && !contains_text(combatState, "(matingcall)"))
 	{
-		if(($monster[Government Scientist] == enemy) && (get_property("_matingCall") != enemy))
+		if(($monster[Government Scientist] == enemy) && (get_property("gallapagosMonster") != enemy))
 		{
 			if((!contains_text(combatState, "weaksauce")) && have_skill($skill[Curse Of Weaksauce]) && (my_mp() >= 72))
 			{
@@ -3625,7 +3625,6 @@ string cs_combatNormal(int round, string opp, string text)
 
 			set_property("cc_combatHandler", combatState + "(matingcall)");
 			handleTracker(enemy, $skill[Gallapagosian Mating Call], "cc_sniffs");
-			set_property("_matingCall", enemy);
 			return "skill " + $skill[Gallapagosian Mating Call];
 		}
 	}

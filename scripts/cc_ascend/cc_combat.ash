@@ -685,16 +685,27 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "(olfaction)")) && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
+	if(!contains_text(combatState, "(olfaction)") && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
 	{
-		if((enemy == $monster[pygmy shaman]) && (my_location() == $location[The Hidden Apartment Building]) && (item_amount($item[soft green echo eyedrop antidote]) > 3))
+		if((enemy == $monster[pygmy shaman]) && (my_location() == $location[The Hidden Apartment Building]) && (item_amount($item[soft green echo eyedrop antidote]) > 3) && (have_effect($effect[Thrice-Cursed]) == 0))
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
 			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
 			return "skill " + $skill[Transcendent Olfaction];
 		}
 	}
-	if((!contains_text(combatState, "(makefriends)")) && (get_property("makeFriendsMonster") != $monster[Pygmy Shaman]) && have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
+
+	if(!contains_text(combatSTate, "(matingcall)") && have_skill($skill[Gallapagosian Mating Call]) && (my_mp() >= mp_cost($skill[Gallapagosian Mating Call])))
+	{
+		if((enemy == $monster[pygmy shaman]) && (my_location() == $location[The Hidden Apartment Building]) && (have_effect($effect[Thrice-Cursed]) == 0) && (get_property("gallapagosMonster") != enemy))
+		{
+			set_property("cc_combatHandler", combatState + "(matingcall)");
+			handleTracker(enemy, $skill[Gallapagosian Mating Call], "cc_sniffs");
+			return "skill " + $skill[Gallapagosian Mating Call];
+		}
+	}
+
+	if(!contains_text(combatState, "(makefriends)") && (get_property("makeFriendsMonster") != $monster[Pygmy Shaman]) && have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
 	{
 		if((enemy == $monster[pygmy shaman]) && (my_location() == $location[The Hidden Apartment Building]))
 		{
@@ -714,13 +725,23 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "(olfaction)")) && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (!have_skill($skill[Rain Man]) || is100FamiliarRun()))
+	if(!contains_text(combatState, "(olfaction)") && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (!have_skill($skill[Rain Man]) || is100FamiliarRun()))
 	{
-		if((enemy == $monster[Writing Desk]) && (my_location() == $location[The Haunted Library]) && (get_property("cc_spookyravennecklace") != "done"))
+		if((enemy == $monster[Writing Desk]) && (my_location() == $location[The Haunted Library]) && (get_property("writingDesksDefeated").to_int() < 5))
 		{
 			set_property("cc_combatHandler", combatState + "(olfaction)");
 			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
 			return "skill " + $skill[Transcendent Olfaction];
+		}
+	}
+
+	if(!contains_text(combatState, "(matingcall)") && have_skill($skill[Gallapagosian Mating Call]) && (my_mp() >= mp_cost($skill[Gallapagosian Mating Call])) && (!have_skill($skill[Rain Man]) || is100FamiliarRun()))
+	{
+		if((enemy == $monster[Writing Desk]) && (my_location() == $location[The Haunted Library]) && (get_property("writingDesksDefeated").to_int() < 5) && (get_property("gallapagosMonster") != enemy))
+		{
+			set_property("cc_combatHandler", combatState + "(matingcall)");
+			handleTracker(enemy, $skill[Gallapagosian Mating Call], "cc_sniffs");
+			return "skill " + $skill[Gallapagosian Mating Call];
 		}
 	}
 
@@ -735,7 +756,7 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 
 
-	if((!contains_text(combatState, "(olfaction)")) && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (enemy == $monster[Smoke Monster]) && (item_amount($item[Pack Of Smokes]) > 0))
+	if(!contains_text(combatState, "(olfaction)") && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (enemy == $monster[Smoke Monster]) && (item_amount($item[Pack Of Smokes]) > 0))
 	{
 		set_property("cc_combatHandler", combatState + "(olfaction)");
 		handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
@@ -743,7 +764,7 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 
 
-	if((!contains_text(combatState, "(olfaction)")) && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
+	if(!contains_text(combatState, "(olfaction)") && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
 	{
 		if($monsters[Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat] contains enemy)
 		{
@@ -757,8 +778,35 @@ string cc_combatHandler(int round, string opp, string text)
 			handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
 			return "skill " + $skill[Transcendent Olfaction];
 		}
+	}
+
+	if(!contains_text(combatState, "(matingcall)") && have_skill($skill[Gallapagosian Mating Call]) && (my_mp() >= mp_cost($skill[Gallapagosian Mating Call])))
+	{
+		if(($monsters[cabinet of Dr. Limpieza, Dairy Goat, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Tomb Rat] contains enemy) && (get_property("gallapagosMonster") != enemy))
+		{
+			set_property("cc_combatHandler", combatState + "(matingcall)");
+			handleTracker(enemy, $skill[Gallapagosian Mating Call], "cc_sniffs");
+			return "skill " + $skill[Gallapagosian Mating Call];
+		}
+		if(($monsters[Blooper] contains enemy) && (my_location() == $location[8-Bit Realm]) && (get_property("gallapagosMonster") != enemy))
+		{
+			set_property("cc_combatHandler", combatState + "(matingcall)");
+			handleTracker(enemy, $skill[Gallapagosian Mating Call], "cc_sniffs");
+			return "skill " + $skill[Gallapagosian Mating Call];
+		}
+		if($monsters[Bob Racecar, Racecar Bob] contains enemy)
+		{
+			if((get_property("gallapagosMonster") != $monster[Bob Racecar]) && (get_property("gallapagosMonster") != $monster[Racecar Bob]))
+			{
+				set_property("cc_combatHandler", combatState + "(matingcall)");
+				handleTracker(enemy, $skill[Gallapagosian Mating Call], "cc_sniffs");
+				return "skill " + $skill[Gallapagosian Mating Call];
+			}
+		}
 
 	}
+
+
 	if(have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
 	{
 		if((get_property("makeFriendsMonster") != enemy) && ($monsters[Blooper, Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat] contains enemy))
