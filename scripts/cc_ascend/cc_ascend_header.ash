@@ -832,6 +832,7 @@ boolean digimon_ccAdv(int num, location loc, string option);//Defined in cc_asce
 void glover_initializeSettings();							//Defined in cc_ascend/cc_glover.ash
 void glover_initializeDay(int day);							//Defined in cc_ascend/cc_glover.ash
 boolean glover_usable(string it);							//Defined in cc_ascend/cc_glover.ash
+boolean LM_glover();										//Defined in cc_ascend/cc_glover.ash
 
 boolean groundhogSafeguard();								//Defined in cc_ascend/cc_groundhog.ash
 void groundhog_initializeSettings();						//Defined in cc_ascend/cc_groundhog.ash

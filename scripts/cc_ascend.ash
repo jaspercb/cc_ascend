@@ -10598,7 +10598,7 @@ boolean LX_phatLootToken()
 
 boolean L6_dakotaFanning()
 {
-	if(get_property("cc_dakotaFanning") == "finished")
+	if(!get_property("cc_dakotaFanning").to_boolean())
 	{
 		return false;
 	}
@@ -10608,7 +10608,7 @@ boolean L6_dakotaFanning()
 		{
 			return false;
 		}
-		string temp = visit_url("place.php?whichplace=woods&action=woods_dakota");
+		string temp = visit_url("place.php?whichplace=woods&action=woods_dakota_anim");
 		return true;
 	}
 
@@ -10649,6 +10649,7 @@ boolean L6_dakotaFanning()
 	{
 		abort("Elle FanninG quest gnot satisfied.");
 	}
+	set_property("cc_dakotaFanning", false);
 	return true;
 }
 
@@ -14013,6 +14014,9 @@ boolean doTasks()
 
 	oldPeoplePlantStuff();
 	use_barrels();
+
+	//This just closets stuff so G-Lover does not mess with us.
+	if(LM_glover())						return true;
 
 	tophatMaker();
 	equipBaseline();

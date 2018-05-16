@@ -45,3 +45,15 @@ boolean glover_usable(string it)
 	}
 	return false;
 }
+
+boolean LM_glover()
+{
+	foreach it in $items[Turtle Wax]
+	{
+		if(item_amount(it) > 0)
+		{
+			put_closet(item_amount(it), it);
+		}
+	}
+	return false;
+}
