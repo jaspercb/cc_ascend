@@ -187,3 +187,39 @@ boolean godLobsterCombat(item it, int goal, string option)
 	cli_execute("postcheese");
 	return true;
 }
+
+
+boolean fantasyRealmToken()
+{
+	if(!is_unrestricted($item[FantasyRealm membership packet]))
+	{
+		return false;
+	}
+
+	if((get_property("frAlways").to_boolean() || get_property("_frToday").to_boolean()) && !possessEquipment($item[FantasyRealm G. E. M.]))
+	{
+		int option = 1;
+		switch(my_primestat())
+		{
+		case $stat[Muscle]:			option = 1;		break;
+		case $stat[Mysticality]:	option = 2;		break;
+		case $stat[Moxie]:			option = 3;		break;
+		}
+		visit_url("place.php?whichplace=realm_fantasy&action=fr_initcenter", false);
+		visit_url("choice.php?whichchoice=1280&pwd=&option=" + option);
+	}
+	else
+	{
+		return false;
+	}
+
+	if(possessEquipment($item[FantasyRealm G. E. M.]))
+	{
+		if(!have_equipped($item[FantasyRealm G. E. M.]))
+		{
+			equip($slot[acc3], $item[FantasyRealm G. E. M.]);
+		}
+	}
+
+	return ccAdv(1, $location[The Bandit Crossroads]);
+}

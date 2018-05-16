@@ -390,6 +390,10 @@ item handleSolveThing(item[int] poss, slot loc)
 		{
 			ignore = true;
 		}
+		if(!glover_usable(thing))
+		{
+			ignore = true;
+		}
 
 		item acc1 = equipped_item($slot[acc1]);
 		item acc2 = equipped_item($slot[acc2]);
@@ -438,7 +442,7 @@ void equipBaselinePants()
 {
 	item toEquip = $item[none];
 
-	item[int] poss = List($items[Old Sweatpants, Studded Leather Boxer Shorts, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Chain-Mail Monokini, Stylish Swimsuit, Union Scalemail Pants, Genie\'s Pants, Hep Waders, Paper-Plate-Mail Pants, Troutpiece, Bloody Clown Pants, Alpha-Mail Pants, Knob Goblin Uberpants, Psychic\'s Pslacks, Filthy Corduroys, Antique Greaves, Ninja Hot Pants, Demonskin Trousers, Leotarrrd, Swashbuckling Pants, Burnt Snowpants, Troutpiece, Snowboarder Pants, Oil Slacks, Furry Pants, Pygmy Briefs, Bloodied Surgical Dungarees, Spangly Mariachi Pants, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Pantogram Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving]);
+	item[int] poss = List($items[Old Sweatpants, Studded Leather Boxer Shorts, Knob Goblin Harem Pants, three-legged pants, Knob Goblin Pants, Pants Of The Slug Lord, Chain-Mail Monokini, Stylish Swimsuit, Union Scalemail Pants, Genie\'s Pants, Hep Waders, Paper-Plate-Mail Pants, Troutpiece, Bloody Clown Pants, Alpha-Mail Pants, Knob Goblin Uberpants, Psychic\'s Pslacks, Filthy Corduroys, Antique Greaves, Ninja Hot Pants, Demonskin Trousers, Leotarrrd, Swashbuckling Pants, Burnt Snowpants, Troutpiece, Snowboarder Pants, Oil Slacks, Furry Pants, Pygmy Briefs, Bloodied Surgical Dungarees, Spangly Mariachi Pants, Stainless Steel Slacks, Vicar\'s Tutu, Troll Britches, Xiblaxian Stealth Trousers, Distressed Denim Pants, Pantogram Pants, Troutsers, Bankruptcy Barrel, Astral Shorts, Pantsgiving]);
 
 	if(my_primestat() == $stat[Muscle])
 	{
@@ -567,7 +571,7 @@ void equipBaselineWeapon()
 		poss = $items[Seal-Clubbing Club, Gnollish Flyswatter, Club of Corruption, Remaindered Axe, Skeleton Bone, Corrupt Club of Corruption, Flaming Crutch, Homoerotic Frat-Paddle, Kneecapping Stick, Corrupt Club of Corrupt Corruption, Spiked Femur, Severed Flipper, Gnawed-Up Dog Bone, Mannequin Leg, Infernal Toilet Brush, Hilarious Comedy Prop, Giant Foam Finger, Red Hot Poker, Maxwell\'s Silver Hammer, Elegant Nightstick, Oversized Pipe, Ghast Iron Cleaver, Frozen Seal Spine, Stainless Steel Shillelagh, Porcelain Police Baton, Bass Clarinet, Fish Hatchet, Lead Pipe, Meat Tenderizer Is Murder, Dented Scepter];
 		break;
 	case $class[Turtle Tamer]:
-		poss = $items[Turtle Totem, Knob Goblin Tongs, Knob Goblin Scimitar, Skeleton Bone, Corn Holder, Eggbeater, Law-Abiding Citizen Cane, Mace of the Tortoise, Oversized Pizza Cutter, Maxwell\'s Silver Hammer, Witty Rapier, Ancient Ice Cream Scoop, Antique Machete, Spectral Axe, Short-Handled Mop, Ghast Iron Cleaver, Oversized Pipe, Octopus\'s Spade, Rusty Piece Of Rebar, Thor\'s Pliers, Rope, Lead Pipe, Work Is A Four Letter Sword, Bass Clarinet, Fish Hatchet, Garbage Sticker, Dented Scepter];
+		poss = $items[Turtle Totem, Knob Goblin Tongs, Knob Goblin Scimitar, Skeleton Bone, Corn Holder, Eggbeater, Elegant Nightstick, Law-Abiding Citizen Cane, Mace of the Tortoise, Oversized Pizza Cutter, Maxwell\'s Silver Hammer, Witty Rapier, Ancient Ice Cream Scoop, Antique Machete, Spectral Axe, Short-Handled Mop, Ghast Iron Cleaver, Oversized Pipe, Octopus\'s Spade, Rusty Piece Of Rebar, Thor\'s Pliers, Rope, Lead Pipe, Work Is A Four Letter Sword, Bass Clarinet, Fish Hatchet, Garbage Sticker, Dented Scepter];
 		break;
 	case $class[Sauceror]:
 		poss = $items[Saucepan, Dishrag, Corn Holder, Eggbeater, Cardboard Wakizashi, Witty Rapier, Oversized Pizza Cutter, Titanium Assault Umbrella, Thor\'s Pliers, Candlestick, Fish Hatchet, Bass Clarinet, Saucepanic];

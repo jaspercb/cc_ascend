@@ -758,23 +758,23 @@ boolean ed_eatStuff()
 
 	if((item_amount($item[Limp Broccoli]) > 0) && (my_level() >= 5) && ((my_fullness() == 0) || (my_fullness() == 3)) && (fullness_limit() >= 2))
 	{
-		eat(1, $item[Limp Broccoli]);
+		ccEat(1, $item[Limp Broccoli]);
 	}
 	if((item_amount($item[Limp Broccoli]) > 0) && (my_level() >= 5) && (my_fullness() == 2) && (fullness_limit() >= 5) && (item_amount($item[Astral Hot Dog]) == 0))
 	{
-		eat(1, $item[Limp Broccoli]);
+		ccEat(1, $item[Limp Broccoli]);
 	}
 	if((item_amount($item[Xiblaxian Ultraburrito]) > 0) && (my_fullness() == 0) && (fullness_limit() >= 4) && (item_amount($item[Astral Hot Dog]) == 0))
 	{
-		eat(1, $item[Xiblaxian Ultraburrito]);
+		ccEat(1, $item[Xiblaxian Ultraburrito]);
 	}
 	if((my_level() >= 11) && ((my_fullness() + 3) <= fullness_limit()) && (item_amount($item[Astral Hot Dog]) > 0))
 	{
-		eat(1, $item[Astral Hot Dog]);
+		ccEat(1, $item[Astral Hot Dog]);
 	}
 	if((my_level() >= 9) && ((my_fullness() + 3) <= fullness_limit()) && (item_amount($item[Astral Hot Dog]) > 0) && (my_adventures() < 4))
 	{
-		eat(1, $item[Astral Hot Dog]);
+		ccEat(1, $item[Astral Hot Dog]);
 	}
 	if(!get_property("_fancyHotDogEaten").to_boolean() && (my_daycount() == 1) && (my_level() >= 9) && ((my_fullness() + 3) <= fullness_limit()) && (item_amount($item[Astral Hot Dog]) == 0) && (my_adventures() < 10) && (item_amount($item[Clan VIP Lounge Key]) > 0))
 	{
@@ -819,7 +819,7 @@ boolean ed_eatStuff()
 		else if((my_meat() >= npc_price($item[Fortune Cookie])) && (fullness_left() > 0) && (my_fullness() >= 4))
 		{
 			buyUpTo(1, $item[Fortune Cookie], npc_price($item[Fortune Cookie]));
-			eat(1, $item[Fortune Cookie]);
+			ccEat(1, $item[Fortune Cookie]);
 		}
 	}
 	return true;

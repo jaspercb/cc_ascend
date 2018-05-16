@@ -8,6 +8,7 @@ void hr_initializeSettings()
 	{
 		#Rain Man (Heavy Rains) Related settings
 		set_property("cc_gaudypirate", "");
+		set_property("cc_holeinthesky", false);
 		set_property("cc_mountainmen", "");
 		set_property("cc_ninjasnowmanassassin", "");
 		set_property("cc_orcishfratboyspy", "");

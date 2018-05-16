@@ -16,7 +16,7 @@ void handlePreAdventure(location place)
 #	set_location doesn't help us to resolve this, just let it infinite and fail in that exotic case that was propbably due to a bad user.
 #	if((place == $location[The Deep Machine Tunnels]) && (my_familiar() != $familiar[Machine Elf]))
 #	{
-#		if(!have_familiar($familiar[Machine Elf]))
+#		if(!cc_have_familiar($familiar[Machine Elf]))
 #		{
 #			abort("Massive failure, we don't use snowglobes.");
 #		}
@@ -58,7 +58,7 @@ void handlePreAdventure(location place)
 
 	if((place == $location[The Deep Machine Tunnels]) && (my_familiar() != $familiar[Machine Elf]))
 	{
-		if(!have_familiar($familiar[Machine Elf]))
+		if(!cc_have_familiar($familiar[Machine Elf]))
 		{
 			abort("Massive failure, we don't use snowglobes.");
 		}

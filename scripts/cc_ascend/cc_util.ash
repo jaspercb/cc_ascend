@@ -2035,6 +2035,33 @@ boolean instakillable(monster mon)
 }
 
 
+int freeCrafts()
+{
+	int retval = 0;
+	if(have_skill($skill[Rapid Prototyping]) && is_unrestricted($item[Crimbot ROM: Rapid Prototyping]))
+	{
+		retval += 5 - get_property("_rapidPrototypingUsed").to_int();
+	}
+	if(have_skill($skill[Expert Corner-Cutter]) && is_unrestricted($item[LyleCo Contractor\'s Manual]))
+	{
+		retval += 5 - get_property("_expertCornerCutterUsed").to_int();
+	}
+	retval += have_effect($effect[Inigo\'s Incantation Of Inspiration]) / 5;
+#	if(have_skill($skill[Inigo\'s Incantation Of Inspiration]))
+#	{
+#		if(my_mp() > mp_cost($skill[Inigo\'s Incantation Of Inspiration]))
+#		{
+#			retval += 2;
+#		}
+#		else if(have_effect($effect[Inigo\'s Incantation Of Inspiration]) >= 5)
+#		{
+#			retval += 1;
+#		}
+#	}
+
+	return retval;
+}
+
 boolean isFreeMonster(monster mon)
 {
 	boolean[monster] classRevamp = $monsters[Box of Crafty Dinner, depressing french accordionist, Frozen Bag of Tortellini, lively cajun accordionist, Possessed Can of Creepy Pasta, Possessed Can of Linguine-Os, Possessed Jar of Alphredo&trade;, quirky indie-rock accordionist];
@@ -2425,6 +2452,23 @@ boolean providePlusNonCombat(int amt, boolean doEquips)
 	return true;
 }
 
+boolean cc_have_familiar(familiar fam)
+{
+	if(cc_my_path() == "License to Adventure")
+	{
+		return false;
+	}
+	if($classes[Avatar Of Boris, Avatar Of Jarlsberg, Avatar Of Sneaky Pete, Ed] contains my_class())
+	{
+		return false;
+	}
+	if(!glover_usable(fam))
+	{
+		return false;
+	}
+	return have_familiar(fam);
+}
+
 boolean basicAdjustML()
 {
 	if((monster_level_adjustment() > 150) && (monster_level_adjustment() <= 160))
@@ -2448,9 +2492,7 @@ boolean basicAdjustML()
 		}
 	}
 	return false;
-
 }
-
 
 boolean cc_change_mcd(int mcd)
 {
@@ -2458,6 +2500,10 @@ boolean cc_change_mcd(int mcd)
 	if($strings[Mongoose, Vole, Wallaby] contains my_sign())
 	{
 		if(item_amount($item[Detuned Radio]) == 0)
+		{
+			return false;
+		}
+		if(cc_my_path() == "G-Lover")
 		{
 			return false;
 		}
@@ -3017,11 +3063,21 @@ int doNumberology(string goal, boolean doIt, string option)
 	return -1;
 }
 
+boolean cc_have_skill(skill sk)
+{
+	if(!glover_usable(sk))
+	{
+		return false;
+	}
+
+	return have_skill(sk);
+}
+
 boolean have_skills(boolean[skill] array)
 {
 	foreach sk in array
 	{
-		if(!have_skill(sk))
+		if(!cc_have_skill(sk))
 		{
 			return false;
 		}
@@ -3706,6 +3762,10 @@ int [item] cc_get_campground()
 	{
 		campItems[$item[packet of thanksgarden seeds]] = 1;
 	}
+	if(campItems contains $item[Pok&eacute;-Gro fertilizer])
+	{
+		campItems[$item[packet of tall grass seeds]] = 1;
+	}
 
 	if((campItems contains $item[Source Terminal]) && !get_property("cc_haveSourceTerminal").to_boolean())
 	{
@@ -3777,7 +3837,12 @@ boolean buyUpTo(int num, item it, int maxprice)
 
 boolean buffMaintain(skill source, effect buff, int mp_min, int casts, int turns)
 {
-	if((!have_skill(source)) || (have_effect(buff) >= turns))
+	if(!glover_usable(buff))
+	{
+		return false;
+	}
+
+	if(!have_skill(source) || (have_effect(buff) >= turns))
 	{
 		return false;
 	}
@@ -3812,6 +3877,15 @@ boolean buffMaintain(skill source, effect buff, int mp_min, int casts, int turns
 
 boolean buffMaintain(item source, effect buff, int uses, int turns)
 {
+	if(!glover_usable(buff))
+	{
+		return false;
+	}
+	if(!glover_usable(source))
+	{
+		return false;
+	}
+
 	if(have_effect(buff) >= turns)
 	{
 		return false;

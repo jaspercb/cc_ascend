@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18598;
+since r18626;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -44,6 +44,7 @@ import <cc_ascend/cc_awol.ash>
 import <cc_ascend/cc_bondmember.ash>
 import <cc_ascend/cc_groundhog.ash>
 import <cc_ascend/cc_digimon.ash>
+import <cc_ascend/cc_glover.ash>
 import <cc_ascend/cc_monsterparts.ash>
 import <cc_ascend/cc_theSource.ash>
 import <cc_ascend/cc_optionals.ash>
@@ -77,7 +78,7 @@ void initializeSettings()
 		}
 	}
 
-	if(!is100FamiliarRun() && have_familiar($familiar[Crimbo Shrub]))
+	if(!is100FamiliarRun() && cc_have_familiar($familiar[Crimbo Shrub]))
 	{
 		use_familiar($familiar[Crimbo Shrub]);
 		use_familiar($familiar[none]);
@@ -165,7 +166,7 @@ void initializeSettings()
 	set_property("cc_hiddenzones", "");
 	set_property("cc_highlandlord", "");
 	set_property("cc_hippyInstead", false);
-	set_property("cc_holeinthesky", false);
+	set_property("cc_holeinthesky", true);
 	set_property("cc_ignoreCombat", "");
 	set_property("cc_ignoreFlyer", false);
 	set_property("cc_instakill", "");
@@ -199,6 +200,7 @@ void initializeSettings()
 	set_property("cc_powerLevelLastLevel", "0");
 	set_property("cc_powerLevelAdvCount", "0");
 	set_property("cc_powerLevelLastAttempted", "0");
+	set_property("cc_shenCopperhead", false);
 	set_property("cc_skipDesert", 0);
 	set_property("cc_snapshot", "");
 	set_property("cc_sniffs", "");
@@ -233,7 +235,7 @@ void initializeSettings()
 	{
 		cc_sourceTerminalRequest("enquiry monsters.enq");
 	}
-	else if(contains_text(get_property("sourceTerminalEnquiryKnown"), "familiar.enq") && have_familiar($familiar[Mosquito]))
+	else if(contains_text(get_property("sourceTerminalEnquiryKnown"), "familiar.enq") && cc_have_familiar($familiar[Mosquito]))
 	{
 		cc_sourceTerminalRequest("enquiry familiar.enq");
 	}
@@ -263,6 +265,7 @@ void initializeSettings()
 	pete_initializeSettings();
 	groundhog_initializeSettings();
 	digimon_initializeSettings();
+	glover_initializeSettings();
 }
 
 boolean handleFamiliar(string type)
@@ -310,7 +313,7 @@ boolean handleFamiliar(string type)
 		int index = 0;
 		while(index < count(fams))
 		{
-			if(have_familiar(fams[index]) && !(blacklist contains fams[index]))
+			if(cc_have_familiar(fams[index]) && !(blacklist contains fams[index]))
 			{
 				return handleFamiliar(fams[index]);
 			}
@@ -367,11 +370,11 @@ boolean handleFamiliar(string type)
 			fams = ListInsertAt(fams, $familiar[Fist Turkey], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
 
-		if((item_amount($item[Yellow Pixel]) < 30) && have_familiar($familiar[Ms. Puck Man]))
+		if((item_amount($item[Yellow Pixel]) < 30) && cc_have_familiar($familiar[Ms. Puck Man]))
 		{
 			fams = ListInsertAt(fams, $familiar[Ms. Puck Man], 0);
 		}
-		else if((item_amount($item[Yellow Pixel]) < 30) && have_familiar($familiar[Puck Man]))
+		else if((item_amount($item[Yellow Pixel]) < 30) && cc_have_familiar($familiar[Puck Man]))
 		{
 			fams = ListInsertAt(fams, $familiar[Puck Man], 0);
 		}
@@ -381,9 +384,9 @@ boolean handleFamiliar(string type)
 		while(index < count(fams))
 #		foreach fam in $familiars[Rockin\' Robin, Grimstone Golem, Angry Jung Man, Intergnat, Bloovian Groose, Fist Turkey, Slimeling, Jumpsuited Hound Dog, Adventurous Spelunker, Gelatinous Cubeling, Baby Gravy Fairy, Obtuse Angel, Pair of Stomping Boots, Jack-in-the-Box, Syncopated Turtle]
 		{
-			#if(have_familiar(fam) && !(blacklist contains fam))
+			#if(cc_have_familiar(fam) && !(blacklist contains fam))
 			#print("Looking for " + fams[index] + " at: " + index, "blue");
-			if(have_familiar(fams[index]) && !(blacklist contains fams[index]))
+			if(cc_have_familiar(fams[index]) && !(blacklist contains fams[index]))
 			{
 #				return handleFamiliar(fam);
 				return handleFamiliar(fams[index]);
@@ -397,7 +400,7 @@ boolean handleFamiliar(string type)
 		{
 			foreach fam in $familiars[Galloping Grill, Rockin\' Robin, Hovering Sombrero, Baby Sandworm]
 			{
-				if(have_familiar(fam) && !(blacklist contains fam))
+				if(cc_have_familiar(fam) && !(blacklist contains fam))
 				{
 					return handleFamiliar(fam);
 				}
@@ -405,7 +408,7 @@ boolean handleFamiliar(string type)
 		}
 		foreach fam in $familiars[Grim Brother, Rockin\' Robin, Golden Monkey, Reanimated Reanimator, Unconscious Collective, Bloovian Groose, Lil\' Barrel Mimic, Artistic Goth Kid, Happy Medium, Baby Z-Rex, Li\'l Xenomorph, Smiling Rat, Dramatic Hedgehog, Grinning Turtle, Frumious Bandersnatch, Blood-Faced Volleyball]
 		{
-			if(have_familiar(fam) && !(blacklist contains fam))
+			if(cc_have_familiar(fam) && !(blacklist contains fam))
 			{
 				return handleFamiliar(fam);
 			}
@@ -421,7 +424,7 @@ boolean handleFamiliar(string type)
 				fams = ListRemove(fams, $familiar[Galloping Grill]);
 				fams = ListInsertAt(fams, $familiar[Galloping Grill], fams.ListFind($familiar[Rogue Program]));
 			}
-			if(have_familiar(fam) && !(blacklist contains fam))
+			if(cc_have_familiar(fam) && !(blacklist contains fam))
 			{
 				return handleFamiliar(fam);
 			}
@@ -431,7 +434,7 @@ boolean handleFamiliar(string type)
 	{
 		foreach fam in $familiars[Happy Medium, Xiblaxian Holo-Companion, Oily Woim, Cute Meteor]
 		{
-			if(have_familiar(fam) && !(blacklist contains fam))
+			if(cc_have_familiar(fam) && !(blacklist contains fam))
 			{
 				return handleFamiliar(fam);
 			}
@@ -443,7 +446,7 @@ boolean handleFamiliar(string type)
 		{
 			foreach fam in $familiars[Happy Medium, Xiblaxian Holo-Companion, Oily Woim]
 			{
-				if(have_familiar(fam) && !(blacklist contains fam))
+				if(cc_have_familiar(fam) && !(blacklist contains fam))
 				{
 					return handleFamiliar(fam);
 				}
@@ -455,7 +458,7 @@ boolean handleFamiliar(string type)
 #		foreach fam in $familiars[Crimbo Shrub, Nanorhino, He-Boulder]
 		foreach fam in $familiars[Crimbo Shrub]
 		{
-			if(have_familiar(fam))
+			if(cc_have_familiar(fam))
 			{
 				return handleFamiliar(fam);
 			}
@@ -484,17 +487,17 @@ boolean handleFamiliar(familiar fam)
 		return false;
 	}
 
-	if((fam == $familiar[Ms. Puck Man]) && !have_familiar($familiar[Ms. Puck Man]) && have_familiar($familiar[Puck Man]))
+	if((fam == $familiar[Ms. Puck Man]) && !cc_have_familiar($familiar[Ms. Puck Man]) && cc_have_familiar($familiar[Puck Man]))
 	{
 		fam = $familiar[Puck Man];
 	}
-	if((fam == $familiar[Puck Man]) && !have_familiar($familiar[Puck Man]) && have_familiar($familiar[Ms. Puck Man]))
+	if((fam == $familiar[Puck Man]) && !cc_have_familiar($familiar[Puck Man]) && cc_have_familiar($familiar[Ms. Puck Man]))
 	{
 		fam = $familiar[Ms. Puck Man];
 	}
 
 	familiar toEquip = $familiar[none];
-	if(have_familiar(fam))
+	if(cc_have_familiar(fam))
 	{
 		toEquip = fam;
 	}
@@ -511,24 +514,24 @@ boolean handleFamiliar(familiar fam)
 		{
 			foreach fam in $familiars[Golden Monkey, Grim Brother, Unconscious Collective]
 			{
-				if((fam.drops_today < 1) && have_familiar(fam))
+				if((fam.drops_today < 1) && cc_have_familiar(fam))
 				{
 					toEquip = fam;
 				}
 			}
 		}
-		else if(in_hardcore() && (item_amount($item[Yellow Pixel]) < 30) && have_familiar($familiar[Ms. Puck Man]))
+		else if(in_hardcore() && (item_amount($item[Yellow Pixel]) < 30) && cc_have_familiar($familiar[Ms. Puck Man]))
 		{
 			toEquip = $familiar[Ms. Puck Man];
 		}
-		else if(in_hardcore() && (item_amount($item[Yellow Pixel]) < 30) && have_familiar($familiar[Puck Man]))
+		else if(in_hardcore() && (item_amount($item[Yellow Pixel]) < 30) && cc_have_familiar($familiar[Puck Man]))
 		{
 			toEquip = $familiar[Puck Man];
 		}
 
 		foreach thing in poss
 		{
-			if((have_familiar(thing)) && (my_bjorned_familiar() != thing))
+			if((cc_have_familiar(thing)) && (my_bjorned_familiar() != thing))
 			{
 				toEquip = thing;
 			}
@@ -555,7 +558,7 @@ boolean handleFamiliar(familiar fam)
 
 boolean basicFamiliarOverrides()
 {
-	if(($familiars[Adventurous Spelunker, Rockin\' Robin] contains my_familiar()) && have_familiar($familiar[Grimstone Golem]) && (in_hardcore() || !possessEquipment($item[Buddy Bjorn])))
+	if(($familiars[Adventurous Spelunker, Rockin\' Robin] contains my_familiar()) && cc_have_familiar($familiar[Grimstone Golem]) && (in_hardcore() || !possessEquipment($item[Buddy Bjorn])))
 	{
 		if(!possessEquipment($item[Ornate Dowsing Rod]) && (item_amount($item[Odd Silver Coin]) < 5) && (item_amount($item[Grimstone Mask]) == 0) && considerGrimstoneGolem(false))
 		{
@@ -573,7 +576,7 @@ boolean basicFamiliarOverrides()
 		int spleenHave = 0;
 		foreach fam in $familiars[Baby Sandworm, Bloovian Groose, Golden Monkey, Grim Brother, Unconscious Collective]
 		{
-			if(have_familiar(fam))
+			if(cc_have_familiar(fam))
 			{
 				spleenHave++;
 			}
@@ -585,7 +588,7 @@ boolean basicFamiliarOverrides()
 			int bound = (need + spleenHave - 1) / spleenHave;
 			foreach fam in $familiars[Baby Sandworm, Bloovian Groose, Golden Monkey, Grim Brother, Unconscious Collective]
 			{
-				if((fam.drops_today < bound) && have_familiar(fam))
+				if((fam.drops_today < bound) && cc_have_familiar(fam))
 				{
 					handleFamiliar(fam);
 					break;
@@ -593,7 +596,7 @@ boolean basicFamiliarOverrides()
 			}
 		}
 	}
-	else if((item_amount($item[Yellow Pixel]) < 20) && (have_familiar($familiar[Ms. Puck Man]) || have_familiar($familiar[Puck Man])))
+	else if((item_amount($item[Yellow Pixel]) < 20) && (cc_have_familiar($familiar[Ms. Puck Man]) || cc_have_familiar($familiar[Puck Man])))
 	{
 		handleFamiliar($familiar[Ms. Puck Man]);
 	}
@@ -1078,7 +1081,7 @@ boolean haveWarOutfit()
 
 boolean warAdventure()
 {
-	if(have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3))
+	if(cc_have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3))
 	{
 		handleFamiliar($familiar[Space Jellyfish]);
 	}
@@ -1261,7 +1264,7 @@ boolean doThemtharHills(boolean trickMode)
 
 
 	handleFamiliar("meat");
-	if(have_familiar($familiar[Trick-or-Treating Tot]) && (available_amount($item[Li\'l Pirate Costume]) > 0) && !is100FamiliarRun($familiar[Trick-or-Treating Tot]))
+	if(cc_have_familiar($familiar[Trick-or-Treating Tot]) && (available_amount($item[Li\'l Pirate Costume]) > 0) && !is100FamiliarRun($familiar[Trick-or-Treating Tot]))
 	{
 		use_familiar($familiar[Trick-or-Treating Tot]);
 		if(equipped_item($slot[familiar]) != $item[Li\'l Pirate Costume])
@@ -1662,12 +1665,12 @@ int handlePulls(int day)
 		}
 		pullXWhenHaveY($item[Infinite BACON Machine], 1, 0);
 
-		if(cc_my_path() != "Pocket Familiars")
+		if((cc_my_path() != "Pocket Familiars") && (cc_my_path() != "G-Lover"))
 		{
 			pullXWhenHaveY($item[Replica Bat-oomerang], 1, 0);
 		}
 
-		if((!have_familiar($familiar[Grim Brother])) && (my_class() != $class[Ed]))
+		if((!cc_have_familiar($familiar[Grim Brother])) && (my_class() != $class[Ed]))
 		{
 			pullXWhenHaveY($item[Unconscious Collective Dream Jar], 1, 0);
 			if(item_amount($item[Unconscious Collective Dream Jar]) > 0)
@@ -2077,7 +2080,7 @@ void initializeDay(int day)
 		}
 		if(chateaumantegna_havePainting() && (my_class() != $class[Ed]) && (cc_my_path() != "Community Service"))
 		{
-			if(have_familiar($familiar[Reanimated Reanimator]))
+			if(cc_have_familiar($familiar[Reanimated Reanimator]))
 			{
 				handleFamiliar($familiar[Reanimated Reanimator]);
 			}
@@ -2383,7 +2386,7 @@ boolean doBedtime()
 				print("If you have the Frat Warrior Fatigues, rain man an Astronomer? Skinflute?", "blue");
 			}
 		}
-		if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (inebriety_left() >= 0) && (my_adventures() > 0))
+		if(cc_have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (inebriety_left() >= 0) && (my_adventures() > 0))
 		{
 			print("You have " + (5 - get_property("_machineTunnelsAdv").to_int()) + " fights in The Deep Machine Tunnels that you should use!", "blue");
 		}
@@ -2489,7 +2492,7 @@ boolean doBedtime()
 		}
 	}
 
-	if((my_daycount() == 1) && ((item_amount($item[Thor\'s Pliers]) == 1) || (equipped_item($slot[weapon]) == $item[Thor\'s Pliers]) || (equipped_item($slot[off-hand]) == $item[Thor\'s Pliers]) || (get_property("_rapidPrototypingUsed").to_int() < 5)) && have_skill($skill[Rapid Prototyping]) && is_unrestricted($item[Crimbot ROM: Rapid Prototyping]) && !possessEquipment($item[Chrome Sword]) && !get_property("kingLiberated").to_boolean())
+	if((my_daycount() == 1) && ((item_amount($item[Thor\'s Pliers]) == 1) || (equipped_item($slot[weapon]) == $item[Thor\'s Pliers]) || (equipped_item($slot[off-hand]) == $item[Thor\'s Pliers]) || (freeCrafts() > 0)) && !possessEquipment($item[Chrome Sword]) && !get_property("kingLiberated").to_boolean())
 	{
 		item oreGoal = to_item(get_property("trapperOre"));
 		int need = 1;
@@ -2511,23 +2514,23 @@ boolean doBedtime()
 		use(1, $item[resolution: be more adventurous]);
 	}
 
-	if((my_daycount() <= 2) && have_skill($skill[Rapid Prototyping]) && is_unrestricted($item[Crimbot ROM: Rapid Prototyping]))
+	if((my_daycount() <= 2) && (freeCrafts() > 0))
 	{
 		// Check for rapid prototyping
-		while((get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious reagent]) > 0) && (item_amount($item[cranberries]) > 0) && (item_amount($item[cranberry cordial]) < 2) && have_skill($skill[Advanced Saucecrafting]))
+		while((freeCrafts() > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Cranberries]) > 0) && (item_amount($item[Cranberry Cordial]) < 2) && have_skill($skill[Advanced Saucecrafting]))
 		{
-			cli_execute("make cranberry cordial");
+			cli_execute("make " + $item[Cranberry Cordial]);
 		}
-		put_closet(item_amount($item[cranberries]), $item[cranberries]);
-		while((get_property("_rapidPrototypingUsed").to_int() < 5) && (item_amount($item[Scrumptious reagent]) > 0) && (item_amount($item[glass of goat\'s milk]) > 0) && (item_amount($item[milk of magnesium]) < 2) && have_skill($skill[Advanced Saucecrafting]))
+		put_closet(item_amount($item[Cranberries]), $item[Cranberries]);
+		while((freeCrafts() > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && (item_amount($item[Glass Of Goat\'s Milk]) > 0) && (item_amount($item[Milk Of Magnesium]) < 2) && have_skill($skill[Advanced Saucecrafting]))
 		{
-			cli_execute("make milk of magnesium");
+			cli_execute("make " + $item[Milk Of Magnesium]);
 		}
 	}
 
 	dna_bedtime();
 
-	if((get_property("_grimBuff") == "false") && have_familiar($familiar[Grim Brother]))
+	if((get_property("_grimBuff") == "false") && cc_have_familiar($familiar[Grim Brother]))
 	{
 		visit_url("choice.php?pwd=&whichchoice=835&option=1", true);
 	}
@@ -2726,10 +2729,9 @@ boolean doBedtime()
 		int craftingLeft = 10 - get_property("_thorsPliersCrafting").to_int();
 		print("Free Thor's Pliers craftings left: " + craftingLeft, "blue");
 	}
-	if(have_skill($skill[Rapid Prototyping]) && is_unrestricted($item[Crimbot ROM: Rapid Prototyping]))
+	if(freeCrafts() > 0)
 	{
-		int craftingLeft = 5 - get_property("_rapidPrototypingUsed").to_int();
-		print("Free Rapid Prototyping craftings left: " + craftingLeft, "blue");
+		print("Free craftings left: " + freeCrafts(), "blue");
 	}
 	if(get_property("timesRested").to_int() < total_free_rests())
 	{
@@ -2778,6 +2780,11 @@ boolean doBedtime()
 		use(1, $item[School of Hard Knocks Diploma]);
 	}
 
+	if(!get_property("_lyleFavored").to_boolean())
+	{
+		string temp = visit_url("place.php?whichplace=monorail&action=monorail_lyle");
+	}
+
 	if((get_property("spookyAirportAlways").to_boolean()) && (my_class() != $class[Ed]) && !get_property("_controlPanelUsed").to_boolean())
 	{
 		visit_url("place.php?whichplace=airport_spooky_bunker&action=si_controlpanel");
@@ -2814,11 +2821,11 @@ boolean doBedtime()
 	if(!done)
 	{
 		print("Goodnight done, please make sure to handle your overdrinking, then you can run me again.", "blue");
-		if(have_familiar($familiar[Stooper]) && (inebriety_left() == 0) && (my_familiar() != $familiar[Stooper]) && (cc_my_path() != "Pocket Familiars"))
+		if(cc_have_familiar($familiar[Stooper]) && (inebriety_left() == 0) && (my_familiar() != $familiar[Stooper]) && (cc_my_path() != "Pocket Familiars"))
 		{
 			print("You have a Stooper, you can increase liver by 1!", "blue");
 		}
-		if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5))
+		if(cc_have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5))
 		{
 			print("You have " + (5 - get_property("_machineTunnelsAdv").to_int()) + " fights in The Deep Machine Tunnels that you should use!", "blue");
 		}
@@ -3400,10 +3407,11 @@ boolean L11_aridDesert()
 			return false;
 		}
 	}
-	if(cc_my_path() == "Pocket Familiars")
-	{
-		string temp = visit_url("place.php?whichplace=desertbeach", false);
-	}
+#	Mafia probably handles this correctly (and probably has done so for a while).
+#	if(cc_my_path() == "Pocket Familiars")
+#	{
+#		string temp = visit_url("place.php?whichplace=desertbeach", false);
+#	}
 
 	if(get_property("desertExploration").to_int() >= 100)
 	{
@@ -3504,7 +3512,7 @@ boolean L11_aridDesert()
 		{
 			equip($item[Thor\'s Pliers]);
 		}
-		if(have_familiar($familiar[Artistic Goth Kid]))
+		if(cc_have_familiar($familiar[Artistic Goth Kid]))
 		{
 			handleFamiliar($familiar[Artistic Goth Kid]);
 		}
@@ -4022,7 +4030,7 @@ boolean L11_palindome()
 		}
 
 		ccAdv(1, $location[Inside the Palindome]);
-		if(($location[Inside the Palindome].turns_spent > 30) && (cc_my_path() != "Pocket Familiars"))
+		if(($location[Inside the Palindome].turns_spent > 30) && (cc_my_path() != "Pocket Familiars") && (cc_my_path() != "G-Lover"))
 		{
 			abort("It appears that we've spent too many turns in the Palindome. If you run me again, I'll try one more time but many I failed finishing the Palindome");
 		}
@@ -4126,11 +4134,11 @@ boolean L13_towerNSFinal()
 	}
 
 	handleFamiliar($familiar[warbear drone]);
-	if(!have_familiar($familiar[Warbear Drone]))
+	if(!cc_have_familiar($familiar[Warbear Drone]))
 	{
 		handleFamiliar($familiar[Fist Turkey]);
 	}
-	if(have_familiar($familiar[Machine Elf]))
+	if(cc_have_familiar($familiar[Machine Elf]))
 	{
 		handleFamiliar($familiar[Machine Elf]);
 	}
@@ -4265,7 +4273,7 @@ boolean L13_towerNSTower()
 			sources = sources + 1;
 		}
 		item familiarEquip = equipped_item($slot[Familiar]);
-		if((have_familiar($familiar[warbear drone])) && !is100FamiliarRun())
+		if((cc_have_familiar($familiar[warbear drone])) && !is100FamiliarRun())
 		{
 			sources = sources + 2;
 			handleFamiliar($familiar[Warbear Drone]);
@@ -4281,12 +4289,12 @@ boolean L13_towerNSTower()
 				sources = sources + 2;
 			}
 		}
-		else if((have_familiar($familiar[Sludgepuppy])) && !is100FamiliarRun())
+		else if((cc_have_familiar($familiar[Sludgepuppy])) && !is100FamiliarRun())
 		{
 			handleFamiliar($familiar[Sludgepuppy]);
 			sources = sources + 3;
 		}
-		else if((have_familiar($familiar[Imitation Crab])) && !is100FamiliarRun())
+		else if((cc_have_familiar($familiar[Imitation Crab])) && !is100FamiliarRun())
 		{
 			handleFamiliar($familiar[Imitation Crab]);
 			sources = sources + 2;
@@ -4379,9 +4387,9 @@ boolean L13_towerNSTower()
 		{
 			sources = 9999;
 		}
-		if((item_amount($item[beehive]) > 0) || (sources > sourceNeed))
+		if((item_amount($item[Beehive]) > 0) || (sources > sourceNeed))
 		{
-			if(item_amount($item[beehive]) == 0)
+			if(item_amount($item[Beehive]) == 0)
 			{
 				useCocoon();
 			}
@@ -4700,7 +4708,7 @@ boolean L13_towerNSContests()
 	{
 		if(get_property("nsContestants1").to_int() == -1)
 		{
-			if(!get_property("_grimBuff").to_boolean() && have_familiar($familiar[Grim Brother]))
+			if(!get_property("_grimBuff").to_boolean() && cc_have_familiar($familiar[Grim Brother]))
 			{
 				cli_execute("grim init");
 			}
@@ -5382,7 +5390,7 @@ boolean L11_hiddenCity()
 
 	if(get_property("cc_hiddenzones") == "finished")
 	{
-		if((get_property("_nanorhinoBanishedMonster") == "") && (have_effect($effect[nanobrawny]) == 0) && have_familiar($familiar[Nanorhino]))
+		if((get_property("_nanorhinoBanishedMonster") == "") && (have_effect($effect[nanobrawny]) == 0) && cc_have_familiar($familiar[Nanorhino]))
 		{
 			handleFamiliar($familiar[Nanorhino]);
 		}
@@ -5453,7 +5461,6 @@ boolean L11_hiddenCity()
 						return true;
 					}
 				}
-				
 				current = 9;
 			}
 
@@ -5795,11 +5802,11 @@ boolean L11_hiddenCityZones()
 			equip($item[Antique Machete]);
 		}
 		# Add provision for Golden Monkey, or even more so, "Do we need spleen item"
-		if(($familiar[Unconscious Collective].drops_today < 1) && have_familiar($familiar[Unconscious Collective]))
+		if(($familiar[Unconscious Collective].drops_today < 1) && cc_have_familiar($familiar[Unconscious Collective]))
 		{
 			handleFamiliar($familiar[Unconscious Collective]);
 		}
-		else if(have_familiar($familiar[Fist Turkey]))
+		else if(cc_have_familiar($familiar[Fist Turkey]))
 		{
 			handleFamiliar($familiar[Fist Turkey]);
 		}
@@ -5830,7 +5837,7 @@ boolean L11_hiddenCityZones()
 		{
 			equip($item[Antique Machete]);
 		}
-		if(($familiar[Unconscious Collective].drops_today < 1) && have_familiar($familiar[Unconscious Collective]))
+		if(($familiar[Unconscious Collective].drops_today < 1) && cc_have_familiar($familiar[Unconscious Collective]))
 		{
 			handleFamiliar($familiar[Unconscious Collective]);
 		}
@@ -5866,7 +5873,7 @@ boolean L11_hiddenCityZones()
 			equip($item[Antique Machete]);
 		}
 
-		if(($familiar[Unconscious Collective].drops_today < 1) && have_familiar($familiar[Unconscious Collective]))
+		if(($familiar[Unconscious Collective].drops_today < 1) && cc_have_familiar($familiar[Unconscious Collective]))
 		{
 			handleFamiliar($familiar[Unconscious Collective]);
 		}
@@ -5902,7 +5909,7 @@ boolean L11_hiddenCityZones()
 			equip($item[Antique Machete]);
 		}
 
-		if(($familiar[Unconscious Collective].drops_today < 1) && have_familiar($familiar[Unconscious Collective]))
+		if(($familiar[Unconscious Collective].drops_today < 1) && cc_have_familiar($familiar[Unconscious Collective]))
 		{
 			handleFamiliar($familiar[Unconscious Collective]);
 		}
@@ -6216,7 +6223,7 @@ boolean LX_spookyravenSecond()
 		}
 		if(item_amount($item[Lady Spookyraven\'s Powder Puff]) == 0)
 		{
-			if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]) && have_familiar($familiar[Artistic Goth Kid]))
+			if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]) && cc_have_familiar($familiar[Artistic Goth Kid]))
 			{
 				handleFamiliar($familiar[Artistic Goth Kid]);
 			}
@@ -7467,7 +7474,7 @@ boolean L12_filthworms()
 				handleFamiliar("yellow ray");
 			}
 		}
-		if(have_familiar($familiar[XO Skeleton]) && (get_property("_xoHugsUsed").to_int() <= 10) && !is100FamiliarRun($familiar[XO Skeleton]))
+		if(cc_have_familiar($familiar[XO Skeleton]) && (get_property("_xoHugsUsed").to_int() <= 10) && !is100FamiliarRun($familiar[XO Skeleton]))
 		{
 			handleFamiliar($familiar[XO Skeleton]);
 		}
@@ -7475,7 +7482,7 @@ boolean L12_filthworms()
 	}
 	else if(have_effect($effect[Filthworm Larva Stench]) > 0)
 	{
-		if(have_familiar($familiar[XO Skeleton]) && (get_property("_xoHugsUsed").to_int() <= 10) && !is100FamiliarRun($familiar[XO Skeleton]))
+		if(cc_have_familiar($familiar[XO Skeleton]) && (get_property("_xoHugsUsed").to_int() <= 10) && !is100FamiliarRun($familiar[XO Skeleton]))
 		{
 			handleFamiliar($familiar[XO Skeleton]);
 		}
@@ -7483,7 +7490,7 @@ boolean L12_filthworms()
 	}
 	else
 	{
-		if(have_familiar($familiar[XO Skeleton]) && (get_property("_xoHugsUsed").to_int() <= 10) && !is100FamiliarRun($familiar[XO Skeleton]))
+		if(cc_have_familiar($familiar[XO Skeleton]) && (get_property("_xoHugsUsed").to_int() <= 10) && !is100FamiliarRun($familiar[XO Skeleton]))
 		{
 			handleFamiliar($familiar[XO Skeleton]);
 		}
@@ -7661,7 +7668,7 @@ boolean L12_finalizeWar()
 	}
 
 #	handlePreAdventure(bossFight);
-	if(have_familiar($familiar[Machine Elf]))
+	if(cc_have_familiar($familiar[Machine Elf]))
 	{
 		handleFamiliar($familiar[Machine Elf]);
 	}
@@ -7985,11 +7992,11 @@ boolean L10_holeInTheSkyUnlock()
 	set_property("choiceAdventure678", 3);
 	set_property("choiceAdventure676", 4);
 
-	if(have_familiar($familiar[Ms. Puck Man]))
+	if(cc_have_familiar($familiar[Ms. Puck Man]))
 	{
 		handleFamiliar($familiar[Ms. Puck Man]);
 	}
-	else if(have_familiar($familiar[Puck Man]))
+	else if(cc_have_familiar($familiar[Puck Man]))
 	{
 		handleFamiliar($familiar[Puck Man]);
 	}
@@ -8114,11 +8121,11 @@ boolean L10_ground()
 		}
 	}
 
-	if(have_familiar($familiar[Ms. Puck Man]))
+	if(cc_have_familiar($familiar[Ms. Puck Man]))
 	{
 		handleFamiliar($familiar[Ms. Puck Man]);
 	}
-	else if(have_familiar($familiar[Puck Man]))
+	else if(cc_have_familiar($familiar[Puck Man]))
 	{
 		handleFamiliar($familiar[Puck Man]);
 	}
@@ -8126,7 +8133,7 @@ boolean L10_ground()
 	cc_sourceTerminalEducate($skill[Extract], $skill[Portscan]);
 	providePlusNonCombat(25);
 
-	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	if((my_class() == $class[Gelatinous Noob]) && cc_have_familiar($familiar[Robortender]))
 	{
 		if(!have_skill($skill[Bendable Knees]) && (item_amount($item[Bottle of Gregnadigne]) == 0))
 		{
@@ -8186,16 +8193,16 @@ boolean L10_basement()
 		set_property("choiceAdventure669", "1");
 	}
 
-	if(have_familiar($familiar[Ms. Puck Man]))
+	if(cc_have_familiar($familiar[Ms. Puck Man]))
 	{
 		handleFamiliar($familiar[Ms. Puck Man]);
 	}
-	else if(have_familiar($familiar[Puck Man]))
+	else if(cc_have_familiar($familiar[Puck Man]))
 	{
 		handleFamiliar($familiar[Puck Man]);
 	}
 	providePlusNonCombat(25);
-	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	if((my_class() == $class[Gelatinous Noob]) && cc_have_familiar($familiar[Robortender]))
 	{
 		if(!have_skill($skill[Bendable Knees]) && (item_amount($item[Bottle of Gregnadigne]) == 0))
 		{
@@ -8331,7 +8338,7 @@ boolean L10_airship()
 		set_property("choiceAdventure182", "1");
 	}
 
-	if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]) && have_familiar($familiar[Artistic Goth Kid]))
+	if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]) && cc_have_familiar($familiar[Artistic Goth Kid]))
 	{
 		print("Hipster Adv: " + get_property("_hipsterAdv"), "blue");
 		handleFamiliar($familiar[Artistic Goth Kid]);
@@ -8391,7 +8398,7 @@ boolean LX_freeCombats()
 		return false;
 	}
 
-	if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && !is100FamiliarRun())
+	if(cc_have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && !is100FamiliarRun())
 	{
 		if(get_property("cc_choice1119") != "")
 		{
@@ -8444,7 +8451,7 @@ boolean LX_freeCombats()
 
 boolean Lx_resolveSixthDMT()
 {
-	if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 10) && !is100FamiliarRun() && ($location[The Deep Machine Tunnels].turns_spent == 5) && (my_daycount() == 2))
+	if(cc_have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 10) && !is100FamiliarRun() && ($location[The Deep Machine Tunnels].turns_spent == 5) && (my_daycount() == 2))
 	{
 		if(get_property("cc_choice1119") != "")
 		{
@@ -8810,7 +8817,7 @@ boolean L7_crypt()
 	{
 		handleFamiliar("init");
 
-		if((get_property("_badlyRomanticArrows").to_int() == 0) && have_familiar($familiar[Reanimated Reanimator]) && (my_daycount() == 1))
+		if((get_property("_badlyRomanticArrows").to_int() == 0) && cc_have_familiar($familiar[Reanimated Reanimator]) && (my_daycount() == 1))
 		{
 			handleFamiliar($familiar[Reanimated Reanimator]);
 		}
@@ -8885,7 +8892,7 @@ boolean L7_crypt()
 
 	if((get_property("cyrptNicheEvilness").to_int() > 0) && canGroundhog($location[The Defiled Niche]))
 	{
-		if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]) && have_familiar($familiar[Artistic Goth Kid]))
+		if((my_daycount() == 1) && (get_property("_hipsterAdv").to_int() < 7) && is_unrestricted($familiar[Artistic Goth Kid]) && cc_have_familiar($familiar[Artistic Goth Kid]))
 		{
 			handleFamiliar($familiar[Artistic Goth Kid]);
 		}
@@ -8894,7 +8901,7 @@ boolean L7_crypt()
 			equip($item[Gravy Boat]);
 		}
 
-		if(have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3))
+		if(cc_have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3))
 		{
 			handleFamiliar($familiar[Space Jellyfish]);
 		}
@@ -8931,7 +8938,7 @@ boolean L7_crypt()
 			cli_execute("spacegate vaccine 3");
 		}
 
-		if(have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3))
+		if(cc_have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3))
 		{
 			handleFamiliar($familiar[Space Jellyfish]);
 		}
@@ -8951,7 +8958,7 @@ boolean L7_crypt()
 
 		useCocoon();
 		set_property("choiceAdventure527", 1);
-		if(have_familiar($familiar[Machine Elf]))
+		if(cc_have_familiar($familiar[Machine Elf]))
 		{
 			handleFamiliar($familiar[Machine Elf]);
 		}
@@ -9059,12 +9066,12 @@ boolean L6_friarsGetParts()
 		equip($slot[Shirt], $item[none]);
 	}
 
-	if(have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 2))
+	if(cc_have_familiar($familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 2))
 	{
 		handleFamiliar($familiar[Space Jellyfish]);
 	}
 
-	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	if((my_class() == $class[Gelatinous Noob]) && cc_have_familiar($familiar[Robortender]))
 	{
 		if(!have_skill($skill[Frown Muscles]) && (item_amount($item[Bottle of Novelty Hot Sauce]) == 0))
 		{
@@ -9839,6 +9846,15 @@ boolean LX_craftAcquireItems()
 		use(item_amount($item[Ten-Leaf Clover]), $item[Ten-Leaf Clover]);
 	}
 
+	if(get_property("questM22Shirt") == "unstarted")
+	{
+		januaryToteAcquire($item[Letter For Melvign The Gnome]);
+		if(possessEquipment($item[Makeshift Garbage Shirt]))
+		{
+			string temp = visit_url("inv_equip.php?pwd&which=2&action=equip&whichitem=" + to_int($item[Makeshift Garbage Shirt]));
+		}
+	}
+
 	if((get_property("lastGoofballBuy").to_int() != my_ascensions()) && (internalQuestStatus("questL03Rat") >= 0))
 	{
 		visit_url("place.php?whichplace=woods");
@@ -9862,7 +9878,7 @@ boolean LX_craftAcquireItems()
 	}
 	else
 	{
-		if((have_effect($effect[Adventurer\'s Best Friendship]) > 30) && have_familiar($familiar[Mosquito]))
+		if((have_effect($effect[Adventurer\'s Best Friendship]) > 30) && cc_have_familiar($familiar[Mosquito]))
 		{
 			set_property("choiceAdventure1106", 3);
 		}
@@ -9902,9 +9918,9 @@ boolean LX_craftAcquireItems()
 		}
 	}
 
-	if(knoll_available() && (item_amount($item[detuned radio]) == 0) && (my_meat() > 300))
+	if(knoll_available() && (item_amount($item[Detuned Radio]) == 0) && (my_meat() > 300) && (cc_my_path() != "G-Lover"))
 	{
-		buyUpTo(1, $item[detuned radio]);
+		buyUpTo(1, $item[Detuned Radio]);
 		cc_change_mcd(11);
 		visit_url("choice.php?pwd&whichchoice=835&option=2", true);
 	}
@@ -10533,13 +10549,6 @@ boolean LX_islandAccess()
 
 boolean LX_phatLootToken()
 {
-	if((!possessEquipment($item[Ring of Detect Boring Doors]) || (item_amount($item[Eleven-Foot Pole]) == 0) || (item_amount($item[Pick-O-Matic Lockpicks]) == 0)) && have_familiar($familiar[Gelatinous Cubeling]))
-	{
-		if(!is100FamiliarRun($familiar[Gelatinous Cubeling]) && (cc_my_path() != "Pocket Familiars"))
-		{
-			return false;
-		}
-	}
 	if(get_property("cc_phatloot").to_int() >= my_daycount())
 	{
 		return false;
@@ -10551,6 +10560,19 @@ boolean LX_phatLootToken()
 	if(my_adventures() <= 5)
 	{
 		return false;
+	}
+
+	if(fantasyRealmToken())
+	{
+		return true;
+	}
+
+	if((!possessEquipment($item[Ring of Detect Boring Doors]) || (item_amount($item[Eleven-Foot Pole]) == 0) || (item_amount($item[Pick-O-Matic Lockpicks]) == 0)) && cc_have_familiar($familiar[Gelatinous Cubeling]))
+	{
+		if(!is100FamiliarRun($familiar[Gelatinous Cubeling]) && (cc_my_path() != "Pocket Familiars"))
+		{
+			return false;
+		}
 	}
 
 	print("Phat Loot Token Get!", "blue");
@@ -10573,6 +10595,63 @@ boolean LX_phatLootToken()
 	}
 	return true;
 }
+
+boolean L6_dakotaFanning()
+{
+	if(get_property("cc_dakotaFanning") == "finished")
+	{
+		return false;
+	}
+	if(get_property("questM16Temple") == "unstarted")
+	{
+		if(my_basestat(my_primestat()) < 35)
+		{
+			return false;
+		}
+		string temp = visit_url("place.php?whichplace=woods&action=woods_dakota");
+		return true;
+	}
+
+	if(item_amount($item[Pellet Of Plant Food]) == 0)
+	{
+		ccAdv(1, $location[The Haunted Conservatory]);
+		return true;
+	}
+
+	if(item_amount($item[Heavy-Duty Bendy Straw]) == 0)
+	{
+		if(get_property("cc_friars") != "done")
+		{
+			ccAdv(1, $location[The Dark Heart of the Woods]);
+		}
+		else
+		{
+			ccAdv(1, $location[Pandamonium Slums]);
+		}
+		return true;
+	}
+
+	if(item_amount($item[Sewing Kit]) == 0)
+	{
+		if(item_amount($item[Fat Loot Token]) > 0)
+		{
+			cli_execute("make " + $item[Sewing Kit]);
+		}
+		else
+		{
+			return fantasyRealmToken();
+		}
+		return true;
+	}
+
+	string temp = visit_url("place.php?whichplace=woods&action=woods_dakota");
+	if(get_property("questM16Temple") != "finished")
+	{
+		abort("Elle FanninG quest gnot satisfied.");
+	}
+	return true;
+}
+
 
 boolean L2_treeCoin()
 {
@@ -10927,7 +11006,7 @@ boolean LX_handleSpookyravenFirstFloor()
 			handleFamiliar($familiar[Exotic Parrot]);
 			if(is100FamiliarRun())
 			{
-				if(have_familiar($familiar[Trick-or-Treating Tot]) && (available_amount($item[Li\'l Candy Corn Costume]) > 0))
+				if(cc_have_familiar($familiar[Trick-or-Treating Tot]) && (available_amount($item[Li\'l Candy Corn Costume]) > 0))
 				{
 					handleFamiliar($familiar[Trick-or-Treating Tot]);
 				}
@@ -10977,7 +11056,7 @@ boolean L5_getEncryptionKey()
 		return false;
 	}
 
-	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	if((my_class() == $class[Gelatinous Noob]) && cc_have_familiar($familiar[Robortender]))
 	{
 		if(!have_skill($skill[Retractable Toes]) && (item_amount($item[Cocktail Mushroom]) == 0))
 		{
@@ -11201,7 +11280,7 @@ boolean L12_preOutfit()
 	}
 	print("Trying to acquire a filthy hippy outfit", "blue");
 
-	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	if((my_class() == $class[Gelatinous Noob]) && cc_have_familiar($familiar[Robortender]))
 	{
 		if(!have_skill($skill[Ink Gland]) && (item_amount($item[Shot of Granola Liqueur]) == 0))
 		{
@@ -11698,7 +11777,7 @@ boolean L9_twinPeak()
 			possibleGain += 1;
 		}
 		int parrotOffset = 0;
-		if((elemental_resist($element[stench]) < 4) && have_familiar($familiar[Exotic Parrot]))
+		if((elemental_resist($element[stench]) < 4) && cc_have_familiar($familiar[Exotic Parrot]))
 		{
 			parrotOffset = numeric_modifier($familiar[Exotic Parrot], "Stench Resistance", familiar_weight($familiar[Exotic Parrot]), equipped_item($slot[familiar]));
 		}
@@ -11950,7 +12029,7 @@ boolean L9_chasmBuild()
 			return true;
 		}
 
-		if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+		if((my_class() == $class[Gelatinous Noob]) && cc_have_familiar($familiar[Robortender]))
 		{
 			if(!have_skill($skill[Powerful Vocal Chords]) && (item_amount($item[Baby Oil Shooter]) == 0))
 			{
@@ -12068,6 +12147,12 @@ boolean L9_chasmStart()
 
 boolean L11_redZeppelin()
 {
+	if(!get_property("cc_shenCopperhead").to_boolean())
+	{
+		return false;
+	}
+
+	# Remove this at start of June 2018
 	if(cc_my_path() != "Pocket Familiars")
 	{
 		return false;
@@ -12136,6 +12221,12 @@ boolean L11_redZeppelin()
 
 boolean L11_ronCopperhead()
 {
+	if(!get_property("cc_shenCopperhead").to_boolean())
+	{
+		return false;
+	}
+
+	# Remove this at start of June 2018
 	if(cc_my_path() != "Pocket Familiars")
 	{
 		return false;
@@ -12178,6 +12269,12 @@ boolean L11_ronCopperhead()
 
 boolean L11_shenCopperhead()
 {
+	if(!get_property("cc_shenCopperhead").to_boolean())
+	{
+		return false;
+	}
+
+	# Remove this at start of June 2018
 	if(cc_my_path() != "Pocket Familiars")
 	{
 		return false;
@@ -12283,6 +12380,16 @@ boolean L11_talismanOfNam()
 		set_property("cc_gaudy", "finished");
 	}
 
+	if(!get_property("cc_shenCopperhead").to_boolean())
+	{
+		if(L11_shenCopperhead() || L11_redZeppelin() || L11_ronCopperhead())
+		{
+			return true;
+		}
+		return false;
+	}
+
+	# Remove this at start of June 2018
 	if(cc_my_path() == "Pocket Familiars")
 	{
 		if(L11_shenCopperhead() || L11_redZeppelin() || L11_ronCopperhead())
@@ -12479,10 +12586,11 @@ boolean L11_blackMarket()
 	{
 		return false;
 	}
-	if(cc_my_path() == "Pocket Familiars")
-	{
-		string temp = visit_url("woods.php", false);
-	}
+#	Mafia probably handles this correctly now.
+#	if(cc_my_path() == "Pocket Familiars")
+#	{
+#		string temp = visit_url("woods.php", false);
+#	}
 	if(black_market_available())
 	{
 		set_property("cc_blackmap", "document");
@@ -12619,7 +12727,7 @@ boolean L10_holeInTheSky()
 	{
 		handleFamiliar("item");
 	}
-	if(have_familiar($familiar[Space Jellyfish]))
+	if(cc_have_familiar($familiar[Space Jellyfish]))
 	{
 		handleFamiliar($familiar[Space Jellyfish]);
 		if(item_amount($item[Star Chart]) == 0)
@@ -12850,7 +12958,7 @@ boolean LX_pirateBeerPong()
 	set_property("choiceAdventure184", 6);
 
 
-	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	if((my_class() == $class[Gelatinous Noob]) && cc_have_familiar($familiar[Robortender]))
 	{
 		if(!have_skill($skill[Anger Glands]) && (item_amount($item[Limepatch]) == 0))
 		{
@@ -12925,7 +13033,7 @@ boolean LX_pirateBlueprint()
 		}
 	}
 
-	if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+	if((my_class() == $class[Gelatinous Noob]) && cc_have_familiar($familiar[Robortender]))
 	{
 		if(!have_skill($skill[Anger Glands]) && (item_amount($item[Limepatch]) == 0))
 		{
@@ -12991,6 +13099,12 @@ boolean LX_pirateBlueprint()
 
 boolean LX_pirateInsults()
 {
+	if(!get_property("cc_shenCopperhead").to_boolean())
+	{
+		return false;
+	}
+
+	# Remove start of June 2018
 	if(cc_my_path() == "Pocket Familiars")
 	{
 		return false;
@@ -13046,16 +13160,16 @@ boolean LX_pirateInsults()
 
 	if(numPirateInsults() < 7)
 	{
-		if(have_familiar($familiar[Ms. Puck Man]))
+		if(cc_have_familiar($familiar[Ms. Puck Man]))
 		{
 			handleFamiliar($familiar[Ms. Puck Man]);
 		}
-		else if(have_familiar($familiar[Puck Man]))
+		else if(cc_have_familiar($familiar[Puck Man]))
 		{
 			handleFamiliar($familiar[Puck Man]);
 		}
 
-		if((my_class() == $class[Gelatinous Noob]) && have_familiar($familiar[Robortender]))
+		if((my_class() == $class[Gelatinous Noob]) && cc_have_familiar($familiar[Robortender]))
 		{
 			if(!have_skill($skill[Anger Glands]) && (item_amount($item[Limepatch]) == 0))
 			{
@@ -13208,7 +13322,7 @@ boolean L8_trapperGroar()
 	//What is our potential +Combat score.
 	//Use that instead of the Avatar/Hound Dog checks.
 
-	if(!canGroar && in_hardcore() && ((cc_my_path() == "Avatar of Sneaky Pete") || !have_familiar($familiar[Jumpsuited Hound Dog])))
+	if(!canGroar && in_hardcore() && ((cc_my_path() == "Avatar of Sneaky Pete") || !cc_have_familiar($familiar[Jumpsuited Hound Dog])))
 	{
 		if(L8_trapperExtreme())
 		{
@@ -13970,13 +14084,13 @@ boolean doTasks()
 		{
 			set_property("cc_cubeItems", false);
 		}
-		if(get_property("cc_cubeItems").to_boolean() && (my_familiar() != $familiar[Gelatinous Cubeling]) && have_familiar($familiar[Gelatinous Cubeling]))
+		if(get_property("cc_cubeItems").to_boolean() && (my_familiar() != $familiar[Gelatinous Cubeling]) && cc_have_familiar($familiar[Gelatinous Cubeling]))
 		{
 			handleFamiliar($familiar[Gelatinous Cubeling]);
 		}
 	}
 
-	if((my_daycount() == 1) && ($familiar[Fist Turkey].drops_today < 5) && have_familiar($familiar[Fist Turkey]))
+	if((my_daycount() == 1) && ($familiar[Fist Turkey].drops_today < 5) && cc_have_familiar($familiar[Fist Turkey]))
 	{
 		handleFamiliar($familiar[Fist Turkey]);
 	}
@@ -14061,6 +14175,7 @@ boolean doTasks()
 	if(L2_spookyMap())					return true;
 	if(L2_spookyFertilizer())			return true;
 	if(L2_spookySapling())				return true;
+	if(L6_dakotaFanning())				return true;
 	if(LX_bitchinMeatcar())				return true;
 	if(L5_haremOutfit())				return true;
 	if(LX_phatLootToken())				return true;
@@ -14112,6 +14227,17 @@ boolean doTasks()
 	if(L10_basement())					return true;
 	if(L10_ground())					return true;
 
+	if(!get_property("cc_shenCopperhead").to_boolean())
+	{
+		if(L11_blackMarket())				return true;
+		if(L11_forgedDocuments())			return true;
+		if(L11_mcmuffinDiary())				return true;
+		if(L11_shenCopperhead())			return true;
+		if(L11_redZeppelin())				return true;
+		if(L11_ronCopperhead())				return true;
+	}
+
+	# Remove start of June 2018
 	if(cc_my_path() == "Pocket Familiars")
 	{
 		if(L11_blackMarket())				return true;
@@ -14286,7 +14412,7 @@ void cc_begin()
 	{
 		page = visit_url("api.php?what=status&for=4", false);
 	}
-	if(get_property("_casualAscension").to_int() >= my_ascensions())
+	if((get_property("_casualAscension").to_int() >= my_ascensions()) && (my_ascensions() > 0))
 	{
 		return;
 	}

@@ -81,6 +81,7 @@ boolean L5_haremOutfit();
 boolean L5_findKnob();
 boolean L5_goblinKing();
 boolean L5_getEncryptionKey();
+boolean L6_dakotaFanning();
 boolean L6_friarsGetParts();
 boolean L6_friarsHotWing();
 boolean L8_trapperStart();
@@ -363,12 +364,14 @@ boolean ccChew(int howMany, item toChew);					//Defined in cc_ascend/cc_cooking.
 int ccCraft(string mode, int count, item item1, item item2);//Defined in cc_ascend/cc_util.ash
 boolean ccDrink(int howMany, item toDrink);					//Defined in cc_ascend/cc_cooking.ash
 boolean ccEat(int howMany, item toEat);						//Defined in cc_ascend/cc_cooking.ash
+boolean ccEat(int howMany, item toEat, boolean silent);		//Defined in cc_ascend/cc_cooking.ash
 boolean ccMaximize(string req, boolean simulate);			//Defined in cc_ascend/cc_util.ash
 boolean ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate);//Defined in cc_ascend/cc_util.ash
 aggregate ccMaximize(string req, int maxPrice, int priceLevel, boolean simulate, boolean includeEquip);//Defined in cc_ascend/cc_util.ash
 boolean ccOverdrink(int howMany, item toOverdrink);			//Defined in cc_ascend/cc_cooking.ash
 boolean canDrink(item toDrink);								//Defined in cc_ascend/cc_cooking.ash
 boolean canEat(item toEat);									//Defined in cc_ascend/cc_cooking.ash
+boolean cc_have_familiar(familiar fam);						//Defined in cc_ascend/cc_cooking.ash
 boolean cc_advWitchess(string target);						//Defined in cc_ascend/cc_mr2016.ash
 boolean cc_advWitchess(string target, string option);		//Defined in cc_ascend/cc_mr2016.ash
 int cc_advWitchessTargets(string target);					//Defined in cc_ascend/cc_mr2016.ash
@@ -526,6 +529,7 @@ boolean godLobsterCombat();									//Defined in cc_ascend/cc_mr2018.ash
 boolean godLobsterCombat(item it);							//Defined in cc_ascend/cc_mr2018.ash
 boolean godLobsterCombat(item it, int goal);				//Defined in cc_ascend/cc_mr2018.ash
 boolean godLobsterCombat(item it, int goal, string option);	//Defined in cc_ascend/cc_mr2018.ash
+boolean fantasyRealmToken();								//Defined in cc_ascend/cc_mr2018.ash
 boolean getSpaceJelly();									//Defined in cc_ascend/cc_mr2017.ash
 int horseCost();											//Defined in cc_ascend/cc_mr2017.ash
 boolean getHorse(string type);								//Defined in cc_ascend/cc_mr2017.ash
@@ -591,6 +595,7 @@ boolean hasTail(monster enemy);								//Defined in cc_ascend/cc_monsterparts.as
 boolean hasTorso(monster enemy);							//Defined in cc_ascend/cc_monsterparts.ash
 boolean haveAny(boolean[item] array);						//Defined in cc_ascend/cc_util.ash
 boolean have_skills(boolean[skill] array);					//Defined in cc_ascend/cc_util.ash
+boolean cc_have_skill(skill sk);							//Defined in cc_ascend/cc_util.ash
 boolean haveGhostReport();									//Defined in cc_ascend/cc_mr2016.ash
 boolean haveSpleenFamiliar();								//Defined in cc_ascend/cc_util.ash
 int howLongBeforeHoloWristDrop();							//Defined in cc_ascend/cc_util.ash
@@ -605,6 +610,7 @@ void initializeSettings();									//Defined in cc_ascend.ash
 boolean instakillable(monster mon);							//Defined in cc_ascend/cc_util.ash
 int[int] intList();											//Defined in cc_ascend/cc_list.ash
 int internalQuestStatus(string prop);						//Defined in cc_ascend/cc_util.ash
+int freeCrafts();											//Defined in cc_ascend/cc_util.ash
 boolean is100FamiliarRun();									//Defined in cc_ascend/cc_util.ash
 boolean is100FamiliarRun(familiar thisOne);					//Defined in cc_ascend/cc_util.ash
 boolean isBanished(monster enemy);							//Defined in cc_ascend/cc_util.ash
@@ -822,6 +828,10 @@ void digimon_initializeDay(int day);						//Defined in cc_ascend/cc_digimon.ash
 boolean digimon_makeTeam();									//Defined in cc_ascend/cc_digimon.ash
 boolean LM_digimon();										//Defined in cc_ascend/cc_digimon.ash
 boolean digimon_ccAdv(int num, location loc, string option);//Defined in cc_ascend/cc_digimon.ash
+
+void glover_initializeSettings();							//Defined in cc_ascend/cc_glover.ash
+void glover_initializeDay(int day);							//Defined in cc_ascend/cc_glover.ash
+boolean glover_usable(string it);							//Defined in cc_ascend/cc_glover.ash
 
 boolean groundhogSafeguard();								//Defined in cc_ascend/cc_groundhog.ash
 void groundhog_initializeSettings();						//Defined in cc_ascend/cc_groundhog.ash

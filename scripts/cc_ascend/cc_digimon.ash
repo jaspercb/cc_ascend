@@ -20,15 +20,10 @@ void digimon_initializeSettings()
 		set_property("cc_hippyInstead", true);
 		set_property("cc_holeinthesky", true);
 		set_property("cc_ignoreFlyer", true);
+		set_property("cc_shenCopperhead", true);
 		set_property("cc_swordfish", "finished");
 		set_property("cc_useCubeling", false);
 		set_property("cc_wandOfNagamar", false);
-		januaryToteAcquire($item[Letter For Melvign The Gnome]);
-		if(possessEquipment($item[Makeshift Garbage Shirt]))
-		{
-			string temp = visit_url("inv_equip.php?pwd&which=2&action=equip&whichitem=" + to_int($item[Makeshift Garbage Shirt]));
-		}
-		digimon_makeTeam();
 	}
 }
 

@@ -1216,10 +1216,6 @@ boolean cc_cheesePostCS(int leave)
 	{
 		chew(1, $item[Carrot Juice]);
 	}
-	while((spleen_left() >= 1) && (item_amount($item[Twinkly Wad]) > 0))
-	{
-		chew(1, $item[Twinkly Wad]);
-	}
 
 	if(!get_property("_didMining").to_boolean() && (my_daycount() == 2) && have_skill($skill[Unaccompanied Miner]))
 	{
