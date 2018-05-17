@@ -206,7 +206,6 @@ void initializeSettings()
 	set_property("cc_sniffs", "");
 	set_property("cc_spookyfertilizer", "");
 	set_property("cc_spookymap", "");
-	set_property("cc_spookyravennecklace", "");
 	set_property("cc_spookyravensecond", "");
 	set_property("cc_spookysapling", "");
 	set_property("cc_sonofa", "");
@@ -3082,11 +3081,11 @@ boolean questOverride()
 		set_property("cc_bean", true);
 	}
 
-	if((get_property("lastSecondFloorUnlock").to_int() >= my_ascensions()) && (get_property("cc_spookyravennecklace") != "done"))
-	{
-		print("Found completed Spookyraven Necklace Sequence (M20)");
-		set_property("cc_spookyravennecklace", "done");
-	}
+#	if((get_property("lastSecondFloorUnlock").to_int() >= my_ascensions()) && (get_property("cc_spookyravennecklace") != "done"))
+#	{
+#		print("Found completed Spookyraven Necklace Sequence (M20)");
+#		set_property("cc_spookyravennecklace", "done");
+#	}
 
 	if((internalQuestStatus("questL11Manor") >= 11) && (get_property("cc_ballroom") != "finished"))
 	{
@@ -6105,7 +6104,7 @@ boolean LX_spookyBedroomCombat()
 
 boolean LX_spookyravenSecond()
 {
-	if((get_property("cc_spookyravensecond") != "") || (get_property("cc_spookyravennecklace") != "done"))
+	if((get_property("cc_spookyravensecond") != "") || (get_property("lastSecondFloorUnlock").to_int() >= my_ascensions()))
 	{
 		return false;
 	}
@@ -6243,7 +6242,7 @@ boolean LX_spookyravenSecond()
 
 boolean L11_mauriceSpookyraven()
 {
-	if(get_property("cc_spookyravennecklace") != "done")
+	if(get_property("lastSecondFloorUnlock").to_int() < my_ascensions())
 	{
 		return false;
 	}
@@ -10789,13 +10788,8 @@ boolean L2_mosquito()
 
 boolean LX_handleSpookyravenFirstFloor()
 {
-	if(get_property("cc_spookyravennecklace") == "done")
+	if(get_property("lastSecondFloorUnlock").to_int() >= my_ascensions())
 	{
-		return false;
-	}
-	if(possessEquipment($item[Ghost of a Necklace]))
-	{
-		set_property("cc_spookyravennecklace", "done");
 		return false;
 	}
 
@@ -11072,16 +11066,10 @@ boolean L5_getEncryptionKey()
 
 boolean LX_handleSpookyravenNecklace()
 {
-	if((get_property("cc_spookyravennecklace") == "done") || (item_amount($item[Lady Spookyraven\'s Necklace]) == 0))
+	if((get_property("lastSecondFloorUnlock").to_int() >= my_ascensions()) || (item_amount($item[Lady Spookyraven\'s Necklace]) == 0))
 	{
 		return false;
 	}
-
-#	if(possessEquipment($item[Ghost Of A Necklace]))
-#	{
-#		set_property("cc_spookyravennecklace", "done");
-#		return false;
-#	}
 
 	print("Starting Spookyraven Second Floor.", "blue");
 	visit_url("place.php?whichplace=manor1&action=manor1_ladys");
@@ -11099,15 +11087,9 @@ boolean LX_handleSpookyravenNecklace()
 	set_property("choiceAdventure896", "1");
 	set_property("choiceAdventure892", "2");
 
-#	if(item_amount($item[ghost of a necklace]) > 0)
-#	{
-#		set_property("cc_spookyravennecklace", "done");
-#	}
-#	else if((item_amount($item[ghost of a necklace]) == 0) || (item_amount($item[Lady Spookyraven\'s Necklace]) == 1))
 	if(item_amount($item[Lady Spookyraven\'s Necklace]) > 0)
 	{
 		cli_execute("refresh inv");
-		set_property("cc_spookyravennecklace", "done");
 		#abort("Mafia still doesn't understand the ghost of a necklace, just re-run me.");
 	}
 	return true;
@@ -13971,6 +13953,11 @@ void print_header()
 
 boolean doTasks()
 {
+	if(cc_my_path() == "G-Lover")
+	{
+		abort("No, this is not supported and I do not know if I am going to stick around to support it");
+	}
+
 	if(get_property("_casualAscension").to_int() >= my_ascensions())
 	{
 		print("I think I'm in a casual ascension and should not run. To override: set _casualAscension = -1", "red");

@@ -335,7 +335,7 @@ string cc_combatHandler(int round, string opp, string text)
 	}
 
 
-	if((!contains_text(combatState, "blackbox")) && (my_path() != "Heavy Rains") && (enemy == $monster[Writing Desk]) && (get_property("writingDesksDefeated").to_int() < 4) && (get_property("cc_spookyravennecklace") != "done") && (get_property("_raindohCopiesMade").to_int() < 5))
+	if((!contains_text(combatState, "blackbox")) && (my_path() != "Heavy Rains") && (enemy == $monster[Writing Desk]) && (get_property("writingDesksDefeated").to_int() < 4) && (get_property("lastSecondFloorUnlock").to_int() < my_ascensions()) && (get_property("_raindohCopiesMade").to_int() < 5))
 	{
 		set_property("cc_doCombatCopy", "yes");
 	}
@@ -747,7 +747,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if((get_property("makeFriendsMonster") != $monster[Writing Desk]) && have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
 	{
-		if((enemy == $monster[Writing Desk]) && (my_location() == $location[The Haunted Library]) && (get_property("cc_spookyravennecklace") != "done"))
+		if((enemy == $monster[Writing Desk]) && (my_location() == $location[The Haunted Library]) && (get_property("lastSecondFloorUnlock").to_int() < my_ascensions()))
 		{
 			set_property("cc_combatHandler", combatState + "(makefriends)");
 			handleTracker(enemy, $skill[Make Friends], "cc_sniffs");
