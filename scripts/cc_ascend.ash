@@ -6104,7 +6104,7 @@ boolean LX_spookyBedroomCombat()
 
 boolean LX_spookyravenSecond()
 {
-	if((get_property("cc_spookyravensecond") != "") || (get_property("lastSecondFloorUnlock").to_int() >= my_ascensions()))
+	if((get_property("cc_spookyravensecond") != "") || (get_property("lastSecondFloorUnlock").to_int() < my_ascensions()))
 	{
 		return false;
 	}
@@ -13082,21 +13082,15 @@ boolean LX_pirateBlueprint()
 
 boolean LX_pirateInsults()
 {
-	if(!get_property("cc_shenCopperhead").to_boolean())
+	if(get_property("cc_shenCopperhead").to_boolean())
 	{
 		return false;
 	}
 
-	# Remove start of June 2018
-	if(cc_my_path() == "Pocket Familiars")
-	{
-		return false;
-	}
 	if(get_property("cc_pirateoutfit") != "insults")
 	{
 		return false;
 	}
-
 	if((get_property("cc_prewar") != "") && (get_property("cc_war") != "finished"))
 	{
 		return false;
