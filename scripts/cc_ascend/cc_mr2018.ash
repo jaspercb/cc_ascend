@@ -115,7 +115,7 @@ boolean godLobsterCombat(item it, int goal, string option)
 	{
 		return false;
 	}
-	if(get_property("_lobsterFights").to_int() >= 3)
+	if(get_property("_godLobsterFights").to_int() >= 3)
 	{
 		return false;
 	}
@@ -144,7 +144,7 @@ boolean godLobsterCombat(item it, int goal, string option)
 	string temp = visit_url("main.php?fightgodlobster=1");
 	if(contains_text(temp, "You can't challenge your God Lobster anymore"))
 	{
-		set_property("_lobsterFights", 3);
+		set_property("_godLobsterFights", 3);
 	}
 	else
 	{
@@ -183,7 +183,6 @@ boolean godLobsterCombat(item it, int goal, string option)
 	{
 		use_familiar(last);
 	}
-	set_property("_lobsterFights", get_property("_lobsterFights").to_int() + 1);
 	cli_execute("postcheese");
 	return true;
 }
@@ -208,10 +207,34 @@ boolean fantasyRealmToken()
 		visit_url("place.php?whichplace=realm_fantasy&action=fr_initcenter", false);
 		visit_url("choice.php?whichchoice=1280&pwd=&option=" + option);
 	}
-	else
+
+	if(!possessEquipment($item[FantasyRealm G. E. M.]))
 	{
 		return false;
 	}
+
+	if(contains_text(get_property("_frMonstersKilled"), "fantasy bandit"))
+	{
+		foreach idx, it in split_string(get_property("_frMonstersKilled"), ",")
+		{
+			print(it);
+			if(contains_text(it, "fantasy bandit"))
+			{
+				int count = to_int(split_string(it, ":")[1]);
+				if(count >= 5)
+				{
+					return false;
+				}
+			}
+		}
+	}
+
+	if(is100familiarRun())
+	{
+		return false;
+	}
+	set_property("cc_familiarChoice", "none");
+	use_familiar($familiar[none]);
 
 	if(possessEquipment($item[FantasyRealm G. E. M.]))
 	{
@@ -221,5 +244,117 @@ boolean fantasyRealmToken()
 		}
 	}
 
-	return ccAdv(1, $location[The Bandit Crossroads]);
+	//This does not appear to check that we no longer need to adventure there...
+
+	ccAdv(1, $location[The Bandit Crossroads]);
+	return true;
+}
+
+boolean songboomSetting(string goal)
+{
+	int option = 6;
+
+	if((goal ≈ "eye of the giger") || (goal ≈ "spooky") || (goal ≈ "nightmare") || (goal ≈ $item[Nightmare Fuel]) || (goal ≈ "stats"))
+	{
+		option = 1;
+	}
+	else if((goal ≈ "food vibrations") || (goal ≈ "food") || (goal ≈ "food drops") || (goal ≈ $item[Special Seasoning]) || (goal ≈ "spell damage") || (goal ≈ "adventures") || (goal ≈ "adv"))
+	{
+		option = 2;
+	}
+	else if((goal ≈ "remainin\' alive") || (goal ≈ "dr") || (goal ≈ "damage reduction") || (goal ≈ $item[Shielding Potion]) || (goal ≈ "delevel"))
+	{
+		option = 3;
+	}
+	else if((goal ≈ "these fists were made for punchin\'") || (goal ≈ "weapon damage") || (goal ≈ "prismatic damage") || (goal ≈ $item[Punching Potion]) || (goal ≈ "prismatic"))
+	{
+		option = 4;
+	}
+	else if((goal ≈ "total eclipse of your meat") || (goal ≈ "meat") || (goal ≈ "meat drop") || (goal ≈ $item[Gathered Meat-Clip]) || (goal ≈ "base meat"))
+	{
+		option = 5;
+	}
+	else if((goal ≈ "silence") || (goal ≈ "none") || (goal == ""))
+	{
+		option = 6;
+	}
+
+	return songboomSetting(option);
+}
+
+
+boolean songboomSetting(int option)
+{
+	if(!is_unrestricted($item[SongBoom&trade; BoomBox]))
+	{
+		return false;
+	}
+	if(item_amount($item[SongBoom&trade; BoomBox]) == 0)
+	{
+		return false;
+	}
+	if(get_property("_boomBoxSongsLeft").to_int() == 0)
+	{
+		if(option != 6)
+		{
+			# Always allow turning off the song, if that is really something we want to do.
+			return false;
+		}
+	}
+	if((option < 0) || (option > 6))
+	{
+		return false;
+	}
+
+	string currentSong = get_property("boomBoxSong");
+	if((option == 1) && (currentSong == "Eye of the Giger"))
+	{
+		return false;
+	}
+	else if((option == 2) && (currentSong == "Food Vibrations"))
+	{
+		return false;
+	}
+	else if((option == 3) && (currentSong == "Remainin\' Alive"))
+	{
+		return false;
+	}
+	else if((option == 4) && (currentSong == "These Fists Were Made for Punchin\'"))
+	{
+		return false;
+	}
+	else if((option == 5) && (currentSong == "Total Eclipse of Your Meat"))
+	{
+		return false;
+	}
+	else if((option == 6) && (currentSong == ""))
+	{
+		return false;
+	}
+
+	int boomsLeft = 0;
+	string page = visit_url("inv_use.php?pwd=&which=3&whichitem=9919");
+	matcher boomMatcher = create_matcher("You grab your boombox and select the soundtrack for your life,  which you can do <b>(?:-?)(\\d+)", page);
+	if(boomMatcher.find())
+	{
+		boomsLeft = to_int(boomMatcher.group(1));
+	}
+	else
+	{
+		print("Could not find how many songs we have left...", "red");
+		option = 6;
+	}
+
+	page = visit_url("choice.php?whichchoice=1312&option=" + option);
+	if(contains_text(page, "don\'t want to break this thing"))
+	{
+		print("Unable to change BoomBoxen songen!", "red");
+		return false;
+	}
+	if(option != 6)
+	{
+		boomsLeft--;
+	}
+	print("Change successful to " + get_property("boomBoxSong") + "We have " + boomsLeft + " SongBoom BoomBoxen songens left!", "green");
+	return true;
 }

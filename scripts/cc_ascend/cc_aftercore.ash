@@ -905,6 +905,8 @@ boolean cc_cheesePostCS(int leave)
 	cc_sourceTerminalEnhance("meat");
 	cc_sourceTerminalEnhance("items");
 	zataraSeaside("meatsmith");
+	songboomSetting($item[Special Seasoning]);
+	getHorse("meat");
 
 	if(((my_daycount() == 2) && isOverdueDigitize()) || get_property("_cc_specialAftercore").to_boolean())
 	{
@@ -1501,7 +1503,7 @@ boolean cc_cheesePostCS(int leave)
 
 		if((loc == $location[Barf Mountain]) && ((get_property("sourceTerminalEducate1") == "extract.edu") || (get_property("sourceTerminalEducate2")  == "extract.edu")) && have_skill($skill[Curse Of Weaksauce]) && have_skill($skill[Meteor Lore]) && have_equipped($item[Pantsgiving]) && (item_amount($item[Rain-Doh Indigo Cup]) > 0) && get_property("lovebugsUnlocked").to_boolean() && (item_amount($item[Time-Spinner]) > 0) && have_skill($skill[Candyblast]) && have_skill($skill[Stuffed Mortar Shell]) && (get_property("_shatteringPunchUsed").to_int() >= 3) && get_property("_gingerbreadMobHitUsed").to_boolean() && (get_property("_usedReplicaBatoomerang").to_int() >= 3) && (my_mp() >= 40))
 		{
-			ccAdv(1, loc, "if hasskill extract; skill extract; endif; skill weaksauce; if hasskill extract jelly; skill extract jelly; endif; skill pocket crumbs; skill micrometeorite; skill air dirty laundry; use rain-doh indigo cup, rain-doh blue balls; skill summon love mosquito; use time-spinner; skill candyblast; skill stuffed mortar shell; skill summon love stinkbug; skill saucestorm; skill saucestorm; skill saucestorm; skill saucestorm");
+			ccAdv(1, loc, "if hasskill extract; skill extract; endif; if hasskill Sing Along; skill Sing Along; endif; skill weaksauce; if hasskill extract jelly; skill extract jelly; endif; skill pocket crumbs; skill micrometeorite; skill air dirty laundry; use rain-doh indigo cup, rain-doh blue balls; skill summon love mosquito; use time-spinner; skill candyblast; skill stuffed mortar shell; skill summon love stinkbug; skill saucestorm; skill saucestorm; skill saucestorm; skill saucestorm");
 		}
 		else
 		{
@@ -1729,7 +1731,7 @@ boolean cc_cheesePostCS(int leave)
 		{
 			cli_execute("/outfit " + get_property("cc_pvpOutfit"));
 		}
-		cli_execute("pvp loot 10");
+		cli_execute("pvp loot 6");
 	}
 	int endMeat = my_meat();
 	int gainedMeat = endMeat - startMeat;

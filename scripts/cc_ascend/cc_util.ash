@@ -78,7 +78,6 @@ boolean have_skills(boolean[skill] array);
 int spleen_left();
 int stomach_left();
 int fullness_left();
-int drunk_left();
 int inebriety_left();
 void pullAll(item it);
 void pullAndUse(item it, int uses);
@@ -98,7 +97,6 @@ boolean buyUpTo(int num, item it);
 boolean buyUpTo(int num, item it, int maxprice);
 boolean buffMaintain(effect buff, int mp_min, int casts, int turns);
 effect effectNeededFirstGate(string data);
-#boolean cc_deleteMail(kmailObject msg);
 boolean buyableMaintain(item toMaintain, int howMany);
 boolean buyableMaintain(item toMaintain, int howMany, int meatMin);
 boolean buyableMaintain(item toMaintain, int howMany, int meatMin, boolean condition);
@@ -1049,14 +1047,9 @@ int fullness_left()
 	return stomach_left();
 }
 
-int drunk_left()
-{
-	return inebriety_limit() - my_inebriety();
-}
-
 int inebriety_left()
 {
-	return drunk_left();
+	return inebriety_limit() - my_inebriety();
 }
 
 boolean canYellowRay()
@@ -1070,29 +1063,16 @@ boolean canYellowRay()
 	{
 		return false;
 	}
-	if((item_amount($item[Mayo Lance]) > 0) && (get_property("mayoLevel").to_int() > 0))
+	if((item_amount($item[Mayo Lance]) > 0) && (get_property("mayoLevel").to_int() > 0) && glover_usable($item[Mayo Lance]))
 	{
 		return true;
 	}
-	if(item_amount($item[Golden Light]) > 0)
+	foreach it in $items[Golden Light, Unbearable Light, Pumpkin Bomb, Yellowcake Bomb, Viral Video]
 	{
-		return true;
-	}
-	if(item_amount($item[Unbearable Light]) > 0)
-	{
-		return true;
-	}
-	if(item_amount($item[Pumpkin Bomb]) > 0)
-	{
-		return true;
-	}
-	if(item_amount($item[Yellowcake Bomb]) > 0)
-	{
-		return true;
-	}
-	if(item_amount($item[Viral Video]) > 0)
-	{
-		return true;
+		if((item_amount(it) > 0) && glover_usable(it))
+		{
+			return true;
+		}
 	}
 	# We might not have Flash Headlight outside of combat, will need to check that.
 	if((get_property("peteMotorbikeHeadlight") == "Ultrabright Yellow Bulb") && have_skill($skill[Flash Headlight]) && (my_mp() >= mp_cost($skill[Flash Headlight])))
@@ -1123,9 +1103,9 @@ boolean canYellowRay()
 			}
 		}
 	}
-	if(!get_property("_internetViralVideoBought").to_boolean() && (item_amount($item[BACON]) >= 20))
+	if(!get_property("_internetViralVideoBought").to_boolean() && (item_amount($item[BACON]) >= 20) && glover_usable($item[Viral Video]))
 	{
-		cli_execute("make 1 viral video");
+		cli_execute("make " + $item[Viral Video]);
 		if(item_amount($item[Viral Video]) > 0)
 		{
 			return true;
@@ -1234,7 +1214,7 @@ string banisherCombatString(monster enemy, location loc)
 		return "skill " + $skill[Show Them Your Ring];
 	}
 
-	if(have_skill($skill[Breathe Out]) && (my_mp() >= mp_cost($skill[Breathe Out])) && (!(used contains "breathe out")))
+	if(cc_have_skill($skill[Breathe Out]) && (my_mp() >= mp_cost($skill[Breathe Out])) && (!(used contains "breathe out")))
 	{
 		return "skill " + $skill[Breathe Out];
 	}
@@ -1243,7 +1223,7 @@ string banisherCombatString(monster enemy, location loc)
 	{
 		return "skill " + $skill[Thunder Clap];
 	}
-	if(have_skill($skill[Batter Up!]) && (my_fury() >= 5) && (item_type(equipped_item($slot[weapon])) == "club") && (!(used contains "batter up!")))
+	if(cc_have_skill($skill[Batter Up!]) && (my_fury() >= 5) && (item_type(equipped_item($slot[weapon])) == "club") && (!(used contains "batter up!")))
 	{
 		return "skill " + $skill[Batter Up!];
 	}
@@ -1284,7 +1264,7 @@ string banisherCombatString(monster enemy, location loc)
 			return "skill " + $skill[KGB Tranquilizer Dart];
 		}
 	}
-	if(have_skill($skill[Snokebomb]) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])) && (!(used contains "snokebomb")))
+	if(cc_have_skill($skill[Snokebomb]) && (get_property("_snokebombUsed").to_int() < 3) && ((my_mp() - 20) >= mp_cost($skill[Snokebomb])) && (!(used contains "snokebomb")))
 	{
 		return "skill " + $skill[Snokebomb];
 	}
@@ -1295,7 +1275,7 @@ string banisherCombatString(monster enemy, location loc)
 			return "skill " + $skill[Beancannon];
 		}
 	}
-	if(have_skill($skill[Breathe Out]) && (!(used contains "breathe out")))
+	if(cc_have_skill($skill[Breathe Out]) && (!(used contains "breathe out")))
 	{
 		return "skill " + $skill[Breathe Out];
 	}
@@ -1694,6 +1674,10 @@ effect whatStatSmile()
 		return $effect[Patient Smile];
 	case $class[Sauceror]:
 	case $class[Pastamancer]:
+		if(have_skill($skill[Inscrutable Gaze]))
+		{
+			return $effect[Inscrutable Gaze];
+		}
 		return $effect[Wry Smile];
 	case $class[Disco Bandit]:
 	case $class[Accordion Thief]:
@@ -1813,6 +1797,13 @@ boolean acquireMP(int goal, boolean buyIt)
 				continue;
 			}
 		}
+
+		if(!glover_usable(it))
+		{
+			at++;
+			continue;
+		}
+
 		if(item_amount(it) > 0)
 		{
 			int count = item_amount(it);
@@ -1829,6 +1820,8 @@ boolean acquireMP(int goal, boolean buyIt)
 
 	while(buyIt && (my_mp() < goal))
 	{
+		boolean gLoverBlock = (cc_my_path() == "G-Lover");
+
 		if(($classes[Pastamancer, Sauceror] contains my_class()) && guild_store_available() && (my_level() >= 5))
 		{
 			buyUpTo(1, $item[Magical Mystery Juice], 100);
@@ -1839,7 +1832,7 @@ boolean acquireMP(int goal, boolean buyIt)
 			buyUpTo(1, $item[Doc Galaktik\'s Invigorating Tonic], 100);
 			use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
 		}
-		else if(black_market_available() && (my_meat() > npc_price($item[Black Cherry Soda])))
+		else if(black_market_available() && (my_meat() > npc_price($item[Black Cherry Soda])) && !gLoverBlock)
 		{
 			buyUpTo(1, $item[Black Cherry Soda], 100);
 			use(1, $item[Black Cherry Soda]);
@@ -1856,6 +1849,73 @@ boolean acquireMP(int goal, boolean buyIt)
 	}
 
 	return (my_mp() >= goal);
+}
+
+int cloversAvailable()
+{
+	int retval = item_amount($item[Disassembled Clover]);
+	retval += item_amount($item[Ten-Leaf Clover]);
+	retval += closet_amount($item[Ten-Leaf Clover]);
+
+	if(cc_my_path() == "G-Lover")
+	{
+		retval -= item_amount($item[Disassembled Clover]);
+	}
+
+	return retval;
+}
+
+boolean cloverUsageInit()
+{
+	if(cloversAvailable() == 0)
+	{
+		abort("Called cloverUsageInit but have no clovers");
+	}
+
+	if(item_amount($item[Ten-Leaf Clover]) > 0)
+	{
+		return true;
+	}
+
+	if(item_amount($item[Disassembled Clover]) > 0)
+	{
+		if(cc_my_path() != "G-Lover")
+		{
+			use(1, $item[Disassembled Clover]);
+		}
+	}
+	if(item_amount($item[Ten-Leaf Clover]) > 0)
+	{
+		return true;
+	}
+
+	if(closet_amount($item[Ten-Leaf Clover]) > 0)
+	{
+		take_closet(1, $item[Ten-Leaf Clover]);
+	}
+	if(item_amount($item[Ten-Leaf Clover]) > 0)
+	{
+		return true;
+	}
+	abort("We tried to initialize clover usage but do not appear to have a Ten-Leaf Clover");
+	backupSetting("cloverProtectActive", false);
+	return false;
+}
+
+boolean cloverUsageFinish()
+{
+	restoreSetting("cloverProtectActive");
+	if(item_amount($item[Ten-Leaf Clover]) > 0)
+	{
+		print("Wandering adventure interrupted our clover adventure (" + my_location() + "), boo. Gonna have to do this again.");
+		if(cc_my_path() == "G-Lover")
+		{
+			put_closet(item_amount($item[Ten-Leaf Clover]), $item[Ten-Leaf Clover]);
+		}
+		use(item_amount($item[Ten-Leaf Clover]), $item[Ten-Leaf Clover]);
+		return false;
+	}
+	return true;
 }
 
 boolean acquireGumItem(item it)
@@ -1944,7 +2004,6 @@ boolean acquireHermitItem(item it)
 		}
 		else
 		{
-
 			buyUpTo(1, $item[Chewing Gum on a String]);
 			use(1, $item[Chewing Gum on a String]);
 		}
@@ -2004,6 +2063,39 @@ boolean isUnclePAvailable()
 	}
 	return true;
 }
+
+questRecord questRecord(string prop, string mprop, int type, string func)
+{
+	questRecord retval;
+	retval.prop = prop;
+	retval.mprop = mprop;
+	retval.type = type;
+	retval.func = func;
+	return retval;
+}
+
+questRecord[int] questDatabase()
+{
+	questRecord[int] retval;
+	retval[0] = questRecord("cc_mosquito", "questL02Larva", 0, "L2_mosquito");
+	retval[1] = questRecord("cc_tavern", "questL03Rat", 0, "L3_tavern");
+	retval[2] = questRecord("cc_bat", "questL04Bat", 0, "L4_batCave");
+	return retval;
+}
+
+int questsLeft()
+{
+	int retval = 0;
+	foreach idx, quest in questDatabase()
+	{
+		if((quest.type == 0) && (get_property(quest.prop) != "finished"))
+		{
+			retval++;
+		}
+	}
+	return retval;
+}
+
 
 boolean instakillable(monster mon)
 {
@@ -2196,6 +2288,21 @@ boolean cc_deleteMail(kmailObject msg)
 	{
 		return true;
 	}
+
+	if(contains_text(msg.message, "I have opted to let you know that I have chosen to run &lt;snapshot.ash&gt;.  Thanks for writing this script"))
+	{
+		return true;
+	}
+	if(contains_text(msg.message, "I have opted to let you know that I have chosen to run &lt;cc_ascend.ash&gt;.  Thanks for writing this script"))
+	{
+		return true;
+	}
+
+	if((msg.fromid == -1) && (contains_text(msg.message, "Your dedication to helping me fight crime in Gotpork city almost makes me forget about the fact that crime in Gotpork city cost me my parents.")))
+	{
+		return true;
+	}
+
 	if(msg.fromname == "Lady Spookyraven\\'s Ghost")
 	{
 		return true;
@@ -2959,7 +3066,7 @@ int doNumberology(string goal, boolean doIt)
 
 int doNumberology(string goal, boolean doIt, string option)
 {
-	if(!have_skill($skill[Calculate the Universe]))
+	if(!cc_have_skill($skill[Calculate the Universe]))
 	{
 		return -1;
 	}
@@ -3065,7 +3172,7 @@ int doNumberology(string goal, boolean doIt, string option)
 
 boolean cc_have_skill(skill sk)
 {
-	if(!glover_usable(sk))
+	if(!glover_usable(sk) && !sk.passive)
 	{
 		return false;
 	}
@@ -3133,6 +3240,10 @@ int cc_mall_price(item it)
 
 boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 {
+	if(cc_my_path() == "Community Service")
+	{
+		return false;
+	}
 	if(in_hardcore())
 	{
 		return false;
@@ -3959,6 +4070,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Become Superficially Interested]:	useItem = $item[Daily Affirmation: Be Superficially Interested];	break;
 	case $effect[Bendin\' Hell]:					useSkill = $skill[Bend Hell];					break;
 	case $effect[Bent Knees]:					useSkill = $skill[Bendable Knees];					break;
+	case $effect[Big]:							useSkill = $skill[Get Big];						break;
 	case $effect[Big Meat Big Prizes]:			useItem = $item[Meat-Inflating Powder];			break;
 	case $effect[Biologically Shocked]:			useItem = $item[glowing syringe];				break;
 	case $effect[Bitterskin]:					useItem = $item[Bitter Pill];					break;
@@ -4034,6 +4146,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Eyes All Black]:				useItem = $item[Delicious Candy];				break;
 	case $effect[Far Out]:						useItem = $item[Patchouli Incense Stick];		break;
 	case $effect[Fat Leon\'s Phat Loot Lyric]:	useSkill = $skill[Fat Leon\'s Phat Loot Lyric];	break;
+	case $effect[Feeling Punchy]:				useItem = $item[Punching Potion];				break;
 	case $effect[Feroci Tea]:					useItem = $item[cuppa Feroci tea];				break;
 	case $effect[Fire Inside]:					useItem = $item[Hot Coal];						break;
 	case $effect[Fishy\, Oily]:
@@ -4106,6 +4219,7 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Industrial Strength Starch]:	useItem = $item[Industrial Strength Starch];	break;
 	case $effect[Ink Cloud]:					useSkill = $skill[Ink Gland];						break;
 	case $effect[Inked Well]:					useSkill = $skill[Squid Glands];				break;
+	case $effect[Inscrutable Gaze]:				useSkill = $skill[Inscrutable Gaze];			break;
 	case $effect[Insulated Trousers]:			useItem = $item[Cold Powder];					break;
 	case $effect[Intimidating Mien]:			useSkill = $skill[Intimidating Mien];			break;
 	case $effect[Irresistible Resolve]:			useItem = $item[Resolution: Be Sexier];			break;

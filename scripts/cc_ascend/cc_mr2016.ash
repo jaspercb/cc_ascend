@@ -1319,11 +1319,17 @@ boolean rethinkingCandy(effect acquire, boolean simulate)
 		return false;
 	}
 
+	int maxprice = 2500;
+	if(get_property("cc_maxCandyPrice").to_int() != 0)
+	{
+		maxprice = get_property("cc_maxCandyPrice").to_int();
+	}
+
 	item[int] simpleList;
 	item[int] complexList;
 	foreach it in $items[]
 	{
-		if(it.candy && (item_amount(it) > 0) && (cc_mall_price(it) <= 2500) && it.tradeable)
+		if(it.candy && (item_amount(it) > 0) && (cc_mall_price(it) <= maxprice) && it.tradeable)
 		{
 			if(it.candy_type == "simple")
 			{
@@ -1351,7 +1357,7 @@ boolean rethinkingCandy(effect acquire, boolean simulate)
 #		print(it + ": " + item_amount(it) + " (" + to_int(it) + "): " + it.candy_type + " Cost: " + cc_mall_price(it), "blue");
 #	}
 
-	int bestCost = 5000;
+	int bestCost = 2 * maxprice;
 	item bestFirst = $item[none];
 	item bestSecond = $item[none];
 	if($effects[Synthesis: Hot, Synthesis: Cold, Synthesis: Pungent, Synthesis: Scary, Synthesis: Greasy] contains acquire)

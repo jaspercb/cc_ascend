@@ -242,14 +242,6 @@ boolean LA_cs_communityService()
 		{
 			use(1, $item[Cornucopia]);
 		}
-		if((item_amount($item[Cashew]) >= 2) && !possessEquipment($item[Mini-Marshmallow Dispenser]))
-		{
-			cli_execute("make " + $item[Mini-Marshmallow Dispenser]);
-		}
-		if((item_amount($item[Cashew]) >= 2) && !possessEquipment($item[Potato Masher]))
-		{
-			cli_execute("make " + $item[Potato Masher]);
-		}
 		break;
 	default:
 		if(!get_property("_loveTunnelUsed").to_boolean() && get_property("loveTunnelAvailable").to_boolean())
@@ -273,6 +265,26 @@ boolean LA_cs_communityService()
 				break;
 			}
 		}
+	}
+
+	if((curQuest == 11) || (curQuest == 6))
+	{
+		if(item_amount($item[Punching Potion]) == 0)
+		{
+			songboomSetting("weapon damage");
+		}
+		else
+		{
+			songboomSetting("dr");
+		}
+	}
+	else if((curQuest == 9) || (curQuest == 7))
+	{
+		songboomSetting($item[Special Seasoning]);
+	}
+	else
+	{
+		songboomSetting($item[Gathered Meat-Clip]);
 	}
 
 	//Quest order on Day 1: 11, 6, 9 (Coiling Wire, Weapon Damage, Item)
@@ -566,7 +578,6 @@ boolean LA_cs_communityService()
 
 			cs_eat_stuff(0);
 
-
 			buffMaintain($effect[Singer\'s Faithful Ocelot], 15, 1, 1);
 			buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 11, 1, 1);
 
@@ -640,7 +651,7 @@ boolean LA_cs_communityService()
 			{
 				if((item_amount($item[skeleton bone]) > 0) && (item_amount($item[loose teeth]) > 0))
 				{
-					cli_execute("make skeleton key");
+					cli_execute("make " + $item[Skeleton Key]);
 				}
 			}
 
@@ -713,7 +724,7 @@ boolean LA_cs_communityService()
 				doHottub();
 			}
 
-			if(((curQuest == 9) || (my_turncount() < get_property("cc_cookie").to_int())) && (item_amount($item[Experimental Serum G-9]) < 2) && elementalPlanes_access($element[spooky]))
+			if(((curQuest == 9) || (my_turncount() < get_property("cc_cookie").to_int())) && elementalPlanes_access($element[spooky]))
 			{
 				if((isOverdueDigitize() || isOverdueArrow()) && elementalPlanes_access($element[stench]))
 				{
@@ -840,7 +851,9 @@ boolean LA_cs_communityService()
 				}
 			}
 
-			if(!get_property("cc_hccsTurnSave").to_boolean() && (item_amount($item[Black Pixel]) < 2) && (item_amount($item[Pixel Star]) == 0) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
+			boolean turnSave = get_property("cc_hccsTurnSave").to_boolean() || !in_hardcore();
+
+			if(!turnSave && (item_amount($item[Black Pixel]) < 2) && (item_amount($item[Pixel Star]) == 0) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
 			{
 				equip($slot[acc1], $item[Continuum Transfunctioner]);
 
@@ -849,7 +862,7 @@ boolean LA_cs_communityService()
 					buffMaintain($effect[Ur-Kel\'s Aria of Annoyance], 62, 1, 1);
 					buffMaintain($effect[Pride of the Puffin], 62, 1, 1);
 					buffMaintain($effect[Drescher\'s Annoying Noise], 72, 1, 1);
-					buffMaintain($effect[Wry Smile], 42, 1, 1);
+					buffMaintain(whatStatSmile(), 42, 1, 1);
 				}
 
 				ccAdv(1, $location[8-bit Realm], "cs_combatNormal");
@@ -885,7 +898,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Ur-Kel\'s Aria of Annoyance], 62, 1, 1);
 			buffMaintain($effect[Pride of the Puffin], 62, 1, 1);
 			buffMaintain($effect[Drescher\'s Annoying Noise], 72, 1, 1);
-			buffMaintain($effect[Wry Smile], 42, 1, 1);
+			buffMaintain(whatStatSmile(), 42, 1, 1);
 			buffMaintain($effect[Empathy], 47, 1, 1);
 			buffMaintain($effect[Leash of Linguini], 44, 1, 1);
 			buffMaintain($effect[Ruthlessly Efficient], 42, 1, 1);
@@ -921,7 +934,7 @@ boolean LA_cs_communityService()
 				equip($slot[Off-hand], $item[KoL Con 13 Snowglobe]);
 				pulverizeThing($item[A Light That Never Goes Out]);
 			}
-			if(get_property("cc_hccsTurnSave").to_boolean())
+			if(turnSave)
 			{
 				doFarm = false;
 			}
@@ -1077,7 +1090,7 @@ boolean LA_cs_communityService()
 				doHottub();
 			}
 
-			if(get_property("cc_hccsTurnSave").to_boolean())
+			if(turnSave)
 			{
 				missing = 0;
 			}
@@ -1133,7 +1146,7 @@ boolean LA_cs_communityService()
 
 			if(elementalPlanes_access($element[hot]) && have_skills($skills[Meteor Lore, Snokebomb]) && have_familiar($familiar[XO Skeleton]) && (my_mp() > mp_cost($skill[Snokebomb])) && (get_property("_snokebombUsed").to_int() < 3) && (get_property("_macrometeoriteUses").to_int() < 10) && (get_property("_xoHugsUsed").to_int() < 11) && !is100FamiliarRun($familiar[XO Skeleton]))
 			{
-				if(!possessEquipment($item[Fireproof Megaphone]) || !possessEquipment($item[High-Temperature Mining Mask]))
+				if((!possessEquipment($item[Fireproof Megaphone]) && !possessEquipment($item[Meteorite Guard])) || !possessEquipment($item[High-Temperature Mining Mask]))
 				{
 					handleFamiliar($familiar[XO Skeleton]);
 					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatXO");
@@ -1257,24 +1270,54 @@ boolean LA_cs_communityService()
 			{
 				if((my_adventures() > 160) || (my_daycount() > 1))
 				{
-					abort("We have an emergency margarita but it seems really dumb to drink it right now...");
+					abort("We have an emergency margarita but it seems really dumb to drink it right now (consider closeting the margarita and set cc_saveMargarita = true)...");
 				}
 				buffMaintain($effect[Simmering], 0, 1, 1);
 				shrugAT($effect[Ode to Booze]);
+				buffMaintain($effect[Ode to Booze], 50, 1, 1);
+				if((inebriety_left() == 0) && have_familiar($familiar[Stooper]))
+				{
+					use_familiar($familiar[Stooper]);
+					foreach it in $items[Splendid Martini, Meadeorite, Sacramento Wine, Cold One]
+					{
+						if(item_amount(it) > 0)
+						{
+							ccDrink(1, it);
+							break;
+						}
+					}
+				}
 				buffMaintain($effect[Ode to Booze], 50, 1, 10);
-				//Stooper into 1-booze
 				overdrink(1, $item[Emergency Margarita]);
 			}
 			else
 			{
 				shrugAT($effect[Ode to Booze]);
-				buffMaintain($effect[Ode to Booze], 50, 1, 10);
+				buffMaintain($effect[Ode to Booze], 50, 1, 5);
 				put_closet(item_amount($item[Emergency Margarita]), $item[Emergency Margarita]);
 				if((item_amount($item[Hacked Gibson]) == 0) && (inebriety_left() == 0))
 				{
 					cc_sourceTerminalExtrude($item[Hacked Gibson]);
 				}
-				//Stooper into 1-booze
+
+				if(!in_hardcore())
+				{
+					abort("Softcore Community Service, end of term.");
+				}
+
+				if((inebriety_left() == 0) && have_familiar($familiar[Stooper]))
+				{
+					use_familiar($familiar[Stooper]);
+					foreach it in $items[Splendid Martini, Meadeorite, Sacramento Wine, Cold One]
+					{
+						if(item_amount(it) > 0)
+						{
+							ccDrink(1, it);
+							break;
+						}
+					}
+				}
+
 				abort("Saving Emergency Margarita, forcing abort, done with day. Overdrink, cast simmer,  and run again.");
 			}
 
@@ -1395,6 +1438,7 @@ boolean LA_cs_communityService()
 				string temp = visit_url("desc_effect.php?whicheffect=af64d06351a3097af52def8ec6a83d9b", false);
 			}
 			buffMaintain($effect[Quiet Determination], 10, 1, 1);
+			buffMaintain($effect[Big], 15, 1, 1);
 			buffMaintain($effect[Song of Starch], 100, 1, 1);
 			buffMaintain($effect[Reptilian Fortitude], 10, 1, 1);
 			buffMaintain($effect[Rage of the Reindeer], 10, 1, 1);
@@ -1529,6 +1573,14 @@ boolean LA_cs_communityService()
 				temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2", false);
 			}
 
+			if(get_cs_questCost(curQuest) > 1)
+			{
+				if((item_amount($item[Cashew]) >= 2) && !possessEquipment($item[Mini-Marshmallow Dispenser]))
+				{
+					cli_execute("make " + $item[Mini-Marshmallow Dispenser]);
+				}
+			}
+
 			if(do_cs_quest(1))
 			{
 				curQuest = 0;
@@ -1577,6 +1629,7 @@ boolean LA_cs_communityService()
 				doRest();
 			}
 			buffMaintain($effect[Quiet Determination], 10, 1, 1);
+			buffMaintain($effect[Big], 15, 1, 1);
 			buffMaintain($effect[Song of Bravado], 100, 1, 1);
 			buffMaintain($effect[Rage of the Reindeer], 10, 1, 1);
 			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
@@ -1646,6 +1699,7 @@ boolean LA_cs_communityService()
 				doRest();
 			}
 			buffMaintain($effect[Quiet Judgement], 10, 1, 1);
+			buffMaintain($effect[Big], 15, 1, 1);
 			buffMaintain($effect[Song of Bravado], 100, 1, 1);
 			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
 			buffMaintain($effect[The Magical Mojomuscular Melody], 3, 1, 1);
@@ -1744,6 +1798,7 @@ boolean LA_cs_communityService()
 			{
 				buffMaintain($effect[Disco Smirk], 10, 1, 1);
 			}
+			buffMaintain($effect[Big], 15, 1, 1);
 			buffMaintain($effect[Song of Bravado], 100, 1, 1);
 			buffMaintain($effect[Stevedave\'s Shanty of Superiority], 30, 1, 1);
 			buffMaintain($effect[The Moxious Madrigal], 2, 1, 1);
@@ -1793,6 +1848,13 @@ boolean LA_cs_communityService()
 #			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 #			{
 #				cli_execute("spacegate vaccine 2");
+
+			if(possessEquipment($item[Greatest American Pants]))
+			{
+				equip($item[Greatest American Pants]);
+				visit_url("inventory.php?action=activatesuperpants");
+				run_choice(4);
+			}
 
 			if(get_cs_questCost(curQuest) > 10)
 			{
@@ -2042,27 +2104,10 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Scowl of the Auk], 10, 1, 1);
 			buffMaintain($effect[Tenacity of the Snapper], 8, 1, 1);
 			buffMaintain($effect[Disdain of the War Snapper], 15, 1, 1);
-/*
-			if(item_amount($item[LOV Elixir #3]) == 0)
-			{
-				cli_execute("refresh inv");
-				if(item_amount($item[LOV Elixir #3]) != 0)
-				{
-					abort("Damn it mafia for not seeing my elixir!!");
-				}
-			}
-*/
+			songboomSetting("weapon damage");
+
 			buffMaintain($effect[The Power Of LOV], 0, 1, 1);
-/*
-			if(have_effect($effect[The Power Of LOV]) == 0)
-			{
-				if(item_amount($item[LOV Elixir #3]) != 0)
-				{
-					abort("Damn it mafia for not using my elixir!!");
-				}
-				abort("Fuckin hell mafia!!!");
-			}
-*/
+
 			if((item_amount($item[Wasabi Marble Soda]) == 0) && (have_effect($effect[Wasabi With You]) == 0) && (item_amount($item[Ye Wizard\'s Shack snack voucher]) > 0))
 			{
 				cli_execute("make " + $item[Wasabi Marble Soda]);
@@ -2072,6 +2117,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Human-Beast Hybrid], 0, 1, 1);
 			buffMaintain($effect[Twinkly Weapon], 0, 1, 1);
 			buffMaintain($effect[This Is Where You\'re a Viking], 0, 1, 1);
+			buffMaintain($effect[Feeling Punchy], 0, 1, 1);
 			if(is_unrestricted($item[Clan Pool Table]) && (have_effect($effect[Billiards Belligerence]) == 0))
 			{
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
@@ -2201,7 +2247,6 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-
 			if((have_effect($effect[Half-Blooded]) > 0) || (have_effect($effect[Half-Drained]) > 0) || (have_effect($effect[Bruised]) > 0) || (have_effect($effect[Relaxed Muscles]) > 0) || (have_effect($effect[Hypnotized]) > 0) || (have_effect($effect[Bad Haircut]) > 0))
 			{
 				doHottub();
@@ -2282,6 +2327,19 @@ boolean LA_cs_communityService()
 				}
 			}
 
+			if(get_cs_questCost(curQuest) > 1)
+			{
+				if((item_amount($item[Cashew]) >= 2) && !possessEquipment($item[Potato Masher]))
+				{
+					cli_execute("make " + $item[Potato Masher]);
+				}
+			}
+
+			if(!get_property("_grimBuff").to_boolean())
+			{
+				cli_execute("grim damage");
+			}
+
 			if(do_cs_quest(7))
 			{
 				curQuest = 0;
@@ -2352,7 +2410,7 @@ boolean LA_cs_communityService()
 				buffMaintain($effect[Empathy], 15, 1, 1);
 				buffMaintain($effect[Leash of Linguini], 12, 1, 1);
 
-				if(!is_familiar_equipment_locked())
+				if(!is_familiar_equipment_locked() && (equipped_item($slot[familiar]) != $item[none]))
 				{
 					lock_familiar_equipment(true);
 				}
@@ -2566,6 +2624,13 @@ boolean LA_cs_communityService()
 				makeGenieWish($effect[Frosty]);
 			}
 
+			if(possessEquipment($item[Greatest American Pants]))
+			{
+				equip($item[Greatest American Pants]);
+				visit_url("inventory.php?action=activatesuperpants");
+				run_choice(3);
+			}
+
 			if(get_cs_questCost(curQuest) > 7)
 			{
 				zataraSeaside("item");
@@ -2601,7 +2666,7 @@ boolean LA_cs_communityService()
 				}
 				if(elementalPlanes_access($element[hot]))
 				{
-					if(!possessEquipment($item[Fireproof Megaphone]) || !possessEquipment($item[High-Temperature Mining Mask]))
+					if((!possessEquipment($item[Fireproof Megaphone]) && !possessEquipment($item[Meteorite Guard])) || !possessEquipment($item[High-Temperature Mining Mask]))
 					{
 						ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatYR");
 						return true;
@@ -2634,10 +2699,22 @@ boolean LA_cs_communityService()
 			{
 				equip($item[lava-proof pants]);
 			}
-			if(possessEquipment($item[fireproof megaphone]))
+			else if(possessEquipment($item[Greatest American Pants]))
+			{
+				equip($item[Greatest American Pants]);
+				visit_url("inventory.php?action=activatesuperpants");
+				run_choice(2);
+			}
+
+			if(possessEquipment($item[Meteorite Guard]))
+			{
+				equip($item[Meteorite Guard]);
+			}
+			else if(possessEquipment($item[fireproof megaphone]))
 			{
 				equip($item[fireproof megaphone]);
 			}
+
 			if(possessEquipment($item[high-temperature mining mask]))
 			{
 				equip($item[high-temperature mining mask]);
@@ -2828,6 +2905,18 @@ boolean cs_witchess()
 		{
 			goal = "food";
 		}
+
+/*
+		//Ugh, this is an actual pain to handle. (Might be better if we use an attacking familiar)
+		if(!in_hardcore() && !possessEquipment($item[Ox-Head Shield]))
+		{
+			if(my_mp() > 100)
+			{
+				goal = "shield"; 
+			}
+		}
+*/
+
 		result = cc_advWitchess(goal, "cs_combatNormal");
 	}
 	cc_sourceTerminalEducate($skill[Extract], $skill[Duplicate]);
@@ -3348,7 +3437,7 @@ boolean cs_eat_stuff(int quest)
 
 			if(item_amount($item[Browser Cookie]) > 0)
 			{
-				eat(1, $item[Browser Cookie]);
+				ccEat(1, $item[Browser Cookie]);
 			}
 			else
 			{
@@ -3428,7 +3517,7 @@ boolean cs_eat_stuff(int quest)
 	}
 	else if(quest == 10)
 	{
-		if(item_amount($item[Sausage Without A Cause]) > 0)
+		if((item_amount($item[Sausage Without A Cause]) > 0) && !get_property("cc_saveSausage").to_boolean())
 		{
 			if(item_amount($item[Milk of Magnesium]) > 0)
 			{
@@ -3821,7 +3910,7 @@ string cs_combatXO(int round, string opp, string text)
 
 	if(my_location() == $location[The Velvet / Gold Mine])
 	{
-		if(!possessEquipment($item[Fireproof Megaphone]) || !possessEquipment($item[High-Temperature Mining Mask]))
+		if((!possessEquipment($item[Fireproof Megaphone]) && !possessEquipment($item[Meteorite Guard])) || !possessEquipment($item[High-Temperature Mining Mask]))
 		{
 			if(!contains_text(combatState, "hugpocket") && (get_property("_xoHugsUsed").to_int() < 11))
 			{
@@ -4223,7 +4312,16 @@ int estimate_cs_questCost(int quest)
 	case 3:		retval = 60 - ((my_buffedstat($stat[Mysticality]) - my_basestat($stat[Mysticality])) / 30);	break;
 	case 4:		retval = 60 - ((my_buffedstat($stat[Moxie]) - my_basestat($stat[Moxie])) / 30);	break;
 	case 5:		retval = 60 - ((weight_adjustment() + familiar_weight(my_familiar())) / 5);	break;
-	case 6:		retval = 60 - (floor(numeric_modifier("weapon damage") / 50) + floor(numeric_modifier("weapon damage percent") / 50));	break;
+	case 6:
+		if(have_effect($effect[Bow-Legged Swagger]) > 0)
+		{
+			retval = 60 - (floor(numeric_modifier("weapon damage") / 25.0) + floor(numeric_modifier("weapon damage percent") / 25.0));
+		}
+		else
+		{
+			retval = 60 - (floor(numeric_modifier("weapon damage") / 50) + floor(numeric_modifier("weapon damage percent") / 50));
+		}
+		break;
 	case 7:		retval = 60 - (floor(numeric_modifier("spell damage") / 50) + floor(numeric_modifier("spell damage percent") / 50));	break;
 	case 8:		retval = 60 - (3 * min(5,floor((-1.0 * combat_rate_modifier()) / 5))) - (3 * max(0,floor((-1.0 * combat_rate_modifier()) - 25)));	break;
 	case 9:		retval = 60 - (floor(numeric_modifier("item drop") / 30) + floor(numeric_modifier("booze drop") / 15));	break;

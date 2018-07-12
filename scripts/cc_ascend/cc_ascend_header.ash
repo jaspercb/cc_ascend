@@ -107,6 +107,8 @@ boolean L10_holeInTheSkyUnlock();
 boolean L10_holeInTheSky();
 boolean L11_palindome();
 boolean L11_hiddenCity();
+boolean L11_hiddenTavernUnlock();
+boolean L11_hiddenTavernUnlock(boolean force);
 boolean L11_blackMarket();
 boolean L11_forgedDocuments();
 boolean L11_aridDesert();
@@ -246,6 +248,15 @@ boolean useILoveMeVolI();						//Defined in cc_ascend/cc_util.ash
 boolean expectGhostReport();					//Defined in cc_ascend/cc_mr2016.ash
 
 
+//Quest Object information, meant for "normal" runs but could technically be expanded or altered.
+record questRecord
+{
+	string prop;					// cc_ascend property reflecting the quest
+	string mprop;					// Mafia property reflecting the quest, if applicable
+	int type;						// 0 = main line quest, 1 = side quest (allowing for other options)
+	string func;					// cc_ascend function that attempts this quest.
+};
+
 
 //Large pile dump.
 boolean L11_ed_mauriceSpookyraven();						//Defined in cc_ascend/cc_edTheUndying.ash
@@ -335,10 +346,15 @@ boolean acquireMP(int goal);								//Defined in cc_ascend/cc_util.ash
 boolean acquireMP(int goal, boolean buyIt);					//Defined in cc_ascend/cc_util.ash
 boolean acquireGumItem(item it);							//Defined in cc_ascend/cc_util.ash
 boolean acquireHermitItem(item it);							//Defined in cc_ascend/cc_util.ash
+int cloversAvailable();									//Defined in cc_ascend/cc_util.ash
+boolean cloverUsageInit();									//Defined in cc_ascend/cc_util.ash
+boolean cloverUsageFinish();								//Defined in cc_ascend/cc_util.ash
 boolean adjustEdHat(string goal);							//Defined in cc_ascend/cc_edTheUndying.ash
 int amountTurkeyBooze();									//Defined in cc_ascend/cc_util.ash
 boolean awol_buySkills();									//Defined in cc_ascend/cc_awol.ash
 void awol_helper(string page);								//Defined in cc_ascend/cc_combat.ash
+boolean canSurvive(float mult, int add);					//Defined in cc_ascend/cc_combat.ash
+boolean canSurvive(float mult);								//Defined in cc_ascend/cc_combat.ash
 boolean awol_initializeSettings();							//Defined in cc_ascend/cc_awol.ash
 void awol_useStuff();										//Defined in cc_ascend/cc_awol.ash
 effect awol_walkBuff();										//Defined in cc_ascend/cc_awol.ash
@@ -461,7 +477,6 @@ boolean do_cs_quest(int quest);								//Defined in cc_ascend/cc_community_servi
 boolean do_cs_quest(string quest);							//Defined in cc_ascend/cc_community_service.ash
 boolean drinkSpeakeasyDrink(item drink);					//Defined in cc_ascend/cc_clan.ash
 boolean drinkSpeakeasyDrink(string drink);					//Defined in cc_ascend/cc_clan.ash
-int drunk_left();											//Defined in cc_ascend/cc_util.ash
 boolean eatFancyDog(string dog);							//Defined in cc_ascend/cc_clan.ash
 boolean zataraClanmate(string who);							//Defined in cc_ascend/cc_clan.ash
 boolean zataraSeaside(string who);							//Defined in cc_ascend/cc_clan.ash
@@ -530,12 +545,15 @@ boolean godLobsterCombat(item it);							//Defined in cc_ascend/cc_mr2018.ash
 boolean godLobsterCombat(item it, int goal);				//Defined in cc_ascend/cc_mr2018.ash
 boolean godLobsterCombat(item it, int goal, string option);	//Defined in cc_ascend/cc_mr2018.ash
 boolean fantasyRealmToken();								//Defined in cc_ascend/cc_mr2018.ash
+boolean songboomSetting(string goal);						//Defined in cc_ascend/cc_mr2018.ash
+boolean songboomSetting(int choice);						//Defined in cc_ascend/cc_mr2018.ash
 boolean getSpaceJelly();									//Defined in cc_ascend/cc_mr2017.ash
 int horseCost();											//Defined in cc_ascend/cc_mr2017.ash
 boolean getHorse(string type);								//Defined in cc_ascend/cc_mr2017.ash
 boolean kgbDiscovery();										//Defined in cc_ascend/cc_mr2017.ash
 boolean kgbWasteClicks();									//Defined in cc_ascend/cc_mr2017.ash
 boolean kgbTryEffect(effect ef);							//Defined in cc_ascend/cc_mr2017.ash
+string kgbKnownEffects();									//Defined in cc_ascend/cc_mr2017.ash
 boolean solveKGBMastermind();								//Defined in cc_ascend/cc_mr2017.ash
 boolean kgbDial(int dial, int curVal, int target);			//Defined in cc_ascend/cc_mr2017.ash
 boolean kgbSetup();											//Defined in cc_ascend/cc_mr2017.ash
@@ -610,6 +628,9 @@ void initializeSettings();									//Defined in cc_ascend.ash
 boolean instakillable(monster mon);							//Defined in cc_ascend/cc_util.ash
 int[int] intList();											//Defined in cc_ascend/cc_list.ash
 int internalQuestStatus(string prop);						//Defined in cc_ascend/cc_util.ash
+questRecord questRecord();									//Defined in cc_ascend/cc_util.ash
+questRecord[int] questDatabase();							//Defined in cc_ascend/cc_util.ash
+int questsLeft();											//Defined in cc_ascend/cc_util.ash
 int freeCrafts();											//Defined in cc_ascend/cc_util.ash
 boolean is100FamiliarRun();									//Defined in cc_ascend/cc_util.ash
 boolean is100FamiliarRun(familiar thisOne);					//Defined in cc_ascend/cc_util.ash

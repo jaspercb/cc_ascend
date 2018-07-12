@@ -98,7 +98,7 @@ void handlePostAdventure()
 
 	if(have_effect($effect[Cunctatitis]) > 0)
 	{
-		if((my_mp() >= 12) && have_skill($skill[Disco Nap]))
+		if((my_mp() >= 12) && cc_have_skill($skill[Disco Nap]))
 		{
 			use_skill(1, $skill[Disco Nap]);
 		}
@@ -119,7 +119,7 @@ void handlePostAdventure()
 	{
 		buffMaintain($effect[All Revved Up], 25, 1, 10);
 		buffMaintain($effect[Of Course It Looks Great], 55, 1, 10);
-		if(have_skill($skill[Throw Party]) && !get_property("_petePartyThrown").to_boolean())
+		if(cc_have_skill($skill[Throw Party]) && !get_property("_petePartyThrown").to_boolean())
 		{
 			int threshold = 50;
 			if(!possessEquipment($item[Sneaky Pete\'s Leather Jacket]) && !possessEquipment($item[Sneaky Pete\'s Leather Jacket (Collar Popped)]))
@@ -131,7 +131,7 @@ void handlePostAdventure()
 				use_skill(1, $skill[Throw Party]);
 			}
 		}
-		if(have_skill($skill[Incite Riot]) && !get_property("_peteRiotIncited").to_boolean())
+		if(cc_have_skill($skill[Incite Riot]) && !get_property("_peteRiotIncited").to_boolean())
 		{
 			int threshold = -50;
 			if(!possessEquipment($item[Sneaky Pete\'s Leather Jacket]) && !possessEquipment($item[Sneaky Pete\'s Leather Jacket (Collar Popped)]))
@@ -202,7 +202,7 @@ void handlePostAdventure()
 			buffMaintain($effect[Hide of Sobek], 20, 1, maxBuff);
 		}
 
-		if(!($locations[Hippy Camp, Pirates of the Garbage Barges, The Secret Government Laboratory] contains my_location()))
+		if(!($locations[Hippy Camp, The Outskirts Of Cobb\'s Knob, Pirates of the Garbage Barges, The Secret Government Laboratory] contains my_location()))
 		{
 			buffMaintain($effect[Bounty of Renenutet], 20, 1, maxBuff);
 		}
@@ -250,15 +250,17 @@ void handlePostAdventure()
 	#Deal with Poison, (should do all of them actually)
 	if((have_effect($effect[Really Quite Poisoned]) > 0) || (have_effect($effect[A Little Bit Poisoned]) > 0) || (have_effect($effect[Majorly Poisoned]) > 0))
 	{
-		if((my_mp() > 12) && have_skill($skill[Disco Nap]))
+		if((my_mp() > 12) && cc_have_skill($skill[Disco Nap]))
 		{
 			use_skill(1, $skill[Disco Nap]);
 		}
 		else if(isGeneralStoreAvailable())
 		{
 			buyUpTo(1, $item[Anti-Anti-Antidote], 30);
-#			visit_url("shop.php?pwd=&whichshop=doc&action=buyitem&quantity=1&whichrow=694", true);
-			use(1, $item[Anti-Anti-Antidote]);
+			if(cc_my_path() != "G-Lover")
+			{
+				use(1, $item[Anti-Anti-Antidote]);
+			}
 		}
 	}
 
@@ -283,11 +285,11 @@ void handlePostAdventure()
 
 	if(my_path() == "Community Service")
 	{
-		if(have_skill($skill[Summon BRICKOs]) && (get_property("_brickoEyeSummons").to_int() < 3))
+		if(cc_have_skill($skill[Summon BRICKOs]) && (get_property("_brickoEyeSummons").to_int() < 3))
 		{
 			libram = $skill[Summon BRICKOs];
 		}
-		else if(have_skill($skill[Summon Taffy]))
+		else if(cc_have_skill($skill[Summon Taffy]))
 		{
 			libram = $skill[Summon Taffy];
 		}
@@ -308,11 +310,13 @@ void handlePostAdventure()
 			use_skill(regen, $skill[Soul Food]);
 		}
 
-		boolean [skill] toCast = $skills[Advanced Cocktailcrafting, Advanced Saucecrafting, Communism!, Grab a Cold One, Lunch Break, Pastamastery, Perfect Freeze, Request Sandwich, Spaghetti Breakfast, Summon Alice\'s Army Cards, Summon Carrot, Summon Confiscated Things, Summon Crimbo Candy, Summon Geeky Gifts, Summon Hilarious Objects, Summon Holiday Fun!, Summon Kokomo Resort Pass, Summon Tasteful Items];
+		buffMaintain($effect[Inscrutable Gaze], 30, 1, 1);
+
+		boolean [skill] toCast = $skills[Acquire Rhinestones, Advanced Cocktailcrafting, Advanced Saucecrafting, Communism!, Grab a Cold One, Lunch Break, Pastamastery, Perfect Freeze, Request Sandwich, Spaghetti Breakfast, Summon Alice\'s Army Cards, Summon Carrot, Summon Confiscated Things, Summon Crimbo Candy, Summon Geeky Gifts, Summon Hilarious Objects, Summon Holiday Fun!, Summon Kokomo Resort Pass, Summon Tasteful Items];
 
 		foreach sk in toCast
 		{
-			if(is_unrestricted(sk) && have_skill(sk) && (my_mp() >= mp_cost(sk)))
+			if(is_unrestricted(sk) && cc_have_skill(sk) && (my_mp() >= mp_cost(sk)))
 			{
 				use_skill(1, sk);
 			}
@@ -326,6 +330,7 @@ void handlePostAdventure()
 		{
 			use_skill(1, libram);
 		}
+
 		return;
 	}
 
@@ -342,7 +347,7 @@ void handlePostAdventure()
 
 	if(my_class() == $class[Sauceror])
 	{
-		if((my_level() >= 6) && (have_effect($effect[[1458]Blood Sugar Sauce Magic]) == 0) && have_skill($skill[Blood Sugar Sauce Magic]) && !in_hardcore())
+		if((my_level() >= 6) && (have_effect($effect[[1458]Blood Sugar Sauce Magic]) == 0) && cc_have_skill($skill[Blood Sugar Sauce Magic]) && !in_hardcore())
 		{
 			use_skill(1, $skill[Blood Sugar Sauce Magic]);
 		}
@@ -379,7 +384,7 @@ void handlePostAdventure()
 	}
 
 
-	if(have_skill($skill[Thunderheart]) && (my_thunder() >= 90) && ((my_turncount() - get_property("cc_lastthunderturn").to_int()) >= 9))
+	if(cc_have_skill($skill[Thunderheart]) && (my_thunder() >= 90) && ((my_turncount() - get_property("cc_lastthunderturn").to_int()) >= 9))
 	{
 		use_skill(1, $skill[Thunderheart]);
 	}
@@ -403,18 +408,18 @@ void handlePostAdventure()
 		}
 	}
 
-	if(have_skill($skill[Demand Sandwich]) && (my_mp() > 85) && (my_level() >= 9) && (get_property("_demandSandwich").to_int() < 3))
+	if(cc_have_skill($skill[Demand Sandwich]) && (my_mp() > 85) && (my_level() >= 9) && (get_property("_demandSandwich").to_int() < 3))
 	{
 		use_skill(1, $skill[Demand Sandwich]);
 	}
 
-	if(have_skill($skill[Summon Smithsness]) && (my_mp() > 20))
+	if(cc_have_skill($skill[Summon Smithsness]) && (my_mp() > 20))
 	{
 		use_skill(1, $skill[Summon Smithsness]);
 	}
 
 	# This is the list of castables that all MP sequences will use.
-	boolean [skill] toCast = $skills[Advanced Cocktailcrafting, Advanced Saucecrafting, Communism!, Grab a Cold One, Lunch Break, Pastamastery, Perfect Freeze, Request Sandwich, Spaghetti Breakfast, Summon Alice\'s Army Cards, Summon Carrot, Summon Confiscated Things, Summon Crimbo Candy, Summon Geeky Gifts, Summon Hilarious Objects, Summon Holiday Fun!, Summon Kokomo Resort Pass, Summon Tasteful Items];
+	boolean [skill] toCast = $skills[Acquire Rhinestones, Advanced Cocktailcrafting, Advanced Saucecrafting, Communism!, Grab a Cold One, Lunch Break, Pastamastery, Perfect Freeze, Request Sandwich, Spaghetti Breakfast, Summon Alice\'s Army Cards, Summon Carrot, Summon Confiscated Things, Summon Crimbo Candy, Summon Geeky Gifts, Summon Hilarious Objects, Summon Holiday Fun!, Summon Kokomo Resort Pass, Summon Tasteful Items];
 
 	if(my_maxmp() < 50)
 	{
@@ -432,7 +437,7 @@ void handlePostAdventure()
 
 		foreach sk in toCast
 		{
-			if(is_unrestricted(sk) && have_skill(sk) && ((my_mp() - 40) >= mp_cost(sk)))
+			if(is_unrestricted(sk) && cc_have_skill(sk) && ((my_mp() - 40) >= mp_cost(sk)))
 			{
 				use_skill(1, sk);
 			}
@@ -488,7 +493,7 @@ void handlePostAdventure()
 
 		foreach sk in toCast
 		{
-			if(is_unrestricted(sk) && have_skill(sk) && ((my_mp() - 50) >= mp_cost(sk)))
+			if(is_unrestricted(sk) && cc_have_skill(sk) && ((my_mp() - 50) >= mp_cost(sk)))
 			{
 				use_skill(1, sk);
 			}
@@ -547,7 +552,7 @@ void handlePostAdventure()
 
 		foreach sk in toCast
 		{
-			if(is_unrestricted(sk) && have_skill(sk) && ((my_mp() - 90) >= mp_cost(sk)))
+			if(is_unrestricted(sk) && cc_have_skill(sk) && ((my_mp() - 90) >= mp_cost(sk)))
 			{
 				use_skill(1, sk);
 			}
@@ -559,7 +564,7 @@ void handlePostAdventure()
 		}
 
 #		buffMaintain($effect[Prayer of Seshat], 5, 1, 10);
-
+		buffMaintain($effect[Big], 100, 1, 10);
 		buffMaintain($effect[Rage of the Reindeer], 80, 1, 10);
 		buffMaintain($effect[Astral Shell], 80, 1, 10);
 		buffMaintain($effect[Elemental Saucesphere], 120, 1, 10);
@@ -667,7 +672,7 @@ void handlePostAdventure()
 
 		foreach sk in toCast
 		{
-			if(is_unrestricted(sk) && have_skill(sk) && ((my_mp() - 85) >= mp_cost(sk)))
+			if(is_unrestricted(sk) && cc_have_skill(sk) && ((my_mp() - 85) >= mp_cost(sk)))
 			{
 				use_skill(1, sk);
 			}
@@ -710,6 +715,7 @@ void handlePostAdventure()
 				buffMaintain($effect[Pride of the Puffin], 80, 1, 10);
 			}
 		}
+		buffMaintain($effect[Big], 100, 1, 10);
 		buffMaintain($effect[Rage of the Reindeer], 80, 1, 10);
 		buffMaintain($effect[Astral Shell], 80, 1, 10);
 		buffMaintain($effect[Elemental Saucesphere], 120, 1, 10);
@@ -730,13 +736,13 @@ void handlePostAdventure()
 		{
 			buffMaintain($effect[Flimsy Shield of the Pastalord], 180, 1, 10);
 		}
-		buffMaintain($effect[Blubbered Up], 120, 1, 10);
+		buffMaintain($effect[Blubbered Up], 200, 1, 10);
 		if(my_level() < 13)
 		{
 			buffMaintain($effect[Aloysius\' Antiphon of Aptitude], 150, 1, 10);
 		}
-		buffMaintain($effect[Tenacity of the Snapper], 120, 1, 10);
-		buffMaintain($effect[Reptilian Fortitude], 120, 1, 10);
+		buffMaintain($effect[Tenacity of the Snapper], 200, 1, 10);
+		buffMaintain($effect[Reptilian Fortitude], 200, 1, 10);
 		if(regen > 20.0)
 		{
 			buffMaintain($effect[Antibiotic Saucesphere], 350, 1, 10);
@@ -747,28 +753,28 @@ void handlePostAdventure()
 		}
 		if(my_primestat() == $stat[Muscle])
 		{
-			buffMaintain($effect[Seal Clubbing Frenzy], 50, 5, 4);
-			buffMaintain($effect[Patience of the Tortoise], 50, 5, 4);
+			buffMaintain($effect[Seal Clubbing Frenzy], 200, 5, 4);
+			buffMaintain($effect[Patience of the Tortoise], 200, 5, 4);
 		}
 		if(my_primestat() == $stat[Moxie])
 		{
-			buffMaintain($effect[Mariachi Mood], 50, 5, 4);
-			buffMaintain($effect[Disco State of Mind], 50, 5, 4);
+			buffMaintain($effect[Mariachi Mood], 200, 5, 4);
+			buffMaintain($effect[Disco State of Mind], 200, 5, 4);
 		}
 		if(my_primestat() == $stat[Mysticality])
 		{
-			buffMaintain($effect[Saucemastery], 50, 5, 4);
-			buffMaintain($effect[Pasta Oneness], 50, 5, 4);
+			buffMaintain($effect[Saucemastery], 200, 5, 4);
+			buffMaintain($effect[Pasta Oneness], 200, 5, 4);
 		}
 		if(familiar_weight(my_familiar()) < 20)
 		{
 			buffMaintain($effect[Curiosity of Br\'er Tarrypin], 50, 1, 2);
 		}
-		buffMaintain($effect[Jingle Jangle Jingle], 80, 1, 2);
-		buffMaintain($effect[A Few Extra Pounds], 150, 1, 2);
-		buffMaintain($effect[Boon of the War Snapper], 150, 1, 5);
-		buffMaintain($effect[Boon of She-Who-Was], 150, 1, 5);
-		buffMaintain($effect[Boon of the Storm Tortoise], 150, 1, 5);
+		buffMaintain($effect[Jingle Jangle Jingle], 120, 1, 2);
+		buffMaintain($effect[A Few Extra Pounds], 200, 1, 2);
+		buffMaintain($effect[Boon of the War Snapper], 200, 1, 5);
+		buffMaintain($effect[Boon of She-Who-Was], 200, 1, 5);
+		buffMaintain($effect[Boon of the Storm Tortoise], 200, 1, 5);
 
 		buffMaintain($effect[Ruthlessly Efficient], 50, 1, 5);
 		buffMaintain($effect[Mathematically Precise], 150, 1, 5);
@@ -776,23 +782,23 @@ void handlePostAdventure()
 
 		if(get_property("kingLiberated").to_boolean())
 		{
-			if((have_skill($skill[Summon Rad Libs])) && (my_mp() > 6))
+			if((cc_have_skill($skill[Summon Rad Libs])) && (my_mp() > 6))
 			{
 				use_skill(3, $skill[Summon Rad Libs]);
 			}
-			if((have_skill($skill[Summon Geeky Gifts])) && (my_mp() > 5))
+			if((cc_have_skill($skill[Summon Geeky Gifts])) && (my_mp() > 5))
 			{
 				use_skill(1, $skill[Summon Geeky Gifts]);
 			}
-			if((have_skill($skill[Summon Stickers])) && (my_mp() > 6))
+			if((cc_have_skill($skill[Summon Stickers])) && (my_mp() > 6))
 			{
 				use_skill(3, $skill[Summon Stickers]);
 			}
-			if((have_skill($skill[Summon Sugar Sheets])) && (my_mp() > 6))
+			if((cc_have_skill($skill[Summon Sugar Sheets])) && (my_mp() > 6))
 			{
 				use_skill(3, $skill[Summon Sugar Sheets]);
 			}
-			if(have_skill($skill[Rainbow Gravitation]))
+			if(cc_have_skill($skill[Rainbow Gravitation]))
 			{
 				use_skill(3, $skill[Rainbow Gravitation]);
 			}
@@ -835,11 +841,11 @@ void handlePostAdventure()
 		Spice Ghost			250			10+1 Item		Spices			Stun Increase
 */
 
-		if((my_mp() >= (1.2 * mp_cost($skill[Bind Vermincelli]))) && (cur == $thrall[none]) && have_skill($skill[Bind Vermincelli]))
+		if((my_mp() >= (1.2 * mp_cost($skill[Bind Vermincelli]))) && (cur == $thrall[none]) && cc_have_skill($skill[Bind Vermincelli]))
 		{
 			consider = $thrall[Vermincelli];
 		}
-		if((my_mp() >= (1.2 * mp_cost($skill[Bind Spice Ghost]))) && have_skill($skill[Bind Spice Ghost]) && (my_daycount() > 1) && (numeric_modifier("MP Regen Min").to_int() > 9))
+		if((my_mp() >= (1.2 * mp_cost($skill[Bind Spice Ghost]))) && cc_have_skill($skill[Bind Spice Ghost]) && (my_daycount() > 1) && (numeric_modifier("MP Regen Min").to_int() > 9))
 		{
 			consider = $thrall[Spice Ghost];
 		}
@@ -936,7 +942,7 @@ void handlePostAdventure()
 
 	buyableMaintain($item[Turtle Pheromones], 1, 800, my_class() == $class[Turtle Tamer]);
 
-	if((get_property("cc_beatenUpCount").to_int() <= 10) && (have_effect($effect[Beaten Up]) > 0) && (my_mp() >= mp_cost($skill[Tongue of the Walrus])) && have_skill($skill[Tongue of the Walrus]))
+	if((get_property("cc_beatenUpCount").to_int() <= 10) && (have_effect($effect[Beaten Up]) > 0) && (my_mp() >= mp_cost($skill[Tongue of the Walrus])) && cc_have_skill($skill[Tongue of the Walrus]))
 	{
 		print("Owwie, was beaten up but trying to recover", "red");
 		if(my_location() == $location[The X-32-F Combat Training Snowman])
@@ -950,7 +956,7 @@ void handlePostAdventure()
 
 
 	# We only do this in aftercore because we don't want a spiralling death loop in-run.
-	if(get_property("kingLiberated").to_boolean() && (have_effect($effect[Beaten Up]) > 0) && (my_mp() >= mp_cost($skill[Tongue of the Walrus])) && have_skill($skill[Tongue of the Walrus]))
+	if(get_property("kingLiberated").to_boolean() && (have_effect($effect[Beaten Up]) > 0) && (my_mp() >= mp_cost($skill[Tongue of the Walrus])) && cc_have_skill($skill[Tongue of the Walrus]))
 	{
 		print("Owwie, was beaten up but trying to recover", "red");
 		use_skill(1, $skill[Tongue of the Walrus]);
@@ -978,7 +984,7 @@ void handlePostAdventure()
 		{
 			set_property("_cc_bondBriefing", "started");
 		}
-		if(have_skill($skill[Disco Nap]) && (my_mp() > mp_cost($skill[Disco Nap])))
+		if(cc_have_skill($skill[Disco Nap]) && (my_mp() > mp_cost($skill[Disco Nap])))
 		{
 			print("We have been disavowed...", "red");
 			use_skill(1, $skill[Disco Nap]);

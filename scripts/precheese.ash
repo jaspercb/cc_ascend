@@ -132,9 +132,14 @@ void handlePreAdventure(location place)
 
 	if(my_class() == $class[Ed])
 	{
-		if((zone_combatMod(place)._int < combat_rate_modifier()) && (have_effect($effect[Shelter of Shed]) == 0) && (my_mp() < 15))
+		if((zone_combatMod(place)._int < combat_rate_modifier()) && (have_effect($effect[Shelter Of Shed]) == 0) && cc_have_skill($skill[Shelter Of Shed]))
 		{
-			acquireMP(15, false);
+			acquireMP(25, false);
+		}
+		acquireMP(20, false);
+		if(my_meat() > 1000)
+		{
+			acquireMP(20, true);
 		}
 	}
 

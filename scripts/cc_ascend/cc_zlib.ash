@@ -65,7 +65,6 @@ void cc_process_kmail(string functionname)
 		mail[n].localtime = replace_string(k.group(7),"\\","");
 	}
 
-
 	boolean[int] processed;
 	foreach i,m in mail
 	{

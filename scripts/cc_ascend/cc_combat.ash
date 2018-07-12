@@ -17,7 +17,7 @@ boolean containsCombat(item it);
 *	Advance combat round, nothing happens.
 *	/goto fight.php?action=useitem&whichitem=1
 *
-*	Advance combat round, stuff happens
+*	Advance combat round, stuff happens: No longer works 21/5/2018
 *	/goto fight.php?action=skill&whichskill=$1
 */
 
@@ -164,33 +164,33 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if($monsters[One Thousand Source Agents, Source Agent] contains enemy)
 	{
-		if(have_skill($skill[Data Siphon]))
+		if(cc_have_skill($skill[Data Siphon]))
 		{
 			if(my_mp() < 50)
 			{
-				if(have_skill($skill[Source Punch]) && (my_mp() >= mp_cost($skill[Source Punch])))
+				if(cc_have_skill($skill[Source Punch]) && (my_mp() >= mp_cost($skill[Source Punch])))
 				{
 					return "skill " + $skill[Source Punch];
 				}
 			}
 			else if(my_mp() > 125)
 			{
-				if(!contains_text(combatState, "(reboot)") && have_skill($skill[Reboot]) && (my_mp() >= mp_cost($skill[Reboot])) && ((have_effect($effect[Latency]) > 0) || ((my_hp() * 2) < my_maxhp())))
+				if(!contains_text(combatState, "(reboot)") && cc_have_skill($skill[Reboot]) && (my_mp() >= mp_cost($skill[Reboot])) && ((have_effect($effect[Latency]) > 0) || ((my_hp() * 2) < my_maxhp())))
 				{
 					set_property("cc_combatHandler", combatState + "(reboot)");
 					return "skill " + $skill[Reboot];
 				}
-				if(!contains_text(combatState, "(humiliatingHack)") && have_skill($skill[Humiliating Hack]) && (my_mp() >= mp_cost($skill[Humiliating Hack])))
+				if(!contains_text(combatState, "(humiliatingHack)") && cc_have_skill($skill[Humiliating Hack]) && (my_mp() >= mp_cost($skill[Humiliating Hack])))
 				{
 					set_property("cc_combatHandler", combatState + "(humiliatingHack)");
 					return "skill " + $skill[Humiliating Hack];
 				}
-				if(!contains_text(combatState, "(disarmament)") && have_skill($skill[Disarmament]) && (my_mp() >= mp_cost($skill[Disarmament])))
+				if(!contains_text(combatState, "(disarmament)") && cc_have_skill($skill[Disarmament]) && (my_mp() >= mp_cost($skill[Disarmament])))
 				{
 					set_property("cc_combatHandler", combatState + "(disarmament)");
 					return "skill " + $skill[Disarmament];
 				}
-				if(!contains_text(combatState, "(big guns)") && have_skill($skill[Big Guns]) && (my_mp() >= mp_cost($skill[Big Guns])) && (my_hp() < 100))
+				if(!contains_text(combatState, "(big guns)") && cc_have_skill($skill[Big Guns]) && (my_mp() >= mp_cost($skill[Big Guns])) && (my_hp() < 100))
 				{
 					set_property("cc_combatHandler", combatState + "(big guns)");
 					return "skill " + $skill[Big Guns];
@@ -199,30 +199,30 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 			else if(my_mp() > 100)
 			{
-				if(!contains_text(combatState, "(humiliatingHack)") && have_skill($skill[Humiliating Hack]) && (my_mp() >= mp_cost($skill[Humiliating Hack])))
+				if(!contains_text(combatState, "(humiliatingHack)") && cc_have_skill($skill[Humiliating Hack]) && (my_mp() >= mp_cost($skill[Humiliating Hack])))
 				{
 					set_property("cc_combatHandler", combatState + "(humiliatingHack)");
 					return "skill " + $skill[Humiliating Hack];
 				}
-				if(!contains_text(combatState, "(disarmament)") && have_skill($skill[Disarmament]) && (my_mp() >= mp_cost($skill[Disarmament])))
+				if(!contains_text(combatState, "(disarmament)") && cc_have_skill($skill[Disarmament]) && (my_mp() >= mp_cost($skill[Disarmament])))
 				{
 					set_property("cc_combatHandler", combatState + "(disarmament)");
 					return "skill " + $skill[Disarmament];
 				}
 			}
 
-			if(have_skill($skill[Source Kick]) && (my_mp() >= mp_cost($skill[Source Kick])))
+			if(cc_have_skill($skill[Source Kick]) && (my_mp() >= mp_cost($skill[Source Kick])))
 			{
 				return "skill " + $skill[Source Kick];
 			}
 		}
 
-		if((!contains_text(combatState, "big guns")) && (have_skill($skill[Big Guns])) && (my_mp() >= mp_cost($skill[Big Guns])))
+		if((!contains_text(combatState, "big guns")) && (cc_have_skill($skill[Big Guns])) && (my_mp() >= mp_cost($skill[Big Guns])))
 		{
 			set_property("cc_combatHandler", combatState + "(big guns)");
 			return "skill " + $skill[Big Guns];
 		}
-		if(have_skill($skill[Source Punch]) && (my_mp() >= mp_cost($skill[Source Punch])))
+		if(cc_have_skill($skill[Source Punch]) && (my_mp() >= mp_cost($skill[Source Punch])))
 		{
 			return "skill " + $skill[Source Punch];
 		}
@@ -231,7 +231,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if((enemy == $monster[Your Shadow]) || (opp == "shadow cow puncher") || (opp == "shadow snake oiler") || (opp == "shadow beanslinger") || (opp == "shadow gelatinous noob"))
 	{
-		if(have_skill($skill[Ambidextrous Funkslinging]))
+		if(cc_have_skill($skill[Ambidextrous Funkslinging]))
 		{
 			if(item_amount($item[Gauze Garter]) >= 2)
 			{
@@ -263,7 +263,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if(enemy == $monster[Wall Of Meat])
 	{
-		if(!contains_text(combatState, "makeitrain") && have_skill($skill[Make It Rain]) && (my_rain() >= 10))
+		if(!contains_text(combatState, "makeitrain") && cc_have_skill($skill[Make It Rain]) && (my_rain() >= 10))
 		{
 			set_property("cc_combatHandler", combatState + "(makeitrain)");
 			return "skill " + $skill[Make It Rain];
@@ -276,19 +276,19 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			return "item " + $item[Beehive];
 		}
-#		if((!contains_text(combatState, "love stinkbug")) && have_skill($skill[Summon Love Stinkbug]))
+#		if((!contains_text(combatState, "love stinkbug")) && cc_have_skill($skill[Summon Love Stinkbug]))
 #		{
 #			set_property("cc_combatHandler", combatState + "(love stinkbug)");
 #			return "skill summon love stinkbug";
 #		}
 
-		if(!contains_text(combatState, "shell up") && have_skill($skill[Shell Up]) && (my_mp() >= 6) && (round >= 3))
+		if(!contains_text(combatState, "shell up") && cc_have_skill($skill[Shell Up]) && (my_mp() >= 6) && (round >= 3))
 		{
 			set_property("cc_combatHandler", combatState + "(shell up)");
 			return "skill " + $skill[Shell Up];
 		}
 
-		if(!contains_text(combatState, "sauceshell") && have_skill($skill[Sauceshell]) && (my_mp() >= 35) && (round >= 4))
+		if(!contains_text(combatState, "sauceshell") && cc_have_skill($skill[Sauceshell]) && (my_mp() >= 35) && (round >= 4))
 		{
 			set_property("cc_combatHandler", combatState + "(sauceshell)");
 			return "skill " + $skill[Sauceshell];
@@ -296,16 +296,16 @@ string cc_combatHandler(int round, string opp, string text)
 
 		if(have_equipped($item[Astral Shirt]))
 		{
-			if(have_skill($skill[headbutt]) && (my_mp() >= 3))
+			if(cc_have_skill($skill[headbutt]) && (my_mp() >= 3))
 			{
 				return "skill " + $skill[Headbutt];
 			}
-			if(have_skill($skill[clobber]) && (my_mp() >= mp_cost($skill[Clobber])))
+			if(cc_have_skill($skill[clobber]) && (my_mp() >= mp_cost($skill[Clobber])))
 			{
 				return "skill " + $skill[Clobber];
 			}
 		}
-		if(have_skill($skill[Belch the Rainbow]) && (my_mp() >= mp_cost($skill[Belch the Rainbow])))
+		if(cc_have_skill($skill[Belch the Rainbow]) && (my_mp() >= mp_cost($skill[Belch the Rainbow])))
 		{
 			return "skill " + $skill[Belch the Rainbow];
 		}
@@ -323,30 +323,35 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Unleash The Greash];
 		}
 
-		if((my_mp() >= 50) && have_skill($skill[Garbage Nova]))
+		if((my_mp() >= 50) && cc_have_skill($skill[Garbage Nova]))
 		{
 			return "skill " + $skill[Garbage Nova];
 		}
 
-		if((my_mp() >= 24) && have_skill($skill[Saucegeyser]))
+		if((my_mp() >= 24) && cc_have_skill($skill[Saucegeyser]))
 		{
 			return "skill " + $skill[Saucegeyser];
 		}
 	}
 
 
-	if((!contains_text(combatState, "blackbox")) && (my_path() != "Heavy Rains") && (enemy == $monster[Writing Desk]) && (get_property("writingDesksDefeated").to_int() < 4) && (get_property("lastSecondFloorUnlock").to_int() < my_ascensions()) && (get_property("_raindohCopiesMade").to_int() < 5))
+	if(!contains_text(combatState, "blackbox") && (my_path() != "Heavy Rains") && (get_property("_raindohCopiesMade").to_int() < 5))
 	{
-		set_property("cc_doCombatCopy", "yes");
+		if((enemy == $monster[Writing Desk]) && (get_property("writingDesksDefeated").to_int() < 4) && (get_property("lastSecondFloorUnlock").to_int() < my_ascensions()))
+		{
+			set_property("cc_doCombatCopy", "yes");
+		}
+		if((enemy == $monster[Gaudy Pirate]) && (get_property("cc_gaudypiratecount").to_int() < 1) && !possessEquipment($item[Talisman O\' Namsilat]) && (item_amount($item[Gaudy Key]) < 2))
+		{
+			set_property("cc_doCombatCopy", "yes");
+		}
+		if((enemy == $monster[Modern Zmobie]) && (get_property("cc_modernzmobiecount").to_int() < 3))
+		{
+			set_property("cc_doCombatCopy", "yes");
+		}
 	}
-	if((!contains_text(combatState, "blackbox")) && (my_path() != "Heavy Rains") && (enemy == $monster[Gaudy Pirate]) && (get_property("cc_gaudypiratecount").to_int() < 1) && (get_property("_raindohCopiesMade").to_int() < 5) && !possessEquipment($item[Talisman O\' Namsilat]) && (item_amount($item[Gaudy Key]) < 2))
-	{
-		set_property("cc_doCombatCopy", "yes");
-	}
-	if((!contains_text(combatState, "blackbox")) && (my_path() != "Heavy Rains") && (enemy == $monster[Modern Zmobie]) && (get_property("cc_modernzmobiecount").to_int() < 3) && (get_property("_raindohCopiesMade").to_int() < 5))
-	{
-		set_property("cc_doCombatCopy", "yes");
-	}
+
+
 
 	if(have_effect($effect[Temporary Amnesia]) > 0)
 	{
@@ -356,7 +361,6 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		return "attack with weapon";
 	}
-
 	if(my_location() == $location[The Daily Dungeon])
 	{
 		# If we are in The Daily Dungeon, assume we get 1 token, so only if we need more than 1.
@@ -368,7 +372,6 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 		}
 	}
-
 	if(!contains_text(combatState, "abstraction") && in_ronin())
 	{
 		if((item_amount($item[Abstraction: Sensation]) > 0) && (enemy == $monster[Performer of Actions]))
@@ -391,14 +394,13 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-
-	if((!contains_text(combatState, "tunneldownwards")) && (have_effect($effect[Shape of...Mole!]) > 0) && (my_location() == $location[Mt. Molehill]))
+	if(!contains_text(combatState, "tunneldownwards") && (have_effect($effect[Shape of...Mole!]) > 0) && (my_location() == $location[Mt. Molehill]))
 	{
 		set_property("cc_combatHandler", combatState + "(tunneldownwards)");
 		return "skill " + $skill[Tunnel Downwards];
 	}
 
-	if((my_familiar() == $familiar[Stocking Mimic]) && (round < 12))
+	if((my_familiar() == $familiar[Stocking Mimic]) && (round < 12) && canSurvive(1.5))
 	{
 		if(item_amount($item[Dictionary]) > 0)
 		{
@@ -412,20 +414,20 @@ string cc_combatHandler(int round, string opp, string text)
 		return "item " + $item[Cigarette Lighter];
 	}
 
-	if((my_class() == $class[Avatar of Sneaky Pete]) && ((expected_damage() * 2) < my_hp()))
+	if((my_class() == $class[Avatar of Sneaky Pete]) && canSurvive(2.0))
 	{
 		int maxAudience = 30;
 		if($items[Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)] contains equipped_item($slot[shirt]))
 		{
 			maxAudience = 50;
 		}
-		if((my_mp() >= mp_cost($skill[Mug for the Audience])) && have_skill($skill[Mug for the Audience]) && (my_audience() < maxAudience))
+		if((my_mp() >= mp_cost($skill[Mug for the Audience])) && cc_have_skill($skill[Mug for the Audience]) && (my_audience() < maxAudience))
 		{
 			return "skill " + $skill[Mug for the Audience];
 		}
 	}
 
-	if(!contains_text(combatState, "pickpocket") && ($classes[Accordion Thief, Avatar of Sneaky Pete, Disco Bandit, Gelatinous Noob] contains my_class()) && contains_text(text, "value=\"Pick") && ((expected_damage() * 2) < my_hp()))
+	if(!contains_text(combatState, "pickpocket") && ($classes[Accordion Thief, Avatar of Sneaky Pete, Disco Bandit, Gelatinous Noob] contains my_class()) && contains_text(text, "value=\"Pick") && canSurvive(2.0))
 	{
 		boolean tryIt = false;
 		foreach i, drop in item_drops_array(enemy)
@@ -447,16 +449,15 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((my_class() == $class[Avatar of Sneaky Pete]) && ((expected_damage() * 2) < my_hp()) && (my_level() < 13))
+	if((my_class() == $class[Avatar of Sneaky Pete]) && canSurvive(2.0) && (my_level() < 13))
 	{
-		if((my_mp() >= mp_cost($skill[Mug for the Audience])) && have_skill($skill[Mug for the Audience]))
+		if((my_mp() >= mp_cost($skill[Mug for the Audience])) && cc_have_skill($skill[Mug for the Audience]))
 		{
 			return "skill " + $skill[Mug for the Audience];
 		}
 	}
 
-
-	if(!contains_text(combatState, "stealaccordion") && (my_class() == $class[Accordion Thief]) && have_skill($skill[Steal Accordion]) && ((expected_damage() * 2) < my_hp()))
+	if(!contains_text(combatState, "stealaccordion") && (my_class() == $class[Accordion Thief]) && cc_have_skill($skill[Steal Accordion]) && canSurvive(2.0))
 	{
 		set_property("cc_combatHandler", combatState + "(stealaccordion)");
 		return "skill " + $skill[Steal Accordion];
@@ -480,7 +481,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if(get_property("cc_useCleesh").to_boolean())
 	{
-		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
+		if(!contains_text(combatState, "cleesh") && cc_have_skill($skill[CLEESH]) && (my_mp() > 10))
 		{
 			set_property("cc_useCleesh", false);
 			set_property("cc_combatHandler", combatState + "(cleesh)");
@@ -499,11 +500,11 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill " + $skill[Thunder Bird];
 	}
 
-	if((!contains_text(combatState, "thunderstrike")) && (monster_level_adjustment() <= 150) && have_skill($skill[Thunder Bird]))
+	if(!contains_text(combatState, "thunderstrike") && (monster_level_adjustment() <= 150) && cc_have_skill($skill[Thunder Bird]))
 	{
 		if($monsters[Big Wisnaqua, The Aquaman, The Big Wisniewski, The Man, The Rain King] contains enemy)
 		{
-			if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= 60) && have_skill($skill[Itchy Curse Finger]))
+			if(!contains_text(combatState, "weaksauce") && cc_have_skill($skill[Curse Of Weaksauce]) && (my_mp() >= 60) && cc_have_skill($skill[Itchy Curse Finger]))
 			{
 				set_property("cc_combatHandler", combatState + "(weaksauce)");
 				return "skill " + $skill[Curse Of Weaksauce];
@@ -524,37 +525,39 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((enemy == $monster[dirty thieving brigand]) && (!contains_text(combatState, "makeitrain")) && (get_property("cc_nunsTrickReady") == "yes"))
+	if((enemy == $monster[dirty thieving brigand]) && !contains_text(combatState, "makeitrain") && (get_property("cc_nunsTrickReady") == "yes"))
 	{
-		if((my_rain() > rain_cost($skill[Make It Rain])) && (have_skill($skill[make it rain])))
+		if((my_rain() > rain_cost($skill[Make It Rain])) && cc_have_skill($skill[Make It Rain]))
 		{
 			set_property("cc_combatHandler", combatState + "(makeitrain)");
 			return "skill " + $skill[Make It Rain];
 		}
 	}
 
-	if((enemy == $monster[dirty thieving brigand]) && (!contains_text(combatState, "makeitrain")) && (my_rain() > 60))
+	if((enemy == $monster[dirty thieving brigand]) && !contains_text(combatState, "makeitrain") && (my_rain() > 60))
 	{
-		if((my_rain() > rain_cost($skill[Make It Rain])) && (have_skill($skill[make it rain])))
+		if((my_rain() > rain_cost($skill[Make It Rain])) && cc_have_skill($skill[Make It Rain]))
 		{
 			set_property("cc_combatHandler", combatState + "(makeitrain)");
 			return "skill " + $skill[Make It Rain];
 		}
 	}
 
-	if((enemy == $monster[Hellseal Pup]) && (my_class() == $class[Seal Clubber]))
+	if(my_class() == $class[Seal Clubber])
 	{
-		return "skill " + $skill[Clobber];
-	}
-
-	if((enemy == $monster[Mother Hellseal]) && (my_class() == $class[Seal Clubber]))
-	{
-		if(!contains_text(combatState, "indigo cup") && (item_amount($item[Rain-Doh Indigo Cup]) > 0))
+		if(enemy == $monster[Hellseal Pup])
 		{
-			set_property("cc_combatHandler", combatState + "(indigo cup)");
-			return "item " + $item[Rain-Doh Indigo Cup];
+			return "skill " + $skill[Clobber];
 		}
-		return "skill lunging thrust-smack";
+		if(enemy == $monster[Mother Hellseal])
+		{
+			if(!contains_text(combatState, "indigo cup") && (item_amount($item[Rain-Doh Indigo Cup]) > 0))
+			{
+				set_property("cc_combatHandler", combatState + "(indigo cup)");
+				return "item " + $item[Rain-Doh Indigo Cup];
+			}
+			return "skill " + $skill[Lunging Thrust-Smack];
+		}
 	}
 
 	if((enemy == $monster[French Guard Turtle]) && have_equipped($item[Fouet de tortue-dressage]) && (my_mp() >= mp_cost($skill[Apprivoisez La Tortue])))
@@ -571,14 +574,14 @@ string cc_combatHandler(int round, string opp, string text)
 			{
 				continue;
 			}
-			if(have_skill(it) && (my_mp() >= mp_cost(it)))
+			if(cc_have_skill(it) && (my_mp() >= mp_cost(it)))
 			{
 				return "skill " + it;
 			}
 		}
 	}
 
-	if((!contains_text(combatState, "nanotoss")) && (have_effect($effect[Nanobrawny]) >= 40))
+	if(!contains_text(combatState, "nanotoss") && (have_effect($effect[Nanobrawny]) >= 40))
 	{
 		#if appropriate enemy, then banish
 		if(enemy == $monster[Pygmy Janitor])
@@ -588,7 +591,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "winkat")) && (my_familiar() == $familiar[Reanimated Reanimator]))
+	if(!contains_text(combatState, "winkat") && (my_familiar() == $familiar[Reanimated Reanimator]))
 	{
 		if($monsters[Lobsterfrogman, Modern Zmobie, Ninja Snowman Assassin, Writing Desk] contains enemy)
 		{
@@ -605,7 +608,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "blackbox")) && (get_property("cc_doCombatCopy") == "yes") && (enemy != $monster[gourmet gourami]) && (item_amount($item[Rain-Doh Black Box]) > 0))
+	if(!contains_text(combatState, "blackbox") && (get_property("cc_doCombatCopy") == "yes") && (enemy != $monster[gourmet gourami]) && (item_amount($item[Rain-Doh Black Box]) > 0))
 	{
 		set_property("cc_doCombatCopy", "no");
 		set_property("cc_combatHandler", combatState + "(blackbox)");
@@ -615,6 +618,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 		print("Can not issue copy directive because we have no copies left", "red");
 	}
+
 	if(get_property("cc_doCombatCopy") == "yes")
 	{
 		set_property("cc_doCombatCopy", "no");
@@ -630,7 +634,7 @@ string cc_combatHandler(int round, string opp, string text)
 		return "item " + $item[Tangle Of Rat Tails];
 	}
 
-	if((enemy == $monster[Storm Cow]) && (have_skill($skill[Unleash The Greash])))
+	if((enemy == $monster[Storm Cow]) && (cc_have_skill($skill[Unleash The Greash])))
 	{
 		return "skill " + $skill[Unleash The Greash];
 	}
@@ -656,18 +660,18 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "(extract)")) && have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 2)) && get_property("kingLiberated").to_boolean())
+	if(!contains_text(combatState, "(extract)") && cc_have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 2)) && get_property("kingLiberated").to_boolean())
 	{
 		set_property("cc_combatHandler", combatState + "(extract)");
 		return "skill " + $skill[Extract];
 	}
 
 
-	if(have_skill($skill[Summon Mayfly Swarm]) && (!contains_text(combatState, "mayfly")))
+	if(cc_have_skill($skill[Summon Mayfly Swarm]) && !contains_text(combatState, "mayfly"))
 	{
-		if((equipped_item($slot[acc1]) == $item[Mayfly Bait Necklace]) || (equipped_item($slot[acc2]) == $item[Mayfly Bait Necklace]) || (equipped_item($slot[acc3]) == $item[Mayfly Bait Necklace]))
+		if(have_equipped($item[Mayfly Bait Necklace]))
 		{
-			if((my_location() == $location[Dreadsylvanian Village]) || (my_location() == $location[Dreadsylvanian Castle]) || (my_location() == $location[Dreadsylvanian Woods]) || (my_location() == $location[Sloppy Seconds Diner]) || (my_location() == $location[The Ice Hole]))
+			if($locations[Dreadsylvanian Village, Dreadsylvanian Woods, The Ice Hole, The Ice Hotel, Sloppy Seconds Diner, VYKEA] contains my_location())
 			{
 				set_property("cc_combatHandler", combatState + "(mayfly)");
 				return "skill " + $skill[Summon Mayfly Swarm];
@@ -675,17 +679,16 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((item_amount($item[The Big Book of Pirate Insults]) > 0) && (!contains_text(combatState, "insults")) && (numPirateInsults() < 8) && (internalQuestStatus("questM12Pirate") < 5))
+	if((item_amount($item[The Big Book of Pirate Insults]) > 0) && !contains_text(combatState, "insults") && (numPirateInsults() < 8) && (internalQuestStatus("questM12Pirate") < 5))
 	{
-		if((my_location() == $location[The Obligatory Pirate\'s Cove]) || (my_location() == $location[Barrrney\'s Barrr]) ||
-			((enemy == $monster[Gaudy Pirate]) && (my_location() != $location[Belowdecks])))
+		if(($locations[Barrrney\'s Barrr, The Obligatory Pirate\'s Cove] contains my_location()) || ((enemy == $monster[Gaudy Pirate]) && (my_location() != $location[Belowdecks])))
 		{
 			set_property("cc_combatHandler", combatState + "(insults)");
 			return "item " + $item[The Big Book Of Pirate Insults];
 		}
 	}
 
-	if(!contains_text(combatState, "(olfaction)") && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
+	if(!contains_text(combatState, "(olfaction)") && (have_effect($effect[On The Trail]) == 0) && cc_have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
 	{
 		if((enemy == $monster[pygmy shaman]) && (my_location() == $location[The Hidden Apartment Building]) && (item_amount($item[soft green echo eyedrop antidote]) > 3) && (have_effect($effect[Thrice-Cursed]) == 0))
 		{
@@ -695,7 +698,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!contains_text(combatSTate, "(matingcall)") && have_skill($skill[Gallapagosian Mating Call]) && (my_mp() >= mp_cost($skill[Gallapagosian Mating Call])))
+	if(!contains_text(combatSTate, "(matingcall)") && cc_have_skill($skill[Gallapagosian Mating Call]) && (my_mp() >= mp_cost($skill[Gallapagosian Mating Call])))
 	{
 		if((enemy == $monster[pygmy shaman]) && (my_location() == $location[The Hidden Apartment Building]) && (have_effect($effect[Thrice-Cursed]) == 0) && (get_property("gallapagosMonster") != enemy))
 		{
@@ -705,7 +708,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!contains_text(combatState, "(makefriends)") && (get_property("makeFriendsMonster") != $monster[Pygmy Shaman]) && have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
+	if(!contains_text(combatState, "(makefriends)") && (get_property("makeFriendsMonster") != $monster[Pygmy Shaman]) && cc_have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
 	{
 		if((enemy == $monster[pygmy shaman]) && (my_location() == $location[The Hidden Apartment Building]))
 		{
@@ -715,7 +718,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "(olfaction)")) && (have_effect($effect[on the trail]) == 0) && (have_skill($skill[transcendent olfaction])) && (my_mp() >= 40) && get_property("kingLiberated").to_boolean())
+	if(!contains_text(combatState, "(olfaction)") && (have_effect($effect[On The Trail]) == 0) && cc_have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && get_property("kingLiberated").to_boolean())
 	{
 		if(enemy == $monster[Gurgle the Turgle])
 		{
@@ -725,7 +728,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!contains_text(combatState, "(olfaction)") && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (!have_skill($skill[Rain Man]) || is100FamiliarRun()))
+	if(!contains_text(combatState, "(olfaction)") && (have_effect($effect[On The Trail]) == 0) && cc_have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (!cc_have_skill($skill[Rain Man]) || is100FamiliarRun()))
 	{
 		if((enemy == $monster[Writing Desk]) && (my_location() == $location[The Haunted Library]) && (get_property("writingDesksDefeated").to_int() < 5))
 		{
@@ -735,7 +738,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!contains_text(combatState, "(matingcall)") && have_skill($skill[Gallapagosian Mating Call]) && (my_mp() >= mp_cost($skill[Gallapagosian Mating Call])) && (!have_skill($skill[Rain Man]) || is100FamiliarRun()))
+	if(!contains_text(combatState, "(matingcall)") && cc_have_skill($skill[Gallapagosian Mating Call]) && (my_mp() >= mp_cost($skill[Gallapagosian Mating Call])) && (!cc_have_skill($skill[Rain Man]) || is100FamiliarRun()))
 	{
 		if((enemy == $monster[Writing Desk]) && (my_location() == $location[The Haunted Library]) && (get_property("writingDesksDefeated").to_int() < 5) && (get_property("gallapagosMonster") != enemy))
 		{
@@ -745,7 +748,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((get_property("makeFriendsMonster") != $monster[Writing Desk]) && have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
+	if((get_property("makeFriendsMonster") != $monster[Writing Desk]) && cc_have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
 	{
 		if((enemy == $monster[Writing Desk]) && (my_location() == $location[The Haunted Library]) && (get_property("lastSecondFloorUnlock").to_int() < my_ascensions()))
 		{
@@ -755,16 +758,14 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-
-	if(!contains_text(combatState, "(olfaction)") && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (enemy == $monster[Smoke Monster]) && (item_amount($item[Pack Of Smokes]) > 0))
+	if(!contains_text(combatState, "(olfaction)") && (have_effect($effect[On The Trail]) == 0) && cc_have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])) && (enemy == $monster[Smoke Monster]) && (item_amount($item[Pack Of Smokes]) > 0))
 	{
 		set_property("cc_combatHandler", combatState + "(olfaction)");
 		handleTracker(enemy, $skill[Transcendent Olfaction], "cc_sniffs");
 		return "skill " + $skill[Transcendent Olfaction];
 	}
 
-
-	if(!contains_text(combatState, "(olfaction)") && (have_effect($effect[On The Trail]) == 0) && have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
+	if(!contains_text(combatState, "(olfaction)") && (have_effect($effect[On The Trail]) == 0) && cc_have_skill($skill[Transcendent Olfaction]) && (my_mp() >= mp_cost($skill[Transcendent Olfaction])))
 	{
 		if($monsters[Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat] contains enemy)
 		{
@@ -780,7 +781,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!contains_text(combatState, "(matingcall)") && have_skill($skill[Gallapagosian Mating Call]) && (my_mp() >= mp_cost($skill[Gallapagosian Mating Call])))
+	if(!contains_text(combatState, "(matingcall)") && cc_have_skill($skill[Gallapagosian Mating Call]) && (my_mp() >= mp_cost($skill[Gallapagosian Mating Call])))
 	{
 		if(($monsters[cabinet of Dr. Limpieza, Dairy Goat, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Tomb Rat] contains enemy) && (get_property("gallapagosMonster") != enemy))
 		{
@@ -803,11 +804,9 @@ string cc_combatHandler(int round, string opp, string text)
 				return "skill " + $skill[Gallapagosian Mating Call];
 			}
 		}
-
 	}
 
-
-	if(have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
+	if(cc_have_skill($skill[Make Friends]) && (my_mp() >= mp_cost($skill[Make Friends])) && (my_audience() >= 20))
 	{
 		if((get_property("makeFriendsMonster") != enemy) && ($monsters[Blooper, Bob Racecar, cabinet of Dr. Limpieza, Dairy Goat, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Tomb Rat] contains enemy))
 		{
@@ -816,7 +815,7 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Make Friends];
 		}
 	}
-	if(!contains_text(get_property("longConMonster"),enemy) && have_skill($skill[Long Con]) && (my_mp() >= mp_cost($skill[Long Con])) && (get_property("_longConUsed").to_int() < 5))
+	if(!contains_text(get_property("longConMonster"),enemy) && cc_have_skill($skill[Long Con]) && (my_mp() >= mp_cost($skill[Long Con])) && (get_property("_longConUsed").to_int() < 5))
 	{
 		if($monsters[Blooper, cabinet of Dr. Limpieza, Dairy Goat, Dirty Old Lihc, Gaudy Pirate, Morbid Skull, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Tomb Rat, Writing Desk] contains enemy)
 		{
@@ -824,7 +823,6 @@ string cc_combatHandler(int round, string opp, string text)
 			handleTracker(enemy, $skill[Long Con], "cc_sniffs");
 			return "skill " + $skill[Long Con];
 		}
-
 
 		if(($monsters[Bob Racecar, Racecar Bob] contains enemy) && (get_property("palindomeDudesDefeated").to_int() < 5) && !contains_text(get_property("longConMonster"), $monster[Racecar Bob]) && !contains_text(get_property("longConMonster"), $monster[Bob Racecar]))
 		{
@@ -834,16 +832,15 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-
 	//This should probably be removed.
 	if(contains_text(combatState, "insults"))
 	{
-		if((enemy == $monster[shady pirate]) && have_skill($skill[Thunder Clap]) && (my_thunder() >= 40))
+		if((enemy == $monster[shady pirate]) && cc_have_skill($skill[Thunder Clap]) && (my_thunder() >= 40))
 		{
 			handleTracker(enemy, $skill[Thunder Clap], "cc_banishes");
 			return "skill " + $skill[Thunder Clap];
 		}
-		if((enemy == $monster[shifty pirate]) && have_skill($skill[Talk About Politics]))
+		if((enemy == $monster[shifty pirate]) && cc_have_skill($skill[Talk About Politics]))
 		{
 			if(get_property("_pantsgivingBanish").to_int() < 5)
 			{
@@ -853,7 +850,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 		if((my_lightning() >= 25) && !isFreeMonster(enemy) && instakillable(enemy))
 		{
-			if(have_skill($skill[Lightning Strike]))
+			if(cc_have_skill($skill[Lightning Strike]))
 			{
 				handleTracker(enemy, $skill[Lightning Strike], "cc_instakill");
 				return "skill " + $skill[Lightning Strike];
@@ -861,58 +858,58 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((!contains_text(combatState, "flyers")) && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]) && ((item_amount($item[rock band flyers]) > 0) || (item_amount($item[jam band flyers]) > 0)))
+	if(!contains_text(combatState, "flyers") && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]) && ((item_amount($item[Rock Band Flyers]) > 0) || (item_amount($item[Jam Band Flyers]) > 0)) && !get_property("cc_ignoreFlyer").to_boolean())
 	{
-		if(!contains_text(combatState, "beanscreen") && have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
+		if(!contains_text(combatState, "beanscreen") && cc_have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
 		{
 			set_property("cc_combatHandler", combatState + "(beanscreen)");
 			return "skill " + $skill[Beanscreen];
 		}
 
-		if(!contains_text(combatState, "broadside") && have_skill($skill[Broadside]) && (my_mp() >= mp_cost($skill[Broadside])))
+		if(!contains_text(combatState, "broadside") && cc_have_skill($skill[Broadside]) && (my_mp() >= mp_cost($skill[Broadside])))
 		{
 			set_property("cc_combatHandler", combatState + "(broadside)");
 			return "skill " + $skill[Broadside];
 		}
 
-		if(!contains_text(combatState, "mind bullets") && have_skill($skill[Mind Bullets]) && (my_mp() >= mp_cost($skill[Mind Bullets])))
+		if(!contains_text(combatState, "mind bullets") && cc_have_skill($skill[Mind Bullets]) && (my_mp() >= mp_cost($skill[Mind Bullets])))
 		{
 			set_property("cc_combatHandler", combatState + "(mind bullets)");
 			return "skill " + $skill[Mind Bullets];
 		}
 
-		if(!contains_text(combatState, to_string($skill[Snap Fingers])) && have_skill($skill[Snap Fingers]) && (my_mp() >= mp_cost($skill[Snap Fingers])))
+		if(!contains_text(combatState, to_string($skill[Snap Fingers])) && cc_have_skill($skill[Snap Fingers]) && (my_mp() >= mp_cost($skill[Snap Fingers])))
 		{
 			set_property("cc_combatHandler", combatState + "(" + $skill[Snap Fingers] + ")");
 			return "skill " + $skill[Snap Fingers];
 		}
 
-		if(!contains_text(combatState, "soulbubble") && have_skill($skill[Soul Saucery]) && (my_soulsauce() >= soulsauce_cost($skill[Soul Bubble])))
+		if(!contains_text(combatState, "soulbubble") && cc_have_skill($skill[Soul Saucery]) && (my_soulsauce() >= soulsauce_cost($skill[Soul Bubble])))
 		{
 			set_property("cc_combatHandler", combatState + "(soulbubble)");
 			return "skill " + $skill[Soul Bubble];
 		}
 
-		if(!contains_text(combatState, "hogtie") && !contains_text(combatState, "beanscreen") && have_skill($skill[Hogtie]) && (my_mp() >= (6 * mp_cost($skill[Hogtie]))) && hasLeg(enemy))
+		if(!contains_text(combatState, "hogtie") && !contains_text(combatState, "beanscreen") && cc_have_skill($skill[Hogtie]) && (my_mp() >= (6 * mp_cost($skill[Hogtie]))) && hasLeg(enemy))
 		{
 			set_property("cc_combatHandler", combatState + "(hogtie)");
 			return  "skill " + $skill[Hogtie];
 		}
 
-		if((item_amount($item[rock band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
+		if((item_amount($item[Rock Band Flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
 		{
 			set_property("cc_combatHandler", combatState + "(flyers)");
-			if((item_amount($item[Time-Spinner]) > 0) && have_skill($skill[Ambidextrous Funkslinging]) && !contains_text(combatState, "time-spinner"))
+			if((item_amount($item[Time-Spinner]) > 0) && cc_have_skill($skill[Ambidextrous Funkslinging]) && !contains_text(combatState, "time-spinner"))
 			{
 				set_property("cc_combatHandler", combatState + "(flyers)(time-spinner)");
 				return "item " + $item[Rock Band Flyers] + ", " + $item[Time-Spinner];
 			}
 			return "item " + $item[Rock Band Flyers];
 		}
-		if((item_amount($item[jam band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
+		if((item_amount($item[Jam Band Flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
 		{
 			set_property("cc_combatHandler", combatState + "(flyers)");
-			if((item_amount($item[Time-Spinner]) > 0) && have_skill($skill[Ambidextrous Funkslinging]) && !contains_text(combatState, "time-spinner"))
+			if((item_amount($item[Time-Spinner]) > 0) && cc_have_skill($skill[Ambidextrous Funkslinging]) && !contains_text(combatState, "time-spinner"))
 			{
 				set_property("cc_combatHandler", combatState + "(flyers)(time-spinner)");
 				return "item " + $item[Jam Band Flyers] + ", " + $item[Time-Spinner];
@@ -921,22 +918,21 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if((enemy == $monster[dirty thieving brigand]) && (!contains_text(combatState, "4dcamera")) && (get_property("cc_nunsTrickActive") == "yes") && (item_amount($item[4-d Camera]) == 1) && (get_property("_cameraUsed").to_boolean() != true))
+	if((enemy == $monster[dirty thieving brigand]) && !contains_text(combatState, "4dcamera") && (get_property("cc_nunsTrickActive") == "yes") && (item_amount($item[4-d Camera]) == 1) && (get_property("_cameraUsed").to_boolean() != true))
 	{
 		set_property("cc_combatHandler", combatState + "(4dcamera)");
 		return "item " + $item[4-d camera];
 	}
 
-	if((enemy == $monster[clingy pirate (female)]) && (item_amount($item[cocktail napkin]) > 0))
+	if(item_amount($item[Cocktail Napkin]) > 0)
 	{
-		return "item " + $item[Cocktail Napkin];
+		if($monsters[Clingy Pirate (Female), Clingy Pirate (Male)] contains enemy)
+		{
+			return "item " + $item[Cocktail Napkin];
+		}
 	}
 
-	if((enemy == $monster[clingy pirate (male)]) && (item_amount($item[cocktail napkin]) > 0))
-	{
-		return "item " + $item[Cocktail Napkin];
-	}
-	if((!contains_text(combatState, "DNA")) && (monster_level_adjustment() < 150) && (item_amount($item[DNA Extraction Syringe]) > 0))
+	if(!contains_text(combatState, "DNA") && (monster_level_adjustment() < 150) && (item_amount($item[DNA Extraction Syringe]) > 0))
 	{
 		if(type != current)
 		{
@@ -944,7 +940,6 @@ string cc_combatHandler(int round, string opp, string text)
 			return "item " + $item[DNA extraction syringe];
 		}
 	}
-
 
 	if(!contains_text(combatState, "yellowray"))
 	{
@@ -1020,9 +1015,9 @@ string cc_combatHandler(int round, string opp, string text)
 		abort("Ugh, where is my damn yellowray!!!");
 	}
 
-	if((enemy == $monster[animated possessions]) || (enemy == $monster[natural spider]))
+	if(item_amount($item[Green Smoke Bomb]) > 0)
 	{
-		if(item_amount($item[Green Smoke Bomb]) > 0)
+		if($monsters[Animated Possessions, Natural Spider] contains enemy)
 		{
 			return "item " + $item[Green Smoke Bomb];
 		}
@@ -1030,9 +1025,9 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if(!get_property("kingLiberated").to_boolean())
 	{
-		if($monsters[Pygmy Orderlies, Pygmy Witch Lawyer, Pygmy Witch Nurse] contains enemy)
+		if(item_amount($item[short writ of habeas corpus]) > 0)
 		{
-			if(item_amount($item[short writ of habeas corpus]) > 0)
+			if($monsters[Pygmy Orderlies, Pygmy Witch Lawyer, Pygmy Witch Nurse] contains enemy)
 			{
 				return "item " + $item[Short Writ Of Habeas Corpus];
 			}
@@ -1070,7 +1065,7 @@ string cc_combatHandler(int round, string opp, string text)
 		combatState += "(banishercheck)";
 	}
 
-	if(have_skill($skill[Meteor Lore]) && (get_property("_macrometeoriteUses").to_int() < 10) && (my_mp() > mp_cost($skill[Macrometeorite])))
+	if(cc_have_skill($skill[Meteor Lore]) && (get_property("_macrometeoriteUses").to_int() < 10) && (my_mp() > mp_cost($skill[Macrometeorite])) && (cc_my_path() != "G-Lover"))
 	{
 		if((enemy == $monster[Banshee Librarian]) && (item_amount($item[Killing Jar]) == 0))
 		{
@@ -1110,27 +1105,28 @@ string cc_combatHandler(int round, string opp, string text)
 			{
 				return "skill " + $skill[Macrometeorite];
 			}
-
 		}
 		# Beefy Bodyguard Bat with delay burnt.
 	}
 
-
 	if(item_amount($item[Disposable Instant Camera]) > 0)
 	{
-		if((enemy == $monster[Bob Racecar]) || (enemy == $monster[Racecar Bob]))
+		if($monsters[Bob Racecar, Racecar Bob] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(disposable instant camera)");
 			return "item " + $item[Disposable Instant Camera];
 		}
 	}
 
-	if(($monsters[Oil Baron, Oil Cartel, Oil Slick, Oil Tycoon] contains enemy) && (item_amount($item[Duskwalker Syringe]) > 0))
+	if(item_amount($item[Duskwalker Syringe]) > 0)
 	{
-		return "item " + $item[Duskwalker Syringe];
+		if($monsters[Oil Baron, Oil Cartel, Oil Slick, Oil Tycoon] contains enemy)
+		{
+			return "item " + $item[Duskwalker Syringe];
+		}
 	}
 
-	if((!contains_text(combatState, "opium grenade")) && (item_amount($item[opium grenade]) > 0))
+	if(!contains_text(combatState, "opium grenade") && (item_amount($item[opium grenade]) > 0))
 	{
 		if(enemy == $monster[pair of burnouts])
 		{
@@ -1141,37 +1137,37 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if(have_equipped($item[Protonic Accelerator Pack]) && isGhost(enemy))
 	{
-		if(!contains_text(combatState, "beanscreen") && have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
+		if(!contains_text(combatState, "beanscreen") && cc_have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
 		{
 			set_property("cc_combatHandler", combatState + "(beanscreen)");
 			return "skill " + $skill[Beanscreen];
 		}
 
-		if(!contains_text(combatState, "broadside") && have_skill($skill[Broadside]) && (my_mp() >= mp_cost($skill[Broadside])))
+		if(!contains_text(combatState, "broadside") && cc_have_skill($skill[Broadside]) && (my_mp() >= mp_cost($skill[Broadside])))
 		{
 			set_property("cc_combatHandler", combatState + "(broadside)");
 			return "skill " + $skill[Broadside];
 		}
 
-		if(!contains_text(combatState, to_string($skill[Snap Fingers])) && have_skill($skill[Snap Fingers]) && (my_mp() >= mp_cost($skill[Snap Fingers])))
+		if(!contains_text(combatState, to_string($skill[Snap Fingers])) && cc_have_skill($skill[Snap Fingers]) && (my_mp() >= mp_cost($skill[Snap Fingers])))
 		{
 			set_property("cc_combatHandler", combatState + "(" + $skill[Snap Fingers] + ")");
 			return "skill " + $skill[Snap Fingers];
 		}
 
-		if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
+		if((!contains_text(combatState, "love gnats")) && cc_have_skill($skill[Summon Love Gnats]))
 		{
 			set_property("cc_combatHandler", combatState + "(love gnats)");
 			return "skill " + $skill[Summon Love Gnats];
 		}
 
-		if(!contains_text(combatState, "soulbubble") && have_skill($skill[Soul Saucery]) && (my_soulsauce() >= soulsauce_cost($skill[Soul Bubble])) && (!get_property("lovebugsUnlocked").to_boolean() || blocked))
+		if(!contains_text(combatState, "soulbubble") && cc_have_skill($skill[Soul Saucery]) && (my_soulsauce() >= soulsauce_cost($skill[Soul Bubble])) && (!get_property("lovebugsUnlocked").to_boolean() || blocked))
 		{
 			set_property("cc_combatHandler", combatState + "(soulbubble)");
 			return "skill " + $skill[Soul Bubble];
 		}
 
-		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(combatState, "shootghost3") && !contains_text(combatState, "trapghost"))
+		if(cc_have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(combatState, "shootghost3") && !contains_text(combatState, "trapghost"))
 		{
 			boolean shootGhost = true;
 			if(contains_text(combatState, "shootghost2"))
@@ -1211,7 +1207,7 @@ string cc_combatHandler(int round, string opp, string text)
 				set_property("cc_combatHandler", combatState);
 			}
 		}
-		if(!contains_text(combatState, "trapghost") && have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(combatState, "shootghost3"))
+		if(!contains_text(combatState, "trapghost") && cc_have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(combatState, "shootghost3"))
 		{
 			print("Busting makes me feel good!!", "green");
 			set_property("cc_combatHandler", combatState + "(trapghost)");
@@ -1219,12 +1215,11 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-
 	# Instakill handler
 	boolean doInstaKill = true;
 	if($monsters[Lobsterfrogman, Ninja Snowman Assassin, Writing Desk] contains enemy)
 	{
-		if(have_skill($skill[Digitize]) && (get_property("_sourceTerminalDigitizeMonster") != enemy))
+		if(cc_have_skill($skill[Digitize]) && (get_property("_sourceTerminalDigitizeMonster") != enemy))
 		{
 			doInstaKill = false;
 		}
@@ -1232,17 +1227,16 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if(instakillable(enemy) && !isFreeMonster(enemy) && doInstaKill)
 	{
-
-		if((my_lightning() >= 25) && have_skill($skill[Lightning Strike]))
+		if((my_lightning() >= 25) && cc_have_skill($skill[Lightning Strike]))
 		{
-			if(have_skill($skill[lightning strike]))
+			if(cc_have_skill($skill[lightning strike]))
 			{
 				handleTracker(enemy, $skill[lightning strike], "cc_instakill");
 				return "skill " + $skill[lightning strike];
 			}
 		}
 
-		if(!contains_text(combatState, "shattering punch") && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && (get_property("_shatteringPunchUsed").to_int() < 3))
+		if(!contains_text(combatState, "shattering punch") && cc_have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && (get_property("_shatteringPunchUsed").to_int() < 3))
 		{
 			if((my_adventures() < 20) || get_property("kingLiberated").to_boolean() || (my_daycount() >= 3))
 			{
@@ -1251,7 +1245,7 @@ string cc_combatHandler(int round, string opp, string text)
 				return "skill " + $skill[shattering punch];
 			}
 		}
-		if(!contains_text(combatState, "gingerbread mob hit") && have_skill($skill[Gingerbread Mob Hit]) && ((my_mp() / 2) > mp_cost($skill[Gingerbread Mob Hit])) && !get_property("_gingerbreadMobHitUsed").to_boolean())
+		if(!contains_text(combatState, "gingerbread mob hit") && cc_have_skill($skill[Gingerbread Mob Hit]) && ((my_mp() / 2) > mp_cost($skill[Gingerbread Mob Hit])) && !get_property("_gingerbreadMobHitUsed").to_boolean())
 		{
 			if((my_adventures() < 20) || get_property("kingLiberated").to_boolean() || (my_daycount() >= 3))
 			{
@@ -1260,7 +1254,6 @@ string cc_combatHandler(int round, string opp, string text)
 				return "skill " + $skill[Gingerbread Mob Hit];
 			}
 		}
-
 
 //		Can not use _usedReplicaBatoomerang if we have more than 1 because of the double item use issue...
 //		Sure, we can try to use a second item (if we have it or are forced to buy it... ugh).
@@ -1282,7 +1275,7 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 		}
 
-		if(!contains_text(combatState, "jokesterGun") && (equipped_item($slot[Weapon]) == $item[The Jokester\'s Gun]) && !get_property("_firedJokestersGun").to_boolean() && have_skill($skill[Fire the Jokester\'s Gun]))
+		if(!contains_text(combatState, "jokesterGun") && (equipped_item($slot[Weapon]) == $item[The Jokester\'s Gun]) && !get_property("_firedJokestersGun").to_boolean() && cc_have_skill($skill[Fire the Jokester\'s Gun]))
 		{
 			set_property("cc_combatHandler", combatState + "(jokesterGun)");
 			handleTracker(enemy, $skill[Fire the Jokester\'s Gun], "cc_instakill");
@@ -1290,8 +1283,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-
-	if(!contains_text(combatState, "badMedicine") && have_skill($skill[Bad Medicine]) && (my_mp() >= (3 * mp_cost($skill[Bad Medicine]))))
+	if(!contains_text(combatState, "badMedicine") && cc_have_skill($skill[Bad Medicine]) && (my_mp() >= (3 * mp_cost($skill[Bad Medicine]))))
 	{
 		set_property("cc_combatHandler", combatState + "(badMedicine)");
 		return "skill " + $skill[Bad Medicine];
@@ -1307,13 +1299,13 @@ string cc_combatHandler(int round, string opp, string text)
 		doWeaksauce = true;
 	}
 
-	if((!contains_text(combatState, "weaksauce")) && have_skills($skills[Curse Of Weaksauce, Itchy Curse Finger]) && (my_mp() >= 60) && doWeaksauce)
+	if(!contains_text(combatState, "weaksauce") && have_skills($skills[Curse Of Weaksauce, Itchy Curse Finger]) && (my_mp() >= 60) && doWeaksauce)
 	{
 		set_property("cc_combatHandler", combatState + "(weaksauce)");
 		return "skill " + $skill[Curse Of Weaksauce];
 	}
 
-	if((!contains_text(combatState, "intimidating bellow")) && (have_skill($skill[Intimidating Bellow])) && (my_mp() >= 25) && have_skill($skill[Louder Bellows]))
+	if(!contains_text(combatState, "intimidating bellow") && cc_have_skill($skill[Intimidating Bellow]) && (my_mp() >= 25) && cc_have_skill($skill[Louder Bellows]))
 	{
 		set_property("cc_combatHandler", combatState + "(intimidating bellow)");
 		return "skill " + $skill[Intimidating Bellow];
@@ -1327,13 +1319,22 @@ string cc_combatHandler(int round, string opp, string text)
 	#Default behaviors:
 	if(mcd <= 150)
 	{
-		if((!contains_text(combatState, "weaksauce")) && have_skills($skills[Curse Of Weaksauce, Itchy Curse Finger]) && (my_mp() >= 60) && doWeaksauce)
+		if(!contains_text(combatState, "weaksauce") && have_skills($skills[Curse Of Weaksauce, Itchy Curse Finger]) && (my_mp() >= 60) && doWeaksauce)
 		{
 			set_property("cc_combatHandler", combatState + "(weaksauce)");
 			return "skill " + $skill[Curse Of Weaksauce];
 		}
 
-		if(!contains_text(combatState, "canhandle") && have_skill($skill[Canhandle]))
+		if($item[Daily Affirmation: Keep Free Hate In Your Heart].combat)
+		{
+			if(!contains_text(combatState, "freehate") && get_property("kingLiberated").to_boolean() && (item_amount($item[Daily Affirmation: Keep Free Hate In Your Heart]) > 0) && hippy_stone_broken() && !get_property("_affirmationHateUsed").to_boolean())
+			{
+				set_property("cc_combatHandler", combatState + "(freehate)");
+				return "item " + $item[Daily Affirmation: Keep Free Hate In Your Heart];
+			}
+		}
+
+		if(!contains_text(combatState, "canhandle") && cc_have_skill($skill[Canhandle]))
 		{
 			if($items[Frigid Northern Beans, Heimz Fortified Kidney Beans, Hellfire Spicy Beans, Mixed Garbanzos and Chickpeas, Pork \'n\' Pork \'n\' Pork \'n\' Beans, Shrub\'s Premium Baked Beans, Tesla\'s Electroplated Beans, Trader Olaf\'s Exotic Stinkbeans, World\'s Blackest-Eyed Peas] contains equipped_item($slot[Off-hand]))
 			{
@@ -1342,19 +1343,19 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 		}
 
-		if(!contains_text(combatState, "weaksauce") && have_skill($skill[curse of weaksauce]) && (my_class() == $class[Sauceror]) && (my_mp() >= 20))
+		if(!contains_text(combatState, "weaksauce") && cc_have_skill($skill[Curse Of Weaksauce]) && (my_class() == $class[Sauceror]) && (my_mp() >= 20))
 		{
 			set_property("cc_combatHandler", combatState + "(weaksauce)");
 			return "skill " + $skill[Curse Of Weaksauce];
 		}
 
-		if(!contains_text(combatState, "pocket crumbs") && have_skill($skill[pocket crumbs]))
+		if(!contains_text(combatState, "pocket crumbs") && cc_have_skill($skill[Pocket Crumbs]))
 		{
 			set_property("cc_combatHandler", combatState + "(pocket crumbs)");
 			return "skill " + $skill[Pocket Crumbs];
 		}
 
-		if(!contains_text(combatState, "micrometeorite") && have_skill($skill[Micrometeorite]))
+		if(!contains_text(combatState, "micrometeorite") && cc_have_skill($skill[Micrometeorite]))
 		{
 			set_property("cc_combatHandler", combatState + "(micrometeorite)");
 			return "skill " + $skill[Micrometeorite];
@@ -1378,25 +1379,25 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 		}
 
-		if(!contains_text(combatState, "air dirty laundry") && have_skill($skill[air dirty laundry]))
+		if(!contains_text(combatState, "air dirty laundry") && cc_have_skill($skill[Air Dirty Laundry]))
 		{
 			set_property("cc_combatHandler", combatState + "(air dirty laundry)");
 			return "skill " + $skill[Air Dirty Laundry];
 		}
 
-		if(!contains_text(combatState, "cowboy kick") && have_skill($skill[Cowboy Kick]))
+		if(!contains_text(combatState, "cowboy kick") && cc_have_skill($skill[Cowboy Kick]))
 		{
 			set_property("cc_combatHandler", combatState + "(cowboy kick)");
 			return "skill " + $skill[Cowboy Kick];
 		}
 
-		if(!contains_text(combatState, "fire death ray") && have_skill($skill[Fire Death Ray]))
+		if(!contains_text(combatState, "fire death ray") && cc_have_skill($skill[Fire Death Ray]))
 		{
 			set_property("cc_combatHandler", combatState + "(fire death ray)");
 			return "skill " + $skill[Fire Death Ray];
 		}
 
-		if(!contains_text(combatState, "ply reality") && have_skill($skill[ply reality]))
+		if(!contains_text(combatState, "ply reality") && cc_have_skill($skill[ply reality]))
 		{
 			set_property("cc_combatHandler", combatState + "(ply reality)");
 			return "skill " + $skill[Ply Reality];
@@ -1408,7 +1409,7 @@ string cc_combatHandler(int round, string opp, string text)
 			return "item " + $item[Rain-Doh Indigo Cup];
 		}
 
-		if(!contains_text(combatState, "love mosquito") && have_skill($skill[Summon Love Mosquito]))
+		if(!contains_text(combatState, "love mosquito") && cc_have_skill($skill[Summon Love Mosquito]))
 		{
 			set_property("cc_combatHandler", combatState + "(love mosquito)");
 			return "skill " + $skill[Summon Love Mosquito];
@@ -1428,24 +1429,24 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 		}
 
-		if(!contains_text(combatState, "(extract)") && have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 3)) && (item_amount($item[Source Essence]) <= 60))
+		if(!contains_text(combatState, "(extract)") && cc_have_skill($skill[Extract]) && (my_mp() > (mp_cost($skill[Extract]) * 3)) && (item_amount($item[Source Essence]) <= 60))
 		{
 			set_property("cc_combatHandler", combatState + "(extract)");
 			return "skill " + $skill[Extract];
 		}
 
-		if(!contains_text(combatState, "(extract jelly)") && have_skill($skill[Extract Jelly]) && (my_mp() > (mp_cost($skill[Extract Jelly]) * 3)) && ((expected_damage() * 2) < my_hp()) && (my_familiar() == $familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3) && ($elements[hot, spooky, stench] contains monster_element(enemy)))
+		if(!contains_text(combatState, "(extract jelly)") && cc_have_skill($skill[Extract Jelly]) && (my_mp() > (mp_cost($skill[Extract Jelly]) * 3)) && canSurvive(2.0) && (my_familiar() == $familiar[Space Jellyfish]) && (get_property("_spaceJellyfishDrops").to_int() < 3) && ($elements[hot, spooky, stench] contains monster_element(enemy)))
 		{
 			set_property("cc_combatHandler", combatState + "(extract jelly)");
 			return "skill " + $skill[Extract Jelly];
 		}
 
-		if(!contains_text(combatState, "(scienceMedicine)") && have_skill($skill[Science! Fight With Medicine]) && ((my_hp() * 2) < my_maxhp()))
+		if(!contains_text(combatState, "(scienceMedicine)") && cc_have_skill($skill[Science! Fight With Medicine]) && ((my_hp() * 2) < my_maxhp()))
 		{
 			set_property("cc_combatHandler", combatState + "(scienceMedicine)");
 			return "skill " + $skill[Science! Fight With Medicine];
 		}
-		if(!contains_text(combatState, "(rationalThought)") && have_skill($skill[Science! Fight With Rational Thought]))
+		if(!contains_text(combatState, "(rationalThought)") && cc_have_skill($skill[Science! Fight With Rational Thought]) && (have_effect($effect[Rational Thought]) < 10))
 		{
 			set_property("cc_combatHandler", combatState + "(rationalThought)");
 			return "skill " + $skill[Science! Fight With Rational Thought];
@@ -1455,6 +1456,18 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			set_property("cc_combatHandler", combatState + "(time-spinner)");
 			return "item " + $item[Time-Spinner];
+		}
+
+		if(!contains_text(combatState, "(sing along)") && cc_have_skill($skill[Sing Along]) && (my_mp() > (mp_cost($skill[Sing Along]))) && (get_property("_boomBoxSong") == "Remainin\' Alive"))
+		{
+			set_property("cc_combatHandler", combatState + "(sing along)");
+			return "skill " + $skill[Sing Along];
+		}
+
+		if(!contains_text(combatState, "(sing along)") && cc_have_skill($skill[Sing Along]) && (my_mp() > (mp_cost($skill[Sing Along]))) && canSurvive(2.5) && (get_property("_boomBoxSong") == "Total Eclipse of Your Meat"))
+		{
+			set_property("cc_combatHandler", combatState + "(sing along)");
+			return "skill " + $skill[Sing Along];
 		}
 	}
 
@@ -1467,20 +1480,29 @@ string cc_combatHandler(int round, string opp, string text)
 			return "item " + $item[Rain-Doh Blue Balls];
 		}
 
-		if(!contains_text(combatState, "love gnats") && have_skill($skill[Summon Love Gnats]))
+		if(!contains_text(combatState, "love gnats") && cc_have_skill($skill[Summon Love Gnats]))
 		{
 			set_property("cc_combatHandler", combatState + "(love gnats)");
 			return "skill " + $skill[Summon Love Gnats];
 		}
 
-		if(!contains_text(combatState, "love stinkbug") && contains_text(combatState, "love gnats") && !contains_text(text, "STUN RESIST") && have_skill($skill[Summon Love Stinkbug]))
+		if(!contains_text(combatState, "love stinkbug") && contains_text(combatState, "love gnats") && !contains_text(text, "STUN RESIST") && cc_have_skill($skill[Summon Love Stinkbug]))
 		{
 			set_property("cc_combatHandler", combatState + "(love stinkbug)");
 			return "skill " + $skill[Summon Love Stinkbug];
 		}
+
+		if(!contains_text(combatState, "(sing along)") && cc_have_skill($skill[Sing Along]) && (my_mp() > (mp_cost($skill[Sing Along]))))
+		{
+			if((get_property("_boomBoxSong") == "Remainin\' Alive") || (get_property("_boomBoxSong") == "Total Eclipse of Your Meat"))
+			{
+				set_property("cc_combatHandler", combatState + "(sing along)");
+				return "skill " + $skill[Sing Along];
+			}
+		}
 	}
 
-	if((my_location() == $location[Super Villain\'s Lair]) && (cc_my_path() == "License to Adventure") && ((expected_damage() * 2) < my_hp()) && (enemy == $monster[Villainous Minion]))
+	if((my_location() == $location[Super Villain\'s Lair]) && (cc_my_path() == "License to Adventure") && canSurvive(2.0) && (enemy == $monster[Villainous Minion]))
 	{
 		if(!get_property("_villainLairCanLidUsed").to_boolean() && (item_amount($item[Razor-Sharp Can Lid]) > 0))
 		{
@@ -1496,9 +1518,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-
-
-	if(!contains_text(combatState, "portscan") && have_skill($skill[Portscan]) && (my_location().turns_spent < 8) && (get_property("_sourceTerminalPortscanUses").to_int() < 3) && (my_mp() > mp_cost($skill[Portscan])) && !get_property("_portscanPending").to_boolean())
+	if(!contains_text(combatState, "portscan") && cc_have_skill($skill[Portscan]) && (my_location().turns_spent < 8) && (get_property("_sourceTerminalPortscanUses").to_int() < 3) && (my_mp() > mp_cost($skill[Portscan])) && !get_property("_portscanPending").to_boolean())
 	{
 		if($locations[The Castle in the Clouds in the Sky (Ground Floor), The Haunted Bathroom, The Haunted Gallery] contains my_location())
 		{
@@ -1508,7 +1528,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!contains_text(combatState, "candyblast") && (my_mp() > 60) && (get_property("kingLiberated").to_boolean()))
+	if(!contains_text(combatState, "candyblast") && cc_have_skill($skill[Candyblast]) && (my_mp() > 60) && get_property("kingLiberated").to_boolean())
 	{
 		# We can get only one candy and we can detect it, if so desired:
 		# "Hey, some of it is even intact afterwards!"
@@ -1516,7 +1536,9 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill " + $skill[Candyblast];
 	}
 
-	if(!contains_text(combatState, "spirit snap") && (my_class() == $class[Turtle Tamer]) && (have_skill($skill[Spirit Snap]) && (my_mp() > 80)))
+
+
+	if(!contains_text(combatState, "spirit snap") && (my_class() == $class[Turtle Tamer]) && (cc_have_skill($skill[Spirit Snap]) && (my_mp() > 80)))
 	{
 		if((have_effect($effect[Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Grand Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Glorious Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Glorious Blessing of the War Snapper]) > 0) || (have_effect($effect[Glorious Blessing of She-Who-Was]) > 0))
 		{
@@ -1525,13 +1547,13 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!contains_text(combatState, "stuffedmortarshell") && (my_class() == $class[Sauceror]) && ((expected_damage() * 2) < my_hp()) && have_skill($skill[Stuffed Mortar Shell]) && (my_mp() > mp_cost($skill[Stuffed Mortar Shell])))
+	if(!contains_text(combatState, "stuffedmortarshell") && (my_class() == $class[Sauceror]) && canSurvive(2.0) && cc_have_skill($skill[Stuffed Mortar Shell]) && (my_mp() > mp_cost($skill[Stuffed Mortar Shell])))
 	{
 		set_property("cc_combatHandler", combatState + "(stuffedmortarshell)");
 		return "skill " + $skill[Stuffed Mortar Shell];
 	}
 
-	if(!contains_text(combatState, "duplicate") && have_skill($skill[Duplicate]) && (my_mp() > mp_cost($skill[Duplicate])) && (get_property("_sourceTerminalDuplicateUses").to_int() == 0) && !get_property("kingLiberated").to_boolean() && (cc_my_path() != "Nuclear Autumn"))
+	if(!contains_text(combatState, "duplicate") && cc_have_skill($skill[Duplicate]) && (my_mp() > mp_cost($skill[Duplicate])) && (get_property("_sourceTerminalDuplicateUses").to_int() == 0) && !get_property("kingLiberated").to_boolean() && (cc_my_path() != "Nuclear Autumn"))
 	{
 		if($monsters[Dairy Goat, Gaudy Pirate] contains enemy)
 		{
@@ -1546,7 +1568,7 @@ string cc_combatHandler(int round, string opp, string text)
 		return "item " + $item[Exploding Cigar];
 	}
 
-	if(contains_text(combatState, "duplicate") && have_skill($skill[Gelatinous Kick]) && (my_mp() > mp_cost($skill[Gelatinous Kick])))
+	if(contains_text(combatState, "duplicate") && cc_have_skill($skill[Gelatinous Kick]) && (my_mp() > mp_cost($skill[Gelatinous Kick])))
 	{
 		if($monsters[Dairy Goat, Gaudy Pirate] contains enemy)
 		{
@@ -1554,20 +1576,19 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-
-	if(!contains_text(combatState, "weaksauce") && have_skill($skill[curse of weaksauce]) && (my_class() == $class[Sauceror]) && (my_mp() >= 32))
+	if(!contains_text(combatState, "weaksauce") && cc_have_skill($skill[Curse Of Weaksauce]) && (my_class() == $class[Sauceror]) && (my_mp() >= 32))
 	{
 		set_property("cc_combatHandler", combatState + "(weaksauce)");
 		return "skill " + $skill[Curse Of Weaksauce];
 	}
 
-	if(!contains_text(combatState, "weaksauce") && have_skill($skill[curse of weaksauce]) && (my_class() == $class[Sauceror]) && (my_mp() >= 8) && contains_text(combatState, "stuffedmortarshell"))
+	if(!contains_text(combatState, "weaksauce") && cc_have_skill($skill[Curse Of Weaksauce]) && (my_class() == $class[Sauceror]) && (my_mp() >= 8) && contains_text(combatState, "stuffedmortarshell"))
 	{
 		set_property("cc_combatHandler", combatState + "(weaksauce)");
 		return "skill " + $skill[Curse Of Weaksauce];
 	}
 
-	if(!contains_text(combatState, "digitize") && have_skill($skill[Digitize]) && (my_mp() > mp_cost($skill[Digitize])) && (get_property("_sourceTerminalDigitizeUses").to_int() == 0) && !get_property("kingLiberated").to_boolean())
+	if(!contains_text(combatState, "digitize") && cc_have_skill($skill[Digitize]) && (my_mp() > mp_cost($skill[Digitize])) && (get_property("_sourceTerminalDigitizeUses").to_int() == 0) && !get_property("kingLiberated").to_boolean())
 	{
 		if($monsters[Ninja Snowman Assassin, Lobsterfrogman, Writing Desk] contains enemy)
 		{
@@ -1579,7 +1600,7 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!contains_text(combatState, "digitize") && have_skill($skill[Digitize]) && (my_mp() > mp_cost($skill[Digitize])) && (get_property("_sourceTerminalDigitizeUses").to_int() < 3) && !get_property("kingLiberated").to_boolean())
+	if(!contains_text(combatState, "digitize") && cc_have_skill($skill[Digitize]) && (my_mp() > mp_cost($skill[Digitize])) && (get_property("_sourceTerminalDigitizeUses").to_int() < 3) && !get_property("kingLiberated").to_boolean())
 	{
 		if(get_property("cc_digitizeDirective") == enemy)
 		{
@@ -1603,17 +1624,17 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 	case $class[Seal Clubber]:
 		attackMinor = "attack with weapon";
-		if(have_skill($skill[lunge smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])))
+		if(cc_have_skill($skill[lunge smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])))
 		{
 			attackMinor = "skill " + $skill[Lunge Smack];
 			costMinor = mp_cost($skill[Lunge Smack]);
 		}
-		if(have_skill($skill[lunging thrust-smack]) && (my_mp() >= mp_cost($skill[Lunging Thrust-Smack])))
+		if(cc_have_skill($skill[lunging thrust-smack]) && (my_mp() >= mp_cost($skill[Lunging Thrust-Smack])))
 		{
 			attackMajor = "skill " + $skill[Lunging Thrust-Smack];
 			costMajor = mp_cost($skill[Lunging Thrust-Smack]);
 		}
-		if(have_skill($skill[Club Foot]) && (my_mp() >= mp_cost($skill[Club Foot])))
+		if(cc_have_skill($skill[Club Foot]) && (my_mp() >= mp_cost($skill[Club Foot])))
 		{
 			stunner = "skill " + $skill[Club Foot];
 			costStunner = mp_cost($skill[Club Foot]);
@@ -1621,33 +1642,33 @@ string cc_combatHandler(int round, string opp, string text)
 		break;
 	case $class[Turtle Tamer]:
 		attackMinor = "attack with weapon";
-		if((my_mp() > 150) && (have_skill($skill[shieldbutt])) && hasShieldEquipped())
+		if((my_mp() > 150) && (cc_have_skill($skill[shieldbutt])) && hasShieldEquipped())
 		{
 			attackMinor = "skill shieldbutt";
 			costMinor = mp_cost($skill[Shieldbutt]);
 		}
-		else if((my_mp() > 80) && ((my_hp() * 2) < my_maxhp()) && have_skill($skill[Kneebutt]))
+		else if((my_mp() > 80) && ((my_hp() * 2) < my_maxhp()) && cc_have_skill($skill[Kneebutt]))
 		{
 			attackMinor = "skill kneebutt";
 			costMinor = mp_cost($skill[Kneebutt]);
 		}
-		if(((round > 15) || ((my_hp() * 2) < my_maxhp())) && have_skill($skill[Kneebutt]))
+		if(((round > 15) || ((my_hp() * 2) < my_maxhp())) && cc_have_skill($skill[Kneebutt]))
 		{
 			attackMajor = "skill kneebutt";
 			costMajor = mp_cost($skill[Kneebutt]);
 		}
-		if((have_skill($skill[shieldbutt])) && hasShieldEquipped() && (my_mp() >= mp_cost($skill[Shieldbutt])))
+		if((cc_have_skill($skill[shieldbutt])) && hasShieldEquipped() && (my_mp() >= mp_cost($skill[Shieldbutt])))
 		{
 			attackMajor = "skill shieldbutt";
 			costMajor = mp_cost($skill[Shieldbutt]);
 		}
-		if(have_skill($skill[Shell Up]) && (my_mp() >= mp_cost($skill[Shell Up])))
+		if(cc_have_skill($skill[Shell Up]) && (my_mp() >= mp_cost($skill[Shell Up])))
 		{
 			stunner = "skill shell up";
 			costStunner = mp_cost($skill[Shell Up]);
 		}
 
-		if(((monster_defense() - my_buffedstat(my_primestat())) > 20) && have_skill($skill[Saucestorm]) && (my_mp() >= mp_cost($skill[Saucestorm])))
+		if(((monster_defense() - my_buffedstat(my_primestat())) > 20) && cc_have_skill($skill[Saucestorm]) && (my_mp() >= mp_cost($skill[Saucestorm])))
 		{
 			attackMajor = "skill " + $skill[Saucestorm];
 			costMajor = mp_cost($skill[Saucestorm]);
@@ -1655,24 +1676,24 @@ string cc_combatHandler(int round, string opp, string text)
 
 		break;
 	case $class[Pastamancer]:
-		if((my_mp() >= mp_cost($skill[Cannelloni Cannon])) && (have_skill($skill[Cannelloni Cannon])))
+		if((my_mp() >= mp_cost($skill[Cannelloni Cannon])) && (cc_have_skill($skill[Cannelloni Cannon])))
 		{
 			attackMinor = "skill Cannelloni Cannon";
 			costMinor = mp_cost($skill[Cannelloni Cannon]);
 		}
-		if((my_mp() >= mp_cost($skill[Weapon of the Pastalord])) && (have_skill($skill[Weapon of the Pastalord])))
+		if((my_mp() >= mp_cost($skill[Weapon of the Pastalord])) && (cc_have_skill($skill[Weapon of the Pastalord])))
 		{
 			attackMajor = "skill Weapon of the Pastalord";
 			costMajor = mp_cost($skill[Weapon of the Pastalord]);
 		}
-		if((my_mp() >= mp_cost($skill[Saucestorm])) && (have_skill($skill[Saucestorm])))
+		if((my_mp() >= mp_cost($skill[Saucestorm])) && (cc_have_skill($skill[Saucestorm])))
 		{
 			attackMajor = "skill " + $skill[Saucestorm];
 			attackMinor = "skill " + $skill[Saucestorm];
 			costMinor = mp_cost($skill[Saucestorm]);
 			costMajor = mp_cost($skill[Saucestorm]);
 		}
-		if((my_mp() >= 1) && (have_skill($skill[Utensil Twist])) && (item_type(equipped_item($slot[weapon])) == "utensil"))
+		if((my_mp() >= 1) && cc_have_skill($skill[Utensil Twist]) && (item_type(equipped_item($slot[weapon])) == "utensil"))
 		{
 			if(equipped_item($slot[weapon]) == $item[Hand That Rocks the Ladle])
 			{
@@ -1687,42 +1708,42 @@ string cc_combatHandler(int round, string opp, string text)
 				costMinor = mp_cost($skill[Utensil Twist]);
 			}
 		}
-		if(have_skill($skill[Entangling Noodles]) && (my_mp() >= mp_cost($skill[Entangling Noodles])))
+		if(cc_have_skill($skill[Entangling Noodles]) && (my_mp() >= mp_cost($skill[Entangling Noodles])))
 		{
 			stunner = "skill entangling noodles";
 			costStunner = mp_cost($skill[Entangling Noodles]);
 		}
 		break;
 	case $class[Sauceror]:
-		if((my_mp() >= mp_cost($skill[Saucegeyser])) && (have_skill($skill[Saucegeyser])))
+		if((my_mp() >= mp_cost($skill[Saucegeyser])) && cc_have_skill($skill[Saucegeyser]))
 		{
 			attackMinor = "skill saucegeyser";
 			attackMajor = "skill saucegeyser";
 			costMinor = mp_cost($skill[Saucegeyser]);
 			costMajor = mp_cost($skill[Saucegeyser]);
 		}
-		else if((my_mp() >= mp_cost($skill[Saucecicle])) && have_skill($skill[Saucecicle]) && (monster_element(enemy) != $element[cold]))
+		else if((my_mp() >= mp_cost($skill[Saucecicle])) && cc_have_skill($skill[Saucecicle]) && (monster_element(enemy) != $element[cold]))
 		{
 			attackMinor = "skill saucecicle";
 			attackMajor = "skill saucecicle";
 			costMinor = mp_cost($skill[Saucecicle]);
 			costMajor = mp_cost($skill[Saucecicle]);
 		}
-		else if((my_mp() >= mp_cost($skill[Saucestorm])) && (have_skill($skill[Saucestorm])))
+		else if((my_mp() >= mp_cost($skill[Saucestorm])) && (cc_have_skill($skill[Saucestorm])))
 		{
 			attackMinor = "skill saucestorm";
 			attackMajor = "skill saucestorm";
 			costMinor = mp_cost($skill[Saucestorm]);
 			costMajor = mp_cost($skill[Saucestorm]);
 		}
-		else if((my_mp() >= mp_cost($skill[Wave of Sauce])) && have_skill($skill[Wave of Sauce]) && (monster_element(enemy) != $element[hot]))
+		else if((my_mp() >= mp_cost($skill[Wave of Sauce])) && cc_have_skill($skill[Wave of Sauce]) && (monster_element(enemy) != $element[hot]))
 		{
 			attackMinor = "skill wave of sauce";
 			attackMajor = "skill wave of sauce";
 			costMinor = mp_cost($skill[Wave of Sauce]);
 			costMajor = mp_cost($skill[Wave of Sauce]);
 		}
-		else if((my_mp() >= mp_cost($skill[Stream of Sauce])) && have_skill($skill[Stream of Sauce]) && (monster_element(enemy) != $element[hot]))
+		else if((my_mp() >= mp_cost($skill[Stream of Sauce])) && cc_have_skill($skill[Stream of Sauce]) && (monster_element(enemy) != $element[hot]))
 		{
 			attackMinor = "skill stream of sauce";
 			attackMajor = "skill stream of sauce";
@@ -1736,7 +1757,7 @@ string cc_combatHandler(int round, string opp, string text)
 			costStunner = mp_cost($skill[Soul Bubble]);
 		}
 
-		if(!contains_text(combatState, "delaymortarshell") && contains_text(combatState, "stuffedmortarshell") && (my_class() == $class[Sauceror]) && ((expected_damage() * 2) < my_hp()) && have_skill($skill[Stuffed Mortar Shell]) && have_skill($skill[Salsaball]) && (my_mp() > mp_cost($skill[Salsaball])))
+		if(!contains_text(combatState, "delaymortarshell") && contains_text(combatState, "stuffedmortarshell") && (my_class() == $class[Sauceror]) && canSurvive(2.0) && cc_have_skill($skill[Stuffed Mortar Shell]) && cc_have_skill($skill[Salsaball]) && (my_mp() > mp_cost($skill[Salsaball])))
 		{
 			set_property("cc_combatHandler", combatState + "(delaymortarshell)");
 			return "skill salsaball";
@@ -1745,7 +1766,7 @@ string cc_combatHandler(int round, string opp, string text)
 		break;
 
 	case $class[Avatar of Boris]:
-		if((my_mp() >= mp_cost($skill[Heroic Belch])) && have_skill($skill[Heroic Belch]) && (enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[stench]) && (my_fullness() >= 5))
+		if((my_mp() >= mp_cost($skill[Heroic Belch])) && cc_have_skill($skill[Heroic Belch]) && (enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[stench]) && (my_fullness() >= 5))
 		{
 			attackMinor = "skill " + $skill[Heroic Belch];
 			attackMajor = "skill " + $skill[Heroic Belch];
@@ -1753,7 +1774,7 @@ string cc_combatHandler(int round, string opp, string text)
 			costMajor = mp_cost($skill[Heroic Belch]);
 		}
 
-		if((my_mp() >= mp_cost($skill[Broadside])) && have_skill($skill[Broadside]))
+		if((my_mp() >= mp_cost($skill[Broadside])) && cc_have_skill($skill[Broadside]))
 		{
 			stunner = "skill " + $skill[Broadside];
 			costStunner = mp_cost($skill[Broadside]);
@@ -1761,7 +1782,7 @@ string cc_combatHandler(int round, string opp, string text)
 		break;
 
 	case $class[Avatar of Sneaky Pete]:
-		if(!contains_text(combatState, to_string($skill[Peel Out])) && have_skill($skill[Peel Out]) && (my_mp() > mp_cost($skill[Peel Out])))
+		if(!contains_text(combatState, to_string($skill[Peel Out])) && cc_have_skill($skill[Peel Out]) && (my_mp() > mp_cost($skill[Peel Out])))
 		{
 			if($monsters[Bubblemint Twins, Bunch of Drunken Rats, Coaltergeist, Creepy Ginger Twin, Demoninja, Drunk Goat, Drunken Rat, Fallen Archfiend, Hellion, Knob Goblin Elite Guard, L imp, Mismatched Twins, Sabre-Toothed Goat, Tomb Asp, Tomb Servant,  W imp] contains enemy)
 			{
@@ -1776,13 +1797,13 @@ string cc_combatHandler(int round, string opp, string text)
 			return "item " + $item[Firebomb];
 		}
 
-		if(!contains_text(combatState, to_string($skill[Pop Wheelie])) && have_skill($skill[Pop Wheelie]) && (my_mp() > 40))
+		if(!contains_text(combatState, to_string($skill[Pop Wheelie])) && cc_have_skill($skill[Pop Wheelie]) && (my_mp() > 40))
 		{
 			set_property("cc_combatHandler", combatState + "(" + $skill[Pop Wheelie] + ")");
 			return "skill " + $skill[Pop Wheelie];
 		}
 
-		if(!contains_text(combatState, to_string($skill[Snap Fingers])) && have_skill($skill[Snap Fingers]) && (my_mp() >= mp_cost($skill[Snap Fingers])))
+		if(!contains_text(combatState, to_string($skill[Snap Fingers])) && cc_have_skill($skill[Snap Fingers]) && (my_mp() >= mp_cost($skill[Snap Fingers])))
 		{
 			stunner = $skill[Snap Fingers];
 			costStunner = mp_cost($skill[Snap Fingers]);
@@ -1792,7 +1813,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	case $class[Accordion Thief]:
 
-		if((!contains_text(combatState, "cadenza")) && (item_type(equipped_item($slot[weapon])) == "accordion") && (my_mp() >= mp_cost($skill[Cadenza])) && ((expected_damage() * 2) < my_hp()))
+		if(!contains_text(combatState, "cadenza") && (item_type(equipped_item($slot[weapon])) == "accordion") && (my_mp() >= mp_cost($skill[Cadenza])) && canSurvive(2.0))
 		{
 			if($items[accordion file, alarm accordion, autocalliope, bal-musette accordion, baritone accordion, cajun accordion, ghost accordion, peace accordion, pentatonic accordion, pygmy concertinette, skipper\'s accordion, squeezebox of the ages, the trickster\'s trikitixa] contains equipped_item($slot[weapon]))
 			{
@@ -1801,13 +1822,13 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 		}
 
-		if(have_skill($skill[Accordion Bash]) && (my_mp() >= mp_cost($skill[Accordion Bash])) && (item_type(equipped_item($slot[weapon])) == "accordion"))
+		if(cc_have_skill($skill[Accordion Bash]) && (my_mp() >= mp_cost($skill[Accordion Bash])) && (item_type(equipped_item($slot[weapon])) == "accordion"))
 		{
 			stunner = "skill " + $skill[Accordion Bash];
 			costStunner = mp_cost($skill[Accordion Bash]);
 		}
 
-		if(((monster_defense() - my_buffedstat(my_primestat())) > 20) && have_skill($skill[Saucestorm]) && (my_mp() >= mp_cost($skill[Saucestorm])))
+		if(((monster_defense() - my_buffedstat(my_primestat())) > 20) && cc_have_skill($skill[Saucestorm]) && (my_mp() >= mp_cost($skill[Saucestorm])))
 		{
 			attackMajor = "skill " + $skill[Saucestorm];
 			costMajor = mp_cost($skill[Saucestorm]);
@@ -1819,7 +1840,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 		// I have no idea how Disco Bandits fight, even less than AT.
 
-		if(((monster_defense() - my_buffedstat(my_primestat())) > 20) && have_skill($skill[Saucestorm]) && (my_mp() >= mp_cost($skill[Saucestorm])))
+		if(((monster_defense() - my_buffedstat(my_primestat())) > 20) && cc_have_skill($skill[Saucestorm]) && (my_mp() >= mp_cost($skill[Saucestorm])))
 		{
 			attackMajor = "skill " + $skill[Saucestorm];
 			costMajor = mp_cost($skill[Saucestorm]);
@@ -1829,7 +1850,7 @@ string cc_combatHandler(int round, string opp, string text)
 	case $class[Cow Puncher]:
 	case $class[Beanslinger]:
 	case $class[Snake Oiler]:
-		if(!contains_text(combatState, "extractSnakeOil") && (my_hp() > 80) && have_skill($skill[Extract Oil]) && (my_mp() >= (3 * mp_cost($skill[Extract Oil]))))
+		if(!contains_text(combatState, "extractSnakeOil") && (my_hp() > 80) && cc_have_skill($skill[Extract Oil]) && (my_mp() >= (3 * mp_cost($skill[Extract Oil]))))
 		{
 			if($monsters[Aggressive grass snake, Bacon snake, Batsnake, Black adder, Burning Snake of Fire, Coal snake, Diamondback rattler, Frontwinder, Frozen Solid Snake, King snake, Licorice snake, Mutant rattlesnake, Prince snake, Sewer snake with a sewer snake in it, Snakeleton, The Snake with Like Ten Heads, Tomb asp, Trouser Snake, Whitesnake] contains enemy)
 			{
@@ -1851,20 +1872,20 @@ string cc_combatHandler(int round, string opp, string text)
 				return "skill " + $skill[Extract Oil];
 			}
 		}
-		if(!contains_text(combatState, "goodMedicine") && have_skill($skill[Good Medicine]) && (my_mp() >= (3 * mp_cost($skill[Good Medicine]))))
+		if(!contains_text(combatState, "goodMedicine") && cc_have_skill($skill[Good Medicine]) && (my_mp() >= (3 * mp_cost($skill[Good Medicine]))))
 		{
 			set_property("cc_combatHandler", combatState + "(goodMedicine)");
 			return "skill " + $skill[Good Medicine];
 		}
 
-		if(!contains_text(combatState, "hogtie") && have_skill($skill[Hogtie]) && (my_mp() >= (6 * mp_cost($skill[Hogtie]))) && hasLeg(enemy))
+		if(!contains_text(combatState, "hogtie") && cc_have_skill($skill[Hogtie]) && (my_mp() >= (6 * mp_cost($skill[Hogtie]))) && hasLeg(enemy))
 		{
 			set_property("cc_combatHandler", combatState + "(hogtie)");
 			return  "skill " + $skill[Hogtie];
 		}
 
 
-		if(have_skill($skill[One-Two Punch]) && (my_mp() >= mp_cost($skill[One-Two Punch])) && (equipped_item($slot[Weapon]) == $item[none]))
+		if(cc_have_skill($skill[One-Two Punch]) && (my_mp() >= mp_cost($skill[One-Two Punch])) && (equipped_item($slot[Weapon]) == $item[none]))
 		{
 //			attackMajor = "skill " + $skill[One-Two Punch];
 //			attackMinor = "skill " + $skill[One-Two Punch];
@@ -1875,14 +1896,14 @@ string cc_combatHandler(int round, string opp, string text)
 
 
 
-		if(have_skill($skill[Lavafava]) && (my_mp() >= mp_cost($skill[Lavafava])) && (enemy.defense_element != $element[hot]))
+		if(cc_have_skill($skill[Lavafava]) && (my_mp() >= mp_cost($skill[Lavafava])) && (enemy.defense_element != $element[hot]))
 		{
 			attackMajor = "skill " + $skill[Lavafava];
 			attackMinor = "skill " + $skill[Lavafava];
 			costMajor = mp_cost($skill[Lavafava]);
 			costMinor = mp_cost($skill[Lavafava]);
 		}
-		if(have_skill($skill[Beanstorm]) && (my_mp() >= mp_cost($skill[Beanstorm])))
+		if(cc_have_skill($skill[Beanstorm]) && (my_mp() >= mp_cost($skill[Beanstorm])))
 		{
 			attackMajor = "skill " + $skill[Beanstorm];
 			attackMinor = "skill " + $skill[Beanstorm];
@@ -1890,14 +1911,14 @@ string cc_combatHandler(int round, string opp, string text)
 			costMinor = mp_cost($skill[Beanstorm]);
 		}
 
-		if(have_skill($skill[Fan Hammer]) && (my_mp() >= mp_cost($skill[Fan Hammer])))
+		if(cc_have_skill($skill[Fan Hammer]) && (my_mp() >= mp_cost($skill[Fan Hammer])))
 		{
 			attackMajor = "skill " + $skill[Fan Hammer];
 			attackMinor = "skill " + $skill[Fan Hammer];
 			costMajor = mp_cost($skill[Fan Hammer]);
 			costMinor = mp_cost($skill[Fan Hammer]);
 		}
-		if(have_skill($skill[Snakewhip]) && (my_mp() >= mp_cost($skill[Snakewhip])) && (enemy.physical_resistance < 80))
+		if(cc_have_skill($skill[Snakewhip]) && (my_mp() >= mp_cost($skill[Snakewhip])) && (enemy.physical_resistance < 80))
 		{
 			attackMajor = "skill " + $skill[Snakewhip];
 			attackMinor = "skill " + $skill[Snakewhip];
@@ -1905,7 +1926,7 @@ string cc_combatHandler(int round, string opp, string text)
 			costMinor = mp_cost($skill[Snakewhip]);
 		}
 
-		if(have_skill($skill[Pungent Mung]) && (my_mp() >= mp_cost($skill[Pungent Mung])) && (enemy.defense_element != $element[stench]))
+		if(cc_have_skill($skill[Pungent Mung]) && (my_mp() >= mp_cost($skill[Pungent Mung])) && (enemy.defense_element != $element[stench]))
 		{
 			attackMajor = "skill " + $skill[Pungent Mung];
 			attackMinor = "skill " + $skill[Pungent Mung];
@@ -1913,7 +1934,7 @@ string cc_combatHandler(int round, string opp, string text)
 			costMinor = mp_cost($skill[Pungent Mung]);
 		}
 
-		if(have_skill($skill[Cowcall]) && (my_mp() >= mp_cost($skill[Cowcall])) && (type != $phylum[undead]) && (enemy.defense_element != $element[spooky]) && (have_effect($effect[Cowrruption]) >= 60))
+		if(cc_have_skill($skill[Cowcall]) && (my_mp() >= mp_cost($skill[Cowcall])) && (type != $phylum[undead]) && (enemy.defense_element != $element[spooky]) && (have_effect($effect[Cowrruption]) >= 60))
 		{
 			attackMajor = "skill " + $skill[Cowcall];
 			attackMinor = "skill " + $skill[Cowcall];
@@ -1921,7 +1942,7 @@ string cc_combatHandler(int round, string opp, string text)
 			costMinor = mp_cost($skill[Cowcall]);
 		}
 
-		if(have_skill($skill[Cowcall]) && (my_mp() >= mp_cost($skill[Cowcall])) && (type != $phylum[undead]) && (enemy.defense_element != $element[spooky]) && (my_class() == $class[Cow Puncher]))
+		if(cc_have_skill($skill[Cowcall]) && (my_mp() >= mp_cost($skill[Cowcall])) && (type != $phylum[undead]) && (enemy.defense_element != $element[spooky]) && (my_class() == $class[Cow Puncher]))
 		{
 			attackMajor = "skill " + $skill[Cowcall];
 			attackMinor = "skill " + $skill[Cowcall];
@@ -1929,13 +1950,13 @@ string cc_combatHandler(int round, string opp, string text)
 			costMinor = mp_cost($skill[Cowcall]);
 		}
 
-		if(have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])) && ((expected_damage() * 2) > my_hp()))
+		if(cc_have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])) && canSurvive(2.0))
 		{
 			stunner = "skill " + $skill[Beanscreen];
 			costStunner = mp_cost($skill[Beanscreen]);
 		}
 
-		if(have_skill($skill[Hogtie]) && (my_mp() >= (3 * mp_cost($skill[Hogtie]))) && hasLeg(enemy))
+		if(cc_have_skill($skill[Hogtie]) && (my_mp() >= (3 * mp_cost($skill[Hogtie]))) && hasLeg(enemy))
 		{
 			stunner = "skill " + $skill[Hogtie];
 			costStunner = mp_cost($skill[Hogtie]);
@@ -1947,31 +1968,31 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 		if(((my_hp() * 10)/3) < my_maxhp())
 		{
-			if((!contains_text(combatState, "thunderstrike")) && (have_skill($skill[thunderstrike])) && (monster_level_adjustment() <= 150))
+			if(!contains_text(combatState, "thunderstrike") && cc_have_skill($skill[Thunderstrike]) && (monster_level_adjustment() <= 150))
 			{
 				set_property("cc_combatHandler", combatState + "(thunderstrike)");
-				return "skill thunderstrike";
+				return "skill " + $skill[Thunderstrike];
 			}
 
-			if((!contains_text(combatState, "stunner")) && (stunner != "") && (monster_level_adjustment() <= 50) && (my_mp() >= costStunner))
+			if(!contains_text(combatState, "stunner") && (stunner != "") && (monster_level_adjustment() <= 50) && (my_mp() >= costStunner))
 			{
 				set_property("cc_combatHandler", combatState + "(stunner)");
 				return stunner;
 			}
 
-			if((have_skill($skill[unleash the greash])) && (monster_element(enemy) != $element[sleaze]) && (have_effect($effect[Takin\' It Greasy]) > 100))
+			if(cc_have_skill($skill[Unleash The Greash]) && (monster_element(enemy) != $element[sleaze]) && (have_effect($effect[Takin\' It Greasy]) > 100))
 			{
-				return "skill unleash the greash";
+				return "skill " + $skill[Unleash The Greash];
 			}
-			if((have_skill($skill[thousand-yard stare])) && (monster_element(enemy) != $element[spooky]) && (have_effect($effect[Intimidating Mien]) > 100))
+			if(cc_have_skill($skill[Thousand-Yard Stare]) && (monster_element(enemy) != $element[spooky]) && (have_effect($effect[Intimidating Mien]) > 100))
 			{
-				return "skill thousand-yard stare";
+				return "skill " + $skill[Thousand-Yard Stare];
 			}
 			if($monsters[Aquagoblin, Lord Soggyraven] contains enemy)
 			{
 				return attackMajor;
 			}
-			if((my_class() == $class[Turtle Tamer]) && (my_mp() >= mp_cost($skill[Spirit Snap])) && (have_skill($skill[Spirit Snap])) && (!contains_text(combatState, "spirit snap")))
+			if((my_class() == $class[Turtle Tamer]) && (my_mp() >= mp_cost($skill[Spirit Snap])) && cc_have_skill($skill[Spirit Snap]) && !contains_text(combatState, "spirit snap"))
 			{
 				if((have_effect($effect[Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Grand Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Glorious Blessing of the Storm Tortoise]) > 0) || (have_effect($effect[Glorious Blessing of the War Snapper]) > 0) || (have_effect($effect[Glorious Blessing of She-Who-Was]) > 0))
 				{
@@ -1979,21 +2000,21 @@ string cc_combatHandler(int round, string opp, string text)
 					return "skill " + $skill[Spirit Snap];
 				}
 			}
-			if((!contains_text(combatState, "northern explosion")) && (have_skill($skill[northern explosion])) && (my_mp() >= mp_cost($skill[Northern Explosion])) && (my_class() == $class[Seal Clubber]) && (monster_element(enemy) != $element[cold]))
+			if(!contains_text(combatState, "northern explosion") && cc_have_skill($skill[Northern Explosion]) && (my_mp() >= mp_cost($skill[Northern Explosion])) && (my_class() == $class[Seal Clubber]) && (monster_element(enemy) != $element[cold]))
 			{
 				set_property("cc_combatHandler", combatState + "(northern explosion)");
-				return "skill northern explosion";
+				return "skill " + $skill[Northern Explosion];
 			}
 			if((!contains_text(combatState, "last attempt")) && (my_mp() >= costMajor))
 			{
-				if((expected_damage() * 1.4) >= my_hp())
+				if(canSurvive(1.4))
 				{
 					set_property("cc_combatHandler", combatState + "(last attempt)");
 					print("Uh oh, I'm having trouble in combat.", "red");
 				}
 				return attackMajor;
 			}
-			if((expected_damage() * 2.5) < my_hp())
+			if(canSurvive(2.5))
 			{
 				print("Hmmm, I don't really know what to do in this combat but it looks like I'll live.", "red");
 				if(my_mp() >= costMajor)
@@ -2011,46 +2032,46 @@ string cc_combatHandler(int round, string opp, string text)
 				abort("Could not handle monster, sorry");
 			}
 		}
-		if((monster_level_adjustment() > 150) && (my_mp() >= 45) && (have_skill($skill[Shell Up])) && (!contains_text(combatState, "shellup")) && (my_class() == $class[Turtle Tamer]))
+		if((monster_level_adjustment() > 150) && (my_mp() >= 45) && cc_have_skill($skill[Shell Up]) && !contains_text(combatState, "shellup") && (my_class() == $class[Turtle Tamer]))
 		{
 			set_property("cc_combatHandler", combatState + "(shellup)");
-			return "skill shell up";
+			return "skill " + $skill[Shell Up];
 		}
 
 		if(attackMinor == "attack with weapon")
 		{
-			if((!contains_text(combatState, "love stinkbug")) && have_skill($skill[Summon Love Stinkbug]))
+			if(!contains_text(combatState, "love stinkbug") && cc_have_skill($skill[Summon Love Stinkbug]))
 			{
 				set_property("cc_combatHandler", combatState + "(love stinkbug)");
 				return "skill " + $skill[Summon Love Stinkbug];
 			}
-			if(have_skill($skill[Mighty Axing]) && (equipped_item($slot[Weapon]) != $item[none]))
+			if(cc_have_skill($skill[Mighty Axing]) && (equipped_item($slot[Weapon]) != $item[none]))
 			{
 				return "skill " + $skill[Mighty Axing];
 			}
 		}
 
-		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[cold]) && have_skill($skill[Throat Refrigerant]) && (my_mp() >= mp_cost($skill[Throat Refrigerant])))
+		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[cold]) && cc_have_skill($skill[Throat Refrigerant]) && (my_mp() >= mp_cost($skill[Throat Refrigerant])))
 		{
 			return "skill " + $skill[Throat Refrigerant];
 		}
 
-		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[hot]) && have_skill($skill[Boiling Tear Ducts]) && (my_mp() >= mp_cost($skill[Boiling Tear Ducts])))
+		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[hot]) && cc_have_skill($skill[Boiling Tear Ducts]) && (my_mp() >= mp_cost($skill[Boiling Tear Ducts])))
 		{
 			return "skill " + $skill[Boiling Tear Ducts];
 		}
 
-		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[sleaze]) && have_skill($skill[Projectile Salivary Glands]) && (my_mp() >= mp_cost($skill[Projectile Salivary Glands])))
+		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[sleaze]) && cc_have_skill($skill[Projectile Salivary Glands]) && (my_mp() >= mp_cost($skill[Projectile Salivary Glands])))
 		{
 			return "skill " + $skill[Projectile Salivary Glands];
 		}
 
-		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[spooky]) && have_skill($skill[Translucent Skin]) && (my_mp() >= mp_cost($skill[Translucent Skin])))
+		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[spooky]) && cc_have_skill($skill[Translucent Skin]) && (my_mp() >= mp_cost($skill[Translucent Skin])))
 		{
 			return "skill " + $skill[Translucent Skin];
 		}
 
-		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[stench]) && have_skill($skill[Skunk Glands]) && (my_mp() >= mp_cost($skill[Skunk Glands])))
+		if((enemy.physical_resistance >= 100) && (monster_element(enemy) != $element[stench]) && cc_have_skill($skill[Skunk Glands]) && (my_mp() >= mp_cost($skill[Skunk Glands])))
 		{
 			return "skill " + $skill[Skunk Glands];
 		}
@@ -2064,7 +2085,7 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			return attackMajor;
 		}
-		if((have_skill($skill[Lunge Smack])) && (my_mp() >= mp_cost($skill[Lunge Smack])) && (attackMinor != "attack with weapon"))
+		if(cc_have_skill($skill[Lunge Smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])) && (attackMinor != "attack with weapon"))
 		{
 			return attackMinor;
 		}
@@ -2073,7 +2094,7 @@ string cc_combatHandler(int round, string opp, string text)
 			return attackMinor;
 		}
 
-		if((round > 20) && (my_mp() >= mp_cost($skill[Saucestorm])) && (have_skill($skill[Saucestorm])))
+		if((round > 20) && (my_mp() >= mp_cost($skill[Saucestorm])) && cc_have_skill($skill[Saucestorm]))
 		{
 			return "skill " + $skill[Saucestorm];
 		}
@@ -2087,7 +2108,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if(attackMinor == "attack with weapon")
 	{
-		if((!contains_text(combatState, "love stinkbug")) && have_skill($skill[Summon Love Stinkbug]))
+		if(!contains_text(combatState, "love stinkbug") && cc_have_skill($skill[Summon Love Stinkbug]))
 		{
 			set_property("cc_combatHandler", combatState + "(love stinkbug)");
 			return "skill " + $skill[Summon Love Stinkbug];
@@ -2105,7 +2126,7 @@ string findBanisher(int round, string opp, string text)
 
 	foreach itm in $items[Louder Than Bomb, Tennis Ball]
 	{
-		if((!contains_text(get_property("cc_gremlinBanishes"), itm)) && (item_amount(itm) > 0))
+		if(!contains_text(get_property("cc_gremlinBanishes"), itm) && (item_amount(itm) > 0))
 		{
 			set_property("cc_gremlinBanishes", get_property("cc_gremlinBanishes") + "(" + itm + ")");
 			handleTracker(enemy, itm, "cc_banishes");
@@ -2115,7 +2136,7 @@ string findBanisher(int round, string opp, string text)
 
 	foreach act in $skills[Banishing Shout, Asdon Martin: Spring-Loaded Front Bumper, Talk About Politics, Batter Up!, Thunder Clap, Curse of Vacation, Breathe Out, Snokebomb, KGB Tranquilizer Dart, Beancannon]
 	{
-		if((!contains_text(get_property("cc_gremlinBanishes"), act)) && have_skill(act) && (my_mp() >= mp_cost(act)) && (my_thunder() >= thunder_cost(act)) && (get_fuel() >= fuel_cost(act)))
+		if((!contains_text(get_property("cc_gremlinBanishes"), act)) && cc_have_skill(act) && (my_mp() >= mp_cost(act)) && (my_thunder() >= thunder_cost(act)) && (get_fuel() >= fuel_cost(act)))
 		{
 			if(act == $skill[Banishing Shout])
 			{
@@ -2152,16 +2173,16 @@ string findBanisher(int round, string opp, string text)
 		}
 	}
 
-//	if(have_skill($skill[Lunging Thrust-Smack]) && (my_mp() >= mp_cost($skill[Lunging Thrust-Smack])))
+//	if(cc_have_skill($skill[Lunging Thrust-Smack]) && (my_mp() >= mp_cost($skill[Lunging Thrust-Smack])))
 //	{
 //		return "skill lunging thrust-smack";
 //	}
-	if(have_skill($skill[Storm of the Scarab]) && (my_mp() >= mp_cost($skill[Storm of the Scarab])))
+	if(cc_have_skill($skill[Storm of the Scarab]) && (my_mp() >= mp_cost($skill[Storm of the Scarab])))
 	{
 		return "skill Storm of the Scarab";
 	}
 	return cc_combatHandler(round, opp, text);
-//	if(have_skill($skill[Lunge Smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])))
+//	if(cc_have_skill($skill[Lunge Smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])))
 //	{
 //		return "skill lunge smack";
 //	}
@@ -2255,47 +2276,47 @@ string ccsJunkyard(int round, string opp, string text)
 
 	if(round >= 28)
 	{
-		if(have_skill($skill[Lunging Thrust-Smack]) && (my_mp() >= 8))
+		if(cc_have_skill($skill[Lunging Thrust-Smack]) && (my_mp() >= 8))
 		{
-			return "skill lunging thrust-smack";
+			return "skill " + $skill[Lunging Thrust-Smack];
 		}
 		return "attack with weapon";
 	}
 
 	if(contains_text(text, "It whips out a hammer") || contains_text(text, "He whips out a crescent") || contains_text(text, "It whips out a pair") || contains_text(text, "It whips out a screwdriver"))
 	{
-		return "item " + $item[molybdenum magnet];
+		return "item " + $item[Molybdenum Magnet];
 	}
 
-	if((!contains_text(combatState, "weaksauce")) && (have_skill($skill[curse of weaksauce])) && (my_mp() >= mp_cost($skill[Curse of Weaksauce])))
+	if(!contains_text(combatState, "weaksauce") && cc_have_skill($skill[Curse Of Weaksauce]) && (my_mp() >= mp_cost($skill[Curse Of Weaksauce])))
 	{
 		set_property("cc_combatHandler", combatState + "(weaksauce)");
-		return "skill " + $skill[Curse of Weaksauce];
+		return "skill " + $skill[Curse Of Weaksauce];
 	}
 
-	if((!contains_text(combatState, "marshmallow")) && have_skill($skill[Curse of the Marshmallow]) && (my_mp() > mp_cost($skill[Curse of the Marshmallow])))
+	if(!contains_text(combatState, "marshmallow") && cc_have_skill($skill[Curse Of The Marshmallow]) && (my_mp() > mp_cost($skill[Curse Of The Marshmallow])))
 	{
 		set_property("cc_combatHandler", combatState + "(marshmallow)");
-		return "skill Curse of the Marshmallow";
+		return "skill " + $skill[Curse Of The Marshmallow];
 	}
-	if((!contains_text(combatState, "love scarab")) && have_skill($skill[Summon Love Scarabs]))
+	if(!contains_text(combatState, "love scarab") && cc_have_skill($skill[Summon Love Scarabs]))
 	{
 		set_property("cc_combatHandler", combatState + "(love scarab)");
-		return "skill summon love scarabs";
+		return "skill " + $skill[Summon Love Scarabs];
 	}
-	if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
+	if(!contains_text(combatState, "love gnats") && cc_have_skill($skill[Summon Love Gnats]))
 	{
 		set_property("cc_combatHandler", combatState + "(love gnats)");
-		return "skill summon love gnats";
+		return "skill " + $skill[Summon Love Gnats];
 	}
 
-	if(!contains_text(combatState, "badMedicine") && have_skill($skill[Bad Medicine]) && (my_mp() >= mp_cost($skill[Bad Medicine])))
+	if(!contains_text(combatState, "badMedicine") && cc_have_skill($skill[Bad Medicine]) && (my_mp() >= mp_cost($skill[Bad Medicine])))
 	{
 		set_property("cc_combatHandler", combatState + "(badMedicine)");
 		return "skill " + $skill[Bad Medicine];
 	}
 
-	if(!contains_text(combatState, "goodMedicine") && have_skill($skill[Good Medicine]) && (my_mp() >= mp_cost($skill[Good Medicine])) && (expected_damage() * 2.1) >= my_hp())
+	if(!contains_text(combatState, "goodMedicine") && cc_have_skill($skill[Good Medicine]) && (my_mp() >= mp_cost($skill[Good Medicine])) && canSurvive(2.1))
 	{
 		set_property("cc_combatHandler", combatState + "(goodMedicine)");
 		return "skill " + $skill[Good Medicine];
@@ -2311,29 +2332,28 @@ string ccsJunkyard(int round, string opp, string text)
 			{
 				return banisher;
 			}
-			else if(my_mp() >= 8)
+			else if((my_mp() >= 8) && cc_have_skill($skill[Storm Of The Scarab]))
 			{
-				return "skill storm of the scarab";
+				return "skill " + $skill[Storm Of The Scarab];
 			}
 			return banisher;
 		}
 	}
 
 
-	if((!contains_text(combatState, "flyers")) && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]))
+	if(!contains_text(combatState, "flyers") && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]) && !get_property("cc_ignoreFlyer").to_boolean())
 	{
-		if((item_amount($item[rock band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
+		if((item_amount($item[Rock Band Flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
 		{
 			set_property("cc_combatHandler", combatState + "(flyers)");
-			return "item rock band flyers";
+			return "item " + $item[Rock Band Flyers];
 		}
-		if((item_amount($item[jam band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
+		if((item_amount($item[Jam Band Flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
 		{
 			set_property("cc_combatHandler", combatState + "(flyers)");
-			return "item jam band flyers";
+			return "item " + $item[Jam Band Flyers];
 		}
 	}
-
 
 	if(!get_property("cc_gremlinMoly").to_boolean())
 	{
@@ -2343,13 +2363,13 @@ string ccsJunkyard(int round, string opp, string text)
 			{
 				return findBanisher(round, opp, text);
 			}
-			else if(item_amount($item[dictionary]) > 0)
+			else if(item_amount($item[Dictionary]) > 0)
 			{
-				return "item dictionary";
+				return "item " + $item[Dictionary];
 			}
-			else if(item_amount($item[seal tooth]) > 0)
+			else if(item_amount($item[Seal Tooth]) > 0)
 			{
-				return "item seal tooth";
+				return "item " + $item[Seal Tooth];
 			}
 		}
 		else
@@ -2361,36 +2381,26 @@ string ccsJunkyard(int round, string opp, string text)
 
 	if(!get_property("cc_gremlinMoly").to_boolean())
 	{
-		if(have_skill($skill[Lunging Thrust-Smack]) && (my_mp() >= mp_cost($skill[Lunging Thrust-Smack])))
+		foreach sk in $skills[Lunging Thrust-Smack, Storm Of The Scarab, Lunge Smack]
 		{
-			return "skill lunging thrust-smack";
-		}
-		if(have_skill($skill[Storm of the Scarab]) && (my_mp() >= mp_cost($skill[Storm of the Scarab])))
-		{
-			return "skill Storm of the Scarab";
-		}
-		if(have_skill($skill[Lunge Smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])))
-		{
-			return "skill lunge smack";
+			if(cc_have_skill(sk) && (my_mp() >= mp_cost(sk)))
+			{
+				return "skill " + sk;
+			}
 		}
 		return "attack with weapon";
 	}
 
-	if(item_amount($item[dictionary]) > 0)
+	foreach it in $items[Dictionary, Seal Tooth, Spectre Scepter, Doc Galaktik\'s Pungent Unguent]
 	{
-		return "item dictionary";
+		if((item_amount(it) > 0) && glover_usable(it))
+		{
+			return "item " + it;
+		}
 	}
-	if(item_amount($item[seal tooth]) > 0)
+	if(cc_have_skill($skill[Toss]) && (my_mp() >= mp_cost($skill[Toss])))
 	{
-		return "item seal tooth";
-	}
-	if(item_amount($item[Spectre Scepter]) > 0)
-	{
-		return "item spectre scepter";
-	}
-	if(have_skill($skill[toss]) && (my_mp() >= mp_cost($skill[Toss])))
-	{
-		return "skill toss";
+		return "skill " + $skill[Toss];
 	}
 	return "attack with weapon";
 }
@@ -2432,6 +2442,16 @@ string cc_edCombatHandler(int round, string opp, string text)
 		if(!ed_needShop())
 		{
 			set_property("cc_edStatus", "dying");
+			if(my_mp() < 5)
+			{
+				foreach it in $items[Holy Spring Water, Spirit Beer, Sacramental Wine]
+				{
+					if(item_amount(it) > 0)
+					{
+						return "item " + it;
+					}
+				}
+			}
 		}
 	}
 
@@ -2459,36 +2479,36 @@ string cc_edCombatHandler(int round, string opp, string text)
 	#Handle different path is monster_level_adjustment() > 150 (immune to staggers?)
 	int mcd = monster_level_adjustment();
 
-	if(have_effect($effect[temporary amnesia]) > 0)
+	if(have_effect($effect[Temporary Amnesia]) > 0)
 	{
 		return "attack with weapon";
 	}
 
-	if((!contains_text(combatState, "pocket crumbs")) && (have_skill($skill[pocket crumbs])))
+	if(!contains_text(combatState, "pocket crumbs") && cc_have_skill($skill[Pocket Crumbs]))
 	{
 		set_property("cc_combatHandler", combatState + "(pocket crumbs)");
-		return "skill pocket crumbs";
+		return "skill " + $skill[Pocket Crumbs];
 	}
 
-	if((!contains_text(combatState, "micrometeorite")) && (have_skill($skill[Micrometeorite])))
+	if(!contains_text(combatState, "micrometeorite") && cc_have_skill($skill[Micrometeorite]))
 	{
 		set_property("cc_combatHandler", combatState + "(micrometeorite)");
 		return "skill " + $skill[Micrometeorite];
 	}
 
-	if((!contains_text(combatState, "air dirty laundry")) && (have_skill($skill[air dirty laundry])))
+	if(!contains_text(combatState, "air dirty laundry") && cc_have_skill($skill[Air Dirty Laundry]))
 	{
 		set_property("cc_combatHandler", combatState + "(air dirty laundry)");
-		return "skill air dirty laundry";
+		return "skill " + $skill[Air Dirty Laundry];
 	}
 
-	if((!contains_text(combatState, "love scarab")) && have_skill($skill[Summon Love Scarabs]))
+	if(!contains_text(combatState, "love scarab") && cc_have_skill($skill[Summon Love Scarabs]))
 	{
 		set_property("cc_combatHandler", combatState + "(love scarab)");
-		return "skill summon love scarabs";
+		return "skill " + $skill[Summon Love Scarabs];
 	}
 
-	if((!contains_text(combatState, "(time-spinner)")) && (item_amount($item[Time-Spinner]) > 0))
+	if(!contains_text(combatState, "(time-spinner)") && (item_amount($item[Time-Spinner]) > 0))
 	{
 		set_property("cc_combatHandler", combatState + "(time-spinner)");
 		return "item " + $item[Time-Spinner];
@@ -2502,16 +2522,24 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 	}
 
+	if(!contains_text(combatState, "(sing along)") && cc_have_skill($skill[Sing Along]) && (my_mp() > (mp_cost($skill[Sing Along]))))
+	{
+		if((get_property("_boomBoxSong") == "Remainin\' Alive") || ((get_property("_boomBoxSong") == "Total Eclipse of Your Meat") && canSurvive(2.0)))
+		{
+			set_property("cc_combatHandler", combatState + "(sing along)");
+			return "skill " + $skill[Sing Along];
+		}
+	}
 
 	if(have_equipped($item[Protonic Accelerator Pack]) && isGhost(enemy))
 	{
-		if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
+		if(!contains_text(combatState, "love gnats") && cc_have_skill($skill[Summon Love Gnats]))
 		{
 			set_property("cc_combatHandler", combatState + "(love gnats)");
-			return "skill summon love gnats";
+			return "skill " + $skill[Summon Love Gnats];
 		}
 
-		if(have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(edCombatState, "shootghost3") && !contains_text(edCombatState, "trapghost"))
+		if(cc_have_skill($skill[Shoot Ghost]) && (my_mp() > mp_cost($skill[Shoot Ghost])) && !contains_text(edCombatState, "shootghost3") && !contains_text(edCombatState, "trapghost"))
 		{
 			boolean shootGhost = true;
 			if(contains_text(edCombatState, "shootghost2"))
@@ -2551,7 +2579,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 				set_property("cc_edCombatHandler", edCombatState);
 			}
 		}
-		if(!contains_text(edCombatState, "trapghost") && have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(edCombatState, "shootghost3"))
+		if(!contains_text(edCombatState, "trapghost") && cc_have_skill($skill[Trap Ghost]) && (my_mp() > mp_cost($skill[Trap Ghost])) && contains_text(edCombatState, "shootghost3"))
 		{
 			print("Busting makes me feel good!!", "green");
 			set_property("cc_edCombatHandler", edCombatState + "(trapghost)");
@@ -2563,7 +2591,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 	boolean doInstaKill = true;
 	if($monsters[Lobsterfrogman, Ninja Snowman Assassin, Writing Desk] contains enemy)
 	{
-		if(have_skill($skill[Digitize]) && (get_property("_sourceTerminalDigitizeMonster") != enemy))
+		if(cc_have_skill($skill[Digitize]) && (get_property("_sourceTerminalDigitizeMonster") != enemy))
 		{
 			doInstaKill = false;
 		}
@@ -2587,7 +2615,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 			}
 		}
 
-		if(!contains_text(combatState, "jokesterGun") && (equipped_item($slot[Weapon]) == $item[The Jokester\'s Gun]) && !get_property("_firedJokestersGun").to_boolean() && have_skill($skill[Fire the Jokester\'s Gun]))
+		if(!contains_text(combatState, "jokesterGun") && (equipped_item($slot[Weapon]) == $item[The Jokester\'s Gun]) && !get_property("_firedJokestersGun").to_boolean() && cc_have_skill($skill[Fire the Jokester\'s Gun]))
 		{
 			set_property("cc_combatHandler", combatState + "(jokesterGun)");
 			handleTracker(enemy, $skill[Fire the Jokester\'s Gun], "cc_instakill");
@@ -2598,13 +2626,13 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 	if(get_property("cc_edStatus") == "UNDYING!")
 	{
-		if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
+		if(!contains_text(combatState, "love gnats") && cc_have_skill($skill[Summon Love Gnats]))
 		{
 			set_property("cc_combatHandler", combatState + "(love gnats)");
 			return "skill " + $skill[Summon Love Gnats];
 		}
 
-		if((item_amount($item[Ka Coin]) > 200) && have_skill($skill[Curse of Fortune]))
+		if((item_amount($item[Ka Coin]) > 200) && cc_have_skill($skill[Curse of Fortune]))
 		{
 			if(!contains_text(combatState, "curse of fortune"))
 			{
@@ -2617,17 +2645,17 @@ string cc_edCombatHandler(int round, string opp, string text)
 	{
 		boolean doStunner = true;
 
-		if((mcd > 50) && (expected_damage() * 1.15) > my_hp())
+		if((mcd > 50) && canSurvive(1.15))
 		{
 			doStunner = false;
 		}
 
 		if(doStunner)
 		{
-			if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
+			if(!contains_text(combatState, "love gnats") && cc_have_skill($skill[Summon Love Gnats]))
 			{
 				set_property("cc_combatHandler", combatState + "(love gnats)");
-				return "skill summon love gnats";
+				return "skill " + $skill[Summon Love Gnats];
 			}
 		}
 	}
@@ -2637,10 +2665,10 @@ string cc_edCombatHandler(int round, string opp, string text)
 	}
 
 
-	if((!contains_text(combatState, "sewage pistol")) && have_skill($skill[Fire Sewage Pistol]))
+	if(!contains_text(combatState, "sewage pistol") && cc_have_skill($skill[Fire Sewage Pistol]))
 	{
 		set_property("cc_combatHandler", combatState + "(sewage pistol)");
-		return "skill fire sewage pistol";
+		return "skill " + $skill[Fire Sewage Pistol];
 	}
 
 	if(enemy == $monster[Protagonist])
@@ -2649,48 +2677,47 @@ string cc_edCombatHandler(int round, string opp, string text)
 	}
 
 
-	if((!contains_text(combatState, "flyers")) && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]))
+	if(!contains_text(combatState, "flyers") && (my_location() != $location[The Battlefield (Frat Uniform)]) && (my_location() != $location[The Battlefield (Hippy Uniform)]) && !get_property("cc_ignoreFlyer").to_boolean())
 	{
-		if((item_amount($item[rock band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
+		if((item_amount($item[Rock Band Flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
 		{
 			set_property("cc_combatHandler", combatState + "(flyers)");
-			return "item rock band flyers";
+			return "item " + $item[Rock Band Flyers];
 		}
-		if((item_amount($item[jam band flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
+		if((item_amount($item[Jam Band Flyers]) > 0) && (get_property("flyeredML").to_int() < 10000))
 		{
 			set_property("cc_combatHandler", combatState + "(flyers)");
-			return "item jam band flyers";
+			return "item " + $item[Jam Band Flyers];
 		}
 	}
 
-	if((enemy == $monster[clingy pirate (female)]) && (item_amount($item[cocktail napkin]) > 0))
+	if(item_amount($item[Cocktail Napkin]) > 0)
 	{
-		return "item cocktail napkin";
-	}
-	if((enemy == $monster[clingy pirate (male)]) && (item_amount($item[cocktail napkin]) > 0))
-	{
-		return "item cocktail napkin";
+		if($monsters[Clingy Pirate (Female), Clingy Pirate (Male)] contains enemy)
+		{
+			return "item " + $item[Cocktail Napkin];
+		}
 	}
 
-	if((enemy == $monster[dirty thieving brigand]) && (!contains_text(edCombatState, "curse of fortune")))
+	if((enemy == $monster[dirty thieving brigand]) && !contains_text(edCombatState, "curse of fortune"))
 	{
-		if((item_amount($item[Ka Coin]) > 0) && (have_skill($skill[Curse of Fortune])))
+		if((item_amount($item[Ka Coin]) > 0) && (cc_have_skill($skill[Curse Of Fortune])))
 		{
 			set_property("cc_edCombatHandler", edCombatState + "(curse of fortune)");
 			set_property("cc_edStatus", "dying");
-			return "skill curse of fortune";
+			return "skill " + $skill[Curse Of Fortune];
 		}
 	}
 
-	if((item_amount($item[The Big Book of Pirate Insults]) > 0) && (!contains_text(combatState, "insults")) && (numPirateInsults() < 8) && (get_property("cc_edCombatStage").to_int() < 3) && (get_property("cc_edStatus") != "dying"))
+	if((item_amount($item[The Big Book of Pirate Insults]) > 0) && !contains_text(combatState, "insults") && (numPirateInsults() < 8) && (get_property("cc_edCombatStage").to_int() < 3) && (get_property("cc_edStatus") != "dying"))
 	{
-		if(!contains_text(combatState, "beanscreen") && have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
+		if(!contains_text(combatState, "beanscreen") && cc_have_skill($skill[Beanscreen]) && (my_mp() >= mp_cost($skill[Beanscreen])))
 		{
 			set_property("cc_combatHandler", combatState + "(beanscreen)");
 			return "skill " + $skill[Beanscreen];
 		}
 
-		if(!contains_text(combatState, to_string($skill[Snap Fingers])) && have_skill($skill[Snap Fingers]) && (my_mp() >= mp_cost($skill[Snap Fingers])))
+		if(!contains_text(combatState, to_string($skill[Snap Fingers])) && cc_have_skill($skill[Snap Fingers]) && (my_mp() >= mp_cost($skill[Snap Fingers])))
 		{
 			set_property("cc_combatHandler", combatState + "(" + $skill[Snap Fingers] + ")");
 			return "skill " + $skill[Snap Fingers];
@@ -2703,19 +2730,19 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(!contains_text(edCombatState, "curseofstench") && (have_skill($skill[Curse Of Stench])) && (my_mp() >= 35) && (get_property("stenchCursedMonster") != opp) && (get_property("cc_edCombatStage").to_int() < 3))
+	if(!contains_text(edCombatState, "curseofstench") && cc_have_skill($skill[Curse Of Stench]) && (my_mp() >= 35) && (get_property("stenchCursedMonster") != opp) && (get_property("cc_edCombatStage").to_int() < 3))
 	{
 		if($monsters[Bob Racecar, Cabinet of Dr. Limpieza, Dairy Goat, Dirty Old Lihc, Government Scientist,  Green Ops Soldier, Possessed Wine Rack, Pygmy Bowler, Pygmy Witch Surgeon, Quiet Healer, Racecar Bob, Writing Desk] contains enemy)
 		{
 			set_property("cc_edCombatHandler", combatState + "(curseofstench)");
-			handleTracker(enemy, $skill[Curse of Stench], "cc_sniffs");
+			handleTracker(enemy, $skill[Curse Of Stench], "cc_sniffs");
 			return "skill " + $skill[Curse Of Stench];
 		}
 	}
 
 	if(my_location() == $location[The Secret Council Warehouse])
 	{
-		if(!contains_text(edCombatState, "curseofstench") && (have_skill($skill[Curse Of Stench])) && (my_mp() >= 35) && (get_property("stenchCursedMonster") != opp) && (get_property("cc_edCombatStage").to_int() < 3))
+		if(!contains_text(edCombatState, "curseofstench") && cc_have_skill($skill[Curse Of Stench]) && (my_mp() >= 35) && (get_property("stenchCursedMonster") != opp) && (get_property("cc_edCombatStage").to_int() < 3))
 		{
 			boolean doStench = false;
 			#	Rememeber, we are looking to see if we have enough of the opposite item here.
@@ -2750,7 +2777,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 	if(my_location() == $location[The Smut Orc Logging Camp])
 	{
-		if(!contains_text(edCombatState, "curseofstench") && (have_skill($skill[Curse Of Stench])) && (my_mp() >= 35) && (get_property("stenchCursedMonster") != opp) && (get_property("cc_edCombatStage").to_int() < 3))
+		if(!contains_text(edCombatState, "curseofstench") && cc_have_skill($skill[Curse Of Stench]) && (my_mp() >= 35) && (get_property("stenchCursedMonster") != opp) && (get_property("cc_edCombatStage").to_int() < 3))
 		{
 			boolean doStench = false;
 			string stenched = to_lower_case(get_property("stenchCursedMonster"));
@@ -2783,15 +2810,15 @@ string cc_edCombatHandler(int round, string opp, string text)
 
 	if(contains_text(combatState, "insults") && (get_property("cc_edStatus") == "dying"))
 	{
-		if((enemy == $monster[shady pirate]) && have_skill($skill[Curse of Vacation]) && (my_mp() >= 30))
+		if((enemy == $monster[shady pirate]) && cc_have_skill($skill[Curse Of Vacation]) && (my_mp() >= 30))
 		{
-			handleTracker(enemy, $skill[Curse of Vacation], "cc_banishes");
-			return "skill curse of vacation";
+			handleTracker(enemy, $skill[Curse Of Vacation], "cc_banishes");
+			return "skill " + $skill[Curse Of Vacation];
 		}
 		if((enemy == $monster[shifty pirate]) && (get_property("_pantsgivingBanish").to_int() < 5))
 		{
-			handleTracker(enemy, $skill[talk about politics], "cc_banishes");
-			return "skill talk about poltiics";
+			handleTracker(enemy, $skill[Talk About Politics], "cc_banishes");
+			return "skill " + $skill[Talk About Politics];
 		}
 	}
 
@@ -2854,51 +2881,58 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 	}
 
-	if(have_skill($skill[Curse of Vacation]) && (my_mp() >= 35))
+	if(cc_have_skill($skill[Curse Of Vacation]) && (my_mp() >= mp_cost($skill[Curse Of Vacation])))
 	{
 		if((enemy == $monster[pygmy orderlies]) && (my_location() == $location[The Hidden Bowling Alley]))
 		{
 			set_property("cc_combatHandler", combatState + "(curse of vacation)");
-			handleTracker(enemy, $skill[Curse of Vacation], "cc_banishes");
-			return "skill curse of vacation";
+			handleTracker(enemy, $skill[Curse Of Vacation], "cc_banishes");
+			return "skill " + $skill[Curse Of Vacation];
 		}
-	}
-
-	if(have_skill($skill[Curse of Vacation]) && (my_mp() >= 35))
-	{
 		if((enemy == $monster[fallen archfiend]) && (my_location() == $location[The Dark Heart of the Woods]) && (get_property("cc_pirateoutfit") != "almost") && (get_property("cc_pirateoutfit") != "finished"))
 		{
 			set_property("cc_combatHandler", combatState + "(curse of vacation)");
-			handleTracker(enemy, $skill[Curse of Vacation], "cc_banishes");
-			return "skill curse of vacation";
+			handleTracker(enemy, $skill[Curse Of Vacation], "cc_banishes");
+			return "skill " + $skill[Curse Of Vacation];
 		}
-	}
-
-	if(have_skill($skill[Curse of Vacation]) && (my_mp() >= mp_cost($skill[Curse of Vacation])))
-	{
 		if($monsters[Animated Mahogany Nightstand, Coaltergeist, Crusty Pirate, Flock of Stab-Bats, Irritating Series of Random Encounters, Knob Goblin Harem Guard, Mad Wino, Mismatched Twins, Possessed Laundry Press, Procrastination Giant, Punk Rock Giant, Pygmy Witch Lawyer, Pygmy Witch Nurse, Sabre-Toothed Goat, Slick Lihc, Warehouse Janitor] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(curse of vacation)");
 			handleTracker(enemy, $skill[Curse of Vacation], "cc_banishes");
-			return "skill curse of vacation";
+			return "skill " + $skill[Curse Of Vacation];
 		}
 	}
 
-	if(item_amount($item[disposable instant camera]) > 0)
+	if(item_amount($item[Disposable Instant Camera]) > 0)
 	{
 		if($monsters[Bob Racecar, Racecar Bob] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(disposable instant camera)");
-			return "item disposable instant camera";
+			return "item " + $item[Disposable Instant Camera];
 		}
 	}
 
-	if((my_location() == $location[Oil Peak]) && (item_amount($item[duskwalker syringe]) > 0))
+	if((my_location() == $location[Oil Peak]) && (item_amount($item[Duskwalker Syringe]) > 0))
 	{
-		return "item duskwalker syringe";
+		int oilProgress = get_property("twinPeakProgress").to_int();
+		boolean wantCrude = ((oilProgress & 4) == 0);
+		if(item_amount($item[Bubblin\' Crude]) > 11)
+		{
+			wantCrude = false;
+		}
+		if(item_amount($item[Jar Of Oil]) > 0)
+		{
+			wantCrude = false;
+		}
+
+		
+		if(wantCrude)
+		{
+			return "item " + $item[Duskwalker Syringe];
+		}
 	}
 
-	if(!contains_text(edCombatState, "lashofthecobra") && have_skill($skill[Lash of the Cobra]) && (my_mp() >= 12))
+	if(!contains_text(edCombatState, "lashofthecobra") && cc_have_skill($skill[Lash of the Cobra]) && (my_mp() >= 12))
 	{
 		set_property("cc_edCombatHandler", edCombatState + "(lashofthecobra)");
 		boolean doLash = false;
@@ -3000,7 +3034,10 @@ string cc_edCombatHandler(int round, string opp, string text)
 		{
 			if(!possessEquipment($item[Filthy Knitted Dread Sack]) || !possessEquipment($item[Filthy Corduroys]))
 			{
-				doLash = true;
+				if(get_property("cc_edStatus") != "dying")
+				{
+					doLash = true;
+				}
 			}
 		}
 
@@ -3073,20 +3110,20 @@ string cc_edCombatHandler(int round, string opp, string text)
 		if(doLash)
 		{
 			handleTracker(enemy, "cc_lashes");
-			return "skill lash of the cobra";
+			return "skill " + $skill[Lash Of The Cobra];
 		}
 	}
 
-	if((item_amount($item[Tattered Scrap of Paper]) > 0) && (!contains_text(combatState, "tatters")))
+	if((item_amount($item[Tattered Scrap of Paper]) > 0) && !contains_text(combatState, "tatters"))
 	{
 		if($monsters[Bubblemint Twins, Bunch of Drunken Rats, Coaltergeist, Creepy Ginger Twin, Demoninja, Drunk Goat, Drunken Rat, Fallen Archfiend, Hellion, Knob Goblin Elite Guard, L imp, Mismatched Twins, Sabre-Toothed Goat, W imp] contains enemy)
 		{
 			set_property("cc_combatHandler", combatState + "(tatters)");
-			return "item tattered scrap of paper";
+			return "item " + $item[Tattered Scrap Of Paper];
 		}
 	}
 
-	if((!contains_text(edCombatState, "talismanofrenenutet")) && (item_amount($item[Talisman of Renenutet]) > 0))
+	if(!contains_text(edCombatState, "talismanofrenenutet") && (item_amount($item[Talisman of Renenutet]) > 0))
 	{
 		boolean doRenenutet = false;
 		if((enemy == $monster[Cleanly Pirate]) && (item_amount($item[Rigging Shampoo]) == 0))
@@ -3129,7 +3166,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 		}
 		if(doRenenutet)
 		{
-			if(!contains_text(edCombatState, "curseofindecision") && have_skill($skill[Curse Of Indecision]) && (my_mp() > mp_cost($skill[Curse Of Indecision])))
+			if(!contains_text(edCombatState, "curseofindecision") && cc_have_skill($skill[Curse Of Indecision]) && (my_mp() > mp_cost($skill[Curse Of Indecision])))
 			{
 				set_property("cc_edCombatHandler", edCombatState + "(curseofindecision)");
 				return "skill " + $skill[Curse Of Indecision];
@@ -3161,12 +3198,12 @@ string cc_edCombatHandler(int round, string opp, string text)
 				if((!contains_text(combatState, "love stinkbug")) && get_property("lovebugsUnlocked").to_boolean())
 				{
 					set_property("cc_combatHandler", combatState + "(love stinkbug2)");
-					return "skill summon love stinkbug";
+					return "skill " + $skill[Summon Love Stinkbug];
 				}
 			}
 		}
 
-		if((item_amount($item[Ka Coin]) > 200) && have_skill($skill[Curse of Fortune]))
+		if((item_amount($item[Ka Coin]) > 200) && cc_have_skill($skill[Curse of Fortune]))
 		{
 			if(!contains_text(combatState, "curse of fortune"))
 			{
@@ -3179,77 +3216,83 @@ string cc_edCombatHandler(int round, string opp, string text)
 		{
 #			string macro = "item dictionary; repeat";
 #			visit_url("fight.php?action=macro&macrotext=" + url_encode(macro), true, true);
-			return "item dictionary";
+			return "item " + $item[Dictionary];
 		}
 		if(item_amount($item[Seal Tooth]) > 0)
 		{
-			return "item seal tooth";
+			return "item " + $item[Seal Tooth];
 		}
 
-		return "skill Mild Curse";
+		return "skill " + $skill[Mild Curse];
 	}
 
-	if((my_mp() >= mp_cost($skill[Roar of the Lion])) && (my_location() == $location[The Secret Government Laboratory]) && have_skill($skill[Roar of the Lion]))
+	if((my_mp() >= mp_cost($skill[Roar of the Lion])) && (my_location() == $location[The Secret Government Laboratory]) && cc_have_skill($skill[Roar of the Lion]))
 	{
-		if(have_skill($skill[Storm of the Scarab]) && (my_buffedstat($stat[Mysticality]) >= 60))
+		if(cc_have_skill($skill[Storm Of The Scarab]) && (my_buffedstat($stat[Mysticality]) >= 60))
 		{
-			return "skill Storm of the Scarab";
+			return "skill " + $skill[Storm Of The Scarab];
 		}
-		return "skill Roar of the Lion";
+		return "skill " + $skill[Roar Of The Lion];
 	}
-	if((my_mp() >= mp_cost($skill[Storm of the Scarab])) && ($locations[Pirates of the Garbage Barges, The SMOOCH Army HQ, VYKEA] contains my_location()) && have_skill($skill[Storm of the Scarab]))
+	if((my_mp() >= mp_cost($skill[Storm Of The Scarab])) && ($locations[Pirates of the Garbage Barges, The SMOOCH Army HQ, VYKEA] contains my_location()) && cc_have_skill($skill[Storm of the Scarab]))
 	{
-		return "skill Storm of the Scarab";
+		return "skill " + $skill[Storm Of The Scarab];
 	}
-	if((my_mp() >= mp_cost($skill[Fist Of The Mummy])) && (my_location() == $location[Hippy Camp]) && have_skill($skill[Fist Of The Mummy]))
+	if((my_mp() >= mp_cost($skill[Fist Of The Mummy])) && (my_location() == $location[Hippy Camp]) && cc_have_skill($skill[Fist Of The Mummy]))
 	{
 		return "skill " + $skill[Fist Of The Mummy];
 	}
 
 
-#	if((!contains_text(combatState, "love stinkbug")) && have_skill($skill[Summon Love Stinkbug]) && (mcd <= 50))
+#	if(!contains_text(combatState, "love stinkbug") && cc_have_skill($skill[Summon Love Stinkbug]) && (mcd <= 50))
 #	{
 #		set_property("cc_combatHandler", combatState + "(love stinkbug1)");
-#		return "skill summon love stinkbug";
+#		return "skill " + $skill[Summon Love Stinkbug];
 #	}
-#	if((!contains_text(combatState, "love stinkbug")) && get_property("lovebugsUnlocked").to_boolean() && (mcd <= 50))
+#	if(!contains_text(combatState, "love stinkbug") && get_property("lovebugsUnlocked").to_boolean() && (mcd <= 50))
 #	{
 #		set_property("cc_combatHandler", combatState + "(love stinkbug2)");
-#		return "skill summon love stinkbug";
+#		return "skill " + $skill[Summon Love Stinkbug];
 #	}
 
 	int fightStat = my_buffedstat(weapon_type(equipped_item($slot[weapon]))) - 20;
-	if((fightStat > monster_defense()) && (round < 20) && ((expected_damage() * 1.1) < my_hp()) && (get_property("cc_edStatus") == "UNDYING!"))
+	if((fightStat > monster_defense()) && (round < 20) && canSurvive(1.1) && (get_property("cc_edStatus") == "UNDYING!"))
 	{
 		return "attack with weapon";
 	}
 
-	if((!contains_text(combatState, "cowboy kick")) && (have_skill($skill[Cowboy Kick])))
+	if(!contains_text(combatState, "cowboy kick") && cc_have_skill($skill[Cowboy Kick]))
 	{
 		set_property("cc_combatHandler", combatState + "(cowboy kick)");
 		return "skill " + $skill[Cowboy Kick];
 	}
 
-	if((item_amount($item[ice-cold Cloaca Zero]) > 0) && (my_mp() < 15) && (my_maxmp() > 200))
+	if((item_amount($item[Ice-Cold Cloaca Zero]) > 0) && (my_mp() < 15) && (my_maxmp() > 200))
 	{
-		return "item ice-cold Cloaca Zero";
+		return "item " + $item[Ice-Cold Cloaca Zero];
 	}
-	if((my_mp() >= 8) && have_skill($skill[Storm of the Scarab]) && (my_buffedstat($stat[Mysticality]) > 35))
+	if((my_mp() >= 8) && cc_have_skill($skill[Storm Of The Scarab]) && (my_buffedstat($stat[Mysticality]) > 35))
 	{
-		return "skill Storm of the Scarab";
+		return "skill " + $skill[Storm Of The Scarab];
 	}
 
-	if((enemy.physical_resistance >= 100) || (round >= 25) || ((expected_damage() * 1.25) >= my_hp()))
+	if((enemy.physical_resistance >= 100) || (round >= 25) || canSurvive(1.25))
 	{
-		if((my_mp() >= 5) && have_skill($skill[Fist of the Mummy]))
+		if((my_mp() >= 5) && cc_have_skill($skill[Fist Of The Mummy]))
 		{
-			return "skill Fist of the Mummy";
+			return "skill " + $skill[Fist Of The Mummy];
 		}
 	}
 
-	if((my_mp() < 5) && (item_amount($item[Holy Spring Water]) > 0))
+	if(my_mp() < 8)
 	{
-		return "item Holy Spring Water";
+		foreach it in $items[Holy Spring Water, Spirit Beer, Sacramental Wine]
+		{
+			if(item_amount(it) > 0)
+			{
+				return "item " + it;
+			}
+		}
 	}
 
 	if(round >= 29)
@@ -3257,13 +3300,13 @@ string cc_edCombatHandler(int round, string opp, string text)
 		print("About to UNDYING too much but have no other combat resolution. Please report this.", "red");
 	}
 
-	if((fightStat > monster_defense()) && (round < 20) && ((expected_damage() * 1.1) < my_hp()) && (get_property("cc_edStatus") == "dying"))
+	if((fightStat > monster_defense()) && (round < 20) && canSurvive(1.1) && (get_property("cc_edStatus") == "dying"))
 	{
 		print("Attacking with weapon because we don't have enough MP. Expected damage: " + expected_damage() + ", current hp: " + my_hp(), "red");
 		return "attack with weapon";
 	}
 
-	return "skill Mild Curse";
+	return "skill " + $skill[Mild Curse];
 }
 
 
@@ -3287,7 +3330,7 @@ monster ocrs_helper(string page)
 
 	if(isFreeMonster(last_monster()))
 	{
-		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
+		if((!contains_text(combatState, "cleesh")) && cc_have_skill($skill[cleesh]) && (my_mp() > 10))
 		{
 			set_property("cc_useCleesh", false);
 			set_property("cc_combatHandler", combatState + "(cleesh)");
@@ -3357,14 +3400,14 @@ monster ocrs_helper(string page)
 	set_property("cc_useCleesh", false);
 	if(last_monster().random_modifiers["ticking"])
 	{
-		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
+		if((!contains_text(combatState, "cleesh")) && cc_have_skill($skill[cleesh]) && (my_mp() > 10))
 		{
 			set_property("cc_useCleesh", true);
 		}
 	}
 	if(last_monster().random_modifiers["untouchable"])
 	{
-		if((!contains_text(combatState, "cleesh")) && have_skill($skill[cleesh]) && (my_mp() > 10))
+		if((!contains_text(combatState, "cleesh")) && cc_have_skill($skill[cleesh]) && (my_mp() > 10))
 		{
 			set_property("cc_useCleesh", true);
 		}
@@ -3424,4 +3467,18 @@ boolean containsCombat(skill sk)
 boolean containsCombat(item it)
 {
 	return containsCombat(to_string(it));
+}
+
+
+boolean canSurvive(float mult, int add)
+{
+	int damage = expected_damage();
+	damage *= mult;
+	damage += add;
+	return (damage < my_hp());
+}
+
+boolean canSurvive(float mult)
+{
+	return canSurvive(mult, 0);
 }

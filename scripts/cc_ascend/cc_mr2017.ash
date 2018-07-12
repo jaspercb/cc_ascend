@@ -13,10 +13,6 @@ boolean mummifyFamiliar(familiar fam, string bonus)
 	{
 		return false;
 	}
-	if(!have_familiar($familiar[Mosquito]))
-	{
-		return false;
-	}
 	if(item_amount($item[Mumming Trunk]) == 0)
 	{
 		return false;
@@ -443,6 +439,37 @@ boolean kgbWasteClicks()
 	return (clicked > 0);
 }
 
+string kgbKnownEffects()
+{
+	if(get_property("cc_kgbTracker") == "")
+	{
+		set_property("cc_kgbTracker", my_ascensions() + ":0:0:0:0:0:0:0:0:0:0:0:0");
+	}
+	string[int] tracker = split_string(get_property("cc_kgbTracker"), ":");
+	if((count(tracker) < 13) || (tracker[0] != my_ascensions()))
+	{
+		set_property("cc_kgbTracker", my_ascensions() + ":0:0:0:0:0:0:0:0:0:0:0:0");
+	}
+	tracker = split_string(get_property("cc_kgbTracker"), ":");
+
+	string retval;
+
+	for(int i=1; i<13; i++)
+	{
+		int tabNum = (i+1) / 2;
+		int lowHigh = (i+1) % 2;
+		effect ef = to_effect(tracker[i]);
+		string efname = ef;
+		if(ef == $effect[Light!])
+		{
+			efname = "Random";
+		}
+
+		retval += "Tab: " + tabNum + " Height: " + lowHigh + " with effect: " + efname + "<br>";
+
+	}
+	return retval;
+}
 
 boolean kgbTryEffect(effect ef)
 {
@@ -479,9 +506,6 @@ boolean kgbTryEffect(effect ef)
 			return true;
 		}
 	}
-
-
-
 	return true;
 }
 

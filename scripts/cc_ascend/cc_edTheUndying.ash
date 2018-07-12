@@ -894,7 +894,13 @@ boolean ed_shopping()
 	}
 	if(!ed_needShop())
 	{
-		return false;
+		if((my_mp() < 8) && (item_amount($item[Ka Coin]) > 0) && (item_amount($item[Holy Spring Water]) == 0))
+		{
+		}
+		else
+		{
+			return false;
+		}
 	}
 	print("Time to shop!", "red");
 	wait(1);
@@ -940,11 +946,14 @@ boolean ed_shopping()
 	}
 
 #	if(!get_property("lovebugsUnlocked").to_boolean() && (item_amount($item[Ka Coin]) >= 2) && (item_amount($item[Spirit Beer]) == 0) && (ed_spleen_limit() >= 35))
-	if(!get_property("lovebugsUnlocked").to_boolean() && (item_amount($item[Ka Coin]) >= 2) && (item_amount($item[Spirit Beer]) == 0) && (my_mp() < 100))
+#	if(!get_property("lovebugsUnlocked").to_boolean() && (item_amount($item[Ka Coin]) >= 2) && (item_amount($item[Spirit Beer]) == 0) && (my_mp() < 100))
+	if(!get_property("lovebugsUnlocked").to_boolean() && (item_amount($item[Ka Coin]) >= 2) && (item_amount($item[Holy Spring Water]) == 0) && (my_mp() < 15))
 	{
-		print("Buying Spirit Beer", "green");
-		visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=432", true);
-		coins -= 2;
+#		print("Buying Spirit Beer", "green");
+#		visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=432", true);
+		print("Buying Holy Spring Water", "green");
+		visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=436", true);
+		coins -= 1;
 	}
 
 	if(!have_skill($skill[Extra Spleen]))
@@ -1178,6 +1187,12 @@ boolean ed_shopping()
 			print("Buying Ancient Cure-all", "green");
 			visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=435", true);
 			coins -= 3;
+		}
+		while((item_amount($item[Holy Spring Water]) < 1) && (coins >= 1) && (my_mp() < 8))
+		{
+			print("Buying Holy Spring Water", "green");
+			visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=436", true);
+			coins -= 1;
 		}
 	}
 
@@ -1583,9 +1598,16 @@ boolean L1_ed_islandFallback()
 		return false;
 	}
 
-	if((my_level() >= 10) || ((my_level() >= 8) && have_skill($skill[Still Another Extra Spleen])))
+	if((my_level() >= 10) || ((my_level() >= 8) && have_skill($skill[Still Another Extra Spleen])) || ((my_level() >= 6) && have_skill($skill[Okay Seriously\, This Is The Last Spleen])))
 	{
-		return false;
+		if((spleen_left() < 5) || (my_adventures() > 10))
+		{
+			return false;
+		}
+#		if((my_daycount() > 2) || (my_spleen_use() > 20))
+#		{
+#			return false;
+#		}
 	}
 
 	if(!get_property("lovebugsUnlocked").to_boolean())
@@ -1662,6 +1684,7 @@ boolean L1_ed_islandFallback()
 			put_closet(item_amount($item[Filthy Corduroys]), $item[Filthy Corduroys]);
 			equipBaseline();
 		}
+		buffMaintain($effect[Wisdom Of Thoth], 20, 1, 1);
 		return ccAdv(1, $location[Hippy Camp]);
 	}
 	set_property("cc_needLegs", true);

@@ -385,7 +385,12 @@ generic_t zone_combatMod(location loc)
 			value = -85;
 		}
 		break;
-
+	case $location[The Hidden Temple]:
+		if(cc_my_path() == "G-Lover")
+		{
+			value = -90;
+		}
+		break;
 	case $location[The Copperhead Club]:
 	case $location[A Mob Of Zeppelin Protesters]:
 	case $location[The Red Zeppelin]:
@@ -894,7 +899,7 @@ generic_t zone_available(location loc)
 	case $location[The Dark Neck of the Woods]:
 	case $location[The Dark Heart of the Woods]:
 	case $location[The Dark Elbow of the Woods]:
-		if(internalQuestStatus("questL06Friar") >= 0)
+		if((internalQuestStatus("questL06Friar") >= 0) && (get_property("questL06Friar") != "finished"))
 		{
 			retval._boolean = true;
 		}
