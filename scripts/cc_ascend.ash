@@ -10759,6 +10759,11 @@ boolean L6_dakotaFanning()
 		string temp = visit_url("place.php?whichplace=woods&action=woods_dakota_anim");
 		return true;
 	}
+	if(get_property("questM16Temple") == "finished")
+	{
+		set_property("cc_dakotaFanning", true);
+		return false;
+	}
 
 	if(item_amount($item[Pellet Of Plant Food]) == 0)
 	{
