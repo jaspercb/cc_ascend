@@ -1624,12 +1624,12 @@ string cc_combatHandler(int round, string opp, string text)
 	{
 	case $class[Seal Clubber]:
 		attackMinor = "attack with weapon";
-		if(cc_have_skill($skill[lunge smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])))
+		if(cc_have_skill($skill[Lunge Smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])) && (weapon_type(equipped_item($slot[weapon])) == $stat[Muscle]))
 		{
 			attackMinor = "skill " + $skill[Lunge Smack];
 			costMinor = mp_cost($skill[Lunge Smack]);
 		}
-		if(cc_have_skill($skill[lunging thrust-smack]) && (my_mp() >= mp_cost($skill[Lunging Thrust-Smack])))
+		if(cc_have_skill($skill[lunging thrust-smack]) && (my_mp() >= mp_cost($skill[Lunging Thrust-Smack])) && (weapon_type(equipped_item($slot[weapon])) == $stat[Muscle]))
 		{
 			attackMajor = "skill " + $skill[Lunging Thrust-Smack];
 			costMajor = mp_cost($skill[Lunging Thrust-Smack]);
@@ -2085,7 +2085,7 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			return attackMajor;
 		}
-		if(cc_have_skill($skill[Lunge Smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])) && (attackMinor != "attack with weapon"))
+		if(cc_have_skill($skill[Lunge Smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])) && (attackMinor != "attack with weapon") && (weapon_type(equipped_item($slot[weapon])) == $stat[Muscle]))
 		{
 			return attackMinor;
 		}
@@ -2182,7 +2182,7 @@ string findBanisher(int round, string opp, string text)
 		return "skill Storm of the Scarab";
 	}
 	return cc_combatHandler(round, opp, text);
-//	if(cc_have_skill($skill[Lunge Smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])))
+//	if(cc_have_skill($skill[Lunge Smack]) && (my_mp() >= mp_cost($skill[Lunge Smack])) && (weapon_type(equipped_item($slot[weapon])) == $stat[Muscle]))
 //	{
 //		return "skill lunge smack";
 //	}
