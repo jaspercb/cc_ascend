@@ -1821,26 +1821,39 @@ boolean acquireMP(int goal, boolean buyIt)
 	while(buyIt && (my_mp() < goal))
 	{
 		boolean gLoverBlock = (cc_my_path() == "G-Lover");
+		item goal = $item[none];
 
 		if(($classes[Pastamancer, Sauceror] contains my_class()) && guild_store_available() && (my_level() >= 5))
 		{
-			buyUpTo(1, $item[Magical Mystery Juice], 100);
-			use(1, $item[Magical Mystery Juice]);
+			goal = $item[Magical Mystery Juice];
 		}
 		else if((get_property("questM24Doc") == "finished") && isGeneralStoreAvailable() && (my_meat() > npc_price($item[Doc Galaktik\'s Invigorating Tonic])))
 		{
-			buyUpTo(1, $item[Doc Galaktik\'s Invigorating Tonic], 100);
-			use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+			goal = $item[Doc Galaktik\'s Invigorating Tonic];
 		}
 		else if(black_market_available() && (my_meat() > npc_price($item[Black Cherry Soda])) && !gLoverBlock)
 		{
-			buyUpTo(1, $item[Black Cherry Soda], 100);
-			use(1, $item[Black Cherry Soda]);
+			goal = $item[Black Cherry Soda];
 		}
 		else if(isGeneralStoreAvailable() && (my_meat() > npc_price($item[Doc Galaktik\'s Invigorating Tonic])))
 		{
-			buyUpTo(1, $item[Doc Galaktik\'s Invigorating Tonic], 100);
-			use(1, $item[Doc Galaktik\'s Invigorating Tonic]);
+			goal = $item[Doc Galaktik\'s Invigorating Tonic];
+		}
+
+		if(goal != $item[none])
+		{
+			buyUpTo(1, goal, 100);
+		}
+
+		if(item_amount(goal) > 0)
+		{
+			int have = item_amount(goal);
+			use(1, goal);
+			if(have == item_amount(goal))
+			{
+				print("Failed using item " + goal + "!", "red");
+				return false;
+			}
 		}
 		else
 		{

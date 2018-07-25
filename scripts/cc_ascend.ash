@@ -2277,11 +2277,11 @@ boolean doBedtime()
 			}
 		}
 	}
-	if(my_fullness() < fullness_limit())
+	if((fullness_left() > 0) && can_eat())
 	{
 		return false;
 	}
-	if(my_inebriety() < inebriety_limit())
+	if((inebriety_left() > 0) && can_drink())
 	{
 		return false;
 	}
@@ -2294,7 +2294,7 @@ boolean doBedtime()
 	{
 		spleenlimit = 0;
 	}
-	if((my_spleen_use() < spleenlimit) && !in_hardcore() && (my_inebriety() < inebriety_limit()))
+	if((my_spleen_use() < spleenlimit) && !in_hardcore() && (inebriety_left() > 0))
 	{
 		return false;
 	}
@@ -2373,7 +2373,7 @@ boolean doBedtime()
 		use(1, $item[License To Chill]);
 	}
 
-	if((my_inebriety() <= inebriety_limit()) && (my_rain() >= 50) && (my_adventures() >= 1))
+	if((my_inebriety() <= inebriety_limit()) && can_drink() && (my_rain() >= 50) && (my_adventures() >= 1))
 	{
 		if(my_daycount() == 1)
 		{
@@ -8127,7 +8127,7 @@ boolean L10_holeInTheSkyUnlock()
 	{
 		return false;
 	}
-	if(item_amount($item[steam-powered model rocketship]) > 0)
+	if(item_amount($item[Steam-Powered Model Rocketship]) > 0)
 	{
 		set_property("cc_holeinthesky", false);
 		return false;
@@ -12887,8 +12887,13 @@ boolean L10_holeInTheSky()
 		set_property("cc_getStarKey", false);
 		return false;
 	}
+	if(!zone_isAvailable($location[The Hole In The Sky]))
+	{
+		print("The Hole In The Sky is not available, we have to do something else...", "red");
+		return false;
+	}
 
-	if((item_amount($item[star]) >= 8) && (item_amount($item[line]) >= 7))
+	if((item_amount($item[Star]) >= 8) && (item_amount($item[Line]) >= 7))
 	{
 		if(!in_hardcore())
 		{

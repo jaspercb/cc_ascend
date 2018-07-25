@@ -228,7 +228,7 @@ void handlePostAdventure()
 			}
 		}
 
-		if((my_level() < 13) && (my_level() > 3) && !get_property("cc_needLegs").to_boolean() && (get_property("edPoints").to_int() > 15))
+		if((my_level() < 13) && (my_level() > 3) && !get_property("cc_needLegs").to_boolean() && (get_property("edPoints").to_int() > 15) && (my_location() != $location[Hippy Camp]))
 		{
 			buffMaintain($effect[Blessing of Serqet], 15, 1, 1);
 		}
