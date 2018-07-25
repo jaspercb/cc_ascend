@@ -2825,15 +2825,13 @@ boolean doBedtime()
 	}
 
 	boolean done = (my_inebriety() > inebriety_limit());
-	if((my_class() == $class[Gelatinous Noob]) || (cc_my_path() == "Teetotaler"))
+	if((my_class() == $class[Gelatinous Noob]) || !can_drink())
 	{
 		if((my_adventures() <= 1) || (internalQuestStatus("questL13Final") >= 14))
 		{
 			done = true;
 		}
 	}
-
-	//if(my_inebriety() <= inebriety_limit())
 	if(!done)
 	{
 		print("Goodnight done, please make sure to handle your overdrinking, then you can run me again.", "blue");
