@@ -5730,7 +5730,7 @@ boolean L11_hiddenCity()
 
 			return true;
 		}
-		abort("Should not have gotten here. Aborting");
+		#abort("Should not have gotten here. Aborting");
 	}
 	return false;
 }
@@ -13551,7 +13551,7 @@ boolean L8_trapperGroar()
 			int coldResist = numeric_modifier("Generated:_spec", "cold resistance");
 			if(coldResist >= 5)
 			{
-				ccMaximize("cold res " + lihcface + " -equip snow suit", 0, 0, false);
+				ccMaximize("cold res " + lihcface + " -equip snow suit -weapon", 0, 0, false);
 			}
 		}
 

@@ -3280,9 +3280,23 @@ boolean pullXWhenHaveY(item it, int howMany, int whenHave)
 		{
 			int oldPrice = historical_price(it) * 1.2;
 			int curPrice = cc_mall_price(it);
-			if((curPrice <= oldPrice) && (curPrice < 30000) && (my_storage_meat() >= curPrice))
+			int meat = my_storage_meat();
+			boolean getFromStorage = true;
+			if(can_interact() && (meat < curPrice))
 			{
-				buy_using_storage(howMany - storage_amount(it), it, curPrice);
+				meat = my_meat() - 5000;
+				getFromStorage = false;
+			}
+			if((curPrice <= oldPrice) && (curPrice < 30000) && (meat >= curPrice))
+			{
+				if(getFromStorage)
+				{
+					buy_using_storage(howMany - storage_amount(it), it, curPrice);
+				}
+				else
+				{
+					howMany -= buy(howMany - storage_amount(it), it, curPrice);
+				}
 			}
 			else
 			{
