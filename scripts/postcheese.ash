@@ -228,9 +228,9 @@ void handlePostAdventure()
 			}
 		}
 
-		if((my_level() < 13) && (my_level() > 3) && !get_property("cc_needLegs").to_boolean() && (get_property("edPoints").to_int() > 15) && (my_location() != $location[Hippy Camp]))
+		if((my_level() < 13) && (my_level() > 3) && !get_property("cc_needLegs").to_boolean() && (get_property("edPoints").to_int() > 15) && !($locations[Hippy Camp, The Outskirts Of Cobb\'s Knob] contains my_location()))
 		{
-			buffMaintain($effect[Blessing of Serqet], 15, 1, 1);
+			buffMaintain($effect[Blessing of Serqet], 50, 1, 1);
 		}
 
 		if((my_mp() + 100) < my_maxmp())

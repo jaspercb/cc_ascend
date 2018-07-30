@@ -128,6 +128,7 @@ void initializeSettings()
 	set_property("cc_crackpotjar", "");
 	set_property("cc_crypt", "");
 	set_property("cc_cubeItems", true);
+	set_property("cc_dakotaFanning", false);
 	set_property("cc_day1_cobb", "");
 	set_property("cc_day1_dna", "");
 	set_property("cc_day1_init", "");
@@ -302,7 +303,7 @@ boolean handleFamiliar(string type)
 
 	if(type == "meat")
 	{
-		familiar[int] fams = List($familiars[Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Hobo Monkey, Piano Cat, Leprechaun]);
+		familiar[int] fams = List($familiars[Adventurous Spelunker, Grimstone Golem, Angry Jung Man, Bloovian Groose, Hobo Monkey, Cat Burglar, Piano Cat, Leprechaun]);
 
 #		if(available_amount($item[Li\'l Pirate Costume]) > 0)
 #		{
@@ -321,7 +322,7 @@ boolean handleFamiliar(string type)
 	}
 	else if(type == "item")
 	{
-		familiar[int] fams = List($familiars[Rockin\' Robin, Garbage Fire, Optimistic Candle, Grimstone Golem, Angry Jung Man, Intergnat, XO Skeleton, Bloovian Groose, Fist Turkey, Slimeling, Jumpsuited Hound Dog, Adventurous Spelunker, Gelatinous Cubeling, Baby Gravy Fairy, Obtuse Angel, Pair of Stomping Boots, Jack-in-the-Box, Peppermint Rhino, Syncopated Turtle]);
+		familiar[int] fams = List($familiars[Rockin\' Robin, Garbage Fire, Optimistic Candle, Grimstone Golem, Angry Jung Man, Intergnat, XO Skeleton, Bloovian Groose, Fist Turkey, Cat Burglar, Slimeling, Jumpsuited Hound Dog, Adventurous Spelunker, Gelatinous Cubeling, Baby Gravy Fairy, Obtuse Angel, Pair of Stomping Boots, Jack-in-the-Box, Peppermint Rhino, Syncopated Turtle]);
 		if((my_daycount() == 1) && ($familiar[Angry Jung Man].drops_today == 0) && (get_property("cc_crackpotjar") == ""))
 		{
 			fams = ListRemove(fams, $familiar[Angry Jung Man]);
@@ -353,7 +354,7 @@ boolean handleFamiliar(string type)
 			fams = ListRemove(fams, $familiar[Angry Jung Man]);
 			fams = ListInsertAt(fams, $familiar[Angry Jung Man], fams.ListFind($familiar[Gelatinous Cubeling]));
 		}
-		if(item_amount($item[BACON]) > 250)
+		if(item_amount($item[BACON]) > 350)
 		{
 			fams = ListRemove(fams, $familiar[Intergnat]);
 			fams = ListInsertAt(fams, $familiar[Intergnat], fams.ListFind($familiar[Gelatinous Cubeling]));
@@ -4621,6 +4622,7 @@ boolean L13_towerNSHedge()
 		//If we got beaten up by the last hedgemaze, mafia might set questL13Final to step5 anyway. Fix that.
 		print("Hedge maze not solved, the mysteries are still there (correcting step5 -> step4)", "red");
 		set_property("questL13Final", "step4");
+		abort("Heal yourself and try again...");
 	}
 	if(internalQuestStatus("questL13Final") >= 5)
 	{
