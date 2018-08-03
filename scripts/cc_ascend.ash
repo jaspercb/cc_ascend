@@ -225,8 +225,6 @@ void initializeSettings()
 	set_property("cc_writingDeskSummon", false);
 	set_property("cc_yellowRays", "");
 
-	set_property("autoSatisfyWithNPCs", true);
-
 	set_property("choiceAdventure1003", 0);
 	beehiveConsider();
 
@@ -1676,6 +1674,11 @@ int handlePulls(int day)
 			pullXWhenHaveY($item[Infinite BACON Machine], 1, 0);
 		}
 
+		if(is_unrestricted($item[Bastille Battalion control rig]))
+		{
+			pullXWhenHaveY($item[Bastille Battalion control rig], 1, 0);
+		}
+
 		if((cc_my_path() != "Pocket Familiars") && (cc_my_path() != "G-Lover"))
 		{
 			pullXWhenHaveY($item[Replica Bat-oomerang], 1, 0);
@@ -2355,6 +2358,7 @@ boolean doBedtime()
 
 	restoreAllSettings();
 	restoreSetting("autoSatisfyWithCoinmasters");
+	restoreSetting("autoSatisfyWithNPCs");
 	restoreSetting("removeMalignantEffects");
 	restoreSetting("kingLiberatedScript");
 	restoreSetting("afterAdventureScript");
@@ -4055,7 +4059,7 @@ boolean L11_palindome()
 
 boolean L13_towerNSNagamar()
 {
-	if(!get_property("cc_wandOfNagamar").to_boolean())
+	if(!get_property("cc_wandOfNagamar").to_boolean() && (get_property("questL13Final") != "step12"))
 	{
 		return false;
 	}
@@ -4063,7 +4067,7 @@ boolean L13_towerNSNagamar()
 	if(item_amount($item[Wand of Nagamar]) > 0)
 	{
 		set_property("cc_wandOfNagamar", false);
-		return true;
+		return false;
 	}
 	else if(get_property("questL13Final") == "step12")
 	{
@@ -4620,9 +4624,12 @@ boolean L13_towerNSHedge()
 	if(contains_text(page, "hedgemaze"))
 	{
 		//If we got beaten up by the last hedgemaze, mafia might set questL13Final to step5 anyway. Fix that.
-		print("Hedge maze not solved, the mysteries are still there (correcting step5 -> step4)", "red");
 		set_property("questL13Final", "step4");
-		abort("Heal yourself and try again...");
+		if((have_effect($effect[Beaten Up]) > 0) || (my_hp() < 150))
+		{
+			print("Hedge maze not solved, the mysteries are still there (correcting step5 -> step4)", "red");
+			abort("Heal yourself and try again...");
+		}
 	}
 	if(internalQuestStatus("questL13Final") >= 5)
 	{
@@ -14667,6 +14674,7 @@ void cc_begin()
 
 	backupSetting("trackLightsOut", false);
 	backupSetting("autoSatisfyWithCoinmasters", true);
+	backupSetting("autoSatisfyWithNPCs", true);
 	backupSetting("removeMalignantEffects", false);
 	backupSetting("autoAntidote", 0);
 
