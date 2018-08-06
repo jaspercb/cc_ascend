@@ -861,7 +861,7 @@ boolean LA_cs_communityService()
 
 			boolean turnSave = get_property("cc_hccsTurnSave").to_boolean() || !in_hardcore();
 
-			if(!turnSave && (item_amount($item[Black Pixel]) < 2) && (item_amount($item[Pixel Star]) == 0) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])))
+			if(!turnSave && (item_amount($item[Black Pixel]) < 2) && (item_amount($item[Pixel Star]) == 0) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])) && knoll_available())
 			{
 				equip($slot[acc1], $item[Continuum Transfunctioner]);
 
@@ -1048,9 +1048,13 @@ boolean LA_cs_communityService()
 				{
 					ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatNormal");
 				}
-				else
+				else if(knoll_available())
 				{
 					ccAdv(1, $location[8-bit Realm], "cs_combatNormal");
+				}
+				else
+				{
+					ccAdv(1, $location[The Thinknerd Warehouse], "cs_combatNormal");
 				}
 				return true;
 			}
