@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18650;
+since r18733;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -1610,7 +1610,7 @@ int handlePulls(int day)
 		}
 		else
 		{
-			pullXWhenHaveY($item[numberwang], 1, 0);
+			pullXWhenHaveY($item[Numberwang], 1, 0);
 		}
 #		pullXWhenHaveY($item[milk of magnesium], 1, 0);
 		if(cc_my_path() == "Pocket Familiars")
@@ -1676,7 +1676,8 @@ int handlePulls(int day)
 
 		if(is_unrestricted($item[Bastille Battalion control rig]))
 		{
-			pullXWhenHaveY($item[Bastille Battalion control rig], 1, 0);
+			string temp = visit_url("storage.php?action=pull&whichitem1=" + to_int($item[Bastille Battalion Control Rig]) + "&howmany1=1&pwd");
+			#pullXWhenHaveY($item[Bastille Battalion control rig], 1, 0);
 		}
 
 		if((cc_my_path() != "Pocket Familiars") && (cc_my_path() != "G-Lover"))

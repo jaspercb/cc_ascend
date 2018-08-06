@@ -39,6 +39,11 @@ boolean LA_cs_communityService()
 		abort("Too drunk, not sure if not aborting is safe yet");
 	}
 
+	if(is_unrestricted($item[Bastille Battalion Control Rig]) && (storage_amount($item[Bastille Battalion Control Rig]) > 0))
+	{
+		string temp = visit_url("storage.php?action=pull&whichitem1=" + to_int($item[Bastille Battalion Control Rig]) + "&howmany1=1&pwd");
+	}
+
 	if((item_amount($item[Mumming Trunk]) > 0) && !get_property("_mummifyDone").to_boolean())
 	{
 		switch(my_daycount())
@@ -588,19 +593,22 @@ boolean LA_cs_communityService()
 
 			if((internalQuestStatus("questG07Myst") == 1) || (internalQuestStatus("questG08Moxie") == 1) || (internalQuestStatus("questG09Muscle") == 1))
 			{
-				while(LX_bitchinMeatcar());
-				visit_url("guild.php?place=challenge");
-				visit_url("guild.php?place=paco");
-				visit_url("guild.php?place=paco");
-				visit_url("guild.php?place=paco");
-				run_choice(1);
-				woods_questStart();
 				handleBarrelFullOfBarrels(true);
-				if(!florist_available())
+				if(knoll_available())
 				{
-					trickMafiaAboutFlorist();
+					while(LX_bitchinMeatcar());
+					visit_url("guild.php?place=challenge");
+					visit_url("guild.php?place=paco");
+					visit_url("guild.php?place=paco");
+					visit_url("guild.php?place=paco");
+					run_choice(1);
+					woods_questStart();
+					if(!florist_available())
+					{
+						trickMafiaAboutFlorist();
+					}
+					return true;
 				}
-				return true;
 			}
 
 			LX_dolphinKingMap();
