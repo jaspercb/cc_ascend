@@ -471,6 +471,10 @@ boolean cheeseWarMachine(int stats, int it, int buff, int potion)
 		visit_url("choice.php?whichchoice=1314&option=3&pwd=" + my_hash());
 		visit_url("choice.php?whichchoice=1319&option=3&pwd=" + my_hash());
 		visit_url("choice.php?whichchoice=1315&option=3&pwd=" + my_hash());
+		if(last_choice() == 1316)
+		{
+			break;
+		}
 	}
 
 	visit_url("choice.php?whichchoice=1316&option=3&pwd=" + my_hash());

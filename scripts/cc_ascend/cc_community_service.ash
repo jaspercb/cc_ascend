@@ -401,7 +401,7 @@ boolean LA_cs_communityService()
 	{
 		cheeseWarMachine(0, 1, 3, random(3)+1);
 	}
-	else if((curQuest == 9) && (my_daycount() != 1))
+	else if(my_daycount() != 1)
 	{
 		cheeseWarMachine(0, 2, 1, random(3)+1);
 	}
