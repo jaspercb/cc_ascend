@@ -547,6 +547,7 @@ boolean godLobsterCombat(item it, int goal, string option);	//Defined in cc_asce
 boolean fantasyRealmToken();								//Defined in cc_ascend/cc_mr2018.ash
 boolean songboomSetting(string goal);						//Defined in cc_ascend/cc_mr2018.ash
 boolean songboomSetting(int choice);						//Defined in cc_ascend/cc_mr2018.ash
+boolean cheeseWarMachine(int stats, int it, int buff, int potion);//Defined in cc_ascend/cc_mr2018.ash
 boolean getSpaceJelly();									//Defined in cc_ascend/cc_mr2017.ash
 int horseCost();											//Defined in cc_ascend/cc_mr2017.ash
 boolean getHorse(string type);								//Defined in cc_ascend/cc_mr2017.ash

@@ -311,6 +311,7 @@ void handlePostAdventure()
 		}
 
 		buffMaintain($effect[Inscrutable Gaze], 30, 1, 1);
+		buffMaintain($effect[Big], 50, 1, 1);
 
 		boolean [skill] toCast = $skills[Acquire Rhinestones, Advanced Cocktailcrafting, Advanced Saucecrafting, Communism!, Grab a Cold One, Lunch Break, Pastamastery, Perfect Freeze, Request Sandwich, Spaghetti Breakfast, Summon Alice\'s Army Cards, Summon Carrot, Summon Confiscated Things, Summon Crimbo Candy, Summon Geeky Gifts, Summon Hilarious Objects, Summon Holiday Fun!, Summon Kokomo Resort Pass, Summon Tasteful Items];
 

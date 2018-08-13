@@ -2310,6 +2310,10 @@ boolean cc_deleteMail(kmailObject msg)
 	{
 		return true;
 	}
+	if(contains_text(msg.message, "I have opted to let you know that I have chosen to run &lt;batfellow.ash&gt;.  Thanks for writing this script"))
+	{
+		return true;
+	}
 
 	if((msg.fromid == -1) && (contains_text(msg.message, "Your dedication to helping me fight crime in Gotpork city almost makes me forget about the fact that crime in Gotpork city cost me my parents.")))
 	{
@@ -4097,6 +4101,8 @@ boolean buffMaintain(effect buff, int mp_min, int casts, int turns)
 	case $effect[Become Superficially Interested]:	useItem = $item[Daily Affirmation: Be Superficially Interested];	break;
 	case $effect[Bendin\' Hell]:					useSkill = $skill[Bend Hell];					break;
 	case $effect[Bent Knees]:					useSkill = $skill[Bendable Knees];					break;
+	case $effect[Berry Elemental]:				useItem = $item[Tapioc Berry];					break;
+	case $effect[Berry Statistical]:			useItem = $item[Snarf Berry];					break;
 	case $effect[Big]:							useSkill = $skill[Get Big];						break;
 	case $effect[Big Meat Big Prizes]:			useItem = $item[Meat-Inflating Powder];			break;
 	case $effect[Biologically Shocked]:			useItem = $item[glowing syringe];				break;

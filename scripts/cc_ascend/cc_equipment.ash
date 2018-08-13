@@ -657,7 +657,7 @@ void equipBaselineFam()
 	{
 		item toEquip = $item[none];
 
-		boolean[item] poss = $items[Chocolate-stained Collar, Tiny Bowler, Guard Turtle Collar, Vicious Spiked Collar, Ant Hoe, Ant Pick, Ant Rake, Ant Pitchfork, Ant Sickle, Anniversary Tiny Latex Mask, Origami &quot;Gentlemen\'s&quot; Magazine, Tiny Fly Glasses, Annoying Pitchfork, Li\'l Businessman Kit, Lead Necklace, Flaming Familiar Doppelg&auml;nger, Wax Lips, Lucky Tam O\'Shanter, Lucky Tam O\'Shatner, Miniature Gravy-Covered Maypole, Kill Screen, Loathing Legion Helicopter, Little Box of Fireworks, Filthy Child Leash, Mayflower Bouquet, Plastic Pumpkin Bucket, Moveable Feast, Ittah Bittah Hookah, Snow Suit, Astral Pet Sweater];
+		boolean[item] poss = $items[Chocolate-stained Collar, Tiny Bowler, Guard Turtle Collar, Vicious Spiked Collar, Ant Hoe, Ant Pick, Ant Rake, Ant Pitchfork, Ant Sickle, Anniversary Tiny Latex Mask, Origami &quot;Gentlemen\'s&quot; Magazine, Tiny Fly Glasses, Annoying Pitchfork, Li\'l Businessman Kit, Lead Necklace, Flaming Familiar Doppelg&auml;nger, Wax Lips, Lucky Tam O\'Shanter, Lucky Tam O\'Shatner, Miniature Gravy-Covered Maypole, Kill Screen, Loathing Legion Helicopter, Little Box of Fireworks, Filthy Child Leash, Mayflower Bouquet, Plastic Pumpkin Bucket, Moveable Feast, Ittah Bittah Hookah, Snow Suit, Astral Pet Sweater, Muscle Band, Shell Bell, Smoke Ball, Razor Fang, Amulet Coin, Luck Incense];
 		toEquip = handleSolveThing(poss, $slot[familiar]);
 
 		if((toEquip != $item[none]) && (toEquip != equipped_item($slot[familiar])))
@@ -1002,7 +1002,7 @@ void equipRollover()
 	}
 
 
-	poss = List($items[Coarse Hemp Socks, Red Armband, Tiny Plastic Crimbo Reindeer, Tiny Plastic Bitchin\' Meatcar, Dead Guy\'s Watch, Gold Wedding Ring, Mafia Organizer Badge, Tiny Plastic Golden Gundam, Tiny Die-Cast Golden Ring, Gingerservo, BGE Pocket Calendar, Wristwatch of the White Knight, Imitation Nice Watch, Boots of Twilight Whispers, Aerogel Ascot, Official Council Aide Pin, Meteorthopedic Shoes, Grandfather Watch, Gingerbeard, Fudgecycle, Spacegate Scientist\'s Insignia, Numberwang, Ticksilver Ring, Sasq&trade; Watch, Counterclockwise Watch, Treads of Loathing]);
+	poss = List($items[Coarse Hemp Socks, Red Armband, Tiny Plastic Crimbo Reindeer, Tiny Plastic Bitchin\' Meatcar, Dead Guy\'s Watch, Gold Wedding Ring, Mafia Organizer Badge, Tiny Plastic Golden Gundam, Tiny Die-Cast Golden Ring, Gingerservo, BGE Pocket Calendar, Wristwatch of the White Knight, Imitation Nice Watch, Boots of Twilight Whispers, Aerogel Ascot, Official Council Aide Pin, Meteorthopedic Shoes, Grandfather Watch, Gingerbeard, Fudgecycle, Draftsman\'s Driving Gloves, Spacegate Scientist\'s Insignia, Numberwang, Ticksilver Ring, Sasq&trade; Watch, Counterclockwise Watch, Treads of Loathing]);
 	if(possessEquipment($item[Your Cowboy Boots]))
 	{
 		if(equipped_item($slot[bootspur]) == $item[Ticksilver Spurs])

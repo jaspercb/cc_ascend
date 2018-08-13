@@ -149,6 +149,13 @@ boolean LA_cs_communityService()
 	equipBaseline();
 	forceEquip($slot[Off-hand], $item[Barrel Lid]);
 	forceEquip($slot[Shirt], $item[Tunac]);
+	foreach it in $items[Brutal Brogues, Draftsman\'s Driving Gloves, Nouveau Nosering]
+	{
+		if(possessEquipment(it))
+		{
+			equip($slot[acc3], it);
+		}
+	}
 #	if((equipped_item($slot[Shirt]) == $item[none]) && possessEquipment($item[Tunac]))
 #	{
 #		equip($slot[Shirt], $item[Tunac]);
@@ -292,6 +299,18 @@ boolean LA_cs_communityService()
 		songboomSetting($item[Gathered Meat-Clip]);
 	}
 
+	if(isOverdueDigitize() && (my_daycount() == 1) && (get_property("_sourceTerminalDigitizeMonsterCount").to_int() == 2))
+	{
+		if(get_property("_sourceTerminalDigitizeUses").to_int() > 0)
+		{
+			print("A Wanderer event is expected now, we want to re-digitize", "blue");
+			cc_sourceTerminalEducate($skill[Digitize], $skill[Extract]);
+			set_property("cc_combatDirective", "start;skill digitize");
+			ccAdv(1, $location[Barf Mountain], "cs_combatNormal");
+			set_property("cc_combatDirective", "");
+		}
+	}
+
 	//Quest order on Day 1: 11, 6, 9 (Coiling Wire, Weapon Damage, Item)
 	//Day 2: 7, 10, 1, 2, 3, 4, 5, 8
 	if((my_daycount() == 2) && cc_haveWitchess() && have_skills($skills[Conspiratorial Whispers, Curse of Weaksauce, Sauceshell, Shell Up, Silent Slam]) && (have_skill($skill[Tattle]) || have_skill($skill[Meteor Lore])) && !possessEquipment($item[Dented Scepter]) && (get_property("_cc_witchessBattles").to_int() < 5) && have_familiar($familiar[Galloping Grill]) && (my_ascensions() >= 100))
@@ -339,6 +358,7 @@ boolean LA_cs_communityService()
 		buffMaintain($effect[Takin\' It Greasy], 130, 1, 1);
 		buffMaintain($effect[Pyromania], 130, 1, 1);
 		buffMaintain($effect[Rotten Memories], 130, 1, 1);
+		buffMaintain($effect[Big], 50, 1, 1);
 		useCocoon();
 
 		cc_sourceTerminalEducate($skill[Compress], $skill[Extract]);
@@ -376,6 +396,15 @@ boolean LA_cs_communityService()
 		setAdvPHPFlag();
 	}
 	asdonAutoFeed(37);
+
+	if(curQuest == 6)
+	{
+		cheeseWarMachine(0, 1, 3, random(3)+1);
+	}
+	else if((curQuest == 9) && (my_daycount() != 1))
+	{
+		cheeseWarMachine(0, 2, 1, random(3)+1);
+	}
 
 	if((curQuest == 11) || (curQuest == 6) || (curQuest == 9) || (curQuest == 7))
 	{
@@ -776,6 +805,13 @@ boolean LA_cs_communityService()
 				cc_sourceTerminalEnhance("substats");
 			}
 
+			if((item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() >= 0) && (my_adventures() <= 2))
+			{
+				shrugAT($effect[Ode to Booze]);
+				buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
+				drink(min(inebriety_left(), item_amount($item[Astral Pilsner])), $item[Astral Pilsner]);
+			}
+
 			if((my_spleen_use() == 12) && (item_amount($item[Abstraction: Category]) > 0))
 			{
 				chew(1, $item[Abstraction: Category]);
@@ -834,8 +870,8 @@ boolean LA_cs_communityService()
 			{
 				if(item_amount($item[Astral Pilsner]) > 0)
 				{
-					buffMaintain($effect[Ode to Booze], 50, 1, 1);
-					drink(1, $item[Astral Pilsner]);
+					buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
+					drink(min(inebriety_left(), item_amount($item[Astral Pilsner])), $item[Astral Pilsner]);
 				}
 				else if(item_amount($item[Sacramento Wine]) > 0)
 				{
@@ -974,6 +1010,7 @@ boolean LA_cs_communityService()
 
 						buffMaintain($effect[Astral Shell], 42, 1, 1);
 						buffMaintain($effect[Elemental Saucesphere], 42, 1, 1);
+						buffMaintain($effect[Big], 35, 1, 1);
 						buffMaintain($effect[Brawnee\'s Anthem of Absorption], 45, 1, 1);
 						buffMaintain($effect[Jalape&ntilde;o Saucesphere], 37, 1, 1);
 						buffMaintain($effect[Ghostly Shell], 38, 1, 1);
@@ -1059,7 +1096,7 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if(get_property("cc_tryPowerLevel").to_boolean())
+			if(!get_property("cc_tryPowerLevel").to_boolean())
 			{
 				change_mcd(0);
 			}
@@ -1317,6 +1354,30 @@ boolean LA_cs_communityService()
 					abort("Softcore Community Service, end of term.");
 				}
 
+/*				if(to_lower_case(my_name()) == "cheesecookie")
+				{
+					buffMaintain($effect[Simmering], 0, 1, 1);
+					if(inebriety_left() == 0)
+					{
+						use_familiar($familiar[Stooper]);
+						foreach it in $items[Splendid Martini, Meadeorite, Sacramento Wine, Cold One]
+						{
+							if(item_amount(it) > 0)
+							{
+								ccDrink(1, it);
+								break;
+							}
+						}
+					}
+					overdrink(1, $item[Hacked Gibson]);
+					ccEat(1, $item[Raw Turkey]);
+					if((spleen_left() > 0) && (item_amount($item[Abstraction: Thought]) > 0))
+					{
+						chew(1, $item[Abstraction: Thought]);
+					}
+					return true;
+				}
+*/
 				if((inebriety_left() == 0) && have_familiar($familiar[Stooper]))
 				{
 					use_familiar($familiar[Stooper]);
@@ -1481,6 +1542,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Peppermint Bite], 0, 1 , 1);
 			buffMaintain($effect[Barbecue Saucy], 0, 1, 1);
 			buffMaintain($effect[Graham Crackling], 0, 1, 1);
+			buffMaintain($effect[Berry Statistical], 0, 1, 1);
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Purity of Spirit], 0, 1, 1);
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Human-Human Hybrid], 0, 1, 1);
@@ -1585,6 +1647,11 @@ boolean LA_cs_communityService()
 				temp = visit_url("place.php?whichplace=kgb&action=kgb_tab2", false);
 			}
 
+			if(get_cs_questCost(curQuest) > 10)
+			{
+				makeGenieWish($effect[Preemptive Medicine]);
+			}
+
 			if(get_cs_questCost(curQuest) > 1)
 			{
 				if((item_amount($item[Cashew]) >= 2) && !possessEquipment($item[Mini-Marshmallow Dispenser]))
@@ -1668,6 +1735,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Twen Tea], 0, 1, 1);
 			buffMaintain($effect[Feroci Tea], 0, 1, 1);
 			buffMaintain($effect[Peppermint Bite], 0, 1 , 1);
+			buffMaintain($effect[Berry Statistical], 0, 1, 1);
 
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Gr8tness], 0, 1, 1);
@@ -1739,6 +1807,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Wit Tea], 0, 1, 1);
 			buffMaintain($effect[Sweet\, Nuts], 0, 1, 1);
 			buffMaintain($effect[Baconstoned], 0, 1, 1);
+			buffMaintain($effect[Berry Statistical], 0, 1, 1);
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[The Magic Of LOV], 0, 1, 1);
 
@@ -1842,6 +1911,8 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Dexteri Tea], 0, 1, 1);
 			buffMaintain($effect[Busy Bein\' Delicious], 0, 1, 1);
 			buffMaintain($effect[Bandersnatched], 0, 1, 1);
+			buffMaintain($effect[Berry Statistical], 0, 1, 1);
+
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[The Moxie Of LOV], 0, 1, 1);
 
@@ -2146,15 +2217,9 @@ boolean LA_cs_communityService()
 				doRest();
 				if(item_amount($item[Astral Pilsner]) > 0)
 				{
-					buffMaintain($effect[Ode to Booze], 50, 1, 6);
+					buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
 				}
 				cli_execute("postcheese");
-			}
-			if((my_level() >= 8) && (item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() >= item_amount($item[Astral Pilsner])))
-			{
-				shrugAT($effect[Ode to Booze]);
-				buffMaintain($effect[Ode to Booze], 50, 1, 6);
-				drink(item_amount($item[Astral Pilsner]), $item[Astral Pilsner]);
 			}
 
 			if((my_level() < 8) && !get_property("_fancyHotDogEaten").to_boolean() && (fullness_left() >= 12))
@@ -2172,6 +2237,13 @@ boolean LA_cs_communityService()
 					abort("Tried to eat a hot dog and failed. Move to a hot dog stand clan or 'set _fancyHotDogEaten=true' in order to resume");
 				}
 				return true;
+			}
+
+			if((item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() >= 0) && (my_adventures() < get_cs_questCost(curQuest)))
+			{
+				shrugAT($effect[Ode to Booze]);
+				buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
+				drink(min(inebriety_left(), item_amount($item[Astral Pilsner])), $item[Astral Pilsner]);
 			}
 
 			if((my_adventures() < get_cs_questCost(curQuest)) && ((my_inebriety() == 7) || (my_inebriety() == 13)))
@@ -2570,6 +2642,13 @@ boolean LA_cs_communityService()
 
 			buffMaintain($effect[Spice Haze], 250, 1, 1);
 
+			if((item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() >= 0) && (my_adventures() < get_cs_questCost(curQuest)))
+			{
+				shrugAT($effect[Ode to Booze]);
+				buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
+				drink(min(inebriety_left(), item_amount($item[Astral Pilsner])), $item[Astral Pilsner]);
+			}
+
 			if((inebriety_left() >= 1) && (have_effect($effect[Sacr&eacute; Mental]) == 0))
 			{
 				if(item_amount($item[Sacramento Wine]) > 0)
@@ -2798,6 +2877,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Stinky Hands], 0, 1, 1);
 			buffMaintain($effect[Human-Machine Hybrid], 0, 1, 1);
 			buffMaintain($effect[Frost Tea], 0, 1, 1);
+			buffMaintain($effect[Berry Elemental], 0, 1, 1);
 
 			if(get_property("spacegateVaccine1").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Rainbow Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 			{
