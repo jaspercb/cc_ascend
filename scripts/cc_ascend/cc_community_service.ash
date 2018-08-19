@@ -581,7 +581,8 @@ boolean LA_cs_communityService()
 				}
 			}
 
-			if((my_turncount() >= 60) && cs_witchess())
+//			if((my_turncount() >= 60) && cs_witchess())
+			if(item_amount($item[Sacramento Wine]) == 0)
 			{
 				return true;
 			}
@@ -1324,6 +1325,7 @@ boolean LA_cs_communityService()
 				}
 				zataraSeaside(my_primestat());
 
+				while(cs_witchess());
 				while(godLobsterCombat());
 
 				if((get_property("frAlways").to_boolean() || get_property("_frToday").to_boolean()) && !possessEquipment($item[FantasyRealm G. E. M.]))
@@ -2527,6 +2529,7 @@ boolean LA_cs_communityService()
 			if(have_familiar($familiar[Disgeist]))
 			{
 				# Need 37-41 pounds to save 3 turns. (probably 40)
+				# 74 does not save 6 but 79 does.
 				buffMaintain($effect[Empathy], 15, 1, 1);
 				buffMaintain($effect[Leash of Linguini], 12, 1, 1);
 
@@ -2770,21 +2773,21 @@ boolean LA_cs_communityService()
 	case 10:	#Hot Resistance
 			if(canYellowRay())
 			{
-				if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
-				{
-					handleFamiliar("yellow ray");
-				}
-				if(is_unrestricted($item[Deluxe Fax Machine]) && (item_amount($item[Potion of Temporary Gr8tness]) == 0) && ($classes[Pastamancer, Sauceror] contains my_class()))
-				{
-					if(handleFaxMonster($monster[Sk8 gnome], "cs_combatYR"))
-					{
-						return true;
-					}
-				}
+//				if(is_unrestricted($item[Deluxe Fax Machine]) && (item_amount($item[Potion of Temporary Gr8tness]) == 0) && ($classes[Pastamancer, Sauceror] contains my_class()))
+//				{
+//					if(handleFaxMonster($monster[Sk8 gnome], "cs_combatYR"))
+//					{
+//						return true;
+//					}
+//				}
 				if(elementalPlanes_access($element[hot]))
 				{
 					if((!possessEquipment($item[Fireproof Megaphone]) && !possessEquipment($item[Meteorite Guard])) || !possessEquipment($item[High-Temperature Mining Mask]))
 					{
+						if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
+						{
+							handleFamiliar("yellow ray");
+						}
 						ccAdv(1, $location[The Velvet / Gold Mine], "cs_combatYR");
 						return true;
 					}
@@ -4301,13 +4304,17 @@ string cs_combatLTB(int round, string opp, string text)
 	monster enemy = to_monster(opp);
 	string combatState = get_property("cc_combatHandler");
 
-	if((!contains_text(combatState, "love gnats")) && have_skill($skill[Summon Love Gnats]))
+#	if(!contains_text(combatState, "love gnats") && have_skill($skill[Summon Love Gnats]))
+#	{
+#		set_property("cc_combatHandler", combatState + "(love gnats)");
+#		return "skill " + $skill[Summon Love Gnats];
+#	}
+	if(!contains_text(combatState, "giant growth") && have_skill($skill[Giant Growth]))
 	{
-		set_property("cc_combatHandler", combatState + "(love gnats)");
-		return "skill " + $skill[Summon Love Gnats];
-	}
-	if((!contains_text(combatState, "giant growth")) && have_skill($skill[Giant Growth]))
-	{
+		if(item_amount($item[Green Mana]) == 0)
+		{
+			abort("We do not have a Green Mana, we should not have gotten here!");
+		}
 		set_property("cc_combatHandler", combatState + "(giant growth)");
 		return "skill " + $skill[Giant Growth];
 	}
@@ -4318,19 +4325,19 @@ string cs_combatLTB(int round, string opp, string text)
 	}
 
 
-	if(isFreeMonster(last_monster()))
+	if(isFreeMonster(enemy))
 	{
 		return cs_combatNormal(round, opp, text);
 	}
 
-	if((!contains_text(combatState, "shattering punch")) && have_skill($skill[Shattering Punch]) && ((my_mp() / 2) > mp_cost($skill[Shattering Punch])) && !isFreeMonster(enemy) && !enemy.boss && (get_property("_shatteringPunchUsed").to_int() < 3))
+	if(!contains_text(combatState, "shattering punch") && have_skill($skill[Shattering Punch]) && (my_mp() >= mp_cost($skill[Shattering Punch])) && !isFreeMonster(enemy) && !enemy.boss && (get_property("_shatteringPunchUsed").to_int() < 3))
 	{
 		set_property("cc_combatHandler", combatState + "(shattering punch)");
 		handleTracker(enemy, $skill[shattering punch], "cc_instakill");
 		return "skill " + $skill[shattering punch];
 	}
 
-	if((!contains_text(combatState, "louder than bomb")) && (item_amount($item[Louder Than Bomb]) > 0))
+	if(!contains_text(combatState, "louder than bomb") && (item_amount($item[Louder Than Bomb]) > 0))
 	{
 		set_property("cc_combatHandler", combatState + "(louder than bomb)");
 
@@ -4340,7 +4347,7 @@ string cs_combatLTB(int round, string opp, string text)
 		}
 		return "item " + $item[Louder Than Bomb];
 	}
-	if((!contains_text(combatState, "tennis ball")) && (item_amount($item[Tennis Ball]) > 0))
+	if(!contains_text(combatState, "tennis ball") && (item_amount($item[Tennis Ball]) > 0))
 	{
 		set_property("cc_combatHandler", combatState + "(tennis ball)");
 
@@ -4352,7 +4359,7 @@ string cs_combatLTB(int round, string opp, string text)
 	}
 
 
-	if((!contains_text(combatState, "power pill")) && (item_amount($item[Power Pill]) > 0))
+	if(!contains_text(combatState, "power pill") && (item_amount($item[Power Pill]) > 0))
 	{
 		set_property("cc_combatHandler", combatState + "(power pill)");
 
@@ -4393,16 +4400,35 @@ boolean cs_giant_growth()
 		return cs_giant_growth();
 	}
 
-	if((item_amount($item[Louder Than Bomb]) == 0) && !have_familiar($familiar[Machine Elf]))
+	boolean fail = true;
+
+	if(item_amount($item[Louder Than Bomb]) > 0)
+	{
+		fail = false;
+	}
+	if(item_amount($item[Power Pill]) > 0)
+	{
+		fail = false;
+	}
+	if(item_amount($item[Tennis Ball]) > 0)
+	{
+		fail = false;
+	}
+	if(have_skill($skill[Shattering Punch]))
+	{
+		fail = false;
+	}
+	if(have_familiar($familiar[Machine Elf]) && !is100FamiliarRun())
+	{
+		use_familiar($familiar[Machine Elf]);
+		fail = false;
+	}
+	if(fail)
 	{
 		return false;
 	}
 
 #	print("Starting LTBs: " + item_amount($item[Louder Than Bomb]), "blue");
-	if(have_familiar($familiar[Machine Elf]) && !is100FamiliarRun())
-	{
-		use_familiar($familiar[Machine Elf]);
-	}
 
 	if(my_familiar() == $familiar[Machine Elf])
 	{
@@ -4414,17 +4440,18 @@ boolean cs_giant_growth()
 	}
 	else if(!godLobsterCombat($item[none], 3, "cs_combatLTB"))
 	{
-		ccAdv(1, $location[8-bit Realm], "cs_combatLTB");
+#		ccAdv(1, $location[8-bit Realm], "cs_combatLTB");
+		ccAdv(1, $location[The Thinknerd Warehouse], "cs_combatLTB");
 	}
 #	print("Ending LTBs: " + item_amount($item[Louder Than Bomb]), "blue");
 #	cli_execute("refresh inv");
 #	print("Corrected LTBs: " + item_amount($item[Louder Than Bomb]), "blue");
 
-
 	if(have_effect($effect[Giant Growth]) > 0)
 	{
 		return true;
 	}
+	abort("We should have Giant Growth active, but we do not :(");
 	return cs_giant_growth();
 }
 
