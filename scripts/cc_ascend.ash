@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18733;
+since r18751;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -14252,6 +14252,7 @@ boolean doTasks()
 
 	if(cc_my_path() != "Community Service")
 	{
+		cheeseWarMachine(0, 0, 0, random(3) + 1);
 		switch(my_daycount())
 		{
 		case 1:		loveTunnelAcquire(true, $stat[none], true, 1, true, 3);		break;

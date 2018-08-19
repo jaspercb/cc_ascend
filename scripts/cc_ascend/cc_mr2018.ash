@@ -49,6 +49,14 @@ boolean januaryToteAcquire(item it)
 	case $item[Letter For Melvign The Gnome]:	choice = 7;		break;
 	}
 
+	if(choice == 2)
+	{
+		if((cc_my_path() == "Way of the Surprising Fist") || (my_class() == $class[Avatar Of Boris]))
+		{
+			return false;
+		}
+	}
+
 	if((choice == 5) && !hasTorso())
 	{
 		return false;
@@ -203,6 +211,18 @@ boolean fantasyRealmToken()
 		case $stat[Muscle]:			option = 1;		break;
 		case $stat[Mysticality]:	option = 2;		break;
 		case $stat[Moxie]:			option = 3;		break;
+		}
+		if((option == 1) && possessEquipment($item[FantasyRealm Warrior\'s Helm]))
+		{
+			option = 2;
+		}
+		if((option == 2) && possessEquipment($item[FantasyRealm Mage\'s Hat]))
+		{
+			option = 3;
+		}
+		if((option == 3) && possessEquipment($item[FantasyRealm Rogue\'s Mask]))
+		{
+			option = 1;
 		}
 		visit_url("place.php?whichplace=realm_fantasy&action=fr_initcenter", false);
 		visit_url("choice.php?whichchoice=1280&pwd=&option=" + option);
@@ -359,7 +379,7 @@ boolean songboomSetting(int option)
 	return true;
 }
 
-boolean cheeseWarMachine(int stats, int it, int buff, int potion)
+boolean cheeseWarMachine(int stats, int it, int eff, int potion)
 {
 	if(!is_unrestricted($item[Bastille Battalion Control Rig]))
 	{
@@ -383,6 +403,26 @@ boolean cheeseWarMachine(int stats, int it, int buff, int potion)
 		case $stat[Moxie]:			stats = 3;			break;
 		}
 	}
+	if(it == 0)
+	{
+		switch(my_primestat())
+		{
+		case $stat[Muscle]:			it = 1;			break;
+		case $stat[Mysticality]:	it = 2;			break;
+		case $stat[Moxie]:			it = 3;			break;
+		}
+	}
+
+	if(eff == 0)
+	{
+		switch(my_primestat())
+		{
+		case $stat[Muscle]:			eff = 1;			break;
+		case $stat[Mysticality]:	eff = 2;			break;
+		case $stat[Moxie]:			eff = 3;			break;
+		}
+
+	}
 
 	if((stats < 1) || (stats > 3))
 	{
@@ -392,7 +432,7 @@ boolean cheeseWarMachine(int stats, int it, int buff, int potion)
 	{
 		return false;
 	}
-	if((buff < 1) || (buff > 3))
+	if((eff < 1) || (eff > 3))
 	{
 		return false;
 	}
@@ -436,7 +476,7 @@ boolean cheeseWarMachine(int stats, int it, int buff, int potion)
 	if(third.find())
 	{
 		int setting = third.group(1).to_int();
-		while(setting != buff)
+		while(setting != eff)
 		{
 			string temp = visit_url("choice.php?whichchoice=1313&option=3&pwd=" + my_hash(), false);
 			setting++;

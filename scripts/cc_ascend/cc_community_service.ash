@@ -34,9 +34,21 @@ boolean LA_cs_communityService()
 	{
 		return false;
 	}
+
+	static int curQuest = 0;
+	if(curQuest == 0)
+	{
+		curQuest = expected_next_cs_quest();
+	}
+
 	if(my_inebriety() > inebriety_limit())
 	{
 		abort("Too drunk, not sure if not aborting is safe yet");
+	}
+
+	if((cc_get_campground() contains $item[Packet Of Tall Grass Seeds]))
+	{
+		cli_execute("garden pick");
 	}
 
 	if(is_unrestricted($item[Bastille Battalion Control Rig]) && (storage_amount($item[Bastille Battalion Control Rig]) > 0))
@@ -89,7 +101,7 @@ boolean LA_cs_communityService()
 		}
 	}
 
-	if(januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0)
+	if((januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0) && ((my_daycount() >= 2) || (curQuest == 9)))
 	{
 		januaryToteAcquire($item[Makeshift Garbage Shirt]);
 	}
@@ -121,15 +133,9 @@ boolean LA_cs_communityService()
 		set_property("nsTowerDoorKeysUsed", "Boris's key,Jarlsberg's key,Sneaky Pete's key,Richard's star key,skeleton key,digital key");
 	}
 
-	static int curQuest = 0;
-	if(curQuest == 0)
-	{
-		curQuest = expected_next_cs_quest();
-	}
-
 	cs_dnaPotions();
 	use_barrels();
-	cs_make_stuff();
+	cs_make_stuff(curQuest);
 	cc_mayoItems();
 
 	if(isOverdueDigitize())
@@ -299,9 +305,9 @@ boolean LA_cs_communityService()
 		songboomSetting($item[Gathered Meat-Clip]);
 	}
 
-	if(isOverdueDigitize() && (my_daycount() == 1) && (get_property("_sourceTerminalDigitizeMonsterCount").to_int() == 2))
+	if(isOverdueDigitize() && (my_daycount() == 1) && (get_property("_sourceTerminalDigitizeMonsterCount").to_int() == 1))
 	{
-		if(get_property("_sourceTerminalDigitizeUses").to_int() > 0)
+		if((get_property("_sourceTerminalDigitizeUses").to_int() > 0) && (get_property("_sourceTerminalDigitizeUses").to_int() < 3))
 		{
 			print("A Wanderer event is expected now, we want to re-digitize", "blue");
 			cc_sourceTerminalEducate($skill[Digitize], $skill[Extract]);
@@ -309,6 +315,11 @@ boolean LA_cs_communityService()
 			ccAdv(1, $location[Barf Mountain], "cs_combatNormal");
 			set_property("cc_combatDirective", "");
 		}
+	}
+
+	if((my_daycount() == 2) && have_skill($skill[Shattering Punch]))
+	{
+		while(godLobsterCombat());
 	}
 
 	//Quest order on Day 1: 11, 6, 9 (Coiling Wire, Weapon Damage, Item)
@@ -400,6 +411,7 @@ boolean LA_cs_communityService()
 	if(curQuest == 6)
 	{
 		cheeseWarMachine(0, 1, 3, random(3)+1);
+		zataraSeaside(my_primestat());
 	}
 	else if(my_daycount() != 1)
 	{
@@ -805,11 +817,33 @@ boolean LA_cs_communityService()
 				cc_sourceTerminalEnhance("substats");
 			}
 
-			if((item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() >= 0) && (my_adventures() <= 2))
+			if((inebriety_left() > 0) && (my_adventures() <= 2))
 			{
-				shrugAT($effect[Ode to Booze]);
-				buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
-				drink(min(inebriety_left(), item_amount($item[Astral Pilsner])), $item[Astral Pilsner]);
+				if(item_amount($item[Astral Pilsner]) > 0)
+				{
+					buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
+					drink(min(inebriety_left(), item_amount($item[Astral Pilsner])), $item[Astral Pilsner]);
+				}
+				else if(item_amount($item[Sacramento Wine]) > 0)
+				{
+					buffMaintain($effect[Ode to Booze], 50, 1, 1);
+					drink(1, $item[Sacramento Wine]);
+				}
+				else if(item_amount($item[Iced Plum Wine]) > 0)
+				{
+					buffMaintain($effect[Ode to Booze], 50, 1, 1);
+					drink(1, $item[Iced Plum Wine]);
+				}
+				else if(item_amount($item[Meadeorite]) > 0)
+				{
+					buffMaintain($effect[Ode to Booze], 50, 1, 1);
+					drink(1, $item[Meadeorite]);
+				}
+				else if((cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0))
+				{
+					buffMaintain($effect[Ode to Booze], 50, 1, 1);
+					cli_execute("drink cup of tea");
+				}
 			}
 
 			if((my_spleen_use() == 12) && (item_amount($item[Abstraction: Category]) > 0))
@@ -866,35 +900,6 @@ boolean LA_cs_communityService()
 				}
 			}
 
-			if(inebriety_left() >= 1)
-			{
-				if(item_amount($item[Astral Pilsner]) > 0)
-				{
-					buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
-					drink(min(inebriety_left(), item_amount($item[Astral Pilsner])), $item[Astral Pilsner]);
-				}
-				else if(item_amount($item[Sacramento Wine]) > 0)
-				{
-					buffMaintain($effect[Ode to Booze], 50, 1, 1);
-					drink(1, $item[Sacramento Wine]);
-				}
-				else if(item_amount($item[Iced Plum Wine]) > 0)
-				{
-					buffMaintain($effect[Ode to Booze], 50, 1, 1);
-					drink(1, $item[Iced Plum Wine]);
-				}
-				else if(item_amount($item[Meadeorite]) > 0)
-				{
-					buffMaintain($effect[Ode to Booze], 50, 1, 1);
-					drink(1, $item[Meadeorite]);
-				}
-				else if((cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0))
-				{
-					buffMaintain($effect[Ode to Booze], 50, 1, 1);
-					cli_execute("drink cup of tea");
-				}
-			}
-
 			boolean turnSave = get_property("cc_hccsTurnSave").to_boolean() || !in_hardcore();
 
 			if(!turnSave && (item_amount($item[Black Pixel]) < 2) && (item_amount($item[Pixel Star]) == 0) && (have_familiar($familiar[Puck Man]) || have_familiar($familiar[Ms. Puck Man])) && knoll_available())
@@ -913,7 +918,16 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if(have_skill($skill[Advanced Saucecrafting]))
+			if(!(cc_get_campground() contains $item[Dramatic&trade; Range]))
+			{
+				if(my_meat() > npc_price($item[Dramatic&trade; Range]))
+				{
+					buy(1, $item[Dramatic&trade; Range]);
+					use(1, $item[Dramatic&trade; Range]);
+				}
+			}
+
+			if(have_skill($skill[Advanced Saucecrafting]) && (cc_get_campground() contains $item[Dramatic&trade; Range]))
 			{
 				int tomatoCheck = 4;
 				int tomatoMake = 6;
@@ -955,7 +969,6 @@ boolean LA_cs_communityService()
 			{
 				useCocoon();
 			}
-
 
 			boolean doFarm = false;
 			if(!have_familiar($familiar[Puck Man]) && !have_familiar($familiar[Ms. Puck Man]) && (get_property("cc_csPuckCounter").to_int() > 0))
@@ -1132,8 +1145,6 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			while(godLobsterCombat());
-
 			if((have_effect($effect[Half-Blooded]) > 0) || (have_effect($effect[Half-Drained]) > 0) || (have_effect($effect[Bruised]) > 0) || (have_effect($effect[Relaxed Muscles]) > 0) || (have_effect($effect[Hypnotized]) > 0) || (have_effect($effect[Bad Haircut]) > 0))
 			{
 				doHottub();
@@ -1209,7 +1220,7 @@ boolean LA_cs_communityService()
 				}
 			}
 
-			if(have_skill($skill[Advanced Saucecrafting]))
+			if(have_skill($skill[Advanced Saucecrafting]) && (cc_get_campground() contains $item[Dramatic&trade; Range]))
 			{
 				int tomatoMake = 6;
 				int tomatoCheck = 4;
@@ -1253,66 +1264,73 @@ boolean LA_cs_communityService()
 				}
 			}
 
-			if((spleen_left() >= 3) && (item_amount($item[Handful of Smithereens]) > 0))
-			{
-				chew(1, $item[Handful of Smithereens]);
-			}
-			if((spleen_left() >= 2) && (item_amount($item[Handful of Smithereens]) > 1))
-			{
-				chew(1, $item[Handful of Smithereens]);
-			}
-			while((spleen_left() >= 2) && (item_amount($item[cuppa Activi tea]) > 0))
-			{
-				chew(1, $item[cuppa Activi tea]);
-			}
-			while((spleen_left() >= 2) && (item_amount($item[Nasty Snuff]) > 0))
-			{
-				chew(1, $item[Nasty Snuff]);
-			}
-
 //			if(my_ascensions() > 200)
 //			{
 //				fightScienceTentacle();
 //				evokeEldritchHorror();
 //			}
 
-
-			if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean() && (get_property("choiceAdventure595").to_int() == 1))
+			if(!get_property("cc_hccsNoConcludeDay").to_boolean())
 			{
-				use(1, $item[CSA Fire-Starting Kit]);
-			}
-
-			if(!get_property("_lookingGlass").to_boolean())
-			{
-				cli_execute("clan_viplounge.php?action=lookingglass");
-			}
-			if(!get_property("_madTeaParty").to_boolean())
-			{
-				if(!possessEquipment($item[Mariachi Hat]))
+				if((spleen_left() >= 3) && (item_amount($item[Handful of Smithereens]) > 0))
 				{
-					acquireGumItem($item[Mariachi Hat]);
+					chew(1, $item[Handful of Smithereens]);
 				}
-				cli_execute("hatter 11");
-			}
+				if((spleen_left() >= 2) && (item_amount($item[Handful of Smithereens]) > 1))
+				{
+					chew(1, $item[Handful of Smithereens]);
+				}
+				while((spleen_left() >= 2) && (item_amount($item[cuppa Activi tea]) > 0))
+				{
+					chew(1, $item[cuppa Activi tea]);
+				}
+				while((spleen_left() >= 2) && (item_amount($item[Nasty Snuff]) > 0))
+				{
+					chew(1, $item[Nasty Snuff]);
+				}
+				if((item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() > 0))
+				{
+					shrugAT($effect[Ode to Booze]);
+					buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
+					drink(min(inebriety_left(), item_amount($item[Astral Pilsner])), $item[Astral Pilsner]);
+				}
 
-			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
-			{
-				cli_execute("spacegate vaccine 2");
-			}
+				if((item_amount($item[CSA fire-starting kit]) > 0) && !get_property("_fireStartingKitUsed").to_boolean() && (get_property("choiceAdventure595").to_int() == 1))
+				{
+					use(1, $item[CSA Fire-Starting Kit]);
+				}
 
-			if((get_property("puzzleChampBonus").to_int() == 20) && !get_property("_witchessBuff").to_boolean())
-			{
-				visit_url("campground.php?action=witchess");
-				visit_url("choice.php?whichchoice=1181&pwd=&option=3");
-				visit_url("choice.php?whichchoice=1183&pwd=&option=2");
-			}
+				if(!get_property("_lookingGlass").to_boolean())
+				{
+					string page = visit_url("clan_viplounge.php?action=lookingglass", false);
+				}
+				if(!get_property("_madTeaParty").to_boolean())
+				{
+					if(!possessEquipment($item[Mariachi Hat]))
+					{
+						acquireGumItem($item[Mariachi Hat]);
+					}
+					cli_execute("hatter 11");
+				}
+				if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
+				{
+					cli_execute("spacegate vaccine 2");
+				}
+				if((get_property("puzzleChampBonus").to_int() == 20) && !get_property("_witchessBuff").to_boolean())
+				{
+					visit_url("campground.php?action=witchess");
+					visit_url("choice.php?whichchoice=1181&pwd=&option=3");
+					visit_url("choice.php?whichchoice=1183&pwd=&option=2");
+				}
+				zataraSeaside(my_primestat());
 
-			zataraSeaside("muscle");
+				while(godLobsterCombat());
 
-			if((get_property("frAlways").to_boolean() || get_property("_frToday").to_boolean()) && !possessEquipment($item[FantasyRealm G. E. M.]))
-			{
-				visit_url("place.php?whichplace=realm_fantasy&action=fr_initcenter", false);
-				visit_url("choice.php?whichchoice=1280&pwd=&option=3");
+				if((get_property("frAlways").to_boolean() || get_property("_frToday").to_boolean()) && !possessEquipment($item[FantasyRealm G. E. M.]))
+				{
+					visit_url("place.php?whichplace=realm_fantasy&action=fr_initcenter", false);
+					visit_url("choice.php?whichchoice=1280&pwd=&option=3");
+				}
 			}
 
 			if(!get_property("cc_saveMargarita").to_boolean() && (inebriety_left() == 0))
@@ -1378,7 +1396,7 @@ boolean LA_cs_communityService()
 					return true;
 				}
 */
-				if((inebriety_left() == 0) && have_familiar($familiar[Stooper]))
+				if((inebriety_left() == 0) && have_familiar($familiar[Stooper]) && ((40 + my_adventures() + numeric_modifier("Adventures")) < 175))
 				{
 					use_familiar($familiar[Stooper]);
 					foreach it in $items[Splendid Martini, Meadeorite, Sacramento Wine, Cold One]
@@ -1441,29 +1459,6 @@ boolean LA_cs_communityService()
 		}
 		break;
 	case 1:		#HP Quest
-			if(canYellowRay() && !get_property("_photocopyUsed").to_boolean() && ($classes[Pastamancer, Sauceror] contains my_class()))
-			{
-				if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
-				{
-					handleFamiliar("yellow ray");
-				}
-				useCocoon();
-				if(handleFaxMonster($monster[Sk8 gnome], "cs_combatYR"))
-				{
-					return true;
-				}
-			}
-			if((item_amount($item[Gr8ps]) > 0) && (item_amount($item[Potion of Temporary Gr8tness]) == 0) && (have_effect($effect[Gr8tness]) == 0) && (npc_price($item[Delectable Catalyst]) < my_meat()) && (freeCrafts() > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && have_skill($skill[Advanced Saucecrafting]) && ($classes[Pastamancer, Sauceror] contains my_class()) && have_skill($skill[The Way of Sauce]))
-			{
-				if(!have_skills($skills[Expert Corner-Cutter, Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
-				{
-					shrugAT($effect[Inigo\'s Incantation of Inspiration]);
-					buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
-				}
-
-				cli_execute("make " + $item[Potion of Temporary Gr8tness]);
-			}
-
 #			if(!possessEquipment($item[Barrel Lid]) && get_property("barrelShrineUnlocked").to_boolean() && !get_property("_barrelPrayer").to_boolean())
 #			{
 #				boolean buff = cli_execute("barrelprayer Protection");
@@ -1492,7 +1487,6 @@ boolean LA_cs_communityService()
 					shrugAT($effect[Inigo\'s Incantation of Inspiration]);
 					buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
 				}
-
 				cli_execute("make " + $item[Philter Of Phorce]);
 			}
 
@@ -1660,6 +1654,14 @@ boolean LA_cs_communityService()
 				}
 			}
 
+			if(get_cs_questCost(curQuest) > 1)
+			{
+				if(cc_csHandleGrapes())
+				{
+					return true;
+				}
+			}
+
 			if(do_cs_quest(1))
 			{
 				curQuest = 0;
@@ -1672,6 +1674,7 @@ boolean LA_cs_communityService()
 		break;
 
 	case 2:		#Muscle Quest
+		{
 			if((get_property("frAlways").to_boolean() || get_property("_frToday").to_boolean()) && !possessEquipment($item[FantasyRealm G. E. M.]))
 			{
 				visit_url("place.php?whichplace=realm_fantasy&action=fr_initcenter", false);
@@ -1695,13 +1698,6 @@ boolean LA_cs_communityService()
 			{
 				doRest();
 			}
-			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0))
-			{
-				shrugAT($effect[Ode to Booze]);
-				buffMaintain($effect[Ode to Booze], 50, 1, 2);
-				cli_execute("drink 1 bee's knees");
-			}
-
 
 			while((my_mp() < 125) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
@@ -1741,15 +1737,35 @@ boolean LA_cs_communityService()
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Gr8tness], 0, 1, 1);
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Pill Power], 0, 1, 1);
 
+			int grapeCost = 1;
+			if(item_amount($item[Green Mana]) > 0)
+			{
+				grapeCost = 10;
+			}
+			if(get_cs_questCost(curQuest) > grapeCost)
+			{
+				if(cc_csHandleGrapes())
+				{
+					return true;
+				}
+			}
+
 			handleFamiliar($familiar[Machine Elf]);
 			cs_giant_growth();
 
-			if((spleen_left() > 0) && (item_amount($item[Abstraction: Action]) > 0) && (have_effect($effect[Action]) == 0))
+			if((spleen_left() > 0) && (item_amount($item[Abstraction: Action]) > 0) && (have_effect($effect[Action]) == 0) && (estimate_cs_questCost(curQuest) > 1))
 			{
 				chew(1, $item[Abstraction: Action]);
 			}
 
-			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
+			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0) && (estimate_cs_questCost(curQuest) > 1))
+			{
+				shrugAT($effect[Ode to Booze]);
+				buffMaintain($effect[Ode to Booze], 50, 1, 2);
+				cli_execute("drink 1 bee's knees");
+			}
+
+			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean() && (estimate_cs_questCost(curQuest) > 1))
 			{
 				cli_execute("spacegate vaccine 2");
 			}
@@ -1764,9 +1780,11 @@ boolean LA_cs_communityService()
 				curQuest = 0;
 				abort("Could not handle our quest and can not recover");
 			}
+		}
 		break;
 
 	case 3:		#Myst Quest
+		{
 			buyUpTo(1, $item[Glittery Mascara]);
 
 			if((item_amount($item[Saucepanic]) > 0) && have_skill($skill[Double-Fisted Skull Smashing]))
@@ -1810,32 +1828,44 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Berry Statistical], 0, 1, 1);
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[The Magic Of LOV], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Seriously Mutated], 0, 1, 1);
+
+			int grapeCost = 1;
+			if(item_amount($item[Green Mana]) > 0)
+			{
+				grapeCost += 9;
+			}
+			if(item_amount($item[Bag Of Grain]) > 0)
+			{
+				grapeCost += 7;
+			}
+			if(get_cs_questCost(curQuest) > grapeCost)
+			{
+				if(cc_csHandleGrapes())
+				{
+					return true;
+				}
+			}
 
 			buffMaintain($effect[Nearly All-Natural], 0, 1, 1);
-
 			handleFamiliar($familiar[Machine Elf]);
 			cs_giant_growth();
 
-			if((spleen_left() > 0) && (item_amount($item[Abstraction: Thought]) > 0) && (have_effect($effect[Thought]) == 0))
+			if((spleen_left() > 0) && (item_amount($item[Abstraction: Thought]) > 0) && (have_effect($effect[Thought]) == 0) && (estimate_cs_questCost(curQuest) > 1))
 			{
 				chew(1, $item[Abstraction: Thought]);
 			}
 
-			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0) && (get_cs_questCost(curQuest) < 20))
+			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0) && (estimate_cs_questCost(curQuest) > 1))
 			{
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
 				cli_execute("drink 1 bee's knees");
 			}
 
-			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
+			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean() && (estimate_cs_questCost(curQuest) > 1))
 			{
 				cli_execute("spacegate vaccine 2");
-			}
-
-			if(get_cs_questCost(curQuest) > 10)
-			{
-				buffMaintain($effect[Seriously Mutated], 0, 1, 1);
 			}
 
 			if(do_cs_quest(3))
@@ -1848,23 +1878,12 @@ boolean LA_cs_communityService()
 				curQuest = 0;
 				abort("Could not handle our quest and can not recover");
 			}
-
+		}
 		break;
 
-
 	case 4:		#Moxie Quest
+		{
 			buyUpTo(1, $item[Hair Spray]);
-
-			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
-			{
-				doRest();
-			}
-			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0))
-			{
-				shrugAT($effect[Ode to Booze]);
-				buffMaintain($effect[Ode to Booze], 50, 1, 2);
-				cli_execute("drink 1 bee's knees");
-			}
 
 			while((my_mp() < 142) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
@@ -1915,22 +1934,47 @@ boolean LA_cs_communityService()
 
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Experimental Effect G-9], 0, 1, 1);
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[The Moxie Of LOV], 0, 1, 1);
+			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Seriously Mutated], 0, 1, 1);
 
+			int grapeCost = 1;
+			if(item_amount($item[Green Mana]) > 0)
+			{
+				grapeCost += 9;
+			}
+			if(item_amount($item[Pocket Maze]) > 0)
+			{
+				grapeCost += 7;
+			}
+
+			if(get_cs_questCost(curQuest) > grapeCost)
+			{
+				if(cc_csHandleGrapes())
+				{
+					return true;
+				}
+			}
 
 			buffMaintain($effect[Amazing], 0, 1, 1);
-
 			handleFamiliar($familiar[Machine Elf]);
 			cs_giant_growth();
 
-			if((spleen_left() > 0) && (item_amount($item[Abstraction: Sensation]) > 0) && (have_effect($effect[Sensation]) == 0))
+			if((spleen_left() > 0) && (item_amount($item[Abstraction: Sensation]) > 0) && (have_effect($effect[Sensation]) == 0) && (estimate_cs_questCost(curQuest) > 1))
 			{
 				chew(1, $item[Abstraction: Sensation]);
+			}
+
+			if((inebriety_left() >= 12) && (item_amount($item[Clan VIP Lounge Key]) > 0) && (cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (have_effect($effect[On The Trolley]) == 0) && (estimate_cs_questCost(curQuest) > 1))
+			{
+				shrugAT($effect[Ode to Booze]);
+				buffMaintain($effect[Ode to Booze], 50, 1, 2);
+				cli_execute("drink 1 bee's knees");
 			}
 
 #			At this point, we are probably only saving 1.75 turns or so, do not bother.
 #			if(get_property("spacegateVaccine2").to_boolean() && !get_property("_spacegateVaccine").to_boolean() && (have_effect($effect[Broad-Spectrum Vaccine]) == 0) && get_property("spacegateAlways").to_boolean())
 #			{
 #				cli_execute("spacegate vaccine 2");
+#			}
 
 			if(possessEquipment($item[Greatest American Pants]))
 			{
@@ -1939,11 +1983,6 @@ boolean LA_cs_communityService()
 				run_choice(4);
 			}
 
-			if(get_cs_questCost(curQuest) > 10)
-			{
-				buffMaintain($effect[Seriously Mutated], 0, 1, 1);
-			}
-#			}
 
 			if(do_cs_quest(4))
 			{
@@ -1954,6 +1993,7 @@ boolean LA_cs_communityService()
 				curQuest = 0;
 				abort("Could not handle our quest and can not recover");
 			}
+		}
 		break;
 	case 5:		#Familiar Weight
 			while((my_mp() < 50) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
@@ -2173,7 +2213,7 @@ boolean LA_cs_communityService()
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
 				cli_execute("drink sockdollager");
 			}
-			januaryToteAcquire($item[Broken Champagne Bottle]);
+//			januaryToteAcquire($item[Broken Champagne Bottle]);
 
 			while((my_mp() < 207) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())
 			{
@@ -2215,10 +2255,6 @@ boolean LA_cs_communityService()
 			while((my_level() < 8) && (restsLeft > 0) && chateaumantegna_available() && ((my_basestat(my_primestat()) + restsLeft) >= 53))
 			{
 				doRest();
-				if(item_amount($item[Astral Pilsner]) > 0)
-				{
-					buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
-				}
 				cli_execute("postcheese");
 			}
 
@@ -2239,7 +2275,7 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if((item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() >= 0) && (my_adventures() < get_cs_questCost(curQuest)))
+			if((item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() > 0) && (my_adventures() < get_cs_questCost(curQuest)))
 			{
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
@@ -2635,19 +2671,7 @@ boolean LA_cs_communityService()
 			buffMaintain($effect[Peeled Eyeballs], 0, 1, 1);
 			asdonBuff($effect[Driving Observantly]);
 
-			if(get_property("cc_csDoWheel").to_boolean())
-			{
-				deck_cheat("items");
-			}
-
 			buffMaintain($effect[Spice Haze], 250, 1, 1);
-
-			if((item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() >= 0) && (my_adventures() < get_cs_questCost(curQuest)))
-			{
-				shrugAT($effect[Ode to Booze]);
-				buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
-				drink(min(inebriety_left(), item_amount($item[Astral Pilsner])), $item[Astral Pilsner]);
-			}
 
 			if((inebriety_left() >= 1) && (have_effect($effect[Sacr&eacute; Mental]) == 0))
 			{
@@ -2655,16 +2679,6 @@ boolean LA_cs_communityService()
 				{
 					buffMaintain($effect[Ode to Booze], 50, 1, 1);
 					drink(1, $item[Sacramento Wine]);
-				}
-				else if(item_amount($item[Iced Plum Wine]) > 0)
-				{
-					buffMaintain($effect[Ode to Booze], 50, 1, 1);
-					drink(1, $item[Iced Plum Wine]);
-				}
-				else if((cc_get_clan_lounge() contains $item[Clan Speakeasy]) && (item_amount($item[Clan VIP Lounge Key]) > 0))
-				{
-					buffMaintain($effect[Ode to Booze], 50, 1, 1);
-					cli_execute("drink cup of tea");
 				}
 			}
 
@@ -2720,6 +2734,18 @@ boolean LA_cs_communityService()
 				equip($item[Greatest American Pants]);
 				visit_url("inventory.php?action=activatesuperpants");
 				run_choice(3);
+			}
+
+			if((get_property("cc_csDoWheel").to_boolean()) && (get_cs_questCost(curQuest) > 7))
+			{
+				deck_cheat("items");
+			}
+
+			if((item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() > 0) && (my_adventures() < get_cs_questCost(curQuest)))
+			{
+				shrugAT($effect[Ode to Booze]);
+				buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
+				drink(min(inebriety_left(), item_amount($item[Astral Pilsner])), $item[Astral Pilsner]);
 			}
 
 			if(get_cs_questCost(curQuest) > 7)
@@ -3179,8 +3205,16 @@ void cs_initializeDay(int day)
 		if(get_property("cc_day2_init") != "finished")
 		{
 			equipBaseline();
-			deck_cheat("Giant Growth");
-			deck_cheat("green mana");
+
+			//We should only make this if the quests are still left.
+			if(item_amount($item[Green Mana]) < 3)
+			{
+				deck_cheat("Giant Growth");
+			}
+			if(item_amount($item[Green Mana]) < 3)
+			{
+				deck_cheat("green mana");
+			}
 
 			if(have_skill($skill[Summon Smithsness]))
 			{
@@ -3289,7 +3323,7 @@ boolean cs_spendRests()
 
 
 
-void cs_make_stuff()
+void cs_make_stuff(int curQuest)
 {
 	if(item_amount($item[skeleton key]) == 0)
 	{
@@ -3311,7 +3345,7 @@ void cs_make_stuff()
 
 	if(my_daycount() == 1)
 	{
-		if(!possessEquipment($item[Hairpiece on Fire]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+		if(!possessEquipment($item[Hairpiece on Fire]) && (item_amount($item[Lump of Brituminous Coal]) > 0) && !get_property("cc_hccsNoConcludeDay").to_boolean())
 		{
 			if(knoll_available() || (item_amount($item[Maiden Wig]) > 0))
 			{
@@ -3381,7 +3415,7 @@ void cs_make_stuff()
 			}
 			break;
 		}
-		if(!possessEquipment($item[A Light that Never Goes Out]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+		if(!possessEquipment($item[A Light that Never Goes Out]) && (item_amount($item[Lump of Brituminous Coal]) > 0) && (curQuest == 9))
 		{
 			cli_execute("make " + $item[A Light that Never Goes Out]);
 		}
@@ -4394,6 +4428,33 @@ boolean cs_giant_growth()
 	return cs_giant_growth();
 }
 
+boolean cc_csHandleGrapes()
+{
+	if(item_amount($item[Potion of Temporary Gr8tness]) > 0)
+	{
+		return false;
+	}
+	if(canYellowRay() && !get_property("_photocopyUsed").to_boolean() && ($classes[Pastamancer, Sauceror] contains my_class()))
+	{
+		if(yellowRayCombatString() == ("skill " + $skill[Open a Big Yellow Present]))
+		{
+			handleFamiliar("yellow ray");
+		}
+		useCocoon();
+		handleFaxMonster($monster[Sk8 gnome], "cs_combatYR");
+	}
+	if((item_amount($item[Gr8ps]) > 0) && (item_amount($item[Potion of Temporary Gr8tness]) == 0) && (have_effect($effect[Gr8tness]) == 0) && (npc_price($item[Delectable Catalyst]) < my_meat()) && (freeCrafts() > 0) && (item_amount($item[Scrumptious Reagent]) > 0) && have_skill($skill[Advanced Saucecrafting]) && ($classes[Pastamancer, Sauceror] contains my_class()) && have_skill($skill[The Way of Sauce]) && (cc_get_campground() contains $item[Dramatic&trade; Range]))
+	{
+		if(!have_skills($skills[Expert Corner-Cutter, Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
+		{
+			shrugAT($effect[Inigo\'s Incantation of Inspiration]);
+			buffMaintain($effect[Inigo\'s Incantation of Inspiration], 100, 1, 5);
+		}
+		cli_execute("make " + $item[Potion of Temporary Gr8tness]);
+	}
+	return (item_amount($item[Potion of Temporary Gr8tness]) > 0);
+}
+
 int estimate_cs_questCost(int quest)
 {
 	int retval = 60;
@@ -4535,7 +4596,7 @@ boolean do_cs_quest(int quest)
 	case 6:		ccMaximize("weapon damage, -equip snow suit", 1500, 0, false);		break;
 	case 7:		ccMaximize("spell damage, -equip snow suit", 1500, 0, false);		break;
 	case 8:		ccMaximize("-combat, -equip snow suit", 1500, 0, false);			break;
-	case 9:		ccMaximize("item, -equip snow suit", 1500, 0, false);				break;
+	case 9:		ccMaximize("item, -equip snow suit, -equip broken champagne bottle", 1500, 0, false);				break;
 	case 10:	ccMaximize("hot res, -equip snow suit", 1500, 0, false);			break;
 	}
 

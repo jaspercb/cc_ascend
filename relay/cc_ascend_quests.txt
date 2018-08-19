@@ -111,3 +111,4 @@
 110	cc_getSteelOrgan	boolean	ANY	Are we trying to get a Steel Organ this ascension?
 111	cc_hccsTurnSave	boolean	ANY	In HCCS: Should we ignore pixel farming?
 112	cc_maxCandyPrice	integer	ANY	Max allowable price per candy for Rethinking Candy (default 2500)
+113	cc_hccsNoConcludeDay	boolean	ANY	In HCCS: When true, reduce how many daily end-of-day things we do.

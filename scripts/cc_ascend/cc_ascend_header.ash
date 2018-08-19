@@ -335,6 +335,7 @@ int ListFind(location[int] list, location what, int idx);	//Defined in cc_ascend
 location ListOutput(location[int] list);					//Defined in cc_ascend/cc_list.ash
 int estimate_cs_questCost(int quest);						//Defined in cc_ascend/cc_community_service.ash
 int [int] get_cs_questList();								//Defined in cc_ascend/cc_community_service.ash
+boolean cc_csHandleGrapes();								//Defined in cc_ascend/cc_community_service.ash
 int [item] cc_get_campground();								//Defined in cc_ascend/cc_util.ash
 boolean basicAdjustML();									//Defined in cc_ascend/cc_util.ash
 boolean beatenUpResolution();								//Defined in cc_ascend.ash
@@ -445,7 +446,7 @@ boolean cs_eat_spleen();									//Defined in cc_ascend/cc_community_service.ash
 boolean cs_eat_stuff(int quest);							//Defined in cc_ascend/cc_community_service.ash
 boolean cs_giant_growth();									//Defined in cc_ascend/cc_community_service.ash
 void cs_initializeDay(int day);								//Defined in cc_ascend/cc_community_service.ash
-void cs_make_stuff();										//Defined in cc_ascend/cc_community_service.ash
+void cs_make_stuff(int curQuest);							//Defined in cc_ascend/cc_community_service.ash
 boolean cs_spendRests();									//Defined in cc_ascend/cc_community_service.ash
 boolean cs_witchess();										//Defined in cc_ascend/cc_community_service.ash
 boolean dealWithMilkOfMagnesium(boolean useAdv);			//Defined in cc_ascend/cc_cooking.ash
