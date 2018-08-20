@@ -48,7 +48,11 @@ boolean LA_cs_communityService()
 
 	if((cc_get_campground() contains $item[Packet Of Tall Grass Seeds]))
 	{
-		cli_execute("garden pick");
+		int[item] camp = cc_get_campground();
+		if(camp[$item[Packet Of Tall Grass Seeds]] > 0)
+		{
+			cli_execute("garden pick");
+		}
 	}
 
 	if(is_unrestricted($item[Bastille Battalion Control Rig]) && (storage_amount($item[Bastille Battalion Control Rig]) > 0))
