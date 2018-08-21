@@ -588,7 +588,10 @@ boolean LA_cs_communityService()
 //			if((my_turncount() >= 60) && cs_witchess())
 			if(item_amount($item[Sacramento Wine]) == 0)
 			{
-				return true;
+				if(cs_witchess())
+				{
+					return true;
+				}
 			}
 
 			if(do_chateauGoat())
@@ -1424,6 +1427,7 @@ boolean LA_cs_communityService()
 		}
 	}
 
+	print("Past early quest actions, considering completing a service...", "green");
 	int checkQuest = expected_next_cs_quest();
 	if(checkQuest != curQuest)
 	{
