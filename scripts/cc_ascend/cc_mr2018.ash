@@ -421,7 +421,11 @@ boolean cheeseWarMachine(int stats, int it, int eff, int potion)
 		case $stat[Mysticality]:	eff = 2;			break;
 		case $stat[Moxie]:			eff = 3;			break;
 		}
+	}
 
+	if(potion == 0)
+	{
+		potion = 1 + random(3);
 	}
 
 	if((stats < 1) || (stats > 3))

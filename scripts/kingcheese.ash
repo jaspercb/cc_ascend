@@ -60,7 +60,7 @@ void handleKingLiberation()
 		pullPVPJunk();
 
 //		visit_url("lair2.php?preaction=key&whichkey=436");
-
+		visit_url("museum.php?action=icehouse", false);
 		visit_url("place.php?whichplace=desertbeach&action=db_nukehouse");
 		if((get_property("sidequestOrchardCompleted") != "none") && !get_property("_hippyMeatCollected").to_boolean())
 		{

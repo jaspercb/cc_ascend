@@ -326,6 +326,11 @@ boolean handleFamiliar(string type)
 			fams = ListRemove(fams, $familiar[Angry Jung Man]);
 			fams = ListInsertAt(fams, $familiar[Angry Jung Man], 0);
 		}
+		if(get_property("_catBurglarCharge").to_int() < 30)
+		{
+			fams = ListRemove(fams, $familiar[Cat Burglar]);
+			fams = ListInsertAt(fams, $familiar[Cat Burglar], fams.ListFind($familiar[XO Skeleton]));
+		}
 
 		if((my_ascensions() > ascensionThreshold) && (get_property("rockinRobinProgress").to_int() < 20))
 		{
@@ -1707,17 +1712,6 @@ int handlePulls(int day)
 
 boolean fortuneCookieEvent()
 {
-	if((cc_my_path() == "Heavy Rains") && (get_property("cc_orchard") == "finished"))
-	{
-		if(get_counters("Fortune Cookie", 0, 200) != "")
-		{
-			cli_execute("counters");
-			cli_execute("counters clear");
-			print("We don't care about the semirares anymore, we are past the orchard. Cancelling.");
-		}
-		return false;
-	}
-
 	if(get_counters("Fortune Cookie", 0, 0) == "Fortune Cookie")
 	{
 		print("Semi rare time!", "blue");
@@ -8983,6 +8977,11 @@ boolean L7_crypt()
 		set_property("cc_waitingArrowAlcove", 50);
 	}
 
+	if((spleen_left() > 0) && (item_amount($item[Nightmare Fuel]) > 0) && !is_unrestricted($item[Powdered Gold]))
+	{
+		chew(1, $item[Nightmare Fuel]);
+	}
+
 	if((get_property("cyrptAlcoveEvilness").to_int() > 0) && ((get_property("cyrptAlcoveEvilness").to_int() <= get_property("cc_waitingArrowAlcove").to_int()) || (get_property("cyrptAlcoveEvilness").to_int() <= 25)) && edAlcove && canGroundhog($location[The Defiled Alcove]))
 	{
 		handleFamiliar("init");
@@ -10223,7 +10222,7 @@ boolean LX_craftAcquireItems()
 		mummifyFamiliar($familiar[XO Skeleton], "mpregen");
 		if((my_primestat() == $stat[Muscle]) && get_property("loveTunnelAvailable").to_boolean() && is_unrestricted($item[Heart-Shaped Crate]) && possessEquipment($item[LOV Eardigan]))
 		{
-			if(januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0)
+			if((januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0) && (my_session_adv() > 75))
 			{
 				januaryToteAcquire($item[Makeshift Garbage Shirt]);
 			}
@@ -13804,6 +13803,10 @@ boolean cc_tavern()
 	{
 		//Sleaze is the only one we don\'t care about
 
+		if(item_amount($item[17-Ball]) > 0)
+		{
+			equip($slot[off-hand], $item[17-Ball]);
+		}
 		if(possessEquipment($item[Kremlin\'s Greatest Briefcase]))
 		{
 			string mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
@@ -14252,7 +14255,7 @@ boolean doTasks()
 
 	if(cc_my_path() != "Community Service")
 	{
-		cheeseWarMachine(0, 0, 0, random(3) + 1);
+		cheeseWarMachine(0, 0, 0, 0);
 		switch(my_daycount())
 		{
 		case 1:		loveTunnelAcquire(true, $stat[none], true, 1, true, 3);		break;
@@ -14300,8 +14303,12 @@ boolean doTasks()
 			{
 				songboomSetting(3);
 			}
-			else
+			else if((cc_my_path() == "Disguises Delimit") && (get_property("cc_crypt") != "finished") && (get_property("_songboomCounter").to_int() == 10) && (get_property("_boomBoxSongsLeft").to_int() > 3))
 			{
+				songboomSetting(1);
+			}
+			else
+			{ 
 				songboomSetting(5);
 			}
 		}

@@ -104,6 +104,56 @@ string cc_combatHandler(int round, string opp, string text)
 		awol_helper(text);
 	}
 
+	phylum type = monster_phylum(enemy);
+	phylum current = to_phylum(get_property("dnaSyringe"));
+
+	string combatState = get_property("cc_combatHandler");
+	int thunderBirdsLeft = get_property("cc_combatHandlerThunderBird").to_int();
+	int fingernailClippersLeft = get_property("cc_combatHandlerFingernailClippers").to_int();
+
+	#Handle different path is monster_level_adjustment() > 150 (immune to staggers?)
+	int mcd = monster_level_adjustment();
+
+	boolean doBanisher = !get_property("kingLiberated").to_boolean();
+
+	int majora = -1;
+	if(my_path() == "Disguises Delimit")
+	{
+		matcher maskMatch = create_matcher("mask(\\d+).png", text);
+		if(maskMatch.find())
+		{
+			majora = maskMatch.group(1).to_int();
+//			print("Found mask: " + majora, "red");
+		}
+		if((majora == 7) && !contains_text(combatState, "(swap mask)"))
+		{
+			if(my_mp() > mp_cost($skill[Swap Mask]))
+			{
+				set_property("cc_combatHandler", combatState + "(swap mask)");
+				return "skill " + $skill[Swap Mask];
+			}
+		}
+		if(majora == 3)
+		{
+//			if((round > 10) && (my_mp() > mp_cost($skill[Swap Mask])))
+//			{
+//				return "skill " + $skill[Swap Mask];
+//			}
+			if(canSurvive(1.5))
+			{
+				return "attack with weapon";
+			}
+			abort("May not be able to survive combat. Is swapping protest mask still not allowing us to do anything?");
+		}
+		if(my_mask() == "protest mask")
+		{
+			if(my_mp() > mp_cost($skill[Swap Mask]))
+			{
+				return "skill " + $skill[Swap Mask];
+			}
+		}
+	}
+
 	if(get_property("cc_combatDirective") != "")
 	{
 		string[int] actions = split_string(get_property("cc_combatDirective"), ";");
@@ -149,18 +199,6 @@ string cc_combatHandler(int round, string opp, string text)
 			}
 		}
 	}
-
-	phylum type = monster_phylum(enemy);
-	phylum current = to_phylum(get_property("dnaSyringe"));
-
-	string combatState = get_property("cc_combatHandler");
-	int thunderBirdsLeft = get_property("cc_combatHandlerThunderBird").to_int();
-	int fingernailClippersLeft = get_property("cc_combatHandlerFingernailClippers").to_int();
-
-	#Handle different path is monster_level_adjustment() > 150 (immune to staggers?)
-	int mcd = monster_level_adjustment();
-
-	boolean doBanisher = !get_property("kingLiberated").to_boolean();
 
 	if($monsters[One Thousand Source Agents, Source Agent] contains enemy)
 	{
@@ -1071,6 +1109,10 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			return "skill " + $skill[Macrometeorite];
 		}
+		if((enemy == $monster[Beefy Bodyguard Bat]) && ($location[The Boss Bat\'s Lair].turns_spent >= 4) && (my_location() == $location[The Boss Bat\'s Lair]))
+		{
+			return "skill " + $skill[Macrometeorite];
+		}
 		if((enemy == $monster[Government Agent]) && (my_location() == $location[Sonofa Beach]))
 		{
 			return "skill " + $skill[Macrometeorite];
@@ -1106,7 +1148,6 @@ string cc_combatHandler(int round, string opp, string text)
 				return "skill " + $skill[Macrometeorite];
 			}
 		}
-		# Beefy Bodyguard Bat with delay burnt.
 	}
 
 	if(item_amount($item[Disposable Instant Camera]) > 0)

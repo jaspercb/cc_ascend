@@ -1209,23 +1209,9 @@ string banisherCombatString(monster enemy, location loc)
 #		return "skill " + $skill[Creepy Grin];
 #	}
 
-	if(have_skill($skill[Show Them Your Ring]) && !get_property("_mafiaMiddleFingerRingUsed").to_boolean() && (my_mp() >= mp_cost($skill[Show Them Your Ring])))
-	{
-		return "skill " + $skill[Show Them Your Ring];
-	}
-
-	if(cc_have_skill($skill[Breathe Out]) && (my_mp() >= mp_cost($skill[Breathe Out])) && (!(used contains "breathe out")))
-	{
-		return "skill " + $skill[Breathe Out];
-	}
-
 	if(have_skill($skill[Thunder Clap]) && (my_thunder() >= thunder_cost($skill[Thunder Clap])) && (!(used contains "thunder clap")))
 	{
 		return "skill " + $skill[Thunder Clap];
-	}
-	if(cc_have_skill($skill[Batter Up!]) && (my_fury() >= 5) && (item_type(equipped_item($slot[weapon])) == "club") && (!(used contains "batter up!")))
-	{
-		return "skill " + $skill[Batter Up!];
 	}
 	if(have_skill($skill[Asdon Martin: Spring-Loaded Front Bumper]) && (get_fuel() >= fuel_cost($skill[Asdon Martin: Spring-Loaded Front Bumper])) && (!(used contains "Spring-Loaded Front Bumper")))
 	{
@@ -1234,6 +1220,24 @@ string banisherCombatString(monster enemy, location loc)
 			return "skill " + $skill[Asdon Martin: Spring-Loaded Front Bumper];
 		}
 	}
+	if(have_skill($skill[Curse Of Vacation]) && (my_mp() > mp_cost($skill[Curse Of Vacation])) && (!(used contains "curse of vacation")))
+	{
+		return "skill " + $skill[Curse Of Vacation];
+	}
+
+	if(have_skill($skill[Show Them Your Ring]) && !get_property("_mafiaMiddleFingerRingUsed").to_boolean() && (my_mp() >= mp_cost($skill[Show Them Your Ring])))
+	{
+		return "skill " + $skill[Show Them Your Ring];
+	}
+	if(cc_have_skill($skill[Breathe Out]) && (my_mp() >= mp_cost($skill[Breathe Out])) && (!(used contains "breathe out")))
+	{
+		return "skill " + $skill[Breathe Out];
+	}
+	if(cc_have_skill($skill[Batter Up!]) && (my_fury() >= 5) && (item_type(equipped_item($slot[weapon])) == "club") && (!(used contains "batter up!")))
+	{
+		return "skill " + $skill[Batter Up!];
+	}
+
 	if(have_skill($skill[Banishing Shout]) && (my_mp() > mp_cost($skill[Banishing Shout])) && (!(used contains "banishing shout")))
 	{
 		return "skill " + $skill[Banishing Shout];
@@ -1243,10 +1247,6 @@ string banisherCombatString(monster enemy, location loc)
 		return "skill " + $skill[Walk Away From Explosion];
 	}
 
-	if(have_skill($skill[Curse Of Vacation]) && (my_mp() > mp_cost($skill[Curse Of Vacation])) && (!(used contains "curse of vacation")))
-	{
-		return "skill " + $skill[Curse Of Vacation];
-	}
 	if(have_skill($skill[Talk About Politics]) && (get_property("_pantsgivingBanish").to_int() < 5) && have_equipped($item[Pantsgiving]) && (!(used contains "pantsgiving")))
 	{
 		return "skill " + $skill[Talk About Politics];

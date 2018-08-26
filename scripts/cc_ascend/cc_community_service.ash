@@ -414,7 +414,7 @@ boolean LA_cs_communityService()
 
 	if(curQuest == 6)
 	{
-		cheeseWarMachine(0, 1, 3, random(3)+1);
+		cheeseWarMachine(0, 1, 3, 0);
 		zataraSeaside(my_primestat());
 	}
 	else if(my_daycount() != 1)

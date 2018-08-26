@@ -1481,6 +1481,10 @@ boolean makeGenieCombat(monster mon, string option)
 	{
 		return false;
 	}
+	if(get_property("_genieFightsUsed").to_int() >= 3)
+	{
+		return false;
+	}
 	if(my_adventures() == 0)
 	{
 		return false;
