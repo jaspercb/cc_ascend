@@ -26,6 +26,7 @@ void ed_initializeSettings()
 	if(my_path() == "Actually Ed the Undying")
 	{
 		set_property("cc_100familiar", $familiar[Egg Benedict]);
+		set_property("cc_bean", true);
 		set_property("cc_crackpotjar", "done");
 		set_property("cc_cubeItems", false);
 		set_property("cc_day1_dna", "finished");

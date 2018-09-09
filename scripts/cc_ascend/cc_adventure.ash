@@ -26,7 +26,8 @@ boolean ccAdv(int num, location loc, string option)
 
 
 	boolean retval = false;
-	if((my_adventures() == 0) || (inebriety_left() < 0))
+
+	if((my_adventures() == 0) || ((inebriety_left() < 0) && (equipped_item($slot[off-hand]) != $item[Drunkula\'s Wineglass])))
 	{
 		string page = visit_url("fight.php");
 		if(contains_text(page, "Combat"))
@@ -150,7 +151,7 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 		{
 			if(get_auto_attack() == 0)
 			{
-				if(inebriety_left() >= 0)
+				if((inebriety_left() >= 0) || (equipped_item($slot[off-hand]) == $item[Drunkula\'s Wineglass]))
 				{
 					return ccAdv(1, loc, option);
 				}
@@ -227,7 +228,7 @@ boolean ccAdvBypass(int urlGetFlags, string[int] url, location loc, string optio
 		{
 			set_property("cc_disableAdventureHandling", true);
 			boolean retval = true;
-			if(inebriety_left() >= 0)
+			if((inebriety_left() >= 0) || (equipped_item($slot[off-hand]) == $item[Drunkula\'s Wineglass]))
 			{
 				retval = ccAdv(1, loc, option);
 			}

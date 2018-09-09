@@ -70,7 +70,7 @@ boolean routineRainManHandler()
 			return rainManSummon("orcish frat boy spy", false, false);
 		}
 
-		if(!contains_text(get_property("nsTowerDoorKeysUsed"),"star key"))
+		if(needStarKey())
 		{
 			boolean result = rainManSummon("skinflute", true, false);
 			if(!result)
@@ -85,9 +85,9 @@ boolean routineRainManHandler()
 				return true;
 			}
 		}
-		if(!contains_text(get_property("nsTowerDoorKeysUsed"),"digital key"))
+		if(needDigitalKey())
 		{
-			if((get_property("cc_nuns") == "done") || (my_rain() == 100))
+			if((get_property("cc_nuns") == "done") || (my_rain() > 92))
 			{
 				if((item_amount($item[white pixel]) < 30) && (item_amount($item[digital key]) == 0))
 				{

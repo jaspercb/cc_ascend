@@ -41,6 +41,8 @@ void handlePreAdventure(location place)
 		return;
 	}
 
+	print("Starting preadventure script...", "green");
+
 	familiar famChoice = to_familiar(get_property("cc_familiarChoice"));
 	if(cc_my_path() == "Pocket Familiars")
 	{

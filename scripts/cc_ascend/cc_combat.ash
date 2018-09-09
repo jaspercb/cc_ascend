@@ -123,7 +123,10 @@ string cc_combatHandler(int round, string opp, string text)
 		if(maskMatch.find())
 		{
 			majora = maskMatch.group(1).to_int();
-//			print("Found mask: " + majora, "red");
+			if(round == 0)
+			{
+				print("Found mask: " + majora, "green");
+			}
 		}
 		if((majora == 7) && !contains_text(combatState, "(swap mask)"))
 		{
@@ -669,7 +672,10 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if((enemy == $monster[Tomb Rat]) && (item_amount($item[Tangle Of Rat Tails]) > 0))
 	{
-		return "item " + $item[Tangle Of Rat Tails];
+		if((item_amount($item[Tomb Ratchet]) + item_amount($item[Crumbling Wooden Wheel])) < 10)
+		{
+			return "item " + $item[Tangle Of Rat Tails];
+		}
 	}
 
 	if((enemy == $monster[Storm Cow]) && (cc_have_skill($skill[Unleash The Greash])))

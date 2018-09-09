@@ -44,6 +44,7 @@ import <cc_ascend/cc_awol.ash>
 import <cc_ascend/cc_bondmember.ash>
 import <cc_ascend/cc_groundhog.ash>
 import <cc_ascend/cc_digimon.ash>
+import <cc_ascend/cc_majora.ash>
 import <cc_ascend/cc_glover.ash>
 import <cc_ascend/cc_monsterparts.ash>
 import <cc_ascend/cc_theSource.ash>
@@ -263,6 +264,7 @@ void initializeSettings()
 	pete_initializeSettings();
 	groundhog_initializeSettings();
 	digimon_initializeSettings();
+	majora_initializeSettings();
 	glover_initializeSettings();
 }
 
@@ -1267,7 +1269,7 @@ boolean doThemtharHills(boolean trickMode)
 
 
 	handleFamiliar("meat");
-	if(cc_have_familiar($familiar[Trick-or-Treating Tot]) && (available_amount($item[Li\'l Pirate Costume]) > 0) && !is100FamiliarRun($familiar[Trick-or-Treating Tot]))
+	if(cc_have_familiar($familiar[Trick-or-Treating Tot]) && (available_amount($item[Li\'l Pirate Costume]) > 0) && !is100FamiliarRun($familiar[Trick-or-Treating Tot]) && (cc_my_path() != "Heavy Rains"))
 	{
 		use_familiar($familiar[Trick-or-Treating Tot]);
 		if(equipped_item($slot[familiar]) != $item[Li\'l Pirate Costume])
@@ -1408,7 +1410,7 @@ boolean doThemtharHills(boolean trickMode)
 	{
 		if(trickMode)
 		{
-			if((get_property("_cameraUsed").to_boolean() != true) && (item_amount($item[shaking 4-d camera]) == 0))
+			if(!get_property("_cameraUsed").to_boolean() && (item_amount($item[shaking 4-d camera]) == 0))
 			{
 				pullXWhenHaveY($item[4-d camera], 1, 0);
 			}
@@ -1554,7 +1556,17 @@ int handlePulls(int day)
 
 		if(!possessEquipment($item[Astral Shirt]))
 		{
-			if(hasTorso())
+			boolean getPeteShirt = true;
+			if(!hasTorso())
+			{
+				getPeteShirt = false;
+			}
+			if((my_primestat() == $stat[Muscle]) && get_property("loveTunnelAvailable").to_boolean())
+			{
+				getPeteShirt = false;
+			}
+
+			if(getPeteShirt)
 			{
 				pullXWhenHaveY($item[Sneaky Pete\'s Leather Jacket], 1, 0);
 				if(item_amount($item[Sneaky Pete\'s Leather Jacket]) == 0)
@@ -1921,6 +1933,7 @@ void initializeDay(int day)
 	cs_initializeDay(day);
 	bond_initializeDay(day);
 	digimon_initializeDay(day);
+	majora_initializeDay(day);
 
 	if(day == 1)
 	{
@@ -2544,7 +2557,7 @@ boolean doBedtime()
 
 	if((get_property("_grimBuff") == "false") && cc_have_familiar($familiar[Grim Brother]))
 	{
-		visit_url("choice.php?pwd=&whichchoice=835&option=1", true);
+		string temp = visit_url("choice.php?pwd=&whichchoice=835&option=1", true);
 	}
 
 	dailyEvents();
@@ -5517,7 +5530,7 @@ boolean L11_hiddenCity()
 			}
 		}
 
-		if((get_property("cc_hiddenapartment") != "finished"))
+		if((get_property("cc_hiddenapartment") != "finished") && (have_effect($effect[Ancient Fortitude]) == 0))
 		{
 			print("The idden [sic] apartment!", "blue");
 
@@ -9024,7 +9037,7 @@ boolean L7_crypt()
 			equip($item[Gravy Boat]);
 		}
 
-		if((item_amount($item[The Nuge\'s Favorite Crossbow]) > 0) && can_equip($item[The Nuge\'s Favorite Crossbow]))
+		if((item_amount($item[The Nuge\'s Favorite Crossbow]) > 0) && can_equip($item[The Nuge\'s Favorite Crossbow]) && (get_property("cyrptAlcoveEvilness").to_int() > 26))
 		{
 			equip($item[The Nuge\'s Favorite Crossbow]);
 		}
@@ -9046,7 +9059,7 @@ boolean L7_crypt()
 		}
 
 		januaryToteAcquire($item[Broken Champagne Bottle]);
-		if(item_amount($item[Broken Champagne Bottle]) > 0)
+		if((item_amount($item[Broken Champagne Bottle]) > 0) && (get_property("cyrptNookEvilness").to_int() > 26))
 		{
 			equip($item[Broken Champagne Bottle]);
 		}
@@ -10222,7 +10235,7 @@ boolean LX_craftAcquireItems()
 		mummifyFamiliar($familiar[XO Skeleton], "mpregen");
 		if((my_primestat() == $stat[Muscle]) && get_property("loveTunnelAvailable").to_boolean() && is_unrestricted($item[Heart-Shaped Crate]) && possessEquipment($item[LOV Eardigan]))
 		{
-			if((januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0) && (my_session_adv() > 75))
+			if((januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0) && (my_session_adv() > 75) && ((januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) + 15) > my_adventures()))
 			{
 				januaryToteAcquire($item[Makeshift Garbage Shirt]);
 			}
@@ -10233,7 +10246,7 @@ boolean LX_craftAcquireItems()
 		}
 		else
 		{
-			if((januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0) && hasTorso())
+			if((januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0) && hasTorso() && (my_session_adv() > 75))
 			{
 				januaryToteAcquire($item[Makeshift Garbage Shirt]);
 			}
@@ -13131,6 +13144,11 @@ boolean LX_pirateBeerPong()
 		return false;
 	}
 
+	if((item_amount($item[The Big Book Of Pirate Insults]) == 0) && (item_amount($item[Massive Manual Of Marauder Mockery]) == 0))
+	{
+		return false;
+	}
+
 	if(!outfit("swashbuckling getup"))
 	{
 		abort("Could not put on Swashbuckling Getup, aborting");
@@ -13801,6 +13819,12 @@ boolean cc_tavern()
 	boolean [int] locations = $ints[3, 2, 1, 0, 5, 10, 15, 20, 16, 21];
 	foreach loc in locations
 	{
+		if(get_property("cc_interrupt").to_boolean())
+		{
+			set_property("cc_interrupt", false);
+			restoreAllSettings();
+			abort("cc_interrupt detected and aborting, cc_interrupt disabled.");
+		}
 		//Sleaze is the only one we don\'t care about
 
 		if(item_amount($item[17-Ball]) > 0)
@@ -14251,6 +14275,7 @@ boolean doTasks()
 	if(LM_fallout())					return true;
 	if(LM_groundhog())					return true;
 	if(LM_digimon())					return true;
+	if(LM_majora())						return true;
 	if(doHRSkills())					return true;
 
 	if(cc_my_path() != "Community Service")

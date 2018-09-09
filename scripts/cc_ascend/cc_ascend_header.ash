@@ -363,6 +363,9 @@ boolean backupSetting(string setting, string newValue);		//Defined in cc_ascend/
 int[monster] banishedMonsters();							//Defined in cc_ascend/cc_util.ash
 boolean beehiveConsider();									//Defined in cc_ascend/cc_util.ash
 string beerPong(string page);								//Defined in cc_ascend/cc_util.ash
+int estimatedTurnsLeft();									//Defined in cc_ascend/cc_util.ash
+boolean summonMonster();									//Defined in cc_ascend/cc_util.ash
+boolean summonMonster(string option);						//Defined in cc_ascend/cc_util.ash
 boolean boris_buySkills();									//Defined in cc_ascend/cc_boris.ash
 void boris_initializeDay(int day);							//Defined in cc_ascend/cc_boris.ash
 void boris_initializeSettings();							//Defined in cc_ascend/cc_boris.ash
@@ -763,6 +766,7 @@ boolean useCocoon();										//Defined in cc_ascend/cc_util.ash
 boolean use_barrels();										//Defined in cc_ascend/cc_util.ash
 boolean needStarKey();										//Defined in cc_ascend/cc_util.ash
 boolean needDigitalKey();									//Defined in cc_ascend/cc_util.ash
+int whitePixelCount();										//Defined in cc_ascend/cc_util.ash
 boolean careAboutDrops(monster mon);						//Defined in cc_ascend/cc_util.ash
 boolean volcano_bunkerJob();								//Defined in cc_ascend/cc_elementalPlanes.ash
 boolean volcano_lavaDogs();									//Defined in cc_ascend/cc_elementalPlanes.ash
@@ -845,6 +849,10 @@ boolean bond_initializeSettings();							//Defined in cc_ascend/cc_bondmember.as
 item[int] bondDrinks();										//Defined in cc_ascend/cc_bondmember.ash
 void bond_initializeDay(int day);							//Defined in cc_ascend/cc_bondmember.ash
 
+
+void majora_initializeSettings();							//Defined in cc_ascend/cc_majora.ash
+void majora_initializeDay(int day);							//Defined in cc_ascend/cc_majora.ash
+boolean LM_majora();										//Defined in cc_ascend/cc_majora.ash
 
 void digimon_initializeSettings();							//Defined in cc_ascend/cc_digimon.ash
 void digimon_initializeDay(int day);						//Defined in cc_ascend/cc_digimon.ash

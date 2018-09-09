@@ -479,16 +479,23 @@ void equipBaselineShirt()
 		return;
 	}
 	item toEquip = $item[none];
-	item[int] poss = List($items[Professor What T-Shirt, Barskin Cloak, Thinknerd T-Shirt, Harem Girl T-Shirt, Clownskin Harness, Bronze Breastplate, KoL Con 13 T-Shirt, White Snakeskin Duster, Grateful Undead T-shirt, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Makeshift Garbage Shirt, Glass Casserole Dish, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Midriff Scrubs, Star Shirt, Yak Anorak, Blessed Rustproof +2 Gray Dragon Scale Mail, Ultracolor&trade; Shirt, Sea Salt Scrubs, Shark Jumper, Bod-Ice, Liam\'s Mail, Astral Shirt, Stephen\'s Lab Coat, LOV Eardigan, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)]);
+	item[int] poss = List($items[Professor What T-Shirt, Barskin Cloak, Thinknerd T-Shirt, Harem Girl T-Shirt, Clownskin Harness, Bronze Breastplate, KoL Con 13 T-Shirt, White Snakeskin Duster, Grateful Undead T-shirt, Demonskin Jacket, Gnauga Hide Vest, Tuxedo Shirt, Grungy Flannel Shirt, Lynyrdskin Tunic, Makeshift Garbage Shirt, Glass Casserole Dish, Surgical Apron, Punk Rock Jacket, Bat-Ass Leather Jacket, Midriff Scrubs, Star Shirt, Yak Anorak, Dragonscale Breastplate, Blessed Rustproof +2 Gray Dragon Scale Mail, Ultracolor&trade; Shirt, Sea Salt Scrubs, Shark Jumper, Bod-Ice, Liam\'s Mail, Astral Shirt, Stephen\'s Lab Coat, LOV Eardigan, Sneaky Pete\'s Leather Jacket, Sneaky Pete\'s Leather Jacket (Collar Popped)]);
 
-	if(januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0)
+
+	if((my_primestat() == $stat[muscle]) && (my_level() < 13))
 	{
-		poss = ListInsertAt(poss, $item[Makeshift Garbage Shirt], poss.ListFind($item[Sneaky Pete\'s Leather Jacket (Collar Popped)]));
+		poss = ListInsert(poss, $item[LOV Eardigan]);
+	}
+
+	if((januaryToteTurnsLeft($item[Makeshift Garbage Shirt]) > 0) && (my_level() < 13))
+	{
+		poss = ListInsert(poss, $item[Makeshift Garbage Shirt]);
 	}
 	else
 	{
 		poss = ListInsertAt(poss, $item[Makeshift Garbage Shirt], poss.ListFind($item[Glass Casserole Dish]));
 	}
+
 
 	toEquip = handleSolveThing(poss, $slot[shirt]);
 
@@ -603,7 +610,7 @@ void equipBaselineWeapon()
 		break;
 	case $class[Ed]:
 #		poss = $items[[7961] Staff of Ed];
-		poss = $items[Spiked Femur, Grassy Cutlass, Oversized Pizza Cutter, Titanium Assault Umbrella, Ocarina of Space, 7961, sewage-clogged pistol];
+		poss = $items[Spiked Femur, Grassy Cutlass, Oversized Pizza Cutter, Giant Artisanal Rice Peeler, Titanium Assault Umbrella, Ocarina of Space, 7961, sewage-clogged pistol];
 		break;
 	case $class[Avatar of Jarlsberg]:
 		poss = $items[Staff of the Standalone Cheese];
@@ -742,7 +749,7 @@ void equipBaseline()
 
 void equipBaselineAccessories()
 {
-	item[int] poss = List($items[Jaunty Feather, Vampire Collar, Stuffed Shoulder Parrot, Infernal Insoles, Imp Unity Ring, Ring Of Telling Skeletons What To Do, Garish Pinky Ring, Batskin Belt, Bonerdagon Necklace, Grumpy Old Man Charrrm Bracelet, Jolly Roger Charrrm Bracelet, Glowing Red Eye, Jangly Bracelet, Plastic Detective Badge, Pirate Fledges, Glow-In-The-Dark Necklace, Compression Stocking, Wicker Kickers, Perfume-Soaked Bandana, Iron Beta of Industry, Mr. Accessory Jr., Time-Twitching Toolbelt, Xiblaxian Holo-Wrist-Puter, Badge Of Authority, Bronze Detective Badge, Ghost of a Necklace, Silver Detective Badge, Gold Detective Badge, Sphygmayomanometer, Kremlin\'s Greatest Briefcase, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Mr. Cheeng\'s Spectacles, Astral Ring, Astral Bracer, Hand In Glove, Codpiece, Gumshoes, Caveman Dan\'s Favorite Rock, Barrel Hoop Earring, Battle Broom, Your Cowboy Boots, Over-The-Shoulder Folder Holder, World\'s Best Adventurer Sash]);
+	item[int] poss = List($items[Jaunty Feather, Vampire Collar, Stuffed Shoulder Parrot, Infernal Insoles, Imp Unity Ring, Ring Of Telling Skeletons What To Do, Garish Pinky Ring, Batskin Belt, Bonerdagon Necklace, Grumpy Old Man Charrrm Bracelet, Jolly Roger Charrrm Bracelet, Glowing Red Eye, Jangly Bracelet, Plastic Detective Badge, Pirate Fledges, Glow-In-The-Dark Necklace, Compression Stocking, Wicker Kickers, Perfume-Soaked Bandana, Iron Beta of Industry, Mr. Accessory Jr., Time-Twitching Toolbelt, Xiblaxian Holo-Wrist-Puter, Badge Of Authority, Bronze Detective Badge, Ghost of a Necklace, Silver Detective Badge, Gold Detective Badge, Ring Of The Skeleton Lord, Sphygmayomanometer, Kremlin\'s Greatest Briefcase, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Mr. Cheeng\'s Spectacles, Astral Ring, Astral Bracer, Hand In Glove, Codpiece, Gumshoes, Caveman Dan\'s Favorite Rock, Barrel Hoop Earring, Battle Broom, Your Cowboy Boots, Over-The-Shoulder Folder Holder, World\'s Best Adventurer Sash]);
 
 	if((my_level() >= 13) && (get_property("flyeredML").to_int() >= 10000))
 	{
@@ -810,7 +817,7 @@ void equipBaselineAccessories()
 void equipBaselineAcc1()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Vampire Collar, Infernal Insoles, Batskin Belt, Plastic Detective Badge, Bronze Detective Badge, Ghost of a Necklace, Silver Detective Badge, Gold Detective Badge, Sphygmayomanometer, Kremlin\'s Greatest Briefcase, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Astral Ring, Astral Bracer, Codpiece, Over-The-Shoulder Folder Holder];
+	boolean[item] poss = $items[Vampire Collar, Infernal Insoles, Batskin Belt, Plastic Detective Badge, Bronze Detective Badge, Ghost of a Necklace, Silver Detective Badge, Gold Detective Badge, Ring Of The Skeleton Lord, Sphygmayomanometer, Kremlin\'s Greatest Briefcase, Numberwang, Astral Mask, Astral Belt, Bram\'s Choker, Astral Ring, Astral Bracer, Codpiece, Over-The-Shoulder Folder Holder];
 
 	if(possessEquipment($item[barrel hoop earring]))
 	{
@@ -854,7 +861,7 @@ void equipBaselineAcc2()
 void equipBaselineAcc3()
 {
 	item toEquip = $item[none];
-	item[int] poss = List($items[Jaunty Feather, Garish Pinky Ring, ring of telling skeletons what to do, Glowing Red Eye, Blackberry Galoshes, Meteorthopedic Shoes, grumpy old man charrrm bracelet, Pirate Fledges, Plastic Detective Badge, Bronze Detective Badge, Mr. Accessory Jr., Silver Detective Badge, Gold Detective Badge, Tube Sock, Time-Twitching Toolbelt, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Sphygmayomanometer, LOV Earrings, Badge Of Authority, Codpiece, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring]);
+	item[int] poss = List($items[Jaunty Feather, Garish Pinky Ring, ring of telling skeletons what to do, Glowing Red Eye, Blackberry Galoshes, Meteorthopedic Shoes, grumpy old man charrrm bracelet, Pirate Fledges, Plastic Detective Badge, Bronze Detective Badge, Mr. Accessory Jr., Silver Detective Badge, Gold Detective Badge, Ring Of The Skeleton Lord, Tube Sock, Time-Twitching Toolbelt, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Sphygmayomanometer, LOV Earrings, Badge Of Authority, Codpiece, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring]);
 
 	if(my_class() == $class[Gelatinous Noob])
 	{
@@ -872,7 +879,7 @@ void equipBaselineAcc3()
 void replaceBaselineAcc3()
 {
 	item toEquip = $item[none];
-	boolean[item] poss = $items[Jaunty Feather, ring of telling skeletons what to do, Glowing Red Eye, grumpy old man charrrm bracelet, Pirate Fledges, Plastic Detective Badge, Bronze Detective Badge, Mr. Accessory Jr., Silver Detective Badge, Gold Detective Badge, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Sphygmayomanometer, Badge Of Authority, Codpiece, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
+	boolean[item] poss = $items[Jaunty Feather, ring of telling skeletons what to do, Glowing Red Eye, grumpy old man charrrm bracelet, Pirate Fledges, Plastic Detective Badge, Bronze Detective Badge, Mr. Accessory Jr., Silver Detective Badge, Gold Detective Badge, Ring Of The Skeleton Lord, Glow-in-the-dark necklace, Xiblaxian Holo-Wrist-Puter, Sphygmayomanometer, Badge Of Authority, Codpiece, Mr. Cheeng\'s Spectacles, Numberwang, Barrel Hoop Earring];
 
 	foreach thing in poss
 	{
@@ -970,7 +977,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = List($items[Deadfall Branch, Meatspout Staff, Chrome Staff, Chrome Sword, Sword Behind Inappropriate Prepositions, Time Sword, The Nuge\'s Favorite Crossbow]);
+	poss = List($items[Deadfall Branch, Meatspout Staff, Chrome Staff, Chrome Sword, Sword Behind Inappropriate Prepositions, Time Sword, The Nuge\'s Favorite Crossbow, Staff Of Kitchen Royalty]);
 
 	toEquip = handleSolveThing(poss, $slot[weapon]);
 	if((toEquip != $item[none]) && (toEquip != equipped_item($slot[weapon])))
@@ -979,7 +986,7 @@ void equipRollover()
 	}
 
 	toEquip = $item[none];
-	poss = List($items[Deadfall Branch, Ancient Calendar, Novelty Monorail Ticket, Mer-kin stopwatch, Astral Statuette, Silver Cow Creamer, Royal Scepter]);
+	poss = List($items[Deadfall Branch, Ancient Calendar, Novelty Monorail Ticket, Mer-kin stopwatch, Astral Statuette, Silver Cow Creamer, Staff Of Kitchen Royalty, Royal Scepter]);
 	switch(my_primestat())
 	{
 	case $stat[Muscle]:

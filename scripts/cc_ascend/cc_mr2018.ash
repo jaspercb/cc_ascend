@@ -237,7 +237,6 @@ boolean fantasyRealmToken()
 	{
 		foreach idx, it in split_string(get_property("_frMonstersKilled"), ",")
 		{
-			print(it);
 			if(contains_text(it, "fantasy bandit"))
 			{
 				int count = to_int(split_string(it, ":")[1]);

@@ -414,7 +414,8 @@ boolean LA_cs_communityService()
 
 	if(curQuest == 6)
 	{
-		cheeseWarMachine(0, 1, 3, 0);
+		cheeseWarMachine(0, 0, 3, 0);
+//		cheeseWarMachine(0, 1, 3, 0);
 		zataraSeaside(my_primestat());
 	}
 	else if(my_daycount() != 1)
@@ -565,7 +566,7 @@ boolean LA_cs_communityService()
 				cc_sourceTerminalEnhance("substats");
 			}
 
-			if(get_property("_cc_witchessBattles").to_int() <= 3)
+			if(get_property("_cc_witchessBattles").to_int() <= 2)
 			{
 				if(cs_witchess())
 				{
@@ -573,7 +574,7 @@ boolean LA_cs_communityService()
 				}
 			}
 
-			if(get_property("_cc_witchessBattles").to_int() == 4)
+			if(get_property("_cc_witchessBattles").to_int() == 3)
 			{
 				if((my_mp() >= 120) && cc_haveWitchess() && have_skills($skills[Conspiratorial Whispers, Curse Of Weaksauce, Sauceshell, Shell Up, Silent Slam]) && (have_skill($skill[Tattle]) || have_skill($skill[Meteor Lore])) && !possessEquipment($item[Dented Scepter]) && have_familiar($familiar[Galloping Grill]) && (my_ascensions() >= 100))
 				{
@@ -781,6 +782,12 @@ boolean LA_cs_communityService()
 				doHottub();
 			}
 
+			if(get_property("_g9Effect").to_int() == 0)
+			{
+				string temp = visit_url("desc_item.php?whichitem=661049168", false);
+			}
+
+#			if(((get_property("_g9Effect").to_int() > 125) || (item_amount($item[Airborne Mutagen]) == 0)) && (((curQuest == 9) || (my_turncount() < get_property("cc_cookie").to_int())) && elementalPlanes_access($element[spooky])))
 			if(((curQuest == 9) || (my_turncount() < get_property("cc_cookie").to_int())) && elementalPlanes_access($element[spooky]))
 			{
 				if((isOverdueDigitize() || isOverdueArrow()) && elementalPlanes_access($element[stench]))
@@ -1137,22 +1144,6 @@ boolean LA_cs_communityService()
 			}
 			missing = min(2, missing);
 
-			if(snojoFightAvailable() && (my_adventures() > 0))
-			{
-				familiar oldFam = my_familiar();
-				if(have_familiar($familiar[Rockin\' Robin]) && (item_amount($item[Robin\'s Egg]) == 0))
-				{
-					handleFamiliar($familiar[Rockin\' Robin]);
-				}
-				else if(have_familiar($familiar[Garbage Fire]) && (item_amount($item[Burning Newspaper]) == 0))
-				{
-					handleFamiliar($familiar[Garbage Fire]);
-				}
-				ccAdv(1, $location[The X-32-F Combat Training Snowman]);
-				handleFamiliar(oldFam);
-				return true;
-			}
-
 			if((have_effect($effect[Half-Blooded]) > 0) || (have_effect($effect[Half-Drained]) > 0) || (have_effect($effect[Bruised]) > 0) || (have_effect($effect[Relaxed Muscles]) > 0) || (have_effect($effect[Hypnotized]) > 0) || (have_effect($effect[Bad Haircut]) > 0))
 			{
 				doHottub();
@@ -1280,6 +1271,22 @@ boolean LA_cs_communityService()
 
 			if(!get_property("cc_hccsNoConcludeDay").to_boolean())
 			{
+				if(snojoFightAvailable() && (my_adventures() > 0))
+				{
+					familiar oldFam = my_familiar();
+					if(have_familiar($familiar[Rockin\' Robin]) && (item_amount($item[Robin\'s Egg]) == 0))
+					{
+						handleFamiliar($familiar[Rockin\' Robin]);
+					}
+					else if(have_familiar($familiar[Garbage Fire]) && (item_amount($item[Burning Newspaper]) == 0))
+					{
+						handleFamiliar($familiar[Garbage Fire]);
+					}
+					ccAdv(1, $location[The X-32-F Combat Training Snowman]);
+					handleFamiliar(oldFam);
+					return true;
+				}
+
 				if((spleen_left() >= 3) && (item_amount($item[Handful of Smithereens]) > 0))
 				{
 					chew(1, $item[Handful of Smithereens]);
@@ -1296,7 +1303,7 @@ boolean LA_cs_communityService()
 				{
 					chew(1, $item[Nasty Snuff]);
 				}
-				if((item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() > 0))
+				if((item_amount($item[Astral Pilsner]) > 0) && (inebriety_left() > 0) && (my_level() >= 11))
 				{
 					shrugAT($effect[Ode to Booze]);
 					buffMaintain($effect[Ode to Booze], 50, 1, min(inebriety_left(), item_amount($item[Astral Pilsner])));
@@ -1556,7 +1563,7 @@ boolean LA_cs_communityService()
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[Phorcefullness], 0, 1, 1);
 			if(estimate_cs_questCost(curQuest) > 1)		buffMaintain($effect[The Power Of LOV], 0, 1, 1);
 
-			if(!get_property("_grimBuff").to_boolean())
+			if(!get_property("_grimBuff").to_boolean() && have_familiar($familiar[Grim Brother]))
 			{
 				cli_execute("grim hpmp");
 			}
@@ -1603,7 +1610,7 @@ boolean LA_cs_communityService()
 
 			if(get_property("telescopeUpgrades").to_int() > 0)
 			{
-				if(get_property("telescopeLookedHigh") == "false")
+				if(!get_property("telescopeLookedHigh").to_boolean())
 				{
 					cli_execute("telescope high");
 				}
@@ -2256,7 +2263,7 @@ boolean LA_cs_communityService()
 				visit_url("clan_viplounge.php?preaction=poolgame&stance=1");
 			}
 
-			if(!get_property("_grimBuff").to_boolean())
+			if(!get_property("_grimBuff").to_boolean() && have_familiar($familiar[Grim Brother]))
 			{
 				cli_execute("grim damage");
 			}
@@ -2465,7 +2472,7 @@ boolean LA_cs_communityService()
 				}
 			}
 
-			if(!get_property("_grimBuff").to_boolean())
+			if(!get_property("_grimBuff").to_boolean() && have_familiar($familiar[Grim Brother]))
 			{
 				cli_execute("grim damage");
 			}
@@ -3449,7 +3456,7 @@ void cs_make_stuff(int curQuest)
 			}
 		}
 
-		if(!possessEquipment($item[Staff of the Headmaster\'s Victuals]) && (item_amount($item[Lump of Brituminous Coal]) > 0))
+		if(!possessEquipment($item[Staff of the Headmaster\'s Victuals]) && (item_amount($item[Lump of Brituminous Coal]) > 0) && have_skill($skill[Spirit of Rigatoni]))
 		{
 			cli_execute("make " + $item[Staff of the Headmaster\'s Victuals]);
 		}
