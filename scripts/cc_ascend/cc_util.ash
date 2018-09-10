@@ -2639,12 +2639,13 @@ boolean providePlusCombat(int amt, boolean doEquips)
 		string temp = visit_url("charsheet.php?pwd=&action=newyouinterest");
 	}
 
-	foreach eff in $effects[Driving Stealthily, The Sonata of Sneakiness, Patent Invisibility, Shelter of Shed]
+//	foreach eff in $effects[Driving Stealthily, The Sonata of Sneakiness, Patent Invisibility, Shelter of Shed]
+	foreach eff in $effects[Driving Stealthily, The Sonata of Sneakiness]
 	{
-#		if(!uneffect(eff))
-#		{
-#			return false;
-#		}
+		if(!uneffect(eff))
+		{
+			return false;
+		}
 	}
 
 	if(numeric_modifier("Combat Rate").to_int() >= amt)

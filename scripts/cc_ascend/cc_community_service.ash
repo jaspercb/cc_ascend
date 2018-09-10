@@ -96,7 +96,7 @@ boolean LA_cs_communityService()
 		switch(my_daycount())
 		{
 		case 1:
-			pantogramPants(my_primestat(), $element[cold], 1, 1, 1);
+			pantogramPants(my_primestat(), $element[hot], 1, 1, 1);
 			break;
 		case 2:
 		case 3:
@@ -188,12 +188,15 @@ boolean LA_cs_communityService()
 		{
 			useFam = $familiars[Galloping Grill, Fist Turkey, Rockin\' Robin, Puck Man, Ms. Puck Man];
 		}
+		else if(my_spleen_use() < 12)
+		{
+			useFam = $familiars[Galloping Grill, Fist Turkey, Puck Man, Ms. Puck Man, Baby Sandworm, Unconscious Collective, Grim Brother, Golden Monkey, Bloovian Groose];
+		}
 		else
 		{
 			useFam = $familiars[Galloping Grill, Fist Turkey, Puck Man, Ms. Puck Man];
 		}
 	}
-
 
 	int[familiar] blacklist;
 	if(get_property("cc_blacklistFamiliar") != "")
@@ -2000,6 +2003,11 @@ boolean LA_cs_communityService()
 				run_choice(4);
 			}
 
+			if((estimate_cs_questCost(curQuest) > 1) && (item_amount($item[Rhinestone]) > 0))
+			{
+				int turns = estimate_cs_questCost(curQuest) - 1;
+				use(min(item_amount($item[Rhinestone]), 30 * turns), $item[Rhinestone]);
+			}
 
 			if(do_cs_quest(4))
 			{
@@ -2744,7 +2752,8 @@ boolean LA_cs_communityService()
 
 			if(get_cs_questCost(curQuest) > 7)
 			{
-				makeGenieWish($effect[Frosty]);
+#				makeGenieWish($effect[Frosty]);
+				makeGenieWish($effect[Infernal Thirst]);
 			}
 
 			if(possessEquipment($item[Greatest American Pants]))
@@ -4643,7 +4652,13 @@ boolean do_cs_quest(int quest)
 	}
 
 	int [int] questList = get_cs_questList();
-	if(((questList contains quest) && (my_adventures() >= questList[quest])) || (quest == 30))
+	int advs = my_adventures();
+	if((advs < questList[quest]) && ((advs + 3) >= questList[quest]) && (item_amount($item[LOV Extraterrestrial Chocolate]) > 0))
+	{
+		use(1, $item[LOV Extraterrestrial Chocolate]);
+		advs += 3;
+	}
+	if(((questList contains quest) && (advs >= questList[quest])) || (quest == 30))
 	{
 		string temp = visit_url("council.php");
 		if(quest != 30)

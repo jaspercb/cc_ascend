@@ -3185,7 +3185,19 @@ string cc_edCombatHandler(int round, string opp, string text)
 		{
 			doRenenutet = true;
 		}
-		if($monsters[Cabinet of Dr. Limpieza, Mountain Man, Possessed Wine Rack, Warehouse Clerk, Warehouse Guard] contains enemy)
+		if((enemy == $monster[Cabinet of Dr. Limpieza]) && ($location[The Haunted Laundry Room].turns_spent > 2))
+		{
+			doRenenutet = true;
+		}
+		if((enemy == $monster[Possessed Wine Rack]) && ($location[The Haunted Wine Cellar].turns_spent > 2))
+		{
+			doRenenutet = true;
+		}
+		if((enemy == $monster[Baa\'baa\'bu\'ran]) && (item_amount($item[Stone Wool]) < 2))
+		{
+			doRenenutet = true;
+		}
+		if($monsters[Mountain Man, Warehouse Clerk, Warehouse Guard] contains enemy)
 		{
 			doRenenutet = true;
 		}

@@ -13790,6 +13790,10 @@ boolean L8_trapperYeti()
 
 boolean cc_tavern()
 {
+	if(my_name() == "cheesecookie")
+	{
+		return false;
+	}
 	if(get_property("cc_tavern") == "finished")
 	{
 		return false;
