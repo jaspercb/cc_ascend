@@ -592,6 +592,7 @@ boolean LA_cs_communityService()
 //			if((my_turncount() >= 60) && cs_witchess())
 			if(item_amount($item[Sacramento Wine]) == 0)
 			{
+				//This might end up getting food and we need to consider that....
 				if(cs_witchess())
 				{
 					return true;

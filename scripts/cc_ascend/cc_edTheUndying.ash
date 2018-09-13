@@ -26,7 +26,6 @@ void ed_initializeSettings()
 	if(my_path() == "Actually Ed the Undying")
 	{
 		set_property("cc_100familiar", $familiar[Egg Benedict]);
-		set_property("cc_bean", true);
 		set_property("cc_crackpotjar", "done");
 		set_property("cc_cubeItems", false);
 		set_property("cc_day1_dna", "finished");
@@ -933,9 +932,10 @@ boolean ed_shopping()
 	}
 
 	//Limit mode: edunder
+	int canEat = 0;
 	if((my_spleen_use() + 5) <= ed_spleen_limit())
 	{
-		int canEat = (ed_spleen_limit() - my_spleen_use()) / 5;
+		canEat = (ed_spleen_limit() - my_spleen_use()) / 5;
 		canEat = canEat - item_amount($item[Mummified Beef Haunch]);
 		while((coins >= 15) && (canEat > 0))
 		{
@@ -948,7 +948,7 @@ boolean ed_shopping()
 
 #	if(!get_property("lovebugsUnlocked").to_boolean() && (item_amount($item[Ka Coin]) >= 2) && (item_amount($item[Spirit Beer]) == 0) && (ed_spleen_limit() >= 35))
 #	if(!get_property("lovebugsUnlocked").to_boolean() && (item_amount($item[Ka Coin]) >= 2) && (item_amount($item[Spirit Beer]) == 0) && (my_mp() < 100))
-	if(!get_property("lovebugsUnlocked").to_boolean() && (item_amount($item[Ka Coin]) >= 2) && (item_amount($item[Holy Spring Water]) == 0) && (my_mp() < 15))
+	if(!get_property("lovebugsUnlocked").to_boolean() && (coins >= 2) && (item_amount($item[Holy Spring Water]) == 0) && (my_mp() < 15))
 	{
 #		print("Buying Spirit Beer", "green");
 #		visit_url("shop.php?pwd=&whichshop=edunder_shopshop&action=buyitem&quantity=1&whichrow=432", true);
@@ -957,7 +957,7 @@ boolean ed_shopping()
 		coins -= 1;
 	}
 
-	if(!have_skill($skill[Extra Spleen]))
+	if(!have_skill($skill[Extra Spleen]) && (canEat < 1))
 	{
 		if(coins >= 5)
 		{
@@ -965,7 +965,7 @@ boolean ed_shopping()
 			skillBuy = 30;
 		}
 	}
-	else if(!have_skill($skill[Another Extra Spleen]))
+	else if(!have_skill($skill[Another Extra Spleen]) && (canEat < 1))
 	{
 		if(coins >= 10)
 		{
@@ -997,7 +997,7 @@ boolean ed_shopping()
 			skillBuy = 48;
 		}
 	}
-	else if(!have_skill($skill[Yet Another Extra Spleen]))
+	else if(!have_skill($skill[Yet Another Extra Spleen]) && have_skill($skill[Another Extra Spleen]))
 	{
 		if(coins >= 15)
 		{
@@ -1150,7 +1150,7 @@ boolean ed_shopping()
 		print("Buying Bone Spikes (20)", "green");
 		skillBuy = 41;
 	}
-	else if(have_skill($skill[Okay Seriously, This is the Last Spleen]))
+	else if(have_skill($skill[Okay Seriously, This is the Last Spleen]) && (canEat < 1))
 	{	//437 438?
 		while((coins >= 1) && (get_property("cc_renenutetBought").to_int() < 7))
 		{

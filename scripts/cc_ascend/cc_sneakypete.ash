@@ -239,36 +239,67 @@ boolean pete_buySkills()
 	matcher my_cyclePoints = create_matcher("Upping Your Grade", page);
 	while(my_cyclePoints.find())
 	{
+		print("Found Upping Your Grade", "blue");
+		int firstChoice = -1;
+		int secondChoice = -1;
 		if(get_property("peteMotorbikeCowling") == "")
 		{
-			run_choice(4);
-			run_choice(3);
+			firstChoice = 4;
+			secondChoice = 3;
 		}
 		else if(get_property("peteMotorbikeTires") == "")
 		{
-			run_choice(1);
-			run_choice(1);
+			firstChoice = 1;
+			secondChoice = 1;
 		}
 		else if(get_property("peteMotorbikeMuffler") == "")
 		{
-			run_choice(5);
-			run_choice(2);
+			firstChoice = 5;
+			secondChoice = 2;
 		}
 		else if(get_property("peteMotorbikeGasTank") == "")
 		{
-			run_choice(2);
-			run_choice(2);
+			firstChoice = 2;
+			secondChoice = 2;
 		}
 		else if(get_property("peteMotorbikeHeadlight") == "")
 		{
-			run_choice(3);
-			run_choice(3);
+			firstChoice = 3;
+			secondChoice = 3;
 		}
 		else if(get_property("peteMotorbikeSeat") == "")
 		{
+			firstChoice = 6;
+			secondChoice = 1;
 			run_choice(6);
-			run_choice(1);
 		}
+
+		if(firstChoice == -1)
+		{
+			break;
+		}
+
+		page = visit_url("choice.php?pwd=&whichchoice=859&option=" + firstChoice);
+
+		/*
+		//As of r18887, mafia can not handle this. run_choice() does not work properly.
+		run_choice(firstChoice);
+		if(last_choice() == 859)
+		{
+			print("Ugh, mafia did not update what choice we are on, let's try to fix this", "red");
+			string temp = visit_url("main.php");
+			if(last_choice() == 859)
+			{
+				abort("Could not trick mafia into realizing that we changed our choice");
+			}
+		}
+		run_choice(secondChoice);
+		*/
+		if(last_choice() == 859)
+		{
+			abort("Mafia is not handling this correctly, sorry");
+		}
+		page = visit_url("choice.php?pwd=&whichchoice=" + last_choice() + "&option=" + secondChoice);
 
 		page = visit_url("main.php?action=motorcycle");
 		my_cyclePoints = create_matcher("Upping Your Grade", page);

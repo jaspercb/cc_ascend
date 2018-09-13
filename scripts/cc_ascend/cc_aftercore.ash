@@ -1744,6 +1744,7 @@ boolean cc_cheesePostCS(int leave)
 boolean cc_customMafiaAddress()
 {
 	print_html("<a href=\"http://cheesellc.com/kol/KoLmafia-" + get_revision() + "M.jar\" target=\"_blank\">Link to possible copy of Cheesecookie\'s Custom Mafia build.</a>");
+	print("http://cheesellc.com/kol/KoLmafia-" + get_revision() + "M.jar");
 	return true;
 }
 

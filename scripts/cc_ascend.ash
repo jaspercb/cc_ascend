@@ -8097,10 +8097,15 @@ boolean L12_orchardFinalize()
 
 boolean L10_plantThatBean()
 {
-	if((my_level() < 10) || get_property("cc_bean").to_boolean())
+	if(my_level() < 10)
 	{
 		return false;
 	}
+	if(get_property("cc_bean").to_boolean())
+	{
+		return false;
+	}
+
 	council();
 	print("Planting me magic bean!", "blue");
 	string page = visit_url("place.php?whichplace=plains");
@@ -8114,6 +8119,11 @@ boolean L10_plantThatBean()
 	if(item_amount($item[Enchanted Bean]) > 0)
 	{
 		use(1, $item[Enchanted Bean]);
+		set_property("cc_bean", true);
+		return true;
+	}
+	else if(my_class() == $class[Ed])
+	{
 		set_property("cc_bean", true);
 		return true;
 	}
@@ -9929,7 +9939,7 @@ boolean L4_batCave()
 
 	if(batStatus >= 4)
 	{
-		if((item_amount($item[Enchanted Bean]) == 0) && !get_property("cc_bean").to_boolean())
+		if((item_amount($item[Enchanted Bean]) == 0) && !get_property("cc_bean").to_boolean() && (my_class() != $class[Ed]))
 		{
 			ccAdv(1, $location[The Beanbat Chamber]);
 			return true;
@@ -9952,7 +9962,7 @@ boolean L4_batCave()
 	}
 	if(batStatus >= 2)
 	{
-		if((item_amount($item[Enchanted Bean]) == 0) && !get_property("cc_bean").to_boolean())
+		if((item_amount($item[Enchanted Bean]) == 0) && !get_property("cc_bean").to_boolean() && (my_class() != $class[Ed]))
 		{
 			ccAdv(1, $location[The Beanbat Chamber]);
 			return true;
@@ -10744,14 +10754,63 @@ boolean LX_phatLootToken()
 	}
 
 	print("Phat Loot Token Get!", "blue");
-	set_property("choiceAdventure690", "2");
 	set_property("choiceAdventure691", "2");
-	set_property("choiceAdventure692", "3");
-	set_property("choiceAdventure693", "2");
 	if(item_amount($item[Ring Of Detect Boring Doors]) > 0)
 	{
 		equip($slot[acc3], $item[Ring Of Detect Boring Doors]);
 	}
+
+	backupSetting("choiceAdventure692", 4);
+	if(item_amount($item[Platinum Yendorian Express Card]) > 0)
+	{
+		backupSetting("choiceAdventure692", 7);
+	}
+	else if(item_amount($item[Pick-O-Matic Lockpicks]) > 0)
+	{
+		backupSetting("choiceAdventure692", 3);
+	}
+	else
+	{
+		int keysNeeded = 2;
+		if(contains_text(get_property("nsTowerDoorKeysUsed"), $item[Skeleton Key]))
+		{
+			keysNeeded = 1;
+		}
+
+		if((item_amount($item[Skeleton Key]) < keysNeeded) && (available_amount($item[Skeleton Key]) >= keysNeeded))
+		{
+			cli_execute("make 1 " + $item[Skeleton Key]);
+		}
+		if((item_amount($item[Skeleton Key]) < keysNeeded) && (available_amount($item[Skeleton Key]) >= keysNeeded))
+		{
+			cli_execute("make 1 " + $item[Skeleton Key]);
+		}
+		if(item_amount($item[Skeleton Key]) >= keysNeeded)
+		{
+			backupSetting("choiceAdventure692", 2);
+		}
+	}
+
+	if(item_amount($item[Eleven-Foot Pole]) > 0)
+	{
+		backupSetting("choiceAdventure693", 2);
+	}
+	else
+	{
+		backupSetting("choiceAdventure693", 1);
+	}
+	if(equipped_amount($item[Ring of Detect Boring Doors]) > 0)
+	{
+		backupSetting("choiceAdventure690", 2);
+		backupSetting("choiceAdventure691", 2);
+	}
+	else
+	{
+		backupSetting("choiceAdventure690", 3);
+		backupSetting("choiceAdventure691", 3);
+	}
+
+
 	ccAdv(1, $location[The Daily Dungeon]);
 	if(possessEquipment($item[Ring Of Detect Boring Doors]))
 	{
@@ -10761,6 +10820,11 @@ boolean LX_phatLootToken()
 	{
 		set_property("cc_phatloot", "" + my_daycount());
 	}
+	restoreSetting("choiceAdventure690");
+	restoreSetting("choiceAdventure691");
+	restoreSetting("choiceAdventure692");
+	restoreSetting("choiceAdventure693");
+
 	return true;
 }
 
