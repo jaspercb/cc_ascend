@@ -2369,6 +2369,8 @@ boolean isFreeMonster(monster mon)
 
 	boolean[monster] lovecrate = $monsters[LOV Enforcer, LOV Engineer, LOV Equivocator];
 
+	boolean[monster] neverland = $monsters[biker, burnout, jock, party girl, "plain" girl];
+
 	boolean[monster] other = $monsters[giant rubber spider, God Lobster, lynyrd, time-spinner prank, Travoltron];
 
 	//boolean[monster] protonGhosts: See isProtonGhost, we want to detect these separately as well so we\'ll functionalize it here.
@@ -2412,6 +2414,14 @@ boolean isFreeMonster(monster mon)
 	if(isProtonGhost(mon))
 	{
 		return true;
+	}
+
+	if(neverland contains mon)
+	{
+		if(get_property("_neverendingPartyFreeTurns").to_int() < 10)
+		{
+			return true;
+		}
 	}
 
 	if($monsters[Perceiver of Sensations, Performer of Actions, Thinker of Thoughts] contains mon)

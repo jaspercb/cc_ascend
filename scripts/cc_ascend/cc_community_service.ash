@@ -886,24 +886,27 @@ boolean LA_cs_communityService()
 				return true;
 			}
 
-			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && !is100FamiliarRun($familiar[Machine Elf]))
+			if(!get_property("cc_hccsNoConcludeDay").to_boolean())
 			{
-				backupSetting("choiceAdventure1119", 1);
-				handleFamiliar($familiar[Machine Elf]);
-				ccAdv(1, $location[The Deep Machine Tunnels]);
-				restoreSetting("choiceAdventure1119");
-				set_property("choiceAdventure1119", "");
-				return true;
-			}
+				if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && !is100FamiliarRun($familiar[Machine Elf]))
+				{
+					backupSetting("choiceAdventure1119", 1);
+					handleFamiliar($familiar[Machine Elf]);
+					ccAdv(1, $location[The Deep Machine Tunnels]);
+					restoreSetting("choiceAdventure1119");
+					set_property("choiceAdventure1119", "");
+					return true;
+				}
 
-			if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() == 5) && ($location[The Deep Machine Tunnels].turns_spent == 5) && (my_adventures() > 0) && !is100FamiliarRun($familiar[Machine Elf]))
-			{
-				backupSetting("choiceAdventure1119", 1);
-				handleFamiliar($familiar[Machine Elf]);
-				ccAdv(1, $location[The Deep Machine Tunnels]);
-				restoreSetting("choiceAdventure1119");
-				set_property("choiceAdventure1119", "");
-				return true;
+				if(have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() == 5) && ($location[The Deep Machine Tunnels].turns_spent == 5) && (my_adventures() > 0) && !is100FamiliarRun($familiar[Machine Elf]))
+				{
+					backupSetting("choiceAdventure1119", 1);
+					handleFamiliar($familiar[Machine Elf]);
+					ccAdv(1, $location[The Deep Machine Tunnels]);
+					restoreSetting("choiceAdventure1119");
+					set_property("choiceAdventure1119", "");
+					return true;
+				}
 			}
 
 			if(canYellowRay() && elementalPlanes_access($element[hot]))
@@ -954,6 +957,11 @@ boolean LA_cs_communityService()
 				{
 					tomatoCheck = 2;
 					tomatoMake = 2;
+				}
+				if(get_property("cc_hccsNoConcludeDay").to_boolean())
+				{
+					tomatoCheck = 1;
+					tomatoMake = 1;
 				}
 				if((item_amount($item[Tomato Juice of Powerful Power]) < tomatoCheck) && (freeCrafts() > 0) && (item_amount($item[Scrumptious Reagent]) >= 2) && have_skill($skill[Advanced Saucecrafting]))
 				{
@@ -1234,6 +1242,12 @@ boolean LA_cs_communityService()
 					tomatoCheck = 2;
 					expertiseCheck = 1;
 				}
+				if(get_property("cc_hccsNoConcludeDay").to_boolean())
+				{
+					tomatoCheck = 1;
+					tomatoMake = 1;
+					expertiseCheck = 1;
+				}
 				if(!have_skill($skill[Rapid Prototyping]) && have_skill($skill[Inigo\'s Incantation of Inspiration]))
 				{
 					shrugAT($effect[Inigo\'s Incantation of Inspiration]);
@@ -1275,6 +1289,11 @@ boolean LA_cs_communityService()
 
 			if(!get_property("cc_hccsNoConcludeDay").to_boolean())
 			{
+				zataraSeaside(my_primestat());
+				if(neverendingPartyCombat())
+				{
+					return true;
+				}
 				if(snojoFightAvailable() && (my_adventures() > 0))
 				{
 					familiar oldFam = my_familiar();
@@ -1341,8 +1360,6 @@ boolean LA_cs_communityService()
 					visit_url("choice.php?whichchoice=1181&pwd=&option=3");
 					visit_url("choice.php?whichchoice=1183&pwd=&option=2");
 				}
-				zataraSeaside(my_primestat());
-
 				while(cs_witchess());
 				while(godLobsterCombat());
 
@@ -2086,7 +2103,7 @@ boolean LA_cs_communityService()
 
 			int needCost = lastQuestCost + currentCost;
 
-			if(my_inebriety() == 4)
+			if(inebriety_left() >= 10)
 			{
 				if(my_adventures() < needCost)
 				{
@@ -2233,12 +2250,15 @@ boolean LA_cs_communityService()
 			{
 				doRest();
 			}
+
+			//This needs to be cleaned up.
 			if(((my_inebriety() == 5) || (my_inebriety() == 11)) && (have_effect($effect[In A Lather]) == 0))
 			{
 				shrugAT($effect[Ode to Booze]);
 				buffMaintain($effect[Ode to Booze], 50, 1, 2);
 				cli_execute("drink sockdollager");
 			}
+
 //			januaryToteAcquire($item[Broken Champagne Bottle]);
 
 			while((my_mp() < 207) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())

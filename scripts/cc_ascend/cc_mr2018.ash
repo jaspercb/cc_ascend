@@ -14,11 +14,33 @@ int januaryToteTurnsLeft(item it)
 	}
 
 	int score = 0;
+
+	if(get_revision() < 18848)
+	{
+		switch(it)
+		{
+		case $item[Deceased Crimbo Tree]:		score = get_property("_garbageTreeCharge").to_int();		break;
+		case $item[Broken Champagne Bottle]:	score = get_property("_garbageChampagneCharge").to_int();	break;
+		case $item[Makeshift Garbage Shirt]:	score = get_property("_garbageShirtCharge").to_int();		break;
+		}
+		return score;
+	}
+
 	switch(it)
 	{
-	case $item[Deceased Crimbo Tree]:		score = get_property("_garbageTreeCharge").to_int();		break;
-	case $item[Broken Champagne Bottle]:	score = get_property("_garbageChampagneCharge").to_int();	break;
-	case $item[Makeshift Garbage Shirt]:	score = get_property("_garbageShirtCharge").to_int();		break;
+	case $item[Deceased Crimbo Tree]:		score = get_property("garbageTreeCharge").to_int();			break;
+	case $item[Broken Champagne Bottle]:	score = get_property("garbageChampagneCharge").to_int();	break;
+	case $item[Makeshift Garbage Shirt]:	score = get_property("garbageShirtCharge").to_int();		break;
+	}
+
+	if(!get_property("_garbageItemChanged").to_boolean())
+	{
+		switch(it)
+		{
+		case $item[Deceased Crimbo Tree]:		score += 1000;		break;
+		case $item[Broken Champagne Bottle]:	score += 11;		break;
+		case $item[Makeshift Garbage Shirt]:	score += 37;		break;
+		}
 	}
 	return score;
 }
@@ -27,7 +49,24 @@ boolean januaryToteAcquire(item it)
 {
 	if(possessEquipment(it))
 	{
-		return false;
+		int score = 1;
+		switch(it)
+		{
+		case $item[Deceased Crimbo Tree]:		score = get_property("garbageTreeCharge").to_int();			break;
+		case $item[Broken Champagne Bottle]:	score = get_property("garbageChampagneCharge").to_int();	break;
+		case $item[Makeshift Garbage Shirt]:	score = get_property("garbageShirtCharge").to_int();		break;
+		}
+		if(score == 0)
+		{
+			if(get_property("_garbageItemChanged").to_boolean())
+			{
+				score = 1;
+			}
+		}
+		if(score > 0)
+		{
+			return false;
+		}
 	}
 	if(item_amount($item[January\'s Garbage Tote]) == 0)
 	{
@@ -523,4 +562,149 @@ boolean cheeseWarMachine(int stats, int it, int eff, int potion)
 	visit_url("choice.php?whichchoice=1316&option=3&pwd=" + my_hash());
 	set_property("_cheeseWarMachine", true);
 	return true;
+}
+
+boolean neverendingPartyCombat()
+{
+	return neverendingPartyCombat(my_primestat());
+}
+
+boolean neverendingPartyCombat(stat st)
+{
+	return neverendingPartyCombat(st, false);
+}
+
+boolean neverendingPartyCombat(effect ef)
+{
+	return neverendingPartyCombat(ef, false);
+}
+
+
+boolean neverendingPartyCombat(stat st, boolean hardmode)
+{
+	return neverendingPartyCombat(st, hardmode, "");
+}
+
+boolean neverendingPartyCombat(effect ef, boolean hardmode)
+{
+	return neverendingPartyCombat(ef, hardmode, "");
+}
+
+boolean neverendingPartyCombat(stat st, boolean hardmode, string option)
+{
+	switch(st)
+	{
+	case $stat[Muscle]:			return neverendingPartyCombat($effect[Spiced Up], hardmode, option);
+	case $stat[Mysticality]:	return neverendingPartyCombat($effect[Tomes of Opportunity], hardmode, option);
+	case $stat[Moxie]:			return neverendingPartyCombat($effect[The Best Hair You\'ve Ever Had], hardmode, option);
+	}
+	return neverendingPartyCombat($effect[none], hardmode, option);
+}
+
+
+boolean neverendingPartyCombat(effect eff, boolean hardmode, string option)
+{
+	if(!get_property("neverendingPartyAlways").to_boolean() && !get_property("_neverendingPartyToday").to_boolean())
+	{
+		return false;
+	}
+	if(get_property("_neverendingPartyFreeTurns").to_int() >= 10)
+	{
+		if(get_property("_neverendingNotEarly").to_boolean())
+		{
+			return false;
+		}
+		string page = visit_url("place.php?whichplace=town_wrong", false);
+		if(!contains_text(page, "The Neverending Party (Early)"))
+		{
+			set_property("_neverendingNotEarly", true);
+			return false;
+		}
+	}
+	if(get_property("_neverendingPartyOver").to_boolean())
+	{
+		return false;
+	}
+	if(!is_unrestricted($item[Neverending Party invitation envelope]))
+	{
+		return false;
+	}
+	if(inebriety_left() < 0)
+	{
+		return false;
+	}
+	if(hardmode)
+	{
+		if(!possessEquipment($item[PARTY HARD T-shirt]) || !hasTorso())
+		{
+			return false;
+		}
+	}
+	//May need to actually have 1 adventure left.
+
+	backupSetting("choiceAdventure1322", 1);
+
+	switch(eff)
+	{
+	case $effect[Spiced Up]:
+		backupSetting("choiceAdventure1324", 2);
+		backupSetting("choiceAdventure1326", 2);
+		break;
+	case $effect[Tomes of Opportunity]:
+		backupSetting("choiceAdventure1324", 1);
+		backupSetting("choiceAdventure1325", 2);
+		break;
+	case $effect[Citronella Armpits]:
+		backupSetting("choiceAdventure1324", 3);
+		backupSetting("choiceAdventure1327", 2);
+		break;
+	case $effect[The Best Hair You\'ve Ever Had]:
+		backupSetting("choiceAdventure1324", 4);
+		backupSetting("choiceAdventure1328", 2);
+		break;
+	case $effect[none]:
+		backupSetting("choiceAdventure1324", 5);
+		break;
+	default:
+		return false;
+	}
+
+	item shirt = equipped_item($slot[shirt]);
+	if(hardmode)
+	{
+		equip($slot[shirt], $item[PARTY HARD T-shirt]);
+	}
+
+	boolean retval;
+
+	if(get_property("choiceAdventure1324").to_int() == 5)
+	{
+		string[int] pages;
+		pages[0] = "choice.php?pwd&whichchoice=1324&option=" + get_property("choiceAdventure1324");
+		retval = ccAdvBypass(0, pages, $location[The Neverending Party], option);
+	}
+	else
+	{
+		retval = ccAdv(1, $location[The Neverending Party], option);
+	}
+
+
+	restoreSetting("choiceAdventure1322");
+	restoreSetting("choiceAdventure1324");
+	restoreSetting("choiceAdventure1325");
+	restoreSetting("choiceAdventure1326");
+	restoreSetting("choiceAdventure1327");
+	restoreSetting("choiceAdventure1328");
+
+	if(shirt != $item[none])
+	{
+		equip($slot[shirt], shirt);
+	}
+
+	if(get_property("lastEncounter") == "Party\'s Over")
+	{
+		set_property("_neverendingPartyOver", true);
+		return false;
+	}
+	return retval;
 }

@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18774;
+since r18892;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -328,7 +328,7 @@ boolean handleFamiliar(string type)
 			fams = ListRemove(fams, $familiar[Angry Jung Man]);
 			fams = ListInsertAt(fams, $familiar[Angry Jung Man], 0);
 		}
-		if(get_property("_catBurglarCharge").to_int() < 30)
+		if((get_property("_catBurglarCharge").to_int() < 30) && (estimatedTurnsLeft() > (30 - get_property("_catBurglarCharge").to_int())))
 		{
 			fams = ListRemove(fams, $familiar[Cat Burglar]);
 			fams = ListInsertAt(fams, $familiar[Cat Burglar], fams.ListFind($familiar[XO Skeleton]));
@@ -2161,7 +2161,7 @@ boolean dailyEvents()
 
 	chateaumantegna_useDesk();
 
-	if((item_amount($item[Burned Government Manual Fragment]) > 0) && is_unrestricted($item[Burned Government Manual Fragment]))
+	if((item_amount($item[Burned Government Manual Fragment]) > 0) && is_unrestricted($item[Burned Government Manual Fragment]) && get_property("cc_alienLanguage").to_boolean())
 	{
 		use(item_amount($item[Burned Government Manual Fragment]), $item[Burned Government Manual Fragment]);
 	}
@@ -8579,6 +8579,11 @@ boolean LX_freeCombats()
 		return false;
 	}
 
+	if(neverendingPartyCombat())
+	{
+		return true;
+	}
+
 	if(cc_have_familiar($familiar[Machine Elf]) && (get_property("_machineTunnelsAdv").to_int() < 5) && (my_adventures() > 0) && !is100FamiliarRun())
 	{
 		if(get_property("cc_choice1119") != "")
@@ -8626,7 +8631,10 @@ boolean LX_freeCombats()
 		return true;
 	}
 
-	while(godLobsterCombat());
+	if(godLobsterCombat())
+	{
+		return true;
+	}
 
 	return false;
 }
@@ -13854,10 +13862,6 @@ boolean L8_trapperYeti()
 
 boolean cc_tavern()
 {
-	if(my_name() == "cheesecookie")
-	{
-		return false;
-	}
 	if(get_property("cc_tavern") == "finished")
 	{
 		return false;
