@@ -640,6 +640,10 @@ boolean neverendingPartyCombat(effect eff, boolean hardmode, string option)
 			return false;
 		}
 	}
+	if(!hardmode && possessEquipment($item[PARTY HARD T-shirt]))
+	{
+		return false;
+	}
 	//May need to actually have 1 adventure left.
 
 	backupSetting("choiceAdventure1322", 1);
