@@ -1506,6 +1506,7 @@ boolean LA_cs_communityService()
 			{
 				equip($item[Barrel Lid]);
 			}
+			januaryToteAcquire($item[Wad Of Used Tape]);
 
 			if(item_amount($item[Ben-Gal&trade; Balm]) == 0)
 			{
@@ -1713,6 +1714,7 @@ boolean LA_cs_communityService()
 
 	case 2:		#Muscle Quest
 		{
+			januaryToteAcquire($item[Wad Of Used Tape]);
 			if((get_property("frAlways").to_boolean() || get_property("_frToday").to_boolean()) && !possessEquipment($item[FantasyRealm G. E. M.]))
 			{
 				visit_url("place.php?whichplace=realm_fantasy&action=fr_initcenter", false);
@@ -1823,6 +1825,7 @@ boolean LA_cs_communityService()
 
 	case 3:		#Myst Quest
 		{
+			januaryToteAcquire($item[Wad Of Used Tape]);
 			buyUpTo(1, $item[Glittery Mascara]);
 
 			if((item_amount($item[Saucepanic]) > 0) && have_skill($skill[Double-Fisted Skull Smashing]))
@@ -1921,6 +1924,7 @@ boolean LA_cs_communityService()
 
 	case 4:		#Moxie Quest
 		{
+			januaryToteAcquire($item[Wad Of Used Tape]);
 			buyUpTo(1, $item[Hair Spray]);
 
 			while((my_mp() < 142) && (get_property("timesRested").to_int() < total_free_rests()) && chateaumantegna_available())

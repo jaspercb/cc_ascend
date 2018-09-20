@@ -8579,7 +8579,7 @@ boolean LX_freeCombats()
 		return false;
 	}
 
-	if(neverendingPartyCombat())
+	if((cc_my_path() != "Disguises Delimit") && neverendingPartyCombat())
 	{
 		return true;
 	}
