@@ -894,6 +894,7 @@ boolean cc_cheesePostCS()
 
 boolean cc_cheesePostCS(int leave)
 {
+	set_property("cc_disableAdventureHandling", false);
 	int startMeat = get_property("_todayMeat").to_int();
 	if(startMeat == 0)
 	{
@@ -905,7 +906,14 @@ boolean cc_cheesePostCS(int leave)
 	cc_sourceTerminalEnhance("meat");
 	cc_sourceTerminalEnhance("items");
 	zataraSeaside("meatsmith");
-	songboomSetting($item[Special Seasoning]);
+	if(item_amount($item[Special Seasoning]) < 1000)
+	{
+		songboomSetting($item[Special Seasoning]);
+	}
+	else
+	{
+		songboomSetting($item[Gathered Meat-Clip]);
+	}
 	getHorse("meat");
 
 	if(((my_daycount() == 2) && isOverdueDigitize()) || get_property("_cc_specialAftercore").to_boolean())

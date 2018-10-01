@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18892;
+since r18887;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -5658,7 +5658,15 @@ boolean L11_hiddenCity()
 
 			buffMaintain($effect[Fishy Whiskers], 0, 1, 1);
 			print("Hidden Bowling Alley Progress: " + get_property("hiddenBowlingAlleyProgress"), "blue");
+//			if(have_familiar($familiar[Cat Burglar]))
+//			{
+//				handleFamiliar($familiar[Cat Burglar]);
+//			}
 			ccAdv(1, $location[The Hidden Bowling Alley]);
+//			if(last_monster() == $monster[Pygmy Bowler])
+//			{
+//				abort("Pygmy!");
+//			}
 
 			return true;
 		}
@@ -13926,19 +13934,31 @@ boolean cc_tavern()
 			mod = string_modifier($item[Kremlin\'s Greatest Briefcase], "Modifiers");
 			if(contains_text(mod, "Hot Damage"))
 			{
-				buffMaintain($effect[Pyromania], 20, 1, 1);
-				buffMaintain($effect[Frostbeard], 20, 1, 1);
-				buffMaintain($effect[Rotten Memories], 20, 1, 1);
-				if(have_skill($skill[Intimidating Mien]))
-				{
-					buffMaintain($effect[Intimidating Mien], 20, 1, 1);
-				}
-				else
-				{
-					buffMaintain($effect[Dirge of Dreadfulness], 20, 1, 1);
-					buffMaintain($effect[Snarl of the Timberwolf], 20, 1, 1);
-				}
 				equip($slot[acc3], $item[Kremlin\'s Greatest Briefcase]);
+				if(numeric_modifier("Hot Damage") < 20.0)
+				{
+					buffMaintain($effect[Pyromania], 20, 1, 1);
+				}
+				if(numeric_modifier("Cold Damage") < 20.0)
+				{
+					buffMaintain($effect[Frostbeard], 20, 1, 1);
+				}
+				if(numeric_modifier("Stench Damage") < 20.0)
+				{
+					buffMaintain($effect[Rotten Memories], 20, 1, 1);
+				}
+				if(numeric_modifier("Spooky Damage") < 20.0)
+				{
+					if(have_skill($skill[Intimidating Mien]))
+					{
+						buffMaintain($effect[Intimidating Mien], 20, 1, 1);
+					}
+					else
+					{
+						buffMaintain($effect[Dirge of Dreadfulness], 20, 1, 1);
+						buffMaintain($effect[Snarl of the Timberwolf], 20, 1, 1);
+					}
+				}
 			}
 		}
 

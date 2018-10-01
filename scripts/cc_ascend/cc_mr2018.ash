@@ -176,12 +176,12 @@ boolean godLobsterCombat(item it, int goal, string option)
 	}
 
 	familiar last = my_familiar();
+	item lastGear = equipped_item($slot[familiar]);
+
 	handleFamiliar($familiar[God Lobster]);
 	use_familiar($familiar[God Lobster]);
 
-	item lastGear = equipped_item($slot[familiar]);
-
-	if(lastGear != it)
+	if((equipped_item($slot[familiar]) != it) && (it != $item[none]))
 	{
 		equip($slot[familiar], it);
 	}
@@ -222,15 +222,23 @@ boolean godLobsterCombat(item it, int goal, string option)
 	}
 
 	set_property("cc_disableAdventureHandling", false);
-	if(equipped_item($slot[familiar]) != lastGear)
-	{
-		equip($slot[familiar], lastGear);
-	}
 	if(my_familiar() != last)
 	{
 		use_familiar(last);
 	}
+	if(equipped_item($slot[familiar]) != lastGear)
+	{
+		equip($slot[familiar], lastGear);
+	}
+
 	cli_execute("postcheese");
+
+	# r18906 seems to lose track of the astral pet sweater. Ugh.
+	cli_execute("refresh all");
+	if(equipped_item($slot[familiar]) != lastGear)
+	{
+		abort("Mafia lost track of our familiar equipment. Ugh...");
+	}
 	return true;
 }
 
