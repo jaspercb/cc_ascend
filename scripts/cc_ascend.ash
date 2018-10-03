@@ -1582,15 +1582,15 @@ int handlePulls(int day)
 
 		if(((cc_my_path() == "Picky") || is100FamiliarRun()) && (item_amount($item[Deck of Every Card]) == 0) && (fullness_left() >= 4))
 		{
-			if((item_amount($item[Boris\'s Key]) == 0) && canEat($item[Boris\'s Key Lime Pie]))
+			if((item_amount($item[Boris\'s Key]) == 0) && canEat($item[Boris\'s Key Lime Pie]) && !contains_text(get_property("nsTowerDoorKeysUsed"), $item[Boris\'s Key]))
 			{
 				pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
 			}
-			if((item_amount($item[Sneaky Pete\'s Key]) == 0) && canEat($item[Sneaky Pete\'s Key Lime Pie]))
+			if((item_amount($item[Sneaky Pete\'s Key]) == 0) && canEat($item[Sneaky Pete\'s Key Lime Pie]) && !contains_text(get_property("nsTowerDoorKeysUsed"), $item[Sneaky Pete\'s Key]))
 			{
 				pullXWhenHaveY($item[Sneaky Pete\'s Key Lime Pie], 1, 0);
 			}
-			if((item_amount($item[Jarlsberg\'s Key]) == 0) && canEat($item[Jarlsberg\'s Key Lime Pie]))
+			if((item_amount($item[Jarlsberg\'s Key]) == 0) && canEat($item[Jarlsberg\'s Key Lime Pie]) && !contains_text(get_property("nsTowerDoorKeysUsed"), $item[Jarlsberg\'s Key]))
 			{
 				pullXWhenHaveY($item[Jarlsberg\'s Key Lime Pie], 1, 0);
 			}
@@ -2074,15 +2074,15 @@ void initializeDay(int day)
 
 			if(!get_property("cc_useCubeling").to_boolean() && (towerKeyCount() == 0) && (fullness_left() >= 4))
 			{
-				if((item_amount($item[Boris\'s Key]) == 0) && canEat($item[Boris\'s Key Lime Pie]))
+				if((item_amount($item[Boris\'s Key]) == 0) && canEat($item[Boris\'s Key Lime Pie]) && !contains_text(get_property("nsTowerDoorKeysUsed"), $item[Boris\'s Key]))
 				{
 					pullXWhenHaveY($item[Boris\'s Key Lime Pie], 1, 0);
 				}
-				if((item_amount($item[Sneaky Pete\'s Key]) == 0) && canEat($item[Sneaky Pete\'s Key Lime Pie]))
+				if((item_amount($item[Sneaky Pete\'s Key]) == 0) && canEat($item[Sneaky Pete\'s Key Lime Pie]) && !contains_text(get_property("nsTowerDoorKeysUsed"), $item[Sneaky Pete\'s Key]))
 				{
 					pullXWhenHaveY($item[Sneaky Pete\'s Key Lime Pie], 1, 0);
 				}
-				if((item_amount($item[Jarlsberg\'s Key]) == 0) && canEat($item[Jarlsberg\'s Key Lime Pie]))
+				if((item_amount($item[Jarlsberg\'s Key]) == 0) && canEat($item[Jarlsberg\'s Key Lime Pie]) && !contains_text(get_property("nsTowerDoorKeysUsed"), $item[Jarlsberg\'s Key]))
 				{
 					pullXWhenHaveY($item[Jarlsberg\'s Key Lime Pie], 1, 0);
 				}
@@ -2314,7 +2314,10 @@ boolean doBedtime()
 	ed_terminateSession();
 
 	equipBaseline();
-	while(LX_freeCombats());
+	if(LX_freeCombats())
+	{
+		return false;
+	}
 
 	if((my_class() == $class[Seal Clubber]) && guild_store_available() && isHermitAvailable())
 	{
@@ -4912,6 +4915,16 @@ boolean L13_towerNSContests()
 			{
 				ccMaximize(challenge + " dmg, " + challenge + " spell dmg -equip snow suit", 1500, 0, false);
 			}
+
+	
+
+			float score = numeric_modifier(challenge + " damage ");
+			score += numeric_modifier(challenge + " spell damage ");
+			if((score > 20.0) && (score < 85.0))
+			{
+				buffMaintain($effect[Bendin\' Hell], 100, 1, 1);
+			}
+
 			visit_url("place.php?whichplace=nstower&action=ns_01_contestbooth");
 			visit_url("choice.php?pwd=&whichchoice=1003&option=3", true);
 			visit_url("main.php");
@@ -8589,6 +8602,9 @@ boolean LX_freeCombats()
 
 	if((cc_my_path() != "Disguises Delimit") && neverendingPartyCombat())
 	{
+		loopHandlerDelay("_cc_lastABooCycleFix");
+		loopHandlerDelay("_cc_digitizeDeskCounter");
+		loopHandlerDelay("_cc_digitizeAssassinCounter");
 		return true;
 	}
 
@@ -11364,6 +11380,11 @@ boolean L12_startWar()
 	//Yes, we are going to make sure swordfish is complete first.
 	//We might want to put this on a timer
 	if(get_property("cc_swordfish") != "finished")
+	{
+		return false;
+	}
+
+	if((my_basestat($stat[Muscle]) < 70) || (my_basestat($stat[Mysticality]) < 70) || (my_basestat($stat[Moxie]) < 70))
 	{
 		return false;
 	}
@@ -14373,11 +14394,21 @@ boolean doTasks()
 	if(cc_my_path() != "Community Service")
 	{
 		cheeseWarMachine(0, 0, 0, 0);
-		switch(my_daycount())
+
+		int turnGoal = 0;
+		if((my_class() == $class[Ed]) && !possessEquipment($item[The Crown Of Ed The Undying]))
 		{
-		case 1:		loveTunnelAcquire(true, $stat[none], true, 1, true, 3);		break;
-		case 2:		loveTunnelAcquire(true, $stat[none], true, 3, true, 1);		break;
-		default:	loveTunnelAcquire(true, $stat[none], true, 2, true, 1);		break;
+			turnGoal = 15;
+		}
+
+		if(my_turncount() >= turnGoal)
+		{
+			switch(my_daycount())
+			{
+			case 1:		loveTunnelAcquire(true, $stat[none], true, 1, true, 3);		break;
+			case 2:		loveTunnelAcquire(true, $stat[none], true, 3, true, 1);		break;
+			default:	loveTunnelAcquire(true, $stat[none], true, 2, true, 1);		break;
+			}
 		}
 	}
 

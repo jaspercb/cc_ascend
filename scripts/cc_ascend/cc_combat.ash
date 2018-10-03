@@ -1659,6 +1659,11 @@ string cc_combatHandler(int round, string opp, string text)
 		}
 	}
 
+	if( (enemy == $monster[LOV Enforcer]) && have_skill($skill[Saucestorm]) && (my_mp() >= mp_cost($skill[Saucestorm])))
+	{
+		return "skill " + $skill[Saucestorm];
+	}
+
 
 	string attackMinor = "attack with weapon";
 	string attackMajor = "attack with weapon";

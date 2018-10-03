@@ -1018,6 +1018,12 @@ boolean LA_cs_communityService()
 				equip($slot[Off-hand], $item[KoL Con 13 Snowglobe]);
 				pulverizeThing($item[A Light That Never Goes Out]);
 			}
+			if(possessEquipment($item[Latte Lovers Member\'s Mug]) && (equipped_item($slot[Off-Hand]) == $item[A Light That Never Goes Out]))
+			{
+				equip($slot[Off-hand], $item[Latte Lovers Member\'s Mug]);
+				pulverizeThing($item[A Light That Never Goes Out]);
+			}
+
 			if(turnSave)
 			{
 				doFarm = false;
@@ -1290,6 +1296,7 @@ boolean LA_cs_communityService()
 			if(!get_property("cc_hccsNoConcludeDay").to_boolean())
 			{
 				zataraSeaside(my_primestat());
+				buffMaintain($effect[Polka Of Plenty], 30, 1, 10 - get_property("_neverendingPartyFreeTurns").to_int());
 				if(neverendingPartyCombat())
 				{
 					return true;
@@ -3187,7 +3194,14 @@ void cs_initializeDay(int day)
 				{
 					cli_execute("make bitch");
 				}
-				buyUpTo(1, $item[Antique Accordion]);
+				if(item_amount($item[Deck Of Every Card]) > 0)
+				{
+					buyUpTo(1, $item[Antique Accordion]);
+				}
+				else
+				{
+					buyUpTo(1, $item[Toy Accordion]);
+				}
 			}
 			else
 			{

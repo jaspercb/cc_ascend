@@ -1264,18 +1264,12 @@ boolean ed_handleAdventureServant(int num, location loc, string option)
 			}
 		}
 	}
-	if(($locations[Hippy Camp, The Secret Government Laboratory, The SMOOCH Army HQ, VYKEA] contains loc) && (my_daycount() == 1))
+	if(($locations[Hippy Camp, The Neverending Party, The Secret Government Laboratory, The SMOOCH Army HQ, VYKEA] contains loc) && (my_daycount() == 1))
 	{
 		handleServant($servant[Priest]);
 	}
 
-	if((loc == $location[The Defiled Nook]) ||
-		(loc == $location[The Haunted Library]) ||
-		(loc == $location[The Haunted Laundry Room]) ||
-		(loc == $location[The Haunted Wine Cellar]) ||
-		(loc == $location[Oil Peak]) ||
-		(loc == $location[The Hidden Bowling Alley]) ||
-		(loc == $location[A-Boo Peak]))
+	if($locations[A-Boo Peak, The Defiled Nook, The Haunted Laundry Room, The Haunted Library, The Haunted Wine Cellar, The Hidden Bowling Alley, Oil Peak] contains loc)
 	{
 		if(!handleServant($servant[Cat]))
 		{
@@ -1632,7 +1626,25 @@ boolean L1_ed_islandFallback()
 		}
 	}
 
+	if(get_property("neverendingPartyAlways").to_boolean() || get_property("_neverendingPartyToday").to_boolean())
+	{
+		backupSetting("choiceAdventure1322", 2);
+		if(have_effect($effect[Spiced Up]) == 0)
+		{
+			backupSetting("choiceAdventure1324", 2);
+			backupSetting("choiceAdventure1326", 2);
+		}
+		else
+		{
+			backupSetting("choiceAdventure1324", 5);
+		}
 
+		ccAdv(1, $location[The Neverending Party]);
+		restoreSetting("choiceAdventure1322");
+		restoreSetting("choiceAdventure1324");
+		restoreSetting("choiceAdventure1326");
+		return true;
+	}
 	if(elementalPlanes_access($element[stench]))
 	{
 		ccAdv(1, $location[Pirates of the Garbage Barges]);

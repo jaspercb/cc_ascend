@@ -1389,7 +1389,7 @@ boolean getHorse(string type)
 	}
 
 	int choice = -1;
-	if((type == "regen") || (type == "init"))
+	if((type == "regen") || (type == "init") || (get_property("cc_beatenUpCount").to_int() >= 20))
 	{
 		choice = 1;
 		if(get_property("_horsery") == "normal horse")
