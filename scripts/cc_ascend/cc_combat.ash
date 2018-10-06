@@ -606,6 +606,12 @@ string cc_combatHandler(int round, string opp, string text)
 		return "skill " + $skill[Apprivoisez La Tortue];
 	}
 
+	if(!contains_text(combatState, "lattegulp") && (get_property("_latteRefillsUsed").to_int() == 0) && !get_property("_latteDrinkUsed").to_boolean() && have_skill($skill[Gulp Latte]))
+	{
+		set_property("cc_combatHandler", combatState + "(lattegulp)");
+		return "skill " + $skill[Gulp Latte];
+	}
+
 	#Do not accidentally charge the nanorhino with a non-banisher
 	if((my_familiar() == $familiar[Nanorhino]) && (have_effect($effect[Nanobrawny]) == 0))
 	{

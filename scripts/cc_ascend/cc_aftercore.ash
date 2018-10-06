@@ -1261,7 +1261,6 @@ boolean cc_cheesePostCS(int leave)
 
 	cc_sourceTerminalEducate($skill[Extract], $skill[Turbo]);
 
-
 	if((item_amount($item[Confusing LED Clock]) > 0) && hippy_stone_broken() && (my_adventures() >= 6) && !get_property("_confusingLEDClockUsed").to_boolean())
 	{
 		use(1, $item[Confusing LED Clock]);
@@ -1282,7 +1281,14 @@ boolean cc_cheesePostCS(int leave)
 			print("Could not place a Confusing LED Clock", "red");
 		}
 	}
-	if(item_amount($item[The Crown of Ed the Undying]) > 0)
+
+	januaryToteAcquire($item[Wad Of Used Tape]);
+	cli_execute("/unequip all");
+	if(item_amount($item[Wad Of Used Tape]) > 0)
+	{
+		equip($item[Wad Of Used Tape]);
+	}
+	else if(item_amount($item[The Crown of Ed the Undying]) > 0)
 	{
 		equip($item[The Crown of Ed the Undying]);
 		adjustEdHat("meat");
@@ -1312,7 +1318,11 @@ boolean cc_cheesePostCS(int leave)
 	{
 		equip($item[Operation Patriot Shield]);
 	}
-	if((item_amount($item[Silver Cow Creamer]) > 0) && can_equip($item[Silver Cow Creamer]))
+	if((item_amount($item[Half A Purse]) > 0) && can_equip($item[Half A Purse]))
+	{
+		equip($item[Half A Purse]);
+	}
+	else if((item_amount($item[Silver Cow Creamer]) > 0) && can_equip($item[Silver Cow Creamer]))
 	{
 		equip($item[Silver Cow Creamer]);
 	}
@@ -1324,7 +1334,11 @@ boolean cc_cheesePostCS(int leave)
 	{
 		equip($slot[acc1], $item[Cheap Sunglasses]);
 	}
-	if(item_amount($item[Incredibly Dense Meat Gem]) > 0)
+	if((item_amount($item[Ring Of The Skeleton Lord]) > 0) && can_equip($item[Ring Of The Skeleton Lord]))
+	{
+		equip($slot[acc2], $item[Ring Of The Skeleton Lord]);
+	}
+	else if(item_amount($item[Incredibly Dense Meat Gem]) > 0)
 	{
 		equip($slot[acc2], $item[Incredibly Dense Meat Gem]);
 	}
@@ -1555,6 +1569,7 @@ boolean cc_cheesePostCS(int leave)
 		if((my_adventures() > leave) && (get_property("lastDMTDuplication").to_int() < my_ascensions()) && (item_amount($item[Clara\'s Bell]) > 0))
 		{
 			item toGet = $item[Eldritch Elixir];
+			toGet = $item[Denastified Haunch];
 			if(item_amount(toGet) == 0)
 			{
 				take_storage(1, toGet);

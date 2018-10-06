@@ -1,6 +1,6 @@
 script "cc_ascend.ash";
 notify cheesecookie;
-since r18887;
+since r18931;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
 	Killing is wrong, and bad. There should be a new, stronger word for killing like badwrong or badong. YES, killing is badong. From this moment, I will stand for the opposite of killing, gnodab.
@@ -2314,9 +2314,9 @@ boolean doBedtime()
 	ed_terminateSession();
 
 	equipBaseline();
-	if(LX_freeCombats())
+	while(LX_freeCombats())
 	{
-		return false;
+		handleFamiliar("stat");
 	}
 
 	if((my_class() == $class[Seal Clubber]) && guild_store_available() && isHermitAvailable())
@@ -10335,7 +10335,7 @@ boolean adventureFailureHandler()
 	if(my_location().turns_spent > 52)
 	{
 		boolean tooManyAdventures = false;
-		if(($locations[The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), The Deep Dark Jungle, Hippy Camp, Noob Cave, Oil Peak, Pirates of the Garbage Barges, The Secret Government Laboratory, Sloppy Seconds Diner, The SMOOCH Army HQ, Super Villain\'s Lair, Uncle Gator\'s Country Fun-Time Liquid Waste Sluice, VYKEA, The X-32-F Combat Training Snowman] contains my_location()) == false)
+		if(($locations[The Battlefield (Frat Uniform), The Battlefield (Hippy Uniform), The Deep Dark Jungle, Hippy Camp, The Neverending Party, Noob Cave, Oil Peak, Pirates of the Garbage Barges, The Secret Government Laboratory, Sloppy Seconds Diner, The SMOOCH Army HQ, Super Villain\'s Lair, Uncle Gator\'s Country Fun-Time Liquid Waste Sluice, VYKEA, The X-32-F Combat Training Snowman] contains my_location()) == false)
 		{
 			tooManyAdventures = true;
 		}
@@ -10343,6 +10343,14 @@ boolean adventureFailureHandler()
 		if(tooManyAdventures && (my_path() == "The Source"))
 		{
 			if($locations[The Haunted Ballroom, The Haunted Bathroom, The Haunted Bedroom, The Haunted Gallery] contains my_location())
+			{
+				tooManyAdventures = false;
+			}
+		}
+
+		if(tooManyAdventures && (my_class() == $class[Ed]))
+		{
+			if($locations[The Neverending Party, The Secret Government Laboratory] contains my_location())
 			{
 				tooManyAdventures = false;
 			}
