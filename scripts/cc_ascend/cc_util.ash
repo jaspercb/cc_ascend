@@ -662,6 +662,17 @@ boolean startGalaktikSubQuest()
 
 location provideAdvPHPZone()
 {
+	if(elementalPlanes_access($element[stench]))
+	{
+		if(($location[Barf Mountain].turns_spent <= 5) && !contains_text($location[Barf Mountain].noncombat_queue, "Welcome to Barf Mountain"))
+		{
+			return $location[Barf Mountain];
+		}
+		if(($location[Pirates of the Garbage Barges].turns_spent <= 5) && !contains_text($location[Pirates of the Garbage Barges].noncombat_queue, "Dead Men Smell No Tales"))
+		{
+			return $location[Pirates of the Garbage Barges];
+		}
+	}
 	if(elementalPlanes_access($element[sleaze]))
 	{
 		if(($location[Sloppy Seconds Diner].turns_spent <= 5) && !contains_text($location[Sloppy Seconds Diner].noncombat_queue, "Nothing Could Be Finer"))
@@ -716,14 +727,6 @@ location provideAdvPHPZone()
 	}
 	if(elementalPlanes_access($element[stench]))
 	{
-		if(($location[Barf Mountain].turns_spent <= 5) && !contains_text($location[Barf Mountain].noncombat_queue, "Welcome to Barf Mountain"))
-		{
-			return $location[Barf Mountain];
-		}
-		if(($location[Pirates of the Garbage Barges].turns_spent <= 5) && !contains_text($location[Pirates of the Garbage Barges].noncombat_queue, "Dead Men Smell No Tales"))
-		{
-			return $location[Pirates of the Garbage Barges];
-		}
 		if(($location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice].turns_spent <= 5) && !contains_text($location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice].noncombat_queue, "Gator Done"))
 		{
 			return $location[Uncle Gator\'s Country Fun-Time Liquid Waste Sluice];

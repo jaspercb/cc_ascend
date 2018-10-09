@@ -333,9 +333,6 @@ location[int] ListInsertInorder(location[int] list, location what);//Defined in 
 int ListFind(location[int] list, location what);			//Defined in cc_ascend/cc_list.ash
 int ListFind(location[int] list, location what, int idx);	//Defined in cc_ascend/cc_list.ash
 location ListOutput(location[int] list);					//Defined in cc_ascend/cc_list.ash
-int estimate_cs_questCost(int quest);						//Defined in cc_ascend/cc_community_service.ash
-int [int] get_cs_questList();								//Defined in cc_ascend/cc_community_service.ash
-boolean cc_csHandleGrapes();								//Defined in cc_ascend/cc_community_service.ash
 int [item] cc_get_campground();								//Defined in cc_ascend/cc_util.ash
 boolean basicAdjustML();									//Defined in cc_ascend/cc_util.ash
 boolean beatenUpResolution();								//Defined in cc_ascend.ash
@@ -439,6 +436,7 @@ void consumeStuff();										//Defined in cc_ascend/cc_cooking.ash
 boolean containsCombat(item it);							//Defined in cc_ascend/cc_combat.ash
 boolean containsCombat(skill sk);							//Defined in cc_ascend/cc_combat.ash
 boolean containsCombat(string action);						//Defined in cc_ascend/cc_combat.ash
+
 string cs_combatKing(int round, string opp, string text);	//Defined in cc_ascend/cc_community_service.ash
 string cs_combatLTB(int round, string opp, string text);	//Defined in cc_ascend/cc_community_service.ash
 string cs_combatNormal(int round, string opp, string text);	//Defined in cc_ascend/cc_community_service.ash
@@ -452,6 +450,21 @@ void cs_initializeDay(int day);								//Defined in cc_ascend/cc_community_servi
 void cs_make_stuff(int curQuest);							//Defined in cc_ascend/cc_community_service.ash
 boolean cs_spendRests();									//Defined in cc_ascend/cc_community_service.ash
 boolean cs_witchess();										//Defined in cc_ascend/cc_community_service.ash
+int estimate_cs_questCost(int quest);						//Defined in cc_ascend/cc_community_service.ash
+int [int] get_cs_questList();								//Defined in cc_ascend/cc_community_service.ash
+boolean cc_csHandleGrapes();								//Defined in cc_ascend/cc_community_service.ash
+string what_cs_quest(int quest);							//Defined in cc_ascend/cc_community_service.ash
+int get_cs_questCost(int quest);							//Defined in cc_ascend/cc_community_service.ash
+int get_cs_questCost(string input);							//Defined in cc_ascend/cc_community_service.ash
+int get_cs_questNum(string input);							//Defined in cc_ascend/cc_community_service.ash
+int expected_next_cs_quest();								//Defined in cc_ascend/cc_community_service.ash
+int expected_next_cs_quest_internal();						//Defined in cc_ascend/cc_community_service.ash
+boolean do_chateauGoat();									//Defined in cc_ascend/cc_community_service.ash
+boolean do_cs_quest(int quest);								//Defined in cc_ascend/cc_community_service.ash
+boolean do_cs_quest(string quest);							//Defined in cc_ascend/cc_community_service.ash
+boolean cs_preTurnStuff(int curQuest);						//Defined in cc_ascend/cc_community_service.ash
+void set_cs_questListFast(int[int] fast);					//Defined in cc_ascend/cc_community_service.ash
+
 boolean dealWithMilkOfMagnesium(boolean useAdv);			//Defined in cc_ascend/cc_cooking.ash
 void debugMaximize(string req, int meat);					//Defined in cc_ascend/cc_util.ash
 boolean deck_available();									//Defined in cc_ascend/cc_mr2015.ash
@@ -476,9 +489,6 @@ int doRest();												//Defined in cc_ascend/cc_util.ash
 boolean doTasks();											//Defined in cc_ascend.ash
 boolean keepOnTruckin();									//Defined in cc_ascend/cc_cooking.ash
 boolean doThemtharHills(boolean trickMode);					//Defined in cc_ascend.ash
-boolean do_chateauGoat();									//Defined in cc_ascend/cc_community_service.ash
-boolean do_cs_quest(int quest);								//Defined in cc_ascend/cc_community_service.ash
-boolean do_cs_quest(string quest);							//Defined in cc_ascend/cc_community_service.ash
 boolean drinkSpeakeasyDrink(item drink);					//Defined in cc_ascend/cc_clan.ash
 boolean drinkSpeakeasyDrink(string drink);					//Defined in cc_ascend/cc_clan.ash
 boolean eatFancyDog(string dog);							//Defined in cc_ascend/cc_clan.ash
@@ -525,8 +535,6 @@ boolean[item] eudora_initializeSettings();					//Defined in cc_ascend/cc_eudora.
 int[item] eudora_xiblaxian();								//Defined in cc_ascend/cc_eudora.ash
 boolean evokeEldritchHorror();								//Defined in cc_ascend/cc_util.ash
 boolean evokeEldritchHorror(string option);					//Defined in cc_ascend/cc_util.ash
-int expected_next_cs_quest();								//Defined in cc_ascend/cc_community_service.ash
-int expected_next_cs_quest_internal();						//Defined in cc_ascend/cc_community_service.ash
 boolean fallout_buySkills();								//Defined in cc_ascend/cc_fallout.ash
 void fallout_initializeDay(int day);						//Defined in cc_ascend/cc_fallout.ash
 void fallout_initializeSettings();							//Defined in cc_ascend/cc_fallout.ash
@@ -585,9 +593,6 @@ boolean makeGenieWish(effect eff);							//Defined in cc_ascend/cc_mr2017.ash
 boolean makeGenieCombat(monster mon, string option);		//Defined in cc_ascend/cc_mr2017.ash
 boolean makeGenieCombat(monster mon);						//Defined in cc_ascend/cc_mr2017.ash
 boolean makeGeniePocket();									//Defined in cc_ascend/cc_mr2017.ash
-int get_cs_questCost(int quest);							//Defined in cc_ascend/cc_community_service.ash
-int get_cs_questCost(string input);							//Defined in cc_ascend/cc_community_service.ash
-int get_cs_questNum(string input);							//Defined in cc_ascend/cc_community_service.ash
 boolean handleBarrelFullOfBarrels(boolean daily);			//Defined in cc_ascend/cc_util.ash
 boolean handleCopiedMonster(item itm);						//Defined in cc_ascend/cc_util.ash
 boolean handleCopiedMonster(item itm, string option);		//Defined in cc_ascend/cc_util.ash
@@ -782,7 +787,6 @@ boolean haveWarOutfit();									//Defined in cc_ascend.ash
 boolean warOutfit();										//Defined in cc_ascend.ash
 item whatHiMein();											//Defined in cc_ascend/cc_util.ash
 effect whatStatSmile();										//Defined in cc_ascend/cc_util.ash
-string what_cs_quest(int quest);							//Defined in cc_ascend/cc_community_service.ash
 void woods_questStart();									//Defined in cc_ascend/cc_util.ash
 boolean xiblaxian_makeStuff();								//Defined in cc_ascend/cc_mr2014.ash
 string yellowRayCombatString();								//Defined in cc_ascend/cc_util.ash
