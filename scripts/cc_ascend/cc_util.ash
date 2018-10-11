@@ -1515,7 +1515,7 @@ string yellowRayCombatString()
 	{
 		return "skill " + $skill[Disintegrate];
 	}
-	if(item_amount($item[Yellowcake Bomb]) > 0)
+	if((item_amount($item[Yellowcake Bomb]) > 0) && glover_usable($item[Yellowcake Bomb]))
 	{
 		return "item " + $item[Yellowcake Bomb];
 	}
@@ -1527,7 +1527,7 @@ string yellowRayCombatString()
 	{
 		return "skill " + $skill[Wrath of Ra];
 	}
-	if((item_amount($item[Mayo Lance]) > 0) && (get_property("mayoLevel").to_int() > 0))
+	if((item_amount($item[Mayo Lance]) > 0) && (get_property("mayoLevel").to_int() > 0) && glover_usable($item[Mayo Lance]))
 	{
 		return "item " + $item[Mayo Lance];
 	}
@@ -1539,21 +1539,12 @@ string yellowRayCombatString()
 	{
 		return "skill " + $skill[Flash Headlight];
 	}
-	if(item_amount($item[Golden Light]) > 0)
+	foreach it in $items[Golden Light, Pumpkin Bomb, Unbearable Light, Viral Video]
 	{
-		return "item " + $item[Golden Light];
-	}
-	if(item_amount($item[Pumpkin Bomb]) > 0)
-	{
-		return "item " + $item[Pumpkin Bomb];
-	}
-	if(item_amount($item[Unbearable Light]) > 0)
-	{
-		return "item " + $item[Unbearable Light];
-	}
-	if(item_amount($item[Viral Video]) > 0)
-	{
-		return "item " + $item[Viral Video];
+		if(glover_usable(it))
+		{
+			return "item " + it;
+		}
 	}
 	if(cc_have_skill($skill[Disintegrate]) && (my_mp() >= mp_cost($skill[Disintegrate])))
 	{

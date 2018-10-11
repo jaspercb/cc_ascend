@@ -1513,7 +1513,7 @@ int handlePulls(int day)
 			return 0;
 		}
 
-		if((storage_amount($item[can of rain-doh]) > 0) && (pullXWhenHaveY($item[can of Rain-doh], 1, 0)))
+		if((storage_amount($item[can of rain-doh]) > 0) && glover_usable($item[Can Of Rain-Doh]) && (pullXWhenHaveY($item[can of Rain-doh], 1, 0)))
 		{
 			if(item_amount($item[Can of Rain-doh]) > 0)
 			{
@@ -1525,7 +1525,7 @@ int handlePulls(int day)
 		{
 			pullXWhenHaveY($item[Buddy Bjorn], 1, 0);
 		}
-		if((storage_amount($item[Camp Scout Backpack]) > 0) && !possessEquipment($item[Buddy Bjorn]))
+		if((storage_amount($item[Camp Scout Backpack]) > 0) && !possessEquipment($item[Buddy Bjorn]) && glover_usable($item[Camp Scout Backpack]))
 		{
 			pullXWhenHaveY($item[Camp Scout Backpack], 1, 0);
 		}
@@ -1537,7 +1537,7 @@ int handlePulls(int day)
 
 		if(is_unrestricted($item[Pantsgiving]))
 		{
-			if(my_class() != $class[Avatar of Boris])
+			if((my_class() != $class[Avatar of Boris]) && glover_usable($item[Xiblaxian Stealth Cowl]))
 			{
 				pullXWhenHaveY($item[xiblaxian stealth cowl], 1, 0);
 			}
@@ -1551,7 +1551,10 @@ int handlePulls(int day)
 			{
 				pullXWhenHaveY($item[Gravy Boat], 1, 0);
 			}
-			pullXWhenHaveY($item[Xiblaxian Stealth Trousers], 1, 0);
+			if(glover_usable($item[Xiblaxian Stealth Trousers]))
+			{
+				pullXWhenHaveY($item[Xiblaxian Stealth Trousers], 1, 0);
+			}
 		}
 
 		if(!possessEquipment($item[Astral Shirt]))
@@ -1562,6 +1565,10 @@ int handlePulls(int day)
 				getPeteShirt = false;
 			}
 			if((my_primestat() == $stat[Muscle]) && get_property("loveTunnelAvailable").to_boolean())
+			{
+				getPeteShirt = false;
+			}
+			if(cc_my_path() == "G-Lover")
 			{
 				getPeteShirt = false;
 			}
@@ -1603,13 +1610,13 @@ int handlePulls(int day)
 			}
 		}
 
-		if((equipped_item($slot[folder1]) == $item[folder (tranquil landscape)]) && (equipped_item($slot[folder2]) == $item[folder (skull and crossbones)]) && (equipped_item($slot[folder3]) == $item[folder (Jackass Plumber)]))
+		if((equipped_item($slot[folder1]) == $item[folder (tranquil landscape)]) && (equipped_item($slot[folder2]) == $item[folder (skull and crossbones)]) && (equipped_item($slot[folder3]) == $item[folder (Jackass Plumber)]) && glover_usable($item[Over-The-Shoulder Folder Holder]))
 		{
 			pullXWhenHaveY($item[over-the-shoulder folder holder], 1, 0);
 		}
 		if((my_primestat() == $stat[Muscle]) && (cc_my_path() != "Heavy Rains"))
 		{
-			if(closet_amount($item[Fake Washboard]) == 0)
+			if((closet_amount($item[Fake Washboard]) == 0) && glover_usable($item[Fake Washboard]))
 			{
 				pullXWhenHaveY($item[Fake Washboard], 1, 0);
 			}
@@ -1652,7 +1659,10 @@ int handlePulls(int day)
 			{
 				pullXWhenHaveY($item[Thor\'s Pliers], 1, 0);
 			}
-			pullXWhenHaveY($item[Basaltamander Buckler], 1, 0);
+			if(glover_usable($item[Basaltamander Buckler]))
+			{
+				pullXWhenHaveY($item[Basaltamander Buckler], 1, 0);
+			}
 		}
 
 		if(cc_my_path() == "Picky")
@@ -1671,11 +1681,11 @@ int handlePulls(int day)
 
 		if((cc_my_path() != "Heavy Rains") && (cc_my_path() != "License to Adventure") && !($classes[Avatar of Boris, Avatar of Jarlsberg, Avatar of Sneaky Pete, Ed] contains my_class()))
 		{
-			if(!possessEquipment($item[Snow Suit]) && !possessEquipment($item[Astral Pet Sweater]))
+			if(!possessEquipment($item[Snow Suit]) && !possessEquipment($item[Astral Pet Sweater]) && glover_usable($item[Snow Suit]))
 			{
 				pullXWhenHaveY($item[snow suit], 1, 0);
 			}
-			if(!possessEquipment($item[Snow Suit]) && !possessEquipment($item[Filthy Child Leash]) && !possessEquipment($item[Astral Pet Sweater]))
+			if(!possessEquipment($item[Snow Suit]) && !possessEquipment($item[Filthy Child Leash]) && !possessEquipment($item[Astral Pet Sweater]) && glover_usable($item[Filthy Child Leash]))
 			{
 				pullXWhenHaveY($item[Filthy Child Leash], 1, 0);
 			}
@@ -1702,7 +1712,7 @@ int handlePulls(int day)
 			pullXWhenHaveY($item[Replica Bat-oomerang], 1, 0);
 		}
 
-		if((!cc_have_familiar($familiar[Grim Brother])) && (my_class() != $class[Ed]))
+		if((!cc_have_familiar($familiar[Grim Brother])) && (my_class() != $class[Ed]) && glover_usable($item[Unconscious Collective Dream Jar]))
 		{
 			pullXWhenHaveY($item[Unconscious Collective Dream Jar], 1, 0);
 			if(item_amount($item[Unconscious Collective Dream Jar]) > 0)
@@ -2064,13 +2074,6 @@ void initializeDay(int day)
 			pullXWhenHaveY($item[hand in glove], 1, 0);
 			pullXWhenHaveY($item[blackberry galoshes], 1, 0);
 			pullXWhenHaveY($item[wet stew], 1, 0);
-			if((spleen_limit() >= 8) && (item_amount($item[Astral Energy Drink]) >= 2))
-			{
-				if(spleen_left() == 15)
-				{
-					pullXWhenHaveY($item[mojo filter], 1, 0);
-				}
-			}
 
 			if(!get_property("cc_useCubeling").to_boolean() && (towerKeyCount() == 0) && (fullness_left() >= 4))
 			{
