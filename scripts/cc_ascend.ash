@@ -2322,7 +2322,7 @@ boolean doBedtime()
 		handleFamiliar("stat");
 	}
 
-	if((my_class() == $class[Seal Clubber]) && guild_store_available() && isHermitAvailable())
+	if((my_class() == $class[Seal Clubber]) && guild_store_available() && isHermitAvailable() && (cc_my_path() != "G-Lover"))
 	{
 		handleFamiliar("stat");
 		int oldSeals = get_property("_sealsSummoned").to_int();
