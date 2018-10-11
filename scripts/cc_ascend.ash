@@ -2791,7 +2791,14 @@ boolean doBedtime()
 	}
 	if(smiles > 0)
 	{
-		print("You have " + smiles + " smiles of Mr. A remaining.", "blue");
+		if(get_property("cc_smileAt") != "")
+		{
+			cli_execute("/cast " + smiles + " the smile @ " + get_property("cc_smileAt"));
+		}
+		else
+		{
+			print("You have " + smiles + " smiles of Mr. A remaining.", "blue");
+		}
 	}
 
 	if((item_amount($item[CSA Fire-Starting Kit]) > 0) && (!get_property("_fireStartingKitUsed").to_boolean()))

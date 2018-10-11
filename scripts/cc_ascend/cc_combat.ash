@@ -2873,7 +2873,7 @@ string cc_edCombatHandler(int round, string opp, string text)
 			handleTracker(enemy, $skill[Curse Of Vacation], "cc_banishes");
 			return "skill " + $skill[Curse Of Vacation];
 		}
-		if((enemy == $monster[shifty pirate]) && (get_property("_pantsgivingBanish").to_int() < 5))
+		if((enemy == $monster[shifty pirate]) && (get_property("_pantsgivingBanish").to_int() < 5) && cc_have_skill($skill[Talk About Politics]))
 		{
 			handleTracker(enemy, $skill[Talk About Politics], "cc_banishes");
 			return "skill " + $skill[Talk About Politics];

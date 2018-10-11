@@ -1385,7 +1385,7 @@ string banisherCombatString(monster enemy, location loc)
 
 	//Peel out with Extra-Smelly Muffler, note 10 limit, increased to 30 with Racing Slicks
 
-	if(have_skill($skill[Give Your Opponent The Stinkeye]) && !get_property("_stinkyCheeseBanisherUsed").to_boolean() && (my_mp() >= mp_cost($skill[Give Your Opponent The Stinkeye])))
+	if(cc_have_skill($skill[Give Your Opponent The Stinkeye]) && !get_property("_stinkyCheeseBanisherUsed").to_boolean() && (my_mp() >= mp_cost($skill[Give Your Opponent The Stinkeye])))
 	{
 		return "skill " + $skill[Give Your Opponent The Stinkeye];
 	}
@@ -1396,23 +1396,23 @@ string banisherCombatString(monster enemy, location loc)
 #		return "skill " + $skill[Creepy Grin];
 #	}
 
-	if(have_skill($skill[Thunder Clap]) && (my_thunder() >= thunder_cost($skill[Thunder Clap])) && (!(used contains "thunder clap")))
+	if(cc_have_skill($skill[Thunder Clap]) && (my_thunder() >= thunder_cost($skill[Thunder Clap])) && (!(used contains "thunder clap")))
 	{
 		return "skill " + $skill[Thunder Clap];
 	}
-	if(have_skill($skill[Asdon Martin: Spring-Loaded Front Bumper]) && (get_fuel() >= fuel_cost($skill[Asdon Martin: Spring-Loaded Front Bumper])) && (!(used contains "Spring-Loaded Front Bumper")))
+	if(cc_have_skill($skill[Asdon Martin: Spring-Loaded Front Bumper]) && (get_fuel() >= fuel_cost($skill[Asdon Martin: Spring-Loaded Front Bumper])) && (!(used contains "Spring-Loaded Front Bumper")))
 	{
 		if(!contains_text(get_property("banishedMonsters"), "Spring-Loaded Front Bumper"))
 		{
 			return "skill " + $skill[Asdon Martin: Spring-Loaded Front Bumper];
 		}
 	}
-	if(have_skill($skill[Curse Of Vacation]) && (my_mp() > mp_cost($skill[Curse Of Vacation])) && (!(used contains "curse of vacation")))
+	if(cc_have_skill($skill[Curse Of Vacation]) && (my_mp() > mp_cost($skill[Curse Of Vacation])) && (!(used contains "curse of vacation")))
 	{
 		return "skill " + $skill[Curse Of Vacation];
 	}
 
-	if(have_skill($skill[Show Them Your Ring]) && !get_property("_mafiaMiddleFingerRingUsed").to_boolean() && (my_mp() >= mp_cost($skill[Show Them Your Ring])))
+	if(cc_have_skill($skill[Show Them Your Ring]) && !get_property("_mafiaMiddleFingerRingUsed").to_boolean() && (my_mp() >= mp_cost($skill[Show Them Your Ring])))
 	{
 		return "skill " + $skill[Show Them Your Ring];
 	}
@@ -1425,20 +1425,20 @@ string banisherCombatString(monster enemy, location loc)
 		return "skill " + $skill[Batter Up!];
 	}
 
-	if(have_skill($skill[Banishing Shout]) && (my_mp() > mp_cost($skill[Banishing Shout])) && (!(used contains "banishing shout")))
+	if(cc_have_skill($skill[Banishing Shout]) && (my_mp() > mp_cost($skill[Banishing Shout])) && (!(used contains "banishing shout")))
 	{
 		return "skill " + $skill[Banishing Shout];
 	}
-	if(have_skill($skill[Walk Away From Explosion]) && (my_mp() > mp_cost($skill[Walk Away From Explosion])) && (have_effect($effect[Bored With Explosions]) == 0) && (!(used contains "walk away from explosion")))
+	if(cc_have_skill($skill[Walk Away From Explosion]) && (my_mp() > mp_cost($skill[Walk Away From Explosion])) && (have_effect($effect[Bored With Explosions]) == 0) && (!(used contains "walk away from explosion")))
 	{
 		return "skill " + $skill[Walk Away From Explosion];
 	}
 
-	if(have_skill($skill[Talk About Politics]) && (get_property("_pantsgivingBanish").to_int() < 5) && have_equipped($item[Pantsgiving]) && (!(used contains "pantsgiving")))
+	if(cc_have_skill($skill[Talk About Politics]) && (get_property("_pantsgivingBanish").to_int() < 5) && have_equipped($item[Pantsgiving]) && (!(used contains "pantsgiving")))
 	{
 		return "skill " + $skill[Talk About Politics];
 	}
-	if(have_skill($skill[KGB Tranquilizer Dart]) && (get_property("_kgbTranquilizerDartUses").to_int() < 3) && (my_mp() >= mp_cost($skill[KGB Tranquilizer Dart])) && (!(used contains "KGB tranquilizer dart")))
+	if(cc_have_skill($skill[KGB Tranquilizer Dart]) && (get_property("_kgbTranquilizerDartUses").to_int() < 3) && (my_mp() >= mp_cost($skill[KGB Tranquilizer Dart])) && (!(used contains "KGB tranquilizer dart")))
 	{
 		boolean useIt = true;
 		if((get_property("cc_gremlins") == "finished") && (my_daycount() >= 2) && (get_property("_kgbTranquilizerDartUses").to_int() >= 2))
@@ -1455,7 +1455,7 @@ string banisherCombatString(monster enemy, location loc)
 	{
 		return "skill " + $skill[Snokebomb];
 	}
-	if(have_skill($skill[Beancannon]) && (get_property("_beancannonUses").to_int() < 5) && ((my_mp() - 20) >= mp_cost($skill[Beancannon])) && (!(used contains "beancannon")))
+	if(cc_have_skill($skill[Beancannon]) && (get_property("_beancannonUses").to_int() < 5) && ((my_mp() - 20) >= mp_cost($skill[Beancannon])) && (!(used contains "beancannon")))
 	{
 		if($items[Frigid Northern Beans, Heimz Fortified Kidney Beans, Hellfire Spicy Beans, Mixed Garbanzos and Chickpeas, Pork \'n\' Pork \'n\' Pork \'n\' Beans, Shrub\'s Premium Baked Beans, Tesla\'s Electroplated Beans, Trader Olaf\'s Exotic Stinkbeans, World\'s Blackest-Eyed Peas] contains equipped_item($slot[Off-hand]))
 		{
@@ -1511,7 +1511,7 @@ string yellowRayCombatString()
 		return "";
 	}
 
-	if(have_skill($skill[Disintegrate]) && (my_mp() >= (100 + mp_cost($skill[Disintegrate]))))
+	if(cc_have_skill($skill[Disintegrate]) && (my_mp() >= (100 + mp_cost($skill[Disintegrate]))))
 	{
 		return "skill " + $skill[Disintegrate];
 	}
@@ -1519,11 +1519,11 @@ string yellowRayCombatString()
 	{
 		return "item " + $item[Yellowcake Bomb];
 	}
-	if(have_skill($skill[Ball Lightning]) && (my_lightning() >= lightning_cost($skill[Ball Lightning])))
+	if(cc_have_skill($skill[Ball Lightning]) && (my_lightning() >= lightning_cost($skill[Ball Lightning])))
 	{
 		return "skill " + $skill[Ball Lightning];
 	}
-	if(have_skill($skill[Wrath of Ra]) && (my_mp() >= mp_cost($skill[Wrath of Ra])))
+	if(cc_have_skill($skill[Wrath of Ra]) && (my_mp() >= mp_cost($skill[Wrath of Ra])))
 	{
 		return "skill " + $skill[Wrath of Ra];
 	}
@@ -1535,7 +1535,7 @@ string yellowRayCombatString()
 	{
 		return "skill " + $skill[Open a Big Yellow Present];
 	}
-	if((get_property("peteMotorbikeHeadlight") == "Ultrabright Yellow Bulb") && have_skill($skill[Flash Headlight]) && (my_mp() >= mp_cost($skill[Flash Headlight])))
+	if((get_property("peteMotorbikeHeadlight") == "Ultrabright Yellow Bulb") && cc_have_skill($skill[Flash Headlight]) && (my_mp() >= mp_cost($skill[Flash Headlight])))
 	{
 		return "skill " + $skill[Flash Headlight];
 	}
@@ -1555,16 +1555,16 @@ string yellowRayCombatString()
 	{
 		return "item " + $item[Viral Video];
 	}
-	if(have_skill($skill[Disintegrate]) && (my_mp() >= mp_cost($skill[Disintegrate])))
+	if(cc_have_skill($skill[Disintegrate]) && (my_mp() >= mp_cost($skill[Disintegrate])))
 	{
 		return "skill " + $skill[Disintegrate];
 	}
-	if(have_skill($skill[Unleash Cowrruption]) && (have_effect($effect[Cowrruption]) >= 30))
+	if(cc_have_skill($skill[Unleash Cowrruption]) && (have_effect($effect[Cowrruption]) >= 30))
 	{
 		return "skill " + $skill[Unleash Cowrruption];
 	}
 
-	if((cc_get_campground() contains $item[Asdon Martin Keyfob]) && (get_fuel() >= fuel_cost($skill[Asdon Martin: Missile Launcher])) && !get_property("_missileLauncherUsed").to_boolean())
+	if((cc_get_campground() contains $item[Asdon Martin Keyfob]) && (get_fuel() >= fuel_cost($skill[Asdon Martin: Missile Launcher])) && !get_property("_missileLauncherUsed").to_boolean() && cc_have_skill($skill[Asdon MArtin: Missile Launcher]))
 	{
 		return "skill " + $skill[Asdon Martin: Missile Launcher];
 	}
