@@ -1541,7 +1541,7 @@ string yellowRayCombatString()
 	}
 	foreach it in $items[Golden Light, Pumpkin Bomb, Unbearable Light, Viral Video]
 	{
-		if(glover_usable(it))
+		if((item_amount(it) > 0) && glover_usable(it))
 		{
 			return "item " + it;
 		}
