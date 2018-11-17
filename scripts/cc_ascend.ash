@@ -1,5 +1,5 @@
 script "cc_ascend.ash";
-notify cheesecookie;
+notify jeparo;
 since r18931;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
@@ -4310,10 +4310,21 @@ boolean L13_towerNSTower()
 		if(item_amount($item[astral shirt]) > 0)
 		{
 			equip($item[astral shirt]);
+		} else if(item_amount($item[Unfortunato's foolscap]) > 0) {
+			equip($item[Unfortunato's foolscap]);
+		} else if(item_amount($item[cigar box turtle]) > 0) {
+			use(1, $item[cigar box turtle]);
+		} else if(have_effect($effect[damage.enh]) == 0) {
+			int enhances = cc_sourceTerminalEnhanceLeft();
+			if(enhances > 0)
+			{
+				cc_sourceTerminalEnhance("damage");
+			}
 		}
 		if((my_class() == $class[Turtle Tamer]) && (item_amount($item[Shocked Shell]) > 0))
 		{
 			equip($slot[shirt], $item[Shocked Shell]);
+			sources += 1;
 		}
 		if(have_skill($skill[Belch the Rainbow]))
 		{
@@ -14392,6 +14403,7 @@ boolean doTasks()
 	autosellCrap();
 	asdonAutoFeed(50);
 	LX_craftAcquireItems();
+	votingBooth();
 
 	ocrs_postCombatResolve();
 	beatenUpResolution();

@@ -661,6 +661,8 @@ boolean cc_floundryAction()
 				print("Could not fish from the Floundry for some raisin.", "red");
 				return false;
 			}
+		} else {
+			print("Skipping Floundry usage because cc_floundryChoice is not set.", "red");
 		}
 	}
 	return false;
