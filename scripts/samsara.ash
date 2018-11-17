@@ -1,5 +1,5 @@
 script "cc_ascend.ash";
-notify cheesecookie;
+notify jeparo;
 since r18931;
 /***
 	svn checkout https://svn.code.sf.net/p/ccascend/code/cc_ascend
@@ -14392,6 +14392,7 @@ boolean doTasks()
 	autosellCrap();
 	asdonAutoFeed(50);
 	LX_craftAcquireItems();
+	votingBooth();
 
 	ocrs_postCombatResolve();
 	beatenUpResolution();
