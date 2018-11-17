@@ -720,3 +720,34 @@ boolean neverendingPartyCombat(effect eff, boolean hardmode, string option)
 	}
 	return retval;
 }
+
+boolean canVotingBooth() {
+	boolean canAccess = ((get_property("voteAlways").to_boolean() || get_property("_voteToday").to_boolean()))
+	if (canAccess) {
+		string temp = visit_url("place.php?whichplace=realm_fantasy&action=fr_initcenter", false);
+		return !contains_text(temp, "You've already voted today");
+	}
+}
+
+void votingBooth() {
+	# Ballot initiative selection is awkward, since there are a lot of different ballots.
+	# Current, very sophisticated plan: Pick two random ballot initiatives with positive modifiers.
+	if (canVotingBooth()) {
+		string temp = visit_url("place.php?whichplace=town_right&action=townright_vote", false);
+		string[4] initiatives;
+		initiatives[0] = get_property("voteLocal1");
+		initiatives[1] = get_property("voteLocal2");
+		initiatives[2] = get_property("voteLocal3");
+		initiatives[3] = get_property("voteLocal4");
+		int[4] positive_choices;
+		int outindex = 0;
+		foreach it in initiatives {
+			if (!contains_text(initiatives[it], "-")) {
+				positive_choices[outindex] = it;
+			}
+		}
+		# Mayor choice is random, to avoid biasing results
+		int mayorchoice = 1 + random(2);
+		visit_url("choice.php?pwd&whichchoice=1331&pwd=&option=1&g=" + to_string(mayorchoice) + "&local[]=" + to_string(positive_choices[0]) + "&local[]=" + to_string(positive_choices[1]), true);
+	}
+}
