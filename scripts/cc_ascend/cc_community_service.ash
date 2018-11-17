@@ -1219,6 +1219,8 @@ boolean LA_cs_communityService()
 					visit_url("campground.php?action=witchess");
 					visit_url("choice.php?whichchoice=1181&pwd=&option=3");
 					visit_url("choice.php?whichchoice=1183&pwd=&option=2");
+				} else if (cc_haveWitchess()) {
+					print("Unable to automatically solve Witchess puzzles of the day. If you solve them all, I can save 4 turns.", "red");
 				}
 				while(cs_witchess());
 				while(godLobsterCombat());

@@ -736,10 +736,10 @@ void votingBooth() {
 	if (canVotingBooth()) {
 		string temp = visit_url("place.php?whichplace=town_right&action=townright_vote", false);
 		string[4] initiatives;
-		initiatives[0] = get_property("voteLocal1");
-		initiatives[1] = get_property("voteLocal2");
-		initiatives[2] = get_property("voteLocal3");
-		initiatives[3] = get_property("voteLocal4");
+		initiatives[0] = get_property("_voteLocal1");
+		initiatives[1] = get_property("_voteLocal2");
+		initiatives[2] = get_property("_voteLocal3");
+		initiatives[3] = get_property("_voteLocal4");
 		int[4] positive_choices;
 		int outindex = 0;
 		foreach it in initiatives {
@@ -751,5 +751,6 @@ void votingBooth() {
 		# Mayor choice is random, to avoid biasing results
 		int mayorchoice = 1 + random(2);
 		visit_url("choice.php?pwd&whichchoice=1331&pwd=&option=1&g=" + to_string(mayorchoice) + "&local[]=" + to_string(positive_choices[0]) + "&local[]=" + to_string(positive_choices[1]), true);
+		print("Doing our civic duty: voted for " + get_property("_voteModifier"));
 	}
 }
