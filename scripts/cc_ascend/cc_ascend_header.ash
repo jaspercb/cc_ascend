@@ -542,6 +542,7 @@ int fastenerCount();										//Defined in cc_ascend/cc_util.ash
 boolean fightScienceTentacle();								//Defined in cc_ascend/cc_util.ash
 boolean fightScienceTentacle(string option);				//Defined in cc_ascend/cc_util.ash
 string findBanisher(int round, string opp, string text);	//Defined in cc_ascend/cc_combat.ash
+string findBanisherOrReroll(int round, string opp, string text); //Defined in cc_ascend/cc_combat.ash
 void florist_initializeSettings();							//Defined in cc_ascend/cc_floristfriar.ash
 boolean forceEquip(slot sl, item it);						//Defined in cc_ascend/cc_util.ash
 int fullness_left();										//Defined in cc_ascend/cc_util.ash
