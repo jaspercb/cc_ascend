@@ -567,8 +567,8 @@ boolean neverendingPartyCombat(effect eff, boolean hardmode);//Defined in cc_asc
 boolean neverendingPartyCombat(stat st);					//Defined in cc_ascend/cc_mr2018.ash
 boolean neverendingPartyCombat(effect eff);					//Defined in cc_ascend/cc_mr2018.ash
 boolean neverendingPartyCombat();							//Defined in cc_ascend/cc_mr2018.ash
-boolean votingBooth();										//Defined in cc_ascend/cc_mr2018.ash
-void canVotingBooth();										//Defined in cc_ascend/cc_mr2018.ash
+void votingBooth();											//Defined in cc_ascend/cc_mr2018.ash
+boolean canVotingBooth();									//Defined in cc_ascend/cc_mr2018.ash
 boolean getSpaceJelly();									//Defined in cc_ascend/cc_mr2017.ash
 int horseCost();											//Defined in cc_ascend/cc_mr2017.ash
 boolean getHorse(string type);								//Defined in cc_ascend/cc_mr2017.ash
