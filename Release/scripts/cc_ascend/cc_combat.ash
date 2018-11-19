@@ -1123,7 +1123,7 @@ string cc_combatHandler(int round, string opp, string text)
 
 	if(cc_have_skill($skill[Meteor Lore]) && (get_property("_macrometeoriteUses").to_int() < 10) && (my_mp() > mp_cost($skill[Macrometeorite])) && (cc_my_path() != "G-Lover"))
 	{
-		if((enemy == $monster[Banshee Librarian]) && (item_amount($item[Killing Jar]) == 0))
+		if((enemy == $monster[Banshee Librarian]) && (item_amount($item[Killing Jar]) > 0))
 		{
 			return "skill " + $skill[Macrometeorite];
 		}
@@ -1135,7 +1135,7 @@ string cc_combatHandler(int round, string opp, string text)
 		{
 			return "skill " + $skill[Macrometeorite];
 		}
-		if((enemy == $monster[Knob Goblin Madam]) && (item_amount($item[Knob Goblin Perfume]) == 0))
+		if((enemy == $monster[Knob Goblin Madam]) && (item_amount($item[Knob Goblin Perfume]) > 0))
 		{
 			return "skill " + $skill[Macrometeorite];
 		}
@@ -2183,21 +2183,6 @@ string cc_combatHandler(int round, string opp, string text)
 #	return get_ccs_action(round);
 }
 
-string findBanisherOrReroll(int round, string opp, string text) {
-	# Attempt to find a banisher for the current monster.
-	# If we can't find one, try to find a cheap way to reroll it.
-	print("In findBanisherOrReroll for: " + opp, "green");
-	string maybeBanisher = findBanisher(round, opp, text);
-
-	if (maybeBanisher == "attack with weapon") {
-		print("Couldn't find banisher for: " + opp + ". Searching for a reroll.", "green");
-		if(cc_have_skill($skill[Meteor Lore]) && (get_property("_macrometeoriteUses").to_int() < 10) && (my_mp() > mp_cost($skill[Macrometeorite])) && (cc_my_path() != "G-Lover")) {
-			return "skill " + $skill[Macrometeorite];
-		}
-	}
-	return maybeBanisher;
-}
-
 string findBanisher(int round, string opp, string text)
 {
 	print("In findBanisher for: " + opp, "green");
@@ -2406,7 +2391,7 @@ string ccsJunkyard(int round, string opp, string text)
 	{
 		if((get_property("cc_edCombatStage").to_int() >= 2) || (get_property("cc_edStatus") == "dying"))
 		{
-			string banisher = findBanisherOrReroll(round, opp, text);
+			string banisher = findBanisher(round, opp, text);
 			if(banisher != "attack with weapon")
 			{
 				return banisher;
@@ -2434,13 +2419,14 @@ string ccsJunkyard(int round, string opp, string text)
 		}
 	}
 
+	# Banish that gremlin!
 	if(!get_property("cc_gremlinMoly").to_boolean())
 	{
 		if(my_class() == $class[Ed])
 		{
 			if((get_property("cc_edCombatStage").to_int() >= 2) || (get_property("cc_edStatus") == "dying"))
 			{
-				return findBanisherOrReroll(round, opp, text);
+				return findBanisher(round, opp, text);
 			}
 			else if(item_amount($item[Dictionary]) > 0)
 			{
@@ -2451,9 +2437,15 @@ string ccsJunkyard(int round, string opp, string text)
 				return "item " + $item[Seal Tooth];
 			}
 		}
-		else
+		else if (cc_have_skill($skill[Meteor Lore]) && (get_property("_macrometeoriteUses").to_int() < 10) && (my_mp() > mp_cost($skill[Macrometeorite])) && (cc_my_path() != "G-Lover"))
 		{
-			return findBanisherOrReroll(round, opp, text);
+			# Reset combat, since we're gonna be fighting someone brand new!
+			set_property("cc_gremlinMoly", true);
+			set_property("cc_combatHandler", "");
+			return "skill " + $skill[Macrometeorite];
+		}
+		else {
+			return findBanisher(round, opp, text);
 		}
 	}
 
