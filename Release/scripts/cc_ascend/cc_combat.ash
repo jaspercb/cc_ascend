@@ -335,20 +335,26 @@ string cc_combatHandler(int round, string opp, string text)
 			return "skill " + $skill[Sauceshell];
 		}
 
-		if(have_equipped($item[Astral Shirt]))
-		{
-			if(cc_have_skill($skill[headbutt]) && (my_mp() >= 3))
-			{
-				return "skill " + $skill[Headbutt];
-			}
-			if(cc_have_skill($skill[clobber]) && (my_mp() >= mp_cost($skill[Clobber])))
-			{
-				return "skill " + $skill[Clobber];
-			}
-		}
 		if(cc_have_skill($skill[Belch the Rainbow]) && (my_mp() >= mp_cost($skill[Belch the Rainbow])))
 		{
 			return "skill " + $skill[Belch the Rainbow];
+		}
+
+		int sources = 0;
+		foreach damage in $strings[Cold Damage, Hot Damage, Sleaze Damage, Spooky Damage, Stench Damage] {
+			if(numeric_modifier(damage) > 0) {
+				sources += 1;
+			}
+		}
+
+		if (sources >= 4) {
+			if(cc_have_skill($skill[headbutt]) && (my_mp() >= mp_cost($skill[headbutt]))) {
+				return "skill " + $skill[Headbutt];
+			}
+			if(cc_have_skill($skill[clobber]) && (my_mp() >= mp_cost($skill[Clobber]))) {
+				return "skill " + $skill[Clobber];
+			}
+
 		}
 		return "attack with weapon";
 	}
